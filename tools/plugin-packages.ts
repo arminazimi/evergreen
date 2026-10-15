@@ -1,6 +1,8 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
-import { dirname, join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
+
+import { relativePosix } from "../src/paths.js";
 
 const generatedRoots = [
   ".agents/plugins/marketplace.json",
@@ -316,7 +318,7 @@ export async function pluginPackageDrift(root = process.cwd()): Promise<string[]
     await Promise.all(generatedRoots.map((path) => listFiles(resolve(root, path))))
   )
     .flat()
-    .map((path) => relative(root, path))
+    .map((path) => relativePosix(root, path))
     .sort();
   const expectedFiles = [...expected.keys()].sort();
   const drift = new Set<string>();

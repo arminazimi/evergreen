@@ -209,7 +209,7 @@ function declarationFinding(
 ): DetectorFinding {
   const severity: Severity = declaration.kind === "pinned runtime" ? rule.severity : "medium";
   return {
-    id: `${rule.id}:${declaration.path}:${declaration.line}`,
+    id: `${rule.id}:${relativePosix(root, declaration.path)}:${declaration.line}`,
     ruleId: rule.id,
     title: rule.title,
     summary: `${declaration.kind} ${declaration.value} includes Node.js ${detectedMajor}. ${rule.summary}`,
