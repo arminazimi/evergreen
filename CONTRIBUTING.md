@@ -1,37 +1,90 @@
 # Contributing to Evergreen
 
-Thanks for helping make software lifecycle changes easier to discover and migrate.
+Thanks for helping make software lifecycle changes easier to discover and migrate. You can go from picking an issue to opening a pull request in about 30 minutes; this guide shows how.
 
-## Choose a contribution
+Coding agents, and people working with them, should also read [AGENTS.md](AGENTS.md). Questions and ideas go to [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions).
 
-- Bug reports should include a minimal repository fixture, the command used, actual output, and expected output.
-- New lifecycle rules need an authoritative maintainer or platform source, a precise matching contract, migration guidance, and true/false-positive tests.
-- New detectors should begin with a focused proposal describing the ecosystem declarations, lockfiles, evidence sources, and boundaries.
-- Documentation and reproducible corpus improvements are welcome without prior discussion.
+## Find an issue
 
-Look for issues labeled `good first issue` or `help wanted`. For larger changes, open a proposal before implementation so the detector seam and v0.1 non-goals stay clear.
+Every roadmap issue belongs to a phase milestone and is small enough for one pull request. Two labels tell you whether it fits you:
 
-## Development
+| Lane | Who it suits |
+|---|---|
+| `lane: free-agent` | New contributors and any coding agent. The issue has a complete brief: files, steps, commands, and a done-check. |
+| `lane: strong-agent` | Experienced contributors or strong coding agents. Architecture, contracts, parsers, and new detectors. |
+| `lane: maintainer` | Maintainer only: accounts, releases, submissions, and outreach. |
 
-Coding agents and people working with them should read [AGENTS.md](AGENTS.md) first.
+| Size | Expected effort |
+|---|---|
+| `size: XS` | Under an hour |
+| `size: S` | A few hours |
+| `size: M` | About a day |
 
-Requirements: Node.js 22 or newer.
+Good places to start:
+
+- [`good first issue`](https://github.com/arminazimi/evergreen/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — isolated changes with fixtures
+- The current phase in the [roadmap](docs/ROADMAP.md) and the [project board](https://github.com/users/arminazimi/projects/3)
+
+Pick an issue whose **Depends on** issues are closed, and comment on it to claim it. Epics (`type: epic`) only track tasks; work happens in their task issues.
+
+## Set up
+
+Requires Node.js 22 or newer. You can also open a GitHub Codespace, which installs everything for you.
 
 ```bash
+git clone https://github.com/arminazimi/evergreen.git
+cd evergreen
 npm ci
 npm run check
 ```
 
-Add tests for observable behavior and keep JSON output deterministic. Registry changes must preserve the documented schema and include evidence-backed migration guidance. Do not add network calls to the scan path or execute migration commands automatically.
+`npm run check` builds the project, bundles the Action, runs every test, and checks generated plugin files. It is the same gate CI runs.
 
-The public-repository validation corpus is intentionally not part of the normal CI gate because it requires network access. Run it when changing detector behavior:
+## Your first contribution: add a lifecycle rule
 
-```bash
-npm run validate:public-repos
-```
+Lifecycle rules are the most valuable contribution and the easiest place to start. This walkthrough adds an npm package deprecation; other ecosystems follow the same shape.
+
+1. **Find the evidence.** Locate the authoritative source that states the deprecation, for example the package's npm deprecation notice, the maintainer's announcement, or the project's support policy. If you cannot find one, stop here; see the [evidence policy](#evidence-policy).
+2. **Branch.** `git switch -c rule/<package>-deprecated`
+3. **Add the rule** to [`registry/npm.json`](registry/npm.json). Copy an existing rule such as `npm.package.request.deprecated` and change:
+   - `id` — `npm.package.<name>.deprecated` (stable and unique)
+   - `package`, `title`, `summary`, `severity`, `replacement`, `deadline`
+   - `sources` — the authoritative link from step 1
+   - `migration` — constraints, ordered steps, and verification commands a person or agent can follow
+   - `usage` — the imports and calls that show where a repository depends on the package
+4. **Add a test** in [`tests/npm.test.ts`](tests/npm.test.ts): a small fixture `package.json` that declares the package (and, if useful, a source file that imports it), then assert that the scan reports your rule ID. Add a negative case if the package has lookalikes.
+5. **Check.** `npm run check` must pass.
+6. **Open a pull request** with `Closes #<issue>` (if there is one). The template asks for the commands you ran and the evidence link.
+
+## Evidence policy
+
+Evergreen's findings are only as trustworthy as their sources.
+
+- Every rule links an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
+- Never infer lifecycle status from popularity, download counts, or a newer version existing.
+- Dates, affected versions, and replacements must match the source. If the source is ambiguous, say so in the PR.
+- Rules are reviewed data, not code. Changes to `registry/` and `schemas/` always get maintainer review (see `.github/CODEOWNERS`).
+
+## Other contributions
+
+- **Bugs:** use the bug report form with a minimal fixture, the command, and the actual and expected output.
+- **Rule requests without code:** use the lifecycle rule request form; an authoritative source URL is required.
+- **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks.
+- **Docs and corpus improvements** are welcome without prior discussion.
+
+## Development rules
+
+- Add tests for observable behavior and keep JSON output deterministic across platforms.
+- Do not add network calls to the scan path or execute migration commands automatically.
+- Do not edit generated files by hand; [AGENTS.md](AGENTS.md#generated-files--do-not-edit-by-hand) lists them and their regenerate commands.
+- When changing detector behavior, also run the network-dependent public corpus:
+
+  ```bash
+  npm run validate:public-repos
+  ```
 
 ## Pull requests
 
-Keep each pull request focused. Explain the lifecycle source, user-visible behavior, tests, and any known limitations. Run `npm run check` before requesting review and avoid reformatting unrelated files.
+One issue per pull request. Explain the lifecycle source, user-visible behavior, tests, and known limitations. Run `npm run check` before requesting review and avoid reformatting unrelated files. Commit messages use Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`).
 
 By contributing, you agree that your contribution is licensed under the repository's Apache-2.0 license.
