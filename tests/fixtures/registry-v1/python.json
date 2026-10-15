@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "evergreen.python-registry.v1",
+  "rules": [
+    {
+      "id": "python.runtime.eol-3.9-and-older",
+      "kind": "runtime",
+      "ecosystem": "python",
+      "maximumVersion": "3.9",
+      "title": "Python 3.9 and older are end-of-life",
+      "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "severity": "high",
+      "replacement": "A supported Python release",
+      "deadline": "2025-10-31",
+      "migration": {
+        "constraints": ["Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.", "Confirm binary wheels and framework dependencies support the selected Python release."],
+        "steps": [
+          { "id": "update-python-declaration", "title": "Update the Python requirement", "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.", "targets": "declaration" },
+          { "id": "align-python-runtimes", "title": "Align runtime surfaces", "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "python --version", "purpose": "Confirm the active Python runtime is supported." },
+          { "command": "python -m pytest", "purpose": "Run the Python test suite on the target runtime." },
+          { "command": "python -m pip check", "purpose": "Check installed dependency compatibility." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "PEP 596 — Python 3.9 release schedule",
+          "url": "https://peps.python.org/pep-0596/"
+        }
+      ]
+    },
+    {
+      "id": "python.package.nose.maintenance-only",
+      "kind": "package",
+      "ecosystem": "python",
+      "package": "nose",
+      "title": "nose is maintenance-only",
+      "summary": "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
+      "severity": "high",
+      "replacement": "pytest, nose2, or unittest",
+      "migration": {
+        "constraints": ["Choose one target test runner before editing tests and preserve discovery rules, fixtures, setup/teardown behavior, plugins, and command-line options."],
+        "steps": [
+          { "id": "choose-test-runner", "title": "Choose the target runner", "instructions": "Select pytest, nose2, or unittest based on the suite features and existing project tooling.", "targets": "all" },
+          { "id": "migrate-nose-usages", "title": "Migrate nose usages", "instructions": "Replace reported imports, runner calls, test_suite configuration, and nose-specific assertions or plugins.", "targets": "usages" },
+          { "id": "replace-nose-dependency", "title": "Replace the dependency", "instructions": "Remove nose from dependency declarations and add the selected runner and required plugins.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "python -m pytest", "purpose": "Run the migrated test suite with pytest when selected." },
+          { "command": "python -m unittest discover", "purpose": "Check standard-library test discovery when applicable." },
+          { "command": "python -m pip check", "purpose": "Check installed dependency compatibility." }
+        ]
+      },
+      "usage": [
+        { "kind": "import", "language": "python", "module": "nose" },
+        { "kind": "call", "language": "python", "module": "nose", "targets": ["run", "main"] },
+        { "kind": "config-key", "language": "ini", "key": "test_suite", "valueIncludes": "nose.collector" }
+      ],
+      "sources": [
+        {
+          "title": "nose note to users",
+          "url": "https://nose.readthedocs.io/en/latest/"
+        }
+      ]
+    },
+    {
+      "id": "python.package.django-nose.maintenance-only",
+      "kind": "package",
+      "ecosystem": "python",
+      "package": "django-nose",
+      "title": "django-nose is maintenance-only",
+      "summary": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
+      "severity": "high",
+      "replacement": "pytest-django or Django unittest",
+      "migration": {
+        "constraints": ["Preserve Django settings selection, database setup, fixture loading, test labels, and any django-nose plugin behavior."],
+        "steps": [
+          { "id": "choose-django-runner", "title": "Choose the Django test runner", "instructions": "Select pytest-django or Django's built-in test runner and document the chosen invocation.", "targets": "all" },
+          { "id": "migrate-django-nose-configuration", "title": "Migrate runner configuration", "instructions": "Replace TEST_RUNNER, imports, plugins, and django-nose-specific options at every reported usage.", "targets": "usages" },
+          { "id": "replace-django-nose-dependency", "title": "Replace the dependency", "instructions": "Remove django-nose and add only the target runner and plugins required by the suite.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "python manage.py test", "purpose": "Run Django's configured test suite." },
+          { "command": "python -m pytest", "purpose": "Run the suite through pytest-django when selected." },
+          { "command": "python -m pip check", "purpose": "Check installed dependency compatibility." }
+        ]
+      },
+      "usage": [
+        { "kind": "import", "language": "python", "module": "django_nose" },
+        { "kind": "call", "language": "python", "module": "django_nose", "targets": ["NoseTestSuiteRunner"] },
+        { "kind": "config-key", "language": "python", "key": "TEST_RUNNER", "valueIncludes": "django_nose" }
+      ],
+      "sources": [
+        {
+          "title": "django-nose project notice",
+          "url": "https://pypi.org/project/django-nose/"
+        }
+      ]
+    },
+    {
+      "id": "python.package.pycrypto.obsolete",
+      "kind": "package",
+      "ecosystem": "python",
+      "package": "pycrypto",
+      "title": "PyCrypto is obsolete and vulnerable",
+      "summary": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+      "severity": "critical",
+      "replacement": "pycryptodome or cryptography",
+      "deadline": "2022-01-27",
+      "migration": {
+        "constraints": ["Treat this as a security-sensitive migration: preserve algorithms, modes, key sizes, padding, nonces or IVs, authentication tags, and serialized ciphertext formats.", "Do not silently change cryptographic primitives or defaults without explicit compatibility and security review."],
+        "steps": [
+          { "id": "choose-crypto-library", "title": "Choose the maintained library", "instructions": "Select pycryptodome for a closer Crypto namespace migration or cryptography for a higher-level maintained interface.", "targets": "all" },
+          { "id": "replace-crypto-usages", "title": "Migrate cryptographic usages", "instructions": "Update every reported import and operation, making keys, modes, padding, nonces, tags, and encoding explicit.", "targets": "usages" },
+          { "id": "replace-pycrypto-dependency", "title": "Replace the dependency", "instructions": "Remove pycrypto, add the selected maintained package, and regenerate the environment lock data.", "targets": "declaration" },
+          { "id": "verify-test-vectors", "title": "Verify cryptographic test vectors", "instructions": "Confirm known plaintext/ciphertext vectors and backward compatibility with persisted encrypted data.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "python -m pytest", "purpose": "Run cryptographic vectors and repository tests." },
+          { "command": "python -m pip check", "purpose": "Check installed dependency compatibility." }
+        ]
+      },
+      "usage": [
+        { "kind": "import", "language": "python", "module": "Crypto" }
+      ],
+      "sources": [
+        {
+          "title": "Archived PyCrypto repository warning",
+          "url": "https://github.com/pycrypto/pycrypto"
+        }
+      ]
+    }
+  ]
+}
