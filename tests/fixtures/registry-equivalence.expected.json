@@ -1,0 +1,1084 @@
+{
+ "schemaVersion": "evergreen.scan.v1",
+ "findings": [
+  {
+   "id": "github-actions.cache.node20:.github/workflows/ci.yml:9",
+   "ruleId": "github-actions.cache.node20",
+   "title": "Unsupported actions/cache runtime",
+   "summary": "actions/cache@v4: This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.",
+   "severity": "high",
+   "location": {
+    "path": ".github/workflows/ci.yml",
+    "line": 9
+   },
+   "replacement": "actions/cache@v5 or later",
+   "deadline": "2026-09-23",
+   "migration": {
+    "constraints": [
+     "Preserve cache keys, restore-key ordering, paths, and cache-hit dependent control flow."
+    ],
+    "steps": [
+     {
+      "id": "upgrade-action-ref",
+      "title": "Upgrade the cache action",
+      "instructions": "Change the uses reference to actions/cache@v5 or a later supported major.",
+      "targets": "declaration"
+     },
+     {
+      "id": "review-cache-contract",
+      "title": "Review cache behavior",
+      "instructions": "Verify cache paths, keys, restore keys, and cache-hit output consumers against the target release.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node 20 is no longer available in GitHub Actions",
+     "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+     "title": "actions/cache runtime and service guidance",
+     "url": "https://github.com/actions/cache#whats-new"
+    }
+   ],
+   "detector": "github-actions"
+  },
+  {
+   "id": "github-actions.checkout.node20:.github/workflows/ci.yml:7",
+   "ruleId": "github-actions.checkout.node20",
+   "title": "Unsupported actions/checkout runtime",
+   "summary": "actions/checkout@v4: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+   "severity": "high",
+   "location": {
+    "path": ".github/workflows/ci.yml",
+    "line": 7
+   },
+   "replacement": "actions/checkout@v5 or later",
+   "deadline": "2026-09-23",
+   "migration": {
+    "constraints": [
+     "Preserve checkout depth, credentials, submodule, and sparse-checkout behavior configured through action inputs."
+    ],
+    "steps": [
+     {
+      "id": "upgrade-action-ref",
+      "title": "Upgrade the checkout action",
+      "instructions": "Change the uses reference to actions/checkout@v5 or a later supported major.",
+      "targets": "declaration"
+     },
+     {
+      "id": "review-action-inputs",
+      "title": "Review checkout inputs",
+      "instructions": "Compare configured inputs with the target release and update renamed or changed options.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node 20 is no longer available in GitHub Actions",
+     "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+     "title": "actions/checkout runtime guidance",
+     "url": "https://github.com/actions/checkout#checkout-v5"
+    }
+   ],
+   "detector": "github-actions"
+  },
+  {
+   "id": "github-actions.download-artifact.retired:.github/workflows/ci.yml:11",
+   "ruleId": "github-actions.download-artifact.retired",
+   "title": "Retired actions/download-artifact release",
+   "summary": "actions/download-artifact@v5: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+   "severity": "critical",
+   "location": {
+    "path": ".github/workflows/ci.yml",
+    "line": 11
+   },
+   "replacement": "actions/download-artifact@v7 or later",
+   "deadline": "2026-09-23",
+   "migration": {
+    "constraints": [
+     "Preserve artifact selection, download paths, merge behavior, and downstream file locations."
+    ],
+    "steps": [
+     {
+      "id": "upgrade-action-ref",
+      "title": "Upgrade download-artifact",
+      "instructions": "Change the uses reference to actions/download-artifact@v7 or a later supported major.",
+      "targets": "declaration"
+     },
+     {
+      "id": "review-artifact-layout",
+      "title": "Review downloaded layout",
+      "instructions": "Confirm artifact filters, paths, merge-multiple behavior, and downstream consumers against the target release.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node 20 is no longer available in GitHub Actions",
+     "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+     "title": "Deprecation notice for artifact actions v3",
+     "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+    }
+   ],
+   "detector": "github-actions"
+  },
+  {
+   "id": "github-actions.setup-node.node20:.github/workflows/ci.yml:8",
+   "ruleId": "github-actions.setup-node.node20",
+   "title": "Unsupported actions/setup-node runtime",
+   "summary": "actions/setup-node@v3: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+   "severity": "high",
+   "location": {
+    "path": ".github/workflows/ci.yml",
+    "line": 8
+   },
+   "replacement": "actions/setup-node@v5 or later",
+   "deadline": "2026-09-23",
+   "migration": {
+    "constraints": [
+     "Preserve the selected Node.js version, registry authentication, and dependency-cache behavior."
+    ],
+    "steps": [
+     {
+      "id": "upgrade-action-ref",
+      "title": "Upgrade setup-node",
+      "instructions": "Change the uses reference to actions/setup-node@v5 or a later supported major.",
+      "targets": "declaration"
+     },
+     {
+      "id": "review-action-inputs",
+      "title": "Review runtime and cache inputs",
+      "instructions": "Confirm node-version, registry-url, cache, and cache-dependency-path remain valid for the target release.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node 20 is no longer available in GitHub Actions",
+     "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+     "title": "actions/setup-node v5 runtime guidance",
+     "url": "https://github.com/actions/setup-node#breaking-changes-in-v5"
+    }
+   ],
+   "detector": "github-actions"
+  },
+  {
+   "id": "github-actions.upload-artifact.retired:.github/workflows/ci.yml:10",
+   "ruleId": "github-actions.upload-artifact.retired",
+   "title": "Retired actions/upload-artifact release",
+   "summary": "actions/upload-artifact@v4: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+   "severity": "critical",
+   "location": {
+    "path": ".github/workflows/ci.yml",
+    "line": 10
+   },
+   "replacement": "actions/upload-artifact@v7 or later",
+   "deadline": "2026-09-23",
+   "migration": {
+    "constraints": [
+     "Preserve artifact names, selected paths, retention settings, and overwrite behavior."
+    ],
+    "steps": [
+     {
+      "id": "upgrade-action-ref",
+      "title": "Upgrade upload-artifact",
+      "instructions": "Change the uses reference to actions/upload-artifact@v7 or a later supported major.",
+      "targets": "declaration"
+     },
+     {
+      "id": "review-artifact-inputs",
+      "title": "Review upload inputs",
+      "instructions": "Confirm artifact paths, names, retention-days, compression, and overwrite settings against the target release.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node 20 is no longer available in GitHub Actions",
+     "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+     "title": "Deprecation notice for artifact actions v3",
+     "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+    }
+   ],
+   "detector": "github-actions"
+  },
+  {
+   "id": "nodejs.runtime.eol-18:<root>/package.json:3",
+   "ruleId": "nodejs.runtime.eol-18",
+   "title": "Node.js 18 is end-of-life",
+   "summary": "compatibility range >=16 includes Node.js 18. Node.js 18 no longer receives security or bug fixes.",
+   "severity": "medium",
+   "location": {
+    "path": "package.json",
+    "line": 3
+   },
+   "replacement": "Node.js 22 LTS or later",
+   "deadline": "2025-03-27",
+   "migration": {
+    "constraints": [
+     "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+     "Confirm native modules and production dependencies support the target Node.js major."
+    ],
+    "steps": [
+     {
+      "id": "update-runtime-declaration",
+      "title": "Update the Node.js declaration",
+      "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-runtime-surfaces",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+     },
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run the repository test suite on the target runtime when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds on the target runtime."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node.js end-of-life releases",
+     "url": "https://nodejs.org/en/about/eol"
+    }
+   ],
+   "detector": "npm"
+  },
+  {
+   "id": "nodejs.runtime.eol-18:<root>/package.json:4",
+   "ruleId": "nodejs.runtime.eol-18",
+   "title": "Node.js 18 is end-of-life",
+   "summary": "pinned runtime 18.20.0 includes Node.js 18. Node.js 18 no longer receives security or bug fixes.",
+   "severity": "high",
+   "location": {
+    "path": "package.json",
+    "line": 4
+   },
+   "replacement": "Node.js 22 LTS or later",
+   "deadline": "2025-03-27",
+   "migration": {
+    "constraints": [
+     "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+     "Confirm native modules and production dependencies support the target Node.js major."
+    ],
+    "steps": [
+     {
+      "id": "update-runtime-declaration",
+      "title": "Update the Node.js declaration",
+      "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-runtime-surfaces",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+     },
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run the repository test suite on the target runtime when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds on the target runtime."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node.js end-of-life releases",
+     "url": "https://nodejs.org/en/about/eol"
+    }
+   ],
+   "detector": "npm"
+  },
+  {
+   "id": "nodejs.runtime.eol-20:<root>/.nvmrc:1",
+   "ruleId": "nodejs.runtime.eol-20",
+   "title": "Node.js 20 is end-of-life",
+   "summary": "pinned runtime 20 includes Node.js 20. Node.js 20 no longer receives security or bug fixes.",
+   "severity": "high",
+   "location": {
+    "path": ".nvmrc",
+    "line": 1
+   },
+   "replacement": "Node.js 22 LTS or later",
+   "deadline": "2026-03-24",
+   "migration": {
+    "constraints": [
+     "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+     "Confirm native modules and production dependencies support the target Node.js major."
+    ],
+    "steps": [
+     {
+      "id": "update-runtime-declaration",
+      "title": "Update the Node.js declaration",
+      "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-runtime-surfaces",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+     },
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run the repository test suite on the target runtime when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds on the target runtime."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node.js end-of-life releases",
+     "url": "https://nodejs.org/en/about/eol"
+    }
+   ],
+   "detector": "npm"
+  },
+  {
+   "id": "nodejs.runtime.eol-20:<root>/package.json:3",
+   "ruleId": "nodejs.runtime.eol-20",
+   "title": "Node.js 20 is end-of-life",
+   "summary": "compatibility range >=16 includes Node.js 20. Node.js 20 no longer receives security or bug fixes.",
+   "severity": "medium",
+   "location": {
+    "path": "package.json",
+    "line": 3
+   },
+   "replacement": "Node.js 22 LTS or later",
+   "deadline": "2026-03-24",
+   "migration": {
+    "constraints": [
+     "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+     "Confirm native modules and production dependencies support the target Node.js major."
+    ],
+    "steps": [
+     {
+      "id": "update-runtime-declaration",
+      "title": "Update the Node.js declaration",
+      "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-runtime-surfaces",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+     },
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run the repository test suite on the target runtime when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds on the target runtime."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node.js end-of-life releases",
+     "url": "https://nodejs.org/en/about/eol"
+    }
+   ],
+   "detector": "npm"
+  },
+  {
+   "id": "nodejs.runtime.legacy:<root>/package.json:3",
+   "ruleId": "nodejs.runtime.legacy",
+   "title": "Legacy Node.js runtime is end-of-life",
+   "summary": "compatibility range >=16 includes Node.js 16. This Node.js release line is end-of-life and no longer receives security or bug fixes.",
+   "severity": "medium",
+   "location": {
+    "path": "package.json",
+    "line": 3
+   },
+   "replacement": "Node.js 22 LTS or later",
+   "migration": {
+    "constraints": [
+     "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+     "Expect dependency and language compatibility changes when crossing multiple Node.js majors."
+    ],
+    "steps": [
+     {
+      "id": "update-runtime-declaration",
+      "title": "Update the Node.js declaration",
+      "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+      "targets": "declaration"
+     },
+     {
+      "id": "upgrade-in-supported-stages",
+      "title": "Upgrade across supported majors",
+      "instructions": "Resolve dependency and runtime incompatibilities in supported-major increments before adopting the final target.",
+      "targets": "all"
+     },
+     {
+      "id": "align-runtime-surfaces",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+     },
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run the repository test suite on the target runtime when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds on the target runtime."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node.js end-of-life releases",
+     "url": "https://nodejs.org/en/about/eol"
+    }
+   ],
+   "detector": "npm"
+  },
+  {
+   "id": "npm.package.left-pad.deprecated:package.json:1",
+   "ruleId": "npm.package.left-pad.deprecated",
+   "title": "left-pad is deprecated",
+   "summary": "left-pad is declared in dependencies as ^1.3.0; resolved: not found in a supported lockfile. The package author recommends the built-in String.prototype.padStart method.",
+   "severity": "medium",
+   "location": {
+    "path": "package.json",
+    "line": 1
+   },
+   "replacement": "String.prototype.padStart()",
+   "migration": {
+    "constraints": [
+     "Preserve target width, fill-string behavior, string coercion, and handling of values already wider than the requested length."
+    ],
+    "steps": [
+     {
+      "id": "replace-padding-calls",
+      "title": "Replace left-pad calls",
+      "instructions": "Convert each reported call to String(value).padStart(length, fill) while preserving existing coercion and defaults.",
+      "targets": "usages"
+     },
+     {
+      "id": "remove-left-pad",
+      "title": "Remove the dependency",
+      "instructions": "Delete left-pad from package metadata and refresh the lockfile.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run padding edge cases and repository tests when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify the project builds without left-pad."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "left-pad package deprecation notice",
+     "url": "https://www.npmjs.com/package/left-pad"
+    }
+   ],
+   "usages": [
+    {
+     "kind": "import",
+     "language": "javascript",
+     "symbol": "left-pad",
+     "location": {
+      "path": "src/app.js",
+      "line": 2,
+      "column": 22
+     },
+     "excerpt": "const pad = require(\"left-pad\");"
+    },
+    {
+     "kind": "call",
+     "language": "javascript",
+     "symbol": "left-pad",
+     "location": {
+      "path": "src/app.js",
+      "line": 3,
+      "column": 42
+     },
+     "excerpt": "request.get(\"https://example.com\", () => pad(\"x\", 5));"
+    }
+   ],
+   "impact": {
+    "usageCount": 2,
+    "affectedFiles": 1,
+    "level": "low"
+   },
+   "detector": "npm"
+  },
+  {
+   "id": "npm.package.node-sass.eol:package.json:1",
+   "ruleId": "npm.package.node-sass.eol",
+   "title": "Node Sass is end-of-life",
+   "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. Node Sass is no longer maintained and its repository has been archived.",
+   "severity": "high",
+   "location": {
+    "path": "package.json",
+    "line": 1
+   },
+   "replacement": "sass",
+   "deadline": "2024-07-24",
+   "migration": {
+    "constraints": [
+     "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+    ],
+    "steps": [
+     {
+      "id": "replace-sass-dependency",
+      "title": "Replace Node Sass",
+      "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.",
+      "targets": "declaration"
+     },
+     {
+      "id": "update-sass-calls",
+      "title": "Update compiler usages",
+      "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.",
+      "targets": "usages"
+     },
+     {
+      "id": "compare-css-output",
+      "title": "Compare compiled output",
+      "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run stylesheet and repository tests when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Compile the project and its stylesheets with Sass."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Node Sass is end-of-life",
+     "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+    }
+   ],
+   "usages": [],
+   "impact": {
+    "usageCount": 0,
+    "affectedFiles": 0,
+    "level": "none"
+   },
+   "detector": "npm"
+  },
+  {
+   "id": "npm.package.request.deprecated:package.json:1",
+   "ruleId": "npm.package.request.deprecated",
+   "title": "request is deprecated",
+   "summary": "request is declared in dependencies as ^2.88.0; resolved: not found in a supported lockfile. The package is fully deprecated and no new changes are expected.",
+   "severity": "high",
+   "location": {
+    "path": "package.json",
+    "line": 1
+   },
+   "replacement": "Native fetch or a maintained HTTP client",
+   "deadline": "2020-02-11",
+   "migration": {
+    "constraints": [
+     "Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."
+    ],
+    "steps": [
+     {
+      "id": "choose-http-client",
+      "title": "Choose the target HTTP client",
+      "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.",
+      "targets": "all"
+     },
+     {
+      "id": "replace-request-calls",
+      "title": "Rewrite request usages",
+      "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.",
+      "targets": "usages"
+     },
+     {
+      "id": "replace-request-dependency",
+      "title": "Replace the dependency",
+      "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run HTTP behavior and repository tests when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Verify imports, types, and the build remain valid."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "request package deprecation notice",
+     "url": "https://www.npmjs.com/package/request"
+    }
+   ],
+   "usages": [
+    {
+     "kind": "import",
+     "language": "javascript",
+     "symbol": "request",
+     "location": {
+      "path": "src/app.js",
+      "line": 1,
+      "column": 7
+     },
+     "excerpt": "const request = require(\"request\");"
+    },
+    {
+     "kind": "call",
+     "language": "javascript",
+     "symbol": "request.get",
+     "location": {
+      "path": "src/app.js",
+      "line": 3,
+      "column": 1
+     },
+     "excerpt": "request.get(\"https://example.com\", () => pad(\"x\", 5));"
+    }
+   ],
+   "impact": {
+    "usageCount": 2,
+    "affectedFiles": 1,
+    "level": "low"
+   },
+   "detector": "npm"
+  },
+  {
+   "id": "python.package.django-nose.maintenance-only:pyproject.toml:4",
+   "ruleId": "python.package.django-nose.maintenance-only",
+   "title": "django-nose is maintenance-only",
+   "summary": "django-nose is declared as >=1.4; resolved: not found in a supported lockfile. The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
+   "severity": "high",
+   "location": {
+    "path": "pyproject.toml",
+    "line": 4
+   },
+   "replacement": "pytest-django or Django unittest",
+   "migration": {
+    "constraints": [
+     "Preserve Django settings selection, database setup, fixture loading, test labels, and any django-nose plugin behavior."
+    ],
+    "steps": [
+     {
+      "id": "choose-django-runner",
+      "title": "Choose the Django test runner",
+      "instructions": "Select pytest-django or Django's built-in test runner and document the chosen invocation.",
+      "targets": "all"
+     },
+     {
+      "id": "migrate-django-nose-configuration",
+      "title": "Migrate runner configuration",
+      "instructions": "Replace TEST_RUNNER, imports, plugins, and django-nose-specific options at every reported usage.",
+      "targets": "usages"
+     },
+     {
+      "id": "replace-django-nose-dependency",
+      "title": "Replace the dependency",
+      "instructions": "Remove django-nose and add only the target runner and plugins required by the suite.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "python manage.py test",
+      "purpose": "Run Django's configured test suite."
+     },
+     {
+      "command": "python -m pytest",
+      "purpose": "Run the suite through pytest-django when selected."
+     },
+     {
+      "command": "python -m pip check",
+      "purpose": "Check installed dependency compatibility."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "django-nose project notice",
+     "url": "https://pypi.org/project/django-nose/"
+    }
+   ],
+   "usages": [],
+   "impact": {
+    "usageCount": 0,
+    "affectedFiles": 0,
+    "level": "none"
+   },
+   "detector": "python"
+  },
+  {
+   "id": "python.package.nose.maintenance-only:pyproject.toml:4",
+   "ruleId": "python.package.nose.maintenance-only",
+   "title": "nose is maintenance-only",
+   "summary": "nose is declared as ==1.3.7; resolved: 1.3.7. The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
+   "severity": "high",
+   "location": {
+    "path": "pyproject.toml",
+    "line": 4
+   },
+   "replacement": "pytest, nose2, or unittest",
+   "migration": {
+    "constraints": [
+     "Choose one target test runner before editing tests and preserve discovery rules, fixtures, setup/teardown behavior, plugins, and command-line options."
+    ],
+    "steps": [
+     {
+      "id": "choose-test-runner",
+      "title": "Choose the target runner",
+      "instructions": "Select pytest, nose2, or unittest based on the suite features and existing project tooling.",
+      "targets": "all"
+     },
+     {
+      "id": "migrate-nose-usages",
+      "title": "Migrate nose usages",
+      "instructions": "Replace reported imports, runner calls, test_suite configuration, and nose-specific assertions or plugins.",
+      "targets": "usages"
+     },
+     {
+      "id": "replace-nose-dependency",
+      "title": "Replace the dependency",
+      "instructions": "Remove nose from dependency declarations and add the selected runner and required plugins.",
+      "targets": "declaration"
+     }
+    ],
+    "verification": [
+     {
+      "command": "python -m pytest",
+      "purpose": "Run the migrated test suite with pytest when selected."
+     },
+     {
+      "command": "python -m unittest discover",
+      "purpose": "Check standard-library test discovery when applicable."
+     },
+     {
+      "command": "python -m pip check",
+      "purpose": "Check installed dependency compatibility."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "nose note to users",
+     "url": "https://nose.readthedocs.io/en/latest/"
+    }
+   ],
+   "usages": [
+    {
+     "kind": "import",
+     "language": "python",
+     "symbol": "nose",
+     "location": {
+      "path": "py/m.py",
+      "line": 1,
+      "column": 8
+     },
+     "excerpt": "import nose"
+    }
+   ],
+   "impact": {
+    "usageCount": 1,
+    "affectedFiles": 1,
+    "level": "low"
+   },
+   "detector": "python"
+  },
+  {
+   "id": "python.package.pycrypto.obsolete:pyproject.toml:4",
+   "ruleId": "python.package.pycrypto.obsolete",
+   "title": "PyCrypto is obsolete and vulnerable",
+   "summary": "pycrypto is declared as >=2.6; resolved: not found in a supported lockfile. The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+   "severity": "critical",
+   "location": {
+    "path": "pyproject.toml",
+    "line": 4
+   },
+   "replacement": "pycryptodome or cryptography",
+   "deadline": "2022-01-27",
+   "migration": {
+    "constraints": [
+     "Treat this as a security-sensitive migration: preserve algorithms, modes, key sizes, padding, nonces or IVs, authentication tags, and serialized ciphertext formats.",
+     "Do not silently change cryptographic primitives or defaults without explicit compatibility and security review."
+    ],
+    "steps": [
+     {
+      "id": "choose-crypto-library",
+      "title": "Choose the maintained library",
+      "instructions": "Select pycryptodome for a closer Crypto namespace migration or cryptography for a higher-level maintained interface.",
+      "targets": "all"
+     },
+     {
+      "id": "replace-crypto-usages",
+      "title": "Migrate cryptographic usages",
+      "instructions": "Update every reported import and operation, making keys, modes, padding, nonces, tags, and encoding explicit.",
+      "targets": "usages"
+     },
+     {
+      "id": "replace-pycrypto-dependency",
+      "title": "Replace the dependency",
+      "instructions": "Remove pycrypto, add the selected maintained package, and regenerate the environment lock data.",
+      "targets": "declaration"
+     },
+     {
+      "id": "verify-test-vectors",
+      "title": "Verify cryptographic test vectors",
+      "instructions": "Confirm known plaintext/ciphertext vectors and backward compatibility with persisted encrypted data.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "python -m pytest",
+      "purpose": "Run cryptographic vectors and repository tests."
+     },
+     {
+      "command": "python -m pip check",
+      "purpose": "Check installed dependency compatibility."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Archived PyCrypto repository warning",
+     "url": "https://github.com/pycrypto/pycrypto"
+    }
+   ],
+   "usages": [
+    {
+     "kind": "import",
+     "language": "python",
+     "symbol": "Crypto",
+     "location": {
+      "path": "py/m.py",
+      "line": 2,
+      "column": 6
+     },
+     "excerpt": "from Crypto.Cipher import AES"
+    }
+   ],
+   "impact": {
+    "usageCount": 1,
+    "affectedFiles": 1,
+    "level": "low"
+   },
+   "detector": "python"
+  },
+  {
+   "id": "python.runtime.eol-3.9-and-older:.python-version:1",
+   "ruleId": "python.runtime.eol-3.9-and-older",
+   "title": "Python 3.9 and older are end-of-life",
+   "summary": "pinned runtime 3.8.10 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
+   "severity": "high",
+   "location": {
+    "path": ".python-version",
+    "line": 1
+   },
+   "replacement": "A supported Python release",
+   "deadline": "2025-10-31",
+   "migration": {
+    "constraints": [
+     "Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.",
+     "Confirm binary wheels and framework dependencies support the selected Python release."
+    ],
+    "steps": [
+     {
+      "id": "update-python-declaration",
+      "title": "Update the Python requirement",
+      "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-python-runtimes",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "python --version",
+      "purpose": "Confirm the active Python runtime is supported."
+     },
+     {
+      "command": "python -m pytest",
+      "purpose": "Run the Python test suite on the target runtime."
+     },
+     {
+      "command": "python -m pip check",
+      "purpose": "Check installed dependency compatibility."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Status of Python versions",
+     "url": "https://devguide.python.org/versions/"
+    },
+    {
+     "title": "PEP 596 \u2014 Python 3.9 release schedule",
+     "url": "https://peps.python.org/pep-0596/"
+    }
+   ],
+   "detector": "python"
+  },
+  {
+   "id": "python.runtime.eol-3.9-and-older:pyproject.toml:3",
+   "ruleId": "python.runtime.eol-3.9-and-older",
+   "title": "Python 3.9 and older are end-of-life",
+   "summary": "compatibility range >=3.8 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
+   "severity": "medium",
+   "location": {
+    "path": "pyproject.toml",
+    "line": 3
+   },
+   "replacement": "A supported Python release",
+   "deadline": "2025-10-31",
+   "migration": {
+    "constraints": [
+     "Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.",
+     "Confirm binary wheels and framework dependencies support the selected Python release."
+    ],
+    "steps": [
+     {
+      "id": "update-python-declaration",
+      "title": "Update the Python requirement",
+      "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.",
+      "targets": "declaration"
+     },
+     {
+      "id": "align-python-runtimes",
+      "title": "Align runtime surfaces",
+      "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "python --version",
+      "purpose": "Confirm the active Python runtime is supported."
+     },
+     {
+      "command": "python -m pytest",
+      "purpose": "Run the Python test suite on the target runtime."
+     },
+     {
+      "command": "python -m pip check",
+      "purpose": "Check installed dependency compatibility."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "Status of Python versions",
+     "url": "https://devguide.python.org/versions/"
+    },
+    {
+     "title": "PEP 596 \u2014 Python 3.9 release schedule",
+     "url": "https://peps.python.org/pep-0596/"
+    }
+   ],
+   "detector": "python"
+  }
+ ],
+ "diagnostics": []
+}

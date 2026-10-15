@@ -13,8 +13,16 @@ const run = promisify(execFile);
 const options = { observedAt: "2026-10-13", reviewedAt: "2026-10-14", reviewer: "arminazimi" };
 const names = ["github-actions", "nodejs", "npm", "python"] as const;
 
+// Prefer the saved v1 snapshot: once a registry is migrated, registry/<name>.json is already v2.
 async function v1(name: string): Promise<{ schemaVersion: string; rules: Record<string, unknown>[] }> {
-  return JSON.parse(await readFile(resolve("registry", `${name}.json`), "utf8"));
+  for (const directory of ["tests/fixtures/registry-v1", "registry"]) {
+    try {
+      return JSON.parse(await readFile(resolve(directory, `${name}.json`), "utf8"));
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+  }
+  throw new Error(`No registry named ${name}`);
 }
 
 test("converts every bundled v1 registry to a valid v2 registry that reads back unchanged", async () => {

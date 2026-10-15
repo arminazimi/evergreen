@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "evergreen.nodejs-registry.v1",
+  "rules": [
+    {
+      "id": "nodejs.runtime.eol-20",
+      "ecosystem": "nodejs",
+      "major": 20,
+      "title": "Node.js 20 is end-of-life",
+      "summary": "Node.js 20 no longer receives security or bug fixes.",
+      "severity": "high",
+      "replacement": "Node.js 22 LTS or later",
+      "deadline": "2026-03-24",
+      "migration": {
+        "constraints": ["Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.", "Confirm native modules and production dependencies support the target Node.js major."],
+        "steps": [
+          { "id": "update-runtime-declaration", "title": "Update the Node.js declaration", "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.", "targets": "declaration" },
+          { "id": "align-runtime-surfaces", "title": "Align runtime surfaces", "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "node --version", "purpose": "Confirm the active Node.js runtime is supported." },
+          { "command": "npm run test --if-present", "purpose": "Run the repository test suite on the target runtime when defined." },
+          { "command": "npm run build --if-present", "purpose": "Verify the project builds on the target runtime." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.runtime.eol-18",
+      "ecosystem": "nodejs",
+      "major": 18,
+      "title": "Node.js 18 is end-of-life",
+      "summary": "Node.js 18 no longer receives security or bug fixes.",
+      "severity": "high",
+      "replacement": "Node.js 22 LTS or later",
+      "deadline": "2025-03-27",
+      "migration": {
+        "constraints": ["Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.", "Confirm native modules and production dependencies support the target Node.js major."],
+        "steps": [
+          { "id": "update-runtime-declaration", "title": "Update the Node.js declaration", "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.", "targets": "declaration" },
+          { "id": "align-runtime-surfaces", "title": "Align runtime surfaces", "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "node --version", "purpose": "Confirm the active Node.js runtime is supported." },
+          { "command": "npm run test --if-present", "purpose": "Run the repository test suite on the target runtime when defined." },
+          { "command": "npm run build --if-present", "purpose": "Verify the project builds on the target runtime." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.runtime.legacy",
+      "ecosystem": "nodejs",
+      "maximumMajor": 17,
+      "title": "Legacy Node.js runtime is end-of-life",
+      "summary": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
+      "severity": "critical",
+      "replacement": "Node.js 22 LTS or later",
+      "migration": {
+        "constraints": ["Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.", "Expect dependency and language compatibility changes when crossing multiple Node.js majors."],
+        "steps": [
+          { "id": "update-runtime-declaration", "title": "Update the Node.js declaration", "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.", "targets": "declaration" },
+          { "id": "upgrade-in-supported-stages", "title": "Upgrade across supported majors", "instructions": "Resolve dependency and runtime incompatibilities in supported-major increments before adopting the final target.", "targets": "all" },
+          { "id": "align-runtime-surfaces", "title": "Align runtime surfaces", "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "node --version", "purpose": "Confirm the active Node.js runtime is supported." },
+          { "command": "npm run test --if-present", "purpose": "Run the repository test suite on the target runtime when defined." },
+          { "command": "npm run build --if-present", "purpose": "Verify the project builds on the target runtime." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        }
+      ]
+    }
+  ]
+}
