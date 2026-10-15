@@ -26,6 +26,21 @@ jobs:
 
 Version tags provide stable release references. Pin a full commit SHA when your threat model requires immutable third-party action references.
 
+### SHA-pinned actions
+
+For the first-party actions covered by Evergreen, a full 40-character commit pin is classified in this order:
+
+1. A trailing release comment, such as `# v4`, `# v4.1.1`, `# tag=v4.1.1`, or `# version: v4.1.1`.
+2. Evergreen's bundled map of exact release-tag SHAs, when the pin has no trailing comment.
+
+```yaml
+- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+```
+
+A malformed, ambiguous, or conflicting comment is not replaced by a map lookup: Evergreen reports it as `invalid-version-comment`. A SHA absent from the bundled map is reported as `unknown-sha`. These references are not lifecycle findings, so they do not affect severity gates or annotations.
+
+The uploaded JSON report records the total in `unclassified.count` and lists each reference with its action, SHA, reason, and workflow location under `unclassified.references`. CLI text output adds a one-line count when any exist. Classification uses only repository contents and the bundled map; scans make no network requests.
+
 Create and commit the baseline locally when existing findings are accepted:
 
 ```bash
