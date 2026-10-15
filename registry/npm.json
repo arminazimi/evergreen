@@ -1,105 +1,280 @@
 {
-  "schemaVersion": "evergreen.npm-registry.v1",
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "npm",
   "rules": [
     {
       "id": "npm.package.request.deprecated",
       "ecosystem": "npm",
-      "package": "request",
+      "purl": "pkg:npm/request",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
       "title": "request is deprecated",
       "summary": "The package is fully deprecated and no new changes are expected.",
       "severity": "high",
       "replacement": "Native fetch or a maintained HTTP client",
       "deadline": "2020-02-11",
-      "migration": {
-        "constraints": ["Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."],
-        "steps": [
-          { "id": "choose-http-client", "title": "Choose the target HTTP client", "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.", "targets": "all" },
-          { "id": "replace-request-calls", "title": "Rewrite request usages", "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.", "targets": "usages" },
-          { "id": "replace-request-dependency", "title": "Replace the dependency", "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.", "targets": "declaration" }
-        ],
-        "verification": [
-          { "command": "npm run test --if-present", "purpose": "Run HTTP behavior and repository tests when defined." },
-          { "command": "npm run build --if-present", "purpose": "Verify imports, types, and the build remain valid." }
-        ]
-      },
-      "usage": [
-        { "kind": "import", "language": "javascript", "module": "request" },
-        { "kind": "call", "language": "javascript", "module": "request", "targets": ["default", "get", "post", "put", "delete", "head", "patch"] },
-        { "kind": "import", "language": "typescript", "module": "request" },
-        { "kind": "call", "language": "typescript", "module": "request", "targets": ["default", "get", "post", "put", "delete", "head", "patch"] }
-      ],
       "sources": [
         {
           "title": "request package deprecation notice",
           "url": "https://www.npmjs.com/package/request"
         }
-      ]
+      ],
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."
+        ],
+        "steps": [
+          {
+            "id": "choose-http-client",
+            "title": "Choose the target HTTP client",
+            "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-request-calls",
+            "title": "Rewrite request usages",
+            "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.",
+            "targets": "usages"
+          },
+          {
+            "id": "replace-request-dependency",
+            "title": "Replace the dependency",
+            "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP behavior and repository tests when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify imports, types, and the build remain valid."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "request"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "request",
+          "targets": [
+            "default",
+            "get",
+            "post",
+            "put",
+            "delete",
+            "head",
+            "patch"
+          ]
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "request"
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "request",
+          "targets": [
+            "default",
+            "get",
+            "post",
+            "put",
+            "delete",
+            "head",
+            "patch"
+          ]
+        }
+      ],
+      "x-npm": {
+        "package": "request"
+      }
     },
     {
       "id": "npm.package.node-sass.eol",
       "ecosystem": "npm",
-      "package": "node-sass",
+      "purl": "pkg:npm/node-sass",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
       "title": "Node Sass is end-of-life",
       "summary": "Node Sass is no longer maintained and its repository has been archived.",
       "severity": "high",
       "replacement": "sass",
       "deadline": "2024-07-24",
-      "migration": {
-        "constraints": ["Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."],
-        "steps": [
-          { "id": "replace-sass-dependency", "title": "Replace Node Sass", "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.", "targets": "declaration" },
-          { "id": "update-sass-calls", "title": "Update compiler usages", "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.", "targets": "usages" },
-          { "id": "compare-css-output", "title": "Compare compiled output", "instructions": "Review generated CSS and source maps for behaviorally relevant differences.", "targets": "all" }
-        ],
-        "verification": [
-          { "command": "npm run test --if-present", "purpose": "Run stylesheet and repository tests when defined." },
-          { "command": "npm run build --if-present", "purpose": "Compile the project and its stylesheets with Sass." }
-        ]
-      },
-      "usage": [
-        { "kind": "import", "language": "javascript", "module": "node-sass" },
-        { "kind": "call", "language": "javascript", "module": "node-sass", "targets": ["render", "renderSync"] },
-        { "kind": "import", "language": "typescript", "module": "node-sass" },
-        { "kind": "call", "language": "typescript", "module": "node-sass", "targets": ["render", "renderSync"] }
-      ],
       "sources": [
         {
           "title": "Node Sass is end-of-life",
           "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
         }
-      ]
+      ],
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+        ],
+        "steps": [
+          {
+            "id": "replace-sass-dependency",
+            "title": "Replace Node Sass",
+            "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.",
+            "targets": "declaration"
+          },
+          {
+            "id": "update-sass-calls",
+            "title": "Update compiler usages",
+            "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.",
+            "targets": "usages"
+          },
+          {
+            "id": "compare-css-output",
+            "title": "Compare compiled output",
+            "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run stylesheet and repository tests when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Compile the project and its stylesheets with Sass."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "node-sass"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "node-sass",
+          "targets": [
+            "render",
+            "renderSync"
+          ]
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "node-sass"
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "node-sass",
+          "targets": [
+            "render",
+            "renderSync"
+          ]
+        }
+      ],
+      "x-npm": {
+        "package": "node-sass"
+      }
     },
     {
       "id": "npm.package.left-pad.deprecated",
       "ecosystem": "npm",
-      "package": "left-pad",
+      "purl": "pkg:npm/left-pad",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
       "title": "left-pad is deprecated",
       "summary": "The package author recommends the built-in String.prototype.padStart method.",
       "severity": "medium",
       "replacement": "String.prototype.padStart()",
-      "migration": {
-        "constraints": ["Preserve target width, fill-string behavior, string coercion, and handling of values already wider than the requested length."],
-        "steps": [
-          { "id": "replace-padding-calls", "title": "Replace left-pad calls", "instructions": "Convert each reported call to String(value).padStart(length, fill) while preserving existing coercion and defaults.", "targets": "usages" },
-          { "id": "remove-left-pad", "title": "Remove the dependency", "instructions": "Delete left-pad from package metadata and refresh the lockfile.", "targets": "declaration" }
-        ],
-        "verification": [
-          { "command": "npm run test --if-present", "purpose": "Run padding edge cases and repository tests when defined." },
-          { "command": "npm run build --if-present", "purpose": "Verify the project builds without left-pad." }
-        ]
-      },
-      "usage": [
-        { "kind": "import", "language": "javascript", "module": "left-pad" },
-        { "kind": "call", "language": "javascript", "module": "left-pad", "targets": ["default"] },
-        { "kind": "import", "language": "typescript", "module": "left-pad" },
-        { "kind": "call", "language": "typescript", "module": "left-pad", "targets": ["default"] }
-      ],
       "sources": [
         {
           "title": "left-pad package deprecation notice",
           "url": "https://www.npmjs.com/package/left-pad"
         }
-      ]
+      ],
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve target width, fill-string behavior, string coercion, and handling of values already wider than the requested length."
+        ],
+        "steps": [
+          {
+            "id": "replace-padding-calls",
+            "title": "Replace left-pad calls",
+            "instructions": "Convert each reported call to String(value).padStart(length, fill) while preserving existing coercion and defaults.",
+            "targets": "usages"
+          },
+          {
+            "id": "remove-left-pad",
+            "title": "Remove the dependency",
+            "instructions": "Delete left-pad from package metadata and refresh the lockfile.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run padding edge cases and repository tests when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify the project builds without left-pad."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "left-pad"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "left-pad",
+          "targets": [
+            "default"
+          ]
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "left-pad"
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "left-pad",
+          "targets": [
+            "default"
+          ]
+        }
+      ],
+      "x-npm": {
+        "package": "left-pad"
+      }
     }
   ]
 }
