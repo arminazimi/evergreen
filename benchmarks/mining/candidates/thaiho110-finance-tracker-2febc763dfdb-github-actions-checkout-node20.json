@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "thaiho110-finance-tracker-2febc763dfdb-github-actions-checkout-node20",
+  "repository": "thaiho110/finance-tracker",
+  "parentCommit": "cc7448961ffd3297bfcc5e79feb3c73e64cac230",
+  "migrationCommit": "2febc763dfdb6a27c1835e63a54af2be77ee582e",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/merge.yml",
+      "line": 13
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pr-build.yml",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/thaiho110/finance-tracker/commit/2febc763dfdb6a27c1835e63a54af2be77ee582e",
+    "query": "upgrade actions/checkout v5"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "homelabdude-spire-federation-lab-e3a19f70ea2c-github-actions-checkout-node20",
+  "repository": "homelabdude/spire-federation-lab",
+  "parentCommit": "99ff647c15fb6a56e3044a57f940ed87f1c1b222",
+  "migrationCommit": "e3a19f70ea2c275b4e5862e64c9004fe507cd244",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 27
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 36
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

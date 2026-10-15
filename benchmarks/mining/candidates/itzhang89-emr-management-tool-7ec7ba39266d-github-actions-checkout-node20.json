@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "itzhang89-emr-management-tool-7ec7ba39266d-github-actions-checkout-node20",
+  "repository": "itzhang89/emr-management-tool",
+  "parentCommit": "1bf39596ee24145f48bffe25cc123d21cc114b25",
+  "migrationCommit": "7ec7ba39266d94e094609eeb6f41567ef9d5bf19",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 254
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 338
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 411
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 471
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 521
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 593
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/itzhang89/emr-management-tool/commit/7ec7ba39266d94e094609eeb6f41567ef9d5bf19",
+    "query": "upgrade actions/checkout v5"
+  }
+}

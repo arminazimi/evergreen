@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "theholm-aws-photo-uploader-f016b2607ab1-github-actions-checkout-node20",
+  "repository": "TheHolm/aws-photo-uploader",
+  "parentCommit": "f8b34c48a19ccf49d0c4844445bc51f18d3b9d7a",
+  "migrationCommit": "f016b2607ab1a59a6459e6c8f97378708964ae60",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 27
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 36
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/TheHolm/aws-photo-uploader/commit/f016b2607ab1a59a6459e6c8f97378708964ae60",
+    "query": "upgrade actions/checkout v5"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "neuronetiq-trader-marketplace-893a501113d3-github-actions-checkout-node20",
+  "repository": "NeuroNetIQ/trader-marketplace",
+  "parentCommit": "2ffaf28a34fd0e875e7ca58c9424cc945b634680",
+  "migrationCommit": "893a501113d33c5f07a4618f39579a4e1a8d7874",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 100
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 121
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 143
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 173
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 108
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 67
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 105
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 24
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 41
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yml",
+      "line": 73
+    }
+  ],
+  "after": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pr-gate.yml",
+      "line": 17
+    }
+  ],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/NeuroNetIQ/trader-marketplace/commit/893a501113d33c5f07a4618f39579a4e1a8d7874",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

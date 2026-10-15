@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "drunkonjava-rvt-rs-4be9eac7fdf0-github-actions-setup-node-node20",
+  "repository": "DrunkOnJava/rvt-rs",
+  "parentCommit": "3510c2ee96ff66513942b28ed3df6006282fe865",
+  "migrationCommit": "4be9eac7fdf0bf43ad6479dbcbd956b43131e3eb",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/publish.yml",
+      "line": 234
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/DrunkOnJava/rvt-rs/commit/4be9eac7fdf0bf43ad6479dbcbd956b43131e3eb",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

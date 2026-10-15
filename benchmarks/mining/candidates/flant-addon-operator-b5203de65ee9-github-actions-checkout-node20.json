@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "flant-addon-operator-b5203de65ee9-github-actions-checkout-node20",
+  "repository": "flant/addon-operator",
+  "parentCommit": "36563651d2145d12c046e0acc247f60e1681ffb3",
+  "migrationCommit": "b5203de65ee990186336ac46a0d05f9caaf20c4b",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/build.yaml",
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/docs.yaml",
+      "line": 15
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yaml",
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lint.yaml",
+      "line": 44
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish-dev.yaml",
+      "line": 69
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish-release.yaml",
+      "line": 88
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yaml",
+      "line": 18
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/flant/addon-operator/commit/b5203de65ee990186336ac46a0d05f9caaf20c4b",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

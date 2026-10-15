@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "theunitedeffort-ueo-quarterly-metrics-b00e57e39b0a-github-actions-setup-node-node20",
+  "repository": "theunitedeffort/ueo-quarterly-metrics",
+  "parentCommit": "4a1a799395546efd55ca8edd3ffe2ad3735820d6",
+  "migrationCommit": "b00e57e39b0a53da8f1c4aa4e1265de163b4bd00",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci-pages.yml",
+      "line": 25
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/theunitedeffort/ueo-quarterly-metrics/commit/b00e57e39b0a53da8f1c4aa4e1265de163b4bd00",
+    "query": "upgrade actions/checkout v5"
+  }
+}

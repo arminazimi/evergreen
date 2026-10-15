@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "shymega-nixfigs-05a6d51bd8a2-github-actions-checkout-node20",
+  "repository": "shymega/nixfigs",
+  "parentCommit": "39f5c56850ed69baa37461a819d29a299c6fbdb9",
+  "migrationCommit": "05a6d51bd8a222725c9d9a57dfc7c6dc56b36737",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 22
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 45
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 67
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/nix-attic.yml",
+      "line": 13
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/nix-attic.yml",
+      "line": 37
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/shymega/nixfigs/commit/05a6d51bd8a222725c9d9a57dfc7c6dc56b36737",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

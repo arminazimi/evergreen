@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "openmcp-project-crossplane-headlamp-plugin-f2d63ccf2f53-github-actions-setup-node-node20",
+  "repository": "openmcp-project/crossplane-headlamp-plugin",
+  "parentCommit": "9276c73ead85357669d365ef642c85f86d7fb851",
+  "migrationCommit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/e2e-tests.yml",
+      "line": 20
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/unit-tests.yml",
+      "line": 15
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/openmcp-project/crossplane-headlamp-plugin/commit/f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

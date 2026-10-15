@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "thetechnetwork-fleetwright-30bb7f13ea43-github-actions-setup-node-node20",
+  "repository": "TheTechNetwork/Fleetwright",
+  "parentCommit": "134c95ee52e583a2fc229c6ca7ef643fc50c7a0f",
+  "migrationCommit": "30bb7f13ea43e9a2c50a78abbfaa6acbfb140e86",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/TheTechNetwork/Fleetwright/commit/30bb7f13ea43e9a2c50a78abbfaa6acbfb140e86",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "oasisprotocol-sapphire-paratime-8d43f6244e96-github-actions-checkout-node20",
+  "repository": "oasisprotocol/sapphire-paratime",
+  "parentCommit": "ca202bdf081ec12534a579b757fb58549862a6dc",
+  "migrationCommit": "8d43f6244e96968d3964e0bba158715af1bb639c",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-audit.yaml",
+      "line": 22
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-docs.yaml",
+      "line": 140
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-docs.yaml",
+      "line": 28
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-docs.yaml",
+      "line": 92
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-lint.yaml",
+      "line": 33
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-lint.yaml",
+      "line": 52
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-lint.yaml",
+      "line": 81
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-lint.yaml",
+      "line": 99
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-reproducibility.yaml",
+      "line": 23
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-reproducibility.yaml",
+      "line": 51
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-demos.yaml",
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-demos.yaml",
+      "line": 37
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-examples.yaml",
+      "line": 23
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-examples.yaml",
+      "line": 63
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-go.yaml",
+      "line": 35
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-js-contracts.yaml",
+      "line": 113
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-js-contracts.yaml",
+      "line": 14
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-js-contracts.yaml",
+      "line": 173
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test-js-contracts.yaml",
+      "line": 60
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test.yaml",
+      "line": 112
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test.yaml",
+      "line": 140
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test.yaml",
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test.yaml",
+      "line": 49
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci-test.yaml",
+      "line": 78
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yaml",
+      "line": 118
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yaml",
+      "line": 27
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/publish.yaml",
+      "line": 84
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release.yaml",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/oasisprotocol/sapphire-paratime/commit/8d43f6244e96968d3964e0bba158715af1bb639c",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

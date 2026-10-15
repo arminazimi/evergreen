@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "legend-exp-scarf-dataflow-3e710a853249-github-actions-checkout-node20",
+  "repository": "legend-exp/scarf-dataflow",
+  "parentCommit": "706f92c137ff23b85d460fb61196cf050547cdd1",
+  "migrationCommit": "3e710a8532494204bec491f1e20d87ea41f1a5b3",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 29
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 53
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/main.yml",
+      "line": 66
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/legend-exp/scarf-dataflow/commit/3e710a8532494204bec491f1e20d87ea41f1a5b3",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "cutesurtr-needlemanwunschlean-90162967c293-github-actions-checkout-node20",
+  "repository": "CuteSurtr/NeedlemanWunschLean",
+  "parentCommit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
+  "migrationCommit": "90162967c2931a0eb4a0105da3f18ee0dac840bc",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/lean_action_ci.yml",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/CuteSurtr/NeedlemanWunschLean/commit/90162967c2931a0eb4a0105da3f18ee0dac840bc",
+    "query": "upgrade actions/checkout v5"
+  }
+}

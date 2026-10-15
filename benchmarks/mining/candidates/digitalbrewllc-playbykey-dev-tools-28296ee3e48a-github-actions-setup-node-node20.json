@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "digitalbrewllc-playbykey-dev-tools-28296ee3e48a-github-actions-setup-node-node20",
+  "repository": "DigitalBrewLLC/playbykey-dev-tools",
+  "parentCommit": "c5f745beb154e78199114a0728fff02c2717177f",
+  "migrationCommit": "28296ee3e48a803727e9811108368f8fbf01facf",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-please.yml",
+      "line": 39
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-please.yml",
+      "line": 66
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-please.yml",
+      "line": 93
+    }
+  ],
+  "after": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 19
+    }
+  ],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/DigitalBrewLLC/playbykey-dev-tools/commit/28296ee3e48a803727e9811108368f8fbf01facf",
+    "query": "upgrade actions/checkout v5"
+  }
+}

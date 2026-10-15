@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "freifunkjena-lime-feed-f91514a3fd2f-github-actions-checkout-node20",
+  "repository": "FreifunkJena/lime-feed",
+  "parentCommit": "9d0495bf1df5f03e98dd473d3275976fdd1a69c2",
+  "migrationCommit": "f91514a3fd2feef02763c2189239826f4474f83f",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pages-feed.yml",
+      "line": 23
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/FreifunkJena/lime-feed/commit/f91514a3fd2feef02763c2189239826f4474f83f",
+    "query": "upgrade actions/checkout v5"
+  }
+}

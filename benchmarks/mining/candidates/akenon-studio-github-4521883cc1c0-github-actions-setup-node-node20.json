@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "akenon-studio-github-4521883cc1c0-github-actions-setup-node-node20",
+  "repository": "Akenon-Studio/.github",
+  "parentCommit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
+  "migrationCommit": "4521883cc1c0c79f00f855fd944305997c23571a",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/security-scan.yml",
+      "line": 127
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "guzzlerio-deride-7c6940d88d45-github-actions-setup-node-node20",
+  "repository": "guzzlerio/deride",
+  "parentCommit": "aff92eb05aeb14da3e1371f6e41cc7361f5f436b",
+  "migrationCommit": "7c6940d88d45a3d23147fabd1067359cc45ae18e",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/docs.yml",
+      "line": 34
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/guzzlerio/deride/commit/7c6940d88d45a3d23147fabd1067359cc45ae18e",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

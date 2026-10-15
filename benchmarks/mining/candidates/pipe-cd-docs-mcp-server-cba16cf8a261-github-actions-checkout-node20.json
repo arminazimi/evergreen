@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "pipe-cd-docs-mcp-server-cba16cf8a261-github-actions-checkout-node20",
+  "repository": "pipe-cd/docs-mcp-server",
+  "parentCommit": "b34cde6b925cd00e024e92f4b3e3521ecf35c6e5",
+  "migrationCommit": "cba16cf8a261da00a3f143182910e3ba6c3962ce",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yaml",
+      "line": 10
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/prepare-release.yaml",
+      "line": 17
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/release-package.yaml",
+      "line": 17
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce",
+    "query": "upgrade actions/checkout v5"
+  }
+}

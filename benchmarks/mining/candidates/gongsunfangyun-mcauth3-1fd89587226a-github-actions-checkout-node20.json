@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "gongsunfangyun-mcauth3-1fd89587226a-github-actions-checkout-node20",
+  "repository": "GongSunFangYun/mcauth3",
+  "parentCommit": "769857cab1e0fef95e84d0685df3a8d28333b241",
+  "migrationCommit": "1fd89587226acd6fd0708f77b86f5a48283c5d89",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 15
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/python-package.yml",
+      "line": 39
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89",
+    "query": "upgrade actions/checkout v5"
+  }
+}

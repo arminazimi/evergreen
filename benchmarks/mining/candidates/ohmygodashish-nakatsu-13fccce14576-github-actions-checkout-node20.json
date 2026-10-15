@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "ohmygodashish-nakatsu-13fccce14576-github-actions-checkout-node20",
+  "repository": "ohmygodashish/nakatsu",
+  "parentCommit": "cf9995a41163c761250b2b69d34457b6fa9ef640",
+  "migrationCommit": "13fccce145761a1219856c0df36865acb3fdfd69",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 38
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 82
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69",
+    "query": "upgrade actions/checkout v5"
+  }
+}

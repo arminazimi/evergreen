@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "mavillal-pantallas-e3f7a8dea9b0-github-actions-checkout-node20",
+  "repository": "mavillal/pantallas",
+  "parentCommit": "f85533bec450d66b5d46ffc59da422eee57eb911",
+  "migrationCommit": "e3f7a8dea9b09253890da6ecaddd8fa7af16c7d4",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/apk.yml",
+      "line": 17
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/mavillal/pantallas/commit/e3f7a8dea9b09253890da6ecaddd8fa7af16c7d4",
+    "query": "upgrade actions/checkout v5"
+  }
+}

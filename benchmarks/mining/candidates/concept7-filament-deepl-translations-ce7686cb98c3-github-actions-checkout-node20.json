@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "concept7-filament-deepl-translations-ce7686cb98c3-github-actions-checkout-node20",
+  "repository": "concept7/filament-deepl-translations",
+  "parentCommit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
+  "migrationCommit": "ce7686cb98c304df1f52fb71974ffba51ef0d3b3",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/fix-php-code-style-issues.yml",
+      "line": 18
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/phpstan.yml",
+      "line": 16
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/run-tests.yml",
+      "line": 36
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/update-changelog.yml",
+      "line": 17
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

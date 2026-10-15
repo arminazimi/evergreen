@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "smartcrabai-paperhanger-240335f3fd5c-github-actions-setup-node-node20",
+  "repository": "smartcrabai/paperhanger",
+  "parentCommit": "2bb7ab4c344692f8549aef8441edafc9af614450",
+  "migrationCommit": "240335f3fd5c75c912f1ab4b0740d5a52c3dbe05",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/build-and-push.yml",
+      "line": 24
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 20
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

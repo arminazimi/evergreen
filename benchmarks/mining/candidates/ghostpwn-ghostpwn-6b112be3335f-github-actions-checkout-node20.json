@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "ghostpwn-ghostpwn-6b112be3335f-github-actions-checkout-node20",
+  "repository": "GhostPWN/ghostpwn",
+  "parentCommit": "964b152adc0fce70b65c034c28beff4d4f3602b4",
+  "migrationCommit": "6b112be3335fdfefd153199d3c98d4a9d8ac3dd3",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 104
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 20
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 37
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 60
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pages.yml",
+      "line": 26
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/GhostPWN/ghostpwn/commit/6b112be3335fdfefd153199d3c98d4a9d8ac3dd3",
+    "query": "bump actions/checkout from 4 to 5"
+  }
+}

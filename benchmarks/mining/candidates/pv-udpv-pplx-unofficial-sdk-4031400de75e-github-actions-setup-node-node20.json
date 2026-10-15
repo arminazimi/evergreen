@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "pv-udpv-pplx-unofficial-sdk-4031400de75e-github-actions-setup-node-node20",
+  "repository": "pv-udpv/pplx-unofficial-sdk",
+  "parentCommit": "60f2188470ded75a8dfd3fee20dee781fc65cebf",
+  "migrationCommit": "4031400de75e5b286db10c5168b6b77ea4d68318",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci-typescript.yml",
+      "line": 34
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/update-service-worker-manifest.yml",
+      "line": 32
+    }
+  ],
+  "after": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/verify-spa-assets.yml",
+      "line": 46
+    }
+  ],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/pv-udpv/pplx-unofficial-sdk/commit/4031400de75e5b286db10c5168b6b77ea4d68318",
+    "query": "upgrade actions/setup-node v5"
+  }
+}

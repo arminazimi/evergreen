@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "phmatray-claude-deck-d1325af2d9d8-github-actions-setup-node-node20",
+  "repository": "phmatray/claude-deck",
+  "parentCommit": "058bdeb66df7f6be2171fd793b038cdff52e6e79",
+  "migrationCommit": "d1325af2d9d883d86288312079d1bca012ee10c2",
+  "ruleId": "github-actions.setup-node.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/ci.yml",
+      "line": 30
+    },
+    {
+      "ruleId": "github-actions.setup-node.node20",
+      "path": ".github/workflows/release-please.yml",
+      "line": 78
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/phmatray/claude-deck/commit/d1325af2d9d883d86288312079d1bca012ee10c2",
+    "query": "upgrade actions/setup-node v5"
+  }
+}
