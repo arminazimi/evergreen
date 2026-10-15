@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
+import { locationsCheck } from "../src/conformance/checks/locations.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
@@ -107,6 +108,40 @@ test("catches a detector with non-deterministic ordered output", async () => {
     (error: unknown) => {
       assert.ok(error instanceof ConformanceError);
       assert.equal(error.guarantee, "deterministic findings");
+      return true;
+    },
+  );
+});
+
+test("catches a detector that reports a location that does not exist", async () => {
+  const root = await fixtureDirectory({ "present.txt": "one line\n" });
+  const missingLocationFinding = {
+    id: "missing-location",
+    ruleId: "missing-location",
+    title: "Missing location",
+    summary: "The reported file does not exist.",
+    severity: "low" as const,
+    location: { path: "missing.txt", line: 1 },
+    sources: [{ title: "Official source", url: "https://example.com" }],
+  };
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "invalid-location-sample",
+    async scan() {
+      return [missingLocationFinding];
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "missing file", root, expectedFindings: [missingLocationFinding] }],
+      checks: [locationsCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "existing repository-relative locations");
+      assert.match(error.message, /missing\.txt/);
       return true;
     },
   );
