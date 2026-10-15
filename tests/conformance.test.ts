@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
+import { evidenceCheck } from "../src/conformance/checks/evidence.js";
 import { locationsCheck } from "../src/conformance/checks/locations.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
@@ -142,6 +143,40 @@ test("catches a detector that reports a location that does not exist", async () 
       assert.ok(error instanceof ConformanceError);
       assert.equal(error.guarantee, "existing repository-relative locations");
       assert.match(error.message, /missing\.txt/);
+      return true;
+    },
+  );
+});
+
+test("catches a detector that reports a finding without authoritative evidence", async () => {
+  const root = await fixtureDirectory({ "fixture.txt": "fixture\n" });
+  const unsupportedFinding = {
+    id: "unsupported-claim",
+    ruleId: "unsupported-claim",
+    title: "Unsupported claim",
+    summary: "This lifecycle claim has no evidence.",
+    severity: "low" as const,
+    location: { path: "fixture.txt", line: 1 },
+    sources: [],
+  };
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "missing-evidence-sample",
+    async scan() {
+      return [unsupportedFinding];
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "unsupported claim", root, expectedFindings: [unsupportedFinding] }],
+      checks: [evidenceCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "authoritative evidence");
+      assert.match(error.message, /unsupported-claim/);
       return true;
     },
   );
