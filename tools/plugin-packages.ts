@@ -3,6 +3,7 @@ import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const generatedRoots = [
+  ".agents/plugins/marketplace.json",
   ".claude-plugin/marketplace.json",
   "plugins/codex",
   "plugins/claude",
@@ -120,35 +121,61 @@ export async function expectedPluginFiles(
       },
     },
   });
+  const portableMcp = json({
+    $schema: "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+    mcpServers: {
+      evergreen: {
+        type: "stdio",
+        command: "npx",
+        args: [
+          "--yes",
+          "--package",
+          `evergreen-deprecation@${packageMetadata.version}`,
+          "evergreen-mcp",
+        ],
+      },
+    },
+  });
+  const codexInterface = {
+    displayName: "Evergreen",
+    shortDescription: "Find lifecycle risks early",
+    longDescription:
+      "Scan repositories for supported lifecycle risks, inspect evidence, build migration context, and verify the result locally.",
+    developerName: "Evergreen",
+    category: "Developer Tools",
+    capabilities: ["Read"],
+    websiteURL: "https://arminazimi.github.io/evergreen/",
+    supportURL: "https://arminazimi.github.io/evergreen/SUPPORT.html",
+    privacyPolicyURL: "https://arminazimi.github.io/evergreen/PRIVACY.html",
+    termsOfServiceURL: "https://arminazimi.github.io/evergreen/TERMS.html",
+    defaultPrompt: [
+      "Scan this repository for supported lifecycle risks.",
+      "Explain the highest-severity Evergreen finding.",
+      "Create migration context for this deprecation.",
+    ],
+    brandColor: "#571729",
+    brandColorDark: "#B96779",
+    composerIcon: "./assets/evergreen-mark-light.svg",
+    composerIconDark: "./assets/evergreen-mark-dark.svg",
+    logo: "./assets/evergreen-mark-light.svg",
+    logoDark: "./assets/evergreen-mark-dark.svg",
+    screenshots: ["./assets/review-walkthrough.svg"],
+  };
+  const portableCodexManifest = json({
+    $schema: "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+    ...identity,
+    extensions: {
+      "com.openai": {
+        interface: codexInterface,
+        requires_local_executor: true,
+      },
+    },
+  });
   const codexManifest = json({
     ...identity,
     skills: "./skills/",
     mcpServers: "./.mcp.json",
-    interface: {
-      displayName: "Evergreen",
-      shortDescription: "Find lifecycle risks early",
-      longDescription:
-        "Scan repositories for supported lifecycle risks, inspect evidence, build migration context, and verify the result locally.",
-      developerName: "Evergreen",
-      category: "Developer Tools",
-      capabilities: ["Read"],
-      websiteURL: "https://arminazimi.github.io/evergreen/",
-      supportURL: "https://arminazimi.github.io/evergreen/SUPPORT.html",
-      privacyPolicyURL: "https://arminazimi.github.io/evergreen/PRIVACY.html",
-      termsOfServiceURL: "https://arminazimi.github.io/evergreen/TERMS.html",
-      defaultPrompt: [
-        "Scan this repository for supported lifecycle risks.",
-        "Explain the highest-severity Evergreen finding.",
-        "Create migration context for this deprecation.",
-      ],
-      brandColor: "#571729",
-      brandColorDark: "#B96779",
-      composerIcon: "./assets/evergreen-mark-light.svg",
-      composerIconDark: "./assets/evergreen-mark-dark.svg",
-      logo: "./assets/evergreen-mark-light.svg",
-      logoDark: "./assets/evergreen-mark-dark.svg",
-      screenshots: ["./assets/review-walkthrough.svg"],
-    },
+    interface: codexInterface,
     requires_local_executor: true,
   });
   const claudeManifest = json({
@@ -183,12 +210,32 @@ export async function expectedPluginFiles(
       },
     ],
   });
+  const codexMarketplace = json({
+    name: "evergreen-codex",
+    interface: {
+      displayName: "Evergreen",
+    },
+    plugins: [
+      {
+        name: "evergreen",
+        source: {
+          source: "local",
+          path: "./plugins/codex",
+        },
+        policy: {
+          installation: "AVAILABLE",
+          authentication: "ON_INSTALL",
+        },
+        category: "Developer Tools",
+      },
+    ],
+  });
   const license = await readFile(resolve(root, "LICENSE"), "utf8");
   const [lightMark, darkMark] = await Promise.all([
     readFile(resolve(root, "brand/assets/evergreen-mark-light.svg"), "utf8"),
     readFile(resolve(root, "brand/assets/evergreen-mark-dark.svg"), "utf8"),
   ]);
-  const codexReadme = `# Evergreen for Codex\n\nEvergreen finds, explains, and verifies supported software lifecycle risks in local repositories. The plugin combines the canonical Evergreen Skill with a read-only local MCP server and requires no Evergreen account.\n\nRepository analysis runs on the user's computer. Evergreen does not upload repository contents, execute migration commands, edit files, or open a network listener. The host still controls filesystem access, approvals, and any later edits an agent makes.\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required. See the [Codex submission and installation guide](https://arminazimi.github.io/evergreen/CODEX_SUBMISSION.html) for setup, privacy boundaries, review cases, and removal.\n`;
+  const codexReadme = `# Evergreen for Codex\n\nEvergreen finds, explains, and verifies supported software lifecycle risks in local repositories. The plugin combines the canonical Evergreen Skill with a read-only local MCP server and requires no Evergreen account.\n\nRepository analysis runs on the user's computer. Evergreen does not upload repository contents, execute migration commands, edit files, or open a network listener. The host still controls filesystem access, approvals, and any later edits an agent makes.\n\n## Install\n\nFrom the Evergreen repository, run:\n\n\`\`\`sh\ncodex plugin add evergreen@evergreen-codex\n\`\`\`\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required. See the [Codex installation and management guide](https://arminazimi.github.io/evergreen/CODEX_PLUGIN.html) for installation, updates, validation, privacy boundaries, and removal.\n`;
   const reviewWalkthrough = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">Evergreen lifecycle scan walkthrough</title>
   <desc id="desc">A branded terminal panel showing evidence-backed findings from the bundled review fixture.</desc>
@@ -232,7 +279,10 @@ export async function expectedPluginFiles(
   });
 
   return new Map([
+    [".agents/plugins/marketplace.json", codexMarketplace],
     [".claude-plugin/marketplace.json", claudeMarketplace],
+    ["plugins/codex/plugin.json", portableCodexManifest],
+    ["plugins/codex/mcp.json", portableMcp],
     ["plugins/codex/.codex-plugin/plugin.json", codexManifest],
     ["plugins/codex/.mcp.json", mcp],
     ["plugins/codex/LICENSE", license],

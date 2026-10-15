@@ -60,6 +60,7 @@
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
     "eval:skill-triggers": "npm run build --silent && node dist/benchmarks/skill-trigger-eval.js",
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",
+    "validate:codex-plugin": "npm run build --silent && node dist/tools/validate-codex-plugin.js",
     "validate:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js",
     "observe:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js --observe",
     "prepack": "npm run check"

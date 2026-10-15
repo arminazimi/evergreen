@@ -37,6 +37,9 @@ test("generated plugin packages match canonical shared assets", async () => {
 
 test("host manifests stay thin and share one pinned runtime", async () => {
   const expected = await expectedPluginFiles();
+  const portableCodex = JSON.parse(
+    expected.get("plugins/codex/plugin.json")!,
+  ) as Record<string, unknown>;
   const codex = JSON.parse(
     expected.get("plugins/codex/.codex-plugin/plugin.json")!,
   ) as Record<string, unknown>;
@@ -44,10 +47,27 @@ test("host manifests stay thin and share one pinned runtime", async () => {
     expected.get("plugins/claude/.claude-plugin/plugin.json")!,
   ) as Record<string, unknown>;
   const codexMcp = expected.get("plugins/codex/.mcp.json");
+  const portableCodexMcp = JSON.parse(
+    expected.get("plugins/codex/mcp.json")!,
+  ) as {
+    $schema: string;
+    mcpServers: { evergreen: { type: string; args: string[] } };
+  };
   const claudeMcp = expected.get("plugins/claude/.mcp.json");
 
   assert.equal(codex.version, claude.version);
+  assert.equal(portableCodex.version, codex.version);
   assert.equal(codexMcp, claudeMcp);
+  assert.equal(
+    portableCodexMcp.$schema,
+    "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  );
+  assert.equal(portableCodexMcp.mcpServers.evergreen.type, "stdio");
+  assert.ok(
+    portableCodexMcp.mcpServers.evergreen.args.includes(
+      `evergreen-deprecation@${String(codex.version)}`,
+    ),
+  );
   assert.equal(codex.skills, "./skills/");
   assert.equal(codex.mcpServers, "./.mcp.json");
   assert.ok(!("skills" in claude), "Claude uses the standard skills/ location");
@@ -57,6 +77,56 @@ test("host manifests stay thin and share one pinned runtime", async () => {
     const serialized = JSON.stringify(manifest);
     assert.doesNotMatch(serialized, /scan_repository|verify_migration|ruleId/);
   }
+});
+
+test("Codex marketplace exposes the portable package", async () => {
+  const expected = await expectedPluginFiles();
+  const marketplace = JSON.parse(
+    expected.get(".agents/plugins/marketplace.json")!,
+  ) as {
+    name: string;
+    plugins: Array<{
+      name: string;
+      source: { source: string; path: string };
+      policy: { installation: string; authentication: string };
+      category: string;
+    }>;
+  };
+  const portable = JSON.parse(expected.get("plugins/codex/plugin.json")!) as {
+    $schema: string;
+    name: string;
+    extensions: {
+      "com.openai": {
+        interface: Record<string, unknown>;
+        requires_local_executor: boolean;
+      };
+    };
+  };
+  const compatibility = JSON.parse(
+    expected.get("plugins/codex/.codex-plugin/plugin.json")!,
+  ) as { interface: Record<string, unknown> };
+  const entry = marketplace.plugins[0];
+
+  assert.equal(
+    portable.$schema,
+    "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  );
+  assert.equal(portable.extensions["com.openai"].requires_local_executor, true);
+  assert.deepEqual(
+    portable.extensions["com.openai"].interface,
+    compatibility.interface,
+  );
+  assert.equal(marketplace.name, "evergreen-codex");
+  assert.equal(entry?.name, portable.name);
+  assert.deepEqual(entry?.source, {
+    source: "local",
+    path: "./plugins/codex",
+  });
+  assert.deepEqual(entry?.policy, {
+    installation: "AVAILABLE",
+    authentication: "ON_INSTALL",
+  });
+  assert.equal(entry?.category, "Developer Tools");
 });
 
 test("Claude marketplace installs the generated Claude adapter", async () => {

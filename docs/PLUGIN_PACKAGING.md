@@ -9,6 +9,7 @@ skills/evergreen-deprecation/SKILL.md     canonical workflow
 tools/plugin-packages.ts                  release assembly and MCP definition
 plugins/codex/                            generated Codex adapter
 plugins/claude/                           generated Claude adapter
+.agents/plugins/marketplace.json          generated Codex marketplace catalog
 .claude-plugin/marketplace.json           generated Claude marketplace catalog
 ```
 
@@ -16,16 +17,16 @@ Both generated packages contain a byte-identical copy of the canonical Skill and
 
 The root Claude marketplace lists `plugins/claude` as a repository-relative source. This keeps the installable catalog, plugin manifest, Skill, README, license, and pinned runtime metadata on the same release and under the same drift gate.
 
-The generated Codex adapter also carries its approved light and dark marks, submission walkthrough, reviewer fixture, five positive cases, three negative cases, privacy links, and desktop-only declaration. Build its portal-ready ZIP with `npm run package:codex-plugin`; generated archives are written under ignored `artifacts/` so release files never become an alternative source of truth.
+The generated Codex adapter carries a portable root `plugin.json` and `mcp.json`, the supported compatibility manifest, approved light and dark marks, submission walkthrough, reviewer fixture, five positive cases, three negative cases, privacy links, and desktop-only declaration. The repo-scoped marketplace exposes it as `evergreen@evergreen-codex`. Build its portal-ready ZIP with `npm run package:codex-plugin`; generated archives are written under ignored `artifacts/` so release files never become an alternative source of truth.
 
 ## Host differences
 
 | Concern | Codex package | Claude package |
 | --- | --- | --- |
-| Manifest | `.codex-plugin/plugin.json` | `.claude-plugin/plugin.json` |
-| Skill discovery | Explicit `./skills/` path | Standard `skills/` location |
-| MCP discovery | Explicit `./.mcp.json` path | Standard `.mcp.json` location |
-| Presentation | Codex `interface` object | Claude `displayName` and directory metadata |
+| Manifest | Portable `plugin.json` plus `.codex-plugin/plugin.json` fallback | `.claude-plugin/plugin.json` |
+| Skill discovery | Standard `skills/` location; explicit path in fallback | Standard `skills/` location |
+| MCP discovery | Portable `mcp.json`; explicit `.mcp.json` in fallback | Standard `.mcp.json` location |
+| Presentation | `extensions.com.openai.interface` plus compatibility fallback | Claude `displayName` and directory metadata |
 | Shared behavior | Generated canonical Skill | Generated canonical Skill |
 | Runtime | Exact `evergreen-deprecation` npm version | Exact `evergreen-deprecation` npm version |
 
@@ -53,7 +54,7 @@ Cross-host workflow, trigger, context-budget, and permission regressions are cov
 
 - Plugin version and MCP runtime version equal the root package version.
 - The runtime inherits the root requirement of Node.js 22 or newer.
-- Codex uses its compatibility manifest so the local stdio MCP command can ship with the Skill.
+- Codex uses the Agent Plugins 1.0.0 portable manifest and MCP schemas, with its compatibility manifest retained as a fallback.
 - Claude uses its standard plugin layout; strict manifest and MCP validation targets Claude Code 2.1.281 or newer, where those checks are documented.
 - Evergreen maintainers own both generated packages and publish them from the same tagged source commit as the npm release.
 - A host-only metadata change may vary between adapters. A workflow or runtime change begins in the canonical Skill or executable modules and is then regenerated.

@@ -23,6 +23,7 @@ hosted service.
 - [Local MCP server](MCP.md)
 - [Agent Skill](AGENT_SKILLS.md)
 - [Codex and Claude plugin packaging](PLUGIN_PACKAGING.md)
+- [Codex plugin installation and management](CODEX_PLUGIN.md)
 - [Claude plugin installation and distribution](CLAUDE_PLUGIN.md)
 - [Codex plugin submission](CODEX_SUBMISSION.md)
 - [Privacy](PRIVACY.md)
