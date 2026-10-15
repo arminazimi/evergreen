@@ -53,6 +53,7 @@ const results: Array<{
   repository: string;
   commit: string;
   ecosystem: CorpusEntry["ecosystem"];
+  checkoutMs: number;
   durationMs: number;
   findings: ExpectedFinding[];
   truePositives: number;
@@ -65,12 +66,14 @@ const results: Array<{
 try {
   for (const [index, entry] of corpus.repositories.entries()) {
     const checkout = join(root, String(index));
+    const checkoutStartedAt = performance.now();
     await run("git", ["init", "--quiet", checkout]);
     await run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
       env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
       maxBuffer: 10 * 1024 * 1024,
     });
     await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
+    const checkoutMs = Number((performance.now() - checkoutStartedAt).toFixed(2));
 
     const startedAt = performance.now();
     const scan = await scanRepository(checkout, builtInDetectors);
@@ -87,6 +90,7 @@ try {
       repository: entry.repository,
       commit: entry.commit,
       ecosystem: entry.ecosystem,
+      checkoutMs,
       durationMs,
       findings,
       truePositives,
@@ -101,6 +105,7 @@ try {
   const falsePositives = results.reduce((total, result) => total + result.falsePositives, 0);
   const falseNegatives = results.reduce((total, result) => total + result.falseNegatives, 0);
   const durations = results.map((result) => result.durationMs);
+  const checkoutDurations = results.map((result) => result.checkoutMs);
   const precision = truePositives + falsePositives === 0
     ? 1
     : truePositives / (truePositives + falsePositives);
@@ -122,6 +127,9 @@ try {
       medianScanMs: Number(percentile(durations, 0.5).toFixed(2)),
       p95ScanMs: Number(percentile(durations, 0.95).toFixed(2)),
       slowestScanMs: Number(Math.max(...durations).toFixed(2)),
+      medianCheckoutMs: Number(percentile(checkoutDurations, 0.5).toFixed(2)),
+      p95CheckoutMs: Number(percentile(checkoutDurations, 0.95).toFixed(2)),
+      slowestCheckoutMs: Number(Math.max(...checkoutDurations).toFixed(2)),
     },
   };
 

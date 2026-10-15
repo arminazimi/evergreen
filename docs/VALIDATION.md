@@ -21,7 +21,7 @@ Evergreen v0.1 was validated on 2026-10-14 against 20 public repositories pinned
 | p95 scan time | 48.88 ms |
 | Slowest scan | 49.73 ms |
 
-Scan time measures only local Evergreen analysis after checkout. It excludes network and Git operations. The run used the development machine, so duration is a reference rather than a cross-machine guarantee.
+Scan time measures only local Evergreen analysis after checkout. It excludes network and Git operations, which the harness reports separately as `checkoutMs` per repository and `medianCheckoutMs`, `p95CheckoutMs`, and `slowestCheckoutMs` in the summary, so Evergreen's own cost is never mixed with the time spent downloading a repository. The run used the development machine, so duration is a reference rather than a cross-machine guarantee.
 
 ## GitHub Actions corpus additions
 
