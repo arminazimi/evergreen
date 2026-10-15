@@ -13,6 +13,8 @@ Look for issues labeled `good first issue` or `help wanted`. For larger changes,
 
 ## Development
 
+Coding agents and people working with them should read [AGENTS.md](AGENTS.md) first.
+
 Requirements: Node.js 22 or newer.
 
 ```bash
