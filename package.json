@@ -58,7 +58,7 @@
     "package:codex-plugin": "npm run build:plugins --silent && node dist/tools/codex-plugin-release.js",
     "dev": "npm run build --silent && node dist/src/cli.js",
     "mcp": "npm run build --silent && node dist/src/mcp-cli.js",
-    "test": "npm run build --silent && node --test dist/tests/**/*.test.js",
+    "test": "npm run build --silent && node --test \"dist/tests/**/*.test.js\"",
     "check": "npm run build && npm run build:action && npm test && npm run check:action-bundle && npm run check:plugins && npm run eval:plugins",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
