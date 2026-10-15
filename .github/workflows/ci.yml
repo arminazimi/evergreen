@@ -19,8 +19,42 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+      - name: Enforce coverage thresholds
+        run: npm run test:coverage | tee coverage.txt
       - name: Dogfood Evergreen action
         uses: ./
         with:
           fail-on-severity: high
           report-name: evergreen-report-${{ github.sha }}
+
+  coverage-badge:
+    if: github.event_name == 'push'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Measure coverage
+        run: npm run test:coverage | tee coverage.txt
+      - name: Publish the badge to the badges branch
+        run: |
+          node dist/tools/coverage-badge.js < coverage.txt > "$RUNNER_TEMP/coverage.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin badges >/dev/null 2>&1; then
+            git fetch --depth 1 origin badges
+            git checkout -B badges FETCH_HEAD
+          else
+            git checkout --orphan badges
+            git rm -rfq .
+          fi
+          cp "$RUNNER_TEMP/coverage.json" coverage.json
+          git add coverage.json
+          git diff --cached --quiet || { git commit -qm "chore: update the coverage badge"; git push origin badges; }

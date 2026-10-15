@@ -40,6 +40,8 @@ npm run check
 
 `npm run check` builds the project, bundles the Action, runs every test, and checks generated plugin files. It is the same gate CI runs.
 
+CI also enforces test coverage floors (93% lines, 87% branches, 93% functions) with `npm run test:coverage`. New code should come with tests so the number stays up; raise the floors in `package.json` when coverage rises, never lower them to make a change pass.
+
 ## Your first contribution: add a lifecycle rule
 
 Lifecycle rules are the most valuable contribution and the easiest place to start. This walkthrough adds an npm package deprecation; other ecosystems follow the same shape.

@@ -9,6 +9,7 @@
 </p>
 
 [![CI](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml/badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg)](https://www.npmjs.com/package/evergreen-deprecation)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
