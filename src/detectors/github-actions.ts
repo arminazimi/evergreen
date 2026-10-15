@@ -8,8 +8,8 @@ import { findPackageFile } from "../package-files.js";
 import {
   DETECTOR_API_VERSION,
   isDeprecationRule,
-  validateRegistry,
 } from "../sdk.js";
+import { loadRegistryRules } from "../registry.js";
 import type { Detector, DetectorContext, DetectorFinding } from "../sdk.js";
 
 interface GitHubActionRule extends DeprecationRule {
@@ -29,7 +29,7 @@ const VERSION_PATTERN = /^v?(\d+)(?:\.\d+){0,2}$/;
 async function loadRegistry(): Promise<GitHubActionRule[]> {
   const registryPath = await findPackageFile("registry/github-actions.json", import.meta.url);
   const contents = await readFile(registryPath, "utf8");
-  const registry = validateRegistry(JSON.parse(contents) as unknown, {
+  const registry = loadRegistryRules(JSON.parse(contents) as unknown, {
     schemaVersion: "evergreen.github-actions-registry.v1",
     isRule: (value): value is GitHubActionRule =>
       isDeprecationRule(value) &&

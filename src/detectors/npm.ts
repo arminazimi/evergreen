@@ -15,8 +15,8 @@ import {
   DETECTOR_API_VERSION,
   isDeprecationRule,
   isUsageMatcher,
-  validateRegistry,
 } from "../sdk.js";
+import { loadRegistryRules } from "../registry.js";
 import type {
   Detector,
   DetectorContext,
@@ -74,7 +74,7 @@ async function loadRegistry<Rule>(
   path: string | URL,
   definition: RegistryDefinition<Rule>,
 ): Promise<readonly Rule[]> {
-  return validateRegistry(JSON.parse(await readFile(path, "utf8")) as unknown, definition).rules;
+  return loadRegistryRules(JSON.parse(await readFile(path, "utf8")) as unknown, definition).rules;
 }
 
 function addResolved(target: ResolvedVersions, name: string, version: unknown): void {

@@ -1,7 +1,8 @@
 import type { EvidenceSource, MigrationGuidance, Severity, UsageMatcher } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { parsePurl, purlIdentity } from "./purl.js";
-import { isMigrationGuidance, isUsageMatcher, RegistryValidationError } from "./sdk.js";
+import { isMigrationGuidance, isUsageMatcher, RegistryValidationError, validateRegistry } from "./sdk.js";
+import type { Registry, RegistryDefinition } from "./sdk.js";
 import { parseVers, validateVersVersions, versionScheme } from "./vers/index.js";
 
 export const REGISTRY_V2_SCHEMA_VERSION = "evergreen.registry.v2" as const;
@@ -253,4 +254,50 @@ export function staleRules(registry: RegistryV2, now: Date): StaleRule[] {
       maxReviewAgeDays,
     }))
     .filter((entry) => entry.ageDays > maxReviewAgeDays);
+}
+
+const V2_ONLY_FIELDS = new Set(["purl", "vers", "event", "provenance"]);
+
+/**
+ * A v2 rule seen through the shape detectors already consume: v2-only identity and provenance
+ * fields are dropped, and the `x-<ecosystem>` hints are merged in. A rule migrated from v1 therefore
+ * looks exactly like it did before, which keeps scan output unchanged.
+ */
+export function legacyRule(rule: RegistryV2Rule): Record<string, unknown> {
+  const view: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(rule)) {
+    if (V2_ONLY_FIELDS.has(key) || EXTENSION.test(key)) continue;
+    view[key] = value;
+  }
+  const hints = (rule as unknown as UnknownRecord)[`x-${rule.ecosystem}`];
+  return isRecord(hints) ? { ...view, ...hints } : view;
+}
+
+/**
+ * Loads a registry file that is either the detector's own v1 format or the shared v2 format.
+ * Both produce the detector's rule type, so a registry can move to v2 without changing the detector.
+ */
+export function loadRegistryRules<Rule>(
+  value: unknown,
+  definition: RegistryDefinition<Rule>,
+): Registry<Rule> {
+  if (isRecord(value) && value.schemaVersion === REGISTRY_V2_SCHEMA_VERSION) {
+    const registry = validateRegistryV2(value);
+    const rules = registry.rules.map((rule) => {
+      const view = legacyRule(rule);
+      if (!definition.isRule(view)) {
+        throw new RegistryValidationError(
+          `Invalid registry rule "${rule.id}": it does not have the fields this detector reads. Check its "x-${rule.ecosystem}" hints.`,
+        );
+      }
+      return view;
+    });
+    return { schemaVersion: REGISTRY_V2_SCHEMA_VERSION, rules };
+  }
+  if (isRecord(value) && value.schemaVersion !== definition.schemaVersion && value.schemaVersion !== undefined) {
+    throw new RegistryValidationError(
+      `Unsupported registry schema: ${String(value.schemaVersion)}; expected ${definition.schemaVersion} or ${REGISTRY_V2_SCHEMA_VERSION}.`,
+    );
+  }
+  return validateRegistry(value, definition);
 }

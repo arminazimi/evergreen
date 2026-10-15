@@ -10,8 +10,8 @@ import {
   DETECTOR_API_VERSION,
   isDeprecationRule,
   isUsageMatcher,
-  validateRegistry,
 } from "../sdk.js";
+import { loadRegistryRules } from "../registry.js";
 import type { Detector, DetectorContext, DetectorFinding } from "../sdk.js";
 
 interface PythonRuntimeRule extends DeprecationRule {
@@ -321,7 +321,7 @@ function isPythonRule(value: unknown): value is PythonRule {
 
 async function loadRules(): Promise<readonly PythonRule[]> {
   const path = await findPackageFile("registry/python.json", import.meta.url);
-  return validateRegistry(JSON.parse(await readFile(path, "utf8")) as unknown, {
+  return loadRegistryRules(JSON.parse(await readFile(path, "utf8")) as unknown, {
     schemaVersion: "evergreen.python-registry.v1",
     isRule: isPythonRule,
   }).rules;
