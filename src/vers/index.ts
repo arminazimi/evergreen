@@ -1,4 +1,5 @@
 // Importing this module registers every built-in version scheme.
+import "./maven.js";
 import "./pep440.js";
 import "./semver.js";
 
