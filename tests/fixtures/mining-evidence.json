@@ -1,0 +1,317 @@
+{
+ "concept7-filament-deepl-translations-ce7686cb98c3-github-actions-checkout-node20": {
+  "candidate": {
+   "schemaVersion": "evergreen.migration-candidate.v1",
+   "id": "concept7-filament-deepl-translations-ce7686cb98c3-github-actions-checkout-node20",
+   "repository": "concept7/filament-deepl-translations",
+   "parentCommit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
+   "migrationCommit": "ce7686cb98c304df1f52fb71974ffba51ef0d3b3",
+   "ruleId": "github-actions.checkout.node20",
+   "before": [
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/fix-php-code-style-issues.yml",
+     "line": 18
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/phpstan.yml",
+     "line": 16
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/run-tests.yml",
+     "line": 36
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/update-changelog.yml",
+     "line": 17
+    }
+   ],
+   "after": [],
+   "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3",
+    "query": "bump actions/checkout from 4 to 5"
+   }
+  },
+  "evidence": {
+   "message": "Bump actions/checkout from 4 to 5 (#7)\n\nBumps [actions/checkout](https://github.com/actions/checkout) from 4 to 5.\n- [Release notes](https://github.com/actions/checkout/releases)\n- [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/actions/checkout/compare/v4...v5)\n\n---\nupdated-dependencies:\n- dependency-name: actions/checkout\n  dependency-version: '5'\n  dependency-type: direct:production\n  update-type: version-update:semver-major\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+   "parents": [
+    "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb"
+   ],
+   "files": [
+    {
+     "filename": ".github/workflows/fix-php-code-style-issues.yml",
+     "patch": "@@ -15,7 +15,7 @@ jobs:\n \n     steps:\n       - name: Checkout code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n         with:\n           ref: ${{ github.head_ref }}\n "
+    },
+    {
+     "filename": ".github/workflows/phpstan.yml",
+     "patch": "@@ -13,7 +13,7 @@ jobs:\n     runs-on: ubuntu-latest\n     timeout-minutes: 5\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Setup PHP\n         uses: shivammathur/setup-php@v2"
+    },
+    {
+     "filename": ".github/workflows/run-tests.yml",
+     "patch": "@@ -33,7 +33,7 @@ jobs:\n \n     steps:\n       - name: Checkout code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n \n       - name: Setup PHP\n         uses: shivammathur/setup-php@v2"
+    },
+    {
+     "filename": ".github/workflows/update-changelog.yml",
+     "patch": "@@ -14,7 +14,7 @@ jobs:\n \n     steps:\n       - name: Checkout code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n         with:\n           ref: main\n "
+    }
+   ],
+   "repo": {
+    "private": false,
+    "fork": false,
+    "archived": false
+   },
+   "license": "MIT"
+  }
+ },
+ "akenon-studio-github-4521883cc1c0-github-actions-setup-node-node20": {
+  "candidate": {
+   "schemaVersion": "evergreen.migration-candidate.v1",
+   "id": "akenon-studio-github-4521883cc1c0-github-actions-setup-node-node20",
+   "repository": "Akenon-Studio/.github",
+   "parentCommit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
+   "migrationCommit": "4521883cc1c0c79f00f855fd944305997c23571a",
+   "ruleId": "github-actions.setup-node.node20",
+   "before": [
+    {
+     "ruleId": "github-actions.setup-node.node20",
+     "path": ".github/workflows/security-scan.yml",
+     "line": 127
+    }
+   ],
+   "after": [],
+   "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a",
+    "query": "upgrade actions/setup-node v5"
+   }
+  },
+  "evidence": {
+   "message": "chore(deps): update actions/setup-node action to v7 (#127)\n\nThis PR contains the following updates:\n\n| Package | Type | Update | Change |\n|---|---|---|---|\n| [actions/setup-node](https://redirect.github.com/actions/setup-node) |\naction | major | `v4` → `v7` |\n\n---\n\n### Release Notes\n\n<details>\n<summary>actions/setup-node (actions/setup-node)</summary>\n\n###\n[`v7.1.0`](https://redirect.github.com/actions/setup-node/releases/tag/v7.1.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v7.0.0...v7.1.0)\n\n#### What's Changed\n\n##### Enhancements:\n\n- Add support for mise.toml file by\n[@&#8203;gperdomor](https://redirect.github.com/gperdomor) in\n[#&#8203;1421](https://redirect.github.com/actions/setup-node/pull/1421)\n- Support absolute paths in node-version-file by\n[@&#8203;v-mahabaleshwars](https://redirect.github.com/v-mahabaleshwars)\nin\n[#&#8203;1633](https://redirect.github.com/actions/setup-node/pull/1633)\n\n##### Bug fixes:\n\n- Add Node version validation and manifest fetch retry by\n[@&#8203;v-jitenderpalsingh](https://redirect.github.com/v-jitenderpalsingh)\nin\n[#&#8203;1580](https://redirect.github.com/actions/setup-node/pull/1580)\n\n##### Documentation updates:\n\n- README.md: bump actions/checkout to latest version 7 by\n[@&#8203;deining](https://redirect.github.com/deining) in\n[#&#8203;1578](https://redirect.github.com/actions/setup-node/pull/1578)\n- docs: add V7 ESM migration and NODE_AUTH_TOKEN behavior change by\n[@&#8203;v-gowridurgad](https://redirect.github.com/v-gowridurgad) in\n[#&#8203;1593](https://redirect.github.com/actions/setup-node/pull/1593)\n- Fixed cache recommendation syntax by\n[@&#8203;SubJunk](https://redirect.github.com/SubJunk) in\n[#&#8203;1603](https://redirect.github.com/actions/setup-node/pull/1603)\n\n##### Dependency updates:\n\n- Update workflow pins and migrate Node matrices to modern versions by\n[@&#8203;v-HarithaVattikuti](https://redirect.github.com/v-HarithaVattikuti)\nin\n[#&#8203;1583](https://redirect.github.com/actions/setup-node/pull/1583)\n- Upgrade\n[@&#8203;actions/cache](https://redirect.github.com/actions/cache) to\n6.2.0 by [@&#8203;philip-gai](https://redirect.github.com/philip-gai) in\n[#&#8203;1584](https://redirect.github.com/actions/setup-node/pull/1584)\n- Pin [@&#8203;types/node](https://redirect.github.com/types/node) to\nv24 by\n[@&#8203;v-priyagupta108](https://redirect.github.com/v-priyagupta108)\nin\n[#&#8203;1585](https://redirect.github.com/actions/setup-node/pull/1585)\n- Override brace-expansion to 5.0.8 by\n[@&#8203;v-priyagupta108](https://redirect.github.com/v-priyagupta108)\nwith [@&#8203;Copilot](https://redirect.github.com/Copilot) in\n[#&#8203;1599](https://redirect.github.com/actions/setup-node/pull/1599)\n- Upgrade actions/checkout from 7.0.0 to 7.0.1 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1598](https://redirect.github.com/actions/setup-node/pull/1598)\n- Upgrade prettier from 3.8.4 to 3.9.6 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1590](https://redirect.github.com/actions/setup-node/pull/1590)\n- Upgrade [@&#8203;vercel/ncc](https://redirect.github.com/vercel/ncc)\nfrom 0.44.0 to 0.45.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1610](https://redirect.github.com/actions/setup-node/pull/1610)\n- Upgrade pnpm/action-setup from 6.0.9 to 6.0.10 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1602](https://redirect.github.com/actions/setup-node/pull/1602)\n- Upgrade baseline-browser-mapping from 2.10.38 to 2.11.22 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1629](https://redirect.github.com/actions/setup-node/pull/1629)\n- Upgrade\n[@&#8203;types/semver](https://redirect.github.com/types/semver) from\n7.7.1 to 7.8.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1616](https://redirect.github.com/actions/setup-node/pull/1616)\n- Upgrade\n[@&#8203;typescript-eslint/parser](https://redirect.github.com/typescript-eslint/parser)\nfrom 8.62.0 to 8.70.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1615](https://redirect.github.com/actions/setup-node/pull/1615)\n- Upgrade pnpm/action-setup from 6.0.10 to 6.1.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1631](https://redirect.github.com/actions/setup-node/pull/1631)\n- Upgrade jest-each from 30.4.1 to 30.5.2 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1636](https://redirect.github.com/actions/setup-node/pull/1636)\n- Upgrade eslint-plugin-n from 18.1.0 to 18.3.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1638](https://redirect.github.com/actions/setup-node/pull/1638)\n- Update dependencies and add license files by\n[@&#8203;v-HarithaVattikuti](https://redirect.github.com/v-HarithaVattikuti)\nin\n[#&#8203;1642](https://redirect.github.com/actions/setup-node/pull/1642)\n- Upgrade eslint from 10.5.0 to 10.11.0 and package.json from 7.0.0 to\n7.1.0 by [@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1635](https://redirect.github.com/actions/setup-node/pull/1635)\n\n#### New Contributors\n\n-\n[@&#8203;v-jitenderpalsingh](https://redirect.github.com/v-jitenderpalsingh)\nmade their first contribution in\n[#&#8203;1580](https://redirect.github.com/actions/setup-node/pull/1580)\n- [@&#8203;philip-gai](https://redirect.github.com/philip-gai) made\ntheir first contribution in\n[#&#8203;1584](https://redirect.github.com/actions/setup-node/pull/1584)\n- [@&#8203;gperdomor](https://redirect.github.com/gperdomor) made their\nfirst contribution in\n[#&#8203;1421](https://redirect.github.com/actions/setup-node/pull/1421)\n- [@&#8203;SubJunk](https://redirect.github.com/SubJunk) made their\nfirst contribution in\n[#&#8203;1603](https://redirect.github.com/actions/setup-node/pull/1603)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v7.0.0...v7.1.0>\n\n###\n[`v7.0.0`](https://redirect.github.com/actions/setup-node/releases/tag/v7.0.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.5.0...v7.0.0)\n\n##### What's Changed\n\n##### Enhancements:\n\n- Add cache-primary-key and cache-matched-key as outputs by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1577](https://redirect.github.com/actions/setup-node/pull/1577)\n- Migrate to ESM and upgrade dependencies by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1574](https://redirect.github.com/actions/setup-node/pull/1574)\n\n##### Bug fixes:\n\n- Remove dummy NODE_AUTH_TOKEN export by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1558](https://redirect.github.com/actions/setup-node/pull/1558)\n- Only use `mirrorToken` in `getManifest` if it's provided by\n[@&#8203;deiga](https://redirect.github.com/deiga) in\n[#&#8203;1548](https://redirect.github.com/actions/setup-node/pull/1548)\n\n##### Documentation updates:\n\n- Add documentation for publishing to npm with Trusted Publisher (OIDC)\nby\n[@&#8203;chiranjib-swain](https://redirect.github.com/chiranjib-swain)\nin\n[#&#8203;1536](https://redirect.github.com/actions/setup-node/pull/1536)\n- docs: Update restore-only cache documentation by\n[@&#8203;priya-kinthali](https://redirect.github.com/priya-kinthali) in\n[#&#8203;1550](https://redirect.github.com/actions/setup-node/pull/1550)\n- docs: Update caching recommendations to mitigate cache poisoning risks\nby\n[@&#8203;chiranjib-swain](https://redirect.github.com/chiranjib-swain)\nin\n[#&#8203;1567](https://redirect.github.com/actions/setup-node/pull/1567)\n\n##### Dependency update:\n\n- Upgrade\n[@&#8203;actions/cache](https://redirect.github.com/actions/cache) to\n5.1.0, log cache write denied by\n[@&#8203;jasongin](https://redirect.github.com/jasongin) in\n[#&#8203;1569](https://redirect.github.com/actions/setup-node/pull/1569)\n\n##### New Contributors\n\n- [@&#8203;chiranjib-swain](https://redirect.github.com/chiranjib-swain)\nmade their first contribution in\n[#&#8203;1536](https://redirect.github.com/actions/setup-node/pull/1536)\n- [@&#8203;deiga](https://redirect.github.com/deiga) made their first\ncontribution in\n[#&#8203;1548](https://redirect.github.com/actions/setup-node/pull/1548)\n- [@&#8203;jasongin](https://redirect.github.com/jasongin) made their\nfirst contribution in\n[#&#8203;1569](https://redirect.github.com/actions/setup-node/pull/1569)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6...v7.0.0>\n\n###\n[`v6.5.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.5.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.4.0...v6.5.0)\n\n##### What's Changed\n\n- Update\n[@&#8203;actions/cache](https://redirect.github.com/actions/cache) to\n5.1.0 and add security overrides for undici and fast-xml-parser by\n[@&#8203;HarithaVattikuti](https://redirect.github.com/HarithaVattikuti)\nin\n[#&#8203;1579](https://redirect.github.com/actions/setup-node/pull/1579)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6.4.0...v6.5.0>\n\n###\n[`v6.4.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.4.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.3.0...v6.4.0)\n\n##### What's Changed\n\n##### Dependency updates:\n\n- Upgrade [@&#8203;actions](https://redirect.github.com/actions)\ndependencies by [@&#8203;Copilot](https://redirect.github.com/Copilot)\nin\n[#&#8203;1525](https://redirect.github.com/actions/setup-node/pull/1525)\n- Update Node.js versions in versions.yml and bump package to v6.4.0 by\n[@&#8203;priya-kinthali](https://redirect.github.com/priya-kinthali) in\n[#&#8203;1533](https://redirect.github.com/actions/setup-node/pull/1533)\n\n##### New Contributors\n\n- [@&#8203;Copilot](https://redirect.github.com/Copilot) made their\nfirst contribution in\n[#&#8203;1525](https://redirect.github.com/actions/setup-node/pull/1525)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6...v6.4.0>\n\n###\n[`v6.3.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.3.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.2.0...v6.3.0)\n\n#### What's Changed\n\n##### Enhancements:\n\n- Support parsing `devEngines` field by\n[@&#8203;susnux](https://redirect.github.com/susnux) in\n[#&#8203;1283](https://redirect.github.com/actions/setup-node/pull/1283)\n\n> When using node-version-file: package.json, setup-node now\nprefers devEngines.runtime over engines.node.\n\n##### Dependency updates:\n\n- Fix npm audit issues by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1491](https://redirect.github.com/actions/setup-node/pull/1491)\n- Replace uuid with crypto.randomUUID() by\n[@&#8203;trivikr](https://redirect.github.com/trivikr) in\n[#&#8203;1378](https://redirect.github.com/actions/setup-node/pull/1378)\n- Upgrade minimatch from 3.1.2 to 3.1.5 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot) in\n[#&#8203;1498](https://redirect.github.com/actions/setup-node/pull/1498)\n\n##### Bug fixes:\n\n- Remove hardcoded bearer for mirror-url\n[@&#8203;marco-ippolito](https://redirect.github.com/marco-ippolito) in\n[#&#8203;1467](https://redirect.github.com/actions/setup-node/pull/1467)\n- Scope test lockfiles by package manager and update cache tests by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1495](https://redirect.github.com/actions/setup-node/pull/1495)\n\n#### New Contributors\n\n- [@&#8203;susnux](https://redirect.github.com/susnux) made their first\ncontribution in\n[#&#8203;1283](https://redirect.github.com/actions/setup-node/pull/1283)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6...v6.3.0>\n\n###\n[`v6.2.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.2.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.1.0...v6.2.0)\n\n#### What's Changed\n\n##### Documentation\n\n- Documentation update related to absence of Lockfile by\n[@&#8203;mahabaleshwars](https://redirect.github.com/mahabaleshwars) in\n[#&#8203;1454](https://redirect.github.com/actions/setup-node/pull/1454)\n- Correct mirror option typos by\n[@&#8203;MikeMcC399](https://redirect.github.com/MikeMcC399) in\n[#&#8203;1442](https://redirect.github.com/actions/setup-node/pull/1442)\n- Readme update on checkout version v6 by\n[@&#8203;deining](https://redirect.github.com/deining) in\n[#&#8203;1446](https://redirect.github.com/actions/setup-node/pull/1446)\n- Readme typo fixes\n[@&#8203;munyari](https://redirect.github.com/munyari) in\n[#&#8203;1226](https://redirect.github.com/actions/setup-node/pull/1226)\n- Advanced document update on checkout version v6 by\n[@&#8203;aparnajyothi-y](https://redirect.github.com/aparnajyothi-y) in\n[#&#8203;1468](https://redirect.github.com/actions/setup-node/pull/1468)\n\n##### Dependency updates:\n\n- Upgrade\n[@&#8203;actions/cache](https://redirect.github.com/actions/cache) to\nv5.0.1 by [@&#8203;salmanmkc](https://redirect.github.com/salmanmkc) in\n[#&#8203;1449](https://redirect.github.com/actions/setup-node/pull/1449)\n\n#### New Contributors\n\n- [@&#8203;mahabaleshwars](https://redirect.github.com/mahabaleshwars)\nmade their first contribution in\n[#&#8203;1454](https://redirect.github.com/actions/setup-node/pull/1454)\n- [@&#8203;MikeMcC399](https://redirect.github.com/MikeMcC399) made\ntheir first contribution in\n[#&#8203;1442](https://redirect.github.com/actions/setup-node/pull/1442)\n- [@&#8203;deining](https://redirect.github.com/deining) made their\nfirst contribution in\n[#&#8203;1446](https://redirect.github.com/actions/setup-node/pull/1446)\n- [@&#8203;munyari](https://redirect.github.com/munyari) made their\nfirst contribution in\n[#&#8203;1226](https://redirect.github.com/actions/setup-node/pull/1226)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6...v6.2.0>\n\n###\n[`v6.1.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.1.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v6.0.0...v6.1.0)\n\n#### What's Changed\n\n##### Enhancement:\n\n- Remove always-auth configuration handling by\n[@&#8203;priyagupta108](https://redirect.github.com/priyagupta108) in\n[#&#8203;1436](https://redirect.github.com/actions/setup-node/pull/1436)\n\n##### Dependency updates:\n\n- Upgrade\n[@&#8203;actions/cache](https://redirect.github.com/actions/cache) from\n4.0.3 to 4.1.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1384](https://redirect.github.com/actions/setup-node/pull/1384)\n- Upgrade actions/checkout from 5 to 6 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1439](https://redirect.github.com/actions/setup-node/pull/1439)\n- Upgrade js-yaml from 3.14.1 to 3.14.2 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1435](https://redirect.github.com/actions/setup-node/pull/1435)\n\n##### Documentation update:\n\n- Add example for restore-only cache in documentation by\n[@&#8203;aparnajyothi-y](https://redirect.github.com/aparnajyothi-y) in\n[#&#8203;1419](https://redirect.github.com/actions/setup-node/pull/1419)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v6...v6.1.0>\n\n###\n[`v6.0.0`](https://redirect.github.com/actions/setup-node/releases/tag/v6.0.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v5.0.0...v6.0.0)\n\n#### What's Changed\n\n**Breaking Changes**\n\n- Limit automatic caching to npm, update workflows and documentation by\n[@&#8203;priyagupta108](https://redirect.github.com/priyagupta108) in\n[#&#8203;1374](https://redirect.github.com/actions/setup-node/pull/1374)\n\n**Dependency Upgrades**\n\n- Upgrade ts-jest from 29.1.2 to 29.4.1 and document breaking changes in\nv5 by [@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot]\nin\n[#&#8203;1336](https://redirect.github.com/actions/setup-node/pull/1336)\n- Upgrade prettier from 2.8.8 to 3.6.2 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1334](https://redirect.github.com/actions/setup-node/pull/1334)\n- Upgrade actions/publish-action from 0.3.0 to 0.4.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1362](https://redirect.github.com/actions/setup-node/pull/1362)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v5...v6.0.0>\n\n###\n[`v5.0.0`](https://redirect.github.com/actions/setup-node/releases/tag/v5.0.0)\n\n[Compare\nSource](https://redirect.github.com/actions/setup-node/compare/v4.4.0...v5.0.0)\n\n#### What's Changed\n\n##### Breaking Changes\n\n- Enhance caching in setup-node with automatic package manager detection\nby [@&#8203;priya-kinthali](https://redirect.github.com/priya-kinthali)\nin\n[#&#8203;1348](https://redirect.github.com/actions/setup-node/pull/1348)\n\nThis update, introduces automatic caching when a valid `packageManager`\nfield is present in your `package.json`. This aims to improve workflow\nperformance and make dependency management more seamless.\nTo disable this automatic caching, set `package-manager-cache: false`\n\n```yaml\nsteps:\n- uses: actions/checkout@v5\n- uses: actions/setup-node@v5\n  with:\n    package-manager-cache: false\n```\n\n- Upgrade action to use node24 by\n[@&#8203;salmanmkc](https://redirect.github.com/salmanmkc) in\n[#&#8203;1325](https://redirect.github.com/actions/setup-node/pull/1325)\n\nMake sure your runner is on version v2.327.1 or later to ensure\ncompatibility with this release. [See Release\nNotes](https://redirect.github.com/actions/runner/releases/tag/v2.327.1)\n\n##### Dependency Upgrades\n\n- Upgrade\n[@&#8203;octokit/request-error](https://redirect.github.com/octokit/request-error)\nand [@&#8203;actions/github](https://redirect.github.com/actions/github)\nby [@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1227](https://redirect.github.com/actions/setup-node/pull/1227)\n- Upgrade uuid from 9.0.1 to 11.1.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1273](https://redirect.github.com/actions/setup-node/pull/1273)\n- Upgrade undici from 5.28.5 to 5.29.0 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1295](https://redirect.github.com/actions/setup-node/pull/1295)\n- Upgrade form-data to bring in fix for critical vulnerability by\n[@&#8203;gowridurgad](https://redirect.github.com/gowridurgad) in\n[#&#8203;1332](https://redirect.github.com/actions/setup-node/pull/1332)\n- Upgrade actions/checkout from 4 to 5 by\n[@&#8203;dependabot](https://redirect.github.com/dependabot)\\[bot] in\n[#&#8203;1345](https://redirect.github.com/actions/setup-node/pull/1345)\n\n#### New Contributors\n\n- [@&#8203;priya-kinthali](https://redirect.github.com/priya-kinthali)\nmade their first contribution in\n[#&#8203;1348](https://redirect.github.com/actions/setup-node/pull/1348)\n- [@&#8203;salmanmkc](https://redirect.github.com/salmanmkc) made their\nfirst contribution in\n[#&#8203;1325](https://redirect.github.com/actions/setup-node/pull/1325)\n\n**Full Changelog**:\n<https://github.com/actions/setup-node/compare/v4...v5.0.0>\n\n</details>\n\n---\n\n### Configuration\n\n📅 **Schedule**: (in timezone Australia/Melbourne)\n\n- Branch creation\n  - At any time (no schedule defined)\n- Automerge\n  - At any time (no schedule defined)\n\n🚦 **Automerge**: Disabled by config. Please merge this manually once you\nare satisfied.\n\n♻ **Rebasing**: Whenever PR becomes conflicted, or you tick the\nrebase/retry checkbox.\n\n🔕 **Ignore**: Close this PR and you won't be reminded about this update\nagain.\n\n---\n\n- [ ] <!-- rebase-check -->If you want to rebase/retry this PR, check\nthis box\n\n---\n\nThis PR was generated by [Mend Renovate](https://mend.io/renovate/).\nView the [repository job\nlog](https://developer.mend.io/github/Akenon-Studio/.github).\n\n<!--renovate-debug:eyJjcmVhdGVkSW5WZXIiOiI0NC4xMzQuMSIsInVwZGF0ZWRJblZlciI6IjQ0LjEzNC4xIiwidGFyZ2V0QnJhbmNoIjoibWFpbiIsImxhYmVscyI6WyJkZXBlbmRlbmNpZXMiXX0=-->\n\nCo-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>\nCo-authored-by: akenon-studio-merge-lane[bot] <340393481+akenon-studio-merge-lane[bot]@users.noreply.github.com>",
+   "parents": [
+    "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311"
+   ],
+   "files": [
+    {
+     "filename": ".github/workflows/security-scan.yml",
+     "patch": "@@ -124,7 +124,7 @@ jobs:\n       - uses: pnpm/action-setup@v4\n         if: hashFiles('pnpm-lock.yaml') != ''\n \n-      - uses: actions/setup-node@v4\n+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7\n         if: hashFiles('pnpm-lock.yaml') != ''\n         with:\n           node-version-file: .nvmrc"
+    }
+   ],
+   "repo": {
+    "private": false,
+    "fork": false,
+    "archived": false
+   },
+   "license": "MIT"
+  }
+ },
+ "flant-addon-operator-b5203de65ee9-github-actions-checkout-node20": {
+  "candidate": {
+   "schemaVersion": "evergreen.migration-candidate.v1",
+   "id": "flant-addon-operator-b5203de65ee9-github-actions-checkout-node20",
+   "repository": "flant/addon-operator",
+   "parentCommit": "36563651d2145d12c046e0acc247f60e1681ffb3",
+   "migrationCommit": "b5203de65ee990186336ac46a0d05f9caaf20c4b",
+   "ruleId": "github-actions.checkout.node20",
+   "before": [
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/build.yaml",
+     "line": 17
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/docs.yaml",
+     "line": 15
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/lint.yaml",
+     "line": 17
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/lint.yaml",
+     "line": 44
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/publish-dev.yaml",
+     "line": 69
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/publish-release.yaml",
+     "line": 88
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/tests.yaml",
+     "line": 18
+    }
+   ],
+   "after": [],
+   "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/flant/addon-operator/commit/b5203de65ee990186336ac46a0d05f9caaf20c4b",
+    "query": "bump actions/checkout from 4 to 5"
+   }
+  },
+  "evidence": {
+   "message": "chore(deps): bump actions/checkout from 4 to 5 (#654)\n\n* chore(deps): bump actions/checkout from 4 to 5\n\nBumps [actions/checkout](https://github.com/actions/checkout) from 4 to 5.\n- [Release notes](https://github.com/actions/checkout/releases)\n- [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/actions/checkout/compare/v4...v5)\n\n---\nupdated-dependencies:\n- dependency-name: actions/checkout\n  dependency-version: '5'\n  dependency-type: direct:production\n  update-type: version-update:semver-major\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\n\n* Update Go version in lint workflow to 1.26\n\n* Update Go version in lint workflow\n\nUpdated Go version in lint workflow from 1.23 to 1.26.1.\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Stepan Paksashvili <81509933+ipaqsa@users.noreply.github.com>",
+   "parents": [
+    "36563651d2145d12c046e0acc247f60e1681ffb3"
+   ],
+   "files": [
+    {
+     "filename": ".github/workflows/build.yaml",
+     "patch": "@@ -14,7 +14,8 @@ jobs:\n           go-version: '1.26.1'\n         id: go\n       - name: Check out addon-operator code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n+\n       - name: Restore Go modules\n         id: go-modules-cache\n         uses: actions/cache@v4"
+    },
+    {
+     "filename": ".github/workflows/docs.yaml",
+     "patch": "@@ -12,7 +12,7 @@ jobs:\n     concurrency:\n       group: ${{ github.workflow }}-${{ github.ref }}\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Setup mdBook\n         uses: peaceiris/actions-mdbook@v2"
+    },
+    {
+     "filename": ".github/workflows/lint.yaml",
+     "patch": "@@ -9,12 +9,14 @@ jobs:\n     name: Run linter\n     runs-on: ubuntu-latest\n     steps:\n-      - name: Set up Go 1.23\n+      - name: Set up Go 1.26\n         uses: actions/setup-go@v6\n         with:\n-          go-version: \"1.26.1\"\n-      - name: Check out shell-operator code\n-        uses: actions/checkout@v4\n+          go-version: '1.26.1'\n+\n+      - name: Check out addon-operator code\n+        uses: actions/checkout@v5\n+\n       - name: Restore Go modules\n         id: go-modules-cache\n         uses: actions/cache@v4.2.3\n@@ -41,7 +43,8 @@ jobs:\n         with:\n           python-version: 3.8\n       - name: Check out addon-operator code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n+\n       - name: Run codespell\n         run: |\n           pip install codespell==v1.17.1"
+    },
+    {
+     "filename": ".github/workflows/publish-dev.yaml",
+     "patch": "@@ -66,7 +66,7 @@ jobs:\n       - check\n     if: needs.check.outputs.run_publish == 'true'\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Prepare environment\n         env:"
+    },
+    {
+     "filename": ".github/workflows/publish-release.yaml",
+     "patch": "@@ -85,7 +85,7 @@ jobs:\n       - check\n     if: needs.check.outputs.run_publish == 'true'\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Prepare environment\n         env:"
+    },
+    {
+     "filename": ".github/workflows/tests.yaml",
+     "patch": "@@ -15,7 +15,8 @@ jobs:\n           go-version: '1.26.1'\n         id: go\n       - name: Check out addon-operator code\n-        uses: actions/checkout@v4\n+        uses: actions/checkout@v5\n+\n       - name: Restore Go modules\n         id: go-modules-cache\n         uses: actions/cache@v4"
+    }
+   ],
+   "repo": {
+    "private": false,
+    "fork": false,
+    "archived": false
+   },
+   "license": "Apache-2.0"
+  }
+ },
+ "shymega-nixfigs-05a6d51bd8a2-github-actions-checkout-node20": {
+  "candidate": {
+   "schemaVersion": "evergreen.migration-candidate.v1",
+   "id": "shymega-nixfigs-05a6d51bd8a2-github-actions-checkout-node20",
+   "repository": "shymega/nixfigs",
+   "parentCommit": "39f5c56850ed69baa37461a819d29a299c6fbdb9",
+   "migrationCommit": "05a6d51bd8a222725c9d9a57dfc7c6dc56b36737",
+   "ruleId": "github-actions.checkout.node20",
+   "before": [
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/ci.yml",
+     "line": 22
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/ci.yml",
+     "line": 45
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/ci.yml",
+     "line": 67
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/nix-attic.yml",
+     "line": 13
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/nix-attic.yml",
+     "line": 37
+    }
+   ],
+   "after": [],
+   "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/shymega/nixfigs/commit/05a6d51bd8a222725c9d9a57dfc7c6dc56b36737",
+    "query": "bump actions/checkout from 4 to 5"
+   }
+  },
+  "evidence": {
+   "message": "chore(ci): Bump actions/checkout from 4 to 5 (#114)\n\nBumps [actions/checkout](https://github.com/actions/checkout) from 4 to 5.\n- [Release notes](https://github.com/actions/checkout/releases)\n- [Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)\n- [Commits](https://github.com/actions/checkout/compare/v4...v5)\n\n---\nupdated-dependencies:\n- dependency-name: actions/checkout\n  dependency-version: '5'\n  dependency-type: direct:production\n  update-type: version-update:semver-major\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>",
+   "parents": [
+    "39f5c56850ed69baa37461a819d29a299c6fbdb9"
+   ],
+   "files": [
+    {
+     "filename": ".github/workflows/ci.yml",
+     "patch": "@@ -19,7 +19,7 @@ jobs:\n       contents: write\n     runs-on: ubuntu-latest\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n         with:\n           token: ${{ secrets.NIX_GH_ACTIONS_TOKEN }}\n           ref: \"main\"\n@@ -42,7 +42,7 @@ jobs:\n       contents: write\n     runs-on: ubuntu-latest\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n         with:\n           token: ${{ secrets.NIX_GH_ACTIONS_TOKEN }}\n           ref: \"main\"\n@@ -64,7 +64,7 @@ jobs:\n     if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}\n     runs-on: ubuntu-latest\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n         with:\n           token: ${{ secrets.NIX_GH_ACTIONS_TOKEN }}\n           ref: \"main\""
+    },
+    {
+     "filename": ".github/workflows/nix-attic.yml",
+     "patch": "@@ -10,7 +10,7 @@ jobs:\n     outputs:\n       matrix: ${{ steps.set-matrix.outputs.matrix }}\n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n         with:\n           token: ${{ secrets.NIX_GH_ACTIONS_TOKEN }}\n           ref: \"main\"\n@@ -34,7 +34,7 @@ jobs:\n       - uses: jlumbroso/free-disk-space@main\n         with:\n           tool-cache: true\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n       - run: \"sudo mkdir -p /etc/nix\\necho \\\"machine shynet-nix-attic.shymega.org.uk password ${{ secrets.GH_ATTIC_TOKEN }}\\\" | sudo tee /etc/nix/netrc > /dev/null\\ngit config --global url.\\\"https://${{ secrets.NIX_GH_ACTIONS_TOKEN }}@github.com\\\".insteadOf https://github.com          \\n\"\n       - uses: DeterminateSystems/nix-installer-action@main\n         with:"
+    }
+   ],
+   "repo": {
+    "private": false,
+    "fork": false,
+    "archived": false
+   },
+   "license": null
+  }
+ },
+ "thaiho110-finance-tracker-2febc763dfdb-github-actions-checkout-node20": {
+  "candidate": {
+   "schemaVersion": "evergreen.migration-candidate.v1",
+   "id": "thaiho110-finance-tracker-2febc763dfdb-github-actions-checkout-node20",
+   "repository": "thaiho110/finance-tracker",
+   "parentCommit": "cc7448961ffd3297bfcc5e79feb3c73e64cac230",
+   "migrationCommit": "2febc763dfdb6a27c1835e63a54af2be77ee582e",
+   "ruleId": "github-actions.checkout.node20",
+   "before": [
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/merge.yml",
+     "line": 13
+    },
+    {
+     "ruleId": "github-actions.checkout.node20",
+     "path": ".github/workflows/pr-build.yml",
+     "line": 13
+    }
+   ],
+   "after": [],
+   "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/thaiho110/finance-tracker/commit/2febc763dfdb6a27c1835e63a54af2be77ee582e",
+    "query": "upgrade actions/checkout v5"
+   }
+  },
+  "evidence": {
+   "message": "fix: resolve GitHub Actions workflow failures\n\n- Add 'chmod +x backend/gradlew' step to fix exit code 126 (permission denied)\n- Upgrade actions/checkout@v4 → @v5 (Node 20 → Node 24)\n- Upgrade actions/setup-java@v4 → @v5 (deprecated)\n- Upgrade actions/upload-artifact@v4 → @v5 (Node 20 → Node 24)\n- Pin runs-on to ubuntu-24.04 (ubuntu-latest migrates to 26 this month)",
+   "parents": [
+    "cc7448961ffd3297bfcc5e79feb3c73e64cac230"
+   ],
+   "files": [
+    {
+     "filename": ".github/workflows/merge.yml",
+     "patch": "@@ -7,20 +7,23 @@ on:\n jobs:\n   test:\n     name: Test & Coverage\n-    runs-on: ubuntu-latest\n+    runs-on: ubuntu-24.04\n \n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Set up JDK 21\n-        uses: actions/setup-java@v4\n+        uses: actions/setup-java@v5\n         with:\n           java-version: 21\n           distribution: temurin\n \n       - name: Setup Gradle\n         uses: gradle/actions/setup-gradle@v4\n \n+      - name: Make gradlew executable\n+        run: chmod +x backend/gradlew\n+\n       - name: Run tests with coverage\n         run: cd backend && ./gradlew test jacocoTestReport --no-daemon\n \n@@ -33,14 +36,14 @@ jobs:\n           ENFORCE_COVERAGE: ${{ github.event.inputs.enforce-coverage || 'false' }}\n \n       - name: Upload JaCoCo coverage report\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v5\n         with:\n           name: coverage-report-main\n           path: backend/build/reports/jacoco/\n           retention-days: 30\n \n       - name: Upload test report\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v5\n         with:\n           name: test-results-main\n           path: backend/build/reports/tests/"
+    },
+    {
+     "filename": ".github/workflows/pr-build.yml",
+     "patch": "@@ -7,20 +7,23 @@ on:\n jobs:\n   build:\n     name: Build & Test\n-    runs-on: ubuntu-latest\n+    runs-on: ubuntu-24.04\n \n     steps:\n-      - uses: actions/checkout@v4\n+      - uses: actions/checkout@v5\n \n       - name: Set up JDK 21\n-        uses: actions/setup-java@v4\n+        uses: actions/setup-java@v5\n         with:\n           java-version: 21\n           distribution: temurin\n \n       - name: Setup Gradle\n         uses: gradle/actions/setup-gradle@v4\n \n+      - name: Make gradlew executable\n+        run: chmod +x backend/gradlew\n+\n       - name: Build and run tests\n         run: cd backend && ./gradlew check --no-daemon\n \n@@ -29,14 +32,14 @@ jobs:\n         continue-on-error: true\n \n       - name: Upload JaCoCo coverage report\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v5\n         with:\n           name: coverage-report\n           path: backend/build/reports/jacoco/\n           retention-days: 14\n \n       - name: Upload quality reports\n-        uses: actions/upload-artifact@v4\n+        uses: actions/upload-artifact@v5\n         with:\n           name: quality-reports\n           path: |"
+    }
+   ],
+   "repo": {
+    "private": false,
+    "fork": false,
+    "archived": false
+   },
+   "license": null
+  }
+ }
+}

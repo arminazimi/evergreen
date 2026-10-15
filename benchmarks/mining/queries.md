@@ -90,3 +90,20 @@ Record the repository URL, both SHAs, rule ID, expected path, evidence URL, and
 notes about renamed files or SHA-pinned Actions. Reject merge commits with
 ambiguous parents, history rewrites, mass formatting changes that obscure the
 migration, and commits whose parent already lacks the finding.
+
+## Reviewing candidates
+
+Every mined candidate gets a recorded decision in `review-log.json` (schema:
+`schemas/migration-review-log.v1.schema.json`). After mining, run the review tool; it reads each
+candidate's commit message and diff, the repository's visibility, and its license from GitHub, checks
+them against the criteria above, and records `accepted` only when every check holds. Each rejection
+names the checks that failed.
+
+```bash
+npm run build --silent
+node dist/benchmarks/mining/review.js [--reviewer NAME]
+```
+
+The tool reviews only candidates that are not in the log yet (use `--refresh` to review all again) and
+supports GitHub Actions rules; review other kinds by hand and add their entries to the log with the same
+fields. Only accepted candidates may be used as ground truth for the corpus.
