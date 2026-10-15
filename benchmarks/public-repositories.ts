@@ -8,6 +8,8 @@ import { promisify } from "node:util";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
+import { findingKey, scoreDetectors, violations } from "./thresholds.js";
+import type { Thresholds } from "./thresholds.js";
 
 const run = promisify(execFile);
 
@@ -27,10 +29,6 @@ interface CorpusEntry {
 interface Corpus {
   schemaVersion: "evergreen.public-validation.v1";
   repositories: CorpusEntry[];
-}
-
-function findingKey(finding: ExpectedFinding): string {
-  return [finding.ruleId, finding.path, finding.line ?? ""].join(":");
 }
 
 function percentile(values: number[], fraction: number): number {
@@ -112,10 +110,15 @@ try {
   const recall = truePositives + falseNegatives === 0
     ? 1
     : truePositives / (truePositives + falseNegatives);
+  const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
+  const detectors = scoreDetectors(results);
+  const regressions = violations(detectors, thresholds);
   const report = {
     schemaVersion: "evergreen.public-validation-result.v1",
     mode: observeOnly ? "observe" : "verify",
     repositories: results,
+    detectors,
+    thresholdViolations: regressions,
     summary: {
       repositoryCount: results.length,
       findingCount: results.reduce((total, result) => total + result.findings.length, 0),
@@ -139,7 +142,10 @@ try {
     for (const key of result.unexpected) console.error(`UNEXPECTED ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
     for (const key of result.missing) console.error(`MISSING    ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
   }
-  if (!observeOnly && (falsePositives > 0 || falseNegatives > 0)) process.exitCode = 1;
+  for (const regression of regressions) {
+    console.error(`THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`);
+  }
+  if (!observeOnly && (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0)) process.exitCode = 1;
 } finally {
   await rm(root, { recursive: true, force: true });
 }

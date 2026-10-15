@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "evergreen.corpus-thresholds.v1",
+  "detectors": {
+    "github-actions": { "stable": true, "minPrecision": 0.95 },
+    "nodejs": { "stable": true, "minPrecision": 0.95 },
+    "npm": { "stable": true, "minPrecision": 0.95 },
+    "python": { "stable": true, "minPrecision": 0.95 }
+  }
+}
