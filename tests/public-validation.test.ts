@@ -64,10 +64,11 @@ test("the public validation corpus is pinned, balanced, and audited", async () =
   assert.ok(corpus.repositories.length >= 20);
   assert.equal(new Set(corpus.repositories.map((item) => item.repository)).size, corpus.repositories.length);
   assert.ok(corpus.repositories.every((item) => /^[a-f0-9]{40}$/.test(item.commit)));
-  // The first twenty entries are the audited v0.1 corpus; later entries are GitHub Actions additions.
+  // The first twenty entries are the audited v0.1 corpus (27 findings), plus the one SHA-pinned
+  // upload-artifact finding in cookiecutter/cookiecutter that comment classification (#113) now reports.
   const original = corpus.repositories.slice(0, 20);
   assert.equal(original.filter((item) => item.ecosystem.startsWith("node")).length, 10);
-  assert.equal(original.reduce((total, item) => total + item.expected.length, 0), 27);
+  assert.equal(original.reduce((total, item) => total + item.expected.length, 0), 28);
 });
 
 test("every mined corpus entry cites a reviewed migration or a recorded maintainer review", async () => {
