@@ -24,7 +24,13 @@ The last weekly runs of the corpus and source-freshness workflows should also be
 
 ## Steps
 
-1. **Update the changelog.** Move the `Unreleased` entries in `CHANGELOG.md` under a new `## X.Y.Z - YYYY-MM-DD` heading and keep the existing one-bullet-per-change format. Leave an empty `## Unreleased` above it.
+1. **Update the changelog.** Draft the entries from conventional commits with `npm run release:notes` (or run the *Release notes* workflow, which uploads the same text), then write them into `CHANGELOG.md`:
+
+   ```bash
+   node dist/tools/changelog.js --write X.Y.Z --date YYYY-MM-DD
+   ```
+
+   Only `feat`, `fix`, and breaking commits become entries; `docs`, `test`, `ci`, and `chore` commits are left out. The command moves the hand-written `Unreleased` bullets into a new `## X.Y.Z - YYYY-MM-DD` section, appends the generated bullets, and leaves an empty `## Unreleased` above. Read the section, remove duplicates, and make each bullet a clear imperative sentence.
 2. **Bump the version.** Run `npm version X.Y.Z --no-git-tag-version`, then regenerate everything derived from it:
 
    ```bash

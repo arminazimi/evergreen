@@ -1,0 +1,43 @@
+name: Release notes
+
+# Drafts the changelog entries for a release from conventional commits. It only reads the repository and
+# publishes nothing: a maintainer copies the notes into CHANGELOG.md (or runs the tool with --write) and
+# follows docs/RELEASING.md for the rest.
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: Tag or commit to start from (default is the latest tag)
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Draft the release notes
+        env:
+          FROM: ${{ inputs.from }}
+        run: |
+          if [ -n "$FROM" ]; then
+            node dist/tools/changelog.js --from "$FROM" > release-notes.md
+          else
+            node dist/tools/changelog.js > release-notes.md
+          fi
+          { echo "## Draft release notes"; echo; cat release-notes.md; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-notes-${{ github.run_id }}
+          path: release-notes.md
