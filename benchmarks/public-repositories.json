@@ -79,7 +79,14 @@
       ]
     },
     { "repository": "pytest-dev/pytest", "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e", "ecosystem": "python", "expected": [] },
-    { "repository": "cookiecutter/cookiecutter", "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "cookiecutter/cookiecutter",
+      "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/publish.yml", "line": 33, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7." } }
+      ]
+    },
     {
       "repository": "Textualize/rich",
       "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
@@ -188,7 +195,20 @@
       "commit": "819baed5d20420ca8d2935945300f1536d3f8783",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888" } }
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codspeed.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/codspeed.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 84, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 84 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 111, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 111 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 159, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 159 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 17 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 62, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 62 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 81, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 81 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/zizmor.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/zizmor.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release.yml", "line": 89, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 89 of .github/workflows/release.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/tests.yml", "line": 169, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 169 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."} },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/tests.yml", "line": 86, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 86 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."} }
       ]
     },
     {
