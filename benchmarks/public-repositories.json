@@ -6,8 +6,8 @@
       "commit": "a419aa7350389a275ab45fde2e849ed1f02449ef",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 83 },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 83 }
+        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 83, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 83, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     {
@@ -15,7 +15,7 @@
       "commit": "05b4476913da39a47dd8e20d29e250f28b0a6dca",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "npm.package.request.deprecated", "path": "package.json", "line": 91 }
+        { "ruleId": "npm.package.request.deprecated", "path": "package.json", "line": 91, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     { "repository": "fastify/fastify", "commit": "f736849a10a9b2ca57fb09437feb8294cda76234", "ecosystem": "node", "expected": [] },
@@ -24,8 +24,8 @@
       "commit": "2fecd029c6ce6b79d65158d28a76538f7f6b0378",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 66 },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 66 }
+        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 66, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 66, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     { "repository": "axios/axios", "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12", "ecosystem": "node", "expected": [] },
@@ -37,13 +37,13 @@
       "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/quality.yml", "line": 22 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 17 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 21 },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/quality.yml", "line": 30 },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release.yml", "line": 25 },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/test.yml", "line": 29 },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 23 }
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/quality.yml", "line": 22, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 21, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/quality.yml", "line": 30, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/test.yml", "line": 29, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 23, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     {
@@ -51,9 +51,9 @@
       "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 50 },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 50 },
-        { "ruleId": "nodejs.runtime.legacy", "path": "package.json", "line": 50 }
+        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "nodejs.runtime.legacy", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     { "repository": "psf/requests", "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60", "ecosystem": "python", "expected": [] },
@@ -63,9 +63,9 @@
       "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/publish.yml", "line": 17 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test-suite.yml", "line": 20 },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 9 }
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/publish.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test-suite.yml", "line": 20, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 9, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     {
@@ -73,9 +73,9 @@
       "commit": "621e4974ca25ce531773def586ba3ed8e736b3fc",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 17 },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 57 }
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 57, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     { "repository": "pytest-dev/pytest", "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e", "ecosystem": "python", "expected": [] },
@@ -85,12 +85,12 @@
       "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codeql.yml", "line": 32 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codespell.yml", "line": 7 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/newissue.yml", "line": 11 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/pythonpackage.yml", "line": 19 },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/readmechanged.yml", "line": 14 },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13 }
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codeql.yml", "line": 32, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codespell.yml", "line": 7, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/newissue.yml", "line": 11, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/pythonpackage.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/readmechanged.yml", "line": 14, "groundTruthSource": { "kind": "maintainer-review" } },
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "maintainer-review" } }
       ]
     },
     { "repository": "fastapi/fastapi", "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed", "ecosystem": "python", "expected": [] },

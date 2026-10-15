@@ -23,12 +23,30 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["ruleId", "path"],
+              "required": ["ruleId", "path", "groundTruthSource"],
               "additionalProperties": false,
               "properties": {
                 "ruleId": { "type": "string", "minLength": 1 },
                 "path": { "type": "string", "minLength": 1 },
-                "line": { "type": "integer", "minimum": 1 }
+                "line": { "type": "integer", "minimum": 1 },
+                "groundTruthSource": {
+                  "type": "object",
+                  "required": ["kind"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "migration-commit",
+                        "upstream-changelog",
+                        "ci-failure",
+                        "differential-tool",
+                        "maintainer-review"
+                      ]
+                    },
+                    "url": { "type": "string", "pattern": "^https://[^\\s]+$" },
+                    "note": { "type": "string", "minLength": 1 }
+                  }
+                }
               }
             }
           }
