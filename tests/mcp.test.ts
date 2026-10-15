@@ -9,7 +9,11 @@ import { after, test } from "node:test";
 
 import { InMemoryTransport } from "@modelcontextprotocol/server";
 
-import { createEvergreenMcpServer, MCP_TOOL_NAMES } from "../src/mcp.js";
+import {
+  createEvergreenMcpServer,
+  MCP_TOOL_ANNOTATIONS,
+  MCP_TOOL_NAMES,
+} from "../src/mcp.js";
 
 interface RpcResponse {
   id: number;
@@ -87,7 +91,13 @@ test("local MCP server exposes the complete scan-to-verification workflow", asyn
     const listed = await client.request("tools/list");
     const tools = listed.tools as Array<{ name: string; annotations?: Record<string, unknown> }>;
     assert.deepEqual(tools.map((tool) => tool.name), [...MCP_TOOL_NAMES]);
-    assert.ok(tools.every((tool) => tool.annotations?.openWorldHint === false));
+    assert.ok(
+      tools.every((tool) =>
+        Object.entries(MCP_TOOL_ANNOTATIONS).every(
+          ([key, value]) => tool.annotations?.[key] === value,
+        ),
+      ),
+    );
 
     const scan = await client.request("tools/call", {
       name: "scan_repository",

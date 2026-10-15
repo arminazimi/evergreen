@@ -25,7 +25,7 @@ const findingInput = {
   ...repositoryInput,
 };
 
-const annotations = {
+export const MCP_TOOL_ANNOTATIONS = {
   readOnlyHint: true,
   destructiveHint: false,
   idempotentHint: true,
@@ -70,7 +70,7 @@ export function createEvergreenMcpServer(
       description:
         "Run all built-in Evergreen detectors against a local repository and return the complete versioned scan result.",
       inputSchema: z.object(repositoryInput),
-      annotations,
+      annotations: MCP_TOOL_ANNOTATIONS,
     },
     async ({ repository_path }) => {
       try {
@@ -88,7 +88,7 @@ export function createEvergreenMcpServer(
       description:
         "Run a fresh local scan and return a compact, versioned list of lifecycle findings.",
       inputSchema: z.object(repositoryInput),
-      annotations,
+      annotations: MCP_TOOL_ANNOTATIONS,
     },
     async ({ repository_path }) => {
       try {
@@ -106,7 +106,7 @@ export function createEvergreenMcpServer(
       description:
         "Run a fresh local scan and return one complete evidence-backed finding by ID.",
       inputSchema: z.object(findingInput),
-      annotations,
+      annotations: MCP_TOOL_ANNOTATIONS,
     },
     async ({ finding_id, repository_path }) => {
       try {
@@ -124,7 +124,7 @@ export function createEvergreenMcpServer(
       description:
         "Create a validated, rule-specific migration packet for one finding from a fresh local scan.",
       inputSchema: z.object(findingInput),
-      annotations,
+      annotations: MCP_TOOL_ANNOTATIONS,
     },
     async ({ finding_id, repository_path }) => {
       try {
@@ -142,7 +142,7 @@ export function createEvergreenMcpServer(
       description:
         "Re-scan locally and check whether a finding observed earlier in this MCP session is gone. Suggested project commands are returned but never executed.",
       inputSchema: z.object(findingInput),
-      annotations,
+      annotations: MCP_TOOL_ANNOTATIONS,
     },
     async ({ finding_id, repository_path }) => {
       try {

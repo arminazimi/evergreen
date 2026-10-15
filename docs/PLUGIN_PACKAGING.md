@@ -42,6 +42,8 @@ npm run check:plugins
 
 The check compares every expected byte and rejects missing, changed, or unexpected files under either generated package root. `npm run check` includes this gate.
 
+Cross-host workflow, trigger, context-budget, and permission regressions are covered by `npm run eval:plugins`. See the [published evaluation](PLUGIN_EVALS.md) for results and security boundaries.
+
 ## Compatibility and ownership
 
 - Plugin version and MCP runtime version equal the root package version.

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "evergreen.plugin-evals.v1",
+  "cases": [
+    {
+      "id": "repository-lifecycle-scan",
+      "kind": "positive",
+      "prompt": "Scan this repository for end-of-life runtimes, packages, and GitHub Actions.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "runtime-support-check",
+      "kind": "positive",
+      "prompt": "Check whether the Node.js runtime used by this repo is out of support.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "finding-explanation",
+      "kind": "positive",
+      "prompt": "Explain this Evergreen finding and its lifecycle evidence.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "migration-context",
+      "kind": "positive",
+      "prompt": "Create migration context for this deprecation finding.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "migration-verification",
+      "kind": "positive",
+      "prompt": "Re-scan and verify this Evergreen finding no longer appears.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "ambiguous-action-lifecycle",
+      "kind": "ambiguous",
+      "prompt": "Check whether our CI action versions are obsolete.",
+      "shouldTrigger": true
+    },
+    {
+      "id": "routine-package-upgrade",
+      "kind": "negative",
+      "prompt": "Update all npm packages and regenerate the lockfile.",
+      "shouldTrigger": false
+    },
+    {
+      "id": "security-audit",
+      "kind": "negative",
+      "prompt": "Run a vulnerability and security audit on the repository.",
+      "shouldTrigger": false
+    },
+    {
+      "id": "deprecated-source-api",
+      "kind": "negative",
+      "prompt": "Rewrite calls to this deprecated method.",
+      "shouldTrigger": false
+    },
+    {
+      "id": "unrelated-refactor",
+      "kind": "negative",
+      "prompt": "Refactor the repository into smaller modules.",
+      "shouldTrigger": false
+    },
+    {
+      "id": "generic-product-docs",
+      "kind": "ambiguous",
+      "prompt": "Summarize Evergreen's README for me.",
+      "shouldTrigger": false
+    },
+    {
+      "id": "routine-action-update",
+      "kind": "ambiguous",
+      "prompt": "Update actions/checkout to the latest release.",
+      "shouldTrigger": false
+    }
+  ]
+}

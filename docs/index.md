@@ -23,6 +23,7 @@ hosted service.
 - [Local MCP server](MCP.md)
 - [Agent Skill](AGENT_SKILLS.md)
 - [Codex and Claude plugin packaging](PLUGIN_PACKAGING.md)
+- [Cross-host plugin evaluation and security boundaries](PLUGIN_EVALS.md)
 - [GitHub Action](GITHUB_ACTION.md)
 - [Detector SDK](DETECTORS.md)
 - [Architecture and trust boundaries](ARCHITECTURE.md)

@@ -99,6 +99,7 @@ npx skills update evergreen-deprecation
 The [`evergreen-deprecation` Skill](skills/evergreen-deprecation/README.md) teaches discovery, explanation, migration, and verification while leaving detection and migration logic inside Evergreen. It is discoverable on [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation) and has been install-validated for Codex, Claude Code, Cursor, GitHub Copilot, and Gemini CLI. See the [Agent Skill guide](docs/AGENT_SKILLS.md) for evaluation, compatibility, limits, and security assumptions.
 
 Codex and Claude plugin packages are generated from that same Skill and MCP workflow. Their [packaging architecture](docs/PLUGIN_PACKAGING.md) keeps host manifests thin and fails CI when either package drifts from the canonical sources.
+The [cross-host evaluation](docs/PLUGIN_EVALS.md) publishes shared-corpus results, context budgets, permission behavior, and security limitations; the same checks block release regressions in `npm run check`.
 
 Evergreen runs locally and does not upload repository contents.
 
