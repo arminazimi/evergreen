@@ -150,9 +150,15 @@ test("an unknown SHA pin with no usable comment is left unclassified", async () 
       - uses: actions/checkout@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 `);
 
-  const findings = await new GitHubActionsDetector().scan({ root });
+  const analysis = await new GitHubActionsDetector().analyze({ root });
 
-  assert.deepEqual(findings, []);
+  assert.deepEqual(analysis.findings, []);
+  assert.deepEqual(analysis.unclassified, [{
+    component: "actions/checkout",
+    reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    reason: "unknown-sha",
+    location: { path: ".github/workflows/ci.yml", line: 4 },
+  }]);
 });
 
 test("rejects malformed and conflicting comment versions", async () => {

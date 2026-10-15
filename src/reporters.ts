@@ -11,6 +11,12 @@ export function renderText(result: ScanResult): string {
     `Repository: ${result.root}`,
     `Findings: ${result.findings.length}`,
   ];
+  const unclassified = result.unclassified?.count ?? 0;
+  if (unclassified > 0) {
+    lines.push(
+      `Unclassified: ${unclassified} pinned reference${unclassified === 1 ? "" : "s"} (use JSON output for details)`,
+    );
+  }
 
   for (const finding of result.findings) {
     const line = finding.location.line ? `:${finding.location.line}` : "";

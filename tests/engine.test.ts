@@ -62,3 +62,31 @@ test("scan without detectors explains the current state", async () => {
   assert.equal(result.findings.length, 0);
   assert.equal(result.diagnostics.length, 1);
 });
+
+test("reports optional detector classifications in JSON and text", async () => {
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "fixture",
+    async scan() {
+      return [];
+    },
+    async analyze() {
+      return {
+        findings: [],
+        unclassified: [{
+          component: "owner/action",
+          reference: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          reason: "unknown-sha",
+          location: { path: ".github/workflows/ci.yml", line: 4 },
+        }],
+      };
+    },
+  };
+
+  const result = await scanRepository(".", [detector]);
+  const json = JSON.parse(renderJson(result)) as { unclassified: { count: number; references: unknown[] } };
+
+  assert.equal(json.unclassified.count, 1);
+  assert.equal(json.unclassified.references.length, 1);
+  assert.match(renderText(result), /Unclassified: 1 pinned reference \(use JSON output for details\)/);
+});

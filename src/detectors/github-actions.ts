@@ -5,7 +5,13 @@ import type { DeprecationRule } from "../domain.js";
 import { findPackageFile } from "../package-files.js";
 import { DETECTOR_API_VERSION, isDeprecationRule } from "../sdk.js";
 import { loadRegistryRules } from "../registry.js";
-import type { Detector, DetectorContext, DetectorFinding } from "../sdk.js";
+import type {
+  Detector,
+  DetectorAnalysis,
+  DetectorContext,
+  DetectorFinding,
+  DetectorUnclassifiedReference,
+} from "../sdk.js";
 
 interface GitHubActionRule extends DeprecationRule {
   action: string;
@@ -182,7 +188,7 @@ export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
 
-  async scan(context: DetectorContext): Promise<readonly DetectorFinding[]> {
+  async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const [rules, shaRegistry, workflowFiles] = await Promise.all([
       loadRegistry(),
       loadShaRegistry(),
@@ -190,6 +196,7 @@ export class GitHubActionsDetector implements Detector {
     ]);
     const rulesByAction = new Map(rules.map((rule) => [rule.action.toLowerCase(), rule]));
     const findings: DetectorFinding[] = [];
+    const unclassified: DetectorUnclassifiedReference[] = [];
 
     for (const workflowFile of workflowFiles) {
       const contents = await readFile(workflowFile, "utf8");
@@ -203,7 +210,20 @@ export class GitHubActionsDetector implements Detector {
           reference.comment,
           shaRegistry.get(reference.action),
         );
-        if (!resolved) continue;
+        if (!resolved) {
+          if (SHA_PATTERN.test(reference.ref)) {
+            unclassified.push({
+              component: reference.action,
+              reference: reference.ref.toLowerCase(),
+              reason: reference.comment ? "invalid-version-comment" : "unknown-sha",
+              location: {
+                path: relative(context.root, workflowFile),
+                line: reference.line,
+              },
+            });
+          }
+          continue;
+        }
 
         const major = majorVersion(resolved.version);
         if (major === undefined || major >= rule.supportedFromMajor) {
@@ -231,7 +251,11 @@ export class GitHubActionsDetector implements Detector {
       }
     }
 
-    return findings;
+    return { findings, unclassified };
+  }
+
+  async scan(context: DetectorContext): Promise<readonly DetectorFinding[]> {
+    return (await this.analyze(context)).findings;
   }
 }
 

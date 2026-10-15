@@ -1,5 +1,11 @@
 import { severityValues, sourceLanguageValues } from "./domain.js";
-import type { DeprecationRule, Finding, MigrationGuidance, UsageMatcher } from "./domain.js";
+import type {
+  DeprecationRule,
+  Finding,
+  MigrationGuidance,
+  UnclassifiedReference,
+  UsageMatcher,
+} from "./domain.js";
 
 export const DETECTOR_API_VERSION = "evergreen.detector.v1" as const;
 
@@ -9,11 +15,19 @@ export interface DetectorContext {
 }
 
 export type DetectorFinding = Omit<Finding, "detector">;
+export type DetectorUnclassifiedReference = Omit<UnclassifiedReference, "detector">;
+
+export interface DetectorAnalysis {
+  findings: readonly DetectorFinding[];
+  unclassified: readonly DetectorUnclassifiedReference[];
+}
 
 export interface Detector {
   readonly apiVersion: typeof DETECTOR_API_VERSION;
   readonly id: string;
   scan(context: DetectorContext): Promise<readonly DetectorFinding[]>;
+  /** Optional richer result. Engines use it when present; scan remains the stable v1 seam. */
+  analyze?(context: DetectorContext): Promise<DetectorAnalysis>;
 }
 
 export interface RegistryDefinition<Rule> {
@@ -205,6 +219,8 @@ export type {
   SourceUsage,
   SourceUsageAnalysis,
   SourceUsageContract,
+  UnclassifiedReference,
+  UnclassifiedSummary,
   UsageMatcher,
   VerificationCommand,
 } from "./domain.js";

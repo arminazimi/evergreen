@@ -119,10 +119,24 @@ export interface Finding {
   migration?: MigrationGuidance;
 }
 
+export interface UnclassifiedReference {
+  detector: string;
+  component: string;
+  reference: string;
+  reason: string;
+  location: SourceLocation;
+}
+
+export interface UnclassifiedSummary {
+  count: number;
+  references: UnclassifiedReference[];
+}
+
 export interface ScanResult {
   schemaVersion: "evergreen.scan.v1";
   root: string;
   scannedAt: string;
   findings: Finding[];
+  unclassified?: UnclassifiedSummary;
   diagnostics: string[];
 }

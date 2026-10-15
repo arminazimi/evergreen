@@ -10,6 +10,38 @@
     "root": { "type": "string" },
     "scannedAt": { "type": "string", "format": "date-time" },
     "diagnostics": { "type": "array", "items": { "type": "string" } },
+    "unclassified": {
+      "type": "object",
+      "required": ["count", "references"],
+      "additionalProperties": false,
+      "properties": {
+        "count": { "type": "integer", "minimum": 0 },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["detector", "component", "reference", "reason", "location"],
+            "additionalProperties": false,
+            "properties": {
+              "detector": { "type": "string", "minLength": 1 },
+              "component": { "type": "string", "minLength": 1 },
+              "reference": { "type": "string", "minLength": 1 },
+              "reason": { "type": "string", "minLength": 1 },
+              "location": {
+                "type": "object",
+                "required": ["path"],
+                "additionalProperties": false,
+                "properties": {
+                  "path": { "type": "string" },
+                  "line": { "type": "integer", "minimum": 1 },
+                  "column": { "type": "integer", "minimum": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "findings": {
       "type": "array",
       "items": {
