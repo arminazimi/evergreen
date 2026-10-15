@@ -29,6 +29,10 @@
       "types": "./dist/src/sdk.d.ts",
       "import": "./dist/src/sdk.js"
     },
+    "./conformance": {
+      "types": "./dist/src/conformance/index.d.ts",
+      "import": "./dist/src/conformance/index.js"
+    },
     "./mcp": {
       "types": "./dist/src/mcp.d.ts",
       "import": "./dist/src/mcp.js"

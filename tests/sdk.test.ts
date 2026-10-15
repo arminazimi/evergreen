@@ -5,6 +5,10 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import { todoCommentsDetector } from "../examples/detectors/todo-comments.js";
+import {
+  CONFORMANCE_API_VERSION,
+  runDetectorConformance,
+} from "../src/conformance/index.js";
 import { scanRepository } from "../src/engine.js";
 import {
   DETECTOR_API_VERSION,
@@ -111,9 +115,30 @@ test("the documented example detector remains compatible", async () => {
   temporaryRoots.push(root);
   await writeFile(join(root, "TODO.md"), "active\nDEPRECATED: replace this\n");
 
-  const result = await scanRepository(root, [todoCommentsDetector]);
-
-  assert.equal(result.findings.length, 1);
-  assert.equal(result.findings[0]?.detector, "todo-comments");
-  assert.equal(result.findings[0]?.location.line, 2);
+  assert.equal(CONFORMANCE_API_VERSION, DETECTOR_API_VERSION);
+  await runDetectorConformance({
+    detector: todoCommentsDetector,
+    fixtures: [
+      {
+        name: "documented TODO detector",
+        root,
+        expectedFindings: [
+          {
+            id: "todo-comments:deprecated:2",
+            ruleId: "todo-comments.deprecated",
+            title: "Deprecated TODO entry",
+            summary: "DEPRECATED: replace this",
+            severity: "low",
+            location: { path: "TODO.md", line: 2 },
+            sources: [
+              {
+                title: "Repository TODO policy",
+                url: "https://example.com/todo-policy",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
 });

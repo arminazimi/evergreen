@@ -1,4 +1,7 @@
+import { DETECTOR_API_VERSION } from "../sdk.js";
 import type { Detector, DetectorFinding } from "../sdk.js";
+
+export const CONFORMANCE_API_VERSION = DETECTOR_API_VERSION;
 
 export interface ConformanceFixture {
   readonly name: string;
