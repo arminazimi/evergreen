@@ -79,6 +79,20 @@ test("classifies additions, changed dates, changed sources, other changes, and r
   assert.ok(hasChanges(diff));
 });
 
+test("flags an added draft that duplicates an existing rule under another id", () => {
+  const registry = registryOf([rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" }), rule("nodejs.other", { vers: "vers:semver/>=20.0.0|<21.0.0" })]);
+  const drafts = draftOf([
+    rule("nodejs.new-name", { vers: "vers:semver/>=18.0.0|<19.0.0" }),
+    rule("nodejs.fresh", { vers: "vers:semver/>=22.0.0|<23.0.0" }),
+    rule("nodejs.same-purl-other-range", { vers: "vers:semver/>=20.0.0|<22.0.0" }),
+  ]);
+  const diff = diffDrafts(drafts, registry);
+  assert.deepEqual(diff.added.map((added) => added.id), ["nodejs.fresh", "nodejs.new-name", "nodejs.same-purl-other-range"]);
+  assert.deepEqual(diff.duplicates, [{ draft: "nodejs.new-name", existing: "nodejs.old-name" }]);
+  assert.match(renderDiffText(diff), /\+ nodejs\.new-name .*\n    same component and versions as existing rule nodejs\.old-name\n/);
+  assert.deepEqual(diffDrafts(draftOf([rule("nodejs.old-name", { vers: "vers:semver/>=18.0.0|<19.0.0" })]), registry).duplicates, [], "the same id is an update, not a duplicate");
+});
+
 test("provenance never counts as a change", () => {
   const diff = diffDrafts(draftOf([rule("nodejs.a")]), registryOf([rule("nodejs.a", {}, "node-schedule")]));
   assert.deepEqual(diff.unchanged, ["nodejs.a"]);
@@ -118,10 +132,10 @@ test("drafts for another ecosystem are refused", () => {
 
 test("renders a summary a reviewer can read", () => {
   const registry = registryOf([rule("nodejs.date", {}, "node-schedule"), rule("nodejs.gone", {}, "node-schedule")]);
-  const text = renderDiffText(diffDrafts(draftOf([rule("nodejs.date", { deadline: "2025-05-15" }), rule("nodejs.new")]), registry));
+  const text = renderDiffText(diffDrafts(draftOf([rule("nodejs.date", { deadline: "2025-05-15" }), rule("nodejs.new", { vers: "vers:semver/>=24.0.0|<25.0.0" })]), registry));
   assert.equal(text, [
     "node-schedule → registry/nodejs.json",
-    "+ nodejs.new  (end-of-life, pkg:generic/nodejs vers:semver/<18.0.0)",
+    "+ nodejs.new  (end-of-life, pkg:generic/nodejs vers:semver/>=24.0.0|<25.0.0)",
     "~ nodejs.date",
     "    deadline: 2025-04-30 → 2025-05-15",
     "- nodejs.gone",

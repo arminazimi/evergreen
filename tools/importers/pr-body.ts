@@ -54,9 +54,11 @@ function rows(diff: DraftDiff, drafts: DraftRegistry): Row[] {
   const draftById = new Map(drafts.rules.map((rule) => [rule.id, rule]));
   const table: Row[] = [];
   for (const rule of diff.added) {
+    const duplicate = diff.duplicates.find((entry) => entry.draft === rule.id);
     table.push({
       rule: code(rule.id),
-      change: cell(`added: ${rule.event}, ${code(rule.purl)} ${code(rule.vers)}`),
+      change: cell(`added: ${rule.event}, ${code(rule.purl)} ${code(rule.vers)}`) +
+        (duplicate ? `<br>**same component and versions as existing rule** ${code(duplicate.existing)}: keep one id` : ""),
       date: rule.deadline ?? EM_DASH,
       sources: links(rule),
       observed: rule.provenance.observedAt,

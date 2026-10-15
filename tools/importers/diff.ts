@@ -49,6 +49,11 @@ export interface DraftDiff {
   /** Rules this importer drafted before that it no longer drafts. */
   removed: RegistryV2Rule[];
   unchanged: string[];
+  /**
+   * Added drafts that describe the same component and versions as an existing rule with a different id.
+   * Accepting both would give one package two rules, so a reviewer should pick one id.
+   */
+  duplicates: { draft: string; existing: string }[];
 }
 
 const DATE_FIELDS = ["deadline"];
@@ -91,12 +96,19 @@ export function diffDrafts(drafts: DraftRegistry, registry: RegistryV2): DraftDi
   }
   const existing = new Map(registry.rules.map((rule) => [rule.id, rule]));
   const drafted = new Set(drafts.rules.map((rule) => rule.id));
-  const diff: DraftDiff = { importer: drafts.importer, ecosystem: drafts.ecosystem, added: [], changed: [], removed: [], unchanged: [] };
+  const diff: DraftDiff = { importer: drafts.importer, ecosystem: drafts.ecosystem, added: [], changed: [], removed: [], unchanged: [], duplicates: [] };
+  const byIdentity = new Map<string, RegistryV2Rule>();
+  for (const rule of [...registry.rules].sort((a, b) => a.id.localeCompare(b.id))) {
+    const key = `${rule.purl} ${rule.vers}`;
+    if (!byIdentity.has(key)) byIdentity.set(key, rule);
+  }
 
   for (const draft of [...drafts.rules].sort((a, b) => a.id.localeCompare(b.id))) {
     const current = existing.get(draft.id);
     if (!current) {
       diff.added.push(draft);
+      const same = byIdentity.get(`${draft.purl} ${draft.vers}`);
+      if (same) diff.duplicates.push({ draft: draft.id, existing: same.id });
       continue;
     }
     const change = ruleChange(current, draft);
@@ -118,7 +130,11 @@ const show = (value: unknown) => (typeof value === "string" ? value : JSON.strin
 /** A short terminal summary of a diff. */
 export function renderDiffText(diff: DraftDiff): string {
   const lines = [`${diff.importer} → registry/${diff.ecosystem}.json`];
-  for (const rule of diff.added) lines.push(`+ ${rule.id}  (${rule.event}, ${rule.purl} ${rule.vers})`);
+  for (const rule of diff.added) {
+    lines.push(`+ ${rule.id}  (${rule.event}, ${rule.purl} ${rule.vers})`);
+    const duplicate = diff.duplicates.find((entry) => entry.draft === rule.id);
+    if (duplicate) lines.push(`    same component and versions as existing rule ${duplicate.existing}`);
+  }
   for (const rule of diff.changed) {
     lines.push(`~ ${rule.id}`);
     for (const change of rule.dates) lines.push(`    ${change.field}: ${show(change.before)} → ${show(change.after)}`);

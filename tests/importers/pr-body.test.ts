@@ -76,6 +76,14 @@ test("the evidence table has one row per added, changed, or removed rule, with t
   assert.match(body, /`pending-review` must not be merged/);
 });
 
+test("a draft that duplicates an existing rule says which one", () => {
+  const { drafts, registry } = scenario();
+  const duplicate = { ...registry.rules.find((candidate) => candidate.id === "nodejs.runtime.eol-18")!, id: "nodejs.runtime.eol-18-renamed" };
+  const withDuplicate: DraftRegistry = { ...drafts, rules: [...drafts.rules, { ...duplicate, provenance: { observedAt: "2026-10-15", reviewedAt: "2026-10-15", reviewer: "pending-review", importer: "node-schedule" } }] };
+  const body = renderPullRequestBody(diffDrafts(withDuplicate, registry), withDuplicate);
+  assert.match(body, /`nodejs\.runtime\.eol-18-renamed` \| added: .*<br>\*\*same component and versions as existing rule\*\* `nodejs\.runtime\.eol-18`: keep one id/);
+});
+
 test("an empty diff says so instead of printing an empty table", () => {
   const { drafts, registry } = scenario();
   const same: DraftRegistry = { ...drafts, rules: [], notes: [] };
