@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
+import { boundsCheck } from "../src/conformance/checks/bounds.js";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { evidenceCheck } from "../src/conformance/checks/evidence.js";
 import { locationsCheck } from "../src/conformance/checks/locations.js";
@@ -244,6 +245,40 @@ test("catches a detector that throws while reading malformed input", async () =>
       assert.ok(error instanceof ConformanceError);
       assert.equal(error.guarantee, "malformed input safety");
       assert.match(error.message, /Unexpected token/);
+      return true;
+    },
+  );
+});
+
+test("catches a detector that discovers findings in vendored directories", async () => {
+  const root = await fixtureDirectory({ "node_modules/package/index.js": "deprecated();\n" });
+  const vendoredFinding = {
+    id: "vendored-finding",
+    ruleId: "vendored-finding",
+    title: "Vendored finding",
+    summary: "Vendored dependencies must not be scanned.",
+    severity: "low" as const,
+    location: { path: "node_modules/package/index.js", line: 1 },
+    sources: [{ title: "Official source", url: "https://example.com" }],
+  };
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "unbounded-discovery-sample",
+    async scan() {
+      return [vendoredFinding];
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "vendored dependency", root, expectedFindings: [vendoredFinding] }],
+      checks: [boundsCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "bounded discovery");
+      assert.match(error.message, /node_modules/);
       return true;
     },
   );
