@@ -1,0 +1,39 @@
+name: Ecosystem request
+description: Ask Evergreen to support a new language, platform, or tool.
+title: "ecosystem: "
+labels: ["enhancement", "area: detector"]
+body:
+  - type: markdown
+    attributes:
+      value: Ecosystem support is built as an epic of small tasks (fixtures, parsers, rules, importers, detector, docs). Use the detector proposal form instead if you already know the matching boundaries in detail.
+  - type: input
+    id: ecosystem
+    attributes:
+      label: Ecosystem or tool
+      placeholder: "Elixir / Hex"
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Files that declare versions
+      description: Manifests, lockfiles, toolchain files, or CI files Evergreen would read.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Authoritative lifecycle sources
+      description: Official support policies, release schedules, or registry deprecation metadata, with links.
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Real lifecycle risks
+      description: Two or three concrete deprecations or end-of-life events users of this ecosystem hit.
+  - type: textarea
+    id: repos
+    attributes:
+      label: Public repositories to test against
+      description: Optional. Repositories (and ideally commits) that would make good corpus entries.

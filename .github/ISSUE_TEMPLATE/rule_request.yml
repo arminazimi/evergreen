@@ -1,0 +1,53 @@
+name: Lifecycle rule request
+description: Ask Evergreen to detect a specific deprecation, end-of-life date, or removal.
+title: "rule: "
+labels: ["type: rule", "area: data"]
+body:
+  - type: markdown
+    attributes:
+      value: Evergreen only ships rules backed by an authoritative, versioned source such as maintainer release notes, an official support policy, or a registry deprecation flag. Popularity or a newer version existing is not evidence.
+  - type: input
+    id: subject
+    attributes:
+      label: What is affected
+      description: Package, runtime, action, API, or platform and the affected versions.
+      placeholder: "actions/upload-artifact v3"
+    validations:
+      required: true
+  - type: dropdown
+    id: event
+    attributes:
+      label: Lifecycle event
+      options:
+        - Deprecated
+        - End of support
+        - End of life
+        - Removed
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Effective date
+      description: The date from the source (YYYY-MM-DD), if one is published.
+  - type: input
+    id: source
+    attributes:
+      label: Authoritative source URL
+      description: Link to the maintainer or platform page that states the lifecycle event.
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: textarea
+    id: replacement
+    attributes:
+      label: Replacement and migration
+      description: What users should move to and how to verify the migration.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example declaration
+      description: A manifest, lockfile, or workflow snippet that Evergreen should flag.
+      render: text

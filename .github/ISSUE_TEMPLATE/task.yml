@@ -1,0 +1,60 @@
+name: Task
+description: A small, agent-ready change that fits in one pull request.
+title: "task: "
+labels: ["type: task"]
+body:
+  - type: markdown
+    attributes:
+      value: Keep tasks small enough for one pull request (about a day or less). Larger work belongs in an epic with several tasks. See AGENTS.md for repository rules.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One or two sentences on the outcome and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Files
+      description: Paths the change should touch, one per line.
+      placeholder: |
+        src/detectors/example.ts
+        tests/example.test.ts
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps
+      description: Numbered steps an agent or new contributor can follow without asking questions.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Objective checks. `npm run check` passing is always included.
+      placeholder: |
+        - [ ] ...
+        - [ ] `npm run check` passes.
+    validations:
+      required: true
+  - type: input
+    id: depends
+    attributes:
+      label: Depends on
+      description: Issues that must be closed first, for example "#38, #42". Leave empty if none.
+  - type: dropdown
+    id: size
+    attributes:
+      label: Expected size
+      options:
+        - "XS — under an hour"
+        - "S — a few hours"
+        - "M — about a day"
+    validations:
+      required: true
