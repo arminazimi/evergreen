@@ -162,7 +162,7 @@ See the [detector authoring guide](docs/DETECTORS.md) and the [minimal detector 
 
 ## Initial product shape
 
-The CLI is the product. Detectors extend it, GitHub Actions automate it, and the local MCP server exposes it to agents. A hosted backend is intentionally outside the first three-month roadmap.
+The CLI is the product. Detectors extend it, GitHub Actions automate it, and the local MCP server exposes it to agents. A hosted backend is intentionally outside the roadmap; lifecycle data updates through a signed, offline-verifiable data channel instead.
 
 See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand guide](brand/BRAND_GUIDE.md), and [contribution guide](CONTRIBUTING.md).
 
