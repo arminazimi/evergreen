@@ -1,0 +1,31 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "evergreen",
+  "description": "Official Evergreen plugins for software lifecycle intelligence.",
+  "owner": {
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen/"
+  },
+  "plugins": [
+    {
+      "name": "evergreen",
+      "source": "./plugins/claude",
+      "description": "Find, explain, migrate, and verify evidence-backed software lifecycle risks.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evergreen",
+        "url": "https://github.com/arminazimi/evergreen"
+      },
+      "homepage": "https://arminazimi.github.io/evergreen/",
+      "repository": "https://github.com/arminazimi/evergreen",
+      "license": "Apache-2.0",
+      "category": "development",
+      "keywords": [
+        "deprecation",
+        "lifecycle",
+        "mcp",
+        "developer-tools"
+      ]
+    }
+  ]
+}

@@ -59,6 +59,28 @@ test("host manifests stay thin and share one pinned runtime", async () => {
   }
 });
 
+test("Claude marketplace installs the generated Claude adapter", async () => {
+  const expected = await expectedPluginFiles();
+  const marketplace = JSON.parse(
+    expected.get(".claude-plugin/marketplace.json")!,
+  ) as {
+    name: string;
+    plugins: Array<Record<string, unknown>>;
+  };
+  const claude = JSON.parse(
+    expected.get("plugins/claude/.claude-plugin/plugin.json")!,
+  ) as Record<string, unknown>;
+  const entry = marketplace.plugins[0];
+
+  assert.equal(marketplace.name, "evergreen");
+  assert.ok(entry);
+  assert.equal(entry.name, claude.name);
+  assert.equal(entry.version, claude.version);
+  assert.equal(entry.source, "./plugins/claude");
+  assert.ok(expected.get("plugins/claude/README.md")!.split(/\s+/).length >= 40);
+  assert.ok(expected.get("plugins/claude/LICENSE")!.includes("Apache License"));
+});
+
 test("plugin drift check rejects a changed generated package", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-plugin-drift-"));
   try {
@@ -67,6 +89,7 @@ test("plugin drift check rejects a changed generated package", async () => {
       join(root, "package.json"),
       await readFile(resolve("package.json"), "utf8"),
     );
+    await writeFile(join(root, "LICENSE"), await readFile(resolve("LICENSE"), "utf8"));
     await writeFile(
       join(root, "skills/evergreen-deprecation/SKILL.md"),
       await readFile(resolve("skills/evergreen-deprecation/SKILL.md"), "utf8"),

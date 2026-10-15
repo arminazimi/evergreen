@@ -2,7 +2,11 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const generatedRoots = ["plugins/codex", "plugins/claude"] as const;
+const generatedRoots = [
+  ".claude-plugin/marketplace.json",
+  "plugins/codex",
+  "plugins/claude",
+] as const;
 
 interface PackageMetadata {
   version: string;
@@ -14,6 +18,8 @@ function json(value: unknown): string {
 }
 
 async function listFiles(directory: string): Promise<string[]> {
+  const directFile = await readFile(directory, "utf8").catch(() => undefined);
+  if (directFile !== undefined) return [directory];
   const entries = await readdir(directory, { withFileTypes: true }).catch(() => []);
   const files = await Promise.all(
     entries.map(async (entry) => {
@@ -84,13 +90,41 @@ export async function expectedPluginFiles(
       runtimePackage: `evergreen-deprecation@${packageMetadata.version}`,
     },
   });
+  const claudeReadme = `# Evergreen for Claude\n\nEvergreen helps Claude find, explain, migrate, and verify software lifecycle risks without duplicating detector logic in the plugin. Its Skill guides the workflow while the bundled local MCP configuration starts the exact Evergreen npm release declared by this plugin. Repository contents stay local unless you explicitly choose to share them.\n\n## Install\n\nFrom a Claude Code session:\n\n\`\`\`text\n/plugin install evergreen --marketplace arminazimi/evergreen\n\`\`\`\n\n## What you get\n\n- Evidence-backed scans for supported runtimes, dependencies, and GitHub Actions.\n- Clear explanations linked to the matching lifecycle rule.\n- Migration context and local verification through one consistent workflow.\n- The same scan, explain, context, and verify behavior used by the Codex adapter.\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required for the local MCP server. See the [installation and management guide](https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html) for marketplace, project, update, disable, and removal commands.\n`;
+  const claudeMarketplace = json({
+    $schema: "https://anthropic.com/claude-code/marketplace.schema.json",
+    name: "evergreen",
+    description: "Official Evergreen plugins for software lifecycle intelligence.",
+    owner: {
+      name: "Evergreen",
+      url: "https://arminazimi.github.io/evergreen/",
+    },
+    plugins: [
+      {
+        name: "evergreen",
+        source: "./plugins/claude",
+        description: identity.description,
+        version: packageMetadata.version,
+        author: identity.author,
+        homepage: identity.homepage,
+        repository: identity.repository,
+        license: identity.license,
+        category: "development",
+        keywords: identity.keywords,
+      },
+    ],
+  });
+  const license = await readFile(resolve(root, "LICENSE"), "utf8");
 
   return new Map([
+    [".claude-plugin/marketplace.json", claudeMarketplace],
     ["plugins/codex/.codex-plugin/plugin.json", codexManifest],
     ["plugins/codex/.mcp.json", mcp],
     ["plugins/codex/skills/evergreen-deprecation/SKILL.md", skill],
     ["plugins/claude/.claude-plugin/plugin.json", claudeManifest],
     ["plugins/claude/.mcp.json", mcp],
+    ["plugins/claude/LICENSE", license],
+    ["plugins/claude/README.md", claudeReadme],
     ["plugins/claude/skills/evergreen-deprecation/SKILL.md", skill],
   ]);
 }

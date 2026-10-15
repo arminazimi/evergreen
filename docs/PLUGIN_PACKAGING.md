@@ -9,9 +9,12 @@ skills/evergreen-deprecation/SKILL.md     canonical workflow
 tools/plugin-packages.ts                  release assembly and MCP definition
 plugins/codex/                            generated Codex adapter
 plugins/claude/                           generated Claude adapter
+.claude-plugin/marketplace.json           generated Claude marketplace catalog
 ```
 
 Both generated packages contain a byte-identical copy of the canonical Skill and the same `.mcp.json`. The MCP configuration runs the exact npm version recorded in `package.json`, so a plugin cannot silently combine one manifest release with a different Evergreen runtime.
+
+The root Claude marketplace lists `plugins/claude` as a repository-relative source. This keeps the installable catalog, plugin manifest, Skill, README, license, and pinned runtime metadata on the same release and under the same drift gate.
 
 ## Host differences
 
