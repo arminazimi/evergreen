@@ -48,7 +48,8 @@
     "examples",
     "registry",
     "schemas",
-    "skills"
+    "skills",
+    "!registry/sources.lock.json"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -61,6 +62,7 @@
     "check": "npm run build && npm run build:action && npm test && npm run check:action-bundle && npm run check:plugins && npm run eval:plugins",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
+    "check:sources": "npm run build --silent && node dist/tools/check-sources.js",
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
     "eval:skill-triggers": "npm run build --silent && node dist/benchmarks/skill-trigger-eval.js",
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",

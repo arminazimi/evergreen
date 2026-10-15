@@ -1,0 +1,39 @@
+name: Source freshness
+
+# Checks that the evidence behind every lifecycle rule is still reachable and has not moved, and that
+# rules are reviewed inside their freshness window. It reads rules and never edits them; a maintainer
+# reviews anything it reports. It needs the network, so it is deliberately not part of pull-request CI.
+
+on:
+  schedule:
+    - cron: "17 5 * * 1" # Mondays, 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-freshness
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Check rule sources
+        run: node dist/tools/check-sources.js --out source-report.json --summary "$GITHUB_STEP_SUMMARY" --fail-on stale,changed,unreachable
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: source-report
+          path: source-report.json
+          if-no-files-found: warn
