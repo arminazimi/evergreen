@@ -16,6 +16,8 @@ Both generated packages contain a byte-identical copy of the canonical Skill and
 
 The root Claude marketplace lists `plugins/claude` as a repository-relative source. This keeps the installable catalog, plugin manifest, Skill, README, license, and pinned runtime metadata on the same release and under the same drift gate.
 
+The generated Codex adapter also carries its approved light and dark marks, submission walkthrough, reviewer fixture, five positive cases, three negative cases, privacy links, and desktop-only declaration. Build its portal-ready ZIP with `npm run package:codex-plugin`; generated archives are written under ignored `artifacts/` so release files never become an alternative source of truth.
+
 ## Host differences
 
 | Concern | Codex package | Claude package |

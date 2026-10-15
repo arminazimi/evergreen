@@ -50,6 +50,7 @@
     "build": "tsc -p tsconfig.json",
     "build:action": "ncc build src/action.ts -o dist/action --minify --transpile-only",
     "build:plugins": "npm run build --silent && node dist/tools/plugin-packages.js",
+    "package:codex-plugin": "npm run build:plugins --silent && node dist/tools/codex-plugin-release.js",
     "dev": "npm run build --silent && node dist/src/cli.js",
     "mcp": "npm run build --silent && node dist/src/mcp-cli.js",
     "test": "npm run build --silent && node --test dist/tests/**/*.test.js",

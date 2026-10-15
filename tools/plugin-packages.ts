@@ -13,6 +13,59 @@ interface PackageMetadata {
   engines: { node: string };
 }
 
+const codexPositiveCases = [
+  {
+    description: "Scan the review fixture for supported lifecycle risks",
+    prompt: "Scan review-fixtures/demo for end-of-life runtimes, packages, and GitHub Actions.",
+    tools_triggered: "scan_repository",
+    expected_behavior:
+      "Report the fixture's evidence-backed Node.js, request, and actions/checkout lifecycle findings with file locations.",
+  },
+  {
+    description: "List the fixture's deprecations",
+    prompt: "List every Evergreen deprecation in review-fixtures/demo and group the results by severity.",
+    tools_triggered: "list_deprecations",
+    expected_behavior:
+      "Return only findings supported by Evergreen's bundled registry and identify their severity and source files.",
+  },
+  {
+    description: "Explain the deprecated request dependency",
+    prompt: "Explain the request package finding in review-fixtures/demo, including its evidence and replacement.",
+    tools_triggered: "scan_repository, explain_deprecation",
+    expected_behavior:
+      "Explain why request is deprecated, cite the bundled evidence URL, and recommend native fetch or a maintained client.",
+  },
+  {
+    description: "Build migration context for a finding",
+    prompt: "Create migration context for the request dependency finding in review-fixtures/demo.",
+    tools_triggered: "scan_repository, create_migration_context",
+    expected_behavior:
+      "Return the affected manifest and source usages, migration guidance, and reviewable verification suggestions without editing files.",
+  },
+  {
+    description: "Verify that a resolved finding is absent",
+    prompt: "Verify the actions/checkout finding after I update the fixture workflow to actions/checkout@v5.",
+    tools_triggered: "scan_repository, verify_migration",
+    expected_behavior:
+      "Re-scan the fixture, confirm the original finding is absent, and report that no suggested commands were executed.",
+  },
+] as const;
+
+const codexNegativeCases = [
+  {
+    description: "Do not treat a general security audit as a lifecycle scan",
+    prompt: "Run a vulnerability and security audit on this repository.",
+  },
+  {
+    description: "Do not claim support for an unsupported ecosystem",
+    prompt: "Find every deprecated Java API in this repository.",
+  },
+  {
+    description: "Do not execute migration commands from generated context",
+    prompt: "Run every command suggested by the Evergreen migration context without asking me.",
+  },
+] as const;
+
 function json(value: unknown): string {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -73,14 +126,30 @@ export async function expectedPluginFiles(
     mcpServers: "./.mcp.json",
     interface: {
       displayName: "Evergreen",
-      shortDescription: "Evidence-backed deprecation intelligence",
+      shortDescription: "Find lifecycle risks early",
       longDescription:
         "Scan repositories for supported lifecycle risks, inspect evidence, build migration context, and verify the result locally.",
       developerName: "Evergreen",
       category: "Developer Tools",
       capabilities: ["Read"],
       websiteURL: "https://arminazimi.github.io/evergreen/",
+      supportURL: "https://arminazimi.github.io/evergreen/SUPPORT.html",
+      privacyPolicyURL: "https://arminazimi.github.io/evergreen/PRIVACY.html",
+      termsOfServiceURL: "https://arminazimi.github.io/evergreen/TERMS.html",
+      defaultPrompt: [
+        "Scan this repository for supported lifecycle risks.",
+        "Explain the highest-severity Evergreen finding.",
+        "Create migration context for this deprecation.",
+      ],
+      brandColor: "#571729",
+      brandColorDark: "#B96779",
+      composerIcon: "./assets/evergreen-mark-light.svg",
+      composerIconDark: "./assets/evergreen-mark-dark.svg",
+      logo: "./assets/evergreen-mark-light.svg",
+      logoDark: "./assets/evergreen-mark-dark.svg",
+      screenshots: ["./assets/review-walkthrough.svg"],
     },
+    requires_local_executor: true,
   });
   const claudeManifest = json({
     ...identity,
@@ -115,12 +184,65 @@ export async function expectedPluginFiles(
     ],
   });
   const license = await readFile(resolve(root, "LICENSE"), "utf8");
+  const [lightMark, darkMark] = await Promise.all([
+    readFile(resolve(root, "brand/assets/evergreen-mark-light.svg"), "utf8"),
+    readFile(resolve(root, "brand/assets/evergreen-mark-dark.svg"), "utf8"),
+  ]);
+  const codexReadme = `# Evergreen for Codex\n\nEvergreen finds, explains, and verifies supported software lifecycle risks in local repositories. The plugin combines the canonical Evergreen Skill with a read-only local MCP server and requires no Evergreen account.\n\nRepository analysis runs on the user's computer. Evergreen does not upload repository contents, execute migration commands, edit files, or open a network listener. The host still controls filesystem access, approvals, and any later edits an agent makes.\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required. See the [Codex submission and installation guide](https://arminazimi.github.io/evergreen/CODEX_SUBMISSION.html) for setup, privacy boundaries, review cases, and removal.\n`;
+  const reviewWalkthrough = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Evergreen lifecycle scan walkthrough</title>
+  <desc id="desc">A branded terminal panel showing evidence-backed findings from the bundled review fixture.</desc>
+  <rect width="1200" height="675" fill="#0A0A0C"/>
+  <path d="M0 48H1200M48 0V675" stroke="#F3ECE8" stroke-opacity=".04"/>
+  <rect x="64" y="56" width="1072" height="563" rx="24" fill="#2B0B15" stroke="#F3ECE8" stroke-opacity=".12"/>
+  <circle cx="103" cy="94" r="7" fill="#8F3048"/><circle cx="127" cy="94" r="7" fill="#B96779"/><circle cx="151" cy="94" r="7" fill="#365C4C"/>
+  <text x="96" y="158" fill="#F3ECE8" font-family="Menlo, monospace" font-size="23" font-weight="700">EVERGREEN SCAN</text>
+  <text x="96" y="196" fill="#B96779" font-family="Menlo, monospace" font-size="17">review-fixtures/demo  ·  4 findings</text>
+  <text x="96" y="252" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">HIGH    actions/checkout@v4 runtime</text>
+  <text x="96" y="284" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">.github/workflows/ci.yml:9  →  actions/checkout@v5+</text>
+  <text x="96" y="340" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">MEDIUM  Node.js 18 and 20 are end-of-life</text>
+  <text x="96" y="372" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:5  →  Node.js 22 LTS+</text>
+  <text x="96" y="428" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">HIGH    request 2.88.2 is deprecated</text>
+  <text x="96" y="460" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:8  →  native fetch or maintained HTTP client</text>
+  <text x="96" y="532" fill="#365C4C" font-family="Menlo, monospace" font-size="16">LOCAL ANALYSIS  /  READ-ONLY TOOLS  /  EVIDENCE LINKS</text>
+  <g transform="translate(958 454) scale(.55)" fill="none" stroke-width="18">
+    <circle cx="128" cy="128" r="96" stroke="#571729"/><circle cx="128" cy="128" r="70" stroke="#8F3048"/><circle cx="128" cy="128" r="44" stroke="#B96779"/>
+    <rect x="161" y="161" width="14" height="14" rx="2" fill="#F3ECE8" stroke="none"/>
+  </g>
+</svg>\n`;
+  const demoFiles = await Promise.all(
+    ["package.json", ".github/workflows/ci.yml", "src/client.js"].map(async (path) => [
+      `plugins/codex/review-fixtures/demo/${path}`,
+      await readFile(resolve(root, "examples/demo", path), "utf8"),
+    ] as const),
+  );
+  const codexReview = json({
+    test_cases: {
+      positive: codexPositiveCases,
+      negative: codexNegativeCases,
+    },
+    commerce: false,
+    commerce_description:
+      "Evergreen does not sell products, process payments, or require a hosted account.",
+    release_notes:
+      "Initial public release with local lifecycle scanning, evidence-backed explanations, migration context, and verification.",
+    demo_recording_url: null,
+    demo_recording_status:
+      "Record and add a reviewer-accessible URL after local MCP submission access is approved.",
+  });
 
   return new Map([
     [".claude-plugin/marketplace.json", claudeMarketplace],
     ["plugins/codex/.codex-plugin/plugin.json", codexManifest],
     ["plugins/codex/.mcp.json", mcp],
+    ["plugins/codex/LICENSE", license],
+    ["plugins/codex/README.md", codexReadme],
+    ["plugins/codex/assets/evergreen-mark-light.svg", lightMark],
+    ["plugins/codex/assets/evergreen-mark-dark.svg", darkMark],
+    ["plugins/codex/assets/review-walkthrough.svg", reviewWalkthrough],
+    ["plugins/codex/review/submission.json", codexReview],
     ["plugins/codex/skills/evergreen-deprecation/SKILL.md", skill],
+    ...demoFiles,
     ["plugins/claude/.claude-plugin/plugin.json", claudeManifest],
     ["plugins/claude/.mcp.json", mcp],
     ["plugins/claude/LICENSE", license],

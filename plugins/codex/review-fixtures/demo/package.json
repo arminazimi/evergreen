@@ -1,0 +1,10 @@
+{
+  "name": "evergreen-demo",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "request": "2.88.2"
+  }
+}

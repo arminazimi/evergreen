@@ -81,15 +81,58 @@ test("Claude marketplace installs the generated Claude adapter", async () => {
   assert.ok(expected.get("plugins/claude/LICENSE")!.includes("Apache License"));
 });
 
+test("Codex submission assets stay review-ready and on-brand", async () => {
+  const expected = await expectedPluginFiles();
+  const manifest = JSON.parse(
+    expected.get("plugins/codex/.codex-plugin/plugin.json")!,
+  ) as {
+    interface: Record<string, unknown>;
+    requires_local_executor: boolean;
+  };
+  const review = JSON.parse(
+    expected.get("plugins/codex/review/submission.json")!,
+  ) as {
+    test_cases: { positive: unknown[]; negative: unknown[] };
+    demo_recording_url: string | null;
+  };
+
+  assert.equal(manifest.requires_local_executor, true);
+  assert.equal(manifest.interface.logo, "./assets/evergreen-mark-light.svg");
+  assert.equal(manifest.interface.composerIcon, "./assets/evergreen-mark-light.svg");
+  assert.equal(
+    expected.get("plugins/codex/assets/evergreen-mark-light.svg"),
+    await readFile(resolve("brand/assets/evergreen-mark-light.svg"), "utf8"),
+  );
+  assert.equal(
+    expected.get("plugins/codex/assets/evergreen-mark-dark.svg"),
+    await readFile(resolve("brand/assets/evergreen-mark-dark.svg"), "utf8"),
+  );
+  assert.equal(review.test_cases.positive.length, 5);
+  assert.equal(review.test_cases.negative.length, 3);
+  assert.equal(review.demo_recording_url, null);
+});
+
 test("plugin drift check rejects a changed generated package", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-plugin-drift-"));
   try {
     await mkdir(join(root, "skills/evergreen-deprecation"), { recursive: true });
+    await mkdir(join(root, "brand/assets"), { recursive: true });
+    await mkdir(join(root, "examples/demo/.github/workflows"), { recursive: true });
+    await mkdir(join(root, "examples/demo/src"), { recursive: true });
     await writeFile(
       join(root, "package.json"),
       await readFile(resolve("package.json"), "utf8"),
     );
     await writeFile(join(root, "LICENSE"), await readFile(resolve("LICENSE"), "utf8"));
+    for (const path of [
+      "brand/assets/evergreen-mark-light.svg",
+      "brand/assets/evergreen-mark-dark.svg",
+      "examples/demo/package.json",
+      "examples/demo/.github/workflows/ci.yml",
+      "examples/demo/src/client.js",
+    ]) {
+      await writeFile(join(root, path), await readFile(resolve(path), "utf8"));
+    }
     await writeFile(
       join(root, "skills/evergreen-deprecation/SKILL.md"),
       await readFile(resolve("skills/evergreen-deprecation/SKILL.md"), "utf8"),

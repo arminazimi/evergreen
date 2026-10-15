@@ -19,13 +19,31 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Evergreen",
-    "shortDescription": "Evidence-backed deprecation intelligence",
+    "shortDescription": "Find lifecycle risks early",
     "longDescription": "Scan repositories for supported lifecycle risks, inspect evidence, build migration context, and verify the result locally.",
     "developerName": "Evergreen",
     "category": "Developer Tools",
     "capabilities": [
       "Read"
     ],
-    "websiteURL": "https://arminazimi.github.io/evergreen/"
-  }
+    "websiteURL": "https://arminazimi.github.io/evergreen/",
+    "supportURL": "https://arminazimi.github.io/evergreen/SUPPORT.html",
+    "privacyPolicyURL": "https://arminazimi.github.io/evergreen/PRIVACY.html",
+    "termsOfServiceURL": "https://arminazimi.github.io/evergreen/TERMS.html",
+    "defaultPrompt": [
+      "Scan this repository for supported lifecycle risks.",
+      "Explain the highest-severity Evergreen finding.",
+      "Create migration context for this deprecation."
+    ],
+    "brandColor": "#571729",
+    "brandColorDark": "#B96779",
+    "composerIcon": "./assets/evergreen-mark-light.svg",
+    "composerIconDark": "./assets/evergreen-mark-dark.svg",
+    "logo": "./assets/evergreen-mark-light.svg",
+    "logoDark": "./assets/evergreen-mark-dark.svg",
+    "screenshots": [
+      "./assets/review-walkthrough.svg"
+    ]
+  },
+  "requires_local_executor": true
 }
