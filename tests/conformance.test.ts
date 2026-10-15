@@ -7,6 +7,7 @@ import { after, test } from "node:test";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { evidenceCheck } from "../src/conformance/checks/evidence.js";
 import { locationsCheck } from "../src/conformance/checks/locations.js";
+import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
@@ -177,6 +178,43 @@ test("catches a detector that reports a finding without authoritative evidence",
       assert.ok(error instanceof ConformanceError);
       assert.equal(error.guarantee, "authoritative evidence");
       assert.match(error.message, /unsupported-claim/);
+      return true;
+    },
+  );
+});
+
+test("catches a detector that reports a finding for a zero-finding fixture", async () => {
+  const root = await fixtureDirectory({ "supported.txt": "supported\n" });
+  let scanCount = 0;
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "false-positive-sample",
+    async scan() {
+      scanCount += 1;
+      if (scanCount === 1) return [];
+      return [
+        {
+          id: "false-positive",
+          ruleId: "false-positive",
+          title: "False positive",
+          summary: "A supported fixture must stay clean.",
+          severity: "low",
+          location: { path: "supported.txt", line: 1 },
+          sources: [{ title: "Official source", url: "https://example.com" }],
+        },
+      ];
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "supported input", root, expectedFindings: [] }],
+      checks: [zeroFindingsCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "zero-finding fixture");
       return true;
     },
   );
