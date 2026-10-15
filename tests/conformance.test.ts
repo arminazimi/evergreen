@@ -7,6 +7,7 @@ import { after, test } from "node:test";
 import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { evidenceCheck } from "../src/conformance/checks/evidence.js";
 import { locationsCheck } from "../src/conformance/checks/locations.js";
+import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
@@ -215,6 +216,34 @@ test("catches a detector that reports a finding for a zero-finding fixture", asy
     (error: unknown) => {
       assert.ok(error instanceof ConformanceError);
       assert.equal(error.guarantee, "zero-finding fixture");
+      return true;
+    },
+  );
+});
+
+test("catches a detector that throws while reading malformed input", async () => {
+  const root = await fixtureDirectory({ "package.json": "{ definitely not json" });
+  let scanCount = 0;
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "malformed-input-sample",
+    async scan() {
+      scanCount += 1;
+      if (scanCount === 1) return [];
+      throw new SyntaxError("Unexpected token in package.json");
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "malformed package", root, expectedFindings: [] }],
+      checks: [malformedInputCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "malformed input safety");
+      assert.match(error.message, /Unexpected token/);
       return true;
     },
   );
