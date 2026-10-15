@@ -1,0 +1,283 @@
+<title>Evergreen H1 Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lifecycle chart. Epics are rows, months are columns; each cell is a
+   notch whose depth is the number of tasks scheduled there. Brand tokens from brand/tokens.css. */
+:root {
+  --bg: #f3ece8;            /* Warm Ivory */
+  --surface: #ffffff;
+  --fg: #0a0a0c;            /* Obsidian */
+  --muted: #6d5a60;
+  --line: #e2d6d1;
+  --accent: #8f3048;        /* Garnet */
+  --accent-soft: #b96779;   /* Dusty Rose */
+  --deep: #571729;          /* Deep Burgundy */
+  --pine: #365c4c;          /* Muted Pine: success / good first issue */
+  --cell: 143 48 72;        /* garnet as rgb for intensity */
+  --sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a0a0c; --surface: #2b0b15; --fg: #f3ece8; --muted: #bba9ae; --line: #3a1a24;
+    --accent: #b96779; --accent-soft: #8f3048; --deep: #f3ece8; --pine: #7fae98; --cell: 185 103 121;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a0a0c; --surface: #2b0b15; --fg: #f3ece8; --muted: #bba9ae; --line: #3a1a24;
+  --accent: #b96779; --accent-soft: #8f3048; --deep: #f3ece8; --pine: #7fae98; --cell: 185 103 121;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 400 15px/1.55 var(--sans); padding-inline: 16px; padding-block: 32px 64px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 48px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.mono { font-family: var(--mono); }
+.label { font: 500 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+header { display: grid; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand svg { width: 36px; height: 36px; flex: none; }
+.wordmark { font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 14px; }
+h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.08; font-weight: 700; letter-spacing: -.02em; max-width: 20ch; }
+.lede { color: var(--muted); max-width: 64ch; font-size: 16px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.fact { display: grid; gap: 2px; }
+.fact b { font: 600 22px/1 var(--sans); font-variant-numeric: tabular-nums; }
+
+/* Targets */
+.targets { display: grid; gap: 14px; }
+.ttable { overflow-x: auto; border-top: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td.now { color: var(--muted); font-family: var(--mono); font-size: 13px; }
+td.goal { font-weight: 600; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chip { font: 500 13px/1 var(--sans); border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 999px; padding: 8px 12px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.chip:focus-visible, .row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chip .n { font-family: var(--mono); font-size: 12px; opacity: .75; }
+
+/* Chart */
+.chart { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; }
+.grid { min-width: 820px; display: grid; grid-template-columns: minmax(210px, 1.2fr) repeat(6, minmax(92px, 1fr)); }
+.hcell { padding: 14px 10px 10px; border-bottom: 1px solid var(--line); display: grid; gap: 3px; align-content: start; }
+.hcell .theme { font-size: 11.5px; color: var(--muted); line-height: 1.3; hyphens: auto; }
+.hcell .total { font: 500 12px var(--mono); }
+.launch { display: inline-flex; align-items: center; gap: 6px; font: 500 11px/1.2 var(--mono); color: var(--accent); margin-top: 4px; }
+.launch::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+.ghead { grid-column: 1 / -1; padding: 18px 16px 6px; border-top: 1px solid var(--line); }
+.ghead:first-of-type { border-top: 0; }
+.row { display: contents; cursor: pointer; }
+.name { padding: 8px 10px 8px 16px; display: grid; gap: 2px; min-width: 0; }
+.name .t { font-weight: 500; font-size: 14px; line-height: 1.3; }
+.name .meta { font: 400 12px/1.3 var(--mono); color: var(--muted); }
+.tier2 { color: var(--accent); }
+.cell { padding: 6px 4px; display: flex; align-items: center; }
+.bar { height: 26px; width: 100%; border-radius: 6px; display: grid; place-items: center; font: 500 12px var(--mono); font-variant-numeric: tabular-nums; }
+.bar.on { color: var(--fg); }
+.bar.hot { color: #fff; }
+:root[data-theme="dark"] .bar.hot, :root:not([data-theme="light"]) .bar.hot { color: #fff; }
+.row:hover .name .t, .row[aria-expanded="true"] .name .t { color: var(--accent); }
+.detail { grid-column: 1 / -1; position: sticky; left: 0; max-width: min(1086px, calc(100vw - 34px)); padding: 4px 16px 18px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 55%, var(--surface)); }
+.detail p { color: var(--muted); max-width: 72ch; margin: 10px 0 12px; }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.tasks li { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: baseline; font-size: 14px; }
+.tasks .m { font: 500 12px var(--mono); color: var(--muted); }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.tag { font: 500 11px/1 var(--mono); padding: 4px 6px; border-radius: 6px; border: 1px solid var(--line); white-space: nowrap; }
+.tag.strong { border-color: var(--accent); color: var(--accent); }
+.tag.free { border-color: var(--pine); color: var(--pine); }
+.tag.maintainer { color: var(--muted); }
+.tag.gfi { background: var(--pine); border-color: var(--pine); color: var(--bg); }
+.tag.blocked { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.tasks a { color: inherit; }
+
+/* Scenarios */
+.scen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.sc { border-top: 3px solid var(--line); padding-top: 14px; display: grid; gap: 8px; align-content: start; }
+.sc.base { border-top-color: var(--accent); }
+.sc.break { border-top-color: var(--deep); }
+.sc h3 { font-size: 16px; }
+.sc dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 14px; }
+.sc dt { color: var(--muted); }
+.sc dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.note { color: var(--muted); font-size: 13px; max-width: 72ch; }
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (prefers-reduced-motion: no-preference) { .bar { transition: background-color .2s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 256 256" aria-hidden="true">
+        <defs>
+          <mask id="o"><rect width="256" height="256" fill="#fff"/><rect x="119" y="18" width="18" height="28" fill="#000"/></mask>
+          <mask id="mi"><rect width="256" height="256" fill="#fff"/><rect x="186" y="119" width="30" height="18" fill="#000"/></mask>
+          <mask id="in"><rect width="256" height="256" fill="#fff"/><rect x="119" y="160" width="18" height="30" fill="#000"/></mask>
+        </defs>
+        <g fill="none" stroke-width="18">
+          <circle cx="128" cy="128" r="96" mask="url(#o)" style="stroke: var(--deep)"/>
+          <circle cx="128" cy="128" r="70" mask="url(#mi)" style="stroke: var(--accent)"/>
+          <circle cx="128" cy="128" r="44" mask="url(#in)" style="stroke: var(--accent-soft)"/>
+        </g>
+        <circle cx="128" cy="128" r="14" style="fill: var(--pine)"/>
+      </svg>
+      <span class="wordmark">Evergreen</span>
+      <span class="label">Roadmap · 2026-10-15 → 2027-04-15</span>
+    </div>
+    <h1>Coverage and proof in six months</h1>
+    <p class="lede">Every roadmap issue sits in one milestone and is small enough for one pull request. Strong agents take architecture, free agents and new contributors take spec-complete tasks, and the maintainer handles accounts, releases, and launches.</p>
+    <div class="facts" id="facts"></div>
+  </header>
+
+  <section class="targets" aria-labelledby="targets-h">
+    <h2 id="targets-h" class="label">v1 targets</h2>
+    <div class="ttable"><table><thead><tr><th>Measure</th><th>Today</th><th>By 2027-04-15</th></tr></thead><tbody id="targets"></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="chart-h" style="display:grid;gap:14px">
+    <h2 id="chart-h" class="label">Lifecycle chart · tasks per month</h2>
+    <div class="controls" role="group" aria-label="Filter tasks by lane" id="filters"></div>
+    <div class="chart"><div class="grid" id="grid"></div></div>
+    <p class="note">Select a row to see its tasks. Dots under a month mark a public launch. Tier 2 ecosystems are community-led and may slip without blocking v1.</p>
+  </section>
+
+  <section aria-labelledby="growth-h" style="display:grid;gap:16px">
+    <h2 id="growth-h" class="label">Growth scenarios at month six</h2>
+    <div class="scen">
+      <div class="sc"><h3>Conservative</h3><p class="note">Roadmap ships; launches don't land.</p>
+        <dl><dt>Stars</dt><dd>100–300</dd><dt>npm / week</dt><dd>200–1,000</dd><dt>Repos with Action</dt><dd>tens</dd><dt>Skill + MCP installs</dt><dd>tens</dd></dl></div>
+      <div class="sc base"><h3>Base</h3><p class="note">Roadmap ships with two or three good launches.</p>
+        <dl><dt>Stars</dt><dd>1k–3k</dd><dt>npm / week</dt><dd>2k–10k</dd><dt>Repos with Action</dt><dd>100–500</dd><dt>Skill + MCP installs</dt><dd>hundreds</dd></dl></div>
+      <div class="sc break"><h3>Breakout</h3><p class="note">A front-page launch or inclusion in an aggregator such as MegaLinter.</p>
+        <dl><dt>Stars</dt><dd>5k–10k+</dd><dt>npm / week</dt><dd>20k+</dd><dt>Repos with Action</dt><dd>thousands</dd><dt>Skill + MCP installs</dt><dd>thousands</dd></dl></div>
+    </div>
+    <p class="note">Estimates from typical developer-tool trajectories, not measurements. Becoming the default lifecycle check in every pipeline and agent is a two-to-three-year goal; this roadmap lays the foundation with open evidence, standard formats, and presence in existing pipelines.</p>
+  </section>
+
+  <footer>Generated from <span class="mono">planning/roadmap/</span> — the same data that creates the GitHub issues and <span class="mono">docs/ROADMAP.md</span>.</footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+const REPO = "https://github.com/arminazimi/evergreen/issues/";
+const LANES = [
+  ["all", "All tasks"], ["free", "Free agents & contributors"], ["strong", "Strong agents"],
+  ["maintainer", "Maintainer"], ["gfi", "Good first issue"],
+];
+const months = DATA.months.map((m) => m.id);
+const allTasks = DATA.groups.flatMap((g) => g.epics.flatMap((e) => e.tasks));
+let filter = "all";
+let open = null;
+try { filter = localStorage.getItem("eg-lane") || "all"; } catch (e) {}
+
+const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+const match = (t) => filter === "all" || (filter === "gfi" ? t.gfi : t.lane === filter);
+
+function facts() {
+  const box = document.getElementById("facts");
+  const epicCount = DATA.groups.reduce((s, g) => s + g.epics.length, 0);
+  [["Issues", epicCount + allTasks.length], ["Epics", epicCount], ["Tasks", allTasks.length],
+   ["Good first issues", allTasks.filter((t) => t.gfi).length], ["Ecosystems", "25+"]].forEach(([k, v]) => {
+    const f = el("div", "fact"); f.append(el("b", null, v.toLocaleString?.() ?? v), el("span", "label", k)); box.append(f);
+  });
+}
+
+function targets() {
+  const tb = document.getElementById("targets");
+  DATA.targets.forEach(([m, now, goal]) => {
+    const tr = el("tr"); tr.append(el("td", null, m), el("td", "now", now), el("td", "goal", goal)); tb.append(tr);
+  });
+}
+
+function filters() {
+  const box = document.getElementById("filters");
+  LANES.forEach(([id, name]) => {
+    const n = id === "all" ? allTasks.length : allTasks.filter((t) => (id === "gfi" ? t.gfi : t.lane === id)).length;
+    const b = el("button", "chip"); b.type = "button"; b.id = "lane-" + id;
+    b.setAttribute("aria-pressed", String(filter === id));
+    b.append(el("span", null, name), el("span", "n", n));
+    b.addEventListener("click", () => { filter = id; try { localStorage.setItem("eg-lane", id); } catch (e) {}
+      box.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === b))); render(); });
+    box.append(b);
+  });
+}
+
+function tag(cls, text) { return el("span", "tag " + cls, text); }
+
+function render() {
+  const grid = document.getElementById("grid");
+  grid.replaceChildren();
+  const perMonth = Object.fromEntries(months.map((m) => [m, allTasks.filter((t) => t.m === m && match(t)).length]));
+  let max = 1;
+  DATA.groups.forEach((g) => g.epics.forEach((e) => months.forEach((m) => {
+    max = Math.max(max, e.tasks.filter((t) => t.m === m && match(t)).length);
+  })));
+
+  grid.append(el("div", "hcell label", "Epic"));
+  DATA.months.forEach((m) => {
+    const h = el("div", "hcell");
+    h.append(el("span", "label", m.id + " · " + m.window.split(" → ")[0].slice(5)), el("span", "theme", m.theme), el("span", "total", perMonth[m.id] + " tasks"));
+    DATA.launches.filter((l) => l.m === m.id).forEach((l) => h.append(el("span", "launch", l.label)));
+    grid.append(h);
+  });
+
+  DATA.groups.forEach((g) => {
+    const visible = g.epics.filter((e) => e.tasks.some(match));
+    if (!visible.length) return;
+    grid.append(el("div", "ghead label", g.name));
+    visible.forEach((e) => {
+      const tasks = e.tasks.filter(match);
+      const row = el("div", "row"); row.tabIndex = 0; row.setAttribute("role", "button");
+      row.setAttribute("aria-expanded", String(open === e.key));
+      const name = el("div", "name");
+      name.append(el("span", "t", e.title));
+      const meta = el("span", "meta", (e.n ? "#" + e.n + " · " : "") + tasks.length + " tasks" + (e.tier === 2 ? " · " : ""));
+      if (e.tier === 2) meta.append(el("span", "tier2", "tier 2"));
+      name.append(meta);
+      row.append(name);
+      months.forEach((m) => {
+        const c = tasks.filter((t) => t.m === m).length;
+        const cell = el("div", "cell"); const bar = el("div", "bar" + (c ? " on" : ""), c || "");
+        if (c) { const a = 0.18 + 0.82 * (c / max); bar.style.background = `rgb(var(--cell) / ${a.toFixed(2)})`; if (a > 0.6) bar.classList.add("hot"); }
+        bar.setAttribute("aria-label", c + " tasks in " + m);
+        cell.append(bar); row.append(cell);
+      });
+      const toggle = () => { open = open === e.key ? null : e.key; render(); };
+      row.addEventListener("click", toggle);
+      row.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); toggle(); } });
+      grid.append(row);
+      if (open === e.key) {
+        const d = el("div", "detail");
+        d.append(el("p", null, e.goal));
+        const ul = el("ul", "tasks");
+        tasks.forEach((t) => {
+          const li = el("li");
+          li.append(el("span", "m", t.m));
+          const title = t.n ? Object.assign(el("a", null, t.title), { href: REPO + t.n, target: "_blank", rel: "noopener" }) : el("span", null, t.title);
+          li.append(title);
+          const tags = el("span", "tags");
+          tags.append(tag(t.lane, t.lane === "free" ? "free-agent" : t.lane === "strong" ? "strong-agent" : "maintainer"), tag("", t.size));
+          if (t.gfi) tags.append(tag("gfi", "good first"));
+          if (t.blocked) tags.append(tag("blocked", "blocked"));
+          li.append(tags); ul.append(li);
+        });
+        d.append(ul); grid.append(d);
+      }
+    });
+  });
+}
+
+facts(); targets(); filters(); render();
+</script>
