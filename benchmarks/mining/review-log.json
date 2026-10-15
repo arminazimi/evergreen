@@ -3,6 +3,29 @@
   "method": "Evidence for each candidate (commit message and diff, repository visibility and license) was fetched from the GitHub API and checked against the criteria in queries.md by benchmarks/mining/review.ts. The decision is accepted only when every check holds; every rejection names the checks that failed.",
   "entries": [
     {
+      "candidate": "aeb-labs-cruddl-9a329f4356ef-nodejs-runtime-eol-20",
+      "repository": "AEB-labs/cruddl",
+      "parentCommit": "0b875aab1976f38a69607ec3c06708c210a84b6e",
+      "migrationCommit": "9a329f4356efcc4628623dc7e0e8081eb3e6655a",
+      "ruleId": "nodejs.runtime.eol-20",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
       "candidate": "akenon-studio-github-4521883cc1c0-github-actions-setup-node-node20",
       "repository": "Akenon-Studio/.github",
       "parentCommit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
@@ -23,6 +46,121 @@
       },
       "reasons": [
         "actions/setup-node moves to a supported major in 1 reported location; the commit message states the bump; license MIT."
+      ]
+    },
+    {
+      "candidate": "auth0-db-connections-templates-db86c626d9b8-npm-package-request-deprecated",
+      "repository": "auth0/db-connections-templates",
+      "parentCommit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
+      "migrationCommit": "db86c626d9b8b4ca4f5770918100286741b52ef9",
+      "ruleId": "npm.package.request.deprecated",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes request in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "cloudfour-lighthouse-parade-64e997380831-nodejs-runtime-eol-18",
+      "repository": "cloudfour/lighthouse-parade",
+      "parentCommit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
+      "migrationCommit": "64e99738083115ead584d88f48bfb81b2cbcc152",
+      "ruleId": "nodejs.runtime.eol-18",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "cloudfour-lighthouse-parade-64e997380831-nodejs-runtime-eol-20",
+      "repository": "cloudfour/lighthouse-parade",
+      "parentCommit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
+      "migrationCommit": "64e99738083115ead584d88f48bfb81b2cbcc152",
+      "ruleId": "nodejs.runtime.eol-20",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "code-say-music-app-a84f16fda195-npm-package-node-sass-eol",
+      "repository": "code-say/music-app",
+      "parentCommit": "52f2e918462ef80718ac183bad5d44d6ef32bd2d",
+      "migrationCommit": "a84f16fda1959451f50206a622a5c3fa09028900",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": null,
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "collective-collective-sidebar-e23a6a5cd5ec-npm-package-node-sass-eol",
+      "repository": "collective/collective.sidebar",
+      "parentCommit": "eac7dcfd929aa9fe86ac3b6c11f56d5ddb68d1e8",
+      "migrationCommit": "e23a6a5cd5ec57e813cec1cf883adc4551c2d40a",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "GPL-2.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node-sass in 1 reported file; the commit message states the migration; license GPL-2.0."
       ]
     },
     {
@@ -49,6 +187,98 @@
       ]
     },
     {
+      "candidate": "connectrpc-connect-playwright-es-2f1f55524f3d-nodejs-runtime-eol-18",
+      "repository": "connectrpc/connect-playwright-es",
+      "parentCommit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+      "migrationCommit": "2f1f55524f3d95ddec166b5226bcbe1d7d766dd6",
+      "ruleId": "nodejs.runtime.eol-18",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "Apache-2.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license Apache-2.0."
+      ]
+    },
+    {
+      "candidate": "connectrpc-connect-playwright-es-2f1f55524f3d-nodejs-runtime-eol-20",
+      "repository": "connectrpc/connect-playwright-es",
+      "parentCommit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+      "migrationCommit": "2f1f55524f3d95ddec166b5226bcbe1d7d766dd6",
+      "ruleId": "nodejs.runtime.eol-20",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "Apache-2.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 2 reported files; the commit message states the migration; license Apache-2.0."
+      ]
+    },
+    {
+      "candidate": "connectrpc-connect-playwright-es-2f1f55524f3d-nodejs-runtime-legacy",
+      "repository": "connectrpc/connect-playwright-es",
+      "parentCommit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+      "migrationCommit": "2f1f55524f3d95ddec166b5226bcbe1d7d766dd6",
+      "ruleId": "nodejs.runtime.legacy",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "Apache-2.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license Apache-2.0."
+      ]
+    },
+    {
+      "candidate": "connectrpc-connect-query-es-7c5e7897223a-nodejs-runtime-eol-20",
+      "repository": "connectrpc/connect-query-es",
+      "parentCommit": "584732abf870b5561ba50052d02caf0c85635204",
+      "migrationCommit": "7c5e7897223ab1b50df507adf8304980f6d49231",
+      "ruleId": "nodejs.runtime.eol-20",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "Apache-2.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 1 reported file; the commit message states the migration; license Apache-2.0."
+      ]
+    },
+    {
       "candidate": "cutesurtr-needlemanwunschlean-90162967c293-github-actions-checkout-node20",
       "repository": "CuteSurtr/NeedlemanWunschLean",
       "parentCommit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
@@ -69,6 +299,29 @@
       },
       "reasons": [
         "actions/checkout moves to a supported major in 1 reported location; the commit message states the bump; license MIT."
+      ]
+    },
+    {
+      "candidate": "denis-alexeev-pytest-glamor-allure-537acea9301c-python-runtime-eol-3-9-and-older",
+      "repository": "Denis-Alexeev/pytest-glamor-allure",
+      "parentCommit": "8ea22e128ed5a7cfcc98d85bf4cb8dc5787dff66",
+      "migrationCommit": "537acea9301cda3697c11d98a0f90f02fd833018",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
       ]
     },
     {
@@ -118,6 +371,29 @@
       ]
     },
     {
+      "candidate": "dimi20cen-peario-667ffbf195df-npm-package-node-sass-eol",
+      "repository": "Dimi20cen/peario",
+      "parentCommit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
+      "migrationCommit": "667ffbf195df203851b2e8bf7902a9ab74548994",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node-sass in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
       "candidate": "drunkonjava-rvt-rs-4be9eac7fdf0-github-actions-setup-node-node20",
       "repository": "DrunkOnJava/rvt-rs",
       "parentCommit": "3510c2ee96ff66513942b28ed3df6006282fe865",
@@ -138,6 +414,52 @@
       },
       "reasons": [
         "actions/setup-node moves to a supported major in 1 reported location; the commit message states the bump; license Apache-2.0."
+      ]
+    },
+    {
+      "candidate": "edwardm-ecore-js-page-down-progress-948dbb345bc7-npm-package-node-sass-eol",
+      "repository": "edwardm/ECORE-JS-Page-Down-Progress",
+      "parentCommit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
+      "migrationCommit": "948dbb345bc71a3d451f676943dbd0257f87cbb8",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node-sass in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "fdawgs-ice-barrage-62ca3d3af48c-nodejs-runtime-eol-20",
+      "repository": "Fdawgs/ice-barrage",
+      "parentCommit": "d842b983d031675de736bfdbdb28798c071ebba5",
+      "migrationCommit": "62ca3d3af48c6e329581a1849c5f4b15481e8cea",
+      "ruleId": "nodejs.runtime.eol-20",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node in 2 reported files; the commit message states the migration; license MIT."
       ]
     },
     {
@@ -279,6 +601,29 @@
       ]
     },
     {
+      "candidate": "itssimple-destiny-ui-css-96e5da5d8caa-npm-package-node-sass-eol",
+      "repository": "itssimple/destiny-ui-css",
+      "parentCommit": "c7a09029eb6173043228d6ff5efccce9e1217d02",
+      "migrationCommit": "96e5da5d8caa873fc638fd33a9fac992debb5d93",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": null,
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (none)."
+      ]
+    },
+    {
       "candidate": "itzhang89-emr-management-tool-7ec7ba39266d-github-actions-checkout-node20",
       "repository": "itzhang89/emr-management-tool",
       "parentCommit": "1bf39596ee24145f48bffe25cc123d21cc114b25",
@@ -299,6 +644,98 @@
       },
       "reasons": [
         "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "jhlov-baseball-41c15414a722-npm-package-node-sass-eol",
+      "repository": "jhlov/baseball",
+      "parentCommit": "b9fd0bc0f4112c2de0c35c3287402f5a48abc7a2",
+      "migrationCommit": "41c15414a7225c5cc667fa875da9aebee7821020",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": null,
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "jhlov-pluspang-c2a3252f3e3d-npm-package-node-sass-eol",
+      "repository": "jhlov/pluspang",
+      "parentCommit": "4dae688cb54c25bc1df3438a30444cc27db7f9b3",
+      "migrationCommit": "c2a3252f3e3dec986e882a5d38eeb42dce1f52e4",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": null,
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "jmanteau-fastapi-topaz-d1eff702b0e3-python-runtime-eol-3-9-and-older",
+      "repository": "jmanteau/fastapi-topaz",
+      "parentCommit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
+      "migrationCommit": "d1eff702b0e3afc932e8794e50aed76fca028732",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "kludex-mangum-3c65805e13d1-python-runtime-eol-3-9-and-older",
+      "repository": "Kludex/mangum",
+      "parentCommit": "e2f92d030dbb164d8257da6f07d84bdb99b423a1",
+      "migrationCommit": "3c65805e13d1033ac1c7a3a320ef15ad0575b55d",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
       ]
     },
     {
@@ -325,11 +762,80 @@
       ]
     },
     {
+      "candidate": "lv10-amazonapi-6062b3897f65-python-runtime-eol-3-9-and-older",
+      "repository": "lv10/amazonapi",
+      "parentCommit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
+      "migrationCommit": "6062b3897f65a3ad4fd91626b7942ee951899811",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "marcelomarkus-b-fast-8627d6feed48-python-runtime-eol-3-9-and-older",
+      "repository": "marcelomarkus/b-fast",
+      "parentCommit": "819baed5d20420ca8d2935945300f1536d3f8783",
+      "migrationCommit": "8627d6feed48be46187d6db759a96bf513066888",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
       "candidate": "mavillal-pantallas-e3f7a8dea9b0-github-actions-checkout-node20",
       "repository": "mavillal/pantallas",
       "parentCommit": "f85533bec450d66b5d46ffc59da422eee57eb911",
       "migrationCommit": "e3f7a8dea9b09253890da6ecaddd8fa7af16c7d4",
       "ruleId": "github-actions.checkout.node20",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": null,
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "mubashir-angathil-react-personal-website-7d47ff4bb816-npm-package-node-sass-eol",
+      "repository": "mubashir-angathil/react-personal-website",
+      "parentCommit": "53b07fa80a966fe17cf7522f83a50abfbac67d9b",
+      "migrationCommit": "7d47ff4bb816764f7c23424867c3f5de3f7dd46c",
+      "ruleId": "npm.package.node-sass.eol",
       "decision": "rejected",
       "reviewer": "arminazimi",
       "reviewedAt": "2026-10-15",
@@ -509,6 +1015,29 @@
       ]
     },
     {
+      "candidate": "polyswarm-ppdns-chrome-extension-5cc480df63ba-npm-package-node-sass-eol",
+      "repository": "polyswarm/ppdns-chrome-extension",
+      "parentCommit": "bd6b101b3897b1133db84370deeff32803b1f7ff",
+      "migrationCommit": "5cc480df63ba227b3ec9508145954c18f5ffdf07",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node-sass in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
       "candidate": "pv-udpv-pplx-unofficial-sdk-4031400de75e-github-actions-setup-node-node20",
       "repository": "pv-udpv/pplx-unofficial-sdk",
       "parentCommit": "60f2188470ded75a8dfd3fee20dee781fc65cebf",
@@ -529,6 +1058,29 @@
       },
       "reasons": [
         "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "pypa-packaging-b09745046152-python-runtime-eol-3-9-and-older",
+      "repository": "pypa/packaging",
+      "parentCommit": "b80e6eb0a6c0f61dcaa9b1587f3aab370263dc65",
+      "migrationCommit": "b097450461523502ada842f98274449ad74ff1ff",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "NOASSERTION",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (NOASSERTION)."
       ]
     },
     {
@@ -555,6 +1107,52 @@
       ]
     },
     {
+      "candidate": "simonsobs-ocs-c18fb69118c9-python-runtime-eol-3-9-and-older",
+      "repository": "simonsobs/ocs",
+      "parentCommit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
+      "migrationCommit": "c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "BSD-2-Clause",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license BSD-2-Clause."
+      ]
+    },
+    {
+      "candidate": "simonsobs-socs-f22f0b56a89d-python-runtime-eol-3-9-and-older",
+      "repository": "simonsobs/socs",
+      "parentCommit": "4413b27a567feee21a9e331bc60497c8458448aa",
+      "migrationCommit": "f22f0b56a89d463b3357034d353020e3bdb2f62b",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "BSD-2-Clause",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license BSD-2-Clause."
+      ]
+    },
+    {
       "candidate": "smartcrabai-paperhanger-240335f3fd5c-github-actions-setup-node-node20",
       "repository": "smartcrabai/paperhanger",
       "parentCommit": "2bb7ab4c344692f8549aef8441edafc9af614450",
@@ -575,6 +1173,29 @@
       },
       "reasons": [
         "actions/setup-node moves to a supported major in 2 reported locations; the commit message states the bump; license Apache-2.0."
+      ]
+    },
+    {
+      "candidate": "strambc-fof-ct-linkml-e0f029a6b0a4-python-runtime-eol-3-9-and-older",
+      "repository": "strambc/fof-ct-linkml",
+      "parentCommit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
+      "migrationCommit": "e0f029a6b0a4bef8c7b18d62a74444dfaeddb906",
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes python in 1 reported file; the commit message states the migration; license MIT."
       ]
     },
     {
@@ -690,6 +1311,122 @@
       },
       "reasons": [
         "The repository has no usable license (none)."
+      ]
+    },
+    {
+      "candidate": "tryghost-editorial-64c543d3ab87-npm-package-node-sass-eol",
+      "repository": "TryGhost/Editorial",
+      "parentCommit": "c6ce526b7e9b5b948dbff094b5dda2b5fa85f854",
+      "migrationCommit": "64c543d3ab87839fbb3ff38c42c77497a49680d3",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "NOASSERTION",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The repository has no usable license (NOASSERTION)."
+      ]
+    },
+    {
+      "candidate": "ubc-compair-6b137153a458-python-package-nose-maintenance-only",
+      "repository": "ubc/compair",
+      "parentCommit": "97ae4a7f8b3b290cab5d79f729c9f34965ea618a",
+      "migrationCommit": "6b137153a458822d2138783f03d5648765ca0071",
+      "ruleId": "python.package.nose.maintenance-only",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "GPL-3.0",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": false,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff does not move the component off the deprecated version or package at a reported location."
+      ]
+    },
+    {
+      "candidate": "warengonzaga-fork-corner-e9d93d63eea6-npm-package-node-sass-eol",
+      "repository": "warengonzaga/fork-corner",
+      "parentCommit": "996156beb522c2cbb10f735d8a92d884178e1a42",
+      "migrationCommit": "e9d93d63eea6ec48acae00eb9c484631e9cdbf83",
+      "ruleId": "npm.package.node-sass.eol",
+      "decision": "accepted",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff removes or changes node-sass in 1 reported file; the commit message states the migration; license MIT."
+      ]
+    },
+    {
+      "candidate": "wikimedia-labs-tools-heritage-2a49f041f9f2-python-package-nose-maintenance-only",
+      "repository": "wikimedia/labs-tools-heritage",
+      "parentCommit": "c2c67555872babd5bcaa17dbf941cbe4a629283e",
+      "migrationCommit": "2a49f041f9f2bacf7cc5d6553d73346f0f7a7d2f",
+      "ruleId": "python.package.nose.maintenance-only",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "MIT",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": false,
+        "intentStated": true,
+        "licensed": true,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The diff does not move the component off the deprecated version or package at a reported location."
+      ]
+    },
+    {
+      "candidate": "zopefoundation-authencoding-6e12c6b27b05-github-actions-checkout-node20",
+      "repository": "zopefoundation/AuthEncoding",
+      "parentCommit": "45f5a97105058f368b3bc700e6aee17b72b5c444",
+      "migrationCommit": "6e12c6b27b05331614655170bbbc19ff1c40c33d",
+      "ruleId": "github-actions.checkout.node20",
+      "decision": "rejected",
+      "reviewer": "arminazimi",
+      "reviewedAt": "2026-10-15",
+      "license": "NOASSERTION",
+      "checks": {
+        "parentReportsRule": true,
+        "migrationClearsRule": true,
+        "singleParent": true,
+        "directMigration": true,
+        "intentStated": false,
+        "licensed": false,
+        "publicAndActive": true
+      },
+      "reasons": [
+        "The commit message does not state a version bump or lifecycle migration.",
+        "The repository has no usable license (NOASSERTION)."
       ]
     }
   ]

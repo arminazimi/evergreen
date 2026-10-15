@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "warengonzaga-fork-corner-e9d93d63eea6-npm-package-node-sass-eol",
+  "repository": "warengonzaga/fork-corner",
+  "parentCommit": "996156beb522c2cbb10f735d8a92d884178e1a42",
+  "migrationCommit": "e9d93d63eea6ec48acae00eb9c484631e9cdbf83",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 41
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83",
+    "query": "migrate from node-sass to sass"
+  }
+}

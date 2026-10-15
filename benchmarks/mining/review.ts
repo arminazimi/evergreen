@@ -6,7 +6,7 @@
 // Reviews every mined candidate that is not in benchmarks/mining/review-log.json yet, using the
 // criteria in queries.md ("How a commit proves ground truth"), and records an accepted or rejected
 // decision with the reasons. Every decision comes from checks on evidence fetched from GitHub, so a
-// reader can see why a candidate was kept or dropped. Only GitHub Actions candidates are supported.
+// reader can see why a candidate was kept or dropped. GitHub Actions, npm package, Python package, and Node.js/Python runtime rules are supported.
 
 import { execFile } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
@@ -46,6 +46,23 @@ export interface ActionHint {
   action: string;
   supportedFromMajor: number;
 }
+
+/** A package or runtime rule: the migration is a change to a line that names one of the tokens. */
+export interface TokenHint {
+  /** Package names, or the runtime name ("node", "python"), matched case-insensitively as whole words. */
+  tokens: string[];
+  runtime: boolean;
+}
+
+export type Hint = ActionHint | TokenHint;
+
+const isActionHint = (hint: Hint): hint is ActionHint => "action" in hint;
+
+/** Version-pin files whose lines never name the runtime. */
+const RUNTIME_PIN_FILES = new Set([".nvmrc", ".node-version", ".python-version", ".tool-versions", "runtime.txt"]);
+
+const mentions = (text: string, token: string) =>
+  new RegExp(`(^|[^a-z0-9_-])${token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}($|[^a-z0-9_-])`, "i").test(text);
 
 export interface Checks {
   parentReportsRule: boolean;
@@ -96,7 +113,8 @@ function reference(line: string): { action: string; ref: string; comment: string
  * Counts the places where the diff moves the action from a major the rule reports to one it accepts,
  * in a file the scan reported. A pin to a commit counts when its trailing comment names the new major.
  */
-export function countMigrations(files: Evidence["files"], reported: Set<string>, hint: ActionHint): number {
+export function countMigrations(files: Evidence["files"], reported: Set<string>, hint: Hint): number {
+  if (!isActionHint(hint)) return countTokenMigrations(files, reported, hint);
   let moves = 0;
   for (const file of files) {
     if (!reported.has(file.filename)) continue;
@@ -117,10 +135,35 @@ export function countMigrations(files: Evidence["files"], reported: Set<string>,
   return moves;
 }
 
+/**
+ * Counts reported files where the diff removes or changes a line that names the package (or, for a
+ * runtime, the runtime or a version-pin file). A bare reformat does not count: the line must be removed.
+ */
+function countTokenMigrations(files: Evidence["files"], reported: Set<string>, hint: TokenHint): number {
+  let moves = 0;
+  for (const file of files) {
+    if (!reported.has(file.filename)) continue;
+    const base = file.filename.split("/").pop()!;
+    const removed = file.patch.split("\n").filter((line) => line.startsWith("-") && !line.startsWith("---"));
+    const hit = removed.some((line) =>
+      hint.runtime
+        ? RUNTIME_PIN_FILES.has(base) || hint.tokens.some((token) => mentions(line, token)) || /engines|requires-python|python_requires|node-version|python-version/i.test(line)
+        : hint.tokens.some((token) => mentions(line, token)),
+    );
+    if (hit) moves++;
+  }
+  return moves;
+}
+
 /** True when the message uses a bump verb and names the action, the Node.js runtime, or the new version. */
-export function statesIntent(message: string | null, hint: ActionHint): boolean {
+export function statesIntent(message: string | null, hint: Hint): boolean {
   if (!message) return false;
   const text = message.toLowerCase();
+  if (!isActionHint(hint)) {
+    const verb = /\b(bump|upgrade|update|migrate|move|replace|remove|drop|switch|require|require[sd]?|deprecat|eol|end of life|retire)/.test(text);
+    const names = hint.tokens.some((token) => mentions(text, token)) || (hint.runtime && /\b(node(\.js)?|python|py)\s?\d|\b3\.\d+\b/.test(text));
+    return verb && names;
+  }
   const name = hint.action.split("/")[1]!.toLowerCase();
   return /\b(bump|upgrade|update|migrate|move)/.test(text) && (text.includes(name) || /node(\.js)?\s?(20|24)/.test(text) || /\bv?\d+\s*(to|→|->)\s*v?\d+/.test(text) || /\bto\s+v\d+\b/.test(text));
 }
@@ -128,7 +171,7 @@ export function statesIntent(message: string | null, hint: ActionHint): boolean 
 /** A license GitHub could identify; a repository with none, or text it cannot identify, is not usable. */
 export const hasUsableLicense = (license: string | null) => license !== null && license !== "NOASSERTION" && license !== "NONE";
 
-export function evaluate(candidate: Candidate, evidence: Evidence, hint: ActionHint): { checks: Checks; moves: number } {
+export function evaluate(candidate: Candidate, evidence: Evidence, hint: Hint): { checks: Checks; moves: number } {
   const reported = new Set(candidate.before.map((location) => location.path));
   const moves = countMigrations(evidence.files, reported, hint);
   const checks: Checks = {
@@ -147,13 +190,13 @@ const FAILURES: Record<keyof Checks, (license: string | null) => string> = {
   parentReportsRule: () => "The parent commit does not report the rule.",
   migrationClearsRule: () => "The migration commit still reports the rule at a reported location.",
   singleParent: () => "The commit is a merge or its parent does not match the candidate.",
-  directMigration: () => "The diff does not move the action from an unsupported major to a supported one at a reported location.",
+  directMigration: () => "The diff does not move the component off the deprecated version or package at a reported location.",
   intentStated: () => "The commit message does not state a version bump or lifecycle migration.",
   licensed: (license) => `The repository has no usable license (${license ?? "none"}).`,
   publicAndActive: () => "The repository is private, a fork, or archived.",
 };
 
-export function review(candidate: Candidate, evidence: Evidence, hint: ActionHint, reviewer: string, reviewedAt: string): ReviewEntry {
+export function review(candidate: Candidate, evidence: Evidence, hint: Hint, reviewer: string, reviewedAt: string): ReviewEntry {
   const { checks, moves } = evaluate(candidate, evidence, hint);
   const failed = (Object.keys(checks) as (keyof Checks)[]).filter((name) => !checks[name]);
   const accepted = failed.length === 0;
@@ -169,7 +212,11 @@ export function review(candidate: Candidate, evidence: Evidence, hint: ActionHin
     license: evidence.license,
     checks,
     reasons: accepted
-      ? [`${hint.action} moves to a supported major in ${moves} reported location${moves === 1 ? "" : "s"}; the commit message states the bump; license ${evidence.license}.`]
+      ? [
+          isActionHint(hint)
+            ? `${hint.action} moves to a supported major in ${moves} reported location${moves === 1 ? "" : "s"}; the commit message states the bump; license ${evidence.license}.`
+            : `The diff removes or changes ${hint.tokens.join("/")} in ${moves} reported file${moves === 1 ? "" : "s"}; the commit message states the migration; license ${evidence.license}.`,
+        ]
       : failed.map((name) => FAILURES[name](evidence.license)),
   };
 }
@@ -197,9 +244,25 @@ export async function fetchEvidence(candidate: Candidate): Promise<Evidence> {
   };
 }
 
-async function hints(): Promise<Map<string, ActionHint>> {
-  const registry = JSON.parse(await readFile(resolve("registry/github-actions.json"), "utf8")) as { rules: { id: string; "x-github-actions"?: ActionHint }[] };
-  return new Map(registry.rules.flatMap((rule) => (rule["x-github-actions"] ? [[rule.id, rule["x-github-actions"]] as const] : [])));
+async function hints(): Promise<Map<string, Hint>> {
+  const map = new Map<string, Hint>();
+  const registry = async (name: string) =>
+    (JSON.parse(await readFile(resolve(`registry/${name}.json`), "utf8")) as { rules: Record<string, unknown>[] }).rules;
+  for (const rule of await registry("github-actions")) {
+    const hint = rule["x-github-actions"] as ActionHint | undefined;
+    if (hint) map.set(rule.id as string, hint);
+  }
+  for (const rule of await registry("npm")) {
+    const name = (rule["x-npm"] as { package?: string } | undefined)?.package;
+    if (name) map.set(rule.id as string, { tokens: [name], runtime: false });
+  }
+  for (const rule of await registry("python")) {
+    const hint = rule["x-python"] as { kind?: string; package?: string } | undefined;
+    if (hint?.kind === "package" && hint.package) map.set(rule.id as string, { tokens: [hint.package], runtime: false });
+    if (hint?.kind === "runtime") map.set(rule.id as string, { tokens: ["python"], runtime: true });
+  }
+  for (const rule of await registry("nodejs")) map.set(rule.id as string, { tokens: ["node"], runtime: true });
+  return map;
 }
 
 async function main(): Promise<void> {
@@ -223,7 +286,7 @@ async function main(): Promise<void> {
     const candidate = JSON.parse(await readFile(resolve(directory, file), "utf8")) as Candidate;
     if (entries.has(candidate.id) && !refresh) continue;
     const hint = ruleHints.get(candidate.ruleId);
-    if (!hint) throw new Error(`${candidate.id}: only GitHub Actions rules can be reviewed by this tool (${candidate.ruleId}); review it by hand.`);
+    if (!hint) throw new Error(`${candidate.id}: no review hint exists for rule ${candidate.ruleId}; review it by hand.`);
     process.stderr.write(`review ${candidate.id}\n`);
     entries.set(candidate.id, review(candidate, await fetchEvidence(candidate), hint, reviewer, reviewedAt));
   }

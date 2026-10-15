@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "tryghost-editorial-64c543d3ab87-npm-package-node-sass-eol",
+  "repository": "TryGhost/Editorial",
+  "parentCommit": "c6ce526b7e9b5b948dbff094b5dda2b5fa85f854",
+  "migrationCommit": "64c543d3ab87839fbb3ff38c42c77497a49680d3",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 62
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/TryGhost/Editorial/commit/64c543d3ab87839fbb3ff38c42c77497a49680d3",
+    "query": "migrate from node-sass to sass"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "denis-alexeev-pytest-glamor-allure-537acea9301c-python-runtime-eol-3-9-and-older",
+  "repository": "Denis-Alexeev/pytest-glamor-allure",
+  "parentCommit": "8ea22e128ed5a7cfcc98d85bf4cb8dc5787dff66",
+  "migrationCommit": "537acea9301cda3697c11d98a0f90f02fd833018",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 10
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Denis-Alexeev/pytest-glamor-allure/commit/537acea9301cda3697c11d98a0f90f02fd833018",
+    "query": "drop python 3.9 support"
+  }
+}

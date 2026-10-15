@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "simonsobs-ocs-c18fb69118c9-python-runtime-eol-3-9-and-older",
+  "repository": "simonsobs/ocs",
+  "parentCommit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
+  "migrationCommit": "c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e",
+    "query": "drop python 3.9 support"
+  }
+}

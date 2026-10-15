@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "marcelomarkus-b-fast-8627d6feed48-python-runtime-eol-3-9-and-older",
+  "repository": "marcelomarkus/b-fast",
+  "parentCommit": "819baed5d20420ca8d2935945300f1536d3f8783",
+  "migrationCommit": "8627d6feed48be46187d6db759a96bf513066888",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 10
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888",
+    "query": "drop python 3.9 support"
+  }
+}

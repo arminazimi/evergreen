@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "lv10-amazonapi-6062b3897f65-python-runtime-eol-3-9-and-older",
+  "repository": "lv10/amazonapi",
+  "parentCommit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
+  "migrationCommit": "6062b3897f65a3ad4fd91626b7942ee951899811",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 10
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811",
+    "query": "drop python 3.9 support"
+  }
+}

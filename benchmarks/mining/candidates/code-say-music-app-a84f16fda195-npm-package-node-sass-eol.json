@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "code-say-music-app-a84f16fda195-npm-package-node-sass-eol",
+  "repository": "code-say/music-app",
+  "parentCommit": "52f2e918462ef80718ac183bad5d44d6ef32bd2d",
+  "migrationCommit": "a84f16fda1959451f50206a622a5c3fa09028900",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 12
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/code-say/music-app/commit/a84f16fda1959451f50206a622a5c3fa09028900",
+    "query": "migrate from node-sass to sass"
+  }
+}

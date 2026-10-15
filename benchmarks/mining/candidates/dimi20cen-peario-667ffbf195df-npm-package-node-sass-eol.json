@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "dimi20cen-peario-667ffbf195df-npm-package-node-sass-eol",
+  "repository": "Dimi20cen/peario",
+  "parentCommit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
+  "migrationCommit": "667ffbf195df203851b2e8bf7902a9ab74548994",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 41
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Dimi20cen/peario/commit/667ffbf195df203851b2e8bf7902a9ab74548994",
+    "query": "migrate from node-sass to sass"
+  }
+}

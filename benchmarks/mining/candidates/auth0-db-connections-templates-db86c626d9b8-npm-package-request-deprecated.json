@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "auth0-db-connections-templates-db86c626d9b8-npm-package-request-deprecated",
+  "repository": "auth0/db-connections-templates",
+  "parentCommit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
+  "migrationCommit": "db86c626d9b8b4ca4f5770918100286741b52ef9",
+  "ruleId": "npm.package.request.deprecated",
+  "before": [
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "line": 29
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9",
+    "query": "remove deprecated request package"
+  }
+}

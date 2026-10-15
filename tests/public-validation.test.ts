@@ -70,38 +70,63 @@ test("the public validation corpus is pinned, balanced, and audited", async () =
   assert.equal(original.reduce((total, item) => total + item.expected.length, 0), 27);
 });
 
-test("every expected finding in a GitHub Actions entry cites a reviewed migration commit", async () => {
+test("every mined corpus entry cites a reviewed migration or a recorded maintainer review", async () => {
   const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as {
     repositories: Array<{
       repository: string;
       commit: string;
       ecosystem: string;
-      expected: Array<{ groundTruthSource: { kind: string; url?: string } }>;
+      expected: Array<{ ruleId: string; path: string; groundTruthSource: { kind: string; url?: string; note?: string } }>;
     }>;
   };
   const log = JSON.parse(await readFile(resolve("benchmarks/mining/review-log.json"), "utf8")) as {
     entries: Array<{ repository: string; parentCommit: string; migrationCommit: string; decision: string }>;
   };
   const accepted = log.entries.filter((entry) => entry.decision === "accepted");
+  // Entries 21-30 are the GitHub Actions additions; the rest come from the larger independent corpus.
   const mined = corpus.repositories.slice(20);
-  assert.ok(mined.length >= 10);
+  assert.ok(mined.length >= 30);
+  let withReview = 0;
   for (const entry of mined) {
-    assert.equal(entry.ecosystem, "node-actions");
     const reviewed = accepted.filter((candidate) => candidate.repository === entry.repository);
-    assert.ok(reviewed.length > 0, `${entry.repository} has no accepted review-log entry`);
+    if (reviewed.length === 0) {
+      assert.deepEqual(entry.expected, [], `${entry.repository} is not in the review log, so it can only be a zero-finding entry`);
+      continue;
+    }
+    withReview++;
     for (const finding of entry.expected) {
-      assert.equal(finding.groundTruthSource.kind, "migration-commit");
-      assert.ok(
-        reviewed.some(
-          (candidate) =>
-            candidate.parentCommit === entry.commit &&
-            finding.groundTruthSource.url === `https://github.com/${entry.repository}/commit/${candidate.migrationCommit}`,
-        ),
-        `${entry.repository} finding is not backed by an accepted migration`,
-      );
+      const source = finding.groundTruthSource;
+      if (source.kind === "migration-commit") {
+        assert.ok(
+          reviewed.some(
+            (candidate) =>
+              (candidate.parentCommit === entry.commit || candidate.migrationCommit === entry.commit) &&
+              source.url === `https://github.com/${entry.repository}/commit/${candidate.migrationCommit}`,
+          ),
+          `${entry.repository} ${finding.ruleId} is not backed by an accepted migration`,
+        );
+      } else {
+        assert.equal(source.kind, "maintainer-review", `${entry.repository} ${finding.ruleId}`);
+        assert.ok(source.note?.includes(finding.path), `${entry.repository} ${finding.ruleId} must record the reviewed line`);
+      }
     }
     if (entry.expected.length === 0) {
       assert.ok(reviewed.some((candidate) => candidate.migrationCommit === entry.commit), `${entry.repository} zero-finding entry must pin a reviewed migration commit`);
     }
+  }
+  assert.ok(withReview >= 26);
+});
+
+test("the corpus covers every shipped ecosystem with positive and zero-finding repositories", async () => {
+  const corpus = JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as {
+    repositories: Array<{ ecosystem: string; expected: Array<{ ruleId: string }> }>;
+  };
+  assert.ok(corpus.repositories.length >= 50);
+  const ruleFamilies = new Set(corpus.repositories.flatMap((entry) => entry.expected.map((finding) => finding.ruleId.split(".")[0])));
+  for (const family of ["github-actions", "nodejs", "npm", "python"]) assert.ok(ruleFamilies.has(family), `no expected finding for ${family}`);
+  for (const ecosystem of ["node", "python", "node-actions"]) {
+    const entries = corpus.repositories.filter((entry) => entry.ecosystem === ecosystem);
+    assert.ok(entries.some((entry) => entry.expected.length > 0), `${ecosystem} has no positive repository`);
+    assert.ok(entries.some((entry) => entry.expected.length === 0), `${ecosystem} has no zero-finding repository`);
   }
 });

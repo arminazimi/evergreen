@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "connectrpc-connect-query-es-7c5e7897223a-nodejs-runtime-eol-20",
+  "repository": "connectrpc/connect-query-es",
+  "parentCommit": "584732abf870b5561ba50052d02caf0c85635204",
+  "migrationCommit": "7c5e7897223ab1b50df507adf8304980f6d49231",
+  "ruleId": "nodejs.runtime.eol-20",
+  "before": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 52
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/connectrpc/connect-query-es/commit/7c5e7897223ab1b50df507adf8304980f6d49231",
+    "query": "drop node 20 support"
+  }
+}

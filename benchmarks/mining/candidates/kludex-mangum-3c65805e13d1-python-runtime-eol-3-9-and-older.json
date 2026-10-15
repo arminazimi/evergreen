@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "kludex-mangum-3c65805e13d1-python-runtime-eol-3-9-and-older",
+  "repository": "Kludex/mangum",
+  "parentCommit": "e2f92d030dbb164d8257da6f07d84bdb99b423a1",
+  "migrationCommit": "3c65805e13d1033ac1c7a3a320ef15ad0575b55d",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 14
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Kludex/mangum/commit/3c65805e13d1033ac1c7a3a320ef15ad0575b55d",
+    "query": "drop python 3.9 support"
+  }
+}

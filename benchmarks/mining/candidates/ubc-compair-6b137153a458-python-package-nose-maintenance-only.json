@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "ubc-compair-6b137153a458-python-package-nose-maintenance-only",
+  "repository": "ubc/compair",
+  "parentCommit": "97ae4a7f8b3b290cab5d79f729c9f34965ea618a",
+  "migrationCommit": "6b137153a458822d2138783f03d5648765ca0071",
+  "ruleId": "python.package.nose.maintenance-only",
+  "before": [
+    {
+      "ruleId": "python.package.nose.maintenance-only",
+      "path": "requirements.txt",
+      "line": 36
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/ubc/compair/commit/6b137153a458822d2138783f03d5648765ca0071",
+    "query": "replace nose with pytest"
+  }
+}

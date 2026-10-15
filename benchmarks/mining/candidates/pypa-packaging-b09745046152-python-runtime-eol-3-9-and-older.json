@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "pypa-packaging-b09745046152-python-runtime-eol-3-9-and-older",
+  "repository": "pypa/packaging",
+  "parentCommit": "b80e6eb0a6c0f61dcaa9b1587f3aab370263dc65",
+  "migrationCommit": "b097450461523502ada842f98274449ad74ff1ff",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 12
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/pypa/packaging/commit/b097450461523502ada842f98274449ad74ff1ff",
+    "query": "drop python 3.9 support"
+  }
+}

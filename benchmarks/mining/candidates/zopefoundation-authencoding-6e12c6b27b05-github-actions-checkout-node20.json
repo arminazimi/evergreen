@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "zopefoundation-authencoding-6e12c6b27b05-github-actions-checkout-node20",
+  "repository": "zopefoundation/AuthEncoding",
+  "parentCommit": "45f5a97105058f368b3bc700e6aee17b72b5c444",
+  "migrationCommit": "6e12c6b27b05331614655170bbbc19ff1c40c33d",
+  "ruleId": "github-actions.checkout.node20",
+  "before": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/pre-commit.yml",
+      "line": 24
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/tests.yml",
+      "line": 40
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/zopefoundation/AuthEncoding/commit/6e12c6b27b05331614655170bbbc19ff1c40c33d",
+    "query": "drop python 3.9 support"
+  }
+}

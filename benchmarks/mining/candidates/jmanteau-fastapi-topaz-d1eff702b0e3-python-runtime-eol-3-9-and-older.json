@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "jmanteau-fastapi-topaz-d1eff702b0e3-python-runtime-eol-3-9-and-older",
+  "repository": "jmanteau/fastapi-topaz",
+  "parentCommit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
+  "migrationCommit": "d1eff702b0e3afc932e8794e50aed76fca028732",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 6
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732",
+    "query": "drop python 3.9 support"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "jhlov-baseball-41c15414a722-npm-package-node-sass-eol",
+  "repository": "jhlov/baseball",
+  "parentCommit": "b9fd0bc0f4112c2de0c35c3287402f5a48abc7a2",
+  "migrationCommit": "41c15414a7225c5cc667fa875da9aebee7821020",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 19
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/jhlov/baseball/commit/41c15414a7225c5cc667fa875da9aebee7821020",
+    "query": "migrate from node-sass to sass"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "wikimedia-labs-tools-heritage-2a49f041f9f2-python-package-nose-maintenance-only",
+  "repository": "wikimedia/labs-tools-heritage",
+  "parentCommit": "c2c67555872babd5bcaa17dbf941cbe4a629283e",
+  "migrationCommit": "2a49f041f9f2bacf7cc5d6553d73346f0f7a7d2f",
+  "ruleId": "python.package.nose.maintenance-only",
+  "before": [
+    {
+      "ruleId": "python.package.nose.maintenance-only",
+      "path": "requirements-dev.txt",
+      "line": 6
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/wikimedia/labs-tools-heritage/commit/2a49f041f9f2bacf7cc5d6553d73346f0f7a7d2f",
+    "query": "replace nose with pytest"
+  }
+}

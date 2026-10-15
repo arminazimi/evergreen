@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "strambc-fof-ct-linkml-e0f029a6b0a4-python-runtime-eol-3-9-and-older",
+  "repository": "strambc/fof-ct-linkml",
+  "parentCommit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
+  "migrationCommit": "e0f029a6b0a4bef8c7b18d62a74444dfaeddb906",
+  "ruleId": "python.runtime.eol-3.9-and-older",
+  "before": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 14
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/strambc/fof-ct-linkml/commit/e0f029a6b0a4bef8c7b18d62a74444dfaeddb906",
+    "query": "drop python 3.9 support"
+  }
+}

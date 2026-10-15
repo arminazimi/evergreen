@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "cloudfour-lighthouse-parade-64e997380831-nodejs-runtime-eol-20",
+  "repository": "cloudfour/lighthouse-parade",
+  "parentCommit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
+  "migrationCommit": "64e99738083115ead584d88f48bfb81b2cbcc152",
+  "ruleId": "nodejs.runtime.eol-20",
+  "before": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 38
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152",
+    "query": "drop node 20 support"
+  }
+}

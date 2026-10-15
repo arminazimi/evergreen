@@ -6,7 +6,7 @@ import { Ajv2020 } from "ajv/dist/2020.js";
 
 import { isIsoDate } from "../src/registry.js";
 import { countMigrations, evaluate, hasUsableLicense, review, statesIntent } from "../benchmarks/mining/review.js";
-import type { ActionHint, Candidate, Checks, Evidence, ReviewLog } from "../benchmarks/mining/review.js";
+import type { ActionHint, Candidate, Checks, Evidence, ReviewLog, TokenHint } from "../benchmarks/mining/review.js";
 
 const readJson = async <T>(path: string) => JSON.parse(await readFile(resolve(path), "utf8")) as T;
 const hints: Record<string, ActionHint> = {
@@ -125,4 +125,25 @@ test("recognizes a stated intent and a usable license", () => {
   for (const message of ["Bump actions/checkout from 4 to 5", "chore(ci): upgrade checkout to clear the Node 20 warning", "ci: update actions to v5"]) assert.equal(statesIntent(message, hint), true, message);
   for (const message of ["wip", "fix typo", "", null, "Add feature"]) assert.equal(statesIntent(message, hint), false, String(message));
   assert.deepEqual(["MIT", "Apache-2.0", "NOASSERTION", "NONE", null].map(hasUsableLicense), [true, true, false, false, false]);
+});
+
+test("package and runtime migrations are recognized from removed lines and the commit message", () => {
+  const sass: TokenHint = { tokens: ["node-sass"], runtime: false };
+  const reported = new Set(["package.json"]);
+  const manifest = (patch: string) => [{ filename: "package.json", patch }];
+  assert.equal(countMigrations(manifest('@@ -5 +5 @@\n-    "node-sass": "^4.14.1",\n+    "sass": "^1.32.0",\n'), reported, sass), 1);
+  assert.equal(countMigrations(manifest('@@ -5 +5 @@\n-    "node-sass-importer": "^1.0.0",\n+    "x": "1",\n'), reported, sass), 0, "a different package");
+  assert.equal(countMigrations(manifest('@@ -5 +5 @@\n+    "node-sass": "^4.14.1",\n'), reported, sass), 0, "an addition is not a migration");
+  assert.equal(countMigrations([{ filename: "other/package.json", patch: '-    "node-sass": "1"\n' }], reported, sass), 0, "not a reported file");
+
+  const node: TokenHint = { tokens: ["node"], runtime: true };
+  assert.equal(countMigrations([{ filename: ".nvmrc", patch: "@@ -1 +1 @@\n-18\n+22\n" }], new Set([".nvmrc"]), node), 1, "a version-pin file names no runtime");
+  assert.equal(countMigrations(manifest('@@ -1 +1 @@\n-    "node": ">=18"\n+    "node": ">=22"\n'), reported, node), 1);
+
+  assert.equal(statesIntent("Replace node-sass with sass", sass), true);
+  assert.equal(statesIntent("Update dependencies", sass), false, "does not name the package");
+  assert.equal(statesIntent("node-sass", sass), false, "no verb");
+  assert.equal(statesIntent("Drop Node 18 support", node), true);
+  assert.equal(statesIntent("Require python 3.10", { tokens: ["python"], runtime: true }), true);
+  assert.equal(statesIntent("fix typo", node), false);
 });

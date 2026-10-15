@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "collective-collective-sidebar-e23a6a5cd5ec-npm-package-node-sass-eol",
+  "repository": "collective/collective.sidebar",
+  "parentCommit": "eac7dcfd929aa9fe86ac3b6c11f56d5ddb68d1e8",
+  "migrationCommit": "e23a6a5cd5ec57e813cec1cf883adc4551c2d40a",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 33
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/collective/collective.sidebar/commit/e23a6a5cd5ec57e813cec1cf883adc4551c2d40a",
+    "query": "migrate from node-sass to sass"
+  }
+}

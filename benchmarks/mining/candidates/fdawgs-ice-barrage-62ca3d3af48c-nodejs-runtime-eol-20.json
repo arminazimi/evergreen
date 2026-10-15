@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "fdawgs-ice-barrage-62ca3d3af48c-nodejs-runtime-eol-20",
+  "repository": "Fdawgs/ice-barrage",
+  "parentCommit": "d842b983d031675de736bfdbdb28798c071ebba5",
+  "migrationCommit": "62ca3d3af48c6e329581a1849c5f4b15481e8cea",
+  "ruleId": "nodejs.runtime.eol-20",
+  "before": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "line": 1
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 29
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea",
+    "query": "drop node 20 support"
+  }
+}

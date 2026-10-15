@@ -2,6 +2,10 @@
 //
 //   npm run build --silent
 //   node dist/benchmarks/mining/mine.js --limit 30
+//   node dist/benchmarks/mining/mine.js --queries npm,python --limit 10 --append
+//
+// --queries picks search groups (actions, node, npm, python; default all). --append keeps the
+// candidates already on disk and adds only new ones, so a later run never replaces reviewed work.
 
 import { execFile } from "node:child_process";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -16,26 +20,22 @@ import { scanRepository } from "../../src/engine.js";
 const run = promisify(execFile);
 const SHA = /^[0-9a-f]{40}$/;
 const COMMAND_TIMEOUT_MS = 30_000;
-const SEARCHES = [
-  "upgrade actions/checkout v5",
-  "bump actions/checkout from 4 to 5",
-  "upgrade actions/setup-node v5",
-  "bump actions/setup-node from 4 to 5",
-  "upgrade actions/cache v5",
-  "bump actions/cache from 4 to 5",
-  "upgrade upload-artifact v7",
-  "upgrade download-artifact v7",
-  "drop node 20 support",
-  "drop node 18 support",
-  "upgrade node 22",
-  "replace request with fetch",
-  "migrate from node-sass to sass",
-  "remove left-pad",
-  "drop python 3.9 support",
-  "replace nose with pytest",
-  "replace django-nose",
-  "replace pycrypto",
-] as const;
+const SEARCH_GROUPS = {
+  actions: [
+    "upgrade actions/checkout v5",
+    "bump actions/checkout from 4 to 5",
+    "upgrade actions/setup-node v5",
+    "bump actions/setup-node from 4 to 5",
+    "upgrade actions/cache v5",
+    "bump actions/cache from 4 to 5",
+    "upgrade upload-artifact v7",
+    "upgrade download-artifact v7",
+  ],
+  node: ["drop node 20 support", "drop node 18 support", "upgrade node 22", "require node 22"],
+  npm: ["replace request with fetch", "migrate from node-sass to sass", "remove left-pad", "remove deprecated request package"],
+  python: ["drop python 3.9 support", "replace nose with pytest", "replace django-nose", "replace pycrypto", "migrate from nose to pytest"],
+} as const;
+type SearchGroup = keyof typeof SEARCH_GROUPS;
 
 interface SearchCommit {
   sha: string;
@@ -161,15 +161,24 @@ async function inspect(
 }
 
 async function main(): Promise<void> {
+  const append = process.argv.includes("--append");
   const limit = Number.parseInt(argument("--limit", "30"), 10);
-  if (!Number.isInteger(limit) || limit < 30) throw new Error("--limit must be at least 30");
+  if (!Number.isInteger(limit) || limit < (append ? 1 : 30)) throw new Error(`--limit must be at least ${append ? 1 : 30}`);
+  const groups = argument("--queries", Object.keys(SEARCH_GROUPS).join(",")).split(",") as SearchGroup[];
+  for (const group of groups) if (!(group in SEARCH_GROUPS)) throw new Error(`Unknown query group "${group}".`);
+  const searches = groups.flatMap((group) => [...SEARCH_GROUPS[group]]);
   const output = resolve(argument("--out", "benchmarks/mining/candidates"));
   const root = await mkdtemp(join(tmpdir(), "evergreen-mining-"));
   const candidates = new Map<string, Candidate>();
   const seen = new Set<string>();
+  const existing = new Set(
+    append
+      ? (JSON.parse(await readFile(join(output, "index.json"), "utf8").catch(() => "[]")) as string[]).map((file) => file.replace(/\.json$/, ""))
+      : [],
+  );
 
   try {
-    for (const query of SEARCHES) {
+    for (const query of searches) {
       if (candidates.size >= limit) break;
       const result = await github<SearchResult>("search/commits", {
         q: `${query} is:public`,
@@ -184,7 +193,7 @@ async function main(): Promise<void> {
         );
         try {
           for (const candidate of await inspect(root, commit, query)) {
-            candidates.set(candidate.id, candidate);
+            if (!existing.has(candidate.id)) candidates.set(candidate.id, candidate);
           }
         } catch (error) {
           process.stderr.write(`skip ${commit.repository.full_name}@${commit.sha}: ${String(error)}\n`);
@@ -197,16 +206,14 @@ async function main(): Promise<void> {
     }
     await mkdir(output, { recursive: true });
     const oldFiles = JSON.parse(await readFile(join(output, "index.json"), "utf8").catch(() => "[]")) as string[];
-    await Promise.all(oldFiles.map((file) => rm(join(output, file), { force: true })));
+    if (!append) await Promise.all(oldFiles.map((file) => rm(join(output, file), { force: true })));
     const selected = [...candidates.values()].sort((left, right) => left.id.localeCompare(right.id)).slice(0, limit);
-    const files = selected.map((candidate) => `${candidate.id}.json`);
     await Promise.all(
-      selected.map((candidate, index) =>
-        writeFile(join(output, files[index]!), `${JSON.stringify(candidate, null, 2)}\n`),
-      ),
+      selected.map((candidate) => writeFile(join(output, `${candidate.id}.json`), `${JSON.stringify(candidate, null, 2)}\n`)),
     );
+    const files = [...new Set([...(append ? oldFiles : []), ...selected.map((candidate) => `${candidate.id}.json`)])].sort();
     await writeFile(join(output, "index.json"), `${JSON.stringify(files, null, 2)}\n`);
-    process.stdout.write(`Wrote ${files.length} pinned candidates to ${output}\n`);
+    process.stdout.write(`Wrote ${selected.length} pinned candidates to ${output} (${files.length} in the index)\n`);
   } finally {
     await rm(root, { recursive: true, force: true });
   }

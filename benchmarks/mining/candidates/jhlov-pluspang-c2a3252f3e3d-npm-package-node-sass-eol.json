@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "jhlov-pluspang-c2a3252f3e3d-npm-package-node-sass-eol",
+  "repository": "jhlov/pluspang",
+  "parentCommit": "4dae688cb54c25bc1df3438a30444cc27db7f9b3",
+  "migrationCommit": "c2a3252f3e3dec986e882a5d38eeb42dce1f52e4",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/jhlov/pluspang/commit/c2a3252f3e3dec986e882a5d38eeb42dce1f52e4",
+    "query": "migrate from node-sass to sass"
+  }
+}

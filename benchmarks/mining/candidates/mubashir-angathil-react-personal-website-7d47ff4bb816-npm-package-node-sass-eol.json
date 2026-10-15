@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "mubashir-angathil-react-personal-website-7d47ff4bb816-npm-package-node-sass-eol",
+  "repository": "mubashir-angathil/react-personal-website",
+  "parentCommit": "53b07fa80a966fe17cf7522f83a50abfbac67d9b",
+  "migrationCommit": "7d47ff4bb816764f7c23424867c3f5de3f7dd46c",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 42
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/mubashir-angathil/react-personal-website/commit/7d47ff4bb816764f7c23424867c3f5de3f7dd46c",
+    "query": "migrate from node-sass to sass"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "aeb-labs-cruddl-9a329f4356ef-nodejs-runtime-eol-20",
+  "repository": "AEB-labs/cruddl",
+  "parentCommit": "0b875aab1976f38a69607ec3c06708c210a84b6e",
+  "migrationCommit": "9a329f4356efcc4628623dc7e0e8081eb3e6655a",
+  "ruleId": "nodejs.runtime.eol-20",
+  "before": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 83
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/AEB-labs/cruddl/commit/9a329f4356efcc4628623dc7e0e8081eb3e6655a",
+    "query": "drop node 20 support"
+  }
+}

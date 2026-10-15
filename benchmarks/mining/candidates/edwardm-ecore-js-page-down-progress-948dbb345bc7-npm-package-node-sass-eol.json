@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "edwardm-ecore-js-page-down-progress-948dbb345bc7-npm-package-node-sass-eol",
+  "repository": "edwardm/ECORE-JS-Page-Down-Progress",
+  "parentCommit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
+  "migrationCommit": "948dbb345bc71a3d451f676943dbd0257f87cbb8",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 43
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8",
+    "query": "migrate from node-sass to sass"
+  }
+}

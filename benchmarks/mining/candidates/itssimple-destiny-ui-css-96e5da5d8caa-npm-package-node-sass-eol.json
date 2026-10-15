@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "itssimple-destiny-ui-css-96e5da5d8caa-npm-package-node-sass-eol",
+  "repository": "itssimple/destiny-ui-css",
+  "parentCommit": "c7a09029eb6173043228d6ff5efccce9e1217d02",
+  "migrationCommit": "96e5da5d8caa873fc638fd33a9fac992debb5d93",
+  "ruleId": "npm.package.node-sass.eol",
+  "before": [
+    {
+      "ruleId": "npm.package.node-sass.eol",
+      "path": "package.json",
+      "line": 13
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/itssimple/destiny-ui-css/commit/96e5da5d8caa873fc638fd33a9fac992debb5d93",
+    "query": "migrate from node-sass to sass"
+  }
+}

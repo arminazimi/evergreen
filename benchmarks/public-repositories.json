@@ -174,6 +174,155 @@
       ]
     },
     { "repository": "openmcp-project/crossplane-headlamp-plugin", "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3", "ecosystem": "node-actions", "expected": [] },
-    { "repository": "phmatray/claude-deck", "commit": "d1325af2d9d883d86288312079d1bca012ee10c2", "ecosystem": "node-actions", "expected": [] }
+    { "repository": "phmatray/claude-deck", "commit": "d1325af2d9d883d86288312079d1bca012ee10c2", "ecosystem": "node-actions", "expected": [] },
+    {
+      "repository": "edwardm/ECORE-JS-Page-Down-Progress",
+      "commit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 43, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8" } }
+      ]
+    },
+    {
+      "repository": "marcelomarkus/b-fast",
+      "commit": "819baed5d20420ca8d2935945300f1536d3f8783",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888" } }
+      ]
+    },
+    {
+      "repository": "simonsobs/ocs",
+      "commit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e" } }
+      ]
+    },
+    {
+      "repository": "simonsobs/socs",
+      "commit": "4413b27a567feee21a9e331bc60497c8458448aa",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/simonsobs/socs/commit/f22f0b56a89d463b3357034d353020e3bdb2f62b" } }
+      ]
+    },
+    {
+      "repository": "strambc/fof-ct-linkml",
+      "commit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 14, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/strambc/fof-ct-linkml/commit/e0f029a6b0a4bef8c7b18d62a74444dfaeddb906" } }
+      ]
+    },
+    {
+      "repository": "warengonzaga/fork-corner",
+      "commit": "996156beb522c2cbb10f735d8a92d884178e1a42",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 41, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83" } }
+      ]
+    },
+    {
+      "repository": "auth0/db-connections-templates",
+      "commit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/semgrep.yml", "line": 15, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 15 of .github/workflows/semgrep.yml reads - uses: actions/checkout@v3" } },
+        { "ruleId": "npm.package.request.deprecated", "path": "package.json", "line": 29, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9" } }
+      ]
+    },
+    {
+      "repository": "collective/collective.sidebar",
+      "commit": "eac7dcfd929aa9fe86ac3b6c11f56d5ddb68d1e8",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "github-actions.cache.node20", "path": ".github/workflows/build.yml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/build.yml reads - uses: actions/cache@v2" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/build.yml reads - uses: actions/checkout@v2" } },
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 33, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/collective/collective.sidebar/commit/e23a6a5cd5ec57e813cec1cf883adc4551c2d40a" } }
+      ]
+    },
+    {
+      "repository": "Dimi20cen/peario",
+      "commit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build.yml", "line": 15, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 15 of .github/workflows/build.yml reads uses: actions/checkout@v2" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 12, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads uses: actions/checkout@v2" } },
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 41, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Dimi20cen/peario/commit/667ffbf195df203851b2e8bf7902a9ab74548994" } }
+      ]
+    },
+    {
+      "repository": "jmanteau/fastapi-topaz",
+      "commit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 16, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 16 of .github/workflows/ci.yml reads - uses: actions/checkout@v4" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@v4" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 49, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 49 of .github/workflows/docs.yml reads uses: actions/checkout@v4" } },
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 6, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732" } }
+      ]
+    },
+    {
+      "repository": "lv10/amazonapi",
+      "commit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
+      "ecosystem": "python",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yml reads uses: actions/checkout@v4" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads - uses: actions/checkout@v4" } },
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811" } }
+      ]
+    },
+    {
+      "repository": "polyswarm/ppdns-chrome-extension",
+      "commit": "bd6b101b3897b1133db84370deeff32803b1f7ff",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/webpack.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/webpack.yml reads - uses: actions/checkout@v3" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/webpack.yml", "line": 22, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 22 of .github/workflows/webpack.yml reads - uses: actions/setup-node@v3" } },
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 48, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/polyswarm/ppdns-chrome-extension/commit/5cc480df63ba227b3ec9508145954c18f5ffdf07" } }
+      ]
+    },
+    {
+      "repository": "cloudfour/lighthouse-parade",
+      "commit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152" } }
+      ]
+    },
+    {
+      "repository": "connectrpc/connect-playwright-es",
+      "commit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": ".nvmrc", "line": 1, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
+        { "ruleId": "nodejs.runtime.legacy", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } }
+      ]
+    },
+    {
+      "repository": "connectrpc/connect-query-es",
+      "commit": "584732abf870b5561ba50052d02caf0c85635204",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 52, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-query-es/commit/7c5e7897223ab1b50df507adf8304980f6d49231" } }
+      ]
+    },
+    {
+      "repository": "Fdawgs/ice-barrage",
+      "commit": "d842b983d031675de736bfdbdb28798c071ebba5",
+      "ecosystem": "node",
+      "expected": [
+        { "ruleId": "nodejs.runtime.eol-20", "path": ".nvmrc", "line": 1, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea" } },
+        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 29, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea" } }
+      ]
+    },
+    { "repository": "withastro/astro", "commit": "c2c43a99f4d50676456c137ff88359579f78bf5c", "ecosystem": "node", "expected": [] },
+    { "repository": "vitest-dev/vitest", "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7", "ecosystem": "node", "expected": [] },
+    { "repository": "lerna/lerna", "commit": "b00fa0321a42947bb4113bc7906021f04131d0db", "ecosystem": "node", "expected": [] },
+    { "repository": "changesets/changesets", "commit": "c73949ba7b3160a4aa5729223335c190de1528f8", "ecosystem": "node", "expected": [] }
   ]
 }

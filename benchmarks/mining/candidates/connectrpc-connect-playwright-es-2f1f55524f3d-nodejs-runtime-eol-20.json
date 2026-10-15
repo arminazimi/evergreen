@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.migration-candidate.v1",
+  "id": "connectrpc-connect-playwright-es-2f1f55524f3d-nodejs-runtime-eol-20",
+  "repository": "connectrpc/connect-playwright-es",
+  "parentCommit": "1fc1442b31f3104122b919f959cfe55d15338cca",
+  "migrationCommit": "2f1f55524f3d95ddec166b5226bcbe1d7d766dd6",
+  "ruleId": "nodejs.runtime.eol-20",
+  "before": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "line": 1
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 25
+    }
+  ],
+  "after": [],
+  "evidence": {
+    "kind": "migration-commit",
+    "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6",
+    "query": "drop node 20 support"
+  }
+}
