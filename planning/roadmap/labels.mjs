@@ -1,21 +1,108 @@
-// Label taxonomy for the H1 roadmap. Existing labels are listed so the apply
+// Phases, label taxonomy, and targets for the H1 roadmap. Existing labels are listed so the apply
 // script can verify them; only missing labels are created.
 
+// The roadmap program. Each phase below is its own GitHub milestone, run in order.
 export const MILESTONE = {
   title: "Evergreen H1 — Coverage & Proof",
-  dueOn: "2027-04-15T00:00:00Z",
-  description:
-    "Six-month roadmap (2026-10-15 → 2027-04-15): automated evidence-backed lifecycle data, independent proof, 25+ ecosystems, fully agent-native and auto-discoverable, aligned with ECMA-428 (CLE), PURL, and VERS, and a stable v1. Months are tracked with `roadmap: M1`…`M6` labels.",
+  dueOn: "2027-04-15T12:00:00Z",
 };
 
+// Keys M1–M6 are internal; GitHub shows the phase milestone titles.
 export const MONTHS = {
-  M1: { label: "roadmap: M1", window: "2026-10-15 → 2026-11-15", theme: "Foundation for parallel work and truth" },
-  M2: { label: "roadmap: M2", window: "2026-11-16 → 2026-12-15", theme: "Data channel, agent guardrail, first new ecosystems" },
-  M3: { label: "roadmap: M3", window: "2026-12-16 → 2027-01-15", theme: "Backend and infrastructure wave, distribution" },
-  M4: { label: "roadmap: M4", window: "2027-01-16 → 2027-02-15", theme: "Standards, accuracy, infrastructure and mobile" },
-  M5: { label: "roadmap: M5", window: "2027-02-16 → 2027-03-15", theme: "Long tail, open data, community scale" },
-  M6: { label: "roadmap: M6", window: "2027-03-16 → 2027-04-15", theme: "v1 and launch" },
+  M1: {
+    phase: 20, title: "Phase 20 — Ready for contributors and real data", dueOn: "2026-11-15T12:00:00Z",
+    window: "2026-10-15 → 2026-11-15", theme: "Ready for contributors and real data",
+    delivers: [
+      "AGENTS.md, issue forms, PR template, CODEOWNERS, dev container, and a 30-minute first-contribution path",
+      "Lifecycle rule format v2 keyed by PURL and VERS, with provenance and freshness; all bundled registries migrated",
+      "SHA-pinned GitHub Actions classified instead of silently ignored",
+      "Importer framework plus importers for Node.js, Python, npm, PyPI, GitHub Actions runtimes, and runner images",
+      "Independent ground truth from real migration commits; 10 new GitHub Actions corpus repositories; weekly corpus runs",
+      "Shared detector conformance suite run by every built-in detector",
+      "CI on Linux, Windows, and macOS with Node 22 and 24; npm trusted publishing with provenance",
+      "40+ new curated npm, Python, and GitHub Actions rules; weekly adoption measurement",
+    ],
+  },
+  M2: {
+    phase: 21, title: "Phase 21 — Fresh data and agent guardrails", dueOn: "2026-12-15T12:00:00Z",
+    window: "2026-11-16 → 2026-12-15", theme: "Fresh data and agent guardrails",
+    delivers: [
+      "Signed lifecycle data bundle with `evergreen data update` and `evergreen data status`; scans stay offline",
+      "Agent guardrail: `evergreen check`, the `check_dependency` MCP tool, and hooks for Claude Code and Codex, with setups for Cursor, Gemini CLI, Copilot, and Kilo Code",
+      "MCP resources, prompts, and typed outputs; listing in the official MCP Registry; llms.txt",
+      "`evergreen init --agents --hooks` with a git pre-push hook and a pre-commit hook",
+      "SARIF output and GitHub Code Scanning upload",
+      "Detector scaffolding generator; Go and container base-image detection",
+      "Scheduled importers opening data PRs; differential testing against Renovate and xeol; 50-repository corpus",
+      "First public launch: the agent dependency guardrail",
+    ],
+  },
+  M3: {
+    phase: 22, title: "Phase 22 — Backend, cloud, and Kubernetes coverage", dueOn: "2027-01-15T12:00:00Z",
+    window: "2026-12-16 → 2027-01-15", theme: "Backend, cloud, and Kubernetes coverage",
+    delivers: [
+      "Rust, Java and Kotlin, .NET, Kubernetes API, and serverless runtime (AWS Lambda, Azure Functions, Google Cloud) detection",
+      "Polished one-step GitHub Action published in GitHub Marketplace; container image on GHCR; Homebrew tap; README badge",
+      "Expiring, machine-readable suppression reasons",
+      "Detector maturity levels and a generated coverage matrix; 100-repository corpus with regression thresholds",
+      "Public reference page for every lifecycle rule, with JSON-LD and a sitemap",
+      "Integrations: GitHub starter workflow, MegaLinter, reviewdog, and trunk",
+      "Second public launch: Kubernetes and serverless checks for DevOps teams",
+    ],
+  },
+  M4: {
+    phase: 23, title: "Phase 23 — Standards and precise code analysis", dueOn: "2027-02-15T12:00:00Z",
+    window: "2027-01-16 → 2027-02-15", theme: "Standards and precise code analysis",
+    delivers: [
+      "tree-sitter usage analysis for JavaScript, TypeScript, and Python, replacing regex matching",
+      "Symbol-level API deprecation rules for Node.js and Python",
+      "CLE (ECMA-428) export, CycloneDX lifecycle enrichment, and CycloneDX/SPDX SBOM input",
+      "Agent migration benchmark with published results",
+      "Terraform and Android detection; community-led Dart/Flutter and Swift detection",
+      "Lifecycle rules for Django, Angular, Vue, React Native, Next.js, and Spring Boot",
+      "Third public launch: lifecycle data in SBOMs",
+    ],
+  },
+  M5: {
+    phase: 24, title: "Phase 24 — Community ecosystems and open data", dueOn: "2027-03-15T12:00:00Z",
+    window: "2027-02-16 → 2027-03-15", theme: "Community ecosystems and open data",
+    delivers: [
+      "Community-led PHP, Ruby, C/C++, Shell/PowerShell, database, and CI runner-image detection",
+      "Lifecycle rules for Rails and Laravel",
+      "GitLab CI/CD component published in the GitLab CI/CD Catalog",
+      "Open lifecycle dataset with a static JSON API, and maintainer-declared lifecycle read from CLE files",
+      "Public governance, RFC process, detector owners, and Code of Conduct",
+      "VS Code extension with inline diagnostics",
+    ],
+  },
+  M6: {
+    phase: 25, title: "Phase 25 — Evergreen v1", dueOn: "2027-04-15T12:00:00Z",
+    window: "2027-03-16 → 2027-04-15", theme: "Evergreen v1",
+    delivers: [
+      "Evergreen v1 with published compatibility guarantees and release notes",
+      "Public accuracy and performance dashboard; 300-repository independent corpus",
+      "Tested playbooks for CLI, agents, GitHub, and GitLab",
+      "Threat model, parser fuzzing, SLSA provenance, and a 100k-file monorepo benchmark",
+      "Persian README and quickstart",
+      "Demo video, case studies, and the v1 launch",
+    ],
+  },
 };
+
+export function phaseDescription(month) {
+  const m = MONTHS[month];
+  const keys = Object.keys(MONTHS);
+  const prev = keys[keys.indexOf(month) - 1];
+  const start = prev ? `Starts when ${MONTHS[prev].title.split(" — ")[0]} is complete.` : "First phase of the H1 roadmap.";
+  return [
+    `${m.window}. ${start}`,
+    "",
+    "When this phase is complete, Evergreen has:",
+    ...m.delivers.map((d) => `- ${d}`),
+    "",
+    "Exit: every issue in this milestone is closed and `npm run check` is green on main.",
+  ].join("\n");
+}
 
 export const TARGETS = [
   ["Ecosystems and platforms detected", "4", "25+ (12 stable, the rest experimental)"],
@@ -50,8 +137,6 @@ const orange = "D93F0B";
 const yellow = "FBCA04";
 
 export const LABELS = [
-  // Months
-  ...Object.values(MONTHS).map((m) => ({ name: m.label, color: "C5DEF5", description: `${m.theme} (${m.window})` })),
   // Lanes
   { name: LANES.strong.label, color: purple, description: "Needs a strong coding agent or experienced contributor" },
   { name: LANES.free.label, color: green, description: "Spec-complete: suitable for free agents and new contributors" },
@@ -75,6 +160,9 @@ export const LABELS = [
   { name: "area: validation", color: teal, description: "Independent ground truth, corpus, and accuracy evidence" },
   { name: "area: community", color: teal, description: "Contributors, governance, and outreach" },
 ];
+
+// Month labels from the first rollout; phases are milestones now, so these are deleted.
+export const RETIRED_LABELS = ["roadmap: M1", "roadmap: M2", "roadmap: M3", "roadmap: M4", "roadmap: M5", "roadmap: M6"];
 
 export const EXISTING_LABELS = [
   "roadmap", "good first issue", "help wanted", "enhancement", "bug", "documentation",

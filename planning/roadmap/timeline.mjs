@@ -11,7 +11,7 @@ import { EPICS, TASKS } from "./workstreams.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const statePath = join(here, "out", "state.json");
-const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { numbers: {} };
+const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { numbers: {}, phases: {} };
 
 const GROUPS = [
   ["evidence", "Evidence and data", ["#38", "E-importers", "E-data-channel", "#41", "E-open-data"]],
@@ -33,7 +33,7 @@ if (missing.length) throw new Error(`epics without a timeline group: ${missing.j
 
 const data = {
   milestone: MILESTONE.title,
-  months: Object.entries(MONTHS).map(([id, m]) => ({ id, theme: m.theme, window: m.window })),
+  months: Object.entries(MONTHS).map(([id, m]) => ({ id, phase: m.phase, theme: m.theme, window: m.window, milestone: state.phases?.[id] ?? null, delivers: m.delivers })),
   targets: TARGETS,
   groups: GROUPS.map(([id, name, keys]) => ({
     id, name,

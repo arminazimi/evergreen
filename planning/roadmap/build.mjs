@@ -7,7 +7,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { ECOSYSTEMS, ecosystemEpic, ecosystemTasks } from "./ecosystems.mjs";
-import { EXISTING_LABELS, LABELS, LANES, MILESTONE, MONTHS, SIZES, ecosystemLabel } from "./labels.mjs";
+import { EXISTING_LABELS, LABELS, LANES, MILESTONE, MONTHS, SIZES, ecosystemLabel, phaseDescription } from "./labels.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -44,7 +44,7 @@ if (errors.length) {
 
 // ── Labels
 function labelsFor(item) {
-  const set = new Set(["roadmap", MONTHS[item.month].label, ...(item.areas ?? [])]);
+  const set = new Set(["roadmap", ...(item.areas ?? [])]);
   if (item.eco) set.add(ecosystemLabel(item.eco).name);
   if (item.kind === "epic") {
     set.add("type: epic");
@@ -71,12 +71,12 @@ if (errors.length) {
 // ── Bodies. `{{ref:key}}` is resolved to an issue number by apply.mjs.
 const ref = (key) => `{{ref:${key}}}`;
 const marker = (key) => `<!-- evergreen-roadmap-key: ${key} -->`;
-const monthLine = (m) => `${m} · ${MONTHS[m].theme} (${MONTHS[m].window})`;
+const monthLine = (m) => `${MONTHS[m].title} (${MONTHS[m].window})`;
 
 function taskBody(task) {
   const lines = [
     marker(task.key),
-    `> **Epic:** ${ref(task.epic)} · **Month:** ${monthLine(task.month)}`,
+    `> **Epic:** ${ref(task.epic)} · **Phase:** ${monthLine(task.month)}`,
     `> **Lane:** \`${LANES[task.lane].label}\` — ${LANES[task.lane].who} · **Size:** ${task.size} (${SIZES[task.size].meaning})`,
     "",
   ];
@@ -102,7 +102,7 @@ function taskBody(task) {
 function epicBody(epic, children) {
   const lines = [
     marker(epic.key),
-    `> **Epic** · **Month:** ${monthLine(epic.month)}${epic.tier ? ` · **Tier:** ${epic.tier}${epic.tier === 2 ? " (community-led; may slip without blocking v1)" : ""}` : ""}`,
+    `> **Epic** · **Phase:** ${monthLine(epic.month)}${epic.tier ? ` · **Tier:** ${epic.tier}${epic.tier === 2 ? " (community-led; may slip without blocking v1)" : ""}` : ""}`,
     "",
     "## Outcome",
     epic.goal,
@@ -124,6 +124,7 @@ const issues = all.map((item) => {
     kind: item.kind ?? "task",
     title: item.title,
     month: item.month,
+    phase: MONTHS[item.month].title,
     lane: item.lane ?? null,
     size: item.size ?? null,
     epic: item.epic ?? null,
@@ -135,7 +136,7 @@ const issues = all.map((item) => {
 
 // ── Output
 mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, "issues.json"), JSON.stringify({ milestone: MILESTONE, issues }, null, 2) + "\n");
+writeFileSync(join(outDir, "issues.json"), JSON.stringify({ program: MILESTONE, phases: Object.entries(MONTHS).map(([month, m]) => ({ month, title: m.title, dueOn: m.dueOn, description: phaseDescription(month) })), issues }, null, 2) + "\n");
 writeFileSync(join(outDir, "labels.json"), JSON.stringify(labelDefs, null, 2) + "\n");
 
 const count = (pred) => issues.filter(pred).length;
@@ -156,12 +157,12 @@ const preview = [
   "",
   `- Issues: **${issues.length}** (${count((i) => i.existing)} existing rewritten, ${count((i) => !i.existing)} new)`,
   `- Labels to ensure: **${labelDefs.length}**`,
-  `- Milestone due: ${MILESTONE.dueOn.slice(0, 10)}`,
+  `- Milestones: ${Object.values(MONTHS).map((m) => m.title).join("; ")}`,
   "",
   ...stats,
   "",
   ...months.flatMap((m) => [
-    `## ${m} · ${MONTHS[m].theme} (${MONTHS[m].window})`,
+    `## ${MONTHS[m].title} (${MONTHS[m].window})`,
     "",
     ...epics.filter((e) => e.month === m).flatMap((e) => {
       const children = tasks.filter((t) => t.epic === e.key);

@@ -1,3 +1,4 @@
 *
 !.gitignore
 !state.json
+!project-state.json

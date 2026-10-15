@@ -126,7 +126,7 @@ export const EPICS = [
   epic("E-growth", "M1", "Growth and distribution loops", ["area: community", "area: devops"],
     "Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end.",
     ["North-star metric: public repositories running the Action or hooks each week", "Pre-push and pre-commit hooks", "Integrations with MegaLinter, reviewdog, trunk, and GitHub starter workflows", "EOL-date content calendar", "Monthly mini-launches", "Viral loops: badge and summary attribution"],
-    ["Evergreen runs inside at least one widely used aggregator (e.g. MegaLinter).", "Each month from M2 has a public launch moment.", "Adoption is measured weekly without telemetry."]),
+    ["Evergreen runs inside at least one widely used aggregator (e.g. MegaLinter).", "Every phase from Phase 21 on has a public launch moment.", "Adoption is measured weekly without telemetry."]),
   epic("#61", "M6", "Reproducible accuracy and performance dashboard", ["area: docs", "area: validation"],
     "Make quality claims inspectable rather than promotional.",
     ["Generated from pinned artifacts", "Per-detector results", "Stale runs marked"], ["Dashboard published."]),

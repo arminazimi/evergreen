@@ -15,7 +15,9 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..", "..");
 const REPO_URL = "https://github.com/arminazimi/evergreen";
 const statePath = join(here, "out", "state.json");
-const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { numbers: {}, milestone: null };
+const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")) : { numbers: {}, phases: {} };
+const projectPath = join(here, "out", "project-state.json");
+const project = existsSync(projectPath) ? JSON.parse(readFileSync(projectPath, "utf8")).project : null;
 
 const epics = [...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)];
 const tasks = [...TASKS, ...ECOSYSTEMS.flatMap(ecosystemTasks)];
@@ -29,11 +31,16 @@ function link(key, text) {
   return n ? `[${text}](${REPO_URL}/issues/${n})` : text;
 }
 const cleanTitle = (t) => t.replace(/^Epic: /, "");
+function phaseLink(month, text) {
+  const n = state.phases?.[month];
+  const label = text ?? MONTHS[month].title;
+  return n ? `[${label}](${REPO_URL}/milestone/${n})` : label;
+}
 
 const lines = [
   "# Roadmap",
   "",
-  `**${MILESTONE.title}** · 2026-10-15 → 2027-04-15${state.milestone ? ` · [milestone](${REPO_URL}/milestone/${state.milestone})` : ""}`,
+  `**${MILESTONE.title}** · 2026-10-15 → 2027-04-15 · six phases, each its own milestone, run in order${project ? ` · [project board](https://github.com/users/arminazimi/projects/${project.number})` : ""}`,
   "",
   "> This file is generated from `planning/roadmap/` by `node planning/roadmap/roadmap-md.mjs`. Edit the data, not this file.",
   "> Scope changes still require an explicit decision recorded in `docs/decisions/`.",
@@ -46,7 +53,7 @@ const lines = [
   "2. **Independent proof.** Accuracy is measured against ground truth Evergreen did not write: real migration commits, upstream changelogs, and differential testing.",
   "3. **Agent-native by default.** Agents check dependencies as they add them, and every push can run Evergreen through hooks.",
   "4. **Standards, not a new format.** Rules are keyed by PURL and VERS and exported as CLE (ECMA-428) and CycloneDX lifecycle data.",
-  "5. **Grow inside existing workflows.** Evergreen ships into pipelines people already run and launches every month, not once.",
+  "5. **Grow inside existing workflows.** Evergreen ships into pipelines people already run and launches every phase, not once.",
   "",
   "The long-term goal is for Evergreen to be the first lifecycle reference agents and DevOps teams reach for. This roadmap builds the foundation: open evidence, standard formats, and presence in every common pipeline.",
   "",
@@ -56,13 +63,20 @@ const lines = [
   "|---|---|---|",
   ...TARGETS.map((r) => `| ${r.join(" | ")} |`),
   "",
+  "## Phases",
+  "",
+  "Each phase is a GitHub milestone. A phase starts when the previous one is complete, and no task depends on a later phase.",
+  "",
+  "| Phase | Window | Issues |",
+  "|---|---|---|",
+  ...Object.entries(MONTHS).map(([month, m]) => `| ${phaseLink(month)} | ${m.window} | ${epics.filter((e) => e.month === month).length + tasks.filter((t) => t.month === month).length} |`),
+  "",
   "## How work is organized",
   "",
-  "Every roadmap issue is in one milestone and is small enough for one pull request. Labels say when and by whom:",
+  "Every roadmap issue belongs to one phase milestone and is small enough for one pull request. Labels say who it suits:",
   "",
   "| Label | Meaning |",
   "|---|---|",
-  ...Object.values(MONTHS).map((m) => `| \`${m.label}\` | ${m.theme} (${m.window}) |`),
   ...Object.values(LANES).map((l) => `| \`${l.label}\` | ${l.who} |`),
   "| `size: XS` / `S` / `M` | Under an hour / a few hours / about a day |",
   "| `good first issue` | A complete brief, isolated change, and fixtures — a good first contribution |",
@@ -75,7 +89,8 @@ const lines = [
 for (const [month, meta] of Object.entries(MONTHS)) {
   const monthEpics = epics.filter((e) => e.month === month);
   const monthTasks = tasks.filter((t) => t.month === month);
-  lines.push(`## ${month} · ${meta.theme}`, "", `_${meta.window} · ${monthTasks.length} tasks_`, "");
+  lines.push(`## ${meta.title}`, "", `_${meta.window} · ${monthTasks.length} tasks · ${phaseLink(month, "milestone")}_`, "");
+  lines.push("**When this phase is complete, Evergreen has:**", "", ...meta.delivers.map((d) => `- ${d}`), "", "**Epics**", "");
   for (const e of monthEpics) {
     const children = tasks.filter((t) => t.epic === e.key);
     const tier = e.tier === 2 ? " _(community-led; may slip without blocking v1)_" : "";
@@ -83,7 +98,7 @@ for (const [month, meta] of Object.entries(MONTHS)) {
   }
   const carried = monthTasks.filter((t) => byEpicMonth(t) !== month);
   if (carried.length) {
-    lines.push("", "  Also this month, from epics listed in other months:");
+    lines.push("", "  Also in this phase, from epics listed in other phases:");
     for (const t of carried) lines.push(`  - ${link(t.key, t.title)}`);
   }
   lines.push("");

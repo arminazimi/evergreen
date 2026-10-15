@@ -102,6 +102,17 @@ td.goal { font-weight: 600; }
 .tag.blocked { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 .tasks a { color: inherit; }
 
+/* Phases */
+.phases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.phase { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.phase .num { font: 500 12px var(--mono); color: var(--accent); }
+.phase h3 { font-size: 17px; line-height: 1.3; }
+.phase h3 a { color: inherit; text-decoration: none; }
+.phase h3 a:hover { text-decoration: underline; }
+.phase .when { font: 400 12px var(--mono); color: var(--muted); }
+.phase ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; }
+.phase .has { font-size: 13px; color: var(--muted); }
+
 /* Scenarios */
 .scen { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
 .sc { border-top: 3px solid var(--line); padding-top: 14px; display: grid; gap: 8px; align-content: start; }
@@ -137,7 +148,7 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
       <span class="label">Roadmap · 2026-10-15 → 2027-04-15</span>
     </div>
     <h1>Coverage and proof in six months</h1>
-    <p class="lede">Every roadmap issue sits in one milestone and is small enough for one pull request. Strong agents take architecture, free agents and new contributors take spec-complete tasks, and the maintainer handles accounts, releases, and launches.</p>
+    <p class="lede">Six phases, each its own milestone, run in order. Every issue is small enough for one pull request. Strong agents take architecture, free agents and new contributors take spec-complete tasks, and the maintainer handles accounts, releases, and launches.</p>
     <div class="facts" id="facts"></div>
   </header>
 
@@ -146,11 +157,16 @@ footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line)
     <div class="ttable"><table><thead><tr><th>Measure</th><th>Today</th><th>By 2027-04-15</th></tr></thead><tbody id="targets"></tbody></table></div>
   </section>
 
+  <section aria-labelledby="phases-h" style="display:grid;gap:14px">
+    <h2 id="phases-h" class="label">Phases · each is a milestone, run in order</h2>
+    <ol class="phases" id="phases"></ol>
+  </section>
+
   <section aria-labelledby="chart-h" style="display:grid;gap:14px">
-    <h2 id="chart-h" class="label">Lifecycle chart · tasks per month</h2>
+    <h2 id="chart-h" class="label">Lifecycle chart · tasks per phase</h2>
     <div class="controls" role="group" aria-label="Filter tasks by lane" id="filters"></div>
     <div class="chart"><div class="grid" id="grid"></div></div>
-    <p class="note">Select a row to see its tasks. Dots under a month mark a public launch. Tier 2 ecosystems are community-led and may slip without blocking v1.</p>
+    <p class="note">Select a row to see its tasks. Dots under a phase mark a public launch. Tier 2 ecosystems are community-led and may slip without blocking v1.</p>
   </section>
 
   <section aria-labelledby="growth-h" style="display:grid;gap:16px">
@@ -201,6 +217,21 @@ function targets() {
   });
 }
 
+function phases() {
+  const box = document.getElementById("phases");
+  DATA.months.forEach((m, i) => {
+    const li = el("li", "phase");
+    li.append(el("span", "num", "Phase " + m.phase + (i ? " · after Phase " + DATA.months[i - 1].phase : " · starts now")));
+    const h = el("h3");
+    if (m.milestone) h.append(Object.assign(el("a", null, m.theme), { href: "https://github.com/arminazimi/evergreen/milestone/" + m.milestone, target: "_blank", rel: "noopener" }));
+    else h.textContent = m.theme;
+    const n = allTasks.filter((t) => t.m === m.id).length;
+    li.append(h, el("span", "when", m.window + " · " + n + " tasks"), el("span", "has", "When complete, Evergreen has:"));
+    const ul = el("ul"); m.delivers.forEach((d) => ul.append(el("li", null, d.replace(/`/g, "")))); li.append(ul);
+    box.append(li);
+  });
+}
+
 function filters() {
   const box = document.getElementById("filters");
   LANES.forEach(([id, name]) => {
@@ -228,7 +259,7 @@ function render() {
   grid.append(el("div", "hcell label", "Epic"));
   DATA.months.forEach((m) => {
     const h = el("div", "hcell");
-    h.append(el("span", "label", m.id + " · " + m.window.split(" → ")[0].slice(5)), el("span", "theme", m.theme), el("span", "total", perMonth[m.id] + " tasks"));
+    h.append(el("span", "label", "Phase " + m.phase + " · " + m.window.split(" → ")[0].slice(5)), el("span", "theme", m.theme), el("span", "total", perMonth[m.id] + " tasks"));
     DATA.launches.filter((l) => l.m === m.id).forEach((l) => h.append(el("span", "launch", l.label)));
     grid.append(h);
   });
@@ -279,5 +310,5 @@ function render() {
   });
 }
 
-facts(); targets(); filters(); render();
+facts(); targets(); phases(); filters(); render();
 </script>
