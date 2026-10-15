@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
-import { relative, resolve } from "node:path";
+import { resolve } from "node:path";
 
+import { relativePosix } from "../paths.js";
 import type { DeprecationRule } from "../domain.js";
 import { findPackageFile } from "../package-files.js";
 import { DETECTOR_API_VERSION, isDeprecationRule } from "../sdk.js";
@@ -217,7 +218,7 @@ export class GitHubActionsDetector implements Detector {
               reference: reference.ref.toLowerCase(),
               reason: reference.comment ? "invalid-version-comment" : "unknown-sha",
               location: {
-                path: relative(context.root, workflowFile),
+                path: relativePosix(context.root, workflowFile),
                 line: reference.line,
               },
             });
@@ -230,7 +231,7 @@ export class GitHubActionsDetector implements Detector {
           continue;
         }
 
-        const path = relative(context.root, workflowFile);
+        const path = relativePosix(context.root, workflowFile);
         const summary = resolved.source === "comment"
           ? `${reference.action}@${reference.ref} (${resolved.version} from the trailing comment): ${rule.summary}`
           : resolved.source === "map"

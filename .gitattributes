@@ -1,0 +1,10 @@
+# Checkouts use LF on every platform. Tests compare generated files, snapshots, and Markdown/YAML
+# parsers byte for byte, and a Windows checkout would otherwise convert them to CRLF.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.woff2 binary

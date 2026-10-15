@@ -1,8 +1,9 @@
 import { readFile, readdir } from "node:fs/promises";
-import { relative, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import { parse as parseToml } from "smol-toml";
 
+import { relativePosix } from "../paths.js";
 import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
 import { findPackageFile } from "../package-files.js";
 import { analyzeSourceUsage } from "../source-usage.js";
@@ -368,7 +369,7 @@ export class PythonDetector implements Detector {
         if (!version) continue;
         const severity: Severity =
           declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";
-        const path = relative(context.root, declaration.path);
+        const path = relativePosix(context.root, declaration.path);
         findings.push({
           id: `${runtimeRule.id}:${path}:${declaration.line}`,
           ruleId: runtimeRule.id,
@@ -399,13 +400,13 @@ export class PythonDetector implements Detector {
       const resolved = [...(resolvedVersions.get(dependency.name) ?? [])].sort();
       const usage = usageByRule.get(rule.id)!;
       findings.push({
-        id: `${rule.id}:${relative(context.root, dependency.path)}:${dependency.line}`,
+        id: `${rule.id}:${relativePosix(context.root, dependency.path)}:${dependency.line}`,
         ruleId: rule.id,
         title: rule.title,
         summary: `${dependency.name} is declared as ${dependency.constraint || "unconstrained"}; resolved: ${resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile"}. ${rule.summary}`,
         severity: rule.severity,
         location: {
-          path: relative(context.root, dependency.path),
+          path: relativePosix(context.root, dependency.path),
           line: dependency.line,
         },
         ...(rule.replacement ? { replacement: rule.replacement } : {}),

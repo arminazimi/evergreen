@@ -1,5 +1,5 @@
 import { readFile, readdir, stat } from "node:fs/promises";
-import { relative, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import type {
   CallUsageMatcher,
@@ -11,6 +11,7 @@ import type {
   SourceUsageAnalysis,
   SourceUsageContract,
 } from "./domain.js";
+import { relativePosix } from "./paths.js";
 
 const ignoredDirectories = new Set([
   ".git",
@@ -78,7 +79,7 @@ async function sourceFiles(root: string): Promise<SourceFile[]> {
       if (!entry.isFile()) continue;
       const language = languageFor(path);
       if (!language || (await stat(path)).size > maximumFileBytes) continue;
-      files.push({ absolutePath: path, path: relative(root, path), language });
+      files.push({ absolutePath: path, path: relativePosix(root, path), language });
     }
   };
   await walk(root);
