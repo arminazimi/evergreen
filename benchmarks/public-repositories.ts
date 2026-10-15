@@ -58,6 +58,8 @@ const results: Array<{
   truePositives: number;
   falsePositives: number;
   falseNegatives: number;
+  unexpected: string[];
+  missing: string[];
 }> = [];
 
 try {
@@ -90,6 +92,8 @@ try {
       truePositives,
       falsePositives: [...actual].filter((key) => !expected.has(key)).length,
       falseNegatives: [...expected].filter((key) => !actual.has(key)).length,
+      unexpected: [...actual].filter((key) => !expected.has(key)).sort(),
+      missing: [...expected].filter((key) => !actual.has(key)).sort(),
     });
   }
 
@@ -122,6 +126,11 @@ try {
   };
 
   console.log(JSON.stringify(report, null, 2));
+  // Name every mismatch so a failed run says which repository and which finding, without opening the JSON.
+  for (const result of results) {
+    for (const key of result.unexpected) console.error(`UNEXPECTED ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
+    for (const key of result.missing) console.error(`MISSING    ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
+  }
   if (!observeOnly && (falsePositives > 0 || falseNegatives > 0)) process.exitCode = 1;
 } finally {
   await rm(root, { recursive: true, force: true });

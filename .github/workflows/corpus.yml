@@ -1,0 +1,34 @@
+name: Public corpus
+
+# Pull request CI stays offline. This workflow fetches the pinned public repositories, so it runs
+# weekly and on demand instead.
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  corpus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Compare findings with the pinned corpus
+        run: node dist/benchmarks/public-repositories.js > corpus-result.json
+      - name: Upload the result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: corpus-result-${{ github.run_id }}
+          path: corpus-result.json
+          if-no-files-found: ignore
+          retention-days: 30
