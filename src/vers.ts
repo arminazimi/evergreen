@@ -89,7 +89,7 @@ function parseConstraint(raw: string, canonical: boolean): VersConstraint {
   try {
     return { comparator, version: decodeURIComponent(encoded) };
   } catch {
-    throw new VersError(`Invalid percent-encoding in constraint "${raw}".`);
+    throw new VersError(`non-canonical VERS: invalid percent-encoding in version "${raw}"`);
   }
 }
 
@@ -131,7 +131,6 @@ function parse(value: string, canonical: boolean): VersRange {
   const parts = body.split("|");
   if (parts.includes("*")) throw new VersError(`"*" must be the only constraint: ${value}`);
   const constraints = parts.map((part) => parseConstraint(part, canonical));
-  for (const constraint of constraints) scheme_.compare(constraint.version, constraint.version);
 
   const sorted = [...constraints].sort((left, right) => scheme_.compare(left.version, right.version));
   for (let index = 1; index < sorted.length; index++) {
@@ -154,6 +153,16 @@ export function parseVers(value: string): VersRange {
 /** Parses a VERS string, tolerating whitespace, `=` comparators, and unsorted constraints. */
 export function parseVersLenient(value: string): VersRange {
   return parse(value, false);
+}
+
+/**
+ * Throws when any constraint version is not a valid version of the range's scheme.
+ * Parsing does not validate versions (the spec allows any string); registry rules must.
+ */
+export function validateVersVersions(range: string | VersRange): void {
+  const parsed = typeof range === "string" ? parseVers(range) : range;
+  const scheme = versionScheme(parsed.scheme);
+  for (const constraint of parsed.constraints) scheme.compare(constraint.version, constraint.version);
 }
 
 export function formatVers(range: VersRange): string {

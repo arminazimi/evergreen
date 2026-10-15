@@ -11,8 +11,9 @@ import {
   parseVersLenient,
   versContains,
   VersError,
+  validateVersVersions,
   versionScheme,
-} from "../src/vers.js";
+} from "../src/vers/index.js";
 
 interface SpecTest {
   description: string;
@@ -91,10 +92,15 @@ test("rejects invalid ranges", async (t) => {
     ["two lower bounds", "vers:intdot/>=1.0|>2.0"],
     ["two upper bounds", "vers:intdot/<1.0|<=2.0"],
     ["equality followed by an upper bound", "vers:intdot/1.0|<2.0"],
-    ["invalid version", "vers:intdot/>=abc"],
   ] as const) {
     await t.test(name, () => assert.throws(() => parseVersLenient(value), Error));
   }
+});
+
+test("validates constraint versions separately from parsing", () => {
+  assert.doesNotThrow(() => parseVers("vers:intdot/>=abc"));
+  assert.throws(() => validateVersVersions("vers:intdot/>=abc"), VersError);
+  assert.doesNotThrow(() => validateVersVersions("vers:intdot/>=1.2|<2.0"));
 });
 
 test("follows the containment procedure for bounds, equality, and exclusions", () => {
