@@ -1,0 +1,160 @@
+import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { test } from "node:test";
+import { promisify } from "node:util";
+
+import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
+import { diffDrafts, hasChanges, renderDiffText } from "../../tools/importers/diff.js";
+import type { DraftRegistry } from "../../tools/importers/types.js";
+
+const run = promisify(execFile);
+
+function rule(id: string, extra: Record<string, unknown> = {}, importer?: string): RegistryV2Rule {
+  return {
+    id,
+    ecosystem: "nodejs",
+    purl: "pkg:generic/nodejs",
+    vers: "vers:semver/<18.0.0",
+    event: "end-of-life",
+    title: `${id} title`,
+    summary: `${id} summary`,
+    severity: "high",
+    deadline: "2025-04-30",
+    sources: [{ title: "Node.js releases", url: "https://nodejs.org/en/about/releases" }],
+    provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "maintainer", ...(importer ? { importer } : {}) },
+    ...extra,
+  } as RegistryV2Rule;
+}
+
+const draftOf = (rules: RegistryV2Rule[], importer = "node-schedule"): DraftRegistry => ({
+  importer,
+  ecosystem: "nodejs",
+  observedAt: "2026-10-15",
+  rules: rules.map((r) => ({ ...r, provenance: { observedAt: "2026-10-15", reviewedAt: "2026-10-15", reviewer: "pending-review", importer } })),
+  notes: [],
+});
+
+const registryOf = (rules: RegistryV2Rule[]): RegistryV2 => ({ schemaVersion: "evergreen.registry.v2", ecosystem: "nodejs", rules });
+
+test("classifies additions, changed dates, changed sources, other changes, and removals", () => {
+  const registry = registryOf([
+    rule("nodejs.same", {}, "node-schedule"),
+    rule("nodejs.date", {}, "node-schedule"),
+    rule("nodejs.sources", {}, "node-schedule"),
+    rule("nodejs.text", {}, "node-schedule"),
+    rule("nodejs.gone", {}, "node-schedule"),
+    rule("nodejs.hand-written"),
+    rule("nodejs.other-importer", {}, "other-importer"),
+  ]);
+  const drafts = draftOf([
+    rule("nodejs.same"),
+    rule("nodejs.date", { deadline: "2025-05-15" }),
+    rule("nodejs.sources", { sources: [{ title: "Node.js release schedule", url: "https://nodejs.org/en/about/releases" }, { title: "Schedule JSON", url: "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json" }] }),
+    rule("nodejs.text", { summary: "Reworded.", severity: "critical", "x-nodejs": { major: 16 } }),
+    rule("nodejs.new"),
+  ]);
+
+  const diff = diffDrafts(drafts, registry);
+  assert.deepEqual(diff.added.map((r) => r.id), ["nodejs.new"]);
+  assert.deepEqual(diff.unchanged, ["nodejs.same"]);
+  assert.deepEqual(diff.removed.map((r) => r.id), ["nodejs.gone"]);
+  assert.deepEqual(diff.changed.map((c) => c.id), ["nodejs.date", "nodejs.sources", "nodejs.text"]);
+
+  const date = diff.changed[0]!;
+  assert.deepEqual(date.dates, [{ field: "deadline", before: "2025-04-30", after: "2025-05-15" }]);
+  assert.deepEqual([date.sources, date.fields], [null, []]);
+
+  const sources = diff.changed[1]!;
+  assert.deepEqual(sources.sources?.added.map((s) => s.url), ["https://raw.githubusercontent.com/nodejs/Release/main/schedule.json"]);
+  assert.deepEqual(sources.sources?.retitled, [{ url: "https://nodejs.org/en/about/releases", before: "Node.js releases", after: "Node.js release schedule" }]);
+  assert.deepEqual(sources.sources?.removed, []);
+
+  const text = diff.changed[2]!;
+  assert.deepEqual(text.fields.map((f) => f.field), ["summary", "severity", "x-nodejs"]);
+  assert.deepEqual(text.fields[1], { field: "severity", before: "high", after: "critical" });
+  assert.deepEqual(text.fields[2], { field: "x-nodejs", before: null, after: { major: 16 } });
+  assert.ok(hasChanges(diff));
+});
+
+test("provenance never counts as a change", () => {
+  const diff = diffDrafts(draftOf([rule("nodejs.a")]), registryOf([rule("nodejs.a", {}, "node-schedule")]));
+  assert.deepEqual(diff.unchanged, ["nodejs.a"]);
+  assert.equal(hasChanges(diff), false);
+});
+
+test("fields the importer does not set are left alone", () => {
+  const withGuidance = rule("nodejs.a", {
+    migration: { constraints: ["c"], steps: [{ id: "s", title: "t", instructions: "i", targets: "all" }], verification: [{ command: "node --version", purpose: "p" }] },
+    usage: [{ kind: "config-key", language: "json", key: "engines" }],
+    replacement: "Node.js 22",
+  });
+  const draft = rule("nodejs.a");
+  delete (draft as unknown as Record<string, unknown>).replacement;
+  const diff = diffDrafts(draftOf([draft]), registryOf([withGuidance]));
+  assert.deepEqual(diff.unchanged, ["nodejs.a"]);
+});
+
+test("a dropped source and a dropped deadline are reported", () => {
+  const registry = registryOf([rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a" }, { title: "B", url: "https://example.com/b" }] })]);
+  const drafts = draftOf([rule("nodejs.a", { sources: [{ title: "A", url: "https://example.com/a" }] })]);
+  assert.deepEqual(diffDrafts(drafts, registry).changed[0]!.sources?.removed.map((s) => s.url), ["https://example.com/b"]);
+});
+
+test("output does not depend on input order", () => {
+  const rules = ["c", "a", "b"].map((name) => rule(`nodejs.${name}`, { severity: "low" }));
+  const registry = registryOf([...rules].reverse().map((r) => ({ ...r, severity: "high" }) as RegistryV2Rule));
+  const forward = diffDrafts(draftOf(rules), registry);
+  const backward = diffDrafts(draftOf([...rules].reverse()), registryOf([...registry.rules].reverse()));
+  assert.equal(JSON.stringify(forward), JSON.stringify(backward));
+  assert.deepEqual(forward.changed.map((c) => c.id), ["nodejs.a", "nodejs.b", "nodejs.c"]);
+});
+
+test("drafts for another ecosystem are refused", () => {
+  assert.throws(() => diffDrafts({ ...draftOf([]), ecosystem: "python" }, registryOf([])), /Drafts are for "python" but the registry is "nodejs"/);
+});
+
+test("renders a summary a reviewer can read", () => {
+  const registry = registryOf([rule("nodejs.date", {}, "node-schedule"), rule("nodejs.gone", {}, "node-schedule")]);
+  const text = renderDiffText(diffDrafts(draftOf([rule("nodejs.date", { deadline: "2025-05-15" }), rule("nodejs.new")]), registry));
+  assert.equal(text, [
+    "node-schedule → registry/nodejs.json",
+    "+ nodejs.new  (end-of-life, pkg:generic/nodejs vers:semver/<18.0.0)",
+    "~ nodejs.date",
+    "    deadline: 2025-04-30 → 2025-05-15",
+    "- nodejs.gone",
+    "1 added, 1 changed, 1 removed, 0 unchanged",
+    "",
+  ].join("\n"));
+});
+
+test("the command line prints the diff and signals changes through its exit code", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-diff-"));
+  try {
+    const registryFile = join(directory, "nodejs.json");
+    const draftsFile = join(directory, "drafts.json");
+    const outFile = join(directory, "diff.json");
+    await writeFile(registryFile, JSON.stringify(registryOf([rule("nodejs.a", {}, "node-schedule")])));
+    const script = resolve("dist/tools/importers/diff.js");
+
+    await writeFile(draftsFile, JSON.stringify(draftOf([rule("nodejs.a")])));
+    const same = await run(process.execPath, [script, draftsFile, registryFile]);
+    assert.match(same.stdout, /0 added, 0 changed, 0 removed, 1 unchanged/);
+
+    await writeFile(draftsFile, JSON.stringify(draftOf([rule("nodejs.a", { deadline: "2025-06-01" })])));
+    await assert.rejects(run(process.execPath, [script, draftsFile, registryFile, "--out", outFile]), (error: { code: number; stdout: string }) => {
+      assert.equal(error.code, 10);
+      assert.match(error.stdout, /deadline: 2025-04-30 → 2025-06-01/);
+      return true;
+    });
+    assert.equal(JSON.parse(await readFile(outFile, "utf8")).changed[0].id, "nodejs.a");
+
+    await assert.rejects(run(process.execPath, [script, draftsFile]), /Usage: diff/);
+    await writeFile(registryFile, JSON.stringify({ schemaVersion: "evergreen.nodejs-registry.v1", rules: [] }));
+    await assert.rejects(run(process.execPath, [script, draftsFile, registryFile]), /schemaVersion must be "evergreen\.registry\.v2"/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
