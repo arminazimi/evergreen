@@ -12,6 +12,11 @@ interface GitHubActionRule extends DeprecationRule {
   supportedFromMajor: number;
 }
 
+interface GitHubActionsShaRegistry {
+  schemaVersion: "evergreen.github-actions-shas.v1";
+  actions: Record<string, Record<string, string>>;
+}
+
 interface ActionReference {
   action: string;
   ref: string;
@@ -53,6 +58,38 @@ async function loadRegistry(): Promise<GitHubActionRule[]> {
       typeof (value as unknown as Record<string, unknown>).supportedFromMajor === "number",
   });
   return [...registry.rules];
+}
+
+async function loadShaRegistry(): Promise<Map<string, ReadonlyMap<string, string>>> {
+  const registryPath = await findPackageFile(
+    "registry/github-actions-shas.json",
+    import.meta.url,
+  );
+  const value = JSON.parse(await readFile(registryPath, "utf8")) as GitHubActionsShaRegistry;
+  if (
+    value.schemaVersion !== "evergreen.github-actions-shas.v1" ||
+    !value.actions ||
+    typeof value.actions !== "object" ||
+    Array.isArray(value.actions)
+  ) {
+    throw new Error("Invalid GitHub Actions SHA registry");
+  }
+
+  const actions = new Map<string, ReadonlyMap<string, string>>();
+  for (const [action, references] of Object.entries(value.actions)) {
+    if (!action.includes("/") || !references || typeof references !== "object") {
+      throw new Error(`Invalid GitHub Actions SHA registry entry for ${action}`);
+    }
+    const versions = new Map<string, string>();
+    for (const [sha, version] of Object.entries(references)) {
+      if (!SHA_PATTERN.test(sha) || !VERSION_PATTERN.test(version)) {
+        throw new Error(`Invalid GitHub Actions SHA registry reference for ${action}`);
+      }
+      versions.set(sha.toLowerCase(), version);
+    }
+    actions.set(action.toLowerCase(), versions);
+  }
+  return actions;
 }
 
 async function findWorkflowFiles(root: string): Promise<string[]> {
@@ -117,19 +154,26 @@ function commentVersion(comment: string | undefined): string | undefined {
 
 interface ResolvedReference {
   version: string;
-  source: "tag" | "comment";
+  source: "tag" | "comment" | "map";
 }
 
 /**
  * Resolves an action reference to the version it pins.
- * - A full commit SHA is classified from its trailing comment only; a SHA with no usable comment
- *   is left unclassified.
+ * - A full commit SHA is classified from its trailing comment when present, then from the bundled
+ *   map when the SHA is known. A SHA with neither is left unclassified.
  * - A tag ref is classified from the ref itself; its trailing comment is ignored.
  */
-function resolveReference(ref: string, comment?: string): ResolvedReference | undefined {
+function resolveReference(
+  ref: string,
+  comment: string | undefined,
+  versions: ReadonlyMap<string, string> | undefined,
+): ResolvedReference | undefined {
   if (SHA_PATTERN.test(ref)) {
     const version = commentVersion(comment);
-    return version ? { version, source: "comment" } : undefined;
+    if (version) return { version, source: "comment" };
+    if (comment) return undefined;
+    const mapped = versions?.get(ref.toLowerCase());
+    return mapped ? { version: mapped, source: "map" } : undefined;
   }
   return VERSION_PATTERN.test(ref) ? { version: ref, source: "tag" } : undefined;
 }
@@ -139,8 +183,9 @@ export class GitHubActionsDetector implements Detector {
   readonly id = "github-actions";
 
   async scan(context: DetectorContext): Promise<readonly DetectorFinding[]> {
-    const [rules, workflowFiles] = await Promise.all([
+    const [rules, shaRegistry, workflowFiles] = await Promise.all([
       loadRegistry(),
+      loadShaRegistry(),
       findWorkflowFiles(context.root),
     ]);
     const rulesByAction = new Map(rules.map((rule) => [rule.action.toLowerCase(), rule]));
@@ -153,7 +198,11 @@ export class GitHubActionsDetector implements Detector {
         const rule = rulesByAction.get(reference.action);
         if (!rule) continue;
 
-        const resolved = resolveReference(reference.ref, reference.comment);
+        const resolved = resolveReference(
+          reference.ref,
+          reference.comment,
+          shaRegistry.get(reference.action),
+        );
         if (!resolved) continue;
 
         const major = majorVersion(resolved.version);
@@ -164,7 +213,9 @@ export class GitHubActionsDetector implements Detector {
         const path = relative(context.root, workflowFile);
         const summary = resolved.source === "comment"
           ? `${reference.action}@${reference.ref} (${resolved.version} from the trailing comment): ${rule.summary}`
-          : `${reference.action}@${reference.ref}: ${rule.summary}`;
+          : resolved.source === "map"
+            ? `${reference.action}@${reference.ref} (${resolved.version} from the bundled SHA map): ${rule.summary}`
+            : `${reference.action}@${reference.ref}: ${rule.summary}`;
         findings.push({
           id: `${rule.id}:${path}:${reference.line}`,
           ruleId: rule.id,

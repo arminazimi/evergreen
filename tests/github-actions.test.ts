@@ -44,7 +44,7 @@ jobs:
   assert.equal(findings[4]?.severity, "critical");
 });
 
-test("ignores supported, local, Docker, dynamic, and SHA-pinned actions", async () => {
+test("ignores supported, local, Docker, dynamic, and unknown SHA-pinned actions", async () => {
   const root = await repositoryWithWorkflow(`jobs:
   test:
     steps:
@@ -53,7 +53,7 @@ test("ignores supported, local, Docker, dynamic, and SHA-pinned actions", async 
       - uses: ./local-action
       - uses: docker://alpine:3.20
       - uses: owner/action@\${{ inputs.ref }}
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 `);
 
   const findings = await new GitHubActionsDetector().scan({ root });
@@ -126,13 +126,28 @@ test("a supported SHA pin with a version comment produces no finding", async () 
   assert.deepEqual(findings, []);
 });
 
-test("a SHA pin with no usable comment is left unclassified", async () => {
+test("a known SHA pin without a comment is classified from the bundled map", async () => {
   const root = await repositoryWithWorkflow(`jobs:
   test:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # latest
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # main
+`);
+
+  const findings = await new GitHubActionsDetector().scan({ root });
+
+  assert.equal(findings.length, 1);
+  assert.deepEqual(findings.map((finding) => finding.location.line), [4]);
+  assert.ok(findings.every((finding) => finding.ruleId === "github-actions.checkout.node20"));
+  assert.ok(findings.every((finding) => finding.summary.includes("v4.2.2 from the bundled SHA map")));
+});
+
+test("an unknown SHA pin with no usable comment is left unclassified", async () => {
+  const root = await repositoryWithWorkflow(`jobs:
+  test:
+    steps:
+      - uses: actions/checkout@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 `);
 
   const findings = await new GitHubActionsDetector().scan({ root });

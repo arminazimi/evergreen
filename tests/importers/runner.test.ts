@@ -154,8 +154,12 @@ test("the command line lists importers and explains mistakes", async () => {
 
 test("no bundled rule is waiting for review", async () => {
   for (const name of (await readdir(resolve("registry"))).filter((file) => file.endsWith(".json") && !file.startsWith("sources."))) {
-    const registry = JSON.parse(await readFile(resolve("registry", name), "utf8")) as { rules: { id: string; provenance: { reviewer: string } }[] };
-    for (const rule of registry.rules) assert.notEqual(rule.provenance.reviewer, PENDING_REVIEWER, `${name}: ${rule.id}`);
+    const registry = JSON.parse(await readFile(resolve("registry", name), "utf8")) as {
+      schemaVersion?: string;
+      rules?: { id: string; provenance: { reviewer: string } }[];
+    };
+    if (registry.schemaVersion !== "evergreen.registry.v2") continue;
+    for (const rule of registry.rules ?? []) assert.notEqual(rule.provenance.reviewer, PENDING_REVIEWER, `${name}: ${rule.id}`);
   }
 });
 
