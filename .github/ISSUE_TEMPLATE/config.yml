@@ -3,3 +3,6 @@ contact_links:
   - name: Documentation
     url: https://arminazimi.github.io/evergreen/
     about: Read the quickstart, validation results, and integration guides.
+  - name: Questions and ideas
+    url: https://github.com/arminazimi/evergreen/discussions
+    about: Ask questions, propose ideas, and share what you built in GitHub Discussions.

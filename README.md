@@ -166,6 +166,10 @@ The CLI is the product. Detectors extend it, GitHub Actions automate it, and the
 
 See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand guide](brand/BRAND_GUIDE.md), and [contribution guide](CONTRIBUTING.md).
 
+## Community
+
+Questions, ideas, and things you built with Evergreen belong in [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions): use **Q&A** to ask, **Ideas** to propose, and **Show and tell** to share. Use issues for bugs, lifecycle rule requests, and ecosystem requests.
+
 ## License and brand
 
 Evergreen source code is licensed under the [Apache License 2.0](LICENSE). The
