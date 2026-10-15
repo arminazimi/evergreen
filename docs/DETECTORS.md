@@ -40,7 +40,9 @@ See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.
 
 ## Registry validation
 
-Registry files use a versioned envelope:
+The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.
+
+Registry files for external detectors use a versioned envelope:
 
 ```json
 {

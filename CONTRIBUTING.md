@@ -48,10 +48,16 @@ Lifecycle rules are the most valuable contribution and the easiest place to star
 2. **Branch.** `git switch -c rule/<package>-deprecated`
 3. **Add the rule** to [`registry/npm.json`](registry/npm.json). Copy an existing rule such as `npm.package.request.deprecated` and change:
    - `id` — `npm.package.<name>.deprecated` (stable and unique)
-   - `package`, `title`, `summary`, `severity`, `replacement`, `deadline`
+   - `purl` — `pkg:npm/<name>` (scoped names are `pkg:npm/%40scope/name`), and `x-npm.package` set to the package name
+   - `vers` — the affected versions, for example `vers:npm/*` for every version or `vers:semver/<5.0.0`
+   - `event` — `deprecated`, `end-of-support`, `end-of-life`, or `removed`, as the source words it
+   - `title`, `summary`, `severity`, `replacement`, `deadline` (only if the source gives a date)
    - `sources` — the authoritative link from step 1
+   - `provenance` — `observedAt` (the day you read the source), `reviewedAt` (today), and `reviewer` (you)
    - `migration` — constraints, ordered steps, and verification commands a person or agent can follow
    - `usage` — the imports and calls that show where a repository depends on the package
+
+   Every field is described in [Lifecycle rules](docs/RULES.md). `npm run check` validates the file and names the rule and field of any mistake.
 4. **Add a test** in [`tests/npm.test.ts`](tests/npm.test.ts): a small fixture `package.json` that declares the package (and, if useful, a source file that imports it), then assert that the scan reports your rule ID. Add a negative case if the package has lookalikes.
 5. **Check.** `npm run check` must pass.
 6. **Open a pull request** with `Closes #<issue>` (if there is one). The template asks for the commands you ran and the evidence link.

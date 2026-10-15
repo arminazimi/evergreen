@@ -19,6 +19,7 @@ hosted service.
 - [v0.1 validation results](VALIDATION.md)
 - [Environment doctor and compatibility matrix](COMPATIBILITY.md)
 - [Capability manifest and auto-discovery contract](CAPABILITIES.md)
+- [Lifecycle rules](RULES.md)
 - [Migration packets](MIGRATION_PACKETS.md)
 - [Local MCP server](MCP.md)
 - [Agent Skill](AGENT_SKILLS.md)
