@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, test } from "node:test";
 
+import { determinismCheck } from "../src/conformance/checks/determinism.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { githubActionsDetector } from "../src/detectors/github-actions.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
@@ -69,6 +70,43 @@ test("names the violated guarantee when a detector fails conformance", async () 
       assert.equal(error.guarantee, "expected findings");
       assert.match(error.message, /broken-sample/);
       assert.match(error.message, /clean repository/);
+      return true;
+    },
+  );
+});
+
+test("catches a detector with non-deterministic ordered output", async () => {
+  const root = await fixtureDirectory({ "fixture.txt": "fixture\n" });
+  let scanCount = 0;
+  const detector: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "non-deterministic-sample",
+    async scan() {
+      scanCount += 1;
+      if (scanCount < 3) return [];
+      return [
+        {
+          id: "appeared-later",
+          ruleId: "appeared-later",
+          title: "Appeared later",
+          summary: "This finding is not stable across scans.",
+          severity: "low",
+          location: { path: "fixture.txt", line: 1 },
+          sources: [{ title: "Official source", url: "https://example.com" }],
+        },
+      ];
+    },
+  };
+
+  await assert.rejects(
+    runDetectorConformance({
+      detector,
+      fixtures: [{ name: "same input", root, expectedFindings: [] }],
+      checks: [determinismCheck],
+    }),
+    (error: unknown) => {
+      assert.ok(error instanceof ConformanceError);
+      assert.equal(error.guarantee, "deterministic findings");
       return true;
     },
   );
