@@ -1,0 +1,43 @@
+import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { test } from "node:test";
+
+import { importers } from "../tools/importers/index.js";
+
+const read = (path: string) => readFile(resolve(path), "utf8");
+
+test("docs/IMPORTERS.md lists every registered importer with its registry", async () => {
+  const text = await read("docs/IMPORTERS.md");
+  const rows = new Map([...text.matchAll(/^\| `([a-z0-9-]+)` \| `([a-z0-9-]+)` \|/gm)].map((match) => [match[1]!, match[2]!]));
+  assert.deepEqual([...rows.keys()].sort(), importers.map((importer) => importer.id).sort());
+  for (const importer of importers) assert.equal(rows.get(importer.id), importer.ecosystem, importer.id);
+});
+
+test("every command and file path in docs/IMPORTERS.md exists", async () => {
+  const text = await read("docs/IMPORTERS.md");
+  for (const script of new Set([...text.matchAll(/node (dist\/tools\/importers\/[a-z-]+\.js)/g)].map((match) => match[1]!))) {
+    await access(resolve(script));
+  }
+  for (const path of new Set([...text.matchAll(/`(tools\/importers\/[a-z-]+\.ts|tests\/importers\/[A-Za-z<>./-]+)`/g)].map((match) => match[1]!))) {
+    if (path.includes("<")) continue;
+    await access(resolve(path));
+  }
+  for (const link of new Set([...text.matchAll(/\]\((\.\.\/[^)#]+|[A-Za-z0-9_./-]+\.md)[^)]*\)/g)].map((match) => match[1]!))) {
+    await access(resolve("docs", link));
+  }
+});
+
+test("the candidate lists the doc names are the ones the importers use", async () => {
+  const text = await read("docs/IMPORTERS.md");
+  for (const file of ["npm-candidates", "pypi-candidates", "github-actions-candidates"]) {
+    assert.ok(text.includes(`tools/importers/${file}.ts`), file);
+    await access(resolve(`tools/importers/${file}.ts`));
+  }
+});
+
+test("other docs point to the importer guide", async () => {
+  assert.match(await read("docs/index.md"), /\(IMPORTERS\.md\)/);
+  assert.match(await read("docs/RULES.md"), /\(IMPORTERS\.md\)/);
+  assert.match(await read("CONTRIBUTING.md"), /docs\/IMPORTERS\.md/);
+});

@@ -162,6 +162,10 @@ Existing detectors read a few fields that are specific to their ecosystem. In v2
 
 The hints must agree with `purl` and `vers`: `x-npm.package` is the package in `pkg:npm/...`, and `x-github-actions.supportedFromMajor: 5` goes with `vers:semver/<5.0.0`. New detectors should not add hints that `purl` and `vers` can already express.
 
+## Drafting rules from sources
+
+Rules do not have to be typed by hand. [Importers](IMPORTERS.md) read an authoritative source such as the Node.js release schedule or npm's deprecation flags and draft rules for you to review.
+
 ## Converting a v1 file
 
 A tool converts registries written in the older, detector-specific format of the four bundled detectors. It derives `purl` and `vers` from the old fields, refuses to guess lifecycle events, and checks that every rule reads back unchanged:
