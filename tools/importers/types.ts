@@ -7,9 +7,21 @@ export const PENDING_REVIEWER = "pending-review";
  * How an importer reaches the outside world. Importers get every byte through `fetchText`, so
  * tests replay recordings and no importer needs its own network code.
  */
+export interface FetchOptions {
+  /** Value for the `Accept` header, for sources that serve several formats from one URL. */
+  accept?: string;
+}
+
+export class ImporterError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ImporterError";
+  }
+}
+
 export interface ImporterContext {
-  /** Returns a response body as text; throws unless the response is successful. */
-  fetchText(url: string): Promise<string>;
+  /** Returns a response body as text; throws an `ImporterError` unless the response is successful. */
+  fetchText(url: string, options?: FetchOptions): Promise<string>;
   /** The moment of the run. It becomes each draft's `provenance.observedAt`. */
   readonly now: Date;
 }
@@ -45,8 +57,8 @@ export interface DraftRegistry {
   notes: string[];
 }
 
-export async function fetchJson<T>(context: ImporterContext, url: string): Promise<T> {
-  const text = await context.fetchText(url);
+export async function fetchJson<T>(context: ImporterContext, url: string, options?: FetchOptions): Promise<T> {
+  const text = await context.fetchText(url, options);
   try {
     return JSON.parse(text) as T;
   } catch {

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evergreen.importer-recording.v1",
+  "importer": "example-feed",
+  "recordedAt": "2026-10-15",
+  "synthetic": true,
+  "responses": [
+    {
+      "url": "https://example.com/lifecycle-feed.json",
+      "body": "{\"products\":[{\"name\":\"zeta\",\"status\":\"eol\",\"title\":\"zeta is end-of-life\",\"summary\":\"No longer maintained.\",\"url\":\"https://example.com/zeta\",\"date\":\"2024-01-31\",\"replacement\":\"zeta-ng\"},{\"name\":\"acme-widget\",\"status\":\"deprecated\",\"versionsBefore\":\"2.0.0\",\"title\":\"acme-widget before 2.0 is deprecated\",\"summary\":\"Use 2.x.\",\"url\":\"https://example.com/acme\"},{\"name\":\"mystery\",\"status\":\"sunsetting\",\"title\":\"?\",\"summary\":\"?\",\"url\":\"https://example.com/mystery\"}]}"
+    }
+  ]
+}
