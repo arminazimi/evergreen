@@ -1,7 +1,9 @@
 {
   "schemaVersion": "evergreen.registry.v2",
-  "ecosystem": "example",
-  "freshness": { "maxReviewAgeDays": 365 },
+  "ecosystem": "npm",
+  "freshness": {
+    "maxReviewAgeDays": 365
+  },
   "rules": [
     {
       "id": "npm.package.request.deprecated",
@@ -15,7 +17,10 @@
       "replacement": "Native fetch or a maintained HTTP client",
       "deadline": "2020-02-11",
       "sources": [
-        { "title": "request package deprecation notice", "url": "https://www.npmjs.com/package/request" }
+        {
+          "title": "request package deprecation notice",
+          "url": "https://www.npmjs.com/package/request"
+        }
       ],
       "provenance": {
         "observedAt": "2026-10-13",
@@ -23,38 +28,60 @@
         "reviewer": "arminazimi"
       },
       "migration": {
-        "constraints": ["Preserve request method, headers, authentication, redirects, timeouts, and error semantics used by each call site."],
+        "constraints": [
+          "Preserve request method, headers, authentication, redirects, timeouts, and error semantics used by each call site."
+        ],
         "steps": [
-          { "id": "replace-request-calls", "title": "Rewrite request usages", "instructions": "Translate each reported import and call to native fetch or a maintained client.", "targets": "usages" }
+          {
+            "id": "replace-request-calls",
+            "title": "Rewrite request usages",
+            "instructions": "Translate each reported import and call to native fetch or a maintained client.",
+            "targets": "usages"
+          }
         ],
         "verification": [
-          { "command": "npm run test --if-present", "purpose": "Run repository tests when defined." }
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run repository tests when defined."
+          }
         ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "request" }
-      ]
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "request"
+        }
+      ],
+      "x-npm": {
+        "package": "request"
+      }
     },
     {
-      "id": "github-actions.checkout.node20",
-      "ecosystem": "github-actions",
-      "purl": "pkg:github/actions/checkout",
-      "vers": "vers:semver/<5.0.0",
-      "event": "deprecated",
-      "title": "actions/checkout before v5 runs on Node.js 20",
-      "summary": "GitHub-hosted runners are retiring the Node.js 20 action runtime.",
+      "id": "npm.package.node-sass.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/node-sass",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "node-sass is end-of-life",
+      "summary": "LibSass and node-sass are deprecated; Dart Sass is the supported implementation.",
       "severity": "high",
-      "replacement": "actions/checkout@v5 or later",
-      "deadline": "2026-09-23",
+      "replacement": "sass",
+      "deadline": "2024-07-24",
       "sources": [
-        { "title": "actions/checkout releases", "url": "https://github.com/actions/checkout/releases" }
+        {
+          "title": "Sass: LibSass is deprecated",
+          "url": "https://sass-lang.com/blog/libsass-is-deprecated/"
+        }
       ],
       "provenance": {
         "observedAt": "2026-10-13",
         "reviewedAt": "2026-10-13",
         "reviewer": "arminazimi"
       },
-      "x-github-actions": { "action": "actions/checkout", "supportedFromMajor": 5 }
+      "x-npm": {
+        "package": "node-sass"
+      }
     }
   ]
 }
