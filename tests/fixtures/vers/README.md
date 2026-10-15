@@ -7,3 +7,7 @@ They are used by `tests/vers*.test.ts` to check Evergreen's VERS implementation 
 
 Copyright (c) the purl authors. Licensed under the MIT License (SPDX-License-Identifier: MIT):
 https://github.com/package-url/vers-spec/blob/main/LICENSE
+
+## RubyGems vectors
+
+`gem_version_cmp_test.json` is not part of the VERS suite. It holds version pairs and the sign of `Gem::Version#<=>` from RubyGems 3.0.3.1, produced by `gem_version_cmp_generate.rb`, so the `gem` comparator can be tested against the real implementation without Ruby installed.
