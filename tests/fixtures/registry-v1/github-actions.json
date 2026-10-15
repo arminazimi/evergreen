@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "evergreen.github-actions-registry.v1",
+  "rules": [
+    {
+      "id": "github-actions.checkout.node20",
+      "ecosystem": "github-actions",
+      "action": "actions/checkout",
+      "supportedFromMajor": 5,
+      "title": "Unsupported actions/checkout runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/checkout@v5 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": ["Preserve checkout depth, credentials, submodule, and sparse-checkout behavior configured through action inputs."],
+        "steps": [
+          { "id": "upgrade-action-ref", "title": "Upgrade the checkout action", "instructions": "Change the uses reference to actions/checkout@v5 or a later supported major.", "targets": "declaration" },
+          { "id": "review-action-inputs", "title": "Review checkout inputs", "instructions": "Compare configured inputs with the target release and update renamed or changed options.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "git diff --check", "purpose": "Validate the edited workflow diff." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/checkout runtime guidance",
+          "url": "https://github.com/actions/checkout#checkout-v5"
+        }
+      ]
+    },
+    {
+      "id": "github-actions.setup-node.node20",
+      "ecosystem": "github-actions",
+      "action": "actions/setup-node",
+      "supportedFromMajor": 5,
+      "title": "Unsupported actions/setup-node runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-node@v5 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": ["Preserve the selected Node.js version, registry authentication, and dependency-cache behavior."],
+        "steps": [
+          { "id": "upgrade-action-ref", "title": "Upgrade setup-node", "instructions": "Change the uses reference to actions/setup-node@v5 or a later supported major.", "targets": "declaration" },
+          { "id": "review-action-inputs", "title": "Review runtime and cache inputs", "instructions": "Confirm node-version, registry-url, cache, and cache-dependency-path remain valid for the target release.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "git diff --check", "purpose": "Validate the edited workflow diff." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-node v5 runtime guidance",
+          "url": "https://github.com/actions/setup-node#breaking-changes-in-v5"
+        }
+      ]
+    },
+    {
+      "id": "github-actions.cache.node20",
+      "ecosystem": "github-actions",
+      "action": "actions/cache",
+      "supportedFromMajor": 5,
+      "title": "Unsupported actions/cache runtime",
+      "summary": "This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.",
+      "severity": "high",
+      "replacement": "actions/cache@v5 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": ["Preserve cache keys, restore-key ordering, paths, and cache-hit dependent control flow."],
+        "steps": [
+          { "id": "upgrade-action-ref", "title": "Upgrade the cache action", "instructions": "Change the uses reference to actions/cache@v5 or a later supported major.", "targets": "declaration" },
+          { "id": "review-cache-contract", "title": "Review cache behavior", "instructions": "Verify cache paths, keys, restore keys, and cache-hit output consumers against the target release.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "git diff --check", "purpose": "Validate the edited workflow diff." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/cache runtime and service guidance",
+          "url": "https://github.com/actions/cache#whats-new"
+        }
+      ]
+    },
+    {
+      "id": "github-actions.upload-artifact.retired",
+      "ecosystem": "github-actions",
+      "action": "actions/upload-artifact",
+      "supportedFromMajor": 7,
+      "title": "Retired actions/upload-artifact release",
+      "summary": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+      "severity": "critical",
+      "replacement": "actions/upload-artifact@v7 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": ["Preserve artifact names, selected paths, retention settings, and overwrite behavior."],
+        "steps": [
+          { "id": "upgrade-action-ref", "title": "Upgrade upload-artifact", "instructions": "Change the uses reference to actions/upload-artifact@v7 or a later supported major.", "targets": "declaration" },
+          { "id": "review-artifact-inputs", "title": "Review upload inputs", "instructions": "Confirm artifact paths, names, retention-days, compression, and overwrite settings against the target release.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "git diff --check", "purpose": "Validate the edited workflow diff." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "Deprecation notice for artifact actions v3",
+          "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+        }
+      ]
+    },
+    {
+      "id": "github-actions.download-artifact.retired",
+      "ecosystem": "github-actions",
+      "action": "actions/download-artifact",
+      "supportedFromMajor": 7,
+      "title": "Retired actions/download-artifact release",
+      "summary": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+      "severity": "critical",
+      "replacement": "actions/download-artifact@v7 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": ["Preserve artifact selection, download paths, merge behavior, and downstream file locations."],
+        "steps": [
+          { "id": "upgrade-action-ref", "title": "Upgrade download-artifact", "instructions": "Change the uses reference to actions/download-artifact@v7 or a later supported major.", "targets": "declaration" },
+          { "id": "review-artifact-layout", "title": "Review downloaded layout", "instructions": "Confirm artifact filters, paths, merge-multiple behavior, and downstream consumers against the target release.", "targets": "declaration" }
+        ],
+        "verification": [
+          { "command": "git diff --check", "purpose": "Validate the edited workflow diff." }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "Deprecation notice for artifact actions v3",
+          "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+        }
+      ]
+    }
+  ]
+}
