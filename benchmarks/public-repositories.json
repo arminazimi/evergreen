@@ -95,6 +95,85 @@
     },
     { "repository": "fastapi/fastapi", "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed", "ecosystem": "python", "expected": [] },
     { "repository": "pydantic/pydantic", "commit": "44d5e1e8fc8198ecd0083a00a05e099aba0423ab", "ecosystem": "python", "expected": [] },
-    { "repository": "pallets/click", "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6", "ecosystem": "python", "expected": [] }
+    { "repository": "pallets/click", "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "Akenon-Studio/.github",
+      "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/security-scan.yml", "line": 127, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a" } }
+      ]
+    },
+    {
+      "repository": "concept7/filament-deepl-translations",
+      "commit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/fix-php-code-style-issues.yml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/phpstan.yml", "line": 16, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/run-tests.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/update-changelog.yml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } }
+      ]
+    },
+    {
+      "repository": "CuteSurtr/NeedlemanWunschLean",
+      "commit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/lean_action_ci.yml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/CuteSurtr/NeedlemanWunschLean/commit/90162967c2931a0eb4a0105da3f18ee0dac840bc" } }
+      ]
+    },
+    {
+      "repository": "GongSunFangYun/mcauth3",
+      "commit": "769857cab1e0fef95e84d0685df3a8d28333b241",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/python-package.yml", "line": 15, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/python-package.yml", "line": 39, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89" } }
+      ]
+    },
+    {
+      "repository": "homelabdude/spire-federation-lab",
+      "commit": "99ff647c15fb6a56e3044a57f940ed87f1c1b222",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 27, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } }
+      ]
+    },
+    {
+      "repository": "ohmygodashish/nakatsu",
+      "commit": "cf9995a41163c761250b2b69d34457b6fa9ef640",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 82, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69" } }
+      ]
+    },
+    {
+      "repository": "pipe-cd/docs-mcp-server",
+      "commit": "b34cde6b925cd00e024e92f4b3e3521ecf35c6e5",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yaml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/prepare-release.yaml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release-package.yaml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yaml", "line": 11, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/prepare-release.yaml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release-package.yaml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } }
+      ]
+    },
+    {
+      "repository": "smartcrabai/paperhanger",
+      "commit": "2bb7ab4c344692f8549aef8441edafc9af614450",
+      "ecosystem": "node-actions",
+      "expected": [
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/build-and-push.yml", "line": 24, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } },
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yml", "line": 20, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } }
+      ]
+    },
+    { "repository": "openmcp-project/crossplane-headlamp-plugin", "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3", "ecosystem": "node-actions", "expected": [] },
+    { "repository": "phmatray/claude-deck", "commit": "d1325af2d9d883d86288312079d1bca012ee10c2", "ecosystem": "node-actions", "expected": [] }
   ]
 }

@@ -44,8 +44,8 @@ const corpus = JSON.parse(
   await readFile(resolve("benchmarks/public-repositories.json"), "utf8"),
 ) as Corpus;
 
-if (corpus.repositories.length !== 20) {
-  throw new Error(`Expected exactly 20 repositories, received ${corpus.repositories.length}.`);
+if (corpus.repositories.length < 20) {
+  throw new Error(`Expected at least 20 repositories, received ${corpus.repositories.length}.`);
 }
 
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
