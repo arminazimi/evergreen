@@ -1,0 +1,10 @@
+# Maintainer review is required where correctness matters most.
+# Lifecycle evidence, public contracts, and CI/release automation.
+
+/registry/                @arminazimi
+/schemas/                 @arminazimi
+/src/sdk.ts               @arminazimi
+/src/domain.ts            @arminazimi
+/.github/workflows/       @arminazimi
+/.github/CODEOWNERS       @arminazimi
+/action.yml               @arminazimi
