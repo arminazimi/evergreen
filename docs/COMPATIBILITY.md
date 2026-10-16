@@ -42,6 +42,7 @@ Matrix version: **2026-10-15 / v1**
 
 | Detector ecosystem | Status | Coverage |
 | --- | --- | --- |
+| Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |

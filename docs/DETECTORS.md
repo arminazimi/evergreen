@@ -38,6 +38,8 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
+Built-in detectors with their own pages: [Container base images](detectors/container.md).
+
 ## Start a new detector in this repository
 
 Do not copy an existing detector by hand. Generate the skeleton from a checkout of this repository:
