@@ -74,6 +74,12 @@ Current published baseline:
 
 This is a contract test for the concepts exposed by the skill metadata, not a claim that every model version will make an identical routing decision. Live host checks can add observations without weakening the deterministic CI gate. Generic dependency upgrades, vulnerability or security audits, deprecated application APIs, and unrelated modernization are explicit negative cases.
 
+### Dependency guard evaluation
+
+The Skill also tells an agent to check a package, runtime, or action before adding it (`check_dependency` or `evergreen check`). `skills/evergreen-deprecation/evals/dependency-cases.json` measures that trigger: 48 prompts, 27 expected checks and 21 that should not trigger one, split evenly across the three discovery lanes. Positives add or choose a dependency in npm, PyPI, and GitHub Actions terms (`npm install request-promise`, `Add actions/checkout@v4 to the CI workflow`, `Which package should I use for date handling?`). Negatives are removals, installs of what the lockfile already declares, routine upgrades, `dependency injection`, tests, documentation, and refactors; six edge cases are labeled ambiguous with the decision and reason recorded.
+
+`npm run eval:skill-triggers` reports recall and false-trigger rate for it under `dependencyGuard`, overall and by lane, with the same gates (at least 40 cases, recall of 90% or more, false-trigger rate under 5%). Like the lifecycle evaluation it is a deterministic proxy for what the Skill metadata says, not a measurement of any particular model; live runs in each host can add observations without weakening the gate.
+
 CI also validates the portable frontmatter, small instruction surface, vendor neutrality, complete tool mapping, and safety invariants.
 
 Independent forward tests exercise three different agent situations:

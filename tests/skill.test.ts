@@ -122,3 +122,47 @@ test("skill distribution documents canonical discovery and host compatibility", 
     assert.match(compatibility, new RegExp(host));
   }
 });
+
+test("the dependency guard corpus is balanced, labeled, and meets the trigger gates", async () => {
+  const { calculateMetrics, classifyDependencyAddition, loadDependencyEvalCorpus, skillEvalHosts } = await import("../benchmarks/skill-trigger-eval.js");
+  const corpus = await loadDependencyEvalCorpus();
+  assert.equal(corpus.schemaVersion, "evergreen.dependency-guard-evals.v1");
+  assert.ok(corpus.cases.length >= 40);
+  assert.equal(new Set(corpus.cases.map((item) => item.id)).size, corpus.cases.length);
+  assert.equal(new Set(corpus.cases.map((item) => item.prompt)).size, corpus.cases.length);
+  for (const item of corpus.cases) assert.ok(item.reason.trim().length > 0, item.id);
+  assert.ok(corpus.cases.some((item) => item.kind === "ambiguous"));
+  for (const host of skillEvalHosts) {
+    const lane = corpus.cases.filter((item) => item.host === host);
+    assert.ok(lane.some((item) => item.shouldTrigger) && lane.some((item) => !item.shouldTrigger), host);
+    const metrics = calculateMetrics(lane, classifyDependencyAddition);
+    assert.ok(metrics.recall >= 0.9, `${host} recall ${metrics.recall}`);
+    assert.ok(metrics.falseTriggerRate < 0.05, `${host} false-trigger rate ${metrics.falseTriggerRate}`);
+  }
+  const overall = calculateMetrics(corpus.cases, classifyDependencyAddition);
+  assert.ok(overall.recall >= 0.9 && overall.falseTriggerRate < 0.05);
+});
+
+test("the dependency classifier also holds on prompts that are not in the corpus", async () => {
+  const { classifyDependencyAddition } = await import("../benchmarks/skill-trigger-eval.js");
+  for (const prompt of [
+    "Please install the colors package for the CLI output.",
+    "npm i --save-dev eslint-plugin-import",
+    "pip install rich and use it for the tables.",
+    "Add actions/cache@v3 to speed up the build.",
+    "Introduce a library for schema validation.",
+    "yarn add left-pad",
+    "Add moment to package.json.",
+    "Use the docker/login-action in the release job.",
+  ]) assert.equal(classifyDependencyAddition(prompt), true, prompt);
+  for (const prompt of [
+    "Remove the colors package and use the built-in instead.",
+    "Run npm install, then run the build.",
+    "Add a README section about configuration.",
+    "Rename the module and fix its imports.",
+    "Explain what a dependency graph is.",
+    "Upgrade everything to the latest versions.",
+    "Write a test for the date helper.",
+    "Add retries to the upload function.",
+  ]) assert.equal(classifyDependencyAddition(prompt), false, prompt);
+});

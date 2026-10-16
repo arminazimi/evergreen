@@ -118,10 +118,55 @@ export function classifySkillTrigger(prompt: string): boolean {
   return hasEvergreenFinding || (hasLifecycle && hasRepositoryDependency);
 }
 
-export function calculateMetrics(cases: SkillEvalCase[]): SkillTriggerMetrics {
+// --- Dependency guard: should an agent check a dependency before this task? -------------------------------
+
+export interface DependencyEvalCorpus {
+  schemaVersion: "evergreen.dependency-guard-evals.v1";
+  cases: SkillEvalCase[];
+}
+
+const packageManagerCommand = /\b(?:npm|pnpm|yarn|bun|pip3?|pipx|poetry|uv|cargo|gem|go)\s+(?:install|add|i|get)\b(?:\s+-{1,2}[\w-]+)*\s+(?!and\b|then\b|the\b|before\b|to\b|from\b|in\b|so\b|if\b|for\b|again\b)[@\w.\/-]*[a-z]/;
+const addVerb = /\b(?:add|install|introduce|include|adopt|pull in|bring in|switch to|swap in|pick|choose|start using|use)\b/;
+const dependencyNoun = /\b(?:package|library|dependency|dependencies|github action|action|npm package|pypi package)\b/;
+const namedPackageAfterVerb = /\b(?:install|pull in|bring in|introduce|adopt|include|start using)\s+(?:the |a |an )?(?!all\b|dependencies\b|packages\b)[@\w.\/-]*[-.@\/][@\w.\/-]+/;
+const addToManifest = /\b(?:add|put|append)\b[^.?!]{0,50}\bto\b[^.?!]{0,20}\b(?:requirements(?:\.txt)?|package\.json|pyproject(?:\.toml)?|dependencies|devdependencies|go\.mod|cargo\.toml)\b/;
+const actionReference = /\b(?:add|use|include|insert)\b[^.?!]{0,40}\b(?:actions\/[\w.-]+|[\w.-]+\/[\w.-]+@v?\d)/;
+const choosePackage = /\b(?:which|what) (?:package|library|module)\b[^.?!]*\b(?:use|pick|choose|adopt)\b|\breplace\b[^.?!]{0,40}\bwith\b[^.?!]{0,30}\b(?:package|library|module)\b/;
+const notAnAddition = [
+  /\bdependency injection\b/,
+  /\b(?:from the lockfile|project's dependencies|all (?:the )?dependencies|declared dependencies)\b/,
+  /\b(?:upgrade|update|bump)\b[^.?!]*\b(?:latest|all)\b/,
+  /\b(?:remove|uninstall|delete|drop)\b[^.?!]*\b(?:package|packages|dependency|dependencies)\b(?![^.?!]*\b(?:add|install|pick|choose|replace)\b)/,
+];
+
+/**
+ * Deterministic proxy for "an agent should check a dependency before doing this": the task adds a new
+ * package, runtime, or action, or picks one. Removals, installs of what is already declared, routine
+ * upgrades, and unrelated work do not trigger it. Like the lifecycle proxy above, it encodes the
+ * concepts the skill states, not case IDs.
+ */
+export function classifyDependencyAddition(prompt: string): boolean {
+  const normalized = prompt.toLowerCase().replaceAll("’", "'");
+  if (matchesAny(normalized, notAnAddition) && !packageManagerCommand.test(normalized) && !addToManifest.test(normalized)) {
+    return choosePackage.test(normalized);
+  }
+  return (
+    packageManagerCommand.test(normalized) ||
+    addToManifest.test(normalized) ||
+    actionReference.test(normalized) ||
+    choosePackage.test(normalized) ||
+    namedPackageAfterVerb.test(normalized) ||
+    (addVerb.test(normalized) && dependencyNoun.test(normalized.replace(/package\.json/g, "")))
+  );
+}
+
+export function calculateMetrics(
+  cases: SkillEvalCase[],
+  classify: (prompt: string) => boolean = classifySkillTrigger,
+): SkillTriggerMetrics {
   const predictions = cases.map((item) => ({
     expected: item.shouldTrigger,
-    actual: classifySkillTrigger(item.prompt),
+    actual: classify(item.prompt),
   }));
   const expectedTriggers = predictions.filter((item) => item.expected).length;
   const expectedNonTriggers = predictions.length - expectedTriggers;
@@ -145,6 +190,12 @@ export async function loadSkillEvalCorpus(): Promise<SkillEvalCorpus> {
   ) as SkillEvalCorpus;
 }
 
+export async function loadDependencyEvalCorpus(): Promise<DependencyEvalCorpus> {
+  return JSON.parse(
+    await readFile(resolve("skills/evergreen-deprecation/evals/dependency-cases.json"), "utf8"),
+  ) as DependencyEvalCorpus;
+}
+
 async function run(): Promise<void> {
   const corpus = await loadSkillEvalCorpus();
   const overall = calculateMetrics(corpus.cases);
@@ -157,7 +208,29 @@ async function run(): Promise<void> {
   const failures = corpus.cases
     .filter((item) => classifySkillTrigger(item.prompt) !== item.shouldTrigger)
     .map((item) => item.id);
-  const result = { schemaVersion: corpus.schemaVersion, overall, byHost, failures };
+  const guardrail = await loadDependencyEvalCorpus();
+  const guardrailOverall = calculateMetrics(guardrail.cases, classifyDependencyAddition);
+  const guardrailByHost = Object.fromEntries(
+    skillEvalHosts.map((host) => [
+      host,
+      calculateMetrics(guardrail.cases.filter((item) => item.host === host), classifyDependencyAddition),
+    ]),
+  );
+  const guardrailFailures = guardrail.cases
+    .filter((item) => classifyDependencyAddition(item.prompt) !== item.shouldTrigger)
+    .map((item) => item.id);
+  const result = {
+    schemaVersion: corpus.schemaVersion,
+    overall,
+    byHost,
+    failures,
+    dependencyGuard: {
+      schemaVersion: guardrail.schemaVersion,
+      overall: guardrailOverall,
+      byHost: guardrailByHost,
+      failures: guardrailFailures,
+    },
+  };
 
   console.log(JSON.stringify(result, null, 2));
   if (
@@ -165,6 +238,12 @@ async function run(): Promise<void> {
     overall.recall < 0.9 ||
     overall.falseTriggerRate >= 0.05 ||
     Object.values(byHost).some(
+      (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
+    ) ||
+    guardrail.cases.length < 40 ||
+    guardrailOverall.recall < 0.9 ||
+    guardrailOverall.falseTriggerRate >= 0.05 ||
+    Object.values(guardrailByHost).some(
       (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
     )
   ) {

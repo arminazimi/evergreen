@@ -1,6 +1,6 @@
 ---
 name: evergreen-deprecation
-description: Find, explain, migrate, and verify end-of-life or deprecated repository dependencies, including runtimes, package declarations, and GitHub Actions. Use for repository lifecycle scans and Evergreen finding workflows. Do not use for routine dependency upgrades, vulnerability or security audits, deprecated source APIs, or unrelated modernization.
+description: Find, explain, migrate, and verify end-of-life or deprecated repository dependencies, including runtimes, package declarations, and GitHub Actions. Use for repository lifecycle scans and Evergreen finding workflows, and to check a package, runtime, or action against lifecycle data before adding it to a project. Do not use for routine dependency upgrades, vulnerability or security audits, deprecated source APIs, or unrelated modernization.
 license: Apache-2.0
 metadata:
   author: Evergreen
@@ -20,7 +20,7 @@ Use Evergreen outputs as the source of truth. This workflow requires the Evergre
 
 ## Before adding a dependency
 
-When a task adds or upgrades a package, runtime, or action, check it first with `check_dependency` (or `evergreen check <purl>`). If the result is `affected`, prefer the cited replacement and tell the user why. `no-data` means Evergreen has no rule for the package; it is not a claim that the package is safe.
+When a task adds a new package, runtime, or action, or picks one to replace another, check it first with `check_dependency` (or `evergreen check <purl>`). If the result is `affected`, prefer the cited replacement and tell the user why. `no-data` means Evergreen has no rule for the package; it is not a claim that the package is safe.
 
 ## Tool mapping
 

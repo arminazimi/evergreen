@@ -1,0 +1,389 @@
+{
+  "schemaVersion": "evergreen.dependency-guard-evals.v1",
+  "cases": [
+    {
+      "id": "as-dep-add-1",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Add the request package to this service so it can call the billing API.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-1",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "npm install request-promise and use it in src/client.js.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-1",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "pip install nose and write the new test runner config.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-2",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Add django-nose to requirements.txt.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-2",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Add actions/checkout@v4 to the CI workflow.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-2",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Introduce the moment library for date formatting in the dashboard.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-3",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Install node-sass so we can compile the SCSS files.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-3",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Pull in left-pad for padding the invoice numbers.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-3",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Add a GitHub Action that uploads artifacts to the release workflow.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-4",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "yarn add popper.js and wire up the dropdown.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-4",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Pick a maintained library for the HTTP client and add it to the project.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-4",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "pnpm add --save-dev protractor for the end-to-end tests.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-5",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Add pycrypto to the dependencies for encrypting the export file.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-5",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Use the setup-python action in the workflow to run the tests.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-5",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Include the uuid package for generating ids.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-6",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "poetry add flask-script for the management commands.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-6",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Install a library to parse YAML in the loader.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-6",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Add a dependency on axios for the API calls.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-7",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Bring in a Node.js package for retrying failed requests.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-7",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Add actions/setup-node to the build job.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-7",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Start using the bluebird package for promises.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-add-8",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Add a new Python package for retrying flaky calls.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cx-dep-add-8",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "uv add nose2 and configure it for the test suite.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "cl-dep-add-8",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "bun add request and replace the manual fetch wrapper.",
+      "shouldTrigger": true,
+      "reason": "Adds or chooses a package, runtime, or action: check it first."
+    },
+    {
+      "id": "as-dep-none-1",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Remove the request package from package.json and use fetch instead.",
+      "shouldTrigger": false,
+      "reason": "Removing a dependency adds nothing to check."
+    },
+    {
+      "id": "cx-dep-none-1",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Run npm install and then run the tests.",
+      "shouldTrigger": false,
+      "reason": "Installing the declared dependencies adds none."
+    },
+    {
+      "id": "cl-dep-none-1",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Run npm ci before building.",
+      "shouldTrigger": false,
+      "reason": "Restoring the lockfile adds no dependency."
+    },
+    {
+      "id": "as-dep-none-2",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Refactor the payment module to use async/await.",
+      "shouldTrigger": false,
+      "reason": "Code change with no new dependency."
+    },
+    {
+      "id": "cx-dep-none-2",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Add a unit test for the parser.",
+      "shouldTrigger": false,
+      "reason": "Adding a test is not adding a dependency."
+    },
+    {
+      "id": "cl-dep-none-2",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Add logging to the request handler.",
+      "shouldTrigger": false,
+      "reason": "Logging with existing code."
+    },
+    {
+      "id": "as-dep-none-3",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Explain how the dependency injection container resolves services.",
+      "shouldTrigger": false,
+      "reason": "Dependency injection is a design pattern, not a package."
+    },
+    {
+      "id": "cx-dep-none-3",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Fix the typo in the README.",
+      "shouldTrigger": false,
+      "reason": "Documentation edit."
+    },
+    {
+      "id": "cl-dep-none-3",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Uninstall unused packages from the repo.",
+      "shouldTrigger": false,
+      "reason": "Removal only."
+    },
+    {
+      "id": "as-dep-none-4",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Rename the helper function and update its callers.",
+      "shouldTrigger": false,
+      "reason": "Refactor."
+    },
+    {
+      "id": "cx-dep-none-4",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Update the changelog for the release.",
+      "shouldTrigger": false,
+      "reason": "Documentation edit."
+    },
+    {
+      "id": "cl-dep-none-4",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Add a new endpoint that returns the invoice total.",
+      "shouldTrigger": false,
+      "reason": "Feature work with existing libraries."
+    },
+    {
+      "id": "as-dep-none-5",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Run the linter and fix the reported problems.",
+      "shouldTrigger": false,
+      "reason": "Existing tooling."
+    },
+    {
+      "id": "cx-dep-none-5",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Show me the git log for the last week.",
+      "shouldTrigger": false,
+      "reason": "Version control question."
+    },
+    {
+      "id": "cl-dep-none-5",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Write a package.json script that runs the build.",
+      "shouldTrigger": false,
+      "reason": "A script is not a dependency."
+    },
+    {
+      "id": "as-dep-none-6",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Add a pull request template to .github.",
+      "shouldTrigger": false,
+      "reason": "Repository file, not a dependency."
+    },
+    {
+      "id": "cx-dep-none-6",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Upgrade all dependencies to the latest versions.",
+      "shouldTrigger": false,
+      "reason": "Routine upgrade; the skill excludes it."
+    },
+    {
+      "id": "cl-dep-none-6",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Delete the node_modules folder and reinstall.",
+      "shouldTrigger": false,
+      "reason": "Reinstalls what is already declared."
+    },
+    {
+      "id": "as-dep-edge-1",
+      "host": "agent-skills",
+      "kind": "ambiguous",
+      "prompt": "Add support for installing the CLI through Homebrew.",
+      "shouldTrigger": false,
+      "reason": "Distribution work, not a project dependency."
+    },
+    {
+      "id": "cx-dep-edge-1",
+      "host": "codex",
+      "kind": "ambiguous",
+      "prompt": "Which package should I use for date handling?",
+      "shouldTrigger": true,
+      "reason": "Choosing a package is the moment to check candidates."
+    },
+    {
+      "id": "cl-dep-edge-1",
+      "host": "claude",
+      "kind": "ambiguous",
+      "prompt": "Install the project's dependencies from the lockfile.",
+      "shouldTrigger": false,
+      "reason": "Restores declared dependencies."
+    },
+    {
+      "id": "as-dep-edge-2",
+      "host": "agent-skills",
+      "kind": "ambiguous",
+      "prompt": "Add the dependency review action to the workflow.",
+      "shouldTrigger": true,
+      "reason": "A new action in a workflow."
+    },
+    {
+      "id": "cx-dep-edge-2",
+      "host": "codex",
+      "kind": "ambiguous",
+      "prompt": "Update actions/checkout to the latest version.",
+      "shouldTrigger": false,
+      "reason": "Routine upgrade of an action already in use."
+    },
+    {
+      "id": "cl-dep-edge-2",
+      "host": "claude",
+      "kind": "ambiguous",
+      "prompt": "Replace moment with a lighter package.",
+      "shouldTrigger": true,
+      "reason": "Picking a replacement package."
+    }
+  ]
+}
