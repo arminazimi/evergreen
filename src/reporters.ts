@@ -1,8 +1,82 @@
-import type { ScanResult } from "./domain.js";
+import type { Finding, ScanResult, Severity } from "./domain.js";
 import type { MigrationPacket } from "./migration-packet.js";
+import { VERSION } from "./version.js";
 
 export function renderJson(result: ScanResult): string {
   return JSON.stringify(result, null, 2);
+}
+
+const SARIF_SCHEMA = "https://json.schemastore.org/sarif-2.1.0.json";
+const SARIF_LEVEL: Record<Severity, "error" | "warning" | "note"> = {
+  critical: "error",
+  high: "error",
+  medium: "warning",
+  low: "note",
+  info: "note",
+};
+
+const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
+
+function sarifOrder(left: Finding, right: Finding): number {
+  return (
+    compare(left.location.path, right.location.path) ||
+    (left.location.line ?? 0) - (right.location.line ?? 0) ||
+    compare(left.ruleId, right.ruleId) ||
+    compare(left.id, right.id)
+  );
+}
+
+/**
+ * Renders a scan as one SARIF 2.1.0 run. Output is deterministic: rules and results are sorted, paths are
+ * repository-relative with forward slashes, and nothing machine-specific (root, time) is included. Only
+ * locations and Evergreen's own rule text are written; no source content is uploaded.
+ */
+export function renderSarif(result: ScanResult): string {
+  const findings = [...result.findings].sort(sarifOrder);
+  const ruleIds = [...new Set(findings.map((finding) => finding.ruleId))].sort(compare);
+  const rules = ruleIds.map((ruleId) => {
+    const finding = findings.find((candidate) => candidate.ruleId === ruleId)!;
+    return {
+      id: ruleId,
+      name: ruleId,
+      shortDescription: { text: finding.title },
+      defaultConfiguration: { level: SARIF_LEVEL[finding.severity] },
+      properties: { tags: ["lifecycle", finding.detector] },
+    };
+  });
+
+  const sarif = {
+    $schema: SARIF_SCHEMA,
+    version: "2.1.0",
+    runs: [
+      {
+        tool: {
+          driver: {
+            name: "Evergreen",
+            version: VERSION,
+            informationUri: "https://github.com/arminazimi/evergreen",
+            rules,
+          },
+        },
+        results: findings.map((finding) => ({
+          ruleId: finding.ruleId,
+          ruleIndex: ruleIds.indexOf(finding.ruleId),
+          level: SARIF_LEVEL[finding.severity],
+          message: { text: finding.summary },
+          locations: [
+            {
+              physicalLocation: {
+                artifactLocation: { uri: finding.location.path, uriBaseId: "%SRCROOT%" },
+                ...(finding.location.line ? { region: { startLine: finding.location.line } } : {}),
+              },
+            },
+          ],
+          partialFingerprints: { "evergreenFindingId/v1": finding.id },
+        })),
+      },
+    ],
+  };
+  return JSON.stringify(sarif, null, 2);
 }
 
 export function renderText(result: ScanResult): string {

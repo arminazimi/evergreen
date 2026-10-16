@@ -9,13 +9,13 @@ import { builtInDetectors } from "./detectors/index.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
-import { renderFindingText, renderJson, renderMigrationPacketText, renderText } from "./reporters.js";
+import { renderFindingText, renderJson, renderMigrationPacketText, renderSarif, renderText } from "./reporters.js";
 import { VERSION } from "./version.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
-  evergreen scan [path] [--json]
+  evergreen scan [path] [--json | --format <text|json|sarif>]
   evergreen scan [path] --baseline <file> [--json]
   evergreen baseline [path] [--output <file>]
   evergreen explain <finding-id> [path] [--json]
@@ -43,13 +43,23 @@ async function main(args: string[]): Promise<number> {
     return 2;
   }
 
-  const json = args.includes("--json");
+  const formatIndex = args.indexOf("--format");
+  const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
+  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif") {
+    process.stderr.write(`Unknown format: ${format ?? ""} (expected text, json, or sarif).\n`);
+    return 2;
+  }
+  if (format === "sarif" && command !== "scan") {
+    process.stderr.write("--format sarif is only available for the scan command.\n");
+    return 2;
+  }
+  const json = args.includes("--json") || format === "json";
   if (command === "capabilities") {
     const manifest = getCapabilityManifest();
     process.stdout.write(`${json ? JSON.stringify(manifest, null, 2) : renderCapabilitiesText(manifest)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -105,7 +115,8 @@ async function main(args: string[]): Promise<number> {
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else {
-    process.stdout.write(`${json ? renderJson(result) : renderText(result)}\n`);
+    const output = format === "sarif" ? renderSarif(result) : json ? renderJson(result) : renderText(result);
+    process.stdout.write(`${output}\n`);
   }
   return 0;
 }
