@@ -18,6 +18,10 @@ Use Evergreen outputs as the source of truth. This workflow requires the Evergre
 3. **Migrate.** Create migration context for that finding. Follow its constraints and ordered steps, preserve behavior at every listed usage, and account for each affected file. Inspect suggested commands before running them under the host's normal authorization rules.
 4. **Verify.** Run relevant project checks, then perform a fresh Evergreen verification. With MCP, verify the finding in the same session that observed it. This step is complete when the finding is absent, required checks pass, and any scope beyond the packet is explained.
 
+## Before adding a dependency
+
+When a task adds or upgrades a package, runtime, or action, check it first with `check_dependency` (or `evergreen check <purl>`). If the result is `affected`, prefer the cited replacement and tell the user why. `no-data` means Evergreen has no rule for the package; it is not a claim that the package is safe.
+
 ## Tool mapping
 
 | Intent | MCP tool | CLI fallback |

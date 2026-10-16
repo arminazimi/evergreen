@@ -8,6 +8,26 @@ Evergreen ships as a portable Agent Plugins package with a Codex compatibility m
 - Node.js 22 or newer.
 - Access to the npm registry the first time the pinned Evergreen runtime is launched.
 
+## Dependency guard
+
+The plugin ships a `PostToolUse` hook (`hooks/hooks.json`, matched to `apply_patch`) and the Skill carries the same instruction for sessions where hooks are off. When a patch adds a dependency that Evergreen's lifecycle rules mark as deprecated, Codex receives a warning with the evidence and the replacement, and you see a one-line notice.
+
+It reads the patch Codex applied and checks only what the patch **added or changed**, in `package.json`, `requirements*.txt`, `constraints*.txt`, `pyproject.toml`, GitHub workflows, and `action.yml`. Existing dependencies never produce repeated warnings.
+
+```text
+Evergreen: pkg:npm/request@2.88.2 — request is deprecated (high, deprecated).
+The package is fully deprecated and no new changes are expected.
+Replacement: Native fetch or a maintained HTTP client.
+Evidence: https://www.npmjs.com/package/request
+```
+
+- **Trust the hook first.** Codex does not run plugin hooks until you review them: enabling the plugin does not trust its hooks. Run `/hooks` in Codex and trust the Evergreen hook. Trust is tied to the hook's contents, so a plugin update asks again.
+- **It never blocks or edits files.** It warns and cites sources; you and Codex decide what to do. If the check cannot run, the hook says so instead of staying silent, and the patch is unaffected.
+- **It is local.** It runs `evergreen check` from the same pinned release as the MCP server; no repository content leaves your machine. A package with no rule produces no output, which is absence of evidence, not a safety claim.
+- **If hooks are off** (`[features] hooks = false`) or you do not trust the hook, the Skill still tells Codex to call the `check_dependency` tool before adding a dependency.
+
+The script is generated from `integrations/dependency-guard/guard.mjs`, shared with the Claude plugin. Set `EVERGREEN_CHECK_COMMAND` to use another Evergreen command, for example a local build.
+
 ## Install from this repository
 
 The repository marketplace is discovered from `.agents/plugins/marketplace.json` and exposes the package as `evergreen@evergreen-codex`:

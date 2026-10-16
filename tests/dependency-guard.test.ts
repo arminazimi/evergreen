@@ -6,6 +6,7 @@ import { test } from "node:test";
 import { pathToFileURL } from "node:url";
 
 interface Guard {
+  patchFiles(command: string): Array<{ path: string; before: string; after: string }>;
   addedDependencies(path: string, before: string, after: string): Array<{ purl: string; version?: string }>;
   changesFrom(payload: object, readPrevious?: (path: string) => string): { added: Array<{ purl: string; version?: string }> };
   run(payload: object, runner?: (purl: string, version?: string) => { check?: unknown; error?: string }): { systemMessage: string; hookSpecificOutput: { additionalContext: string } } | undefined;
@@ -58,6 +59,34 @@ test("Edit, MultiEdit, and Write payloads are understood, and other files are sk
   assert.deepEqual(guard.changesFrom({ tool_name: "Read", tool_input: { file_path: "/repo/package.json" } }).added, []);
 });
 
+test("Codex apply_patch commands are split into files and only added dependencies are reported", () => {
+  const command = [
+    "*** Begin Patch",
+    "*** Update File: package.json",
+    "@@",
+    '   "dependencies": {',
+    '+    "request": "^2.88.2",',
+    '-    "left-pad": "^1.3.0",',
+    '     "express": "^4.0.0"',
+    "*** Add File: requirements.txt",
+    "+nose==1.3.7",
+    "*** Update File: src/api.ts",
+    '+const config = { "request": "1.0.0" };',
+    "*** Delete File: old/requirements.txt",
+    "-pep8==1.7.1",
+    "*** Update File: .github/workflows/ci.yml",
+    "@@",
+    "-      - uses: actions/checkout@v4",
+    "+      - uses: actions/checkout@v4",
+    "+      - uses: actions/cache@v4",
+    "*** End Patch",
+  ].join("\n");
+  assert.deepEqual(guard.patchFiles(command).map((file) => file.path), ["package.json", "requirements.txt", "src/api.ts", "old/requirements.txt", ".github/workflows/ci.yml"]);
+  assert.deepEqual(purls(guard.changesFrom({ tool_name: "apply_patch", tool_input: { command } }).added), ["pkg:github/actions/cache", "pkg:npm/request", "pkg:pypi/nose"]);
+  assert.deepEqual(guard.changesFrom({ tool_name: "apply_patch", tool_input: { command: "*** Begin Patch\n*** End Patch" } }).added, []);
+  assert.deepEqual(guard.changesFrom({ tool_name: "apply_patch", tool_input: {} }).added, []);
+});
+
 test("only affected dependencies produce a warning, and a failing check is reported, not hidden", () => {
   const payload = { tool_name: "Edit", tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2", "express": "^4.0.0", "left-pad": "^1.3.0"' } };
   const affected = { status: "affected", purl: "pkg:npm/request", version: "2.88.2", findings: [{ title: "request is deprecated", severity: "high", event: "deprecated", summary: "No new changes are expected.", replacement: "Native fetch", deadline: "2020-02-11", sources: [{ url: "https://www.npmjs.com/package/request" }] }] };
@@ -99,6 +128,8 @@ test("the hook script warns for a real deprecated dependency and stays quiet oth
     const result = runHook({ cwd: process.cwd(), ...quiet });
     assert.deepEqual([result.status, result.stdout], [0, ""]);
   }
+  const patch = runHook({ tool_name: "apply_patch", cwd: process.cwd(), tool_input: { command: "*** Begin Patch\n*** Update File: package.json\n@@\n+    \"request\": \"^2.88.2\"\n*** End Patch" } });
+  assert.match(JSON.parse(patch.stdout).hookSpecificOutput.additionalContext, /request is deprecated/);
   assert.deepEqual(runHook({}).stdout, "");
   assert.equal(spawnSync(process.execPath, [guardPath], { input: "not json", encoding: "utf8" }).status, 0);
 });
@@ -112,4 +143,13 @@ test("the Claude plugin ships the guard with a pinned package and a PostToolUse 
   const script = await readFile(resolve("plugins/claude/hooks/dependency-guard.mjs"), "utf8");
   assert.ok(script.includes(`"evergreen-deprecation@${version}"`));
   assert.ok(!script.includes("__EVERGREEN_PACKAGE__"));
+});
+
+test("the Codex plugin ships the same guard, matched to apply_patch and addressed through PLUGIN_ROOT", async () => {
+  const hooks = JSON.parse(await readFile(resolve("plugins/codex/hooks/hooks.json"), "utf8")) as { hooks: { PostToolUse: Array<{ matcher: string; hooks: Array<{ type: string; command: string; timeout: number }> }> } };
+  const [entry] = hooks.hooks.PostToolUse;
+  assert.equal(entry!.matcher, "^apply_patch$");
+  assert.equal(entry!.hooks[0]!.command, 'node "${PLUGIN_ROOT}/hooks/dependency-guard.mjs"');
+  assert.ok(entry!.hooks[0]!.timeout > 0);
+  assert.equal(await readFile(resolve("plugins/codex/hooks/dependency-guard.mjs"), "utf8"), await readFile(resolve("plugins/claude/hooks/dependency-guard.mjs"), "utf8"));
 });

@@ -237,6 +237,24 @@ export async function expectedPluginFiles(
     "__EVERGREEN_PACKAGE__",
     `evergreen-deprecation@${packageMetadata.version}`,
   );
+  const codexHooks = json({
+    description:
+      "Warns when a patch adds a dependency that Evergreen's lifecycle rules mark as deprecated, with the evidence and replacement.",
+    hooks: {
+      PostToolUse: [
+        {
+          matcher: "^apply_patch$",
+          hooks: [
+            {
+              type: "command",
+              command: 'node "${PLUGIN_ROOT}/hooks/dependency-guard.mjs"',
+              timeout: 60,
+            },
+          ],
+        },
+      ],
+    },
+  });
   const claudeHooks = json({
     description:
       "Warns when an edit adds a dependency that Evergreen's lifecycle rules mark as deprecated, with the evidence and replacement.",
@@ -316,6 +334,8 @@ export async function expectedPluginFiles(
     ["plugins/codex/assets/review-walkthrough.svg", reviewWalkthrough],
     ["plugins/codex/review/submission.json", codexReview],
     ["plugins/codex/skills/evergreen-deprecation/SKILL.md", skill],
+    ["plugins/codex/hooks/hooks.json", codexHooks],
+    ["plugins/codex/hooks/dependency-guard.mjs", guard],
     ...demoFiles,
     ["plugins/claude/.claude-plugin/plugin.json", claudeManifest],
     ["plugins/claude/.mcp.json", mcp],

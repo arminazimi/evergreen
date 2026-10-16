@@ -96,9 +96,36 @@ export function addedDependencies(path, before, after) {
   return added;
 }
 
+/**
+ * Splits a Codex `apply_patch` command into files with the text each one removes and adds. The format is
+ * "*** Begin Patch", then "*** Add File: path", "*** Update File: path" (with "@@" hunks of " ", "-" and "+"
+ * lines), or "*** Delete File: path", then "*** End Patch".
+ */
+export function patchFiles(command) {
+  const files = [];
+  let current;
+  for (const line of String(command ?? "").split(/\r?\n/)) {
+    const header = /^\*\*\* (Add|Update|Delete) File: (.+)$/.exec(line);
+    if (header) {
+      current = { path: header[2].trim(), removed: [], added: [], kind: header[1] };
+      files.push(current);
+    } else if (/^\*\*\* (Begin|End) Patch/.test(line) || line.startsWith("*** Move to:") || line.startsWith("@@")) {
+      continue;
+    } else if (current && current.kind !== "Delete") {
+      if (line.startsWith("+")) current.added.push(line.slice(1));
+      else if (line.startsWith("-")) current.removed.push(line.slice(1));
+    }
+  }
+  return files.map(({ path, removed, added }) => ({ path, before: removed.join("\n"), after: added.join("\n") }));
+}
+
 /** What a hook payload added: the file, and the dependencies its edit introduced. */
 export function changesFrom(payload, readPrevious = () => "") {
   const input = payload?.tool_input ?? {};
+  if (payload?.tool_name === "apply_patch") {
+    const files = patchFiles(input.command);
+    return { path: files.map((file) => file.path).join(", "), added: files.flatMap((file) => (manifestKind(file.path) ? addedDependencies(file.path, file.before, file.after) : [])) };
+  }
   const path = input.file_path;
   if (typeof path !== "string" || !manifestKind(path)) return { path, added: [] };
   switch (payload.tool_name) {
