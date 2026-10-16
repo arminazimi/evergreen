@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.arminazimi/evergreen",
+  "title": "Evergreen",
+  "description": "Evidence-backed deprecation and end-of-life checks for dependencies, runtimes, and Actions.",
+  "version": "0.1.0",
+  "websiteUrl": "https://arminazimi.github.io/evergreen/",
+  "repository": {
+    "url": "https://github.com/arminazimi/evergreen",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "evergreen-deprecation",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ]
+}

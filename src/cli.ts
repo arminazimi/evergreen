@@ -30,6 +30,7 @@ Usage:
   evergreen scan [path] --baseline <file> [--json]
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
+  evergreen mcp
   evergreen data status [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
@@ -141,11 +142,16 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
     process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
     return 2;
   }
 
+  if (command === "mcp") {
+    // The MCP server owns stdin and stdout until the host disconnects, so there is no exit code to return.
+    (await import("./mcp-server.js")).startMcpServer();
+    return await new Promise<number>(() => undefined);
+  }
   if (command === "new-detector") return newDetector(args.slice(1));
   if (command === "init") return init(args.slice(1));
   const dataVersionIndex = args.indexOf("--data-version");

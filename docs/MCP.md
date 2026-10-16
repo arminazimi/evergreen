@@ -30,6 +30,8 @@ An MCP host can launch the published command with configuration shaped like:
 }
 ```
 
+`npx --yes evergreen-deprecation mcp` starts the same server, and is the command the [MCP Registry](https://registry.modelcontextprotocol.io) description in `server.json` uses.
+
 The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
 
 ## What the server exposes

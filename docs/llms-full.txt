@@ -67,6 +67,8 @@ An MCP host can launch the published command with configuration shaped like:
 }
 ```
 
+`npx --yes evergreen-deprecation mcp` starts the same server, and is the command the [MCP Registry](https://registry.modelcontextprotocol.io) description in `server.json` uses.
+
 The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
 
 ## What the server exposes
@@ -1540,7 +1542,7 @@ The last weekly runs of the corpus and source-freshness workflows should also be
    ```
 
    This updates the plugin manifests and `.mcp.json` pins under `plugins/` and `.claude-plugin/marketplace.json`, and rebuilds `dist/action/index.js`. Never edit those generated files by hand.
-3. **Update the version in the docs and examples.** The README and `docs/GITHUB_ACTION.md` show `arminazimi/evergreen@vX.Y.Z`; update them to the new tag. The host setups under `examples/agents/` pin `evergreen-deprecation@X.Y.Z` (and the Gemini extension its `version`); a test fails until they match `package.json`.
+3. **Update the version in the docs and examples.** The README and `docs/GITHUB_ACTION.md` show `arminazimi/evergreen@vX.Y.Z`; update them to the new tag. The host setups under `examples/agents/` pin `evergreen-deprecation@X.Y.Z` (and the Gemini extension its `version`); a test fails until they match `package.json`. `server.json` (the MCP Registry description) carries the version twice; bump it with `package.json`, and a test fails until they agree.
 4. **Run the gates** above on the result, then commit as `chore: release X.Y.Z` through a pull request. Merge it once CI is green.
 5. **Tag the merge commit.** On `main` after the merge:
 

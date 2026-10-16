@@ -40,6 +40,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
+    "evergreen-deprecation": "dist/src/cli.js",
     "evergreen": "dist/src/cli.js",
     "evergreen-mcp": "dist/src/mcp-cli.js"
   },
@@ -102,5 +103,6 @@
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",
     "zod": "^4.6.5"
-  }
+  },
+  "mcpName": "io.github.arminazimi/evergreen"
 }
