@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "go",
+  "freshness": {
+    "maxReviewAgeDays": 180
+  },
+  "rules": [
+    {
+      "id": "go.runtime.end-of-support-1.25",
+      "ecosystem": "go",
+      "purl": "pkg:generic/golang",
+      "vers": "vers:golang/>=1.25.0|<1.26.0",
+      "event": "end-of-support",
+      "title": "Go 1.25 is no longer supported",
+      "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.25 support ended when Go 1.27 was released.",
+      "severity": "high",
+      "replacement": "Go 1.26 or later",
+      "deadline": "2026-08-19",
+      "sources": [
+        {
+          "title": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "go.runtime.end-of-support-1.24",
+      "ecosystem": "go",
+      "purl": "pkg:generic/golang",
+      "vers": "vers:golang/>=1.24.0|<1.25.0",
+      "event": "end-of-support",
+      "title": "Go 1.24 is no longer supported",
+      "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.24 support ended when Go 1.26 was released.",
+      "severity": "high",
+      "replacement": "Go 1.26 or later",
+      "deadline": "2026-02-10",
+      "sources": [
+        {
+          "title": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "go.runtime.end-of-support-1.23",
+      "ecosystem": "go",
+      "purl": "pkg:generic/golang",
+      "vers": "vers:golang/>=1.23.0|<1.24.0",
+      "event": "end-of-support",
+      "title": "Go 1.23 is no longer supported",
+      "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.23 support ended when Go 1.25 was released.",
+      "severity": "high",
+      "replacement": "Go 1.26 or later",
+      "deadline": "2025-08-12",
+      "sources": [
+        {
+          "title": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "go.runtime.end-of-support-1.22",
+      "ecosystem": "go",
+      "purl": "pkg:generic/golang",
+      "vers": "vers:golang/>=1.22.0|<1.23.0",
+      "event": "end-of-support",
+      "title": "Go 1.22 is no longer supported",
+      "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.22 support ended when Go 1.24 was released.",
+      "severity": "high",
+      "replacement": "Go 1.26 or later",
+      "deadline": "2025-02-11",
+      "sources": [
+        {
+          "title": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "go.runtime.end-of-support-1.21",
+      "ecosystem": "go",
+      "purl": "pkg:generic/golang",
+      "vers": "vers:golang/>=1.21.0|<1.22.0",
+      "event": "end-of-support",
+      "title": "Go 1.21 is no longer supported",
+      "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.21 support ended when Go 1.23 was released.",
+      "severity": "high",
+      "replacement": "Go 1.26 or later",
+      "deadline": "2024-08-13",
+      "sources": [
+        {
+          "title": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}
