@@ -1,5 +1,5 @@
 import type { DependencyCheck } from "./check-dependency.js";
-import type { Finding, ScanResult, Severity } from "./domain.js";
+import type { DataInfo, Finding, ScanResult, Severity } from "./domain.js";
 import type { MigrationPacket } from "./migration-packet.js";
 import { VERSION } from "./version.js";
 
@@ -44,6 +44,12 @@ function sarifHelp(finding: Finding): { text: string; markdown: string } {
     );
   }
   return { text: text.join("\n\n"), markdown: markdown.join("\n\n") };
+}
+
+/** One line saying which lifecycle data a result used and how fresh its evidence is. */
+export function describeData(data: DataInfo): string {
+  const age = data.ageDays === 0 ? "today" : `${data.ageDays} day${data.ageDays === 1 ? "" : "s"} ago`;
+  return `Data: ${data.source} ${data.version}, evidence reviewed through ${data.reviewedThrough} (${age})${data.stale ? ", stale" : ""}`;
 }
 
 const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
@@ -91,6 +97,8 @@ export function renderSarif(result: ScanResult): string {
             rules,
           },
         },
+        // Only fixed facts about the data are written, so the same data always gives the same file.
+        ...(result.data ? { properties: { evergreenData: { source: result.data.source, version: result.data.version, reviewedThrough: result.data.reviewedThrough } } } : {}),
         results: findings.map((finding) => ({
           ruleId: finding.ruleId,
           ruleIndex: ruleIds.indexOf(finding.ruleId),
@@ -117,6 +125,7 @@ export function renderText(result: ScanResult): string {
     "Evergreen scan",
     `Repository: ${result.root}`,
     `Findings: ${result.findings.length}`,
+    ...(result.data ? [describeData(result.data)] : []),
   ];
   const unclassified = result.unclassified?.count ?? 0;
   if (unclassified > 0) {
@@ -162,9 +171,11 @@ export function renderCheckText(check: DependencyCheck): string {
     "Evergreen check",
     check.version ? `${check.purl}@${check.version}` : check.purl,
     `Status: ${check.status}${check.severity ? ` (${check.severity})` : ""}`,
+    ...(check.data ? [describeData(check.data)] : []),
     "",
     check.message,
   ];
+  if (check.data?.stale) lines.push("", `Warning: The lifecycle data is ${check.data.ageDays} days old (stale after 30), so this answer may miss recent changes. Run "evergreen data update".`);
   for (const finding of check.findings) {
     lines.push("", `${finding.severity.toUpperCase()} ${finding.title}`, finding.summary);
     lines.push(`Event: ${finding.event}`, `Affected versions: ${finding.affectedVersions}`);

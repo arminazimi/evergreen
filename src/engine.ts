@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 
 import { getActiveData } from "./data-source.js";
+import { dataInfoFrom, staleDataWarning } from "./data-status.js";
 import type { ScanResult } from "./domain.js";
 import { assertDetectorCompatible } from "./sdk.js";
 import type { Detector } from "./sdk.js";
@@ -38,14 +39,18 @@ export async function scanRepository(
     );
 
   // Say so when downloaded data was refused and the bundled data was used instead.
-  const dataWarnings = detectors.length === 0 ? [] : (await getActiveData()).info.warnings;
+  const scannedAt = new Date();
+  const active = detectors.length === 0 ? undefined : await getActiveData();
+  const data = active ? dataInfoFrom(active, scannedAt) : undefined;
+  const dataWarnings = active ? [...active.info.warnings, ...(data?.stale ? [staleDataWarning(data)] : [])] : [];
 
   return {
     schemaVersion: "evergreen.scan.v1",
     root: resolvedRoot,
-    scannedAt: new Date().toISOString(),
+    scannedAt: scannedAt.toISOString(),
     findings: findings.sort((left, right) => left.id.localeCompare(right.id)),
     unclassified: { count: references.length, references },
-    diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : [...dataWarnings],
+    diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : dataWarnings,
+    ...(data ? { data } : {}),
   };
 }

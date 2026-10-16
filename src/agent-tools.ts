@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 import { findingFingerprint } from "./baseline.js";
 import { builtInDetectors } from "./detectors/index.js";
-import type { Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
+import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import type { MigrationPacket } from "./migration-packet.js";
@@ -24,6 +24,7 @@ export interface DeprecationList {
   scannedAt: string;
   count: number;
   deprecations: DeprecationSummary[];
+  data?: DataInfo;
 }
 
 export interface MigrationVerification {
@@ -78,6 +79,7 @@ export class EvergreenAgentTools {
       repositoryRoot: result.root,
       scannedAt: result.scannedAt,
       count: result.findings.length,
+      ...(result.data ? { data: result.data } : {}),
       deprecations: result.findings.map((finding) => ({
         id: finding.id,
         ruleId: finding.ruleId,

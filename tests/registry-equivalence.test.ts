@@ -13,7 +13,8 @@ import type { RegistryV2 } from "../src/registry.js";
 test("scanning the equivalence fixture reports every bundled rule exactly as before the v2 migration", async () => {
   const root = resolve("tests/fixtures/registry-equivalence");
   const result = await scanRepository(root, builtInDetectors);
-  const { root: _root, scannedAt: _scannedAt, unclassified: _unclassified, ...stable } = result;
+  // `data` describes the lifecycle data in use and its age, which changes with the calendar, not with the rules.
+  const { root: _root, scannedAt: _scannedAt, unclassified: _unclassified, data: _data, ...stable } = result;
   // Node.js runtime finding ids embed the scanned folder's absolute path, so compare with it masked.
   const masked = JSON.parse(JSON.stringify(stable).split(root).join("<root>"));
   const expected = JSON.parse(await readFile(resolve("tests/fixtures/registry-equivalence.expected.json"), "utf8"));

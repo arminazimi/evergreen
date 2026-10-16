@@ -125,10 +125,7 @@ test("local MCP server exposes the complete scan-to-verification workflow", asyn
     const deprecationsSchema = JSON.parse(
       await readFile(resolve("schemas/deprecations.v1.schema.json"), "utf8"),
     ) as { required: string[] };
-    assert.deepEqual(
-      [...deprecationsSchema.required].sort(),
-      Object.keys(deprecations.structuredContent as object).sort(),
-    );
+    for (const key of deprecationsSchema.required) assert.ok(key in (deprecations.structuredContent as object), `missing ${key}`);
 
     const explanation = await client.request("tools/call", {
       name: "explain_deprecation",

@@ -1,6 +1,7 @@
-import type { EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
+import type { DataInfo, EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { getActiveData, loadDataFile } from "./data-source.js";
+import { dataInfoFrom } from "./data-status.js";
 import { parsePurl, PurlError, purlIdentity } from "./purl.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
@@ -47,6 +48,8 @@ export interface DependencyCheck {
   severity?: Severity;
   /** One sentence a person or an agent can show as is. */
   message: string;
+  /** The lifecycle data the answer comes from, and how fresh it is. */
+  data?: DataInfo;
 }
 
 export class CheckDependencyError extends Error {
@@ -183,5 +186,7 @@ export async function bundledRules(): Promise<RegistryV2Rule[]> {
  * without scanning a repository. Deterministic and offline.
  */
 export async function checkDependency(input: CheckDependencyInput | string): Promise<DependencyCheck> {
-  return checkAgainst(await bundledRules(), typeof input === "string" ? { purl: input } : input);
+  const rules = await bundledRules();
+  const check = checkAgainst(rules, typeof input === "string" ? { purl: input } : input);
+  return { ...check, data: dataInfoFrom(await getActiveData()) };
 }

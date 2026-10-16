@@ -1,3 +1,4 @@
+import type { DataInfo } from "./domain.js";
 import { defaultCacheDirectory, getActiveData } from "./data-source.js";
 import type { ActiveData } from "./data-source.js";
 
@@ -27,6 +28,16 @@ export interface DataStatus {
 }
 
 const DAY = 24 * 60 * 60 * 1000;
+
+/** The compact description of the data in use that is attached to scan and check results. */
+export function dataInfoFrom(data: ActiveData, now: Date = new Date()): DataInfo {
+  const { source, version, createdAt, reviewedThrough, ageDays, stale } = dataStatusFrom(data, now);
+  return { source, version, createdAt, reviewedThrough, ageDays, stale };
+}
+
+/** The sentence shown wherever stale data would otherwise go unnoticed. */
+export const staleDataWarning = (info: Pick<DataInfo, "ageDays">): string =>
+  `The lifecycle data is ${info.ageDays} days old (stale after ${STALE_AFTER_DAYS}). Findings may be missing recent changes; run "evergreen data update".`;
 
 export function dataStatusFrom(data: ActiveData, now: Date = new Date(), cacheDirectory: string = defaultCacheDirectory()): DataStatus {
   const { info } = data;

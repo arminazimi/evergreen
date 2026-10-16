@@ -7,6 +7,7 @@
   "required": ["schemaVersion", "purl", "status", "findings", "message"],
   "additionalProperties": false,
   "properties": {
+    "data": { "$ref": "scan.v1.schema.json#/properties/data" },
     "schemaVersion": { "const": "evergreen.check.v1" },
     "purl": { "type": "string", "pattern": "^pkg:", "description": "Version-less canonical Package URL." },
     "version": { "type": "string", "minLength": 1 },

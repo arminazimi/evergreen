@@ -6,6 +6,7 @@
   "required": ["schemaVersion", "repositoryRoot", "scannedAt", "count", "deprecations"],
   "additionalProperties": false,
   "properties": {
+    "data": { "$ref": "scan.v1.schema.json#/properties/data" },
     "schemaVersion": { "const": "evergreen.deprecations.v1" },
     "repositoryRoot": { "type": "string" },
     "scannedAt": { "type": "string", "format": "date-time" },

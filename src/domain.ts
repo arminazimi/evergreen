@@ -132,6 +132,20 @@ export interface UnclassifiedSummary {
   references: UnclassifiedReference[];
 }
 
+/** Which lifecycle data a result was produced with, and how fresh its evidence is. */
+export interface DataInfo {
+  source: "bundled" | "cache" | "pinned";
+  version: string;
+  /** When a downloaded bundle was built; null for the data shipped with the release. */
+  createdAt: string | null;
+  /** The most recent review date among the rules in use. */
+  reviewedThrough: string;
+  /** Days since the bundle was built, or since the evidence was last reviewed for bundled data. */
+  ageDays: number;
+  /** True when the data is older than 30 days. */
+  stale: boolean;
+}
+
 export interface ScanResult {
   schemaVersion: "evergreen.scan.v1";
   root: string;
@@ -139,4 +153,5 @@ export interface ScanResult {
   findings: Finding[];
   unclassified?: UnclassifiedSummary;
   diagnostics: string[];
+  data?: DataInfo;
 }

@@ -96,7 +96,9 @@ test("a rule that covers every version makes an unversioned check affected", () 
 
 test("results are deterministic and match the published schema", async () => {
   const schema = JSON.parse(await readFile(resolve("schemas/check.v1.schema.json"), "utf8")) as object;
-  const validate = new Ajv2020({ allErrors: true }).compile(schema);
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  ajv.addSchema(JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as object);
+  const validate = ajv.compile(schema);
   for (const input of ["pkg:npm/request@2.88.2", "pkg:github/actions/checkout", "pkg:github/actions/checkout@v5", "pkg:npm/express", "pkg:generic/nodejs@18.0.0", "pkg:pypi/nose"]) {
     const first = await checkDependency(input);
     assert.equal(validate(first), true, `${input}: ${JSON.stringify(validate.errors)}`);

@@ -6,6 +6,20 @@
   "required": ["schemaVersion", "root", "scannedAt", "findings", "diagnostics"],
   "additionalProperties": false,
   "properties": {
+    "data": {
+      "type": "object",
+      "description": "Which lifecycle data this result was produced with, and how fresh its evidence is.",
+      "required": ["source", "version", "createdAt", "reviewedThrough", "ageDays", "stale"],
+      "additionalProperties": false,
+      "properties": {
+        "source": { "enum": ["bundled", "cache", "pinned"] },
+        "version": { "type": "string", "minLength": 1 },
+        "createdAt": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },
+        "reviewedThrough": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "ageDays": { "type": "integer", "minimum": 0 },
+        "stale": { "type": "boolean", "description": "True when the data is older than 30 days." }
+      }
+    },
     "schemaVersion": { "const": "evergreen.scan.v1" },
     "root": { "type": "string" },
     "scannedAt": { "type": "string", "format": "date-time" },

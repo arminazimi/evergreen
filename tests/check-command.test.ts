@@ -39,7 +39,9 @@ test("a dependency with no problem, no rule, or only version-specific rules exit
 
 test("--json prints the published schema and the same exit code", async () => {
   const schema = JSON.parse(await readFile(resolve("schemas/check.v1.schema.json"), "utf8")) as object;
-  const validate = new Ajv2020({ allErrors: true }).compile(schema);
+  const ajv = new Ajv2020({ allErrors: true, strict: false });
+  ajv.addSchema(JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as object);
+  const validate = ajv.compile(schema);
   const result = await check("pkg:pypi/nose", "--json");
   assert.equal(result.code, 1);
   const parsed = JSON.parse(result.stdout);
