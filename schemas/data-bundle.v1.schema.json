@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/data-bundle.v1.schema.json",
+  "title": "Evergreen lifecycle data bundle v1",
+  "description": "A versioned, content-addressed bundle of lifecycle registries. See docs/decisions/0006-data-bundle.md.",
+  "type": "object",
+  "required": ["manifest", "files"],
+  "additionalProperties": false,
+  "properties": {
+    "manifest": { "$ref": "#/$defs/manifest" },
+    "files": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Each file's parsed JSON, keyed by the path listed in the manifest.",
+      "propertyNames": { "$ref": "#/$defs/path" },
+      "additionalProperties": { "type": "object" }
+    }
+  },
+  "$defs": {
+    "path": { "type": "string", "pattern": "^registry/[a-z0-9][a-z0-9-]*(?:-shas)?\\.json$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "manifest": {
+      "type": "object",
+      "required": ["schemaVersion", "version", "createdAt", "minimumEvergreenVersion", "contentDigest", "files"],
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": { "const": "evergreen.data-bundle.v1" },
+        "version": { "type": "string", "pattern": "^\\d{4}\\.(?:0[1-9]|1[0-2])\\.(?:0[1-9]|[12]\\d|3[01])(?:\\.[1-9]\\d*)?$", "description": "YYYY.MM.DD, with .N for further bundles on the same day." },
+        "createdAt": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$", "description": "UTC time supplied to the build, not read from a clock." },
+        "minimumEvergreenVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$" },
+        "contentDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$", "description": "SHA-256 of the sorted '<path> <sha256>' lines; identifies the data independent of version and time." },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/file" }
+        }
+      }
+    },
+    "file": {
+      "type": "object",
+      "required": ["path", "kind", "sha256", "bytes"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/path" },
+        "kind": { "enum": ["registry", "sha-map"] },
+        "ecosystem": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "rules": { "type": "integer", "minimum": 0 },
+        "maxReviewAgeDays": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1, "description": "Length of the file's canonical JSON in bytes." }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "registry" } }, "required": ["kind"] },
+          "then": { "required": ["ecosystem", "schemaVersion", "rules", "maxReviewAgeDays"] }
+        }
+      ]
+    }
+  }
+}
