@@ -47,6 +47,34 @@ claude plugin details evergreen
 
 The installed plugin exposes the `evergreen-deprecation` Skill and the local `evergreen` MCP server. Scan, list, explain, context, and verify behavior is checked against the Codex adapter by `npm run eval:plugins`.
 
+## Dependency guard
+
+The plugin includes a `PostToolUse` hook that runs after Claude Code writes or edits a file. When the edit adds a dependency that Evergreen's lifecycle rules mark as deprecated, Claude gets a warning with the evidence and the replacement, and you see a one-line notice.
+
+What it looks at:
+
+- `package.json`: dependencies added or whose version changed.
+- `requirements*.txt`, `constraints*.txt`, and `pyproject.toml`: added requirements.
+- GitHub workflows and `action.yml`: added `uses:` references that carry a version tag, such as `actions/checkout@v4`.
+
+Only what the edit added is checked, so existing dependencies never produce repeated warnings. For a range such as `^2.88.2` the lower bound is checked.
+
+```text
+Evergreen: pkg:npm/request@2.88.2 — request is deprecated (high, deprecated).
+The package is fully deprecated and no new changes are expected.
+Replacement: Native fetch or a maintained HTTP client.
+Evidence: https://www.npmjs.com/package/request
+```
+
+Behavior you can rely on:
+
+- It never blocks and never edits files. The warning explains the problem and cites its sources, and you or Claude decide what to do.
+- It checks with `evergreen check`, which runs locally against the lifecycle rules bundled in the pinned release. No repository content leaves your machine.
+- A package with no rule produces no output. That is absence of evidence, not a safety claim.
+- If the check cannot run (for example, offline on the first use), the hook says so instead of staying silent, and the edit is unaffected. An unreadable payload exits quietly.
+
+The hook script is generated from `integrations/dependency-guard/guard.mjs`, which the Codex integration shares. It uses the same pinned package as the MCP server (`evergreen-deprecation@<version>`). Set `EVERGREEN_CHECK_COMMAND` to use another Evergreen command, for example a local build.
+
 ## Update
 
 ```sh

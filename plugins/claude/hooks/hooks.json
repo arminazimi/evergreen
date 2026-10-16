@@ -1,0 +1,17 @@
+{
+  "description": "Warns when an edit adds a dependency that Evergreen's lifecycle rules mark as deprecated, with the evidence and replacement.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/dependency-guard.mjs\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -188,7 +188,7 @@ export async function expectedPluginFiles(
       runtimePackage: `evergreen-deprecation@${packageMetadata.version}`,
     },
   });
-  const claudeReadme = `# Evergreen for Claude\n\nEvergreen helps Claude find, explain, migrate, and verify software lifecycle risks without duplicating detector logic in the plugin. Its Skill guides the workflow while the bundled local MCP configuration starts the exact Evergreen npm release declared by this plugin. Repository contents stay local unless you explicitly choose to share them.\n\n## Install\n\nFrom a Claude Code session:\n\n\`\`\`text\n/plugin install evergreen --marketplace arminazimi/evergreen\n\`\`\`\n\n## What you get\n\n- Evidence-backed scans for supported runtimes, dependencies, and GitHub Actions.\n- Clear explanations linked to the matching lifecycle rule.\n- Migration context and local verification through one consistent workflow.\n- The same scan, explain, context, and verify behavior used by the Codex adapter.\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required for the local MCP server. See the [installation and management guide](https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html) for marketplace, project, update, disable, and removal commands.\n`;
+  const claudeReadme = `# Evergreen for Claude\n\nEvergreen helps Claude find, explain, migrate, and verify software lifecycle risks without duplicating detector logic in the plugin. Its Skill guides the workflow while the bundled local MCP configuration starts the exact Evergreen npm release declared by this plugin. Repository contents stay local unless you explicitly choose to share them.\n\n## Install\n\nFrom a Claude Code session:\n\n\`\`\`text\n/plugin install evergreen --marketplace arminazimi/evergreen\n\`\`\`\n\n## What you get\n\n- Evidence-backed scans for supported runtimes, dependencies, and GitHub Actions.\n- Clear explanations linked to the matching lifecycle rule.\n- Migration context and local verification through one consistent workflow.\n- The same scan, explain, context, and verify behavior used by the Codex adapter.\n- A dependency guard that warns, with evidence and a replacement, when an edit adds a deprecated package or action.\n\nNode.js ${packageMetadata.engines.node.replace(">=", "")} or newer is required for the local MCP server. See the [installation and management guide](https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html) for marketplace, project, update, disable, and removal commands.\n`;
   const claudeMarketplace = json({
     $schema: "https://anthropic.com/claude-code/marketplace.schema.json",
     name: "evergreen",
@@ -233,6 +233,28 @@ export async function expectedPluginFiles(
     ],
   });
   const license = await readFile(resolve(root, "LICENSE"), "utf8");
+  const guard = (await readFile(resolve(root, "integrations/dependency-guard/guard.mjs"), "utf8")).replace(
+    "__EVERGREEN_PACKAGE__",
+    `evergreen-deprecation@${packageMetadata.version}`,
+  );
+  const claudeHooks = json({
+    description:
+      "Warns when an edit adds a dependency that Evergreen's lifecycle rules mark as deprecated, with the evidence and replacement.",
+    hooks: {
+      PostToolUse: [
+        {
+          matcher: "Write|Edit|MultiEdit",
+          hooks: [
+            {
+              type: "command",
+              command: 'node "${CLAUDE_PLUGIN_ROOT}/hooks/dependency-guard.mjs"',
+              timeout: 60,
+            },
+          ],
+        },
+      ],
+    },
+  });
   const [lightMark, darkMark] = await Promise.all([
     readFile(resolve(root, "brand/assets/evergreen-mark-light.svg"), "utf8"),
     readFile(resolve(root, "brand/assets/evergreen-mark-dark.svg"), "utf8"),
@@ -300,6 +322,8 @@ export async function expectedPluginFiles(
     ["plugins/claude/LICENSE", license],
     ["plugins/claude/README.md", claudeReadme],
     ["plugins/claude/skills/evergreen-deprecation/SKILL.md", skill],
+    ["plugins/claude/hooks/hooks.json", claudeHooks],
+    ["plugins/claude/hooks/dependency-guard.mjs", guard],
   ]);
 }
 
