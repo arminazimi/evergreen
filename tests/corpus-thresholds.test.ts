@@ -11,9 +11,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["github-actions", "nodejs", "npm", "python"]);
-  for (const threshold of Object.values(thresholds.detectors)) {
-    assert.equal(threshold.stable, true);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["container", "github-actions", "nodejs", "npm", "python"]);
+  for (const [name, threshold] of Object.entries(thresholds.detectors)) {
+    // The container detector is experimental: it is scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, name !== "container", name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });

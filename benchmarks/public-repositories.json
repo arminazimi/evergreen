@@ -394,6 +394,899 @@
     },
     { "repository": "vitest-dev/vitest", "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7", "ecosystem": "node", "expected": [] },
     { "repository": "lerna/lerna", "commit": "b00fa0321a42947bb4113bc7906021f04131d0db", "ecosystem": "node", "expected": [] },
-    { "repository": "changesets/changesets", "commit": "c73949ba7b3160a4aa5729223335c190de1528f8", "ecosystem": "node", "expected": [] }
+    { "repository": "changesets/changesets", "commit": "c73949ba7b3160a4aa5729223335c190de1528f8", "ecosystem": "node", "expected": [] },
+    {
+      "repository": "outline/outline",
+      "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
+      "ecosystem": "container",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of Dockerfile is FROM node:20-slim, an image release line the vendor has ended. The maintainers moved it to node:22-slim in https://github.com/outline/outline/commit/2a962efe57c6fb5f67d2e0a72696a3ea13c889f6."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile.base",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of Dockerfile.base is FROM node:20, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/auto_close_prs.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/auto_close_prs.yml reads `uses: actions/github-script@v6`, which github-actions.github-script.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/calibreapp-image-actions.yml",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 43 of .github/workflows/calibreapp-image-actions.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/ci.yml reads `uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 43 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 54 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 55,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 55 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 92,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 92 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 93,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 93 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 134,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 134 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 135,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 135 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 151,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 151 of .github/workflows/ci.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 152,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 152 of .github/workflows/ci.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql-analysis.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of .github/workflows/codeql-analysis.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/docker.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/docker.yml reads `uses: docker/setup-buildx-action@v3`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.metadata-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/docker.yml reads `uses: docker/metadata-action@v5`, which github-actions.metadata-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of .github/workflows/docker.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of .github/workflows/docker.yml reads `uses: docker/build-push-action@v6`, which github-actions.build-push-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.metadata-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 54 of .github/workflows/docker.yml reads `uses: docker/metadata-action@v5`, which github-actions.metadata-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 64 of .github/workflows/docker.yml reads `uses: docker/build-push-action@v6`, which github-actions.build-push-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/docker.yml",
+          "line": 85,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 85 of .github/workflows/docker.yml reads `uses: actions/upload-artifact@v4`, which github-actions.upload-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 96,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 96 of .github/workflows/docker.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 99,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 99 of .github/workflows/docker.yml reads `uses: docker/setup-buildx-action@v3`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.metadata-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 103,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 103 of .github/workflows/docker.yml reads `uses: docker/metadata-action@v5`, which github-actions.metadata-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 112,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 112 of .github/workflows/docker.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 119,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 119 of .github/workflows/docker.yml reads `uses: docker/build-push-action@v6`, which github-actions.build-push-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.metadata-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 133,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 133 of .github/workflows/docker.yml reads `uses: docker/metadata-action@v5`, which github-actions.metadata-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 143,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 143 of .github/workflows/docker.yml reads `uses: docker/build-push-action@v6`, which github-actions.build-push-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/docker.yml",
+          "line": 164,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 164 of .github/workflows/docker.yml reads `uses: actions/upload-artifact@v4`, which github-actions.upload-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/docker.yml",
+          "line": 178,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 178 of .github/workflows/docker.yml reads `uses: actions/download-artifact@v4`, which github-actions.download-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 185,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 185 of .github/workflows/docker.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 191,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 191 of .github/workflows/docker.yml reads `uses: docker/setup-buildx-action@v3`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.metadata-action.node20",
+          "path": ".github/workflows/docker.yml",
+          "line": 195,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 195 of .github/workflows/docker.yml reads `uses: docker/metadata-action@v5`, which github-actions.metadata-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/lint.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/lint.yml reads `- uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.stale.node20",
+          "path": ".github/workflows/stale.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/stale.yml reads `- uses: actions/stale@v5`, which github-actions.stale.node20 reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of package.json reads `\"node\": \">= 18 <=20\"`, which nodejs.runtime.eol-18 reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of package.json reads `\"node\": \">= 18 <=20\"`, which nodejs.runtime.eol-20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "excalidraw/excalidraw",
+      "commit": "1caec99b290c75cda05385e637138998807a65ae",
+      "ecosystem": "container",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": ".codesandbox/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .codesandbox/Dockerfile is FROM node:18-bullseye, an image release line the vendor has ended. The maintainers changed it in the same commit in https://github.com/excalidraw/excalidraw/commit/b1c6bfcf40cba255d208d8d525060684b10cb3cc."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Dockerfile is FROM --platform=${BUILDPLATFORM} node:18 AS build, an image release line the vendor has ended. The maintainers moved it off node:18 in https://github.com/excalidraw/excalidraw/commit/b1c6bfcf40cba255d208d8d525060684b10cb3cc."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "examples/with-script-in-browser/.codesandbox/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of examples/with-script-in-browser/.codesandbox/Dockerfile is FROM node:18-bullseye, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/autorelease-excalidraw.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/autorelease-excalidraw.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/autorelease-excalidraw.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/autorelease-excalidraw.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build-docker.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/build-docker.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of .github/workflows/lint.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/lint.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/locales-coverage.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/locales-coverage.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/locales-coverage.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/locales-coverage.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish-docker.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/publish-docker.yml reads `uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/publish-docker.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/publish-docker.yml reads `uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-qemu-action.node20",
+          "path": ".github/workflows/publish-docker.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/publish-docker.yml reads `uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3`, which github-actions.setup-qemu-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/publish-docker.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of .github/workflows/publish-docker.yml reads `uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/publish-docker.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/publish-docker.yml reads `uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5`, which github-actions.build-push-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/sentry-production.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/sentry-production.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/sentry-production.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/sentry-production.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/size-limit.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/size-limit.yml reads `uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/size-limit.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/size-limit.yml reads `uses: actions/setup-node@v3`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test-coverage-pr.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/test-coverage-pr.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/test-coverage-pr.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/test-coverage-pr.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 11 of .github/workflows/test.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/test.yml reads `uses: actions/setup-node@v4`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 47 of package.json reads `\"node\": \">=18.0.0\"`, which nodejs.runtime.eol-18 reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 47 of package.json reads `\"node\": \">=18.0.0\"`, which nodejs.runtime.eol-20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mealie-recipes/mealie",
+      "commit": "50a341ed3febc98a5a20b61fad5e74a290394f16",
+      "ecosystem": "container",
+      "expected": [
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of Dockerfile is FROM python:3.9-slim as python-base, an image release line the vendor has ended. The maintainers moved it to python:3.10-slim in https://github.com/mealie-recipes/mealie/commit/190773c5d762c7e0d84dea1c571e7fcb4a3cb39d."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "docs/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docs/Dockerfile is FROM python:3.8-slim as build-stage, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "frontend/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of frontend/Dockerfile is FROM node:16 as builder, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "frontend/Dockerfile",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of frontend/Dockerfile is FROM node:16-alpine, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/backend-docker-nightly.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/backend-docker-nightly.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-qemu-action.node20",
+          "path": ".github/workflows/backend-docker-nightly.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of .github/workflows/backend-docker-nightly.yml reads `uses: docker/setup-qemu-action@v1`, which github-actions.setup-qemu-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/backend-docker-nightly.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/backend-docker-nightly.yml reads `uses: docker/setup-buildx-action@v1`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/backend-docker-nightly.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/backend-docker-nightly.yml reads `uses: docker/login-action@v1`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/backend-tests.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/backend-tests.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/backend-tests.yml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 44 of .github/workflows/backend-tests.yml reads `uses: actions/setup-python@v2`, which github-actions.setup-python.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/backend-tests.yml",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 60 of .github/workflows/backend-tests.yml reads `uses: actions/cache@v2`, which github-actions.cache.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build-docs.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/build-docs.yml reads `uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/frontend-docker-nightly.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/frontend-docker-nightly.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-qemu-action.node20",
+          "path": ".github/workflows/frontend-docker-nightly.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of .github/workflows/frontend-docker-nightly.yml reads `uses: docker/setup-qemu-action@v1`, which github-actions.setup-qemu-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/frontend-docker-nightly.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/frontend-docker-nightly.yml reads `uses: docker/setup-buildx-action@v1`, which github-actions.setup-buildx-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/frontend-docker-nightly.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/frontend-docker-nightly.yml reads `uses: docker/login-action@v1`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/frontend-lint.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/frontend-lint.yml reads `uses: actions/setup-node@v2.1.5`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/frontend-lint.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/frontend-lint.yml reads `uses: actions/cache@v2.1.4`, which github-actions.cache.node20 reports."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of pyproject.toml reads `python = \"^3.9\"`, which python.runtime.eol-3.9-and-older reports."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "runtime.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of runtime.txt reads `3.8`, which python.runtime.eol-3.9-and-older reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "umami-software/umami",
+      "commit": "43499eb4fd0b1d617f6f052174f1da6f21653892",
+      "ecosystem": "container",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of Dockerfile is FROM node:16-alpine AS deps, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of Dockerfile is FROM node:16-alpine AS builder, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of Dockerfile is FROM node:16-alpine AS runner, an image release line the vendor has ended."
+          }
+        },
+        {
+          "ruleId": "container.postgres.eol-13-and-older",
+          "path": "docker-compose.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of docker-compose.yml is image: postgres:12-alpine, an image release line the vendor has ended. The maintainers moved it to postgres:15-alpine in https://github.com/umami-software/umami/commit/01559c4c63e805dc2416112d8deba6b2ea0d98b2."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd-manual.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/cd-manual.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/cd.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 29 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        }
+      ]
+    },
+    { "repository": "gethomepage/homepage", "commit": "89b0d20655ca521e55ae65097c2da4285c87a403", "ecosystem": "container", "expected": [] }
   ]
 }
