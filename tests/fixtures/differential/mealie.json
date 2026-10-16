@@ -1,0 +1,790 @@
+{
+ "repository": "mealie-recipes/mealie",
+ "renovate": {
+  "repositories": {
+   "local": {
+    "packageFiles": {
+     "docker-compose": [
+      {
+       "packageFile": "docker-compose.dev.yml",
+       "deps": [
+        {
+         "depName": "squidfunk/mkdocs-material",
+         "updates": [],
+         "skipReason": "invalid-value"
+        }
+       ]
+      },
+      {
+       "packageFile": "docker-compose.yml",
+       "deps": []
+      },
+      {
+       "packageFile": "docs/docker-compose.yml",
+       "deps": []
+      }
+     ],
+     "dockerfile": [
+      {
+       "packageFile": "Dockerfile",
+       "deps": [
+        {
+         "depName": "python",
+         "currentValue": "3.9-slim",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "curl",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "build-essential",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "libpq-dev",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "libwebp-dev",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "libsasl2-dev",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "libldap2-dev",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "libssl-dev",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "gnupg",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "gnupg2",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "gnupg1",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "debian-keyring",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "debian-archive-keyring",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "apt-transport-https",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "caddy",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "hkotel/crfpp",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "curl",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "docs/Dockerfile",
+       "deps": [
+        {
+         "depName": "python",
+         "currentValue": "3.8-slim",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "caddy",
+         "currentValue": "alpine",
+         "updates": [],
+         "skipReason": "invalid-value"
+        }
+       ]
+      },
+      {
+       "packageFile": "frontend/Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "16",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "16-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "github-actions": [
+      {
+       "packageFile": ".github/workflows/backend-docker-nightly.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-qemu-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "buildx",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/backend-tests.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-python",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "snok/install-poetry",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/cache",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "postgres",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "python",
+         "currentValue": "3.9",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "skipReason": "unspecified-version",
+         "depName": "poetry",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/build-docs.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "mhausenblas/mkdocs-deploy-gh-pages",
+         "currentValue": "master",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/frontend-docker-nightly.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-qemu-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "buildx",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/frontend-lint.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "master",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2.1.5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/cache",
+         "currentValue": "v2.1.4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "${{ matrix.node }}",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "npm": [
+      {
+       "packageFile": "frontend/package.json",
+       "deps": [
+        {
+         "depName": "@adapttive/vue-markdown",
+         "currentValue": "^4.0.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@mdi/js",
+         "currentValue": "^5.9.55",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/auth-next",
+         "currentValue": "5.0.0-1624817847.21691f1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/axios",
+         "currentValue": "^5.13.6",
+         "updates": []
+        },
+        {
+         "depName": "@nuxtjs/i18n",
+         "currentValue": "^7.0.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/proxy",
+         "currentValue": "^2.1.0",
+         "updates": []
+        },
+        {
+         "depName": "@nuxtjs/pwa",
+         "currentValue": "^3.3.5",
+         "updates": []
+        },
+        {
+         "depName": "@vue/composition-api",
+         "currentValue": "^1.0.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@vueuse/core",
+         "currentValue": "^6.8.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "core-js",
+         "currentValue": "^3.15.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "date-fns",
+         "currentValue": "^2.23.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fuse.js",
+         "currentValue": "^6.4.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "nuxt",
+         "currentValue": "^2.15.8",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "v-jsoneditor",
+         "currentValue": "^1.4.5",
+         "updates": []
+        },
+        {
+         "depName": "vuedraggable",
+         "currentValue": "^2.24.3",
+         "updates": []
+        },
+        {
+         "depName": "vuetify",
+         "currentValue": "^2.5.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/eslint-parser",
+         "currentValue": "^7.14.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxt/types",
+         "currentValue": "^2.15.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/types` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintained. See http"
+        },
+        {
+         "depName": "@nuxt/typescript-build",
+         "currentValue": "^2.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/typescript-build` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintaine"
+        },
+        {
+         "depName": "@nuxtjs/composition-api",
+         "currentValue": "^0.31.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/eslint-config-typescript",
+         "currentValue": "^6.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/eslint-module",
+         "currentValue": "^3.0.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@nuxtjs/vuetify",
+         "currentValue": "^1.12.1",
+         "updates": []
+        },
+        {
+         "depName": "@types/sortablejs",
+         "currentValue": "^1.10.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@vue/runtime-dom",
+         "currentValue": "^3.2.9",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint",
+         "currentValue": "^7.29.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-prettier",
+         "currentValue": "^8.3.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-nuxt",
+         "currentValue": "^2.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `eslint-plugin-nuxt` has the following deprecation notice:\n\n`eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plug"
+        },
+        {
+         "depName": "eslint-plugin-prettier",
+         "currentValue": "^3.4.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-vue",
+         "currentValue": "^7.12.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "lint-staged",
+         "currentValue": "^10.5.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "nuxt-vite",
+         "currentValue": "^0.1.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prettier",
+         "currentValue": "^2.3.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vue2-script-setup-transform",
+         "currentValue": "^0.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `vue2-script-setup-transform` has the following deprecation notice:\n\n`renamed to `unplugin-vue2-script-setup`, see https://"
+        },
+        {
+         "depName": "vite",
+         "currentValue": "2.3.8",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "findings": [
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "frontend/Dockerfile",
+   "line": 1
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "frontend/Dockerfile",
+   "line": 24
+  },
+  {
+   "ruleId": "container.python.eol-3.10-and-older",
+   "path": "Dockerfile",
+   "line": 4
+  },
+  {
+   "ruleId": "container.python.eol-3.10-and-older",
+   "path": "docs/Dockerfile",
+   "line": 1
+  },
+  {
+   "ruleId": "github-actions.cache.node20",
+   "path": ".github/workflows/backend-tests.yml",
+   "line": 60
+  },
+  {
+   "ruleId": "github-actions.cache.node20",
+   "path": ".github/workflows/frontend-lint.yml",
+   "line": 35
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/backend-docker-nightly.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/backend-tests.yml",
+   "line": 42
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/build-docs.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/frontend-docker-nightly.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/backend-docker-nightly.yml",
+   "line": 38
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/frontend-docker-nightly.yml",
+   "line": 38
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/backend-docker-nightly.yml",
+   "line": 31
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/frontend-docker-nightly.yml",
+   "line": 31
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/frontend-lint.yml",
+   "line": 25
+  },
+  {
+   "ruleId": "github-actions.setup-python.node20",
+   "path": ".github/workflows/backend-tests.yml",
+   "line": 44
+  },
+  {
+   "ruleId": "github-actions.setup-qemu-action.node20",
+   "path": ".github/workflows/backend-docker-nightly.yml",
+   "line": 22
+  },
+  {
+   "ruleId": "github-actions.setup-qemu-action.node20",
+   "path": ".github/workflows/frontend-docker-nightly.yml",
+   "line": 22
+  },
+  {
+   "ruleId": "python.runtime.eol-3.9-and-older",
+   "path": "pyproject.toml",
+   "line": 12
+  },
+  {
+   "ruleId": "python.runtime.eol-3.9-and-older",
+   "path": "runtime.txt",
+   "line": 1
+  }
+ ]
+}

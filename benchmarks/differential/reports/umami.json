@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "evergreen.differential.renovate.v1",
+  "repository": "umami-software/umami",
+  "summary": {
+    "agree": 2,
+    "evergreen-only": 0,
+    "renovate-only": 2,
+    "inconclusive": 4
+  },
+  "comparisons": [
+    {
+      "family": "base-image",
+      "path": "docker-compose.yml",
+      "name": "postgres",
+      "evergreen": [
+        "container.postgres.eol-13-and-older"
+      ],
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "base-image",
+      "path": "Dockerfile",
+      "name": "node",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "react-beautiful-dnd",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "rollup-plugin-terser",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/cd-manual.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/cd.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/ci.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/ci.yml",
+      "name": "setup-node",
+      "evergreen": [
+        "github-actions.setup-node.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    }
+  ],
+  "notComparable": []
+}

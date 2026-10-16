@@ -85,6 +85,7 @@
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",
     "validate:codex-plugin": "npm run build --silent && node dist/tools/validate-codex-plugin.js",
     "validate:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js",
+    "differential:renovate": "npm run build --silent && node dist/benchmarks/differential/renovate.js",
     "observe:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js --observe",
     "prepack": "npm run check",
     "release:notes": "npm run build --silent && node dist/tools/changelog.js",

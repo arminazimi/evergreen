@@ -1,0 +1,3494 @@
+{
+ "repository": "outline/outline",
+ "renovate": {
+  "repositories": {
+   "local": {
+    "packageFiles": {
+     "docker-compose": [
+      {
+       "packageFile": "docker-compose.yml",
+       "deps": [
+        {
+         "depName": "redis",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "postgres",
+         "updates": [],
+         "skipReason": "invalid-value"
+        }
+       ]
+      }
+     ],
+     "dockerfile": [
+      {
+       "packageFile": "Dockerfile",
+       "deps": [
+        {
+         "depName": "outlinewiki/outline-base",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "node",
+         "currentValue": "20-slim",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "wget",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "Dockerfile.base",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "20",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "cmake",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "github-actions": [
+      {
+       "packageFile": ".github/workflows/auto_close_prs.yml",
+       "deps": [
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/calibreapp-image-actions.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "calibreapp/image-actions",
+         "currentValue": "main",
+         "updates": []
+        },
+        {
+         "depName": "peter-evans/create-pull-request",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/ci.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "dorny/paths-filter",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "relative-ci/agent-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "${{ matrix.node-version }}",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "postgres",
+         "currentValue": "14.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "redis",
+         "currentValue": "5.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/codeql-analysis.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "github/codeql-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "github/codeql-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "github/codeql-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/docker.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/upload-artifact",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/upload-artifact",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/download-artifact",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/lint.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "stefanzweifel/git-auto-commit-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/stale.yml",
+       "deps": [
+        {
+         "depName": "actions/stale",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "npm": [
+      {
+       "packageFile": "package.json",
+       "deps": [
+        {
+         "depName": "@aws-sdk/client-s3",
+         "currentValue": "3.826.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@aws-sdk/lib-storage",
+         "currentValue": "3.826.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@aws-sdk/s3-presigned-post",
+         "currentValue": "3.826.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@aws-sdk/s3-request-presigner",
+         "currentValue": "3.826.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@aws-sdk/signature-v4-crt",
+         "currentValue": "^3.826.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/core",
+         "currentValue": "^7.27.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/plugin-proposal-decorators",
+         "currentValue": "^7.27.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/plugin-transform-class-properties",
+         "currentValue": "^7.27.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/plugin-transform-destructuring",
+         "currentValue": "^7.27.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/plugin-transform-regenerator",
+         "currentValue": "^7.27.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/preset-env",
+         "currentValue": "^7.27.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/preset-react",
+         "currentValue": "^7.27.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@benrbray/prosemirror-math",
+         "currentValue": "^0.2.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@bull-board/api",
+         "currentValue": "^6.7.10",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@bull-board/koa",
+         "currentValue": "^6.9.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@css-inline/css-inline-wasm",
+         "currentValue": "^0.14.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@dnd-kit/core",
+         "currentValue": "^6.3.1",
+         "updates": []
+        },
+        {
+         "depName": "@dnd-kit/modifiers",
+         "currentValue": "^6.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@dnd-kit/sortable",
+         "currentValue": "^7.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@emoji-mart/data",
+         "currentValue": "^1.2.1",
+         "updates": []
+        },
+        {
+         "depName": "@fast-csv/parse",
+         "currentValue": "^5.0.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@fortawesome/fontawesome-svg-core",
+         "currentValue": "^6.7.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@fortawesome/free-brands-svg-icons",
+         "currentValue": "^6.7.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@fortawesome/free-solid-svg-icons",
+         "currentValue": "^6.7.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@fortawesome/react-fontawesome",
+         "currentValue": "^0.2.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@getoutline/react-roving-tabindex",
+         "currentValue": "^3.2.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@hocuspocus/extension-throttle",
+         "currentValue": "1.1.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@hocuspocus/provider",
+         "currentValue": "1.1.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@hocuspocus/server",
+         "currentValue": "1.1.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@joplin/turndown-plugin-gfm",
+         "currentValue": "^1.0.49",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@juggle/resize-observer",
+         "currentValue": "^3.4.0",
+         "updates": []
+        },
+        {
+         "depName": "@linear/sdk",
+         "currentValue": "^39.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@node-oauth/oauth2-server",
+         "currentValue": "^5.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@notionhq/client",
+         "currentValue": "^2.3.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@octokit/auth-app",
+         "currentValue": "^6.1.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@outlinewiki/koa-passport",
+         "currentValue": "^4.2.1",
+         "updates": []
+        },
+        {
+         "depName": "@outlinewiki/passport-azure-ad-oauth2",
+         "currentValue": "^0.1.0",
+         "updates": []
+        },
+        {
+         "depName": "@radix-ui/react-collapsible",
+         "currentValue": "^1.1.11",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-popover",
+         "currentValue": "^1.1.14",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-select",
+         "currentValue": "^2.1.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-switch",
+         "currentValue": "^1.2.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-tabs",
+         "currentValue": "^1.1.12",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-tooltip",
+         "currentValue": "^1.2.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@radix-ui/react-visually-hidden",
+         "currentValue": "^1.2.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@renderlesskit/react",
+         "currentValue": "^0.11.0",
+         "updates": []
+        },
+        {
+         "depName": "@sentry/node",
+         "currentValue": "^7.120.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@sentry/react",
+         "currentValue": "^7.120.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@tanstack/react-table",
+         "currentValue": "^8.21.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@tanstack/react-virtual",
+         "currentValue": "^3.13.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/form-data",
+         "currentValue": "^2.5.2",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/form-data` has the following deprecation notice:\n\n`This is a stub types definition. form-data provides its own type"
+        },
+        {
+         "depName": "@types/mailparser",
+         "currentValue": "^3.4.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/sanitize-filename",
+         "currentValue": "^1.6.3",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sanitize-filename` has the following deprecation notice:\n\n`This is a stub types definition. sanitize-filename provi"
+        },
+        {
+         "depName": "@vitejs/plugin-react",
+         "currentValue": "^3.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "addressparser",
+         "currentValue": "^1.0.1",
+         "updates": []
+        },
+        {
+         "depName": "async-sema",
+         "currentValue": "^3.1.1",
+         "updates": []
+        },
+        {
+         "depName": "autotrack",
+         "currentValue": "^2.4.1",
+         "updates": []
+        },
+        {
+         "depName": "babel-plugin-styled-components",
+         "currentValue": "^2.1.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "babel-plugin-transform-class-properties",
+         "currentValue": "^6.24.1",
+         "updates": []
+        },
+        {
+         "depName": "body-scroll-lock",
+         "currentValue": "^4.0.0-beta.0",
+         "updates": []
+        },
+        {
+         "depName": "bull",
+         "currentValue": "^4.16.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "chalk",
+         "currentValue": "^4.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "class-validator",
+         "currentValue": "^0.14.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "command-score",
+         "currentValue": "^0.1.2",
+         "updates": []
+        },
+        {
+         "depName": "compressorjs",
+         "currentValue": "^1.2.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "cookie",
+         "currentValue": "^0.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "copy-to-clipboard",
+         "currentValue": "^3.3.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "core-js",
+         "currentValue": "^3.37.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "crypto-js",
+         "currentValue": "^4.2.0",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `crypto-js` has the following deprecation notice:\n\n`Active development of CryptoJS has been discontinued. This library is n"
+        },
+        {
+         "depName": "datadog-metrics",
+         "currentValue": "^0.12.1",
+         "updates": []
+        },
+        {
+         "depName": "date-fns",
+         "currentValue": "^3.6.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "dd-trace",
+         "currentValue": "^5.40.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "diff",
+         "currentValue": "^5.2.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "dotenv",
+         "currentValue": "^16.5.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "email-providers",
+         "currentValue": "^1.14.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "emoji-mart",
+         "currentValue": "^5.6.0",
+         "updates": []
+        },
+        {
+         "depName": "emoji-regex",
+         "currentValue": "^10.4.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "es6-error",
+         "currentValue": "^4.1.1",
+         "updates": []
+        },
+        {
+         "depName": "fast-deep-equal",
+         "currentValue": "^3.1.3",
+         "updates": []
+        },
+        {
+         "depName": "fetch-retry",
+         "currentValue": "^5.0.6",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fetch-with-proxy",
+         "currentValue": "^3.0.1",
+         "updates": []
+        },
+        {
+         "depName": "form-data",
+         "currentValue": "^4.0.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "fractional-index",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "framer-motion",
+         "currentValue": "^4.1.17",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fs-extra",
+         "currentValue": "^11.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "fuzzy-search",
+         "currentValue": "^3.2.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "glob",
+         "currentValue": "^8.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "http-errors",
+         "currentValue": "2.0.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "https-proxy-agent",
+         "currentValue": "^7.0.6",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "i18next",
+         "currentValue": "^22.5.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "i18next-fs-backend",
+         "currentValue": "^2.6.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "i18next-http-backend",
+         "currentValue": "^2.7.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "invariant",
+         "currentValue": "^2.2.4",
+         "updates": []
+        },
+        {
+         "depName": "ioredis",
+         "currentValue": "^5.6.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "is-printable-key-event",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "jsdom",
+         "currentValue": "^22.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jsonwebtoken",
+         "currentValue": "^9.0.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "jszip",
+         "currentValue": "^3.10.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "katex",
+         "currentValue": "^0.16.22",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "kbar",
+         "currentValue": "0.1.0-beta.41",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa",
+         "currentValue": "^2.16.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa-body",
+         "currentValue": "^6.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa-compress",
+         "currentValue": "^5.1.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "koa-helmet",
+         "currentValue": "^6.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa-logger",
+         "currentValue": "^3.2.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa-mount",
+         "currentValue": "^4.2.0",
+         "updates": []
+        },
+        {
+         "depName": "koa-router",
+         "currentValue": "7.4.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `koa-router` has the following deprecation notice:\n\n`Please use @koa/router instead, starting from v9! `\n\nMarking the lates"
+        },
+        {
+         "depName": "koa-send",
+         "currentValue": "5.0.1",
+         "updates": []
+        },
+        {
+         "depName": "koa-sslify",
+         "currentValue": "5.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "koa-useragent",
+         "currentValue": "^4.1.0",
+         "updates": []
+        },
+        {
+         "depName": "lodash",
+         "currentValue": "^4.17.21",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "mailparser",
+         "currentValue": "^3.7.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "mammoth",
+         "currentValue": "^1.9.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "markdown-it",
+         "currentValue": "^13.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "markdown-it-container",
+         "currentValue": "^3.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "markdown-it-emoji",
+         "currentValue": "^2.0.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "mermaid",
+         "currentValue": "11.7.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "mime-types",
+         "currentValue": "^2.1.35",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "mobx",
+         "currentValue": "^4.15.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "mobx-react",
+         "currentValue": "^6.3.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "mobx-utils",
+         "currentValue": "^4.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "natural-sort",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "node-fetch",
+         "currentValue": "2.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "nodemailer",
+         "currentValue": "^6.10.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "octokit",
+         "currentValue": "^3.2.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "outline-icons",
+         "currentValue": "^3.12.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "oy-vey",
+         "currentValue": "^0.12.1",
+         "updates": []
+        },
+        {
+         "depName": "passport",
+         "currentValue": "^0.7.0",
+         "updates": []
+        },
+        {
+         "depName": "passport-google-oauth2",
+         "currentValue": "^0.2.0",
+         "updates": []
+        },
+        {
+         "depName": "passport-oauth2",
+         "currentValue": "^1.8.0",
+         "updates": []
+        },
+        {
+         "depName": "passport-slack-oauth2",
+         "currentValue": "^1.2.0",
+         "updates": []
+        },
+        {
+         "depName": "patch-package",
+         "currentValue": "^7.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "pg",
+         "currentValue": "^8.15.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "pg-tsquery",
+         "currentValue": "^8.4.2",
+         "updates": []
+        },
+        {
+         "depName": "pluralize",
+         "currentValue": "^8.0.0",
+         "updates": []
+        },
+        {
+         "depName": "png-chunks-extract",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "polished",
+         "currentValue": "^4.3.1",
+         "updates": []
+        },
+        {
+         "depName": "prosemirror-codemark",
+         "currentValue": "^0.4.2",
+         "updates": []
+        },
+        {
+         "depName": "prosemirror-commands",
+         "currentValue": "^1.7.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-dropcursor",
+         "currentValue": "^1.8.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-gapcursor",
+         "currentValue": "^1.3.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-history",
+         "currentValue": "^1.4.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-inputrules",
+         "currentValue": "^1.5.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-keymap",
+         "currentValue": "^1.2.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-markdown",
+         "currentValue": "^1.13.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-model",
+         "currentValue": "^1.25.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-schema-list",
+         "currentValue": "^1.5.1",
+         "updates": []
+        },
+        {
+         "depName": "prosemirror-state",
+         "currentValue": "^1.4.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-tables",
+         "currentValue": "^1.6.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-transform",
+         "currentValue": "1.10.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-view",
+         "currentValue": "^1.39.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "query-string",
+         "currentValue": "^7.1.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "randomstring",
+         "currentValue": "1.3.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "rate-limiter-flexible",
+         "currentValue": "^2.4.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react",
+         "currentValue": "^17.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-avatar-editor",
+         "currentValue": "^13.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-color",
+         "currentValue": "^2.17.3",
+         "updates": []
+        },
+        {
+         "depName": "react-day-picker",
+         "currentValue": "^8.10.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-dnd",
+         "currentValue": "^16.0.1",
+         "updates": []
+        },
+        {
+         "depName": "react-dnd-html5-backend",
+         "currentValue": "^16.0.1",
+         "updates": []
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "^17.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-dropzone",
+         "currentValue": "^11.7.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-helmet-async",
+         "currentValue": "^2.0.5",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-hook-form",
+         "currentValue": "^7.54.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-i18next",
+         "currentValue": "^12.3.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-medium-image-zoom",
+         "currentValue": "5.2.14",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-merge-refs",
+         "currentValue": "^2.1.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-portal",
+         "currentValue": "^4.3.0",
+         "updates": []
+        },
+        {
+         "depName": "react-router-dom",
+         "currentValue": "^5.3.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-virtualized-auto-sizer",
+         "currentValue": "^1.0.26",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-waypoint",
+         "currentValue": "^10.3.0",
+         "updates": []
+        },
+        {
+         "depName": "react-window",
+         "currentValue": "^1.8.11",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "reakit",
+         "currentValue": "^1.3.11",
+         "updates": []
+        },
+        {
+         "depName": "redlock",
+         "currentValue": "^5.0.0-beta.2",
+         "updates": []
+        },
+        {
+         "depName": "reflect-metadata",
+         "currentValue": "^0.2.2",
+         "updates": []
+        },
+        {
+         "depName": "refractor",
+         "currentValue": "^3.6.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "request-filtering-agent",
+         "currentValue": "^1.1.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "resolve-path",
+         "currentValue": "^1.4.0",
+         "updates": []
+        },
+        {
+         "depName": "rfc6902",
+         "currentValue": "^5.1.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "sanitize-filename",
+         "currentValue": "^1.6.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "scroll-into-view-if-needed",
+         "currentValue": "^3.1.0",
+         "updates": []
+        },
+        {
+         "depName": "semver",
+         "currentValue": "^7.7.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "sequelize",
+         "currentValue": "^6.37.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "sequelize-cli",
+         "currentValue": "^6.6.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "sequelize-encrypted",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "sequelize-strict-attributes",
+         "currentValue": "^1.0.2",
+         "updates": []
+        },
+        {
+         "depName": "sequelize-typescript",
+         "currentValue": "^2.1.6",
+         "updates": []
+        },
+        {
+         "depName": "slug",
+         "currentValue": "^5.3.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "slugify",
+         "currentValue": "^1.6.6",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "socket.io",
+         "currentValue": "^4.8.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "socket.io-client",
+         "currentValue": "^4.8.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "socket.io-redis",
+         "currentValue": "^6.1.1",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `socket.io-redis` has the following deprecation notice:\n\n`This package has been renamed to '@socket.io/redis-adapter', plea"
+        },
+        {
+         "depName": "sonner",
+         "currentValue": "^1.7.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "stoppable",
+         "currentValue": "^1.1.0",
+         "updates": []
+        },
+        {
+         "depName": "string-replace-to-array",
+         "currentValue": "^2.1.1",
+         "updates": []
+        },
+        {
+         "depName": "styled-components",
+         "currentValue": "^5.3.11",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "styled-components-breakpoint",
+         "currentValue": "^2.1.1",
+         "updates": []
+        },
+        {
+         "depName": "styled-normalize",
+         "currentValue": "^8.1.1",
+         "updates": []
+        },
+        {
+         "depName": "throng",
+         "currentValue": "^5.0.0",
+         "updates": []
+        },
+        {
+         "depName": "tiny-cookie",
+         "currentValue": "^2.5.1",
+         "updates": []
+        },
+        {
+         "depName": "tmp",
+         "currentValue": "^0.2.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "turndown",
+         "currentValue": "^7.2.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "ukkonen",
+         "currentValue": "^2.1.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "umzug",
+         "currentValue": "^3.8.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "utility-types",
+         "currentValue": "^3.11.0",
+         "updates": []
+        },
+        {
+         "depName": "uuid",
+         "currentValue": "^8.3.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "validator",
+         "currentValue": "13.15.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "vaul",
+         "currentValue": "^1.1.2",
+         "updates": []
+        },
+        {
+         "depName": "vite",
+         "currentValue": "^6.3.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-pwa",
+         "currentValue": "^0.21.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "winston",
+         "currentValue": "^3.17.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "ws",
+         "currentValue": "^7.5.10",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "y-indexeddb",
+         "currentValue": "^9.0.11",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "y-prosemirror",
+         "currentValue": "^1.2.12",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "y-protocols",
+         "currentValue": "^1.0.6",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "yauzl",
+         "currentValue": "^2.10.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "yjs",
+         "currentValue": "^13.6.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "zod",
+         "currentValue": "^3.24.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/cli",
+         "currentValue": "^7.27.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@babel/preset-typescript",
+         "currentValue": "^7.27.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@faker-js/faker",
+         "currentValue": "^8.4.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@relative-ci/agent",
+         "currentValue": "^4.3.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@testing-library/react",
+         "currentValue": "^12.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/addressparser",
+         "currentValue": "^1.0.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/body-scroll-lock",
+         "currentValue": "^3.1.2",
+         "updates": []
+        },
+        {
+         "depName": "@types/crypto-js",
+         "currentValue": "^4.2.2",
+         "updates": []
+        },
+        {
+         "depName": "@types/diff",
+         "currentValue": "^5.0.9",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/diff` has the following deprecation notice:\n\n`This is a stub types definition. diff provides its own type definitio"
+        },
+        {
+         "depName": "@types/dotenv",
+         "currentValue": "^8.2.3",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/dotenv` has the following deprecation notice:\n\n`This is a stub types definition. dotenv provides its own type defin"
+        },
+        {
+         "depName": "@types/emoji-regex",
+         "currentValue": "^9.2.2",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/emoji-regex` has the following deprecation notice:\n\n`This is a stub types definition. emoji-regex provides its own "
+        },
+        {
+         "depName": "@types/escape-html",
+         "currentValue": "^1.0.4",
+         "updates": []
+        },
+        {
+         "depName": "@types/express-useragent",
+         "currentValue": "^1.0.5",
+         "updates": []
+        },
+        {
+         "depName": "@types/formidable",
+         "currentValue": "^2.0.6",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/fs-extra",
+         "currentValue": "^11.0.4",
+         "updates": []
+        },
+        {
+         "depName": "@types/fuzzy-search",
+         "currentValue": "^2.1.5",
+         "updates": []
+        },
+        {
+         "depName": "@types/glob",
+         "currentValue": "^8.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/glob` has the following deprecation notice:\n\n`This is a stub types definition. glob provides its own type definitio"
+        },
+        {
+         "depName": "@types/google.analytics",
+         "currentValue": "^0.0.46",
+         "updates": []
+        },
+        {
+         "depName": "@types/invariant",
+         "currentValue": "^2.2.37",
+         "updates": []
+        },
+        {
+         "depName": "@types/jest",
+         "currentValue": "^29.5.14",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/jsonwebtoken",
+         "currentValue": "^8.5.9",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/katex",
+         "currentValue": "^0.16.7",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/koa",
+         "currentValue": "^2.15.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/koa-compress",
+         "currentValue": "^4.0.6",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/koa-helmet",
+         "currentValue": "^6.0.8",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-helmet` has the following deprecation notice:\n\n`This is a stub types definition. koa-helmet provides its own ty"
+        },
+        {
+         "depName": "@types/koa-logger",
+         "currentValue": "^3.1.5",
+         "updates": []
+        },
+        {
+         "depName": "@types/koa-mount",
+         "currentValue": "^4.0.5",
+         "updates": []
+        },
+        {
+         "depName": "@types/koa-router",
+         "currentValue": "^7.4.8",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/koa-send",
+         "currentValue": "^4.1.6",
+         "updates": []
+        },
+        {
+         "depName": "@types/koa-sslify",
+         "currentValue": "^4.0.6",
+         "updates": []
+        },
+        {
+         "depName": "@types/koa-useragent",
+         "currentValue": "^2.1.2",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-useragent` has the following deprecation notice:\n\n`This is a stub types definition. koa-useragent provides its "
+        },
+        {
+         "depName": "@types/markdown-it",
+         "currentValue": "^14.1.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/markdown-it-container",
+         "currentValue": "^2.0.9",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/markdown-it-emoji",
+         "currentValue": "^2.0.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/mime-types",
+         "currentValue": "^2.1.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/natural-sort",
+         "currentValue": "^0.0.24",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/node",
+         "currentValue": "20.17.30",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/node-fetch",
+         "currentValue": "^2.6.9",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/nodemailer",
+         "currentValue": "^6.4.17",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/passport-oauth2",
+         "currentValue": "^1.4.17",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/pluralize",
+         "currentValue": "^0.0.33",
+         "updates": []
+        },
+        {
+         "depName": "@types/png-chunks-extract",
+         "currentValue": "^1.0.2",
+         "updates": []
+        },
+        {
+         "depName": "@types/quoted-printable",
+         "currentValue": "^1.0.2",
+         "updates": []
+        },
+        {
+         "depName": "@types/randomstring",
+         "currentValue": "^1.3.0",
+         "updates": []
+        },
+        {
+         "depName": "@types/react",
+         "currentValue": "^17.0.34",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react-avatar-editor",
+         "currentValue": "^13.0.4",
+         "updates": []
+        },
+        {
+         "depName": "@types/react-color",
+         "currentValue": "^3.0.13",
+         "updates": []
+        },
+        {
+         "depName": "@types/react-dom",
+         "currentValue": "^17.0.11",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react-helmet",
+         "currentValue": "^6.1.11",
+         "updates": []
+        },
+        {
+         "depName": "@types/react-portal",
+         "currentValue": "^4.0.7",
+         "updates": []
+        },
+        {
+         "depName": "@types/react-router-dom",
+         "currentValue": "^5.3.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/react-virtualized-auto-sizer",
+         "currentValue": "^1.0.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-virtualized-auto-sizer` has the following deprecation notice:\n\n`This is a stub types definition. react-virtua"
+        },
+        {
+         "depName": "@types/react-window",
+         "currentValue": "^1.8.8",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-window` has the following deprecation notice:\n\n`This is a stub types definition. react-window provides its ow"
+        },
+        {
+         "depName": "@types/readable-stream",
+         "currentValue": "^4.0.18",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/redis-info",
+         "currentValue": "^3.0.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/refractor",
+         "currentValue": "^3.4.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/refractor` has the following deprecation notice:\n\n`This is a stub types definition. refractor provides its own type"
+        },
+        {
+         "depName": "@types/resolve-path",
+         "currentValue": "^1.4.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/semver",
+         "currentValue": "^7.7.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/sequelize",
+         "currentValue": "^4.28.20",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sequelize` has the following deprecation notice:\n\n`This is a stub types definition. sequelize provides its own type"
+        },
+        {
+         "depName": "@types/slug",
+         "currentValue": "^5.0.7",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/stoppable",
+         "currentValue": "^1.1.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/styled-components",
+         "currentValue": "^5.1.32",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/throng",
+         "currentValue": "^5.0.7",
+         "updates": []
+        },
+        {
+         "depName": "@types/tmp",
+         "currentValue": "^0.2.6",
+         "updates": []
+        },
+        {
+         "depName": "@types/turndown",
+         "currentValue": "^5.0.5",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/utf8",
+         "currentValue": "^3.0.3",
+         "updates": []
+        },
+        {
+         "depName": "@types/validator",
+         "currentValue": "^13.15.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/yauzl",
+         "currentValue": "^2.10.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@typescript-eslint/eslint-plugin",
+         "currentValue": "^8.33.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@typescript-eslint/parser",
+         "currentValue": "^8.33.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "babel-eslint",
+         "currentValue": "^10.1.0",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `babel-eslint` has the following deprecation notice:\n\n`babel-eslint is now @babel/eslint-parser. This package will no longe"
+        },
+        {
+         "depName": "babel-jest",
+         "currentValue": "^29.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "babel-plugin-transform-inline-environment-variables",
+         "currentValue": "^0.4.4",
+         "updates": []
+        },
+        {
+         "depName": "babel-plugin-transform-typescript-metadata",
+         "currentValue": "^0.3.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "babel-plugin-tsconfig-paths-module-resolver",
+         "currentValue": "^1.0.4",
+         "updates": []
+        },
+        {
+         "depName": "browserslist-to-esbuild",
+         "currentValue": "^1.2.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "concurrently",
+         "currentValue": "^8.2.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "discord-api-types",
+         "currentValue": "^0.37.119",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint",
+         "currentValue": "^8.57.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-prettier",
+         "currentValue": "^8.10.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-import-resolver-typescript",
+         "currentValue": "^3.10.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-es",
+         "currentValue": "^4.1.0",
+         "updates": []
+        },
+        {
+         "depName": "eslint-plugin-import",
+         "currentValue": "^2.31.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-jsx-a11y",
+         "currentValue": "^6.10.2",
+         "updates": []
+        },
+        {
+         "depName": "eslint-plugin-lodash",
+         "currentValue": "^7.4.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-node",
+         "currentValue": "^11.1.0",
+         "updates": []
+        },
+        {
+         "depName": "eslint-plugin-prettier",
+         "currentValue": "^5.5.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-react",
+         "currentValue": "^7.37.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-react-hooks",
+         "currentValue": "^4.6.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "husky",
+         "currentValue": "^8.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "i18next-parser",
+         "currentValue": "^8.13.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `i18next-parser` has the following deprecation notice:\n\n`Project is deprecated, use i18next-cli instead`\n\nMarking the lates"
+        },
+        {
+         "depName": "jest-cli",
+         "currentValue": "^29.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jest-environment-jsdom",
+         "currentValue": "^29.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jest-fetch-mock",
+         "currentValue": "^3.0.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "lint-staged",
+         "currentValue": "^13.3.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "nodemon",
+         "currentValue": "^3.1.10",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "postinstall-postinstall",
+         "currentValue": "^2.1.0",
+         "updates": []
+        },
+        {
+         "depName": "prettier",
+         "currentValue": "^3.6.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-refresh",
+         "currentValue": "^0.17.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "rimraf",
+         "currentValue": "^2.5.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "rollup-plugin-webpack-stats",
+         "currentValue": "^2.0.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "terser",
+         "currentValue": "^5.43.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^5.8.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-static-copy",
+         "currentValue": "^0.17.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "yarn-deduplicate",
+         "currentValue": "^6.0.2",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": ">= 18 <=20",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "prosemirror-transform",
+         "currentValue": "1.10.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "body-scroll-lock",
+         "currentValue": "^4.0.0-beta.0",
+         "updates": []
+        },
+        {
+         "depName": "d3",
+         "currentValue": "^7.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "debug",
+         "currentValue": "4.3.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "node-fetch",
+         "currentValue": "^2.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "js-yaml",
+         "currentValue": "^3.14.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "qs",
+         "currentValue": "6.9.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "prismjs",
+         "currentValue": "1.30.0",
+         "updates": []
+        },
+        {
+         "depName": "yarn",
+         "currentValue": "1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+         "updates": []
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "findings": [
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile",
+   "line": 9
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile.base",
+   "line": 2
+  },
+  {
+   "ruleId": "github-actions.build-push-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 119
+  },
+  {
+   "ruleId": "github-actions.build-push-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 143
+  },
+  {
+   "ruleId": "github-actions.build-push-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 40
+  },
+  {
+   "ruleId": "github-actions.build-push-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 64
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/calibreapp-image-actions.yml",
+   "line": 43
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 134
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 151
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 28
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 42
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 54
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 68
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 92
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/codeql-analysis.yml",
+   "line": 41
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 17
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 96
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/lint.yml",
+   "line": 19
+  },
+  {
+   "ruleId": "github-actions.download-artifact.retired",
+   "path": ".github/workflows/docker.yml",
+   "line": 178
+  },
+  {
+   "ruleId": "github-actions.github-script.node20",
+   "path": ".github/workflows/auto_close_prs.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 112
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 185
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 33
+  },
+  {
+   "ruleId": "github-actions.metadata-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 103
+  },
+  {
+   "ruleId": "github-actions.metadata-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 133
+  },
+  {
+   "ruleId": "github-actions.metadata-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 195
+  },
+  {
+   "ruleId": "github-actions.metadata-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 24
+  },
+  {
+   "ruleId": "github-actions.metadata-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 54
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 191
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 20
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/docker.yml",
+   "line": 99
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 135
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 152
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 30
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 43
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 55
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 93
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/lint.yml",
+   "line": 20
+  },
+  {
+   "ruleId": "github-actions.stale.node20",
+   "path": ".github/workflows/stale.yml",
+   "line": 15
+  },
+  {
+   "ruleId": "github-actions.upload-artifact.retired",
+   "path": ".github/workflows/docker.yml",
+   "line": 164
+  },
+  {
+   "ruleId": "github-actions.upload-artifact.retired",
+   "path": ".github/workflows/docker.yml",
+   "line": 85
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-18",
+   "path": "package.json",
+   "line": 42
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-20",
+   "path": "package.json",
+   "line": 42
+  }
+ ]
+}

@@ -1,0 +1,935 @@
+{
+ "repository": "gethomepage/homepage",
+ "renovate": {
+  "repositories": {
+   "local": {
+    "packageFiles": {
+     "dockerfile": [
+      {
+       "packageFile": ".devcontainer/Dockerfile",
+       "deps": [
+        {
+         "depName": "mcr.microsoft.com/vscode/devcontainers/javascript-node",
+         "currentValue": "16-buster",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "python3-pip",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "22-slim",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "22-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "su-exec",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "iputils-ping",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "shadow",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "Dockerfile-tilt",
+       "deps": [
+        {
+         "depName": "docker/dockerfile",
+         "currentValue": "latest",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "docker.io/node",
+         "currentValue": "18-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "github-actions": [
+      {
+       "packageFile": ".github/workflows/crowdin.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "crowdin/github-action",
+         "currentValue": "v3.3.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/docker-publish.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/metadata-action",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/cache",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "pnpm/action-setup",
+         "currentValue": "v6.1.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-qemu-action",
+         "currentValue": "v4.4.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v7",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "22.04",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "currentValue": "10",
+         "depName": "pnpm",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "24",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/docs-publish.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-python",
+         "currentValue": "v7.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "astral-sh/setup-uv",
+         "currentValue": "v10.2.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/configure-pages",
+         "currentValue": "v6.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-python",
+         "currentValue": "v7.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "astral-sh/setup-uv",
+         "currentValue": "v10.2.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/upload-pages-artifact",
+         "currentValue": "v5.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/deploy-pages",
+         "currentValue": "v5.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "python",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "python",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/issue-triage.yml",
+       "deps": [
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/lint.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-python",
+         "currentValue": "v7.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "pre-commit/action",
+         "currentValue": "v3.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "pnpm/action-setup",
+         "currentValue": "v6.1.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "22.04",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "python",
+         "currentValue": "3.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "currentValue": "10",
+         "depName": "pnpm",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "24",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/pr-quality.yml",
+       "deps": [
+        {
+         "depName": "peakoss/anti-slop",
+         "currentValue": "v0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/pr-triage.yml",
+       "deps": [
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/reaction-comments.yml",
+       "deps": [
+        {
+         "depName": "dessant/reaction-comments",
+         "currentValue": "v5.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/release-drafter.yml",
+       "deps": [
+        {
+         "depName": "release-drafter/release-drafter",
+         "currentValue": "v7",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "release-drafter/release-drafter",
+         "currentValue": "v7",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "release-drafter/release-drafter",
+         "skipReason": "unversioned-reference",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/repo-maintenance.yml",
+       "deps": [
+        {
+         "depName": "actions/stale",
+         "currentValue": "v10",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "dessant/lock-threads",
+         "currentValue": "v6.0.2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/github-script",
+         "currentValue": "v9.0.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/test.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v7.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "pnpm/action-setup",
+         "currentValue": "v6.1.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v6",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "codecov/codecov-action",
+         "currentValue": "v7.1.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "currentValue": "9",
+         "depName": "pnpm",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "24",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "npm": [
+      {
+       "packageFile": "package.json",
+       "deps": [
+        {
+         "depName": "@headlessui/react",
+         "currentValue": "^2.2.10",
+         "updates": []
+        },
+        {
+         "depName": "@kubernetes/client-node",
+         "currentValue": "^2.0.0",
+         "updates": []
+        },
+        {
+         "depName": "classnames",
+         "currentValue": "^2.5.1",
+         "updates": []
+        },
+        {
+         "depName": "compare-versions",
+         "currentValue": "^6.1.1",
+         "updates": []
+        },
+        {
+         "depName": "dockerode",
+         "currentValue": "^5.0.0",
+         "updates": []
+        },
+        {
+         "depName": "follow-redirects",
+         "currentValue": "^1.16.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "gamedig",
+         "currentValue": "^5.3.3",
+         "updates": []
+        },
+        {
+         "depName": "i18next",
+         "currentValue": "^26.4.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "ical.js",
+         "currentValue": "^2.2.1",
+         "updates": []
+        },
+        {
+         "depName": "js-yaml",
+         "currentValue": "^5.4.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "json-rpc-2.0",
+         "currentValue": "^1.7.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "luxon",
+         "currentValue": "^3.7.2",
+         "updates": []
+        },
+        {
+         "depName": "memory-cache",
+         "currentValue": "^0.2.0",
+         "updates": []
+        },
+        {
+         "depName": "minecraftstatuspinger",
+         "currentValue": "^1.2.2",
+         "updates": []
+        },
+        {
+         "depName": "next",
+         "currentValue": "^16.3.8",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "next-auth",
+         "currentValue": "^4.24.15",
+         "updates": []
+        },
+        {
+         "depName": "next-i18next",
+         "currentValue": "^16.0.8",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "ping",
+         "currentValue": "^1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "pretty-bytes",
+         "currentValue": "^7.1.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "raw-body",
+         "currentValue": "^4.0.0",
+         "updates": []
+        },
+        {
+         "depName": "react",
+         "currentValue": "^19.3.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "^19.3.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "react-i18next",
+         "currentValue": "^17.0.15",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "react-icons",
+         "currentValue": "^5.6.0",
+         "updates": []
+        },
+        {
+         "depName": "recharts",
+         "currentValue": "^3.1.2",
+         "updates": []
+        },
+        {
+         "depName": "sax",
+         "currentValue": "^1.6.1",
+         "updates": []
+        },
+        {
+         "depName": "swr",
+         "currentValue": "^2.5.1",
+         "updates": []
+        },
+        {
+         "depName": "systeminformation",
+         "currentValue": "^5.33.13",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "tough-cookie",
+         "currentValue": "^6.0.2",
+         "updates": []
+        },
+        {
+         "depName": "urbackup-server-api",
+         "currentValue": "^0.92.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "winston",
+         "currentValue": "^3.19.0",
+         "updates": []
+        },
+        {
+         "depName": "ws",
+         "currentValue": "^8.21.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "xml-js",
+         "currentValue": "^1.6.11",
+         "updates": []
+        },
+        {
+         "depName": "@tailwindcss/forms",
+         "currentValue": "^0.5.11",
+         "updates": []
+        },
+        {
+         "depName": "@tailwindcss/postcss",
+         "currentValue": "^4.3.3",
+         "updates": []
+        },
+        {
+         "depName": "@testing-library/jest-dom",
+         "currentValue": "^7.0.1",
+         "updates": []
+        },
+        {
+         "depName": "@testing-library/react",
+         "currentValue": "^16.3.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@vitest/coverage-v8",
+         "currentValue": "^4.1.10",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint",
+         "currentValue": "^9.25.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-next",
+         "currentValue": "^16.3.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-prettier",
+         "currentValue": "^10.1.8",
+         "updates": []
+        },
+        {
+         "depName": "jsdom",
+         "currentValue": "^30.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "postcss",
+         "currentValue": "^8.5.26",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prettier",
+         "currentValue": "^3.9.9",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prettier-plugin-organize-imports",
+         "currentValue": "^4.3.0",
+         "updates": []
+        },
+        {
+         "depName": "tailwind-scrollbar",
+         "currentValue": "^4.0.2",
+         "updates": []
+        },
+        {
+         "depName": "tailwindcss",
+         "currentValue": "^4.3.3",
+         "updates": []
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^6.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vitest",
+         "currentValue": "^4.1.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "osx-temperature-sensor",
+         "currentValue": "^1.0.8",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "pnpm-workspace.yaml",
+       "deps": []
+      }
+     ]
+    }
+   }
+  }
+ },
+ "findings": []
+}

@@ -1,0 +1,1979 @@
+{
+ "repository": "excalidraw/excalidraw",
+ "renovate": {
+  "repositories": {
+   "local": {
+    "packageFiles": {
+     "docker-compose": [
+      {
+       "packageFile": "docker-compose.yml",
+       "deps": []
+      }
+     ],
+     "dockerfile": [
+      {
+       "packageFile": ".codesandbox/Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "18-bullseye",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "xdg-utils",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "18",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "nginx",
+         "currentValue": "1.27-alpine",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "packageFile": "examples/with-script-in-browser/.codesandbox/Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "18-bullseye",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "xdg-utils",
+         "skipReason": "unspecified-version",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "github-actions": [
+      {
+       "packageFile": ".github/workflows/autorelease-excalidraw.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/build-docker.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/cancel.yml",
+       "deps": [
+        {
+         "depName": "styfle/cancel-workflow-action",
+         "currentValue": "0.6.0",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/lint.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/locales-coverage.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "kt3k/update-pr-description",
+         "currentValue": "v1.0.1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/publish-docker.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/login-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-qemu-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/setup-buildx-action",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "docker/build-push-action",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/semantic-pr-title.yml",
+       "deps": [
+        {
+         "depName": "amannn/action-semantic-pull-request",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/sentry-production.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/size-limit.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v3",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "andresz1/size-limit-action",
+         "currentValue": "v1",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/test-coverage-pr.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "davelosert/vitest-coverage-report-action",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/test.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v4",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "npm": [
+      {
+       "packageFile": "dev-docs/package.json",
+       "deps": [
+        {
+         "depName": "@docusaurus/core",
+         "currentValue": "2.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@docusaurus/preset-classic",
+         "currentValue": "2.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@docusaurus/theme-live-codeblock",
+         "currentValue": "2.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@excalidraw/excalidraw",
+         "currentValue": "0.18.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@mdx-js/react",
+         "currentValue": "^1.6.22",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "clsx",
+         "currentValue": "^1.2.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "docusaurus-plugin-sass",
+         "currentValue": "0.2.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "prism-react-renderer",
+         "currentValue": "^1.3.5",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react",
+         "currentValue": "18.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "18.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "sass",
+         "currentValue": "1.57.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@docusaurus/module-type-aliases",
+         "currentValue": "2.0.0-rc.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@tsconfig/docusaurus",
+         "currentValue": "^1.0.5",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "docusaurus2-dotenv",
+         "currentValue": "1.4.0",
+         "updates": []
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^4.7.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": ">=16.14",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "examples/with-nextjs/package.json",
+       "deps": [
+        {
+         "depName": "next",
+         "currentValue": "14.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/node",
+         "currentValue": "^20",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react",
+         "currentValue": "19.0.10",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react-dom",
+         "currentValue": "19.0.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "path2d-polyfill",
+         "currentValue": "2.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "packageFile": "examples/with-script-in-browser/package.json",
+       "deps": [
+        {
+         "depName": "@excalidraw/excalidraw",
+         "currentValue": "*",
+         "updates": [],
+         "skipReason": "internal-package"
+        },
+        {
+         "depName": "browser-fs-access",
+         "currentValue": "0.38.0",
+         "updates": []
+        },
+        {
+         "depName": "react",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite",
+         "currentValue": "5.0.12",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "packageFile": "excalidraw-app/package.json",
+       "deps": [
+        {
+         "depName": "@excalidraw/random-username",
+         "currentValue": "1.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@sentry/browser",
+         "currentValue": "9.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "callsites",
+         "currentValue": "4.2.0",
+         "updates": []
+        },
+        {
+         "depName": "firebase",
+         "currentValue": "11.3.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "i18next-browser-languagedetector",
+         "currentValue": "6.1.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "idb-keyval",
+         "currentValue": "6.0.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "jotai",
+         "currentValue": "2.11.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "19.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "socket.io-client",
+         "currentValue": "4.7.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "uqr",
+         "currentValue": "0.1.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-html",
+         "currentValue": "3.2.2",
+         "updates": []
+        },
+        {
+         "depName": "vite-plugin-sitemap",
+         "currentValue": "0.7.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": ">=18.0.0",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "package.json",
+       "deps": [
+        {
+         "depName": "@babel/preset-env",
+         "currentValue": "7.26.9",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@excalidraw/eslint-config",
+         "currentValue": "1.0.3",
+         "updates": []
+        },
+        {
+         "depName": "@excalidraw/prettier-config",
+         "currentValue": "1.0.2",
+         "updates": []
+        },
+        {
+         "depName": "@types/chai",
+         "currentValue": "4.3.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/jest",
+         "currentValue": "27.4.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/lodash.throttle",
+         "currentValue": "4.1.7",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react",
+         "currentValue": "19.0.10",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/react-dom",
+         "currentValue": "19.0.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/socket.io-client",
+         "currentValue": "3.0.0",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/socket.io-client` has the following deprecation notice:\n\n`This is a stub types definition. socket.io-client provide"
+        },
+        {
+         "depName": "@vitejs/plugin-react",
+         "currentValue": "3.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@vitest/coverage-v8",
+         "currentValue": "3.0.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@vitest/ui",
+         "currentValue": "2.0.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "chai",
+         "currentValue": "4.3.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "dotenv",
+         "currentValue": "16.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-prettier",
+         "currentValue": "8.5.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-react-app",
+         "currentValue": "7.0.1",
+         "updates": []
+        },
+        {
+         "depName": "eslint-plugin-import",
+         "currentValue": "2.31.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-prettier",
+         "currentValue": "3.3.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "http-server",
+         "currentValue": "14.1.1",
+         "updates": []
+        },
+        {
+         "depName": "husky",
+         "currentValue": "7.0.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jsdom",
+         "currentValue": "22.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "lint-staged",
+         "currentValue": "12.3.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "pepjs",
+         "currentValue": "0.5.3",
+         "updates": []
+        },
+        {
+         "depName": "prettier",
+         "currentValue": "2.6.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "rewire",
+         "currentValue": "6.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "rimraf",
+         "currentValue": "^5.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "5.9.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite",
+         "currentValue": "5.0.12",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-checker",
+         "currentValue": "0.7.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-ejs",
+         "currentValue": "1.7.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-pwa",
+         "currentValue": "0.21.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vite-plugin-svgr",
+         "currentValue": "4.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vitest",
+         "currentValue": "3.0.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "vitest-canvas-mock",
+         "currentValue": "0.3.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": ">=18.0.0",
+         "updates": []
+        },
+        {
+         "depName": "strip-ansi",
+         "currentValue": "6.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "yarn",
+         "currentValue": "1.22.22",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "packages/common/package.json",
+       "deps": [
+        {
+         "depName": "tinycolor2",
+         "currentValue": "1.6.0",
+         "updates": []
+        },
+        {
+         "depName": "@types/tinycolor2",
+         "currentValue": "1.4.6",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "packages/element/package.json",
+       "deps": [
+        {
+         "depName": "@excalidraw/common",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        },
+        {
+         "depName": "@excalidraw/math",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        }
+       ]
+      },
+      {
+       "packageFile": "packages/excalidraw/package.json",
+       "deps": [
+        {
+         "depName": "@braintree/sanitize-url",
+         "currentValue": "6.0.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@codemirror/commands",
+         "currentValue": "^6.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@codemirror/language",
+         "currentValue": "^6.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@codemirror/state",
+         "currentValue": "^6.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@codemirror/view",
+         "currentValue": "^6.0.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@lezer/highlight",
+         "currentValue": "^1.0.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@excalidraw/common",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        },
+        {
+         "depName": "@excalidraw/element",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        },
+        {
+         "depName": "@excalidraw/laser-pointer",
+         "currentValue": "1.3.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@excalidraw/math",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        },
+        {
+         "depName": "@excalidraw/mermaid-to-excalidraw",
+         "currentValue": "2.2.2",
+         "updates": []
+        },
+        {
+         "depName": "@excalidraw/random-username",
+         "currentValue": "1.1.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "browser-fs-access",
+         "currentValue": "0.38.0",
+         "updates": []
+        },
+        {
+         "depName": "canvas-roundrect-polyfill",
+         "currentValue": "0.0.1",
+         "updates": []
+        },
+        {
+         "depName": "clsx",
+         "currentValue": "1.1.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "cross-env",
+         "currentValue": "7.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "es6-promise-pool",
+         "currentValue": "2.5.0",
+         "updates": []
+        },
+        {
+         "depName": "fractional-indexing",
+         "currentValue": "3.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fuzzy",
+         "currentValue": "0.1.3",
+         "updates": []
+        },
+        {
+         "depName": "image-blob-reduce",
+         "currentValue": "3.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jotai",
+         "currentValue": "2.11.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jotai-scope",
+         "currentValue": "0.7.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "lodash.debounce",
+         "currentValue": "4.0.8",
+         "updates": []
+        },
+        {
+         "depName": "lodash.throttle",
+         "currentValue": "4.1.1",
+         "updates": []
+        },
+        {
+         "depName": "nanoid",
+         "currentValue": "3.3.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "pako",
+         "currentValue": "2.0.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "perfect-freehand",
+         "currentValue": "1.2.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "pica",
+         "currentValue": "7.1.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "png-chunk-text",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "png-chunks-encode",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "png-chunks-extract",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "points-on-curve",
+         "currentValue": "1.0.1",
+         "updates": []
+        },
+        {
+         "depName": "pwacompat",
+         "currentValue": "2.0.17",
+         "updates": []
+        },
+        {
+         "depName": "radix-ui",
+         "currentValue": "1.4.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "roughjs",
+         "currentValue": "4.6.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "sass",
+         "currentValue": "1.51.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "tunnel-rat",
+         "currentValue": "0.1.2",
+         "updates": []
+        },
+        {
+         "depName": "@size-limit/preset-big-lib",
+         "currentValue": "9.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@testing-library/dom",
+         "currentValue": "10.4.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@testing-library/jest-dom",
+         "currentValue": "6.6.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@testing-library/react",
+         "currentValue": "16.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@types/lodash.debounce",
+         "currentValue": "4.0.8",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "@types/pako",
+         "currentValue": "2.0.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/pako` has the following deprecation notice:\n\n`This is a stub types definition. pako provides its own type definitio"
+        },
+        {
+         "depName": "@types/pica",
+         "currentValue": "5.1.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@types/resize-observer-browser",
+         "currentValue": "0.1.7",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "ansicolor",
+         "currentValue": "2.0.3",
+         "updates": []
+        },
+        {
+         "depName": "autoprefixer",
+         "currentValue": "10.4.7",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "cross-env",
+         "currentValue": "7.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "dotenv",
+         "currentValue": "16.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "esbuild",
+         "currentValue": "0.19.10",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "esbuild-sass-plugin",
+         "currentValue": "2.16.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-react",
+         "currentValue": "7.32.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "fake-indexeddb",
+         "currentValue": "3.1.7",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fonteditor-core",
+         "currentValue": "2.4.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "harfbuzzjs",
+         "currentValue": "0.3.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "jest-diff",
+         "currentValue": "29.7.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "5.9.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react",
+         "currentValue": "^17.0.2 || ^18.2.0 || ^19.0.0",
+         "updates": []
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "^17.0.2 || ^18.2.0 || ^19.0.0",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": "packages/math/package.json",
+       "deps": [
+        {
+         "depName": "@excalidraw/common",
+         "currentValue": "0.18.0",
+         "updates": [],
+         "skipReason": "internal-package"
+        }
+       ]
+      },
+      {
+       "packageFile": "packages/utils/package.json",
+       "deps": [
+        {
+         "depName": "@braintree/sanitize-url",
+         "currentValue": "6.0.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@excalidraw/laser-pointer",
+         "currentValue": "1.3.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "browser-fs-access",
+         "currentValue": "0.38.0",
+         "updates": []
+        },
+        {
+         "depName": "pako",
+         "currentValue": "2.0.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "perfect-freehand",
+         "currentValue": "1.2.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "png-chunk-text",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "png-chunks-encode",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "png-chunks-extract",
+         "currentValue": "1.0.0",
+         "updates": []
+        },
+        {
+         "depName": "roughjs",
+         "currentValue": "4.6.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "cross-env",
+         "currentValue": "7.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "fonteditor-core",
+         "currentValue": "2.4.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "5.9.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "wawoff2",
+         "currentValue": "2.0.1",
+         "updates": []
+        },
+        {
+         "depName": "which",
+         "currentValue": "4.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "findings": [
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": ".codesandbox/Dockerfile",
+   "line": 1
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile",
+   "line": 1
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "examples/with-script-in-browser/.codesandbox/Dockerfile",
+   "line": 1
+  },
+  {
+   "ruleId": "github-actions.build-push-action.node20",
+   "path": ".github/workflows/publish-docker.yml",
+   "line": 25
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/autorelease-excalidraw.yml",
+   "line": 12
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/build-docker.yml",
+   "line": 12
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/lint.yml",
+   "line": 10
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/locales-coverage.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/publish-docker.yml",
+   "line": 14
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/sentry-production.yml",
+   "line": 12
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/size-limit.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/test-coverage-pr.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/test.yml",
+   "line": 11
+  },
+  {
+   "ruleId": "github-actions.login-action.node20",
+   "path": ".github/workflows/publish-docker.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.setup-buildx-action.node20",
+   "path": ".github/workflows/publish-docker.yml",
+   "line": 23
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/autorelease-excalidraw.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/lint.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/locales-coverage.yml",
+   "line": 18
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/sentry-production.yml",
+   "line": 14
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/size-limit.yml",
+   "line": 15
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/test-coverage-pr.yml",
+   "line": 15
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/test.yml",
+   "line": 13
+  },
+  {
+   "ruleId": "github-actions.setup-qemu-action.node20",
+   "path": ".github/workflows/publish-docker.yml",
+   "line": 21
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-18",
+   "path": "package.json",
+   "line": 47
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-20",
+   "path": "package.json",
+   "line": 47
+  }
+ ]
+}

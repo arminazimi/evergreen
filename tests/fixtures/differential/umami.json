@@ -1,0 +1,983 @@
+{
+ "repository": "umami-software/umami",
+ "renovate": {
+  "repositories": {
+   "local": {
+    "packageFiles": {
+     "docker-compose": [
+      {
+       "packageFile": "docker-compose.yml",
+       "deps": [
+        {
+         "depName": "ghcr.io/umami-software/umami",
+         "currentValue": "postgresql-latest",
+         "updates": [],
+         "skipReason": "invalid-value"
+        },
+        {
+         "depName": "postgres",
+         "currentValue": "12-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "dockerfile": [
+      {
+       "packageFile": "Dockerfile",
+       "deps": [
+        {
+         "depName": "node",
+         "currentValue": "16-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "libc6-compat",
+         "skipReason": "unspecified-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "16-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "node",
+         "currentValue": "16-alpine",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ],
+     "github-actions": [
+      {
+       "packageFile": ".github/workflows/cd-manual.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "mr-smithers-excellent/docker-build-push",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/cd.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "mr-smithers-excellent/docker-build-push",
+         "currentValue": "v5",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        }
+       ]
+      },
+      {
+       "packageFile": ".github/workflows/ci.yml",
+       "deps": [
+        {
+         "depName": "actions/checkout",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "actions/setup-node",
+         "currentValue": "v2",
+         "skipReason": "github-token-required",
+         "updates": []
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "${{ matrix.node-version }}",
+         "skipReason": "github-token-required",
+         "updates": []
+        }
+       ]
+      }
+     ],
+     "npm": [
+      {
+       "packageFile": "package.json",
+       "deps": [
+        {
+         "depName": "@fontsource/inter",
+         "currentValue": "^4.5.15",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@prisma/client",
+         "currentValue": "4.11.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@tanstack/react-query",
+         "currentValue": "^4.16.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@umami/prisma-client",
+         "currentValue": "^0.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "@umami/redis-client",
+         "currentValue": "^0.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "chalk",
+         "currentValue": "^4.1.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "chart.js",
+         "currentValue": "^4.2.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "chartjs-adapter-date-fns",
+         "currentValue": "^3.0.0",
+         "updates": []
+        },
+        {
+         "depName": "classnames",
+         "currentValue": "^2.3.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "clickhouse",
+         "currentValue": "^2.5.0",
+         "updates": []
+        },
+        {
+         "depName": "colord",
+         "currentValue": "^2.9.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "cors",
+         "currentValue": "^2.8.5",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "cross-spawn",
+         "currentValue": "^7.0.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "date-fns",
+         "currentValue": "^2.23.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "date-fns-tz",
+         "currentValue": "^1.1.4",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "dateformat",
+         "currentValue": "^5.0.3",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "debug",
+         "currentValue": "^4.3.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "del",
+         "currentValue": "^6.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "detect-browser",
+         "currentValue": "^5.2.0",
+         "updates": []
+        },
+        {
+         "depName": "dotenv",
+         "currentValue": "^10.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "formik",
+         "currentValue": "^2.2.9",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "fs-extra",
+         "currentValue": "^10.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "immer",
+         "currentValue": "^9.0.12",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "ipaddr.js",
+         "currentValue": "^2.0.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "is-ci",
+         "currentValue": "^3.0.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "is-docker",
+         "currentValue": "^3.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "is-localhost-ip",
+         "currentValue": "^1.4.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "isbot",
+         "currentValue": "^3.4.5",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "kafkajs",
+         "currentValue": "^2.1.0",
+         "updates": []
+        },
+        {
+         "depName": "maxmind",
+         "currentValue": "^4.3.6",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "moment-timezone",
+         "currentValue": "^0.5.35",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "next",
+         "currentValue": "^13.2.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "next-basics",
+         "currentValue": "^0.27.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "node-fetch",
+         "currentValue": "^3.2.8",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "npm-run-all",
+         "currentValue": "^4.1.5",
+         "updates": []
+        },
+        {
+         "depName": "react",
+         "currentValue": "^18.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-basics",
+         "currentValue": "^0.77.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "react-beautiful-dnd",
+         "currentValue": "^13.1.0",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `react-beautiful-dnd` has the following deprecation notice:\n\n`react-beautiful-dnd is now deprecated. Context and options: h"
+        },
+        {
+         "depName": "react-dom",
+         "currentValue": "^18.2.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-intl",
+         "currentValue": "^5.24.7",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-simple-maps",
+         "currentValue": "^2.3.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-spring",
+         "currentValue": "^9.4.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "react-use-measure",
+         "currentValue": "^2.0.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "react-window",
+         "currentValue": "^1.8.6",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "request-ip",
+         "currentValue": "^3.3.0",
+         "updates": []
+        },
+        {
+         "depName": "semver",
+         "currentValue": "^7.3.6",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "thenby",
+         "currentValue": "^1.3.4",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "timezone-support",
+         "currentValue": "^2.0.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "uuid",
+         "currentValue": "^8.3.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "yup",
+         "currentValue": "^0.32.11",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "zustand",
+         "currentValue": "^3.7.2",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@formatjs/cli",
+         "currentValue": "^4.2.29",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@netlify/plugin-nextjs",
+         "currentValue": "^4.27.3",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@rollup/plugin-buble",
+         "currentValue": "^0.21.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@rollup/plugin-replace",
+         "currentValue": "^4.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@svgr/webpack",
+         "currentValue": "^6.2.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@typescript-eslint/eslint-plugin",
+         "currentValue": "^5.50.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "@typescript-eslint/parser",
+         "currentValue": "^5.50.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "cross-env",
+         "currentValue": "^7.0.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint",
+         "currentValue": "^8.33.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-next",
+         "currentValue": "^12.2.4",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-config-prettier",
+         "currentValue": "^8.5.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-import-resolver-alias",
+         "currentValue": "^1.1.2",
+         "updates": []
+        },
+        {
+         "depName": "eslint-plugin-import",
+         "currentValue": "^2.26.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "eslint-plugin-prettier",
+         "currentValue": "^4.0.0",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "extract-react-intl-messages",
+         "currentValue": "^4.1.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "husky",
+         "currentValue": "^7.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "lint-staged",
+         "currentValue": "^11.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "postcss",
+         "currentValue": "^8.4.21",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "postcss-flexbugs-fixes",
+         "currentValue": "^5.0.2",
+         "updates": []
+        },
+        {
+         "depName": "postcss-import",
+         "currentValue": "^15.1.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "postcss-preset-env",
+         "currentValue": "7.8.3",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "postcss-rtlcss",
+         "currentValue": "^4.0.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "prettier",
+         "currentValue": "^2.6.2",
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "prisma",
+         "currentValue": "4.11.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "prompts",
+         "currentValue": "2.4.2",
+         "updates": []
+        },
+        {
+         "depName": "rollup",
+         "currentValue": "^2.70.1",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "rollup-plugin-terser",
+         "currentValue": "^7.0.2",
+         "updates": [],
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `rollup-plugin-terser` has the following deprecation notice:\n\n`This package has been deprecated and is no longer maintained"
+        },
+        {
+         "depName": "stylelint",
+         "currentValue": "^14.16.1",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "stylelint-config-css-modules",
+         "currentValue": "^4.1.0",
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
+        },
+        {
+         "depName": "stylelint-config-prettier",
+         "currentValue": "^9.0.3",
+         "updates": []
+        },
+        {
+         "depName": "stylelint-config-recommended",
+         "currentValue": "^9.0.0",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "tar",
+         "currentValue": "^6.1.2",
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "ts-node",
+         "currentValue": "^10.9.1",
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
+        },
+        {
+         "depName": "typescript",
+         "currentValue": "^4.9.5",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   }
+  }
+ },
+ "findings": [
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile",
+   "line": 10
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile",
+   "line": 2
+  },
+  {
+   "ruleId": "container.node.eol-21-and-older",
+   "path": "Dockerfile",
+   "line": 26
+  },
+  {
+   "ruleId": "container.postgres.eol-13-and-older",
+   "path": "docker-compose.yml",
+   "line": 16
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/cd-manual.yml",
+   "line": 21
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/cd.yml",
+   "line": 17
+  },
+  {
+   "ruleId": "github-actions.checkout.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 29
+  },
+  {
+   "ruleId": "github-actions.setup-node.node20",
+   "path": ".github/workflows/ci.yml",
+   "line": 31
+  }
+ ]
+}

@@ -1,0 +1,355 @@
+{
+  "schemaVersion": "evergreen.differential.renovate.v1",
+  "repository": "outline/outline",
+  "summary": {
+    "agree": 2,
+    "evergreen-only": 0,
+    "renovate-only": 17,
+    "inconclusive": 15
+  },
+  "comparisons": [
+    {
+      "family": "base-image",
+      "path": "Dockerfile",
+      "name": "node",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "base-image",
+      "path": "Dockerfile.base",
+      "name": "node",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/diff",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/dotenv",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/emoji-regex",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/form-data",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/glob",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/koa-helmet",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/koa-useragent",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/react-virtualized-auto-sizer",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/react-window",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/refractor",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/sanitize-filename",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "@types/sequelize",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "babel-eslint",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "crypto-js",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "i18next-parser",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "koa-router",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "socket.io-redis",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/auto_close_prs.yml",
+      "name": "github-script",
+      "evergreen": [
+        "github-actions.github-script.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/calibreapp-image-actions.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/ci.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/ci.yml",
+      "name": "setup-node",
+      "evergreen": [
+        "github-actions.setup-node.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "build-push-action",
+      "evergreen": [
+        "github-actions.build-push-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "download-artifact",
+      "evergreen": [
+        "github-actions.download-artifact.retired"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "login-action",
+      "evergreen": [
+        "github-actions.login-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "metadata-action",
+      "evergreen": [
+        "github-actions.metadata-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "setup-buildx-action",
+      "evergreen": [
+        "github-actions.setup-buildx-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/docker.yml",
+      "name": "upload-artifact",
+      "evergreen": [
+        "github-actions.upload-artifact.retired"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/lint.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/lint.yml",
+      "name": "setup-node",
+      "evergreen": [
+        "github-actions.setup-node.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/stale.yml",
+      "name": "stale",
+      "evergreen": [
+        "github-actions.stale.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    }
+  ],
+  "notComparable": [
+    "nodejs.runtime"
+  ]
+}

@@ -945,6 +945,42 @@ MISSING    owner/repo@4ec1ebe0fa: nodejs.runtime.eol-18:package.json:83
 
 To move an entry to a newer commit, change its `commit` to the full 40-character SHA, run `npm run observe:public-repos` to list what Evergreen now reports, review every difference against the repository at that commit, update `expected`, and run `npm run validate:public-repos` until it passes. Never refresh a pin only to make a failing run green.
 
+## Differential testing against Renovate
+
+Renovate is the closest widely used tool, so the report compares Evergreen's findings with Renovate's for the same repository, by rule family. A maintainer runs Renovate (it needs the network and a large download; it is not part of `npm run check` or any scan):
+
+```bash
+npx renovate --platform=local --dry-run=lookup --report-type=file --report-path=renovate.json
+npm run differential:renovate -- --renovate renovate.json --repository . --name owner/repo --out report.json
+```
+
+The two tools answer different questions. Renovate says a newer version exists and prints npm deprecation notices; it has no end-of-life data. Evergreen says a release line is past its vendor's end of life; it does not say an update exists. So the report only compares where both can speak about one dependency in one file:
+
+| Family | Evergreen | Renovate | Counted as agreement |
+| --- | --- | --- | --- |
+| `deprecated-package` | `npm.package.*` findings | npm `deprecationMessage` | both mark the package deprecated |
+| `base-image` | `container.*` findings | `dockerfile` / `docker-compose` updates | Renovate offers an update for the image Evergreen calls end-of-life |
+| `github-action` | `github-actions.*` findings | `github-actions` updates | Renovate offers an update for the action Evergreen flags |
+
+Outcomes: `agree`, `evergreen-only`, `renovate-only`, and `inconclusive` (Renovate skipped the lookup, for example `github-token-required` for Actions when run without a GitHub token, so it says nothing either way). Runtime findings (`nodejs.runtime.*`, `python.runtime.*`) have no Renovate counterpart and are listed as not comparable. Matching is by file and dependency name because Renovate gives no line numbers.
+
+Results for the five container corpus repositories, with Renovate 44.164 run without a GitHub token on 2026-10-16 (reports in [`benchmarks/differential/reports/`](../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
+
+| Repository | Agree | Evergreen-only | Renovate-only | Inconclusive |
+| --- | --- | --- | --- | --- |
+| outline/outline | 2 | 0 | 17 | 15 |
+| excalidraw/excalidraw | 3 | 0 | 2 | 20 |
+| mealie-recipes/mealie | 3 | 0 | 4 | 14 |
+| umami-software/umami | 2 | 0 | 2 | 4 |
+| gethomepage/homepage | 0 | 0 | 0 | 0 |
+
+What it shows:
+
+- **Agreements** are all base images: where Evergreen calls `node` or `postgres` end-of-life, Renovate offers a major update. Renovate does not say the old line is unsupported; only Evergreen does.
+- **Renovate-only** are npm deprecations Evergreen has no rule for (for example `@types/*` stubs, `babel-eslint`, `koa-router`, `socket.io-redis`, `react-beautiful-dnd`, `rollup-plugin-terser`, `@nuxt/types`). This is the real gap: the `npm-deprecated` importer only checks a candidate list, so these names are candidates to add. Each is a Renovate observation, not evidence; the importer still requires the registry's own deprecation notice.
+- **Evergreen-only** is empty here; every Evergreen finding that Renovate could look up, it also had an update for.
+- Most GitHub Action findings are `inconclusive` because Renovate cannot look up Actions without a token. Re-run with `RENOVATE_TOKEN` to turn them into comparisons.
+
 ## Interpretation and limits
 
 Precision and recall are measured only against Evergreen's documented v0.1 rule set and the pinned corpus. They do not mean Evergreen detects every possible deprecation in these ecosystems. The corpus is public and reproducible, but not a statistically representative sample of all software. Dynamic action references and unsupported ecosystems remain intentionally unclassified.

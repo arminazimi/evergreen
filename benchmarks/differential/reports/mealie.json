@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "evergreen.differential.renovate.v1",
+  "repository": "mealie-recipes/mealie",
+  "summary": {
+    "agree": 3,
+    "evergreen-only": 0,
+    "renovate-only": 4,
+    "inconclusive": 14
+  },
+  "comparisons": [
+    {
+      "family": "base-image",
+      "path": "Dockerfile",
+      "name": "python",
+      "evergreen": [
+        "container.python.eol-3.10-and-older"
+      ],
+      "renovate": "update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "base-image",
+      "path": "docs/Dockerfile",
+      "name": "python",
+      "evergreen": [
+        "container.python.eol-3.10-and-older"
+      ],
+      "renovate": "update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "base-image",
+      "path": "frontend/Dockerfile",
+      "name": "node",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the base image is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "frontend/package.json",
+      "name": "@nuxt/types",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "frontend/package.json",
+      "name": "@nuxt/typescript-build",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "frontend/package.json",
+      "name": "eslint-plugin-nuxt",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "frontend/package.json",
+      "name": "vue2-script-setup-transform",
+      "evergreen": [],
+      "renovate": "deprecated",
+      "outcome": "renovate-only",
+      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-docker-nightly.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-docker-nightly.yml",
+      "name": "login-action",
+      "evergreen": [
+        "github-actions.login-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-docker-nightly.yml",
+      "name": "setup-buildx-action",
+      "evergreen": [
+        "github-actions.setup-buildx-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-docker-nightly.yml",
+      "name": "setup-qemu-action",
+      "evergreen": [
+        "github-actions.setup-qemu-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-tests.yml",
+      "name": "cache",
+      "evergreen": [
+        "github-actions.cache.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-tests.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/backend-tests.yml",
+      "name": "setup-python",
+      "evergreen": [
+        "github-actions.setup-python.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/build-docs.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-docker-nightly.yml",
+      "name": "checkout",
+      "evergreen": [
+        "github-actions.checkout.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-docker-nightly.yml",
+      "name": "login-action",
+      "evergreen": [
+        "github-actions.login-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-docker-nightly.yml",
+      "name": "setup-buildx-action",
+      "evergreen": [
+        "github-actions.setup-buildx-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-docker-nightly.yml",
+      "name": "setup-qemu-action",
+      "evergreen": [
+        "github-actions.setup-qemu-action.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-lint.yml",
+      "name": "cache",
+      "evergreen": [
+        "github-actions.cache.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    },
+    {
+      "family": "github-action",
+      "path": ".github/workflows/frontend-lint.yml",
+      "name": "setup-node",
+      "evergreen": [
+        "github-actions.setup-node.node20"
+      ],
+      "renovate": "skipped",
+      "outcome": "inconclusive",
+      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+    }
+  ],
+  "notComparable": [
+    "python.runtime"
+  ]
+}
