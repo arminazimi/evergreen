@@ -49,7 +49,8 @@
     "registry",
     "schemas",
     "skills",
-    "!registry/sources.lock.json"
+    "!registry/sources.lock.json",
+    "!schemas/vendor"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

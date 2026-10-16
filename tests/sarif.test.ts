@@ -137,3 +137,43 @@ test("the SARIF for the sample scan matches its snapshot", async () => {
   const expected = await readFile(resolve("tests/fixtures/sarif-scan.expected.json"), "utf8");
   assert.equal(`${renderSarif(input)}\n`, expected);
 });
+
+async function sarifValidator() {
+  const { Ajv } = await import("ajv");
+  const schema = JSON.parse(await readFile(resolve("schemas/vendor/sarif-2.1.0.json"), "utf8")) as Record<string, unknown>;
+  // The official schema is draft-04; Ajv's draft-07 mode rejects its top-level `id`, so drop that one keyword in memory.
+  delete schema.id;
+  return new Ajv({ strict: false, validateSchema: false, allErrors: true }).compile(schema);
+}
+
+test("the vendored SARIF schema is the published file", async () => {
+  const { createHash } = await import("node:crypto");
+  const text = await readFile(resolve("schemas/vendor/sarif-2.1.0.json"));
+  const readme = await readFile(resolve("schemas/vendor/README.md"), "utf8");
+  assert.ok(readme.includes(createHash("sha256").update(text).digest("hex")), "schemas/vendor/README.md must record the file's SHA-256");
+});
+
+test("SARIF output validates against the official 2.1.0 schema", async () => {
+  const validate = await sarifValidator();
+  const sample = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
+  const cases: Record<string, ScanResult> = {
+    "no findings": scan([]),
+    "one finding without a line": scan([finding("python.runtime.eol", ".python-version", undefined, "info")]),
+    "many severities": scan((["critical", "high", "medium", "low", "info"] as const).map((severity, index) => finding(`npm.package.p${index}.deprecated`, "package.json", index + 1, severity))),
+    "sample with help": sample,
+  };
+  for (const [name, result] of Object.entries(cases)) {
+    const sarif = JSON.parse(renderSarif(result));
+    assert.equal(validate(sarif), true, `${name}: ${JSON.stringify(validate.errors?.slice(0, 3))}`);
+  }
+});
+
+test("the schema check actually rejects invalid SARIF", async () => {
+  const validate = await sarifValidator();
+  const sarif = JSON.parse(renderSarif(scan([finding("npm.package.request.deprecated", "package.json", 3)])));
+  sarif.runs[0].results[0].level = "bogus";
+  assert.equal(validate(sarif), false);
+  const wrongVersion = JSON.parse(renderSarif(scan([])));
+  wrongVersion.version = "2.0.0";
+  assert.equal(validate(wrongVersion), false);
+});
