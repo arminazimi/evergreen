@@ -62,7 +62,25 @@ The last weekly runs of the corpus and source-freshness workflows should also be
 
 ## Rule data
 
-Lifecycle rules ship inside the npm package under `registry/`, so a rule change reaches users only through a release. A data-only release follows the same steps with a patch version. A separately published data bundle, so that rules can update between package releases, is not available yet; when it ships, this page gets a section for publishing it.
+Lifecycle rules ship inside the npm package under `registry/`, so every package release carries the rules as of its commit. Between package releases, rules reach users through a signed data release.
+
+## Publishing lifecycle data
+
+Use this when rules change and you do not want to wait for a package release. The data in `registry/` on `main` is what gets published, so merge the rule changes first and let CI pass.
+
+1. **Check the data.** `npm run check`, then `npm run validate:public-repos` and `npm run check:sources` as in the gates above.
+2. **Dry run.** In GitHub, open Actions, *Data release*, *Run workflow* on `main` with *dry run* on (the default). It builds the bundle twice and requires identical bytes, signs it, verifies the signature, and keeps the files as a workflow artifact without publishing anything. Note that signing writes an entry to the public Sigstore transparency log, even in a dry run.
+3. **Tag.** The tag must be `data-v` plus the date of the commit being released in UTC, with `.N` for a second bundle that day:
+
+   ```bash
+   git tag -a data-v2026.10.16 -m "Lifecycle data 2026.10.16" <commit>
+   git push origin data-v2026.10.16
+   ```
+
+   If the tag and the bundle's version disagree the workflow stops and says which tag the commit needs.
+4. **Confirm.** The release has `evergreen-data-<version>.json`, its `.sigstore.json` signature, and `SHA256SUMS`. On a clean machine, `evergreen data update` should report the new version, and `evergreen data status` should show `cache` and the signer identity.
+
+A data release does not change the npm package or the Action. If the data format itself changes, that needs a new `schemaVersion`, a package release that understands it, and a `minimumEvergreenVersion` in the bundle. See the [decision record](decisions/0006-data-bundle.md) and [Lifecycle data](DATA.md).
 
 ## Rolling back
 
