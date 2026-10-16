@@ -35,6 +35,16 @@ jobs:
       - name: Enforce coverage thresholds
         if: runner.os == 'Linux' && matrix.node == 22
         run: npm run test:coverage | tee coverage.txt
+      - name: Generate the lifecycle calendar
+        if: runner.os == 'Linux' && matrix.node == 22
+        run: node dist/tools/eol-calendar.js --out-dir "$RUNNER_TEMP/eol-calendar"
+      - name: Upload the lifecycle calendar
+        if: runner.os == 'Linux' && matrix.node == 22
+        uses: actions/upload-artifact@v7
+        with:
+          name: eol-calendar
+          path: ${{ runner.temp }}/eol-calendar
+          retention-days: 14
       - name: Dogfood Evergreen action
         if: runner.os == 'Linux' && matrix.node == 22
         uses: ./
