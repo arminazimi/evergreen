@@ -417,3 +417,61 @@ test("the prompt works from a fresh session and then lets verify_migration run",
     await client.close();
   }
 });
+
+test("every tool advertises an outputSchema, and its structured content validates against it", async () => {
+  const { Ajv2020 } = await import("ajv/dist/2020.js");
+  const { MCP_OUTPUT_SCHEMA_FILES } = await import("../src/mcp.js");
+  const { root } = await fixtureRepository();
+  const client = await connectTestClient();
+  try {
+    const tools = (await client.request("tools/list")).tools as Array<{ name: string; outputSchema?: Record<string, unknown> }>;
+    assert.deepEqual(Object.keys(MCP_OUTPUT_SCHEMA_FILES).sort(), [...MCP_TOOL_NAMES].sort());
+    const validators = new Map<string, ReturnType<InstanceType<typeof Ajv2020>["compile"]>>();
+    for (const tool of tools) {
+      const published = JSON.parse(await readFile(resolve("schemas", MCP_OUTPUT_SCHEMA_FILES[tool.name as keyof typeof MCP_OUTPUT_SCHEMA_FILES]), "utf8")) as Record<string, unknown>;
+      assert.ok(tool.outputSchema, `${tool.name} has no outputSchema`);
+      assert.equal(tool.outputSchema.type, "object", tool.name);
+      assert.equal(tool.outputSchema.$id, published.$id, `${tool.name} advertises its published schema`);
+      validators.set(tool.name, new Ajv2020({ allErrors: true, strict: false }).compile(published));
+    }
+
+    const scan = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root } });
+    const findingId = (scan.structuredContent as { findings: Array<{ id: string }> }).findings[0]!.id;
+    const calls: Array<[string, Record<string, unknown>]> = [
+      ["scan_repository", { repository_path: root }],
+      ["list_deprecations", { repository_path: root }],
+      ["explain_deprecation", { finding_id: findingId, repository_path: root }],
+      ["create_migration_context", { finding_id: findingId, repository_path: root }],
+      ["verify_migration", { finding_id: findingId, repository_path: root }],
+      ["check_dependency", { purl: "pkg:npm/request@2.88.2" }],
+      ["check_dependency", { purl: "pkg:npm/express" }],
+    ];
+    for (const [name, args] of calls) {
+      const result = await client.request("tools/call", { name, arguments: args });
+      const validate = validators.get(name)!;
+      assert.equal(validate(result.structuredContent), true, `${name}: ${JSON.stringify(validate.errors?.slice(0, 2))}`);
+    }
+    assert.deepEqual(new Set(calls.map(([name]) => name)), new Set(MCP_TOOL_NAMES), "every tool is exercised");
+  } finally {
+    await client.close();
+  }
+});
+
+test("the finding schema is the item schema of the scan result", async () => {
+  const scan = JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8")) as { properties: { findings: { items: Record<string, unknown> } } };
+  const finding = JSON.parse(await readFile(resolve("schemas/finding.v1.schema.json"), "utf8")) as Record<string, unknown>;
+  const { $schema, $id, title, description, ...shape } = finding;
+  assert.ok($schema && $id && title && description);
+  assert.deepEqual(shape, scan.properties.findings.items);
+});
+
+test("a failed tool call returns an error, not structured content", async () => {
+  const client = await connectTestClient();
+  try {
+    const result = await client.request("tools/call", { name: "check_dependency", arguments: { purl: "request" } });
+    assert.equal(result.isError, true);
+    assert.equal("structuredContent" in result, false);
+  } finally {
+    await client.close();
+  }
+});
