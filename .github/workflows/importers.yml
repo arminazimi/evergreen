@@ -31,6 +31,7 @@ jobs:
       matrix:
         include:
           - { importer: container-official-images, ecosystem: container }
+          - { importer: endoflife-date, ecosystem: container }
           - { importer: github-actions-runtime, ecosystem: github-actions }
           - { importer: nodejs-schedule, ecosystem: nodejs }
           - { importer: npm-deprecated, ecosystem: npm }
@@ -86,6 +87,7 @@ jobs:
       matrix:
         importer:
           - container-official-images
+          - endoflife-date
           - github-actions-runtime
           - nodejs-schedule
           - npm-deprecated

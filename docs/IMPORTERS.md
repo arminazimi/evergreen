@@ -49,6 +49,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | Importer | Registry | Reads | Candidate list |
 |---|---|---|---|
 | `container-official-images` | `container` | The vendors' own Node.js and Python schedules: one "and older" `end-of-life` rule per image. The Docker Official Images files are read only to note which end-of-life lines still have published tags; they carry no lifecycle data. PostgreSQL, MySQL, and Ruby image rules stay hand-written. | none |
+| `endoflife-date` | `container` | The endoflife.date API v1 as an index over a sorted candidate list: one "and older" `end-of-life` rule per official Docker image. A product is drafted only with an official image and a release-policy link to the vendor's own page, which becomes the first source; endoflife.date is cited only as an index. | `tools/importers/endoflife-candidates.ts` |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
