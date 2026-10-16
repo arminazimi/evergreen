@@ -1,0 +1,11 @@
+services:
+  app:
+    image: ${APP_IMAGE}
+    container_name: node:16
+    labels:
+      image: node:16
+  tools:
+    image: node:latest
+  current:
+    image: node:22
+x-note: "image: node:16"

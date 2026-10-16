@@ -1,0 +1,7 @@
+services:
+  db:
+    image: postgres:11
+  cache:
+    image: "redis:5-alpine"
+  web:
+    build: .
