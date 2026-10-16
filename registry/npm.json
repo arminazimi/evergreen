@@ -564,6 +564,294 @@
         { "kind": "import", "language": "typescript", "module": "karma-phantomjs-launcher" }
       ],
       "x-npm": { "package": "karma-phantomjs-launcher" }
+    },
+    {
+      "id": "npm.package.natives.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/natives",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "natives is deprecated",
+      "summary": "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.",
+      "severity": "high",
+      "replacement": "graceful-fs 4.x",
+      "sources": [
+        { "title": "natives package deprecation notice", "url": "https://www.npmjs.com/package/natives" },
+        { "title": "natives registry metadata", "url": "https://registry.npmjs.org/natives/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve filesystem behavior, retry semantics, and compatibility with the Node.js versions supported by the project."],
+        "steps": [
+          { "id": "replace-natives", "title": "Replace natives", "instructions": "Replace the natives dependency and imports with graceful-fs 4.x, using its public filesystem API instead of Node.js internals.", "targets": "all" },
+          { "id": "verify-filesystem-behavior", "title": "Verify filesystem behavior", "instructions": "Exercise affected file operations, including concurrent access and error paths, on every supported Node.js version.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run filesystem behavior and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "natives" },
+        { "kind": "import", "language": "typescript", "module": "natives" }
+      ],
+      "x-npm": { "package": "natives" }
+    },
+    {
+      "id": "npm.package.node-pre-gyp.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/node-pre-gyp",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "node-pre-gyp is deprecated",
+      "summary": "npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox/node-pre-gyp will receive updates.",
+      "severity": "high",
+      "replacement": "@mapbox/node-pre-gyp",
+      "sources": [
+        { "title": "node-pre-gyp package deprecation notice", "url": "https://www.npmjs.com/package/node-pre-gyp" },
+        { "title": "node-pre-gyp registry metadata", "url": "https://registry.npmjs.org/node-pre-gyp/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve native-binary download locations, ABI selection, source-build fallback, install scripts, and publishing behavior."],
+        "steps": [
+          { "id": "replace-node-pre-gyp", "title": "Replace node-pre-gyp", "instructions": "Move the dependency, scripts, imports, and binary configuration from node-pre-gyp to @mapbox/node-pre-gyp.", "targets": "all" },
+          { "id": "verify-native-install", "title": "Verify native package installation", "instructions": "Test prebuilt-binary download and source-build fallback on every supported platform and Node.js ABI.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run build --if-present", "purpose": "Build or install the native package with the scoped replacement." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "node-pre-gyp" },
+        { "kind": "import", "language": "typescript", "module": "node-pre-gyp" }
+      ],
+      "x-npm": { "package": "node-pre-gyp" }
+    },
+    {
+      "id": "npm.package.nomnom.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/nomnom",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "nomnom is deprecated",
+      "summary": "npm states that nomnom is no longer supported.",
+      "severity": "medium",
+      "sources": [
+        { "title": "nomnom package deprecation notice", "url": "https://www.npmjs.com/package/nomnom" },
+        { "title": "nomnom registry metadata", "url": "https://registry.npmjs.org/nomnom/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve command names, option aliases, defaults, validation, help output, exit codes, and parsed argument shapes."],
+        "steps": [
+          { "id": "select-cli-parser", "title": "Select a maintained CLI parser", "instructions": "Choose a maintained parser that supports the commands and option semantics used by the project.", "targets": "all" },
+          { "id": "replace-nomnom", "title": "Replace nomnom", "instructions": "Translate command and option declarations to the selected parser, update imports, and remove nomnom.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run CLI parsing, help, error-path, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "nomnom" },
+        { "kind": "import", "language": "typescript", "module": "nomnom" }
+      ],
+      "x-npm": { "package": "nomnom" }
+    },
+    {
+      "id": "npm.package.popper.js.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/popper.js",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "popper.js is deprecated",
+      "summary": "npm identifies popper.js as the legacy Popper v1 package and directs users to @popperjs/core for Popper v2.",
+      "severity": "medium",
+      "replacement": "@popperjs/core",
+      "sources": [
+        { "title": "popper.js package deprecation notice", "url": "https://www.npmjs.com/package/popper.js" },
+        { "title": "popper.js registry metadata", "url": "https://registry.npmjs.org/popper.js/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve placement, modifiers, boundary and overflow behavior, event listeners, and browser support."],
+        "steps": [
+          { "id": "replace-popper-v1", "title": "Replace Popper v1", "instructions": "Replace popper.js with @popperjs/core and migrate constructors, options, and modifiers to the Popper v2 API.", "targets": "all" },
+          { "id": "verify-positioning", "title": "Verify positioned elements", "instructions": "Exercise every placement, scrolling container, viewport edge, and dynamic update path used by the interface.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run positioning and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "popper.js" },
+        { "kind": "import", "language": "typescript", "module": "popper.js" }
+      ],
+      "x-npm": { "package": "popper.js" }
+    },
+    {
+      "id": "npm.package.protractor.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/protractor",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "Protractor is deprecated",
+      "summary": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
+      "severity": "high",
+      "sources": [
+        { "title": "protractor package deprecation notice", "url": "https://www.npmjs.com/package/protractor" },
+        { "title": "protractor registry metadata", "url": "https://registry.npmjs.org/protractor/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve end-to-end coverage, browser matrix, selectors, waits, authentication state, screenshots, retries, and CI artifacts."],
+        "steps": [
+          { "id": "select-e2e-runner", "title": "Select a maintained end-to-end runner", "instructions": "Choose a maintained runner that supports the browsers, environments, and test capabilities the suite requires.", "targets": "all" },
+          { "id": "migrate-protractor-suite", "title": "Migrate the Protractor suite", "instructions": "Translate configuration, page objects, selectors, waits, assertions, and CI commands incrementally to the selected runner.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the migrated end-to-end suite and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "protractor" },
+        { "kind": "import", "language": "typescript", "module": "protractor" }
+      ],
+      "x-npm": { "package": "protractor" }
+    },
+    {
+      "id": "npm.package.querystring.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/querystring",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "querystring is deprecated",
+      "summary": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
+      "severity": "medium",
+      "replacement": "URLSearchParams",
+      "sources": [
+        { "title": "querystring package deprecation notice", "url": "https://www.npmjs.com/package/querystring" },
+        { "title": "querystring registry metadata", "url": "https://registry.npmjs.org/querystring/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve percent encoding, repeated keys, empty values, ordering, array handling, and input coercion expected by callers."],
+        "steps": [
+          { "id": "replace-querystring", "title": "Replace querystring", "instructions": "Translate parse and stringify usages to URLSearchParams and remove the querystring dependency.", "targets": "all" },
+          { "id": "verify-query-round-trips", "title": "Verify query-string behavior", "instructions": "Compare representative and malformed inputs, including repeated keys and non-ASCII values, before and after migration.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run query parsing, serialization, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "querystring" },
+        { "kind": "import", "language": "typescript", "module": "querystring" }
+      ],
+      "x-npm": { "package": "querystring" }
+    },
+    {
+      "id": "npm.package.request-promise.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request-promise",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request-promise is deprecated",
+      "summary": "npm states that request-promise is deprecated because it extends the deprecated request package.",
+      "severity": "high",
+      "replacement": "Native fetch or a maintained promise-based HTTP client",
+      "sources": [
+        { "title": "request-promise package deprecation notice", "url": "https://www.npmjs.com/package/request-promise" },
+        { "title": "request-promise registry metadata", "url": "https://registry.npmjs.org/request-promise/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve request options, authentication, redirects, timeouts, retries, transforms, full-response mode, and rejection semantics."],
+        "steps": [
+          { "id": "select-promise-http-client", "title": "Select the target HTTP client", "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise behavior.", "targets": "all" },
+          { "id": "replace-request-promise", "title": "Replace request-promise", "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP behavior and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "request-promise" },
+        { "kind": "import", "language": "typescript", "module": "request-promise" }
+      ],
+      "x-npm": { "package": "request-promise" }
+    },
+    {
+      "id": "npm.package.request-promise-native.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request-promise-native",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request-promise-native is deprecated",
+      "summary": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
+      "severity": "high",
+      "replacement": "Native fetch or a maintained promise-based HTTP client",
+      "sources": [
+        { "title": "request-promise-native package deprecation notice", "url": "https://www.npmjs.com/package/request-promise-native" },
+        { "title": "request-promise-native registry metadata", "url": "https://registry.npmjs.org/request-promise-native/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve request options, authentication, redirects, timeouts, transforms, full-response mode, and native-Promise rejection behavior."],
+        "steps": [
+          { "id": "select-native-promise-http-client", "title": "Select the target HTTP client", "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise-native behavior.", "targets": "all" },
+          { "id": "replace-request-promise-native", "title": "Replace request-promise-native", "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise-native.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP behavior and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "request-promise-native" },
+        { "kind": "import", "language": "typescript", "module": "request-promise-native" }
+      ],
+      "x-npm": { "package": "request-promise-native" }
+    },
+    {
+      "id": "npm.package.rollup-plugin-babel.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/rollup-plugin-babel",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "rollup-plugin-babel is deprecated",
+      "summary": "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel.",
+      "severity": "medium",
+      "replacement": "@rollup/plugin-babel",
+      "sources": [
+        { "title": "rollup-plugin-babel package deprecation notice", "url": "https://www.npmjs.com/package/rollup-plugin-babel" },
+        { "title": "rollup-plugin-babel registry metadata", "url": "https://registry.npmjs.org/rollup-plugin-babel/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve Babel presets and plugins, file inclusion, helper strategy, output targets, source maps, and Rollup output behavior."],
+        "steps": [
+          { "id": "replace-rollup-babel", "title": "Replace the Rollup Babel plugin", "instructions": "Replace rollup-plugin-babel with @rollup/plugin-babel and update Rollup imports and plugin options.", "targets": "all" },
+          { "id": "verify-bundle-output", "title": "Verify bundle output", "instructions": "Compare emitted syntax, helpers, source maps, and bundle behavior for every configured output.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run build --if-present", "purpose": "Build every Rollup output with the maintained Babel plugin." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "rollup-plugin-babel" },
+        { "kind": "import", "language": "typescript", "module": "rollup-plugin-babel" }
+      ],
+      "x-npm": { "package": "rollup-plugin-babel" }
+    },
+    {
+      "id": "npm.package.sntp.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/sntp",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "sntp is deprecated",
+      "summary": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
+      "severity": "high",
+      "replacement": "@hapi/sntp",
+      "sources": [
+        { "title": "sntp package deprecation notice", "url": "https://www.npmjs.com/package/sntp" },
+        { "title": "sntp registry metadata", "url": "https://registry.npmjs.org/sntp/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve server selection, timeout behavior, clock-offset calculations, error handling, and any security-sensitive time checks."],
+        "steps": [
+          { "id": "replace-sntp", "title": "Replace sntp", "instructions": "Move the dependency and imports from sntp to @hapi/sntp and adapt changed APIs.", "targets": "all" },
+          { "id": "verify-time-behavior", "title": "Verify network-time behavior", "instructions": "Test successful queries, timeouts, invalid responses, and clock-offset handling with controlled fixtures.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run time synchronization and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "sntp" },
+        { "kind": "import", "language": "typescript", "module": "sntp" }
+      ],
+      "x-npm": { "package": "sntp" }
     }
   ]
 }
