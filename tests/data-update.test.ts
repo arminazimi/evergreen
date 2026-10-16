@@ -20,7 +20,7 @@ const signer = { identity: "https://github.com/arminazimi/evergreen/.github/work
 const accepting = { verifySignature: () => signer };
 
 after(async () => {
-  await Promise.all(servers.map((server) => new Promise((done) => server.close(done))));
+  await Promise.all(servers.map((server) => new Promise((done) => { server.close(done); server.closeAllConnections(); })));
   await Promise.all(roots.map((root) => rm(root, { recursive: true, force: true })));
 });
 afterEach(() => configureActiveData());
@@ -306,26 +306,42 @@ test("a bundle whose signed version differs from its release is refused", async 
   await assert.rejects(updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, ...accepting }), /signed bundle says it is version 2999\.01\.01/);
 });
 
-test("the CLI update goes through an HTTP proxy when one is configured", async () => {
-  const fixture = await fixtureServer();
-  const proxied: string[] = [];
-  const proxy = http.createServer((request, response) => {
-    proxied.push(request.url ?? "");
-    const target = new URL(request.url ?? "");
-    const forward = http.request({ host: target.hostname, port: target.port, path: target.pathname + target.search, method: request.method }, (upstream) => {
-      response.writeHead(upstream.statusCode ?? 502, upstream.headers);
-      upstream.pipe(response);
+for (const [name, withoutHelper] of [
+  ["where Node can set the proxy itself", false],
+  ["on a Node without setGlobalProxyFromEnv, by running again with NODE_USE_ENV_PROXY", true],
+] as const) {
+  test(`the CLI update goes through an HTTP proxy when one is configured, ${name}`, async () => {
+    const fixture = await fixtureServer();
+    const proxied: string[] = [];
+    const proxy = http.createServer((request, response) => {
+      proxied.push(request.url ?? "");
+      const target = new URL(request.url ?? "");
+      const forward = http.request({ host: target.hostname, port: target.port, path: target.pathname + target.search, method: request.method }, (upstream) => {
+        response.writeHead(upstream.statusCode ?? 502, upstream.headers);
+        upstream.pipe(response);
+      });
+      request.pipe(forward);
     });
-    request.pipe(forward);
+    await new Promise<void>((done) => proxy.listen(0, "127.0.0.1", done));
+    servers.push(proxy);
+    const bundle = await bundleAt("2999-01-01T00:00:00Z");
+    fixture.publish({ version: bundle.manifest.version, bundle, signature: "{}" });
+    const cache = await scratch("cache");
+    const preload = join(await scratch("preload"), "no-helper.cjs");
+    await writeFile(preload, "delete require('node:http').setGlobalProxyFromEnv;\n");
+    const env = {
+      ...process.env,
+      EVERGREEN_DATA_DIR: cache,
+      EVERGREEN_DATA_URL: fixture.url,
+      HTTP_PROXY: `http://127.0.0.1:${(proxy.address() as AddressInfo).port}`,
+      NO_PROXY: "",
+      ...(withoutHelper ? { NODE_OPTIONS: `--require ${preload}` } : {}),
+    };
+    delete (env as Record<string, unknown>).NODE_USE_ENV_PROXY;
+    const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch((error: { stderr: string; code: number }) => error);
+    assert.equal((failure as { code: number }).code, 1);
+    assert.match((failure as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/, "the bundle was fetched, then refused for lack of a signature");
+    assert.ok(proxied.some((url) => url.includes("/releases")), `the proxy saw the release request: ${proxied.join(", ")}`);
+    assert.ok(proxied.some((url) => url.includes("/download/")), "the proxy saw the downloads");
   });
-  await new Promise<void>((done) => proxy.listen(0, "127.0.0.1", done));
-  servers.push(proxy);
-  const bundle = await bundleAt("2999-01-01T00:00:00Z");
-  fixture.publish({ version: bundle.manifest.version, bundle, signature: "{}" });
-  const cache = await scratch("cache");
-  const env = { ...process.env, EVERGREEN_DATA_DIR: cache, EVERGREEN_DATA_URL: fixture.url, HTTP_PROXY: `http://127.0.0.1:${(proxy.address() as AddressInfo).port}`, NO_PROXY: "" };
-  const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch((error: { stderr: string }) => error);
-  assert.match((failure as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/, "the bundle was fetched (and then refused for lack of a signature)");
-  assert.ok(proxied.some((url) => url.endsWith("/releases?per_page=30") || url.includes("/releases")), `the proxy saw the release request: ${proxied.join(", ")}`);
-  assert.ok(proxied.some((url) => url.includes("/download/")), "the proxy saw the downloads");
-});
+}
