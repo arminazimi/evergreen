@@ -1,0 +1,9 @@
+// go 1.99.0
+// toolchain go1.99.0
+
+use ./go1.98.0/toolchain-go1.97.0
+replace example.com/old v1.0.0 => example.com/new v2.0.0
+
+go ${GO_VERSION}
+toolchain go${TOOLCHAIN_VERSION}
+
