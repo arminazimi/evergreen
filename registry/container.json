@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "container",
+  "rules": [
+    {
+      "id": "container.node.eol-20-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/node",
+      "vers": "vers:semver/<21.0.0",
+      "event": "end-of-life",
+      "title": "Node.js image release lines 20 and older are end-of-life",
+      "summary": "These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime.",
+      "severity": "high",
+      "replacement": "A node image on a supported release line, such as node:22 or node:24",
+      "deadline": "2026-03-24",
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "container.python.eol-3.9-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/python",
+      "vers": "vers:semver/<3.10.0",
+      "event": "end-of-life",
+      "title": "Python image release lines 3.9 and older are end-of-life",
+      "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "severity": "high",
+      "replacement": "A python image on a supported release line",
+      "deadline": "2025-10-31",
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "container.postgres.eol-13-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/postgres",
+      "vers": "vers:semver/<14.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL image major versions 13 and older are end-of-life",
+      "summary": "The PostgreSQL project no longer releases fixes for these major versions.",
+      "severity": "high",
+      "replacement": "A postgres image on a supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+      "deadline": "2025-11-13",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "container.mysql.eol-8.0-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/mysql",
+      "vers": "vers:semver/<8.1.0",
+      "event": "end-of-life",
+      "title": "MySQL image release lines 8.0 and older are past end-of-life",
+      "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
+      "severity": "high",
+      "replacement": "A mysql image on a supported release such as the 8.4 LTS line",
+      "deadline": "2026-04-21",
+      "sources": [
+        {
+          "title": "MySQL end-of-life notice",
+          "url": "https://www.mysql.com/support/eol-notice.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "container.ruby.eol-3.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/ruby",
+      "vers": "vers:semver/<3.3.0",
+      "event": "end-of-life",
+      "title": "Ruby image release lines 3.2 and older are end-of-life",
+      "summary": "These Ruby branches no longer receive security or bug fixes.",
+      "severity": "high",
+      "replacement": "A ruby image on a supported branch",
+      "deadline": "2026-04-01",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}
