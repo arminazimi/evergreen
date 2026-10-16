@@ -64,6 +64,17 @@ Lifecycle rules are the most valuable contribution and the easiest place to star
 5. **Check.** `npm run check` must pass.
 6. **Open a pull request** with `Closes #<issue>` (if there is one). The template asks for the commands you ran and the evidence link.
 
+## Add a new detector
+
+New ecosystems start from a generated skeleton, never from a copy of another detector:
+
+```bash
+npm run build
+node dist/src/cli.js new-detector <id> [--ecosystem <slug>]
+```
+
+It creates the detector, a parser, an empty v2 registry, conformance and parser tests with fixtures, and a docs page, and it refuses names that existing detectors or registries already use. [Detector authoring](docs/DETECTORS.md#start-a-new-detector-in-this-repository) describes the files and the order to work in: fixtures, parser, rules, detector, registration, `npm run check`, then `npm run validate:public-repos`. Each of those is a good size for one pull request.
+
 ## Evidence policy
 
 Evergreen's findings are only as trustworthy as their sources.
@@ -77,7 +88,7 @@ Evergreen's findings are only as trustworthy as their sources.
 
 - **Bugs:** use the bug report form with a minimal fixture, the command, and the actual and expected output.
 - **Rule requests without code:** use the lifecycle rule request form; an authoritative source URL is required.
-- **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks.
+- **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks, each starting from the generated skeleton (see [Add a new detector](#add-a-new-detector)).
 - **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list (see [docs/IMPORTERS.md](docs/IMPORTERS.md)).
 - **Docs and corpus improvements** are welcome without prior discussion.
 
