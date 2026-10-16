@@ -1,0 +1,114 @@
+name: Data release
+
+# Builds the lifecycle data bundle from registry/, signs it keylessly with Sigstore (GitHub OIDC), checks the
+# signature, and publishes the bundle and its signature as release assets. Format: docs/decisions/0006-data-bundle.md.
+#
+# Push a tag named data-vYYYY.MM.DD (or data-vYYYY.MM.DD.N for a second bundle on the same day) to release.
+# A manual run is a dry run unless you turn it off: it builds and signs, and keeps the files as a workflow artifact.
+on:
+  push:
+    tags: ["data-v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build and sign only; keep the files as a workflow artifact and publish nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: data-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$
+      OIDC_ISSUER: https://token.actions.githubusercontent.com
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+
+      - name: Work out the version
+        id: version
+        run: |
+          # The bundle is dated by the commit being released, never by the clock.
+          CREATED_AT=$(TZ=UTC git log -1 --format=%cd --date=format-local:%Y-%m-%dT%H:%M:%SZ)
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            TAG="${GITHUB_REF_NAME}"
+            REVISION=1
+            case "${TAG}" in
+              data-v????.??.??.*) REVISION="${TAG##*.}" ;;
+            esac
+          else
+            TAG="data-dry-run"
+            REVISION=1
+          fi
+          echo "created_at=${CREATED_AT}" >> "$GITHUB_OUTPUT"
+          echo "revision=${REVISION}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Build the bundle twice and require identical bytes
+        run: |
+          mkdir -p out
+          for run in a b; do
+            node dist/tools/build-data-bundle.js \
+              --created-at "${{ steps.version.outputs.created_at }}" \
+              --revision "${{ steps.version.outputs.revision }}" \
+              --out "out/${run}.json"
+          done
+          cmp out/a.json out/b.json
+          VERSION=$(node -p "require('./out/a.json').manifest.version")
+          if [ "${GITHUB_REF_TYPE}" = "tag" ] && [ "${GITHUB_REF_NAME}" != "data-v${VERSION}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match the bundle version data-v${VERSION}." >&2
+            exit 1
+          fi
+          mv out/a.json "out/evergreen-data-${VERSION}.json"
+          rm out/b.json
+          echo "BUNDLE=out/evergreen-data-${VERSION}.json" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - uses: sigstore/cosign-installer@v4.1.2
+
+      - name: Sign the bundle (keyless)
+        run: cosign sign-blob --yes --bundle "${BUNDLE}.sigstore.json" "${BUNDLE}"
+
+      - name: Verify what was just signed
+        run: |
+          cosign verify-blob \
+            --bundle "${BUNDLE}.sigstore.json" \
+            --certificate-oidc-issuer "${OIDC_ISSUER}" \
+            --certificate-identity-regexp "${IDENTITY_PATTERN}" \
+            "${BUNDLE}"
+
+      - name: Checksums
+        run: (cd out && sha256sum evergreen-data-*.json evergreen-data-*.sigstore.json > SHA256SUMS)
+
+      - name: Keep the files as an artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: data-bundle-${{ env.VERSION }}
+          path: out/
+          retention-days: 30
+
+      - name: Publish the release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" out/* \
+            --title "Lifecycle data ${VERSION}" \
+            --notes "Signed lifecycle data bundle ${VERSION}. Verify it with \`evergreen data update\`, or by hand with cosign against the certificate identity pattern in docs/decisions/0006-data-bundle.md." \
+            --verify-tag

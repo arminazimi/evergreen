@@ -10,6 +10,16 @@ export const DATA_BUNDLE_SCHEMA_VERSION = "evergreen.data-bundle.v1" as const;
 export const BUNDLED_ECOSYSTEMS = ["github-actions", "nodejs", "npm", "python"] as const;
 const SHA_MAP_PATH = "registry/github-actions-shas.json";
 
+/**
+ * Who may sign a data bundle: the keyless Sigstore certificate must carry this OIDC issuer and an identity
+ * (the signing workflow's ref) that matches the pattern. The pattern names the repository, the workflow file, and
+ * either a data release tag or the main branch (manual runs).
+ */
+export const DATA_SIGNER = {
+  issuer: "https://token.actions.githubusercontent.com",
+  identityPattern: "^https://github\\.com/arminazimi/evergreen/\\.github/workflows/data-release\\.yml@refs/(?:tags/data-v\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?|heads/main)$",
+} as const;
+
 export interface DataBundleFile {
   path: string;
   kind: "registry" | "sha-map";
