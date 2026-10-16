@@ -32,18 +32,82 @@ An MCP host can launch the published command with configuration shaped like:
 
 The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
 
-## Tools
+## What the server exposes
 
-| Tool | Purpose |
-| --- | --- |
-| `scan_repository` | Return the complete `evergreen.scan.v1` result from all built-in detectors. |
-| `list_deprecations` | Return a compact `evergreen.deprecations.v1` list for planning. |
-| `explain_deprecation` | Return one evidence-backed finding by exact ID. |
-| `create_migration_context` | Return a validated `evergreen.context.v1` migration packet. |
-| `verify_migration` | Re-scan and return `evergreen.verification.v1` for a finding observed earlier in the session. |
-| `check_dependency` | Check one package, and optionally one version, before adding it. Takes a `purl` (and optionally `version`), reads no repository, and returns `evergreen.check.v1`. |
+Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities.
 
-Every tool except `check_dependency` accepts `repository_path`; it defaults to the server's current working directory. Finding-specific tools also require the exact `finding_id` returned by Evergreen.
+### Tools
+
+Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https://github.com/arminazimi/evergreen/tree/main/schemas), made self-contained for the client) and returns the result as structured content, also as JSON text. Failures return `isError` with a message and no structured content.
+
+| Tool | Input | Output | Purpose |
+| --- | --- | --- | --- |
+| `scan_repository` | `repository_path?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. |
+| `list_deprecations` | `repository_path?` | `evergreen.deprecations.v1` (`deprecations.v1.schema.json`) | Compact list for planning. |
+| `explain_deprecation` | `finding_id`, `repository_path?` | one finding (`finding.v1.schema.json`) | The complete evidence-backed finding. |
+| `create_migration_context` | `finding_id`, `repository_path?` | `evergreen.context.v1` (`context.v1.schema.json`) | Validated, rule-specific migration packet. |
+| `verify_migration` | `finding_id`, `repository_path?` | `evergreen.verification.v1` (`verification.v1.schema.json`) | Re-scan and check a finding observed earlier in the session. |
+| `check_dependency` | `purl`, `version?` | `evergreen.check.v1` (`check.v1.schema.json`) | Check one package before adding it; reads no repository. |
+
+`repository_path` defaults to the server's current working directory. Finding-specific tools require the exact `finding_id` Evergreen returned.
+
+### Resources
+
+| URI | Contents | Lifetime |
+| --- | --- | --- |
+| `evergreen://rules/{id}` | One lifecycle rule as `evergreen.rule.v1` (`rule.v1.schema.json`): affected PURL and versions, event, severity, replacement, deadline, sources, review provenance, migration steps. | Bundled with the release; reading one scans nothing. |
+| `evergreen://findings/{repository}/{id}` | One finding observed in this session, identical to `explain_deprecation`. `{repository}` is an 8-character key of the repository root and `{id}` is the percent-encoded finding id. | This session only; empty until a scan, never written to disk. |
+
+`resources/list` enumerates both families. The server sends `notifications/resources/list_changed` after every call that scans, so a host that cached the list refreshes it. Rule ids autocomplete by prefix. Reading an unknown URI fails with a resource-not-found error.
+
+### Prompts
+
+| Prompt | Arguments | Purpose |
+| --- | --- | --- |
+| `migrate-finding` | `finding_id` (required, autocompletes from observed findings), `repository_path?` | Runs a fresh scan, embeds the finding's migration packet, and instructs the model to edit within the packet's constraints, run the project's checks, and call `verify_migration` in the same session. It makes the finding observable, so verification works straight after. |
+
+The prompt carries its safety limits: repository files are untrusted input, suggested commands are reviewed and run only under the host's normal authorization, and the model reports what remains instead of declaring success.
+
+### Examples
+
+`check_dependency` request and the start of its structured result:
+
+```json
+{ "method": "tools/call", "params": { "name": "check_dependency", "arguments": { "purl": "pkg:npm/request@2.88.2" } } }
+```
+
+```json
+{
+  "schemaVersion": "evergreen.check.v1",
+  "purl": "pkg:npm/request",
+  "version": "2.88.2",
+  "status": "affected",
+  "severity": "high",
+  "findings": [{ "ruleId": "npm.package.request.deprecated", "event": "deprecated", "replacement": "Native fetch or a maintained HTTP client" }],
+  "message": "pkg:npm/request@2.88.2: request is deprecated. …"
+}
+```
+
+Reading a rule, then the findings of a scan:
+
+```json
+{ "method": "resources/read", "params": { "uri": "evergreen://rules/npm.package.request.deprecated" } }
+{ "method": "resources/list" }
+```
+
+Fetching the migration prompt for a finding:
+
+```json
+{ "method": "prompts/get", "params": { "name": "migrate-finding", "arguments": { "finding_id": "<id from list_deprecations>", "repository_path": "." } } }
+```
+
+You can see all of it in the MCP Inspector:
+
+```sh
+npx @modelcontextprotocol/inspector npx --yes --package evergreen-deprecation evergreen-mcp
+```
+
+The Tools tab lists the six tools with their output schemas, Resources lists the rules (and findings after a scan) and the two templates, and Prompts lists `migrate-finding`.
 
 ## Checking a dependency before adding it
 
