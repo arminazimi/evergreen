@@ -26,7 +26,7 @@ Read the [public documentation](https://arminazimi.github.io/evergreen/), run th
 | Ecosystem | What Evergreen reads | What it reports |
 | --- | --- | --- |
 | **GitHub Actions** | `.github/workflows/*.yml`: `uses:` references to actions, including full-SHA pins resolved through a trailing version comment or a bundled release map | Actions on retired runtimes (such as Node.js 20) and retired or deprecated majors, at the exact line |
-| **Node.js** | `engines.node`, `volta`, `.nvmrc`, `.node-version`, `.tool-versions` | Runtime versions that are end of life or out of support |
+| **Node.js** | `engines.node`, `volta`, `.nvmrc`, `.node-version` | Runtime versions that are end of life or out of support |
 | **npm** | `package.json` dependencies, `package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, and the imports and calls that use each package | Deprecated or unmaintained packages, with the replacement and where the package is used |
 | **Python** | `pyproject.toml`, `requirements*.txt`, `.python-version`, `runtime.txt`, `.tool-versions`, `poetry.lock`, `uv.lock`, `Pipfile.lock` | Python versions that are end of life, and deprecated or obsolete packages |
 
