@@ -6,7 +6,7 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
-import { renderJson } from "./reporters.js";
+import { renderJson, renderSarif } from "./reporters.js";
 
 export type SeverityGate = Severity | "none";
 export type AnnotationLevel = "notice" | "warning" | "error";
@@ -21,6 +21,8 @@ export interface GitHubAnnotation {
 export interface GitHubActionOptions {
   root: string;
   reportPath: string;
+  /** When set, also write the findings as SARIF 2.1.0 to this path, for upload to code scanning. */
+  sarifPath?: string;
   baselinePath?: string;
   failOnSeverity?: SeverityGate;
 }
@@ -28,6 +30,7 @@ export interface GitHubActionOptions {
 export interface GitHubActionOutcome {
   result: ScanResult;
   reportPath: string;
+  sarifPath?: string;
   annotations: GitHubAnnotation[];
   failed: boolean;
   gate: SeverityGate;
@@ -75,11 +78,18 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   const reportPath = resolve(options.reportPath);
   await mkdir(dirname(reportPath), { recursive: true });
   await writeFile(reportPath, `${renderJson(result)}\n`, "utf8");
+  let sarifPath: string | undefined;
+  if (options.sarifPath) {
+    sarifPath = resolve(options.sarifPath);
+    await mkdir(dirname(sarifPath), { recursive: true });
+    await writeFile(sarifPath, `${renderSarif(result)}\n`, "utf8");
+  }
 
   const gateRank = gate === "none" ? Number.POSITIVE_INFINITY : severityRank.get(gate)!;
   return {
     result,
     reportPath,
+    ...(sarifPath ? { sarifPath } : {}),
     annotations: result.findings.map(annotationFor),
     failed: result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank),
     gate,

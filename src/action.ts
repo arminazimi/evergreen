@@ -49,15 +49,20 @@ async function main(): Promise<void> {
       process.env.RUNNER_TEMP ?? workspace,
       "evergreen-report.json",
     );
+    const sarifPath = process.env["INPUT_UPLOAD-SARIF"] === "true"
+      ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-results.sarif")
+      : undefined;
     const outcome = await runGitHubAction({
       root,
       reportPath,
+      ...(sarifPath ? { sarifPath } : {}),
       ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
       failOnSeverity: (process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
     });
 
     for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
     await setOutput("report-path", outcome.reportPath);
+    if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
     await writeSummary(outcome.result.findings.length, outcome.failed, outcome.gate);
     console.log(

@@ -58,8 +58,9 @@ The Action then annotates and gates only findings not represented by that baseli
 | `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
 | `report-name` | `evergreen-report` | Artifact name for the JSON report. |
 | `upload-report` | `true` | Set to `false` to keep the report only on the runner. |
+| `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 
-`report-path` contains the local absolute JSON path and `finding-count` contains the post-baseline count. High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
+`report-path` contains the local absolute JSON path, `finding-count` contains the post-baseline count, and `sarif-path` contains the SARIF file path when `upload-sarif` is `true`. High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
 
 ## Permissions and privacy
 
@@ -68,3 +69,21 @@ Only `contents: read` is required. Evergreen does not need `pull-requests: write
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 
 Forked pull requests receive the same read-only scan behavior; no repository secrets are required.
+
+## Code scanning
+
+Set `upload-sarif: true` to show findings in the repository's **Security → Code scanning** tab. The Action writes the same findings as SARIF 2.1.0 and hands the file to `github/codeql-action/upload-sarif` under the category `evergreen`. The job needs one more permission:
+
+```yaml
+permissions:
+  contents: read
+  security-events: write
+
+steps:
+  - uses: actions/checkout@v7
+  - uses: arminazimi/evergreen@v0.1.0
+    with:
+      upload-sarif: true
+```
+
+The token of a pull request from a fork is read-only, so the upload would fail there. Enable it for pushes and for pull requests from the same repository, for example `upload-sarif: ${{ github.event_name == 'push' }}`. Code scanning is free for public repositories and needs GitHub Code Security on private ones. The SARIF carries only locations and Evergreen's own rule text, not source content; see the SARIF page of the documentation for the field mapping when it is published.

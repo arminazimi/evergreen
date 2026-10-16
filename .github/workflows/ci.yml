@@ -20,6 +20,9 @@ jobs:
           - os: ubuntu-latest
             node: 24
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -37,6 +40,7 @@ jobs:
         with:
           fail-on-severity: high
           report-name: evergreen-report-${{ github.sha }}
+          upload-sarif: ${{ github.event_name == 'push' }}
 
   coverage-badge:
     if: github.event_name == 'push'

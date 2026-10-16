@@ -27,6 +27,12 @@ inputs:
     description: Upload the JSON report to GitHub Actions artifacts.
     required: false
     default: "true"
+  upload-sarif:
+    description: >-
+      Upload the findings to GitHub code scanning as SARIF. Needs the security-events: write permission
+      on the job; leave it off for pull requests from forks, whose token is read-only.
+    required: false
+    default: "false"
 
 outputs:
   report-path:
@@ -35,6 +41,9 @@ outputs:
   finding-count:
     description: Number of findings remaining after baseline comparison.
     value: ${{ steps.scan.outputs.finding-count }}
+  sarif-path:
+    description: Absolute path to the generated SARIF file, when upload-sarif is enabled.
+    value: ${{ steps.scan.outputs.sarif-path }}
 
 runs:
   using: composite
@@ -47,6 +56,7 @@ runs:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_BASELINE: ${{ inputs.baseline }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
+        INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
     - name: Upload machine-readable report
       if: always() && inputs.upload-report == 'true'
       uses: actions/upload-artifact@v7
@@ -55,3 +65,9 @@ runs:
         path: ${{ steps.scan.outputs.report-path }}
         if-no-files-found: error
         retention-days: 14
+    - name: Upload findings to code scanning
+      if: always() && inputs.upload-sarif == 'true' && steps.scan.outputs.sarif-path != ''
+      uses: github/codeql-action/upload-sarif@v4
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif-path }}
+        category: evergreen

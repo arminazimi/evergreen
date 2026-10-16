@@ -89,3 +89,40 @@ test("action metadata packages the scan and report upload as a reusable action",
     ),
   );
 });
+
+test("the GitHub Action writes SARIF only when asked, and it matches the report", async () => {
+  const root = await fixtureRepository();
+  const reportPath = join(root, "reports", "evergreen.json");
+
+  const without = await runGitHubAction({ root, reportPath, failOnSeverity: "none" });
+  assert.equal(without.sarifPath, undefined);
+
+  const sarifPath = join(root, "reports", "evergreen.sarif");
+  const outcome = await runGitHubAction({ root, reportPath, sarifPath, failOnSeverity: "none" });
+  assert.equal(outcome.sarifPath, sarifPath);
+  const sarif = JSON.parse(await readFile(sarifPath, "utf8")) as {
+    version: string;
+    runs: Array<{ results: Array<{ ruleId: string; locations: Array<{ physicalLocation: { artifactLocation: { uri: string } } }> }> }>;
+  };
+  const report = JSON.parse(await readFile(reportPath, "utf8")) as { findings: Array<{ ruleId: string; location: { path: string } }> };
+  assert.equal(sarif.version, "2.1.0");
+  assert.deepEqual(
+    sarif.runs[0]!.results.map((result) => [result.ruleId, result.locations[0]!.physicalLocation.artifactLocation.uri]).sort(),
+    report.findings.map((finding) => [finding.ruleId, finding.location.path]).sort(),
+  );
+});
+
+test("action metadata declares the optional SARIF upload to code scanning", async () => {
+  const metadata = parseYaml(await readFile(resolve("action.yml"), "utf8")) as {
+    inputs?: Record<string, { default?: string }>;
+    outputs?: Record<string, unknown>;
+    runs?: { steps?: Array<{ uses?: string; if?: string; with?: Record<string, string> }> };
+  };
+  assert.equal(metadata.inputs?.["upload-sarif"]?.default, "false");
+  assert.ok(metadata.outputs?.["sarif-path"]);
+  const upload = metadata.runs?.steps?.find((step) => step.uses?.startsWith("github/codeql-action/upload-sarif@"));
+  assert.ok(upload, "an upload-sarif step exists");
+  assert.match(upload.if ?? "", /inputs\.upload-sarif == 'true'/);
+  assert.match(upload.if ?? "", /steps\.scan\.outputs\.sarif-path != ''/);
+  assert.equal(upload.with?.sarif_file, "${{ steps.scan.outputs.sarif-path }}");
+});
