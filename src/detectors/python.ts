@@ -5,7 +5,7 @@ import { parse as parseToml } from "smol-toml";
 
 import { relativePosix } from "../paths.js";
 import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
-import { findPackageFile } from "../package-files.js";
+import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage } from "../source-usage.js";
 import {
   DETECTOR_API_VERSION,
@@ -321,8 +321,7 @@ function isPythonRule(value: unknown): value is PythonRule {
 }
 
 async function loadRules(): Promise<readonly PythonRule[]> {
-  const path = await findPackageFile("registry/python.json", import.meta.url);
-  return loadRegistryRules(JSON.parse(await readFile(path, "utf8")) as unknown, {
+  return loadRegistryRules(await loadDataFile("registry/python.json"), {
     schemaVersion: "evergreen.python-registry.v1",
     isRule: isPythonRule,
   }).rules;

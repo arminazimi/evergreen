@@ -1,8 +1,6 @@
-import { readFile } from "node:fs/promises";
-
 import type { EvidenceSource, MigrationGuidance, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
-import { findPackageFile } from "./package-files.js";
+import { getActiveData, loadDataFile } from "./data-source.js";
 import { parsePurl, PurlError, purlIdentity } from "./purl.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
@@ -160,19 +158,24 @@ export function checkAgainst(rules: readonly RegistryV2Rule[], input: CheckDepen
   };
 }
 
-let bundled: Promise<RegistryV2Rule[]> | undefined;
+let loaded: { source: Promise<unknown>; rules: Promise<RegistryV2Rule[]> } | undefined;
 
-/** The lifecycle rules bundled with this release, loaded once and validated. */
+/** The lifecycle rules in use (downloaded data when it verifies, else those bundled with this release), validated. */
 export async function bundledRules(): Promise<RegistryV2Rule[]> {
-  bundled ??= (async () => {
-    const rules: RegistryV2Rule[] = [];
-    for (const name of BUNDLED_REGISTRIES) {
-      const path = await findPackageFile(`registry/${name}.json`, import.meta.url);
-      rules.push(...validateRegistryV2(JSON.parse(await readFile(path, "utf8")) as unknown).rules);
-    }
-    return rules;
-  })();
-  return bundled;
+  const source = getActiveData();
+  if (loaded?.source !== source) {
+    loaded = {
+      source,
+      rules: (async () => {
+        const rules: RegistryV2Rule[] = [];
+        for (const name of BUNDLED_REGISTRIES) {
+          rules.push(...validateRegistryV2(await loadDataFile(`registry/${name}.json`)).rules);
+        }
+        return rules;
+      })(),
+    };
+  }
+  return loaded.rules;
 }
 
 /**

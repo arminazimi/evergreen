@@ -196,3 +196,38 @@ export function dataBundleIntegrityProblems(bundle: DataBundle): string[] {
   if (computeContentDigest(bundle.manifest.files) !== bundle.manifest.contentDigest) problems.push("The content digest does not match the listed files.");
   return problems;
 }
+
+const VERSION_PATTERN = /^\d{4}\.(?:0[1-9]|1[0-2])\.(?:0[1-9]|[12]\d|3[01])(?:\.[1-9]\d*)?$/;
+const CREATED_AT_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+const SEMVER_PATTERN = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
+const PATH_PATTERN = /^registry\/[a-z0-9][a-z0-9-]*\.json$/;
+
+/**
+ * Checks the shape of a parsed bundle by hand (the published JSON Schema is the reference; this is the runtime
+ * form, so the package needs no schema validator). Returns the problems found; an empty list means the document
+ * can be handed to {@link dataBundleIntegrityProblems}.
+ */
+export function dataBundleShapeProblems(value: unknown): string[] {
+  const problems: string[] = [];
+  const isObject = (item: unknown): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item);
+  if (!isObject(value) || !isObject(value.manifest) || !isObject(value.files)) return ["The bundle must have a manifest and files."];
+  const manifest = value.manifest;
+  if (manifest.schemaVersion !== DATA_BUNDLE_SCHEMA_VERSION) problems.push(`Unsupported bundle format "${String(manifest.schemaVersion)}".`);
+  if (typeof manifest.version !== "string" || !VERSION_PATTERN.test(manifest.version)) problems.push("The version must look like 2026.10.16.");
+  if (typeof manifest.createdAt !== "string" || !CREATED_AT_PATTERN.test(manifest.createdAt)) problems.push("createdAt must be UTC like 2026-10-16T09:30:00Z.");
+  if (typeof manifest.minimumEvergreenVersion !== "string" || !SEMVER_PATTERN.test(manifest.minimumEvergreenVersion)) problems.push("minimumEvergreenVersion must be a semantic version.");
+  if (typeof manifest.contentDigest !== "string" || !/^sha256:[a-f0-9]{64}$/.test(manifest.contentDigest)) problems.push("The content digest is malformed.");
+  if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
+    problems.push("The manifest lists no files.");
+    return problems;
+  }
+  for (const entry of manifest.files as unknown[]) {
+    if (!isObject(entry) || typeof entry.path !== "string" || !PATH_PATTERN.test(entry.path)) problems.push("A manifest entry has an unsafe or missing path.");
+    else if (typeof entry.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(entry.sha256) || !Number.isInteger(entry.bytes) || (entry.kind !== "registry" && entry.kind !== "sha-map")) problems.push(`${entry.path} has a malformed manifest entry.`);
+  }
+  for (const [path, content] of Object.entries(value.files)) if (!PATH_PATTERN.test(path) || !isObject(content)) problems.push(`${path} is not a valid bundle file.`);
+  return problems;
+}
+
+/** The registries and the SHA map a complete bundle must carry, so a partial bundle is never half-used. */
+export const REQUIRED_BUNDLE_PATHS: readonly string[] = [...BUNDLED_ECOSYSTEMS.map((ecosystem) => `registry/${ecosystem}.json`), SHA_MAP_PATH];

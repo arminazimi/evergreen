@@ -46,6 +46,7 @@
   "files": [
     "dist/src",
     "examples",
+    "data",
     "registry",
     "schemas",
     "skills",
@@ -92,6 +93,9 @@
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.3.1",
+    "@sigstore/bundle": "^5.0.0",
+    "@sigstore/protobuf-specs": "^0.5.2",
+    "@sigstore/verify": "^4.1.2",
     "semver": "^7.8.5",
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",

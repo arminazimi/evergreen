@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 import { relativePosix } from "../paths.js";
 import type { DeprecationRule } from "../domain.js";
-import { findPackageFile } from "../package-files.js";
+import { loadDataFile } from "../data-source.js";
 import { DETECTOR_API_VERSION, isDeprecationRule } from "../sdk.js";
 import { loadRegistryRules } from "../registry.js";
 import type {
@@ -55,9 +55,7 @@ const COMMENT_VERSION =
 const CONFLICTING_VERSION = /\bv\d+(?:\.\d+){0,2}\b/;
 
 async function loadRegistry(): Promise<GitHubActionRule[]> {
-  const registryPath = await findPackageFile("registry/github-actions.json", import.meta.url);
-  const contents = await readFile(registryPath, "utf8");
-  const registry = loadRegistryRules(JSON.parse(contents) as unknown, {
+  const registry = loadRegistryRules(await loadDataFile("registry/github-actions.json"), {
     schemaVersion: "evergreen.github-actions-registry.v1",
     isRule: (value): value is GitHubActionRule =>
       isDeprecationRule(value) &&
@@ -68,11 +66,7 @@ async function loadRegistry(): Promise<GitHubActionRule[]> {
 }
 
 async function loadShaRegistry(): Promise<Map<string, ReadonlyMap<string, string>>> {
-  const registryPath = await findPackageFile(
-    "registry/github-actions-shas.json",
-    import.meta.url,
-  );
-  const value = JSON.parse(await readFile(registryPath, "utf8")) as GitHubActionsShaRegistry;
+  const value = (await loadDataFile("registry/github-actions-shas.json")) as GitHubActionsShaRegistry;
   if (
     value.schemaVersion !== "evergreen.github-actions-shas.v1" ||
     !value.actions ||

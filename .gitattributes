@@ -8,3 +8,5 @@
 *.ico binary
 *.zip binary
 *.woff2 binary
+tests/fixtures/sigstore/* -text
+data/sigstore-trusted-root.json -text
