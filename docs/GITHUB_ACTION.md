@@ -105,6 +105,7 @@ Output is deterministic: rules and results are sorted, paths are repository-rela
 | `rules[].shortDescription` | The rule title |
 | `rules[].help` (`text` and `markdown`) | Replacement, deadline, migration steps, verification commands, and sources |
 | `rules[].helpUri` | The first evidence source |
+| `rules[].defaultConfiguration.level` | The same level mapping as `results[].level`, for the rule's severity |
 | `rules[].properties.tags` | `lifecycle` and the detector id |
 | `results[].ruleId`, `ruleIndex` | The finding's rule |
 | `results[].level` | `critical` and `high` → `error`; `medium` → `warning`; `low` and `info` → `note` |
