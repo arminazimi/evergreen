@@ -24,9 +24,11 @@ test("release lines fall on the right side of each range", async () => {
   const cases: Array<[string, string, boolean]> = [
     ["node", "18.0.0", true],
     ["node", "20.0.0", true],
+    ["node", "21.0.0", true],
     ["node", "22.0.0", false],
     ["python", "3.9.0", true],
-    ["python", "3.10.0", false],
+    ["python", "3.10.0", true],
+    ["python", "3.11.0", false],
     ["postgres", "11.0.0", true],
     ["postgres", "13.0.0", true],
     ["postgres", "14.0.0", false],

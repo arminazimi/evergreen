@@ -42,6 +42,7 @@ Do not remove a rule only because an importer stopped drafting it. A source can 
 
 | Importer | Registry | Reads | Candidate list |
 |---|---|---|---|
+| `container-official-images` | `container` | The vendors' own Node.js and Python schedules: one "and older" `end-of-life` rule per image. The Docker Official Images files are read only to note which end-of-life lines still have published tags; they carry no lifecycle data. PostgreSQL, MySQL, and Ruby image rules stay hand-written. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |

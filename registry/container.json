@@ -3,26 +3,31 @@
   "ecosystem": "container",
   "rules": [
     {
-      "id": "container.node.eol-20-and-older",
+      "id": "container.node.eol-21-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/node",
-      "vers": "vers:semver/<21.0.0",
+      "vers": "vers:semver/<22.0.0",
       "event": "end-of-life",
-      "title": "Node.js image release lines 20 and older are end-of-life",
+      "title": "Node.js image release lines 21 and older are end-of-life",
       "summary": "These Node.js release lines no longer receive security or bug fixes, so images tagged with them are built on an unsupported runtime.",
       "severity": "high",
-      "replacement": "A node image on a supported release line, such as node:22 or node:24",
-      "deadline": "2026-03-24",
+      "replacement": "A node image on a supported release line, such as node:22",
+      "deadline": "2026-04-30",
       "sources": [
         {
           "title": "Node.js end-of-life releases",
           "url": "https://nodejs.org/en/about/eol"
+        },
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
         }
       ],
       "provenance": {
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
-        "reviewer": "arminazimi"
+        "reviewer": "arminazimi",
+        "importer": "container-official-images"
       },
       "migration": {
         "constraints": [
@@ -56,26 +61,31 @@
       }
     },
     {
-      "id": "container.python.eol-3.9-and-older",
+      "id": "container.python.eol-3.10-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/python",
-      "vers": "vers:semver/<3.10.0",
+      "vers": "vers:semver/<3.11.0",
       "event": "end-of-life",
-      "title": "Python image release lines 3.9 and older are end-of-life",
+      "title": "Python image release lines 3.10 and older are end-of-life",
       "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
       "severity": "high",
       "replacement": "A python image on a supported release line",
-      "deadline": "2025-10-31",
+      "deadline": "2026-10-01",
       "sources": [
         {
           "title": "Status of Python versions",
           "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "Python release cycle (machine-readable)",
+          "url": "https://peps.python.org/api/release-cycle.json"
         }
       ],
       "provenance": {
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
-        "reviewer": "arminazimi"
+        "reviewer": "arminazimi",
+        "importer": "container-official-images"
       },
       "migration": {
         "constraints": [

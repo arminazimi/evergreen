@@ -48,7 +48,7 @@ async function expected(ruleId: string, path: string, line: number, value: strin
 }
 
 test("container passes detector conformance on every fixture", async () => {
-  const node = "container.node.eol-20-and-older";
+  const node = "container.node.eol-21-and-older";
   const postgres = "container.postgres.eol-13-and-older";
   await runDetectorConformance({
     detector: containerDetector,
@@ -62,7 +62,7 @@ test("container passes detector conformance on every fixture", async () => {
           expected(node, "docker-compose.yml", 3, "docker.io/library/node:16-alpine"),
           expected(node, "Dockerfile", 2, "node:16"),
           expected(node, "Dockerfile", 5, "node:16-alpine"),
-          expected("container.python.eol-3.9-and-older", "Dockerfile", 8, "docker.io/library/python:3.8-slim"),
+          expected("container.python.eol-3.10-and-older", "Dockerfile", 8, "docker.io/library/python:3.8-slim"),
         ]),
       },
     ],
@@ -108,7 +108,7 @@ test("a floating tag that spans supported and unsupported versions is unclassifi
     analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
     [
       ["container.mysql.eol-8.0-and-older", 2],
-      ["container.node.eol-20-and-older", 6],
+      ["container.node.eol-21-and-older", 6],
     ],
   );
   assert.deepEqual(
@@ -163,7 +163,7 @@ test("every curated container rule has migration guidance with real verification
 test("a migration packet for a container finding names the file, steps, and verification", async () => {
   const root = resolve(fixtures, "positive");
   const result = await scanRepository(root, [containerDetector]);
-  const finding = result.findings.find((item) => item.id === "container.node.eol-20-and-older:Dockerfile:2");
+  const finding = result.findings.find((item) => item.id === "container.node.eol-21-and-older:Dockerfile:2");
   assert.ok(finding);
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes("Dockerfile"));
