@@ -86,3 +86,39 @@ test("parses image references into registry, repository, tag, and digest", () =>
     assert.equal(parseImageReference(bad), undefined, bad);
   }
 });
+
+import { parseCompose } from "../src/detectors/container/parse-compose.js";
+
+test("parses services.*.image with exact lines", async () => {
+  assert.deepEqual(parseCompose(await fixture("positive", "compose.yaml")), [
+    { kind: "image", value: "postgres:11", line: 3 },
+    { kind: "image", value: "redis:5-alpine", line: 5 },
+  ]);
+  assert.deepEqual(parseCompose(await fixture("positive", "docker-compose.yml")), [
+    { kind: "image", value: "docker.io/library/node:16-alpine", line: 3 },
+  ]);
+});
+
+test("compose ignores lookalike keys and reports interpolation as dynamic", async () => {
+  assert.deepEqual(parseCompose(await fixture("negative", "compose.yaml")), [
+    { kind: "dynamic", value: "${APP_IMAGE}", line: 3 },
+    { kind: "image", value: "node:latest", line: 8 },
+    { kind: "image", value: "node:22", line: 10 },
+  ]);
+  assert.deepEqual(parseCompose(await fixture("zero", "compose.yaml")), []);
+});
+
+test("compose malformed input returns nothing and never throws", async () => {
+  const malformed = await fixture("malformed", "compose.yaml");
+  assert.doesNotThrow(() => parseCompose(malformed));
+  assert.deepEqual(parseCompose(malformed), []);
+  for (const junk of ["", "\u0000", "- a\n- b\n", "services: 5\n", "services:\n  a: 1\n", "a: &x 1\nb: *x\n", "{{{"]) {
+    assert.doesNotThrow(() => parseCompose(junk));
+    assert.deepEqual(parseCompose(junk), []);
+  }
+  assert.deepEqual(parseCompose("services:\n  a:\n    image: &i node:16\n  b:\n    image: *i\n"), []);
+});
+
+test("compose bounds untrusted input", () => {
+  assert.deepEqual(parseCompose(`services:\n  a:\n    image: node:16\n#${"x".repeat(1024 * 1024)}`), []);
+});
