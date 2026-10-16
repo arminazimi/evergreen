@@ -16,7 +16,7 @@ import type { SignerPolicy, VerifiedSigner } from "./data-signature.js";
 import { findPackageFile } from "./package-files.js";
 import { VERSION } from "./version.js";
 
-export type DataSourceKind = "bundled" | "cache";
+export type DataSourceKind = "bundled" | "cache" | "pinned";
 
 export interface DataSourceInfo {
   source: DataSourceKind;
@@ -42,6 +42,12 @@ export interface DataSourceOptions {
   /** Directory holding downloaded data; see {@link defaultCacheDirectory}. */
   cacheDirectory?: string;
   evergreenVersion?: string;
+  /**
+   * Use exactly this data: a bundle version such as `2026.10.01` that is in the cache, or `bundled` for the data
+   * shipped with this release. Unlike the automatic choice, a pin that cannot be met is an error, never a quiet
+   * fallback, so a CI run that pins its data either uses it or stops.
+   */
+  pinnedVersion?: string;
   signerPolicy?: SignerPolicy;
   trustedRoot?: Parameters<typeof verifyArtifactSignature>[3];
   /**
@@ -50,6 +56,13 @@ export interface DataSourceOptions {
    * produced offline. The default is the real Sigstore verification.
    */
   verifySignature?: (bytes: Uint8Array, signatureJson: string) => VerifiedSigner;
+}
+
+export class DataPinError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DataPinError";
+  }
 }
 
 export const BUNDLE_FILE = "bundle.json";
@@ -150,6 +163,49 @@ async function bundledData(warnings: string[], evergreenVersion: string): Promis
   };
 }
 
+/** Loads exactly the pinned data, or throws {@link DataPinError} saying how to get it. */
+async function pinnedData(pin: string, cache: string, evergreenVersion: string, options: DataSourceOptions): Promise<ActiveData> {
+  if (pin === "bundled") return bundledData([], evergreenVersion);
+  if (!/^\d{4}\.\d{2}\.\d{2}(?:\.\d+)?$/.test(pin)) {
+    throw new DataPinError(`"${pin}" is not a data version. Use a version such as 2026.10.01, or "bundled".`);
+  }
+  const directory = cachedBundleDirectory(cache, pin);
+  let files: [Buffer, string];
+  try {
+    files = await Promise.all([readFile(join(directory, BUNDLE_FILE)), readFile(join(directory, SIGNATURE_FILE), "utf8")]);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      throw new DataPinError(`Lifecycle data ${pin} is pinned but is not in ${cache}. Download it with: evergreen data update --data-version ${pin}`);
+    }
+    throw error;
+  }
+  let verified: VerifiedDataBundle;
+  try {
+    verified = verifyDataBundle(files[0], files[1], options);
+  } catch (error) {
+    if (error instanceof DataBundleError) throw new DataPinError(`Lifecycle data ${pin} is pinned but cannot be used: ${error.message}`);
+    throw error;
+  }
+  const { bundle, signer } = verified;
+  if (bundle.manifest.version !== pin) throw new DataPinError(`Lifecycle data ${pin} is pinned but the stored bundle says it is version ${bundle.manifest.version}.`);
+  return {
+    info: {
+      source: "pinned",
+      version: bundle.manifest.version,
+      createdAt: bundle.manifest.createdAt,
+      contentDigest: bundle.manifest.contentDigest,
+      reviewedThrough: reviewedThrough(Object.values(bundle.files)),
+      signer,
+      warnings: [],
+    },
+    async read(path) {
+      const content = bundle.files[path];
+      if (!content) throw new DataBundleError(`The data bundle has no ${path}.`);
+      return content;
+    },
+  };
+}
+
 /**
  * Chooses the data a scan uses. Downloaded data is used only when it verifies completely and is newer than the
  * data bundled with this release; in every other case the bundled data is used and the reason is reported in
@@ -159,6 +215,8 @@ export async function resolveActiveData(options: DataSourceOptions = {}): Promis
   const evergreenVersion = options.evergreenVersion ?? VERSION;
   const cache = options.cacheDirectory ?? defaultCacheDirectory();
   const warnings: string[] = [];
+
+  if (options.pinnedVersion !== undefined) return pinnedData(options.pinnedVersion, cache, evergreenVersion, options);
 
   let activeVersion: string | undefined;
   try {

@@ -8,6 +8,7 @@ import { resolve } from "node:path";
 import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { builtInDetectors } from "./detectors/index.js";
@@ -27,7 +28,7 @@ Usage:
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen data status [--json]
-  evergreen data update [--json]
+  evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
   evergreen doctor [path] [--json]
@@ -70,6 +71,26 @@ async function main(args: string[]): Promise<number> {
     return 2;
   }
 
+  const dataVersionIndex = args.indexOf("--data-version");
+  const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
+  if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
+    process.stderr.write("--data-version needs a version, for example 2026.10.01, or \"bundled\".\n");
+    return 2;
+  }
+  const isUpdate = command === "data" && args[1] === "update";
+  const dataPin = isUpdate ? undefined : (dataVersionFlag ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
+  if (command !== "capabilities" && !isUpdate) {
+    configureActiveData(dataPin === undefined ? {} : { pinnedVersion: dataPin });
+    try {
+      await getActiveData();
+    } catch (error) {
+      if (error instanceof DataPinError) {
+        process.stderr.write(`${error.message}\n`);
+        return 2;
+      }
+      throw error;
+    }
+  }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
   if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif") {
@@ -96,7 +117,7 @@ async function main(args: string[]): Promise<number> {
       const relaunched = relaunchWithEnvironmentProxy();
       if (relaunched !== undefined) return relaunched;
       try {
-        const result = await updateData();
+        const result = await updateData(dataVersionFlag ? { version: dataVersionFlag } : {});
         process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDataUpdateText(result)}\n`);
         return 0;
       } catch (error) {
@@ -115,7 +136,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];

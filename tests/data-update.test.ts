@@ -361,3 +361,26 @@ for (const [name, withoutHelper] of [
     assert.ok(proxied.some((entry) => entry.startsWith("connect ") || entry.includes("/releases")), "the release list was fetched through the proxy");
   });
 }
+
+test("downloading a specific version stores it for pinning without changing the active data", async () => {
+  const fixture = await fixtureServer();
+  const cache = await scratch("cache");
+  const newest = await bundleAt("2999-06-01T00:00:00Z", 1, stamped("june"));
+  const older = await bundleAt("2999-01-01T00:00:00Z", 1, stamped("january"));
+  fixture.publish({ version: newest.manifest.version, bundle: newest }, { version: older.manifest.version, bundle: older });
+
+  await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, ...accepting });
+  assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.06.01");
+
+  const pinned = await updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "2999.01.01", ...accepting });
+  assert.equal(pinned.status, "downloaded");
+  assert.equal(pinned.to.version, "2999.01.01");
+  assert.match(renderDataUpdateText(pinned), /Downloaded lifecycle data 2999\.01\.01\. It is not active until you pin it: evergreen scan --data-version 2999\.01\.01/);
+  assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.06.01", "the pointer did not move");
+  assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2999.01.01", "2999.06.01", "active.json"]);
+
+  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "2999.03.03", ...accepting }), /No signed data release 2999\.03\.03 was found/);
+  await assert.rejects(updateData({ cacheDirectory: cache, releasesUrl: fixture.url, version: "latest", ...accepting }), /not a data version/);
+  fixture.publish({ version: older.manifest.version, bundle: older, signature: "{}" });
+  await assert.rejects(updateData({ cacheDirectory: await scratch("cache"), releasesUrl: fixture.url, version: "2999.01.01" }), /Refusing data bundle 2999\.01\.01: The signature/);
+});
