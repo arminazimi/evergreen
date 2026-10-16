@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
 import { cp, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import http from "node:http";
+import net from "node:net";
 import type { AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -313,14 +314,27 @@ for (const [name, withoutHelper] of [
   test(`the CLI update goes through an HTTP proxy when one is configured, ${name}`, async () => {
     const fixture = await fixtureServer();
     const proxied: string[] = [];
+    // A real proxy answers both forms: absolute-URI requests (newer Node) and CONNECT tunnels (Node 22 tunnels even http).
     const proxy = http.createServer((request, response) => {
-      proxied.push(request.url ?? "");
+      proxied.push(`request ${request.url ?? ""}`);
       const target = new URL(request.url ?? "");
       const forward = http.request({ host: target.hostname, port: target.port, path: target.pathname + target.search, method: request.method }, (upstream) => {
         response.writeHead(upstream.statusCode ?? 502, upstream.headers);
         upstream.pipe(response);
       });
       request.pipe(forward);
+    });
+    proxy.on("connect", (request, clientSocket, head) => {
+      proxied.push(`connect ${request.url ?? ""}`);
+      const [host, port] = (request.url ?? "").split(":");
+      const upstream = net.connect(Number(port), host, () => {
+        clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
+        upstream.write(head);
+        upstream.pipe(clientSocket);
+        clientSocket.pipe(upstream);
+      });
+      upstream.on("error", () => clientSocket.destroy());
+      clientSocket.on("error", () => upstream.destroy());
     });
     await new Promise<void>((done) => proxy.listen(0, "127.0.0.1", done));
     servers.push(proxy);
@@ -341,7 +355,9 @@ for (const [name, withoutHelper] of [
     const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch((error: { stderr: string; code: number }) => error);
     assert.equal((failure as { code: number }).code, 1);
     assert.match((failure as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/, "the bundle was fetched, then refused for lack of a signature");
-    assert.ok(proxied.some((url) => url.includes("/releases")), `the proxy saw the release request: ${proxied.join(", ")}`);
-    assert.ok(proxied.some((url) => url.includes("/download/")), "the proxy saw the downloads");
+    assert.ok(proxied.length > 0, "the traffic went through the proxy");
+    const fixturePort = new URL(fixture.url).port;
+    assert.ok(proxied.every((entry) => entry.includes(`:${fixturePort}`)), `the proxy only carried traffic for the release server: ${proxied.join(", ")}`);
+    assert.ok(proxied.some((entry) => entry.startsWith("connect ") || entry.includes("/releases")), "the release list was fetched through the proxy");
   });
 }
