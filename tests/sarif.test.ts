@@ -185,8 +185,10 @@ test("docs/GITHUB_ACTION.md documents every SARIF field the reporter writes", as
   };
   const run = sarif.runs[0]!;
   for (const key of ["name", "version"]) assert.ok(key in run.tool.driver, key);
-  for (const key of Object.keys(run.tool.driver.rules[0]!)) assert.ok(docs.includes(`rules[].${key}`) || (key === "id" && docs.includes("rules[].id")) || (key === "defaultConfiguration" && docs.includes("results[].level")) || key === "name" || key === "properties", `rules[].${key} is not documented`);
-  for (const key of Object.keys(run.results[0]!)) assert.ok(docs.includes(`results[].${key}`) || key === "partialFingerprints" || key === "level", `results[].${key} is not documented`);
+  const mapping = docs.slice(docs.indexOf("| SARIF | Evergreen |"));
+  const documented = (key: string) => new RegExp(`\\b${key}\\b`).test(mapping);
+  for (const key of Object.keys(run.tool.driver.rules[0]!)) assert.ok(documented(key), `rule field ${key} is not documented`);
+  for (const key of Object.keys(run.results[0]!)) assert.ok(documented(key), `result field ${key} is not documented`);
   assert.ok(docs.includes("evergreenFindingId/v1"));
   assert.ok(docs.includes("--format sarif"));
 });
