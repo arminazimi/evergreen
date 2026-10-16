@@ -315,6 +315,244 @@
         "kind": "package",
         "package": "pycrypto"
       }
+    },
+    {
+      "id": "python.package.sklearn.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/sklearn",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "sklearn is deprecated on PyPI",
+      "summary": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
+      "severity": "high",
+      "replacement": "scikit-learn",
+      "sources": [{ "title": "sklearn deprecation notice", "url": "https://pypi.org/project/sklearn/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Keep Python imports as sklearn; only the distribution name used by installers and dependency metadata changes."],
+        "steps": [
+          { "id": "replace-sklearn-distribution", "title": "Replace the distribution name", "instructions": "Replace sklearn with scikit-learn in dependency declarations and installation commands without renaming sklearn imports.", "targets": "declaration" },
+          { "id": "refresh-sklearn-environment", "title": "Refresh the environment", "instructions": "Regenerate lock data and confirm the intended scikit-learn version resolves for every supported Python runtime.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "python -m pip check", "purpose": "Check the resolved scikit-learn environment." },
+          { "command": "python -m pytest", "purpose": "Run model, preprocessing, and repository tests." }
+        ]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "sklearn" }],
+      "x-python": { "kind": "package", "package": "sklearn" }
+    },
+    {
+      "id": "python.package.distribute.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/distribute",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "distribute is deprecated",
+      "summary": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
+      "severity": "high",
+      "replacement": "setuptools",
+      "sources": [{ "title": "Distribute deprecation notice", "url": "https://pypi.org/project/distribute/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve build backend behavior, package metadata, entry points, and supported installer environments."],
+        "steps": [
+          { "id": "replace-distribute", "title": "Replace Distribute", "instructions": "Replace distribute requirements and bootstrap scripts with setuptools and remove distribute-specific installation logic.", "targets": "all" },
+          { "id": "verify-package-build", "title": "Verify package builds", "instructions": "Build source and wheel distributions in a clean environment and inspect their metadata and entry points.", "targets": "all" }
+        ],
+        "verification": [
+          { "command": "python -m pip check", "purpose": "Check the packaging environment after replacement." },
+          { "command": "python -m pytest", "purpose": "Run packaging and repository tests." }
+        ]
+      },
+      "x-python": { "kind": "package", "package": "distribute" }
+    },
+    {
+      "id": "python.package.pep8.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pep8",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "pep8 was renamed to pycodestyle",
+      "summary": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
+      "severity": "medium",
+      "replacement": "pycodestyle",
+      "sources": [{ "title": "pycodestyle rename notice", "url": "https://pypi.org/project/pycodestyle/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve selected checks, ignore lists, file exclusions, maximum line length, and CI failure behavior."],
+        "steps": [
+          { "id": "replace-pep8", "title": "Replace pep8 with pycodestyle", "instructions": "Replace the dependency, commands, imports, and configuration section name with pycodestyle equivalents.", "targets": "all" },
+          { "id": "compare-style-results", "title": "Compare style results", "instructions": "Run both configurations on the same source tree and review any changed diagnostics before removing pep8.", "targets": "all" }
+        ],
+        "verification": [{ "command": "python -m pycodestyle .", "purpose": "Run the replacement style checker with project configuration." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "pep8" }],
+      "x-python": { "kind": "package", "package": "pep8" }
+    },
+    {
+      "id": "python.package.pyinj.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pyinj",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "pyinj is archived on PyPI",
+      "summary": "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.",
+      "severity": "medium",
+      "replacement": "injx",
+      "sources": [
+        { "title": "pyinj archival and migration notice", "url": "https://pypi.org/project/pyinj/" },
+        { "title": "pyinj project status (PyPI Simple API)", "url": "https://pypi.org/simple/pyinj/" },
+        { "title": "Project status markers (PEP 792)", "url": "https://packaging.python.org/specifications/project-status-markers/" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve provider scopes, binding resolution, constructor injection, overrides, and application startup behavior."],
+        "steps": [
+          { "id": "replace-pyinj", "title": "Replace pyinj with injx", "instructions": "Replace the distribution and imports, then translate bindings and injection declarations to the injx API.", "targets": "all" },
+          { "id": "verify-injection-graph", "title": "Verify the injection graph", "instructions": "Exercise application startup, nested dependencies, scopes, overrides, and missing-binding errors.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run dependency-injection and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "pyinj" }],
+      "x-python": { "kind": "package", "package": "pyinj" }
+    },
+    {
+      "id": "python.package.pytest-runner.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pytest-runner",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "pytest-runner is deprecated",
+      "summary": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
+      "severity": "high",
+      "replacement": "tox, nox, or direct pytest invocation",
+      "sources": [{ "title": "pytest-runner deprecation notice", "url": "https://pypi.org/project/pytest-runner/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve test dependencies, pytest options, environment variables, supported Python versions, and CI exit behavior."],
+        "steps": [
+          { "id": "remove-pytest-runner", "title": "Remove pytest-runner", "instructions": "Remove pytest-runner from setup requirements and move test dependencies out of tests_require.", "targets": "declaration" },
+          { "id": "add-test-bootstrap", "title": "Add an explicit test runner", "instructions": "Configure tox, nox, or the existing environment manager to install test dependencies and invoke pytest directly.", "targets": "all" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run the test suite without setup.py test or pytest-runner." }]
+      },
+      "x-python": { "kind": "package", "package": "pytest-runner" }
+    },
+    {
+      "id": "python.package.ipaddr.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/ipaddr",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "ipaddr is superseded",
+      "summary": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
+      "severity": "medium",
+      "replacement": "ipaddress",
+      "sources": [{ "title": "ipaddr supersession notice", "url": "https://pypi.org/project/ipaddr/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve IPv4 and IPv6 parsing, strictness, network boundaries, address ordering, exception behavior, and text formatting."],
+        "steps": [
+          { "id": "replace-ipaddr", "title": "Replace ipaddr", "instructions": "Replace the dependency and translate IPAddress, IPNetwork, and related usages to the standard-library ipaddress API.", "targets": "all" },
+          { "id": "verify-address-edge-cases", "title": "Verify address behavior", "instructions": "Test IPv4, IPv6, malformed input, host bits, networks, containment, and serialization used by the application.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run networking edge cases and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "ipaddr" }],
+      "x-python": { "kind": "package", "package": "ipaddr" }
+    },
+    {
+      "id": "python.package.django-celery.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/django-celery",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "django-celery is no longer required",
+      "summary": "The project states that django-celery is no longer required because Celery supports Django directly.",
+      "severity": "high",
+      "replacement": "Celery's built-in Django integration",
+      "sources": [{ "title": "django-celery retirement notice", "url": "https://pypi.org/project/django-celery/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve task discovery, broker and result settings, periodic schedules, worker startup, retries, and Django application initialization."],
+        "steps": [
+          { "id": "adopt-celery-django", "title": "Adopt Celery's Django integration", "instructions": "Configure the Celery application using the current Django integration and translate djcelery settings and setup calls.", "targets": "all" },
+          { "id": "remove-django-celery", "title": "Remove django-celery", "instructions": "Remove django-celery and djcelery from dependencies, installed applications, imports, commands, and migrations after data needs are resolved.", "targets": "all" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run task, scheduling, result-backend, and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "djcelery" }],
+      "x-python": { "kind": "package", "package": "django-celery" }
+    },
+    {
+      "id": "python.package.datacommons.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/datacommons",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "datacommons is deprecated",
+      "summary": "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.",
+      "severity": "high",
+      "replacement": "datacommons-client",
+      "sources": [{ "title": "datacommons deprecation notice", "url": "https://pypi.org/project/datacommons/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve API endpoints, authentication, statistical-variable identifiers, entity queries, response shapes, pagination, and retry behavior."],
+        "steps": [
+          { "id": "replace-datacommons", "title": "Replace the Data Commons client", "instructions": "Replace datacommons with datacommons-client and translate client construction and API calls using the official migration guide.", "targets": "all" },
+          { "id": "verify-datacommons-results", "title": "Verify query results", "instructions": "Compare representative entity, observation, and graph query responses and error paths against expected fixtures.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run Data Commons integration and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "datacommons" }],
+      "x-python": { "kind": "package", "package": "datacommons" }
+    },
+    {
+      "id": "python.package.vsdeband.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/vsdeband",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "vsdeband is deprecated",
+      "summary": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
+      "severity": "medium",
+      "replacement": "vsjetpack",
+      "sources": [{ "title": "vsdeband deprecation notice", "url": "https://pypi.org/project/vsdeband/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output."],
+        "steps": [
+          { "id": "replace-vsdeband", "title": "Replace vsdeband", "instructions": "Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.", "targets": "all" },
+          { "id": "compare-video-output", "title": "Compare rendered output", "instructions": "Render representative clips and compare frame properties and visual output around gradients and motion.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run video-processing and repository tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "vsdeband" }],
+      "x-python": { "kind": "package", "package": "vsdeband" }
+    },
+    {
+      "id": "python.package.multimodal-timesfm.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/multimodal-timesfm",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "multimodal-timesfm is no longer maintained",
+      "summary": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
+      "severity": "medium",
+      "replacement": "tsfmx",
+      "sources": [{ "title": "multimodal-timesfm rename notice", "url": "https://pypi.org/project/multimodal-timesfm/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve model identifiers, checkpoints, preprocessing, forecast horizons, covariates, device selection, and output shapes."],
+        "steps": [
+          { "id": "replace-multimodal-timesfm", "title": "Replace multimodal-timesfm", "instructions": "Replace the distribution and translate imports, model loading, and forecast calls to tsfmx.", "targets": "all" },
+          { "id": "compare-forecasts", "title": "Compare forecast behavior", "instructions": "Run pinned fixtures through both packages and compare shapes, missing-value handling, and forecast tolerances.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run forecasting and repository tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "multimodal_timesfm" }],
+      "x-python": { "kind": "package", "package": "multimodal-timesfm" }
     }
   ]
 }
