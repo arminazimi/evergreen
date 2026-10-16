@@ -1,0 +1,17 @@
+{
+  "name": "evergreen",
+  "version": "0.1.0",
+  "description": "Check dependencies against evidence-backed lifecycle data before adding them, and find, explain, migrate, and verify deprecations.",
+  "mcpServers": {
+    "evergreen": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package",
+        "evergreen-deprecation@0.1.0",
+        "evergreen-mcp"
+      ]
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

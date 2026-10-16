@@ -56,6 +56,19 @@ Call `check_dependency` with a Package URL (`pkg:npm/request@2.88.2`, `pkg:pypi/
 
 The tool is read-only and idempotent, never touches the network, and answers from the lifecycle rules bundled with the server.
 
+## Other agent hosts
+
+Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents):
+
+| Host | MCP config | Instructions |
+| --- | --- | --- |
+| Cursor | `.cursor/mcp.json` | `.cursor/rules/evergreen.mdc` |
+| Gemini CLI | `gemini-extension.json` or `.gemini/settings.json` | `GEMINI.md` |
+| GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
+| Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
+
+Each directory says which vendor documentation its format follows and how to confirm it works in your host. They have not yet been run in live host installations, and the READMEs say so.
+
 ## Agent workflow
 
 1. Call `scan_repository` or `list_deprecations` before editing.

@@ -1,0 +1,18 @@
+{
+  "mcp": {
+    "evergreen": {
+      "type": "local",
+      "command": [
+        "npx",
+        "--yes",
+        "--package",
+        "evergreen-deprecation@0.1.0",
+        "evergreen-mcp"
+      ],
+      "enabled": true
+    }
+  },
+  "instructions": [
+    ".kilo/rules/*.md"
+  ]
+}
