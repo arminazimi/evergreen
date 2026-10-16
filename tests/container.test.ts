@@ -139,3 +139,8 @@ test("a repository with no container files scans to nothing without reading the 
   const root = await repository({ "README.md": "hello\n" });
   assert.deepEqual(await containerDetector.analyze({ root }), { findings: [], unclassified: [] });
 });
+
+test("test fixture directories are not scanned", async () => {
+  const root = await repository({ "tests/fixtures/old/Dockerfile": "FROM node:16\n", "docker/Dockerfile": "FROM node:16\n" });
+  assert.deepEqual((await containerDetector.scan({ root })).map((finding) => finding.location.path), ["docker/Dockerfile"]);
+});

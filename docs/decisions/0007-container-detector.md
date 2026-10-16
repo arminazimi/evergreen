@@ -47,6 +47,10 @@ Rejected inputs, which are never used to produce a rule or a finding:
 - **OS-layer inference** (the Debian or Alpine release behind a tag) — the first version covers the image's own release line, not the operating system inside it;
 - any date that does not come from a vendor page cited in the rule.
 
+## Where it looks
+
+The detector walks the repository (eight directories deep, at most 2,000 matching files, never following symbolic links) and skips dependency, build, and test-fixture directories: `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata`. Images in test fixtures are examples, not something the repository ships.
+
 ## Out of scope for the first version
 
 - Reading images from Kubernetes manifests, Helm charts, Terraform, GitHub Actions `container:`/`services:`, or CI files.
