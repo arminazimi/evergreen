@@ -432,7 +432,9 @@ test("every tool advertises an outputSchema, and its structured content validate
       assert.ok(tool.outputSchema, `${tool.name} has no outputSchema`);
       assert.equal(tool.outputSchema.type, "object", tool.name);
       assert.equal(tool.outputSchema.$id, published.$id, `${tool.name} advertises its published schema`);
-      validators.set(tool.name, new Ajv2020({ allErrors: true, strict: false }).compile(published));
+      assert.doesNotMatch(JSON.stringify(tool.outputSchema), /"\$ref":"(?!#)/, `${tool.name} must not reference another file`);
+      // Validate with only what the client received, as a client would.
+      validators.set(tool.name, new Ajv2020({ allErrors: true, strict: false }).compile(tool.outputSchema));
     }
 
     const scan = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root } });
