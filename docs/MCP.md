@@ -131,6 +131,8 @@ Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruc
 | GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
 | Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
 
+To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run `evergreen init --agents` in it: it adds a delimited section, keeps everything else byte for byte, and is safe to run again (`--dry-run` prints the diff first).
+
 Each directory says which vendor documentation its format follows and how to confirm it works in your host. They have not yet been run in live host installations, and the READMEs say so.
 
 ## Agent workflow

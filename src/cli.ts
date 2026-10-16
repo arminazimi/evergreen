@@ -8,9 +8,12 @@ import { resolve } from "node:path";
 import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { AgentFileError } from "./agent-instructions.js";
 import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
+import { initAgents } from "./init-agents.js";
+import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
@@ -28,6 +31,7 @@ Usage:
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen data status [--json]
+  evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
@@ -53,6 +57,44 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   }
   const child = spawnSync(process.execPath, [...process.execArgv, ...process.argv.slice(1)], { stdio: "inherit", env: { ...process.env, NODE_USE_ENV_PROXY: "1" } });
   return child.status ?? 1;
+}
+
+/** `init --agents`: keeps the Evergreen section in AGENTS.md or CLAUDE.md. */
+async function init(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
+  if (!args.includes("--agents")) {
+    process.stderr.write(usage);
+    return 2;
+  }
+  const fileIndex = args.indexOf("--file");
+  const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
+  if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
+    process.stderr.write(`--file must be AGENTS.md or CLAUDE.md.\n${usage}`);
+    return 2;
+  }
+  const flags = new Set(["--agents", "--dry-run", "--file"]);
+  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && !argument.startsWith("-"));
+  const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
+  if (unknown.length > 0 || positional.length > 1) {
+    process.stderr.write(usage);
+    return 2;
+  }
+  const dryRun = args.includes("--dry-run");
+  try {
+    const result = await initAgents({ root: positional[0] ?? ".", dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
+    if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
+    else {
+      const verb = result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
+      process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`);
+    }
+    return 0;
+  } catch (error) {
+    if (error instanceof AgentFileError) {
+      process.stderr.write(`${error.message}\n`);
+      return 1;
+    }
+    throw error;
+  }
 }
 
 /** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
@@ -99,12 +141,13 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
     process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
     return 2;
   }
 
   if (command === "new-detector") return newDetector(args.slice(1));
+  if (command === "init") return init(args.slice(1));
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {

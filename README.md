@@ -93,6 +93,13 @@ npx evergreen-deprecation context '<finding-id>' . --json
 
 Migration packets contain rule-specific constraints and steps, exact affected files and usages, authoritative sources, and suggested verification commands. Evergreen never executes those commands automatically. See the [migration packet guide](docs/MIGRATION_PACKETS.md).
 
+Tell the coding agents working in a repository to check dependencies before adding them. This adds (or refreshes) a clearly marked section in `AGENTS.md`, or `CLAUDE.md` if that is the file you have; running it again changes nothing, and nothing outside the markers is touched:
+
+```bash
+npx evergreen-deprecation init --agents --dry-run   # show the change
+npx evergreen-deprecation init --agents
+```
+
 Connect a coding agent through the local MCP server:
 
 ```bash
