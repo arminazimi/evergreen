@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
@@ -22,6 +23,7 @@ Usage:
   evergreen scan [path] --baseline <file> [--json]
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
+  evergreen data status [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
   evergreen doctor [path] [--json]
@@ -42,7 +44,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
     process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
     return 2;
   }
@@ -65,6 +67,16 @@ async function main(args: string[]): Promise<number> {
   if (command === "capabilities") {
     const manifest = getCapabilityManifest();
     process.stdout.write(`${json ? JSON.stringify(manifest, null, 2) : renderCapabilitiesText(manifest)}\n`);
+    return 0;
+  }
+  if (command === "data") {
+    const subcommand = args[1];
+    if (subcommand !== "status") {
+      process.stderr.write(`Unknown data command: ${subcommand ?? ""}\n\n${HELP}`);
+      return 2;
+    }
+    const status = await getDataStatus();
+    process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
   const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on"]);
