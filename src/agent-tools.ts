@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 
 import { findingFingerprint } from "./baseline.js";
@@ -36,6 +37,17 @@ export interface MigrationVerification {
   remainingFindings: Finding[];
   suggestedCommands: VerificationCommand[];
 }
+
+/** A finding observed in this session, with the repository it came from. */
+export interface ObservedFinding {
+  /** Short stable key of the repository root, used in the finding's resource URI. */
+  repositoryKey: string;
+  repositoryRoot: string;
+  finding: Finding;
+}
+
+export const repositoryKey = (root: string): string =>
+  createHash("sha256").update(root).digest("hex").slice(0, 8);
 
 export class FindingNotObservedError extends Error {
   constructor(findingId: string) {
@@ -128,6 +140,19 @@ export class EvergreenAgentTools {
       remainingFindings,
       suggestedCommands,
     };
+  }
+
+  /** Every finding observed by this session so far, ordered by repository, then finding id. */
+  observedFindings(): ObservedFinding[] {
+    return [...this.observed.entries()]
+      .flatMap(([root, findings]) =>
+        [...findings.values()].map((finding) => ({ repositoryKey: repositoryKey(root), repositoryRoot: root, finding })),
+      )
+      .sort((left, right) => left.repositoryRoot.localeCompare(right.repositoryRoot) || left.finding.id.localeCompare(right.finding.id));
+  }
+
+  observedFinding(key: string, findingId: string): ObservedFinding | undefined {
+    return this.observedFindings().find((entry) => entry.repositoryKey === key && entry.finding.id === findingId);
   }
 
   private remember(result: ScanResult): void {

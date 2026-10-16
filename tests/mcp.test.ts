@@ -44,11 +44,13 @@ async function connectTestClient() {
   const server = createEvergreenMcpServer();
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   const pending = new Map<number, (response: RpcResponse) => void>();
+  const notifications: string[] = [];
   let nextId = 1;
 
   clientTransport.onmessage = (message) => {
-    const response = message as RpcResponse;
+    const response = message as RpcResponse & { method?: string };
     if (typeof response.id === "number") pending.get(response.id)?.(response);
+    else if (response.method) notifications.push(response.method);
   };
   await clientTransport.start();
   await server.connect(serverTransport);
@@ -76,6 +78,7 @@ async function connectTestClient() {
 
   return {
     request,
+    notifications,
     async close() {
       await clientTransport.close();
       await server.close();
@@ -264,12 +267,13 @@ test("lifecycle rules are listed and readable as resources without a scan", asyn
     const listed = (await client.request("resources/list")).resources as Array<{ uri: string; name: string; title: string; mimeType: string }>;
     const registryRules = (await import("../src/check-dependency.js")).bundledRules;
     const rules = await registryRules();
-    assert.equal(listed.length, rules.length);
-    assert.deepEqual(listed.map((resource) => resource.uri).sort(), rules.map((rule) => `evergreen://rules/${rule.id}`).sort());
-    assert.ok(listed.every((resource) => resource.mimeType === "application/json" && resource.title && resource.name));
+    const listedRules = listed.filter((resource) => resource.uri.startsWith("evergreen://rules/"));
+    assert.equal(listedRules.length, rules.length);
+    assert.deepEqual(listedRules.map((resource) => resource.uri).sort(), rules.map((rule) => `evergreen://rules/${rule.id}`).sort());
+    assert.ok(listedRules.every((resource) => resource.mimeType === "application/json" && resource.title && resource.name));
 
     const templates = (await client.request("resources/templates/list")).resourceTemplates as Array<{ uriTemplate: string }>;
-    assert.deepEqual(templates.map((template) => template.uriTemplate), ["evergreen://rules/{id}"]);
+    assert.ok(templates.some((template) => template.uriTemplate === "evergreen://rules/{id}"));
 
     const read = await client.request("resources/read", { uri: "evergreen://rules/npm.package.request.deprecated" });
     const contents = read.contents as Array<{ uri: string; mimeType: string; text: string }>;
@@ -293,7 +297,7 @@ test("every bundled rule reads back as a valid evergreen.rule.v1 document", asyn
   const validate = new Ajv2020({ allErrors: true }).compile(JSON.parse(await readFile(resolve("schemas/rule.v1.schema.json"), "utf8")) as object);
   const client = await connectTestClient();
   try {
-    const listed = (await client.request("resources/list")).resources as Array<{ uri: string }>;
+    const listed = ((await client.request("resources/list")).resources as Array<{ uri: string }>).filter((resource) => resource.uri.startsWith("evergreen://rules/"));
     for (const { uri } of listed) {
       const read = await client.request("resources/read", { uri });
       const document = JSON.parse((read.contents as Array<{ text: string }>)[0]!.text);
@@ -301,5 +305,50 @@ test("every bundled rule reads back as a valid evergreen.rule.v1 document", asyn
     }
   } finally {
     await client.close();
+  }
+});
+
+test("findings observed in a session are resources, scoped to that session", async () => {
+  const { root } = await fixtureRepository();
+  const client = await connectTestClient();
+  try {
+    assert.deepEqual((await client.request("resources/list")).resources, (await client.request("resources/list")).resources);
+    const findingResources = async () =>
+      ((await client.request("resources/list")).resources as Array<{ uri: string; name: string; description: string }>).filter((resource) => resource.uri.startsWith("evergreen://findings/"));
+    assert.deepEqual(await findingResources(), [], "nothing is observed before a scan");
+
+    const scan = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root } });
+    const findingId = (scan.structuredContent as { findings: Array<{ id: string }> }).findings[0]!.id;
+    assert.match(findingId, /[/:]/, "ids contain characters that must be encoded in the URI");
+    assert.ok(client.notifications.includes("notifications/resources/list_changed"));
+
+    const resources = await findingResources();
+    assert.equal(resources.length, 1);
+    assert.equal(resources[0]!.name, findingId);
+    assert.match(resources[0]!.uri, /^evergreen:\/\/findings\/[0-9a-f]{8}\/[^/]+$/);
+    assert.match(resources[0]!.description, /high at \.github\/workflows\/ci\.yml:4/);
+
+    const read = await client.request("resources/read", { uri: resources[0]!.uri });
+    const finding = JSON.parse((read.contents as Array<{ text: string }>)[0]!.text) as { id: string; sources: unknown[]; location: { line: number } };
+    assert.equal(finding.id, findingId);
+    assert.ok(finding.sources.length > 0);
+    assert.equal(finding.location.line, 4);
+    const explained = await client.request("tools/call", { name: "explain_deprecation", arguments: { finding_id: findingId, repository_path: root } });
+    assert.deepEqual(finding, explained.structuredContent);
+
+    const templates = (await client.request("resources/templates/list")).resourceTemplates as Array<{ uriTemplate: string }>;
+    assert.deepEqual(templates.map((template) => template.uriTemplate).sort(), ["evergreen://findings/{repository}/{id}", "evergreen://rules/{id}"]);
+
+    await assert.rejects(client.request("resources/read", { uri: "evergreen://findings/00000000/nope" }), /No finding with this URI was observed/);
+  } finally {
+    await client.close();
+  }
+
+  const another = await connectTestClient();
+  try {
+    const none = ((await another.request("resources/list")).resources as Array<{ uri: string }>).filter((resource) => resource.uri.startsWith("evergreen://findings/"));
+    assert.deepEqual(none, [], "a new session has not observed anything");
+  } finally {
+    await another.close();
   }
 });

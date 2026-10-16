@@ -35,6 +35,9 @@ export const MCP_TOOL_ANNOTATIONS = {
   openWorldHint: false,
 } as const;
 
+export const FINDING_URI_PREFIX = "evergreen://findings/";
+const findingUri = (key: string, id: string) => `${FINDING_URI_PREFIX}${key}/${encodeURIComponent(id)}`;
+
 function success(value: object) {
   const structuredContent = JSON.parse(JSON.stringify(value)) as Record<string, unknown>;
   return {
@@ -98,6 +101,35 @@ export function createEvergreenMcpServer(
     },
   );
 
+  server.registerResource(
+    "observed-finding",
+    new ResourceTemplate(`${FINDING_URI_PREFIX}{repository}/{id}`, {
+      list: async () => ({
+        resources: tools.observedFindings().map(({ repositoryKey, repositoryRoot, finding }) => ({
+          uri: findingUri(repositoryKey, finding.id),
+          name: finding.id,
+          title: finding.title,
+          description: `${finding.severity} at ${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""} in ${repositoryRoot}`,
+          mimeType: "application/json",
+        })),
+      }),
+    }),
+    {
+      title: "Observed finding",
+      description:
+        "A lifecycle finding observed earlier in this MCP session, by URI: the complete evidence-backed finding that explain_deprecation returns. Only findings from scans run in this session exist; call scan_repository first. The list changes after each scan.",
+      mimeType: "application/json",
+    },
+    async (uri, variables) => {
+      const one = (value: string | string[] | undefined) => String(Array.isArray(value) ? value[0] : value);
+      const entry = tools.observedFinding(one(variables.repository), decodeURIComponent(one(variables.id)));
+      if (!entry) {
+        throw new ResourceNotFoundError(uri.href, "No finding with this URI was observed in this MCP session. Call scan_repository, then list resources.");
+      }
+      return { contents: [{ uri: uri.href, mimeType: "application/json", text: JSON.stringify(entry.finding, null, 2) }] };
+    },
+  );
+
   server.registerTool(
     "scan_repository",
     {
@@ -109,7 +141,9 @@ export function createEvergreenMcpServer(
     },
     async ({ repository_path }) => {
       try {
-        return success(await tools.scan(repository_path));
+        const result = await tools.scan(repository_path);
+        server.sendResourceListChanged();
+        return success(result);
       } catch (error) {
         return failure(error);
       }
@@ -127,7 +161,9 @@ export function createEvergreenMcpServer(
     },
     async ({ repository_path }) => {
       try {
-        return success(await tools.list(repository_path));
+        const result = await tools.list(repository_path);
+        server.sendResourceListChanged();
+        return success(result);
       } catch (error) {
         return failure(error);
       }
@@ -145,7 +181,9 @@ export function createEvergreenMcpServer(
     },
     async ({ finding_id, repository_path }) => {
       try {
-        return success(await tools.explain(finding_id, repository_path));
+        const result = await tools.explain(finding_id, repository_path);
+        server.sendResourceListChanged();
+        return success(result);
       } catch (error) {
         return failure(error);
       }
@@ -163,7 +201,9 @@ export function createEvergreenMcpServer(
     },
     async ({ finding_id, repository_path }) => {
       try {
-        return success(await tools.context(finding_id, repository_path));
+        const result = await tools.context(finding_id, repository_path);
+        server.sendResourceListChanged();
+        return success(result);
       } catch (error) {
         return failure(error);
       }
@@ -181,7 +221,9 @@ export function createEvergreenMcpServer(
     },
     async ({ finding_id, repository_path }) => {
       try {
-        return success(await tools.verify(finding_id, repository_path));
+        const result = await tools.verify(finding_id, repository_path);
+        server.sendResourceListChanged();
+        return success(result);
       } catch (error) {
         return failure(error);
       }
