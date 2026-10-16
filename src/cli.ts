@@ -28,6 +28,7 @@ Usage:
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen data status [--json]
+  evergreen new-detector <id> [--ecosystem <slug>]
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
@@ -54,6 +55,38 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   return child.status ?? 1;
 }
 
+/** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
+async function newDetector(args: string[]): Promise<number> {
+  const ecosystemIndex = args.indexOf("--ecosystem");
+  const ecosystem = ecosystemIndex === -1 ? undefined : args[ecosystemIndex + 1];
+  const ecosystemValueIndex = ecosystemIndex === -1 ? -1 : ecosystemIndex + 1;
+  const id = args.find((argument, index) => !argument.startsWith("-") && index !== ecosystemValueIndex);
+  if (!id || (ecosystemIndex !== -1 && (!ecosystem || ecosystem.startsWith("-")))) {
+    process.stderr.write(`Usage: evergreen new-detector <id> [--ecosystem <slug>]\n`);
+    return 2;
+  }
+  let scaffold: typeof import("../tools/scaffold/index.js");
+  try {
+    scaffold = await import("../tools/scaffold/index.js");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ERR_MODULE_NOT_FOUND") {
+      process.stderr.write("new-detector is for contributors: run it from a checkout of the Evergreen repository after npm run build.\n");
+      return 2;
+    }
+    throw error;
+  }
+  try {
+    process.stdout.write(`${scaffold.renderScaffoldResult(await scaffold.scaffoldDetector(id, ecosystem ? { ecosystem } : {}))}\n`);
+    return 0;
+  } catch (error) {
+    if (error instanceof scaffold.ScaffoldError) {
+      process.stderr.write(`${error.message}\n`);
+      return 2;
+    }
+    throw error;
+  }
+}
+
 async function main(args: string[]): Promise<number> {
   if (args.includes("--help") || args.includes("-h") || args.length === 0) {
     process.stdout.write(HELP);
@@ -66,11 +99,12 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
     process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
     return 2;
   }
 
+  if (command === "new-detector") return newDetector(args.slice(1));
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
