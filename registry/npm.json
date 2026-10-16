@@ -275,6 +275,295 @@
       "x-npm": {
         "package": "left-pad"
       }
+    },
+    {
+      "id": "npm.package.hapi.joi.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40hapi/joi",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@hapi/joi is deprecated",
+      "summary": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
+      "severity": "medium",
+      "replacement": "joi",
+      "sources": [
+        { "title": "@hapi/joi package deprecation notice", "url": "https://www.npmjs.com/package/@hapi/joi" },
+        { "title": "@hapi/joi registry metadata", "url": "https://registry.npmjs.org/@hapi%2fjoi/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve validation schemas, preferences, extensions, and error handling."],
+        "steps": [
+          { "id": "replace-hapi-joi", "title": "Replace @hapi/joi", "instructions": "Move the dependency and imports from @hapi/joi to joi, then adapt any API differences for the installed target version.", "targets": "all" },
+          { "id": "verify-joi-schemas", "title": "Verify validation behavior", "instructions": "Exercise successful and failing validation paths and compare their values and errors.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run schema validation and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "@hapi/joi" },
+        { "kind": "import", "language": "typescript", "module": "@hapi/joi" }
+      ],
+      "x-npm": { "package": "@hapi/joi" }
+    },
+    {
+      "id": "npm.package.babel-preset-es2015.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/babel-preset-es2015",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "babel-preset-es2015 is deprecated",
+      "summary": "npm recommends babel-preset-env instead of babel-preset-es2015.",
+      "severity": "medium",
+      "replacement": "@babel/preset-env",
+      "sources": [
+        { "title": "babel-preset-es2015 package deprecation notice", "url": "https://www.npmjs.com/package/babel-preset-es2015" },
+        { "title": "babel-preset-es2015 registry metadata", "url": "https://registry.npmjs.org/babel-preset-es2015/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve the JavaScript syntax targets and emitted runtime behavior required by supported environments."],
+        "steps": [
+          { "id": "replace-es2015-preset", "title": "Replace the Babel preset", "instructions": "Replace babel-preset-es2015 with @babel/preset-env and update Babel configuration to use @babel/preset-env.", "targets": "all" },
+          { "id": "configure-targets", "title": "Configure supported targets", "instructions": "Set explicit target environments so the replacement emits only the transforms and polyfill behavior the project requires.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run build --if-present", "purpose": "Build the project and verify the replacement Babel output." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "babel-preset-es2015" },
+        { "kind": "import", "language": "typescript", "module": "babel-preset-es2015" }
+      ],
+      "x-npm": { "package": "babel-preset-es2015" }
+    },
+    {
+      "id": "npm.package.boom.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/boom",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "boom is deprecated",
+      "summary": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
+      "severity": "medium",
+      "replacement": "@hapi/boom",
+      "sources": [
+        { "title": "boom package deprecation notice", "url": "https://www.npmjs.com/package/boom" },
+        { "title": "boom registry metadata", "url": "https://registry.npmjs.org/boom/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve HTTP status codes, payload shape, headers, and error classification."],
+        "steps": [
+          { "id": "replace-boom", "title": "Replace boom", "instructions": "Move the dependency and imports from boom to @hapi/boom and update changed API calls.", "targets": "all" },
+          { "id": "verify-http-errors", "title": "Verify HTTP errors", "instructions": "Compare status codes and serialized error payloads for every affected error path.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP error behavior and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "boom" },
+        { "kind": "import", "language": "typescript", "module": "boom" }
+      ],
+      "x-npm": { "package": "boom" }
+    },
+    {
+      "id": "npm.package.cryptiles.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/cryptiles",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "cryptiles is deprecated",
+      "summary": "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained.",
+      "severity": "medium",
+      "replacement": "@hapi/cryptiles",
+      "sources": [
+        { "title": "cryptiles package deprecation notice", "url": "https://www.npmjs.com/package/cryptiles" },
+        { "title": "cryptiles registry metadata", "url": "https://registry.npmjs.org/cryptiles/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve random-token entropy, timing-safe comparisons, and cryptographic input and output encodings."],
+        "steps": [
+          { "id": "replace-cryptiles", "title": "Replace cryptiles", "instructions": "Move the dependency and imports from cryptiles to @hapi/cryptiles and adapt changed APIs.", "targets": "all" },
+          { "id": "verify-crypto-behavior", "title": "Verify cryptographic behavior", "instructions": "Exercise token generation and comparison paths with their existing encodings and lengths.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run security-sensitive behavior and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "cryptiles" },
+        { "kind": "import", "language": "typescript", "module": "cryptiles" }
+      ],
+      "x-npm": { "package": "cryptiles" }
+    },
+    {
+      "id": "npm.package.gulp-util.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/gulp-util",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "gulp-util is deprecated",
+      "summary": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
+      "severity": "medium",
+      "replacement": "Maintained purpose-specific modules listed by Gulp",
+      "sources": [
+        { "title": "gulp-util package deprecation notice", "url": "https://www.npmjs.com/package/gulp-util" },
+        { "title": "gulp-util registry metadata", "url": "https://registry.npmjs.org/gulp-util/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve each used utility's logging, file, plugin-error, and stream behavior."],
+        "steps": [
+          { "id": "inventory-gulp-util", "title": "Inventory gulp-util APIs", "instructions": "Map every imported gulp-util member to the purpose-specific replacement recommended by Gulp.", "targets": "usages" },
+          { "id": "replace-gulp-util", "title": "Install focused replacements", "instructions": "Replace gulp-util imports and dependency with only the maintained modules required by those usages.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run build --if-present", "purpose": "Run the Gulp build and verify task output." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "gulp-util" },
+        { "kind": "import", "language": "typescript", "module": "gulp-util" }
+      ],
+      "x-npm": { "package": "gulp-util" }
+    },
+    {
+      "id": "npm.package.har-validator.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/har-validator",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "har-validator is deprecated",
+      "summary": "npm states that har-validator is no longer supported.",
+      "severity": "medium",
+      "sources": [
+        { "title": "har-validator package deprecation notice", "url": "https://www.npmjs.com/package/har-validator" },
+        { "title": "har-validator registry metadata", "url": "https://registry.npmjs.org/har-validator/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve the accepted HAR specification version, validation strictness, and error reporting."],
+        "steps": [
+          { "id": "select-har-validator", "title": "Select a maintained HAR validator", "instructions": "Choose a maintained validator that supports the project's HAR version and required validation semantics.", "targets": "all" },
+          { "id": "replace-har-validation", "title": "Replace validation calls", "instructions": "Translate har-validator calls and handle the replacement's result and error format explicitly.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run valid and invalid HAR fixtures and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "har-validator" },
+        { "kind": "import", "language": "typescript", "module": "har-validator" }
+      ],
+      "x-npm": { "package": "har-validator" }
+    },
+    {
+      "id": "npm.package.inflight.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/inflight",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "inflight is deprecated",
+      "summary": "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing.",
+      "severity": "medium",
+      "replacement": "lru-cache",
+      "sources": [
+        { "title": "inflight package deprecation notice", "url": "https://www.npmjs.com/package/inflight" },
+        { "title": "inflight registry metadata", "url": "https://registry.npmjs.org/inflight/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve request coalescing, callback delivery, cache-key identity, and cleanup on success and failure."],
+        "steps": [
+          { "id": "replace-inflight", "title": "Replace inflight", "instructions": "Implement keyed coalescing with lru-cache or another maintained primitive and remove inflight.", "targets": "all" },
+          { "id": "verify-coalescing", "title": "Verify concurrent behavior", "instructions": "Test duplicate concurrent requests, failures, retries, and cleanup after completion.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run concurrency, memory-lifecycle, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "inflight" },
+        { "kind": "import", "language": "typescript", "module": "inflight" }
+      ],
+      "x-npm": { "package": "inflight" }
+    },
+    {
+      "id": "npm.package.istanbul.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/istanbul",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "istanbul is deprecated",
+      "summary": "npm states that istanbul is no longer maintained and recommends nyc.",
+      "severity": "medium",
+      "replacement": "nyc",
+      "sources": [
+        { "title": "istanbul package deprecation notice", "url": "https://www.npmjs.com/package/istanbul" },
+        { "title": "istanbul registry metadata", "url": "https://registry.npmjs.org/istanbul/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve test execution, include and exclude patterns, source maps, reporters, and coverage thresholds."],
+        "steps": [
+          { "id": "replace-istanbul", "title": "Replace Istanbul CLI", "instructions": "Replace istanbul with nyc in dependencies, scripts, and coverage configuration.", "targets": "all" },
+          { "id": "compare-coverage", "title": "Compare coverage output", "instructions": "Run the same test suite and compare covered files, reporters, and enforced thresholds.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the instrumented test suite and coverage checks." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "istanbul" },
+        { "kind": "import", "language": "typescript", "module": "istanbul" }
+      ],
+      "x-npm": { "package": "istanbul" }
+    },
+    {
+      "id": "npm.package.jade.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/jade",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "jade is deprecated",
+      "summary": "npm states that Jade was renamed to Pug and directs users to the pug package.",
+      "severity": "medium",
+      "replacement": "pug",
+      "sources": [
+        { "title": "jade package deprecation notice", "url": "https://www.npmjs.com/package/jade" },
+        { "title": "jade registry metadata", "url": "https://registry.npmjs.org/jade/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve template rendering, locals, includes, inheritance, whitespace, and generated HTML."],
+        "steps": [
+          { "id": "replace-jade", "title": "Replace Jade with Pug", "instructions": "Replace the jade dependency, imports, file extensions, and build integrations with pug equivalents.", "targets": "all" },
+          { "id": "compare-rendered-html", "title": "Compare rendered output", "instructions": "Render representative templates and review generated HTML and escaping behavior for differences.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run template rendering and repository tests when defined." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "jade" },
+        { "kind": "import", "language": "typescript", "module": "jade" }
+      ],
+      "x-npm": { "package": "jade" }
+    },
+    {
+      "id": "npm.package.karma-phantomjs-launcher.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/karma-phantomjs-launcher",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "karma-phantomjs-launcher is deprecated",
+      "summary": "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.",
+      "severity": "medium",
+      "replacement": "A maintained Karma browser launcher such as karma-chrome-launcher",
+      "sources": [
+        { "title": "karma-phantomjs-launcher package deprecation notice", "url": "https://www.npmjs.com/package/karma-phantomjs-launcher" },
+        { "title": "karma-phantomjs-launcher registry metadata", "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve browser test coverage, Karma execution mode, launch flags, and CI behavior."],
+        "steps": [
+          { "id": "select-browser-launcher", "title": "Select a maintained browser launcher", "instructions": "Choose a maintained Karma launcher supported by local and CI environments and add its package.", "targets": "declaration" },
+          { "id": "replace-phantomjs-launcher", "title": "Replace PhantomJS configuration", "instructions": "Replace the PhantomJS launcher and browser name in Karma configuration, then remove karma-phantomjs-launcher.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the browser test suite in its supported local or CI mode." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "karma-phantomjs-launcher" },
+        { "kind": "import", "language": "typescript", "module": "karma-phantomjs-launcher" }
+      ],
+      "x-npm": { "package": "karma-phantomjs-launcher" }
     }
   ]
 }

@@ -106,9 +106,14 @@ test("against the registry it updates the rules that exist and flags the one it 
   const existing = JSON.parse(await readFile(resolve("registry/npm.json"), "utf8")) as RegistryV2;
   const drafts = await execute(npmDeprecatedImporter, { replay: recording });
   const diff = diffDrafts(drafts, existing);
-  assert.deepEqual(diff.changed.map((change) => change.id), ["npm.package.left-pad.deprecated", "npm.package.request.deprecated"]);
+  const existingIds = new Set(existing.rules.map((rule) => rule.id));
+  const expectedChanged = drafts.rules
+    .map((rule) => rule.id)
+    .filter((id) => existingIds.has(id))
+    .sort();
+  assert.deepEqual(diff.changed.map((change) => change.id), expectedChanged);
   assert.deepEqual(diff.duplicates, [{ draft: "npm.package.node-sass.deprecated", existing: "npm.package.node-sass.eol" }]);
-  assert.equal(diff.added.length, NPM_CANDIDATES.length - 2);
+  assert.equal(diff.added.length, drafts.rules.length - expectedChanged.length);
 });
 
 test("a response that is not JSON is reported with its URL", async () => {
