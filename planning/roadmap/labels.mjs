@@ -37,6 +37,17 @@ export const MONTHS = {
       "First public launch: the agent dependency guardrail",
     ],
   },
+  R1: {
+    phase: 21.5, title: "Phase 21.5 — Release 0.2: ship what is built", dueOn: "2026-10-31T12:00:00Z",
+    window: "2026-10-17 → 2026-10-31", theme: "Release 0.2: ship what is built",
+    delivers: [
+      "Evergreen 0.2.0 on npm with trusted publishing, provenance, and a post-publish smoke test",
+      "The first signed data bundle and the first scheduled importer run",
+      "Agent host setups verified in live hosts; Evergreen listed in the official MCP Registry",
+      "Bounded monorepo discovery, proven on monorepos in the public corpus",
+      "Go detection wired and documented; a full corpus run on the current rules",
+    ],
+  },
   M3: {
     phase: 22, title: "Phase 22 — Backend, cloud, and Kubernetes coverage", dueOn: "2027-01-15T12:00:00Z",
     window: "2026-12-16 → 2027-01-15", theme: "Backend, cloud, and Kubernetes coverage",

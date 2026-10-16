@@ -4,6 +4,8 @@
 export const ECOSYSTEMS = [
   {
     id: "go", name: "Go", epic: "#43", month: "M2", tier: 1, language: true,
+    // Still open when Phase 21 closed; the epic and these tasks moved to the release phase.
+    moved: { month: "R1", tasks: ["detector", "usage", "migration", "corpus", "docs"] },
     manifests: [
       { file: "go.mod", what: "`go` and `toolchain` directives and direct `require` entries" },
       { file: "go.work", what: "`go` and `toolchain` directives" },
@@ -472,12 +474,14 @@ export function ecosystemTasks(e) {
     deps: [eco(e, "detector")],
   });
 
-  return tasks;
+  return e.moved
+    ? tasks.map((task) => (e.moved.tasks.includes(task.key.slice(e.id.length + 1)) ? { ...task, month: e.moved.month } : task))
+    : tasks;
 }
 
 export function ecosystemEpic(e) {
   return {
-    key: e.epic, kind: "epic", month: e.month, eco: e.id, areas: ["area: detector"],
+    key: e.epic, kind: "epic", month: e.moved?.month ?? e.month, eco: e.id, areas: ["area: detector"],
     title: `Epic: ${e.name} lifecycle detection`,
     goal: `Detect evidence-backed ${e.name} lifecycle risks at exact locations and produce migration packets, built from small independent tasks.`,
     scope: [

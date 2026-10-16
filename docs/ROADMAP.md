@@ -37,10 +37,11 @@ Each phase is a GitHub milestone. A phase starts when the previous one is comple
 
 | Phase | Window | Issues |
 |---|---|---|
-| [Phase 20 — Ready for contributors and real data](https://github.com/arminazimi/evergreen/milestone/12) | 2026-10-15 → 2026-11-15 | 81 |
-| [Phase 21 — Fresh data and agent guardrails](https://github.com/arminazimi/evergreen/milestone/13) | 2026-11-16 → 2026-12-15 | 86 |
-| [Phase 22 — Backend, cloud, and Kubernetes coverage](https://github.com/arminazimi/evergreen/milestone/14) | 2026-12-16 → 2027-01-15 | 100 |
-| [Phase 23 — Standards and precise code analysis](https://github.com/arminazimi/evergreen/milestone/15) | 2027-01-16 → 2027-02-15 | 78 |
+| [Phase 20 — Ready for contributors and real data](https://github.com/arminazimi/evergreen/milestone/12) | 2026-10-15 → 2026-11-15 | 71 |
+| [Phase 21 — Fresh data and agent guardrails](https://github.com/arminazimi/evergreen/milestone/13) | 2026-11-16 → 2026-12-15 | 61 |
+| [Phase 21.5 — Release 0.2: ship what is built](https://github.com/arminazimi/evergreen/milestone/18) | 2026-10-17 → 2026-10-31 | 29 |
+| [Phase 22 — Backend, cloud, and Kubernetes coverage](https://github.com/arminazimi/evergreen/milestone/14) | 2026-12-16 → 2027-01-15 | 111 |
+| [Phase 23 — Standards and precise code analysis](https://github.com/arminazimi/evergreen/milestone/15) | 2027-01-16 → 2027-02-15 | 81 |
 | [Phase 24 — Community ecosystems and open data](https://github.com/arminazimi/evergreen/milestone/16) | 2027-02-16 → 2027-03-15 | 98 |
 | [Phase 25 — Evergreen v1](https://github.com/arminazimi/evergreen/milestone/17) | 2027-03-16 → 2027-04-15 | 30 |
 
@@ -61,7 +62,7 @@ Pick any open task whose dependencies are closed. Each task includes an agent br
 
 ## Phase 20 — Ready for contributors and real data
 
-_2026-10-15 → 2026-11-15 · 72 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/12)_
+_2026-10-15 → 2026-11-15 · 68 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/12)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -79,20 +80,50 @@ _2026-10-15 → 2026-11-15 · 72 tasks · [milestone](https://github.com/arminaz
 - **[Make the repository agent- and contributor-ready](https://github.com/arminazimi/evergreen/issues/67)** — Let four coding agents and new contributors work in parallel safely, one small issue per PR. _(9 tasks)_
 - **[Lifecycle rule format v2 (PURL, VERS, provenance, freshness)](https://github.com/arminazimi/evergreen/issues/38)** — Key every lifecycle rule by PURL and VERS with auditable provenance so rules can be imported, exported as CLE, and checked for freshness. _(16 tasks)_
 - **[Classify SHA-pinned GitHub Actions](https://github.com/arminazimi/evergreen/issues/68)** — Security-focused teams pin actions to commit SHAs; today those references are silently unclassified. Classify them deterministically. _(5 tasks)_
-- **[Lifecycle data importers (automated, reviewed rule generation)](https://github.com/arminazimi/evergreen/issues/69)** — Replace hand-written rules with importers that read authoritative machine-readable sources and open reviewable PRs. _(13 tasks)_
-- **[Independent ground truth and the public benchmark corpus](https://github.com/arminazimi/evergreen/issues/41)** — Make accuracy claims independent of Evergreen's own rule set: ground truth comes from real migration commits, upstream changelogs, CI failures, and differential testing. _(16 tasks)_
-- **[Shared detector contract, conformance suite, and maturity levels](https://github.com/arminazimi/evergreen/issues/39)** — Apply one quality bar to every built-in and external detector, and expose detector maturity. _(11 tasks)_
-- **[Cross-platform CI and safe release automation](https://github.com/arminazimi/evergreen/issues/70)** — Run on every supported platform and release without long-lived credentials. _(7 tasks)_
-- **[Deepen JavaScript, Python, and GitHub Actions coverage](https://github.com/arminazimi/evergreen/issues/71)** — Grow the four shipped ecosystems from 15 rules to hundreds before expanding further. _(10 tasks)_
-- **[Growth and distribution loops](https://github.com/arminazimi/evergreen/issues/83)** — Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end. _(18 tasks)_
 
   Also in this phase, from epics listed in other phases:
-  - [Package and publish the Evergreen plugin for Claude](https://github.com/arminazimi/evergreen/issues/30)
-  - [Prepare and submit the Evergreen Codex plugin for public distribution](https://github.com/arminazimi/evergreen/issues/31)
+  - [Define the lifecycle importer interface](https://github.com/arminazimi/evergreen/issues/118)
+  - [Add offline recording and replay for importer tests](https://github.com/arminazimi/evergreen/issues/119)
+  - [Diff draft rules against the registry](https://github.com/arminazimi/evergreen/issues/120)
+  - [Generate a reviewable PR body with an evidence table](https://github.com/arminazimi/evergreen/issues/121)
+  - [Document how to write an importer](https://github.com/arminazimi/evergreen/issues/123)
+  - [Importer: Node.js release schedule](https://github.com/arminazimi/evergreen/issues/124)
+  - [Importer: Python release cycle](https://github.com/arminazimi/evergreen/issues/125)
+  - [Importer: npm `deprecated` metadata for direct dependencies](https://github.com/arminazimi/evergreen/issues/126)
+  - [Importer: PyPI project status markers (PEP 792)](https://github.com/arminazimi/evergreen/issues/127)
+  - [Importer: GitHub Actions runtime deprecations (Node runtimes in action.yml)](https://github.com/arminazimi/evergreen/issues/128)
+  - [Importer: GitHub-hosted runner image retirements](https://github.com/arminazimi/evergreen/issues/129)
+  - [Add `groundTruthSource` to the validation corpus schema](https://github.com/arminazimi/evergreen/issues/131)
+  - [Define migration-commit mining queries](https://github.com/arminazimi/evergreen/issues/132)
+  - [Mine candidate migration commits into review files](https://github.com/arminazimi/evergreen/issues/133)
+  - [Add a reviewed/rejected log for corpus candidates](https://github.com/arminazimi/evergreen/issues/134)
+  - [Add 10 GitHub Actions repositories to the corpus](https://github.com/arminazimi/evergreen/issues/135)
+  - [Schedule the pinned public-repository validation corpus](https://github.com/arminazimi/evergreen/issues/16)
+  - [Build the detector conformance harness](https://github.com/arminazimi/evergreen/issues/146)
+  - [Conformance check: determinism](https://github.com/arminazimi/evergreen/issues/147)
+  - [Conformance check: locations](https://github.com/arminazimi/evergreen/issues/148)
+  - [Conformance check: evidence](https://github.com/arminazimi/evergreen/issues/149)
+  - [Conformance check: zero](https://github.com/arminazimi/evergreen/issues/150)
+  - [Conformance check: malformed](https://github.com/arminazimi/evergreen/issues/151)
+  - [Conformance check: bounds](https://github.com/arminazimi/evergreen/issues/152)
+  - [Run every built-in detector through conformance](https://github.com/arminazimi/evergreen/issues/153)
+  - [Export the conformance harness from the SDK](https://github.com/arminazimi/evergreen/issues/154)
+  - [Run the core test suite on Windows](https://github.com/arminazimi/evergreen/issues/17)
+  - [Add macOS to the CI matrix](https://github.com/arminazimi/evergreen/issues/157)
+  - [Test on Node.js 24 in CI](https://github.com/arminazimi/evergreen/issues/158)
+  - [Automate changelog and release notes](https://github.com/arminazimi/evergreen/issues/161)
+  - [Add a release checklist](https://github.com/arminazimi/evergreen/issues/162)
+  - [Add 10 curated npm package lifecycle rules (batch 1)](https://github.com/arminazimi/evergreen/issues/163)
+  - [Add 10 curated npm package lifecycle rules (batch 2)](https://github.com/arminazimi/evergreen/issues/164)
+  - [Add 10 curated Python package lifecycle rules (batch 1)](https://github.com/arminazimi/evergreen/issues/167)
+  - [Add 10 curated Python package lifecycle rules (batch 2)](https://github.com/arminazimi/evergreen/issues/168)
+  - [Add 10 curated GitHub Actions lifecycle rules (batch 1)](https://github.com/arminazimi/evergreen/issues/170)
+  - [Add 10 curated GitHub Actions lifecycle rules (batch 2)](https://github.com/arminazimi/evergreen/issues/171)
+  - [Measure adoption weekly without telemetry](https://github.com/arminazimi/evergreen/issues/283)
 
 ## Phase 21 — Fresh data and agent guardrails
 
-_2026-11-16 → 2026-12-15 · 78 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/13)_
+_2026-11-16 → 2026-12-15 · 57 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/13)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -108,36 +139,70 @@ _2026-11-16 → 2026-12-15 · 78 tasks · [milestone](https://github.com/arminaz
 **Epics**
 
 - **[Detector scaffolding generator](https://github.com/arminazimi/evergreen/issues/42)** — Reduce a new ecosystem detector to one command and a predictable, reviewable structure. _(5 tasks)_
-- **[Signed lifecycle data channel](https://github.com/arminazimi/evergreen/issues/72)** — Ship lifecycle data independently of code releases so freshness no longer depends on upgrading Evergreen. _(10 tasks)_
-- **[Agent guardrail: check dependencies as agents add them](https://github.com/arminazimi/evergreen/issues/73)** — Coding agents often choose deprecated packages from training data. Check every dependency an agent adds, at the moment it adds it. _(10 tasks)_
 - **[Richer MCP surface: resources, prompts, structured outputs](https://github.com/arminazimi/evergreen/issues/74)** — Expose rules and findings as MCP resources, migrations as prompts, and typed outputs for every tool. _(5 tasks)_
-- **[Auto-discoverability for agents and humans](https://github.com/arminazimi/evergreen/issues/75)** — Make Evergreen findable wherever agents and developers look: MCP Registry, llms.txt, agent instruction files, marketplaces. _(7 tasks)_
 - **[SARIF and native CI reporting](https://github.com/arminazimi/evergreen/issues/35)** — Expose findings through code-scanning interfaces without losing the canonical JSON report. _(5 tasks)_
-- **[Go lifecycle detection](https://github.com/arminazimi/evergreen/issues/43)** — Detect evidence-backed Go lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(11 tasks)_
 - **[Container base images lifecycle detection](https://github.com/arminazimi/evergreen/issues/15)** — Detect evidence-backed Container base images lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(10 tasks)_
 
   Also in this phase, from epics listed in other phases:
-  - [Schedule importers to open data PRs](https://github.com/arminazimi/evergreen/issues/122)
   - [Importer: endoflife.date adapter with mandatory vendor sources](https://github.com/arminazimi/evergreen/issues/130)
   - [Differential testing against Renovate deprecation output](https://github.com/arminazimi/evergreen/issues/136)
-  - [Differential testing against xeol](https://github.com/arminazimi/evergreen/issues/137)
-  - [Generate the differential comparison report](https://github.com/arminazimi/evergreen/issues/139)
   - [Grow the independent corpus to 50 repositories](https://github.com/arminazimi/evergreen/issues/140)
   - [Separate checkout time from scan time in benchmark results](https://github.com/arminazimi/evergreen/issues/143)
   - [Add 10 curated npm package lifecycle rules (batch 3)](https://github.com/arminazimi/evergreen/issues/165)
   - [Add 10 curated npm package lifecycle rules (batch 4)](https://github.com/arminazimi/evergreen/issues/166)
   - [Add 10 curated Python package lifecycle rules (batch 3)](https://github.com/arminazimi/evergreen/issues/169)
-  - [Bounded monorepo discovery across workspaces](https://github.com/arminazimi/evergreen/issues/172)
-  - [Install a git pre-push hook with `evergreen init --hooks`](https://github.com/arminazimi/evergreen/issues/284)
-  - [Ship a pre-commit framework hook](https://github.com/arminazimi/evergreen/issues/285)
-  - [List Evergreen on the pre-commit hooks directory](https://github.com/arminazimi/evergreen/issues/286)
+  - [Define the lifecycle data bundle format](https://github.com/arminazimi/evergreen/issues/178)
+  - [Build the data bundle in CI](https://github.com/arminazimi/evergreen/issues/179)
+  - [Verify bundle signatures before loading](https://github.com/arminazimi/evergreen/issues/181)
+  - [Add `evergreen data update`](https://github.com/arminazimi/evergreen/issues/182)
+  - [Add `evergreen data status`](https://github.com/arminazimi/evergreen/issues/183)
+  - [Pin a data bundle version in config](https://github.com/arminazimi/evergreen/issues/184)
+  - [Guarantee offline behavior of scans](https://github.com/arminazimi/evergreen/issues/185)
+  - [Show data age and stale warnings in all outputs](https://github.com/arminazimi/evergreen/issues/186)
+  - [Document the data channel and trust model](https://github.com/arminazimi/evergreen/issues/187)
+  - [Add the `checkDependency` core API](https://github.com/arminazimi/evergreen/issues/188)
+  - [Add `evergreen check <purl>`](https://github.com/arminazimi/evergreen/issues/189)
+  - [Add the `check_dependency` MCP tool](https://github.com/arminazimi/evergreen/issues/190)
+  - [Claude Code hook: check dependencies an agent adds](https://github.com/arminazimi/evergreen/issues/191)
+  - [Codex integration: check dependencies an agent adds](https://github.com/arminazimi/evergreen/issues/192)
+  - [Evaluate guardrail triggering across agents](https://github.com/arminazimi/evergreen/issues/197)
+  - [Add `evergreen init --agents`](https://github.com/arminazimi/evergreen/issues/203)
+  - [Publish `llms.txt` and generated `llms-full.txt`](https://github.com/arminazimi/evergreen/issues/206)
+  - [Improve npm and README discoverability metadata](https://github.com/arminazimi/evergreen/issues/207)
   - [Generate an EOL event calendar from the registry](https://github.com/arminazimi/evergreen/issues/287)
-  - [Write the first three "Is your repo affected?" EOL posts](https://github.com/arminazimi/evergreen/issues/288)
-  - [Mini-launch 1: the agent dependency guardrail](https://github.com/arminazimi/evergreen/issues/289)
+  - [Go: add positive, negative, zero-finding, and malformed fixtures](https://github.com/arminazimi/evergreen/issues/319)
+  - [Go: parse go.mod with exact line locations](https://github.com/arminazimi/evergreen/issues/320)
+  - [Go: parse go.work with exact line locations](https://github.com/arminazimi/evergreen/issues/321)
+  - [Go: create the registry file and the first 5 curated rules](https://github.com/arminazimi/evergreen/issues/322)
+  - [Go: import lifecycle signals from Go release support policy](https://github.com/arminazimi/evergreen/issues/323)
+  - [Go: import lifecycle signals from `// Deprecated:` comments on direct modules](https://github.com/arminazimi/evergreen/issues/324)
+
+## Phase 21.5 — Release 0.2: ship what is built
+
+_2026-10-17 → 2026-10-31 · 21 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/18)_
+
+**When this phase is complete, Evergreen has:**
+
+- Evergreen 0.2.0 on npm with trusted publishing, provenance, and a post-publish smoke test
+- The first signed data bundle and the first scheduled importer run
+- Agent host setups verified in live hosts; Evergreen listed in the official MCP Registry
+- Bounded monorepo discovery, proven on monorepos in the public corpus
+- Go detection wired and documented; a full corpus run on the current rules
+
+**Epics**
+
+- **[Lifecycle data importers (automated, reviewed rule generation)](https://github.com/arminazimi/evergreen/issues/69)** — Replace hand-written rules with importers that read authoritative machine-readable sources and open reviewable PRs. _(15 tasks)_
+- **[Independent ground truth and the public benchmark corpus](https://github.com/arminazimi/evergreen/issues/41)** — Make accuracy claims independent of Evergreen's own rule set: ground truth comes from real migration commits, upstream changelogs, CI failures, and differential testing. _(18 tasks)_
+- **[Cross-platform CI and safe release automation](https://github.com/arminazimi/evergreen/issues/70)** — Run on every supported platform and release without long-lived credentials. _(9 tasks)_
+- **[Deepen JavaScript, Python, and GitHub Actions coverage](https://github.com/arminazimi/evergreen/issues/71)** — Grow the four shipped ecosystems from 15 rules to hundreds before expanding further. _(12 tasks)_
+- **[Signed lifecycle data channel](https://github.com/arminazimi/evergreen/issues/72)** — Ship lifecycle data independently of code releases so freshness no longer depends on upgrading Evergreen. _(10 tasks)_
+- **[Agent guardrail: check dependencies as agents add them](https://github.com/arminazimi/evergreen/issues/73)** — Coding agents often choose deprecated packages from training data. Check every dependency an agent adds, at the moment it adds it. _(10 tasks)_
+- **[Auto-discoverability for agents and humans](https://github.com/arminazimi/evergreen/issues/75)** — Make Evergreen findable wherever agents and developers look: MCP Registry, llms.txt, agent instruction files, marketplaces. _(7 tasks)_
+- **[Go lifecycle detection](https://github.com/arminazimi/evergreen/issues/43)** — Detect evidence-backed Go lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(11 tasks)_
 
 ## Phase 22 — Backend, cloud, and Kubernetes coverage
 
-_2026-12-16 → 2027-01-15 · 91 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/14)_
+_2026-12-16 → 2027-01-15 · 100 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/14)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -151,10 +216,12 @@ _2026-12-16 → 2027-01-15 · 91 tasks · [milestone](https://github.com/arminaz
 
 **Epics**
 
+- **[Shared detector contract, conformance suite, and maturity levels](https://github.com/arminazimi/evergreen/issues/39)** — Apply one quality bar to every built-in and external detector, and expose detector maturity. _(11 tasks)_
 - **[One-step GitHub Action and Marketplace](https://github.com/arminazimi/evergreen/issues/37)** — One Evergreen step after checkout with safe defaults, published in GitHub Marketplace. _(6 tasks)_
 - **[Expiring, machine-readable suppression reasons](https://github.com/arminazimi/evergreen/issues/40)** — Prevent baselines from becoming permanent invisible debt. _(5 tasks)_
 - **[More installation channels](https://github.com/arminazimi/evergreen/issues/76)** — Install Evergreen where people already work: container image, Homebrew, and a README badge. _(3 tasks)_
 - **[Canonical lifecycle reference pages](https://github.com/arminazimi/evergreen/issues/60)** — Make Evergreen evidence useful as a public reference before anyone installs the CLI. _(4 tasks)_
+- **[Growth and distribution loops](https://github.com/arminazimi/evergreen/issues/83)** — Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end. _(18 tasks)_
 - **[Rust lifecycle detection](https://github.com/arminazimi/evergreen/issues/46)** — Detect evidence-backed Rust lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(12 tasks)_
 - **[Java and Kotlin (JVM) lifecycle detection](https://github.com/arminazimi/evergreen/issues/49)** — Detect evidence-backed Java and Kotlin (JVM) lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(13 tasks)_
 - **[.NET lifecycle detection](https://github.com/arminazimi/evergreen/issues/48)** — Detect evidence-backed .NET lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(13 tasks)_
@@ -162,23 +229,18 @@ _2026-12-16 → 2027-01-15 · 91 tasks · [milestone](https://github.com/arminaz
 - **[Serverless runtimes lifecycle detection](https://github.com/arminazimi/evergreen/issues/86)** — Detect evidence-backed Serverless runtimes lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(11 tasks)_
 
   Also in this phase, from epics listed in other phases:
+  - [Record announced future end-of-life dates](https://github.com/arminazimi/evergreen/issues/638)
+  - [Add the npm deprecations Renovate found to the importer candidates](https://github.com/arminazimi/evergreen/issues/639)
   - [Differential testing against Pluto for Kubernetes](https://github.com/arminazimi/evergreen/issues/138)
   - [Grow the independent corpus to 100 repositories](https://github.com/arminazimi/evergreen/issues/141)
   - [Generate an ecosystem coverage matrix](https://github.com/arminazimi/evergreen/issues/144)
   - [Enforce per-detector regression thresholds](https://github.com/arminazimi/evergreen/issues/145)
-  - [Add detector maturity levels to the capability manifest](https://github.com/arminazimi/evergreen/issues/155)
-  - [Define promotion gates between maturity levels](https://github.com/arminazimi/evergreen/issues/156)
-  - [Submit an Evergreen starter workflow to GitHub](https://github.com/arminazimi/evergreen/issues/290)
-  - [Emit reviewdog diagnostic format (rdjson)](https://github.com/arminazimi/evergreen/issues/291)
-  - [Contribute an Evergreen descriptor to MegaLinter](https://github.com/arminazimi/evergreen/issues/292)
-  - [Add an Evergreen plugin for trunk check](https://github.com/arminazimi/evergreen/issues/293)
-  - [Add "Scanned by Evergreen" attribution to Action summaries and badges](https://github.com/arminazimi/evergreen/issues/294)
-  - [Mini-launch 2: Kubernetes and serverless runtime checks](https://github.com/arminazimi/evergreen/issues/295)
-  - [Write three more EOL posts from the calendar](https://github.com/arminazimi/evergreen/issues/296)
+  - [Package and publish the Evergreen plugin for Claude](https://github.com/arminazimi/evergreen/issues/30)
+  - [Prepare and submit the Evergreen Codex plugin for public distribution](https://github.com/arminazimi/evergreen/issues/31)
 
 ## Phase 23 — Standards and precise code analysis
 
-_2027-01-16 → 2027-02-15 · 70 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/15)_
+_2027-01-16 → 2027-02-15 · 73 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/15)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -202,6 +264,9 @@ _2027-01-16 → 2027-02-15 · 70 tasks · [milestone](https://github.com/arminaz
 - **[Swift and Apple toolchains lifecycle detection](https://github.com/arminazimi/evergreen/issues/55)** — Detect evidence-backed Swift and Apple toolchains lifecycle risks at exact locations and produce migration packets, built from small independent tasks. _(11 tasks)_ _(community-led; may slip without blocking v1)_
 
   Also in this phase, from epics listed in other phases:
+  - [Differential testing against xeol](https://github.com/arminazimi/evergreen/issues/137)
+  - [Generate the differential comparison report](https://github.com/arminazimi/evergreen/issues/139)
+  - [Re-run the Renovate comparison with a GitHub token](https://github.com/arminazimi/evergreen/issues/641)
   - [Submit Evergreen to relevant awesome lists](https://github.com/arminazimi/evergreen/issues/297)
   - [Mini-launch 3: CLE (ECMA-428) and SBOM lifecycle enrichment](https://github.com/arminazimi/evergreen/issues/298)
 
