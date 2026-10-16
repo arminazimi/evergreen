@@ -26,6 +26,7 @@ Use Evergreen outputs as the source of truth. This workflow requires the Evergre
 | Compact planning list | `list_deprecations` | Read `findings` from the scan JSON |
 | Evidence and impact | `explain_deprecation` | `evergreen explain '<finding-id>' <path> --json` |
 | Migration packet | `create_migration_context` | `evergreen context '<finding-id>' <path> --json` |
+| Check a dependency before adding it | `check_dependency` | `evergreen check <purl> --json` |
 | Fresh verification | `verify_migration` | Re-run `evergreen scan <path> --json` and confirm the same rule and declaration path are absent |
 
 ## Safety and limits

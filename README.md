@@ -90,7 +90,7 @@ Connect a coding agent through the local MCP server:
 npx --yes --package evergreen-deprecation evergreen-mcp
 ```
 
-The stdio server exposes `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, and `verify_migration`. See the [local MCP guide](docs/MCP.md) for host configuration, the intended workflow, and privacy guarantees.
+The stdio server exposes `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration`, and `check_dependency` (check one package before adding it). See the [local MCP guide](docs/MCP.md) for host configuration, the intended workflow, and privacy guarantees.
 
 ## Agent Skill
 

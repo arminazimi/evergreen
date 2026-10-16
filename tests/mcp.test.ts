@@ -160,6 +160,41 @@ test("local MCP server exposes the complete scan-to-verification workflow", asyn
     assert.equal(verificationContent.verified, true);
     assert.equal(verificationContent.commandsExecuted, false);
     assert.deepEqual(verificationContent.remainingFindings, []);
+    const dependency = await client.request("tools/call", {
+      name: "check_dependency",
+      arguments: { purl: "pkg:npm/request@2.88.2" },
+    });
+    const dependencyContent = dependency.structuredContent as {
+      schemaVersion: string;
+      status: string;
+      severity: string;
+      findings: Array<{ ruleId: string; replacement?: string; sources: unknown[] }>;
+    };
+    assert.equal(dependencyContent.schemaVersion, "evergreen.check.v1");
+    assert.equal(dependencyContent.status, "affected");
+    assert.equal(dependencyContent.findings[0]!.ruleId, "npm.package.request.deprecated");
+    assert.ok(dependencyContent.findings[0]!.replacement);
+    const checkSchema = JSON.parse(await readFile(resolve("schemas/check.v1.schema.json"), "utf8")) as { required: string[] };
+    for (const key of checkSchema.required) assert.ok(key in dependencyContent, `missing ${key}`);
+
+    const versioned = await client.request("tools/call", {
+      name: "check_dependency",
+      arguments: { purl: "pkg:github/actions/checkout", version: "v5" },
+    });
+    assert.equal((versioned.structuredContent as { status: string }).status, "not-affected");
+
+    const noData = await client.request("tools/call", {
+      name: "check_dependency",
+      arguments: { purl: "pkg:npm/express" },
+    });
+    assert.equal((noData.structuredContent as { status: string }).status, "no-data");
+
+    const invalid = await client.request("tools/call", {
+      name: "check_dependency",
+      arguments: { purl: "request" },
+    });
+    assert.equal(invalid.isError, true);
+
     const verificationSchema = JSON.parse(
       await readFile(resolve("schemas/verification.v1.schema.json"), "utf8"),
     ) as { required: string[] };

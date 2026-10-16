@@ -52,6 +52,7 @@ test("Evergreen skill follows the portable Agent Skills contract", async () => {
     "explain_deprecation",
     "create_migration_context",
     "verify_migration",
+    "check_dependency",
   ]) {
     assert.match(body, new RegExp(`\\b${tool}\\b`));
   }

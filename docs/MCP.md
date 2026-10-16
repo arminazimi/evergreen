@@ -41,8 +41,20 @@ The exact settings location depends on the host. Evergreen needs no environment 
 | `explain_deprecation` | Return one evidence-backed finding by exact ID. |
 | `create_migration_context` | Return a validated `evergreen.context.v1` migration packet. |
 | `verify_migration` | Re-scan and return `evergreen.verification.v1` for a finding observed earlier in the session. |
+| `check_dependency` | Check one package, and optionally one version, before adding it. Takes a `purl` (and optionally `version`), reads no repository, and returns `evergreen.check.v1`. |
 
-Every tool accepts `repository_path`; it defaults to the server's current working directory. Finding-specific tools also require the exact `finding_id` returned by Evergreen.
+Every tool except `check_dependency` accepts `repository_path`; it defaults to the server's current working directory. Finding-specific tools also require the exact `finding_id` returned by Evergreen.
+
+## Checking a dependency before adding it
+
+Call `check_dependency` with a Package URL (`pkg:npm/request@2.88.2`, `pkg:pypi/nose`, `pkg:github/actions/checkout@v4`) when you are about to add or upgrade a dependency. The result has a `status`:
+
+- `affected`: a rule applies. Read `findings[].summary`, `replacement`, and `sources`, and choose the replacement instead.
+- `version-dependent`: rules exist, but only for some versions. Call again with the version you intend to use.
+- `not-affected`: rules exist and none covers that version.
+- `no-data`: Evergreen has no rule for the package. That is absence of evidence, not a safety claim.
+
+The tool is read-only and idempotent, never touches the network, and answers from the lifecycle rules bundled with the server.
 
 ## Agent workflow
 

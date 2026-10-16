@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
+import { checkDependency } from "./check-dependency.js";
 import { VERSION } from "./version.js";
 
 export const MCP_TOOL_NAMES = [
@@ -10,6 +11,7 @@ export const MCP_TOOL_NAMES = [
   "explain_deprecation",
   "create_migration_context",
   "verify_migration",
+  "check_dependency",
 ] as const;
 
 const repositoryInput = {
@@ -147,6 +149,34 @@ export function createEvergreenMcpServer(
     async ({ finding_id, repository_path }) => {
       try {
         return success(await tools.verify(finding_id, repository_path));
+      } catch (error) {
+        return failure(error);
+      }
+    },
+  );
+
+  server.registerTool(
+    "check_dependency",
+    {
+      title: "Check dependency",
+      description:
+        "Check one package, and optionally one version, against Evergreen's lifecycle rules before adding it to a project. Pass a Package URL such as pkg:npm/request@2.88.2 or pkg:github/actions/checkout@v4. Returns evergreen.check.v1: a status (affected, not-affected, version-dependent, or no-data), the evidence-backed findings, and a replacement when one is known. no-data means Evergreen has no rule for the package, not that it is safe. No repository is read.",
+      inputSchema: z.object({
+        purl: z
+          .string()
+          .min(1)
+          .describe("Package URL of the dependency, with the version when it is known, for example pkg:npm/request@2.88.2."),
+        version: z
+          .string()
+          .min(1)
+          .optional()
+          .describe("Exact version to check; overrides a version written in the PURL."),
+      }),
+      annotations: MCP_TOOL_ANNOTATIONS,
+    },
+    async ({ purl, version }) => {
+      try {
+        return success(await checkDependency({ purl, ...(version ? { version } : {}) }));
       } catch (error) {
         return failure(error);
       }
