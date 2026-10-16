@@ -18,9 +18,9 @@ after(() => removeAll(roots));
 const exists = (path: string) => access(path).then(() => true, () => false);
 
 test("names are derived from the id", () => {
-  assert.deepEqual(scaffoldNames("go-modules"), { id: "go-modules", ecosystem: "go-modules", camel: "goModules", title: "Go modules" });
-  assert.deepEqual(scaffoldNames("rust-crates", "cargo"), { id: "rust-crates", ecosystem: "cargo", camel: "rustCrates", title: "Rust crates" });
-  assert.deepEqual(scaffoldNames("go"), { id: "go", ecosystem: "go", camel: "go", title: "Go" });
+  assert.deepEqual(scaffoldNames("go-modules"), { id: "go-modules", ecosystem: "go-modules", camel: "goModules", pascal: "GoModules", title: "Go modules" });
+  assert.deepEqual(scaffoldNames("rust-crates", "cargo"), { id: "rust-crates", ecosystem: "cargo", camel: "rustCrates", pascal: "RustCrates", title: "Rust crates" });
+  assert.deepEqual(scaffoldNames("go"), { id: "go", ecosystem: "go", camel: "go", pascal: "Go", title: "Go" });
   assert.equal(scaffoldNames("k8s-api").camel, "k8sApi");
 });
 
@@ -32,13 +32,15 @@ test("ids that the SDK would reject, or that could escape the repository, are re
   assert.throws(() => scaffoldNames("go", "../x"), /not a valid ecosystem slug/);
 });
 
-test("the skeleton is seven files at predictable paths, and its registry is a valid empty v2 registry", () => {
+test("the skeleton is nine files at predictable paths, and its registry is a valid empty v2 registry", () => {
   const names = scaffoldNames("go-modules", "go");
   const files = renderScaffold(names);
   assert.deepEqual([...files.keys()], [
     "src/detectors/go-modules.ts",
+    "src/detectors/go-modules/parse.ts",
     "registry/go-modules.json",
     "tests/go-modules-detector.test.ts",
+    "tests/go-modules-parse.test.ts",
     "tests/fixtures/go-modules/README.md",
     "tests/fixtures/go-modules/zero/README.md",
     "tests/fixtures/go-modules/malformed/README.md",
@@ -54,7 +56,7 @@ test("the skeleton is seven files at predictable paths, and its registry is a va
   assert.doesNotMatch(detector, /from "\.\.\/(?!sdk\.js)/, "a detector uses the public SDK only");
   assert.match(files.get("tests/go-modules-detector.test.ts")!, /import \{ goModulesDetector \} from "\.\.\/src\/detectors\/go-modules\.js";/);
   assert.match(files.get("docs/detectors/go-modules.md")!, /^# Go modules detector/);
-  for (const contents of files.values()) assert.ok(!contents.includes("{{") && !contents.includes("undefined"), "no unrendered placeholder");
+  for (const contents of files.values()) assert.ok(!/\{\{\s*\w+\s*\}\}|\$\{names\.|\bundefined\b|\[object /.test(contents), "no unrendered placeholder");
 });
 
 test("it refuses to run outside a checkout of the repository", async () => {
@@ -80,7 +82,7 @@ test("an existing file stops the whole run before anything is written", async ()
 test("a generated skeleton compiles and passes the conformance suite with zero rules", async () => {
   const checkout = await scaffoldCheckout(roots);
   const result = await scaffoldDetector("sample-lang", { root: checkout, ecosystem: "sample" });
-  assert.equal(result.files.length, 7);
+  assert.equal(result.files.length, 9);
   for (const file of result.files) assert.ok(await exists(join(checkout, file)), file);
 
   const compiled = await compile(checkout);

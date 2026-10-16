@@ -12,6 +12,7 @@ import type { ScaffoldNames } from "./names.js";
 import { detectorTemplate } from "./templates/detector.js";
 import { docsTemplate } from "./templates/docs.js";
 import { fixturePlaceholder, fixtureReadmeTemplate } from "./templates/fixtures.js";
+import { parserTemplate, parserTestTemplate } from "./templates/parser.js";
 import { registryTemplate } from "./templates/registry.js";
 import { testTemplate } from "./templates/test.js";
 
@@ -37,8 +38,10 @@ export interface ScaffoldResult {
 export function renderScaffold(names: ScaffoldNames): Map<string, string> {
   return new Map([
     [`src/detectors/${names.id}.ts`, detectorTemplate(names)],
+    [`src/detectors/${names.id}/parse.ts`, parserTemplate(names)],
     [`registry/${names.id}.json`, registryTemplate(names)],
     [`tests/${names.id}-detector.test.ts`, testTemplate(names)],
+    [`tests/${names.id}-parse.test.ts`, parserTestTemplate(names)],
     [`tests/fixtures/${names.id}/README.md`, fixtureReadmeTemplate(names)],
     [`tests/fixtures/${names.id}/zero/README.md`, fixturePlaceholder(names, "zero")],
     [`tests/fixtures/${names.id}/malformed/README.md`, fixturePlaceholder(names, "malformed")],
@@ -84,7 +87,7 @@ export async function scaffoldDetector(id: string, options: ScaffoldOptions = {}
     files: [...files.keys()],
     nextSteps: [
       `Register the detector: in src/detectors/index.ts import { ${names.camel}Detector } from "./${names.id}.js" and add it to builtInDetectors.`,
-      `Write the parser and the matching in src/detectors/${names.id}.ts, and the rules in registry/${names.id}.json (docs/RULES.md).`,
+      `Teach src/detectors/${names.id}/parse.ts to read the declarations, match them in src/detectors/${names.id}.ts, and write the rules in registry/${names.id}.json (docs/RULES.md).`,
       `To ship the rules in the signed data bundle, add "${names.ecosystem}" to BUNDLED_ECOSYSTEMS in src/data-bundle.ts.`,
       `Add fixtures and expected findings to tests/${names.id}-detector.test.ts, then run npm run check.`,
     ],

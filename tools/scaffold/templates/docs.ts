@@ -4,7 +4,7 @@ import type { ScaffoldNames } from "../names.js";
 export function docsTemplate(names: ScaffoldNames): string {
   return `# ${names.title} detector
 
-Detector id: \`${names.id}\` · Registry: \`registry/${names.id}.json\` · Fixtures: \`tests/fixtures/${names.id}/\`
+Detector id: \`${names.id}\` · Parser: \`src/detectors/${names.id}/parse.ts\` · Registry: \`registry/${names.id}.json\` · Fixtures: \`tests/fixtures/${names.id}/\`
 
 ## What it reads
 
