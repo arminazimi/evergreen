@@ -257,3 +257,49 @@ test("evergreen-mcp serves the registered tools over stdio", { timeout: 10_000 }
     lines.close();
   }
 });
+
+test("lifecycle rules are listed and readable as resources without a scan", async () => {
+  const client = await connectTestClient();
+  try {
+    const listed = (await client.request("resources/list")).resources as Array<{ uri: string; name: string; title: string; mimeType: string }>;
+    const registryRules = (await import("../src/check-dependency.js")).bundledRules;
+    const rules = await registryRules();
+    assert.equal(listed.length, rules.length);
+    assert.deepEqual(listed.map((resource) => resource.uri).sort(), rules.map((rule) => `evergreen://rules/${rule.id}`).sort());
+    assert.ok(listed.every((resource) => resource.mimeType === "application/json" && resource.title && resource.name));
+
+    const templates = (await client.request("resources/templates/list")).resourceTemplates as Array<{ uriTemplate: string }>;
+    assert.deepEqual(templates.map((template) => template.uriTemplate), ["evergreen://rules/{id}"]);
+
+    const read = await client.request("resources/read", { uri: "evergreen://rules/npm.package.request.deprecated" });
+    const contents = read.contents as Array<{ uri: string; mimeType: string; text: string }>;
+    assert.equal(contents.length, 1);
+    assert.equal(contents[0]!.uri, "evergreen://rules/npm.package.request.deprecated");
+    const rule = JSON.parse(contents[0]!.text) as Record<string, unknown>;
+    assert.equal(rule.schemaVersion, "evergreen.rule.v1");
+    assert.equal(rule.event, "deprecated");
+    assert.ok((rule.sources as unknown[]).length > 0);
+    assert.ok(rule.replacement);
+    assert.ok(!("x-npm" in rule), "detector hints are internal");
+
+    await assert.rejects(client.request("resources/read", { uri: "evergreen://rules/no.such.rule" }), /No lifecycle rule "no\.such\.rule"/);
+  } finally {
+    await client.close();
+  }
+});
+
+test("every bundled rule reads back as a valid evergreen.rule.v1 document", async () => {
+  const { Ajv2020 } = await import("ajv/dist/2020.js");
+  const validate = new Ajv2020({ allErrors: true }).compile(JSON.parse(await readFile(resolve("schemas/rule.v1.schema.json"), "utf8")) as object);
+  const client = await connectTestClient();
+  try {
+    const listed = (await client.request("resources/list")).resources as Array<{ uri: string }>;
+    for (const { uri } of listed) {
+      const read = await client.request("resources/read", { uri });
+      const document = JSON.parse((read.contents as Array<{ text: string }>)[0]!.text);
+      assert.equal(validate(document), true, `${uri}: ${JSON.stringify(validate.errors)}`);
+    }
+  } finally {
+    await client.close();
+  }
+});

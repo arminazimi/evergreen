@@ -162,7 +162,8 @@ export function checkAgainst(rules: readonly RegistryV2Rule[], input: CheckDepen
 
 let bundled: Promise<RegistryV2Rule[]> | undefined;
 
-async function bundledRules(): Promise<RegistryV2Rule[]> {
+/** The lifecycle rules bundled with this release, loaded once and validated. */
+export async function bundledRules(): Promise<RegistryV2Rule[]> {
   bundled ??= (async () => {
     const rules: RegistryV2Rule[] = [];
     for (const name of BUNDLED_REGISTRIES) {

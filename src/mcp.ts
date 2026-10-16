@@ -1,8 +1,9 @@
-import { McpServer } from "@modelcontextprotocol/server";
+import { McpServer, ResourceNotFoundError, ResourceTemplate } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
-import { checkDependency } from "./check-dependency.js";
+import { bundledRules, checkDependency } from "./check-dependency.js";
+import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";
 import { VERSION } from "./version.js";
 
 export const MCP_TOOL_NAMES = [
@@ -62,6 +63,38 @@ export function createEvergreenMcpServer(
     {
       instructions:
         "Evergreen performs deterministic deprecation analysis inside the local process. Repository contents are never sent over the network. Scan before editing, create migration context, then verify the previously observed finding.",
+    },
+  );
+
+  server.registerResource(
+    "lifecycle-rule",
+    new ResourceTemplate(`${RULE_URI_PREFIX}{id}`, {
+      list: async () => ({
+        resources: (await bundledRules()).map((rule) => ({
+          uri: ruleUri(rule.id),
+          name: rule.id,
+          title: rule.title,
+          description: `${rule.severity} ${rule.event}: ${rule.summary}`,
+          mimeType: "application/json",
+        })),
+      }),
+      complete: {
+        id: async (value) => (await bundledRules()).map((rule) => rule.id).filter((id) => id.startsWith(value)),
+      },
+    }),
+    {
+      title: "Lifecycle rule",
+      description:
+        "One evidence-backed lifecycle rule as an evergreen.rule.v1 document: what is affected, the event, severity, replacement, deadline, sources, review provenance, and migration guidance. Reading a rule scans nothing.",
+      mimeType: "application/json",
+    },
+    async (uri, variables) => {
+      const id = String(Array.isArray(variables.id) ? variables.id[0] : variables.id);
+      const rule = (await bundledRules()).find((candidate) => candidate.id === id);
+      if (!rule) throw new ResourceNotFoundError(uri.href, `No lifecycle rule "${id}".`);
+      return {
+        contents: [{ uri: ruleUri(rule.id), mimeType: "application/json", text: JSON.stringify(toRuleDocument(rule), null, 2) }],
+      };
     },
   );
 
