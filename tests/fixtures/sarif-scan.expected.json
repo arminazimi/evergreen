@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Evergreen",
+          "version": "0.1.0",
+          "informationUri": "https://github.com/arminazimi/evergreen",
+          "rules": [
+            {
+              "id": "github-actions.checkout.node20",
+              "name": "github-actions.checkout.node20",
+              "shortDescription": {
+                "text": "Unsupported actions/checkout runtime"
+              },
+              "help": {
+                "text": "Unsupported actions/checkout runtime",
+                "markdown": "**Unsupported actions/checkout runtime**"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "tags": [
+                  "lifecycle",
+                  "github-actions"
+                ]
+              }
+            },
+            {
+              "id": "npm.package.request.deprecated",
+              "name": "npm.package.request.deprecated",
+              "shortDescription": {
+                "text": "request is deprecated"
+              },
+              "help": {
+                "text": "request is deprecated\n\nReplacement: Native fetch or a maintained HTTP client\n\nDeadline: 2020-02-11\n\nMigration:\n1. Rewrite request usages: Translate each reported import and call to native fetch or a maintained client.\n\nVerify:\n- npm run test --if-present (Run the repository tests when defined.)\n\nSources:\n- request package deprecation notice: https://www.npmjs.com/package/request",
+                "markdown": "**request is deprecated**\n\n**Replacement:** Native fetch or a maintained HTTP client\n\n**Deadline:** 2020-02-11\n\n**Migration**\n\n1. Rewrite request usages: Translate each reported import and call to native fetch or a maintained client.\n\n**Verify**\n\n- `npm run test --if-present`: Run the repository tests when defined.\n\n**Sources**\n\n- [request package deprecation notice](https://www.npmjs.com/package/request)"
+              },
+              "helpUri": "https://www.npmjs.com/package/request",
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "tags": [
+                  "lifecycle",
+                  "npm"
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "actions/checkout@v3: This release predates the action's Node.js 24 runtime."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "evergreenFindingId/v1": "github-actions.checkout.node20:.github/workflows/ci.yml:7"
+          }
+        },
+        {
+          "ruleId": "npm.package.request.deprecated",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "The package is fully deprecated and no new changes are expected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "package.json",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "evergreenFindingId/v1": "npm.package.request.deprecated:package.json:12"
+          }
+        }
+      ]
+    }
+  ]
+}

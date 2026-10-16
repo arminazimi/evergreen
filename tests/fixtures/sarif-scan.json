@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "evergreen.scan.v1",
+  "root": "/machine/specific/root",
+  "scannedAt": "2026-10-16T00:00:00.000Z",
+  "diagnostics": [],
+  "findings": [
+    {
+      "id": "npm.package.request.deprecated:package.json:12",
+      "ruleId": "npm.package.request.deprecated",
+      "detector": "npm",
+      "title": "request is deprecated",
+      "summary": "The package is fully deprecated and no new changes are expected.",
+      "severity": "high",
+      "location": { "path": "package.json", "line": 12 },
+      "replacement": "Native fetch or a maintained HTTP client",
+      "deadline": "2020-02-11",
+      "sources": [
+        { "title": "request package deprecation notice", "url": "https://www.npmjs.com/package/request" }
+      ],
+      "migration": {
+        "constraints": ["Preserve request method, headers, authentication, redirects, and error semantics."],
+        "steps": [
+          { "id": "replace-request-calls", "title": "Rewrite request usages", "instructions": "Translate each reported import and call to native fetch or a maintained client.", "targets": "usages" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the repository tests when defined." }]
+      }
+    },
+    {
+      "id": "github-actions.checkout.node20:.github/workflows/ci.yml:7",
+      "ruleId": "github-actions.checkout.node20",
+      "detector": "github-actions",
+      "title": "Unsupported actions/checkout runtime",
+      "summary": "actions/checkout@v3: This release predates the action's Node.js 24 runtime.",
+      "severity": "medium",
+      "location": { "path": ".github/workflows/ci.yml", "line": 7 },
+      "sources": []
+    }
+  ]
+}

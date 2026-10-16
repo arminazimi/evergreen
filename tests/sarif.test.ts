@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
@@ -108,4 +108,32 @@ test("scan --format sarif prints SARIF, and unknown formats are rejected", async
   } finally {
     await rm(root, { recursive: true, force: true });
   }
+});
+
+test("rule help carries the replacement, deadline, migration steps, verification, and sources", async () => {
+  const input = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
+  const sarif = JSON.parse(renderSarif(input));
+  const rule = sarif.runs[0].tool.driver.rules.find((candidate: { id: string }) => candidate.id === "npm.package.request.deprecated");
+  assert.match(rule.help.text, /Replacement: Native fetch or a maintained HTTP client/);
+  assert.match(rule.help.text, /Deadline: 2020-02-11/);
+  assert.match(rule.help.text, /1\. Rewrite request usages: Translate each reported import/);
+  assert.match(rule.help.text, /- npm run test --if-present \(Run the repository tests when defined\.\)/);
+  assert.match(rule.help.text, /- request package deprecation notice: https:\/\/www\.npmjs\.com\/package\/request/);
+  assert.match(rule.help.markdown, /\*\*Replacement:\*\* Native fetch/);
+  assert.match(rule.help.markdown, /- \[request package deprecation notice\]\(https:\/\/www\.npmjs\.com\/package\/request\)/);
+  assert.equal(rule.helpUri, "https://www.npmjs.com/package/request");
+});
+
+test("a rule without migration steps or sources still has help, and no help URI", async () => {
+  const input = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
+  const sarif = JSON.parse(renderSarif(input));
+  const rule = sarif.runs[0].tool.driver.rules.find((candidate: { id: string }) => candidate.id === "github-actions.checkout.node20");
+  assert.equal(rule.help.text, "Unsupported actions/checkout runtime");
+  assert.equal("helpUri" in rule, false);
+});
+
+test("the SARIF for the sample scan matches its snapshot", async () => {
+  const input = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.json"), "utf8")) as ScanResult;
+  const expected = await readFile(resolve("tests/fixtures/sarif-scan.expected.json"), "utf8");
+  assert.equal(`${renderSarif(input)}\n`, expected);
 });

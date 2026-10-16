@@ -15,6 +15,36 @@ const SARIF_LEVEL: Record<Severity, "error" | "warning" | "note"> = {
   info: "note",
 };
 
+/** Help for a rule in code scanning: what to move to, by when, how, and the evidence behind the claim. */
+function sarifHelp(finding: Finding): { text: string; markdown: string } {
+  const text: string[] = [finding.title];
+  const markdown: string[] = [`**${finding.title}**`];
+  const add = (plain: string, rich = plain) => {
+    text.push(plain);
+    markdown.push(rich);
+  };
+  if (finding.replacement) add(`Replacement: ${finding.replacement}`, `**Replacement:** ${finding.replacement}`);
+  if (finding.deadline) add(`Deadline: ${finding.deadline}`, `**Deadline:** ${finding.deadline}`);
+  const migration = finding.migration;
+  if (migration && migration.steps.length > 0) {
+    const steps = migration.steps.map((step, index) => `${index + 1}. ${step.title}: ${step.instructions}`);
+    add(["Migration:", ...steps].join("\n"), ["**Migration**", "", ...steps].join("\n"));
+  }
+  if (migration && migration.verification.length > 0) {
+    add(
+      ["Verify:", ...migration.verification.map((item) => `- ${item.command} (${item.purpose})`)].join("\n"),
+      ["**Verify**", "", ...migration.verification.map((item) => `- \`${item.command}\`: ${item.purpose}`)].join("\n"),
+    );
+  }
+  if (finding.sources.length > 0) {
+    add(
+      ["Sources:", ...finding.sources.map((source) => `- ${source.title}: ${source.url}`)].join("\n"),
+      ["**Sources**", "", ...finding.sources.map((source) => `- [${source.title}](${source.url})`)].join("\n"),
+    );
+  }
+  return { text: text.join("\n\n"), markdown: markdown.join("\n\n") };
+}
+
 const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
 
 function sarifOrder(left: Finding, right: Finding): number {
@@ -40,6 +70,8 @@ export function renderSarif(result: ScanResult): string {
       id: ruleId,
       name: ruleId,
       shortDescription: { text: finding.title },
+      help: sarifHelp(finding),
+      ...(finding.sources[0] ? { helpUri: finding.sources[0].url } : {}),
       defaultConfiguration: { level: SARIF_LEVEL[finding.severity] },
       properties: { tags: ["lifecycle", finding.detector] },
     };
