@@ -852,6 +852,272 @@
         { "kind": "import", "language": "typescript", "module": "sntp" }
       ],
       "x-npm": { "package": "sntp" }
+    },
+    {
+      "id": "npm.package.stable.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/stable",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "stable is deprecated",
+      "summary": "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.",
+      "severity": "medium",
+      "replacement": "Array.prototype.sort",
+      "sources": [
+        { "title": "stable package deprecation notice", "url": "https://www.npmjs.com/package/stable" },
+        { "title": "stable registry metadata", "url": "https://registry.npmjs.org/stable/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve comparator behavior, input mutation, output ordering, and support for the project's minimum JavaScript runtime."],
+        "steps": [{ "id": "replace-stable", "title": "Use native stable sorting", "instructions": "Replace stable package calls with Array.prototype.sort using the same comparator, then remove the dependency.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run ordering and repository tests on every supported runtime." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "stable" },
+        { "kind": "import", "language": "typescript", "module": "stable" }
+      ],
+      "x-npm": { "package": "stable" }
+    },
+    {
+      "id": "npm.package.abab.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/abab",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "abab is deprecated",
+      "summary": "npm directs users of abab to the platform-native atob and btoa functions.",
+      "severity": "medium",
+      "replacement": "Native atob() and btoa()",
+      "sources": [
+        { "title": "abab package deprecation notice", "url": "https://www.npmjs.com/package/abab" },
+        { "title": "abab registry metadata", "url": "https://registry.npmjs.org/abab/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve accepted input, binary-string output, thrown errors, Unicode handling, and support for the project's minimum runtime."],
+        "steps": [{ "id": "replace-abab", "title": "Use platform Base64 functions", "instructions": "Replace abab imports and calls with the runtime's native atob and btoa functions, then remove the dependency.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run Base64 edge-case and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "abab" },
+        { "kind": "import", "language": "typescript", "module": "abab" }
+      ],
+      "x-npm": { "package": "abab" }
+    },
+    {
+      "id": "npm.package.domexception.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/domexception",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "domexception is deprecated",
+      "summary": "npm directs users of domexception to the platform-native DOMException implementation.",
+      "severity": "medium",
+      "replacement": "Native DOMException",
+      "sources": [
+        { "title": "domexception package deprecation notice", "url": "https://www.npmjs.com/package/domexception" },
+        { "title": "domexception registry metadata", "url": "https://registry.npmjs.org/domexception/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve exception names, messages, codes where consumed, instanceof checks, serialization, and minimum-runtime support."],
+        "steps": [{ "id": "replace-domexception", "title": "Use native DOMException", "instructions": "Replace domexception imports and constructors with the global DOMException implementation, then remove the dependency.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run exception behavior and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "domexception" },
+        { "kind": "import", "language": "typescript", "module": "domexception" }
+      ],
+      "x-npm": { "package": "domexception" }
+    },
+    {
+      "id": "npm.package.w3c-hr-time.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/w3c-hr-time",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "w3c-hr-time is deprecated",
+      "summary": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
+      "severity": "medium",
+      "replacement": "Native performance.now() and performance.timeOrigin",
+      "sources": [
+        { "title": "w3c-hr-time package deprecation notice", "url": "https://www.npmjs.com/package/w3c-hr-time" },
+        { "title": "w3c-hr-time registry metadata", "url": "https://registry.npmjs.org/w3c-hr-time/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve monotonic timing, time-origin assumptions, units, precision expectations, and minimum-runtime support."],
+        "steps": [{ "id": "replace-w3c-hr-time", "title": "Use native high-resolution time", "instructions": "Replace w3c-hr-time imports and clock reads with native performance.now() and performance.timeOrigin, then remove the dependency.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run timing behavior and repository tests without relying on exact wall-clock values." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "w3c-hr-time" },
+        { "kind": "import", "language": "typescript", "module": "w3c-hr-time" }
+      ],
+      "x-npm": { "package": "w3c-hr-time" }
+    },
+    {
+      "id": "npm.package.sourcemap-codec.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/sourcemap-codec",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "sourcemap-codec is deprecated",
+      "summary": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
+      "severity": "medium",
+      "replacement": "@jridgewell/sourcemap-codec",
+      "sources": [
+        { "title": "sourcemap-codec package deprecation notice", "url": "https://www.npmjs.com/package/sourcemap-codec" },
+        { "title": "sourcemap-codec registry metadata", "url": "https://registry.npmjs.org/sourcemap-codec/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve decoded segment ordering, generated and original positions, names, empty lines, and encoded source-map output."],
+        "steps": [{ "id": "replace-sourcemap-codec", "title": "Move to the maintained codec", "instructions": "Replace the dependency and imports with @jridgewell/sourcemap-codec and adapt any changed exports.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run source-map round-trip and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "sourcemap-codec" },
+        { "kind": "import", "language": "typescript", "module": "sourcemap-codec" }
+      ],
+      "x-npm": { "package": "sourcemap-codec" }
+    },
+    {
+      "id": "npm.package.humanwhocodes-config-array.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40humanwhocodes/config-array",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@humanwhocodes/config-array is deprecated",
+      "summary": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
+      "severity": "medium",
+      "replacement": "@eslint/config-array",
+      "sources": [
+        { "title": "@humanwhocodes/config-array package deprecation notice", "url": "https://www.npmjs.com/package/@humanwhocodes/config-array" },
+        { "title": "@humanwhocodes/config-array registry metadata", "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve config matching, normalization, naming, ignore handling, cache behavior, and exported API semantics."],
+        "steps": [{ "id": "replace-config-array", "title": "Move to the ESLint package", "instructions": "Replace the dependency and imports with @eslint/config-array, then adapt renamed or changed exports using its maintained API.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run configuration selection and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "@humanwhocodes/config-array" },
+        { "kind": "import", "language": "typescript", "module": "@humanwhocodes/config-array" }
+      ],
+      "x-npm": { "package": "@humanwhocodes/config-array" }
+    },
+    {
+      "id": "npm.package.humanwhocodes-object-schema.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40humanwhocodes/object-schema",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@humanwhocodes/object-schema is deprecated",
+      "summary": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
+      "severity": "medium",
+      "replacement": "@eslint/object-schema",
+      "sources": [
+        { "title": "@humanwhocodes/object-schema package deprecation notice", "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema" },
+        { "title": "@humanwhocodes/object-schema registry metadata", "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve validation, merge strategies, required keys, defaults, error behavior, and exported API semantics."],
+        "steps": [{ "id": "replace-object-schema", "title": "Move to the ESLint package", "instructions": "Replace the dependency and imports with @eslint/object-schema, then adapt renamed or changed exports using its maintained API.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run schema validation, merge, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "@humanwhocodes/object-schema" },
+        { "kind": "import", "language": "typescript", "module": "@humanwhocodes/object-schema" }
+      ],
+      "x-npm": { "package": "@humanwhocodes/object-schema" }
+    },
+    {
+      "id": "npm.package.q.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/q",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "q is deprecated",
+      "summary": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
+      "severity": "high",
+      "replacement": "Native Promise",
+      "sources": [
+        { "title": "q package deprecation notice", "url": "https://www.npmjs.com/package/q" },
+        { "title": "q registry metadata", "url": "https://registry.npmjs.org/q/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions."],
+        "steps": [
+          { "id": "audit-q-extensions", "title": "Audit Q-specific behavior", "instructions": "Identify Q-only APIs and semantic assumptions before translating promise chains.", "targets": "usages" },
+          { "id": "replace-q", "title": "Use native promises", "instructions": "Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run asynchronous success, rejection, ordering, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "q" },
+        { "kind": "import", "language": "typescript", "module": "q" }
+      ],
+      "x-npm": { "package": "q" }
+    },
+    {
+      "id": "npm.package.lodash-get.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/lodash.get",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "lodash.get is deprecated",
+      "summary": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
+      "severity": "medium",
+      "replacement": "Optional chaining (?.)",
+      "sources": [
+        { "title": "lodash.get package deprecation notice", "url": "https://www.npmjs.com/package/lodash.get" },
+        { "title": "lodash.get registry metadata", "url": "https://registry.npmjs.org/lodash.get/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve path semantics, array-index access, default-value behavior, nullish handling, and minimum-runtime support."],
+        "steps": [{ "id": "replace-lodash-get", "title": "Use optional chaining", "instructions": "Rewrite each lodash.get call with optional chaining and nullish coalescing where a default value is required, then remove the dependency.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run nested access, default-value, nullish, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "lodash.get" },
+        { "kind": "import", "language": "typescript", "module": "lodash.get" }
+      ],
+      "x-npm": { "package": "lodash.get" }
+    },
+    {
+      "id": "npm.package.lodash-isequal.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/lodash.isequal",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "lodash.isequal is deprecated",
+      "summary": "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.",
+      "severity": "medium",
+      "replacement": "node:util.isDeepStrictEqual",
+      "sources": [
+        { "title": "lodash.isequal package deprecation notice", "url": "https://www.npmjs.com/package/lodash.isequal" },
+        { "title": "lodash.isequal registry metadata", "url": "https://registry.npmjs.org/lodash.isequal/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Confirm compatibility for prototypes, boxed primitives, Maps, Sets, typed arrays, symbols, circular references, and cross-realm values."],
+        "steps": [
+          { "id": "compare-deep-equality-semantics", "title": "Compare equality semantics", "instructions": "Identify value types used at each call site and confirm node:util.isDeepStrictEqual has acceptable semantics.", "targets": "usages" },
+          { "id": "replace-lodash-isequal", "title": "Use Node deep strict equality", "instructions": "Replace lodash.isequal imports and calls with node:util.isDeepStrictEqual, then remove the dependency.", "targets": "all" }
+        ],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run deep-equality edge cases and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "lodash.isequal" },
+        { "kind": "import", "language": "typescript", "module": "lodash.isequal" }
+      ],
+      "x-npm": { "package": "lodash.isequal" }
     }
   ]
 }
