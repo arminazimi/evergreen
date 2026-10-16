@@ -41,3 +41,23 @@ test("other docs point to the importer guide", async () => {
   assert.match(await read("docs/RULES.md"), /\(IMPORTERS\.md\)/);
   assert.match(await read("CONTRIBUTING.md"), /docs\/IMPORTERS\.md/);
 });
+
+test("the weekly workflow runs every importer whose registry file exists, and nothing else", async () => {
+  const { existsSync } = await import("node:fs");
+  const { parse } = await import("yaml");
+  const workflow = parse(await read(".github/workflows/importers.yml")) as {
+    permissions: unknown;
+    jobs: {
+      draft: { permissions: Record<string, string>; strategy: { matrix: { include: Array<{ importer: string; ecosystem: string }> } } };
+      propose: { permissions: Record<string, string>; strategy: { matrix: { importer: string[] } } };
+    };
+  };
+  const expected = importers.filter((importer) => existsSync(resolve(`registry/${importer.ecosystem}.json`))).map((importer) => [importer.id, importer.ecosystem]).sort();
+  const drafted = workflow.jobs.draft.strategy.matrix.include.map((entry) => [entry.importer, entry.ecosystem]).sort();
+  assert.deepEqual(drafted, expected);
+  assert.deepEqual([...workflow.jobs.propose.strategy.matrix.importer].sort(), expected.map(([id]) => id));
+  // Least privilege: nothing by default, read-only drafting, and write access only where the pull request is opened.
+  assert.deepEqual(workflow.permissions, {});
+  assert.deepEqual(workflow.jobs.draft.permissions, { contents: "read" });
+  assert.deepEqual(workflow.jobs.propose.permissions, { contents: "write", "pull-requests": "write" });
+});

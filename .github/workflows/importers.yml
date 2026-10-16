@@ -1,0 +1,126 @@
+name: Lifecycle importers
+
+# Drafts lifecycle rules from the authoritative sources every week and opens one pull request per
+# importer when the drafts differ from the registry. It never edits registry/: the pull request adds the
+# draft file and an evidence table, and a maintainer reviews the facts and changes the registry by hand
+# (docs/IMPORTERS.md). It needs the network, so it is not part of pull-request CI.
+#
+# One pull request per importer: Python has two sources (release cycle and PyPI status), so it gets two.
+# The repository setting "Allow GitHub Actions to create and approve pull requests" must be on.
+
+on:
+  schedule:
+    - cron: "43 5 * * 2" # Tuesdays, 05:43 UTC, after the Monday source-freshness check
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: importers
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    name: draft (${{ matrix.importer }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { importer: container-official-images, ecosystem: container }
+          - { importer: github-actions-runtime, ecosystem: github-actions }
+          - { importer: nodejs-schedule, ecosystem: nodejs }
+          - { importer: npm-deprecated, ecosystem: npm }
+          - { importer: pypi-status, ecosystem: python }
+          - { importer: python-release-cycle, ecosystem: python }
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Draft rules from the source
+        run: node dist/tools/importers/run.js "${{ matrix.importer }}" --out drafts.json
+      - name: Compare with the registry
+        id: diff
+        run: |
+          set +e
+          node dist/tools/importers/diff.js drafts.json "registry/${{ matrix.ecosystem }}.json"
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          elif [ "$code" -eq 10 ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            exit "$code"
+          fi
+      - name: Write the pull request description
+        if: steps.diff.outputs.changed == 'true'
+        run: node dist/tools/importers/pr-body.js drafts.json "registry/${{ matrix.ecosystem }}.json" --out body.md
+      - name: Keep the drafts
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: drafts-${{ matrix.importer }}
+          path: |
+            drafts.json
+            body.md
+          if-no-files-found: error
+
+  propose:
+    name: propose (${{ matrix.importer }})
+    needs: draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        importer:
+          - container-official-images
+          - github-actions-runtime
+          - nodejs-schedule
+          - npm-deprecated
+          - pypi-status
+          - python-release-cycle
+    steps:
+      - uses: actions/checkout@v7
+      - name: Fetch the drafts, if this importer found a difference
+        id: fetch
+        uses: actions/download-artifact@v7
+        continue-on-error: true
+        with:
+          name: drafts-${{ matrix.importer }}
+      - name: Open or update the pull request
+        if: steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IMPORTER: ${{ matrix.importer }}
+        run: |
+          branch="importers/${IMPORTER}"
+          mkdir -p importer-drafts
+          cp drafts.json "importer-drafts/${IMPORTER}.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add "importer-drafts/${IMPORTER}.json"
+          if git diff --cached --quiet; then
+            echo "The drafts match what is already proposed."
+            exit 0
+          fi
+          git commit -m "chore: draft lifecycle rules from ${IMPORTER}"
+          git push --force origin "$branch"
+          title="chore: review lifecycle drafts from ${IMPORTER}"
+          if gh pr view "$branch" --json number >/dev/null 2>&1; then
+            gh pr edit "$branch" --title "$title" --body-file body.md
+          else
+            gh pr create --head "$branch" --base "${{ github.event.repository.default_branch }}" --title "$title" --body-file body.md
+          fi

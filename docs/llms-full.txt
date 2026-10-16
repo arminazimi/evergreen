@@ -1182,6 +1182,12 @@ When you accept a draft:
 
 Do not remove a rule only because an importer stopped drafting it. A source can stop listing something because the thing is gone, and a retired image or release is exactly what an old workflow needs to be told about. The diff reports such rules as "no longer drafted"; remove one only when its fact is no longer true.
 
+## The weekly run
+
+[`importers.yml`](../.github/workflows/importers.yml) runs every importer that has a registry file each Tuesday (and on manual dispatch). For each one it drafts rules, compares them with the registry, and, only when they differ, opens or updates one pull request on the branch `importers/<importer-id>`. The pull request adds `importer-drafts/<importer-id>.json` and the evidence table from `pr-body.js`; it never edits `registry/`. A maintainer reviews it as described above and changes the registry in a separate commit. Python has two importers, so it gets two pull requests.
+
+The drafting jobs have read-only permissions; only the second job can write, and it only pushes that branch and opens the pull request. The repository setting "Allow GitHub Actions to create and approve pull requests" must be on, and checks do not start on pull requests opened with the default token, so close and reopen the pull request (or push to its branch) to run them. `runner-images` is not in the run because it has no registry file.
+
 ## The importers
 
 | Importer | Registry | Reads | Candidate list |
