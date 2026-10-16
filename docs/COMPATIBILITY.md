@@ -25,8 +25,9 @@ Matrix version: **2026-10-15 / v1**
 | Surface | Combination | Status | Notes |
 | --- | --- | --- | --- |
 | CLI | Node.js 22+ on Linux | Supported | Primary local and CI execution path. |
-| CLI | Node.js 22+ on macOS | Supported | Same deterministic CLI and JSON contracts. |
-| CLI | Node.js 22+ on Windows | Experimental | The core is portable; the full Windows suite is not yet a release gate. |
+| CLI | Node.js 22+ on macOS | Supported | Same deterministic CLI and JSON contracts; the full check runs on macOS in CI. |
+| CLI | Node.js 24 on Linux | Supported | Part of the CI matrix next to Node.js 22. |
+| CLI | Node.js 22+ on Windows | Supported | The full check runs on Windows in CI on every pull request. |
 | GitHub Actions | Ubuntu runner | Supported | Composite Action, annotations, baselines, severity gate, and JSON artifact. |
 | GitHub Actions | macOS runner | Experimental | Expected to work through `bash`; not yet in the required runner matrix. |
 | GitHub Actions | Windows runner | Unsupported | The current composite Action requires `bash`. Use the CLI explicitly if available. |

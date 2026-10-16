@@ -12,11 +12,25 @@
 [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg)](https://www.npmjs.com/package/evergreen-deprecation)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D22-3c873a.svg)](docs/COMPATIBILITY.md)
+[![SARIF](https://img.shields.io/badge/SARIF-2.1.0-blue.svg)](docs/GITHUB_ACTION.md#code-scanning)
+[![MCP](https://img.shields.io/badge/MCP-server-8a2be2.svg)](docs/MCP.md)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-Evergreen is local-first deprecation intelligence for software repositories. It connects upcoming ecosystem changes to the exact files they affect and produces evidence-backed migration context for humans and coding agents.
+Evergreen finds **end-of-life and deprecated** runtimes, packages, and GitHub Actions in your repository, shows the exact file and line, and backs every finding with an authoritative source, a replacement, and migration steps. It runs on your machine as a CLI, a local MCP server, a GitHub Action (with SARIF for code scanning), and an Agent Skill, so people and coding agents can find lifecycle risk before it breaks a build, and check a dependency before adding it. Scans are deterministic and offline, and need no account.
 
-Version 0.1 includes GitHub Actions, Node.js, npm, and Python lifecycle detectors. Read the [public documentation](https://arminazimi.github.io/evergreen/), run the [90-second demo](docs/DEMO.md), or inspect the [v0.1 validation report](docs/VALIDATION.md).
+Read the [public documentation](https://arminazimi.github.io/evergreen/), run the [90-second demo](docs/DEMO.md), or inspect the [validation report](docs/VALIDATION.md). For AI tools, the docs are also published as [`llms.txt`](https://arminazimi.github.io/evergreen/llms.txt) and [`llms-full.txt`](https://arminazimi.github.io/evergreen/llms-full.txt).
+
+## What it covers
+
+| Ecosystem | What Evergreen reads | What it reports |
+| --- | --- | --- |
+| **GitHub Actions** | `.github/workflows/*.yml`: `uses:` references to actions, including full-SHA pins resolved through a trailing version comment or a bundled release map | Actions on retired runtimes (such as Node.js 20) and retired or deprecated majors, at the exact line |
+| **Node.js** | `engines.node`, `volta`, `.nvmrc`, `.node-version`, `.tool-versions` | Runtime versions that are end of life or out of support |
+| **npm** | `package.json` dependencies, `package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, and the imports and calls that use each package | Deprecated or unmaintained packages, with the replacement and where the package is used |
+| **Python** | `pyproject.toml`, `requirements*.txt`, `.python-version`, `runtime.txt`, `.tool-versions`, `poetry.lock`, `uv.lock`, `Pipfile.lock` | Python versions that are end of life, and deprecated or obsolete packages |
+
+Each finding carries its rule's sources, review date, and migration steps; see [Lifecycle rules](docs/RULES.md). Other ecosystems are not guessed at: Evergreen reports a package it has no rule for as `no-data`, never as safe, and new ecosystems start from a [generated detector skeleton](docs/DETECTORS.md#start-a-new-detector-in-this-repository). The [compatibility matrix](docs/COMPATIBILITY.md) lists supported environments and hosts.
 
 ## Product principles
 

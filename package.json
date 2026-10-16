@@ -1,15 +1,28 @@
 {
   "name": "evergreen-deprecation",
   "version": "0.1.0",
-  "description": "Local-first deprecation intelligence for software repositories.",
+  "description": "Find end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, with sources and migration context. CLI, MCP server, GitHub Action, Agent Skill.",
   "keywords": [
     "deprecation",
+    "deprecated",
+    "end-of-life",
+    "eol",
     "lifecycle",
     "dependencies",
-    "github-actions",
+    "dependency-check",
     "nodejs",
+    "npm",
+    "python",
+    "github-actions",
+    "sarif",
+    "migration",
     "mcp",
-    "ai-agents"
+    "model-context-protocol",
+    "ai-agents",
+    "coding-agents",
+    "agent-skills",
+    "cli",
+    "local-first"
   ],
   "repository": {
     "type": "git",
