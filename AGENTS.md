@@ -46,6 +46,7 @@ Trust rules that apply to every change:
 |---|---|
 | `plugins/claude/`, `plugins/codex/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` | `npm run build:plugins` (source: `skills/`) |
 | `dist/action/index.js` | `npm run build:action` |
+| `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
 CI fails when generated output drifts from its source.

@@ -1,0 +1,33 @@
+# Evergreen
+
+> Evergreen is local-first deprecation intelligence for software repositories. It finds end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, backs every claim with an authoritative source, and produces migration context for humans and coding agents. It runs on your machine through a CLI, a local MCP server, a GitHub Action, and Agent Skills; scans never use the network and need no account.
+
+Before adding a dependency, check it: call the `check_dependency` MCP tool or run `npx evergreen-deprecation check <purl>`. A `no-data` answer means Evergreen has no rule for the package, not that it is safe. The full text of every page below is in [llms-full.txt](https://arminazimi.github.io/evergreen/llms-full.txt).
+
+## Use Evergreen
+
+- [90-second demo](https://arminazimi.github.io/evergreen/DEMO.html): scan, explain, build migration context, and verify on a small repository.
+- [Local MCP server](https://arminazimi.github.io/evergreen/MCP.html): the tools, resources, prompt, and output schemas an agent can use, including `check_dependency`.
+- [GitHub Action](https://arminazimi.github.io/evergreen/GITHUB_ACTION.html): run Evergreen in pull requests, gate on severity, upload SARIF to code scanning.
+- [Capability manifest](https://arminazimi.github.io/evergreen/CAPABILITIES.html): how a tool or agent discovers what Evergreen can do, programmatically.
+- [Migration packets](https://arminazimi.github.io/evergreen/MIGRATION_PACKETS.html): the structured context Evergreen builds for one finding.
+- [Environment doctor and compatibility](https://arminazimi.github.io/evergreen/COMPATIBILITY.html): supported ecosystems, hosts, and maturity.
+- [Agent Skill](https://arminazimi.github.io/evergreen/AGENT_SKILLS.html): the portable skill for coding agents and how its triggering is evaluated.
+
+## Evidence, data, and trust
+
+- [Lifecycle rules](https://arminazimi.github.io/evergreen/RULES.html): the rule format, the evidence policy, and how to write a rule.
+- [Lifecycle data](https://arminazimi.github.io/evergreen/DATA.html): signed data updates, pinning, offline guarantees, and the trust model.
+- [Validation](https://arminazimi.github.io/evergreen/VALIDATION.html): the public corpus, precision thresholds, and measured results.
+- [Privacy](https://arminazimi.github.io/evergreen/PRIVACY.html): what stays on your machine and the one command that uses the network.
+
+## Extend Evergreen
+
+- [Detector authoring](https://arminazimi.github.io/evergreen/DETECTORS.html): the detector SDK and how to start a new detector from a generated skeleton.
+- [Lifecycle importers](https://arminazimi.github.io/evergreen/IMPORTERS.html): drafting rules from authoritative sources for review.
+
+## Optional
+
+- [Claude plugin](https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html): install Evergreen, its Skill, and the dependency guard in Claude Code.
+- [Codex plugin](https://arminazimi.github.io/evergreen/CODEX_PLUGIN.html): install Evergreen and the dependency guard in Codex.
+- [Releasing](https://arminazimi.github.io/evergreen/RELEASING.html): how maintainers publish packages and signed data.

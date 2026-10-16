@@ -75,7 +75,9 @@
     "prepack": "npm run check",
     "release:notes": "npm run build --silent && node dist/tools/changelog.js",
     "metrics:adoption": "npm run build --silent && node dist/tools/adoption-metrics.js",
-    "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js"
+    "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js",
+    "build:llms": "npm run build --silent && node dist/tools/build-llms-full.js",
+    "check:llms": "npm run build --silent && node dist/tools/build-llms-full.js --check"
   },
   "engines": {
     "node": ">=22"

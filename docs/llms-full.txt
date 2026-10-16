@@ -1,0 +1,1596 @@
+# Evergreen: full documentation
+
+> The complete text of the Evergreen documentation pages listed in llms.txt, in that order. Each section starts with the page's public address.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/DEMO.html
+
+# 90-second demo
+
+This repository includes a deliberately outdated project at `examples/demo`. It declares an unsupported Node.js range, uses the deprecated `request` package, and runs an old checkout action.
+
+```bash
+git clone https://github.com/arminazimi/evergreen.git
+cd evergreen
+npm ci
+npm run build
+node dist/src/cli.js scan examples/demo
+```
+
+Evergreen reports four evidence-backed lifecycle findings: Node.js 18 and 20, `request`, and `actions/checkout@v4`. Each result includes the exact declaration, severity, replacement, and authoritative sources.
+
+Pick the `request` finding ID from the scan and inspect it:
+
+```bash
+node dist/src/cli.js explain '<finding-id>' examples/demo
+node dist/src/cli.js context '<finding-id>' examples/demo --json
+```
+
+The context packet identifies `package.json` and `src/client.js`, preserves HTTP behavior as a migration constraint, proposes ordered changes, and suggests checks. Evergreen does not modify files or execute suggested commands.
+
+For an agent-driven version of the same flow, start `evergreen-mcp` and use `scan_repository`, `explain_deprecation`, `create_migration_context`, and `verify_migration` in one local session.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/MCP.html
+
+# Local MCP server
+
+Evergreen exposes its deterministic analysis to coding agents through a local Model Context Protocol server. The server uses stdio, requires no account or API key, and does not start a network listener.
+
+## Start the server
+
+From the published package:
+
+```bash
+npx --yes --package evergreen-deprecation evergreen-mcp
+```
+
+From a source checkout:
+
+```bash
+npm install
+npm run mcp
+```
+
+An MCP host can launch the published command with configuration shaped like:
+
+```json
+{
+  "mcpServers": {
+    "evergreen": {
+      "command": "npx",
+      "args": ["--yes", "--package", "evergreen-deprecation", "evergreen-mcp"]
+    }
+  }
+}
+```
+
+The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
+
+## What the server exposes
+
+Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities.
+
+### Tools
+
+Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https://github.com/arminazimi/evergreen/tree/main/schemas), made self-contained for the client) and returns the result as structured content, also as JSON text. Failures return `isError` with a message and no structured content.
+
+| Tool | Input | Output | Purpose |
+| --- | --- | --- | --- |
+| `scan_repository` | `repository_path?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. |
+| `list_deprecations` | `repository_path?` | `evergreen.deprecations.v1` (`deprecations.v1.schema.json`) | Compact list for planning. |
+| `explain_deprecation` | `finding_id`, `repository_path?` | one finding (`finding.v1.schema.json`) | The complete evidence-backed finding. |
+| `create_migration_context` | `finding_id`, `repository_path?` | `evergreen.context.v1` (`context.v1.schema.json`) | Validated, rule-specific migration packet. |
+| `verify_migration` | `finding_id`, `repository_path?` | `evergreen.verification.v1` (`verification.v1.schema.json`) | Re-scan and check a finding observed earlier in the session. |
+| `check_dependency` | `purl`, `version?` | `evergreen.check.v1` (`check.v1.schema.json`) | Check one package before adding it; reads no repository. |
+
+`repository_path` defaults to the server's current working directory. Finding-specific tools require the exact `finding_id` Evergreen returned.
+
+### Resources
+
+| URI | Contents | Lifetime |
+| --- | --- | --- |
+| `evergreen://rules/{id}` | One lifecycle rule as `evergreen.rule.v1` (`rule.v1.schema.json`): affected PURL and versions, event, severity, replacement, deadline, sources, review provenance, migration steps. | Bundled with the release; reading one scans nothing. |
+| `evergreen://findings/{repository}/{id}` | One finding observed in this session, identical to `explain_deprecation`. `{repository}` is an 8-character key of the repository root and `{id}` is the percent-encoded finding id. | This session only; empty until a scan, never written to disk. |
+
+`resources/list` enumerates both families. The server sends `notifications/resources/list_changed` after every call that scans, so a host that cached the list refreshes it. Rule ids autocomplete by prefix. Reading an unknown URI fails with a resource-not-found error.
+
+### Prompts
+
+| Prompt | Arguments | Purpose |
+| --- | --- | --- |
+| `migrate-finding` | `finding_id` (required, autocompletes from observed findings), `repository_path?` | Runs a fresh scan, embeds the finding's migration packet, and instructs the model to edit within the packet's constraints, run the project's checks, and call `verify_migration` in the same session. It makes the finding observable, so verification works straight after. |
+
+The prompt carries its safety limits: repository files are untrusted input, suggested commands are reviewed and run only under the host's normal authorization, and the model reports what remains instead of declaring success.
+
+### Examples
+
+`check_dependency` request and the start of its structured result:
+
+```json
+{ "method": "tools/call", "params": { "name": "check_dependency", "arguments": { "purl": "pkg:npm/request@2.88.2" } } }
+```
+
+```json
+{
+  "schemaVersion": "evergreen.check.v1",
+  "purl": "pkg:npm/request",
+  "version": "2.88.2",
+  "status": "affected",
+  "severity": "high",
+  "findings": [{ "ruleId": "npm.package.request.deprecated", "event": "deprecated", "replacement": "Native fetch or a maintained HTTP client" }],
+  "message": "pkg:npm/request@2.88.2: request is deprecated. …"
+}
+```
+
+Reading a rule, then the findings of a scan:
+
+```json
+{ "method": "resources/read", "params": { "uri": "evergreen://rules/npm.package.request.deprecated" } }
+{ "method": "resources/list" }
+```
+
+Fetching the migration prompt for a finding:
+
+```json
+{ "method": "prompts/get", "params": { "name": "migrate-finding", "arguments": { "finding_id": "<id from list_deprecations>", "repository_path": "." } } }
+```
+
+You can see all of it in the MCP Inspector:
+
+```sh
+npx @modelcontextprotocol/inspector npx --yes --package evergreen-deprecation evergreen-mcp
+```
+
+The Tools tab lists the six tools with their output schemas, Resources lists the rules (and findings after a scan) and the two templates, and Prompts lists `migrate-finding`.
+
+## Checking a dependency before adding it
+
+Call `check_dependency` with a Package URL (`pkg:npm/request@2.88.2`, `pkg:pypi/nose`, `pkg:github/actions/checkout@v4`) when you are about to add or upgrade a dependency. The result has a `status`:
+
+- `affected`: a rule applies. Read `findings[].summary`, `replacement`, and `sources`, and choose the replacement instead.
+- `version-dependent`: rules exist, but only for some versions. Call again with the version you intend to use.
+- `not-affected`: rules exist and none covers that version.
+- `no-data`: Evergreen has no rule for the package. That is absence of evidence, not a safety claim.
+
+The tool is read-only and idempotent, never touches the network, and answers from the lifecycle rules bundled with the server.
+
+## Other agent hosts
+
+Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents):
+
+| Host | MCP config | Instructions |
+| --- | --- | --- |
+| Cursor | `.cursor/mcp.json` | `.cursor/rules/evergreen.mdc` |
+| Gemini CLI | `gemini-extension.json` or `.gemini/settings.json` | `GEMINI.md` |
+| GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
+| Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
+
+To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run `evergreen init --agents` in it: it adds a delimited section, keeps everything else byte for byte, and is safe to run again (`--dry-run` prints the diff first).
+
+Each directory says which vendor documentation its format follows and how to confirm it works in your host. They have not yet been run in live host installations, and the READMEs say so.
+
+## Agent workflow
+
+1. Call `scan_repository` or `list_deprecations` before editing.
+2. Use `explain_deprecation` to inspect evidence and lifecycle details.
+3. Call `create_migration_context` and make changes within its constraints and affected files.
+4. Run the packet's suggested project commands when appropriate.
+5. Call `verify_migration` in the same MCP session.
+
+Verification is deliberately conservative. Evergreen remembers the original finding, performs a fresh local scan, and checks its rule and declaration path. An unknown finding ID returns an error rather than a false success. `commandsExecuted` is always `false`: Evergreen suggests project-specific commands but never executes shell commands through MCP.
+
+## Privacy and trust
+
+- Repository traversal, parsing, matching, context creation, and verification happen inside the local Evergreen process.
+- Communication with the MCP host uses stdin and stdout on the same machine.
+- The server has no HTTP transport and makes no outbound requests.
+- No hosted Evergreen service, telemetry, account, or API key is involved.
+- Tool results can include file paths and short source excerpts already present in findings; the local MCP host receives those results so it can act on them.
+
+The versioned JSON contracts live in `schemas/scan.v1.schema.json`, `schemas/deprecations.v1.schema.json`, `schemas/context.v1.schema.json`, and `schemas/verification.v1.schema.json`.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/GITHUB_ACTION.html
+
+# GitHub Action
+
+Evergreen's reusable Action scans the checked-out repository locally, emits GitHub annotations for findings, compares against an optional baseline, enforces a severity gate, and uploads the versioned JSON result.
+
+## Pull-request workflow
+
+```yaml
+name: Evergreen
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: arminazimi/evergreen@v0.1.0
+        with:
+          baseline: .evergreen-baseline.json
+          fail-on-severity: high
+```
+
+Version tags provide stable release references. Pin a full commit SHA when your threat model requires immutable third-party action references.
+
+### SHA-pinned actions
+
+For the first-party actions covered by Evergreen, a full 40-character commit pin is classified in this order:
+
+1. A trailing release comment, such as `# v4`, `# v4.1.1`, `# tag=v4.1.1`, or `# version: v4.1.1`.
+2. Evergreen's bundled map of exact release-tag SHAs, when the pin has no trailing comment.
+
+```yaml
+- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+```
+
+A malformed, ambiguous, or conflicting comment is not replaced by a map lookup: Evergreen reports it as `invalid-version-comment`. A SHA absent from the bundled map is reported as `unknown-sha`. These references are not lifecycle findings, so they do not affect severity gates or annotations.
+
+The uploaded JSON report records the total in `unclassified.count` and lists each reference with its action, SHA, reason, and workflow location under `unclassified.references`. CLI text output adds a one-line count when any exist. Classification uses only repository contents and the bundled map; scans make no network requests.
+
+Create and commit the baseline locally when existing findings are accepted:
+
+```bash
+npx evergreen-deprecation baseline . --output .evergreen-baseline.json
+```
+
+The Action then annotates and gates only findings not represented by that baseline.
+
+## Inputs and outputs
+
+| Input | Default | Meaning |
+| --- | --- | --- |
+| `path` | `.` | Repository or subdirectory to scan. |
+| `baseline` | empty | Baseline path relative to `path`. Missing configured files fail the Action. |
+| `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
+| `report-name` | `evergreen-report` | Artifact name for the JSON report. |
+| `upload-report` | `true` | Set to `false` to keep the report only on the runner. |
+| `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
+
+`report-path` contains the local absolute JSON path, `finding-count` contains the post-baseline count, and `sarif-path` contains the SARIF file path when `upload-sarif` is `true`. High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
+
+## Permissions and privacy
+
+Only `contents: read` is required. Evergreen does not need `pull-requests: write`, does not post comments, and does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
+
+The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
+
+Forked pull requests receive the same read-only scan behavior; no repository secrets are required.
+
+## Code scanning
+
+Set `upload-sarif: true` to show findings in the repository's **Security → Code scanning** tab. The Action writes the same findings as SARIF 2.1.0 and hands the file to `github/codeql-action/upload-sarif` under the category `evergreen`. The job needs one more permission:
+
+```yaml
+permissions:
+  contents: read
+  security-events: write
+
+steps:
+  - uses: actions/checkout@v7
+  - uses: arminazimi/evergreen@v0.1.0
+    with:
+      upload-sarif: true
+```
+
+The token of a pull request from a fork is read-only, so the upload would fail there. Enable it for pushes and for pull requests from the same repository, for example `upload-sarif: ${{ github.event_name == 'push' }}`. Code scanning is free for public repositories and needs GitHub Code Security on private ones. The SARIF carries only locations and Evergreen's own rule text, not source content; the mapping is below.
+
+### SARIF output
+
+The same SARIF is available from the CLI, so other CI systems and editors can read it:
+
+```bash
+evergreen scan . --format sarif > evergreen.sarif
+```
+
+Output is deterministic: rules and results are sorted, paths are repository-relative with forward slashes on every platform, and neither the scan time nor the checkout path is written. Two scans of the same commit produce identical files.
+
+| SARIF | Evergreen |
+| --- | --- |
+| `tool.driver.name`, `version` | `Evergreen` and the installed version |
+| `rules[].id`, `name` | The lifecycle rule id, for example `github-actions.checkout.node20` |
+| `rules[].shortDescription` | The rule title |
+| `rules[].help` (`text` and `markdown`) | Replacement, deadline, migration steps, verification commands, and sources |
+| `rules[].helpUri` | The first evidence source |
+| `rules[].defaultConfiguration.level` | The same level mapping as `results[].level`, for the rule's severity |
+| `rules[].properties.tags` | `lifecycle` and the detector id |
+| `results[].ruleId`, `ruleIndex` | The finding's rule |
+| `results[].level` | `critical` and `high` → `error`; `medium` → `warning`; `low` and `info` → `note` |
+| `results[].message.text` | The finding summary, which names the exact reference, such as `actions/checkout@v3` |
+| `results[].locations[]` | File path (`uriBaseId` `%SRCROOT%`) and `startLine` when the finding has a line |
+| `results[].partialFingerprints["evergreenFindingId/v1"]` | The finding id, so alerts keep their identity between runs |
+
+JSON, text, annotations, and SARIF are renderings of the same findings. A finding suppressed by a baseline is absent from all of them.
+
+**Privacy.** SARIF contains no source code: only file paths, line numbers, and Evergreen's own rule text and evidence links. It is uploaded only when `upload-sarif` is `true`, and then only to GitHub code scanning in the same repository. Nothing is sent to an Evergreen service.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/CAPABILITIES.html
+
+# Capability manifest and auto-discovery contract
+
+Evergreen publishes one deterministic capability manifest for humans, agents, and
+integrations:
+
+```bash
+evergreen capabilities --json
+```
+
+The output uses the `evergreen.capabilities.v1` contract. Its JSON Schema is
+[`schemas/capabilities.v1.schema.json`](../schemas/capabilities.v1.schema.json),
+and a complete committed example is
+[`examples/capabilities.json`](../examples/capabilities.json).
+
+## What the manifest describes
+
+- the Evergreen package and product version;
+- supported, experimental, and unsupported capabilities;
+- supported detector ecosystems;
+- CLI, MCP, Skill, plugin, and CI surfaces and their entry points;
+- the shared capability identifiers available through each surface; and
+- compatibility rules for consumers reading newer manifests.
+
+Capability identifiers describe behavior, not transport. For example,
+`repository.scan` is the same capability when reached through the CLI, local MCP
+server, Agent Skill, experimental host plugin, or CI. Integrations should compare
+identifiers rather than infer behavior from command or tool names.
+
+## Forward compatibility
+
+Consumers of a v1 manifest must follow the compatibility object included in the
+document:
+
+1. Ignore fields they do not understand within schema major version 1.
+2. Ignore unknown capability and surface identifiers rather than failing the whole
+   manifest.
+3. Treat any unlisted capability or ecosystem as unsupported. Absence never means
+   experimental or supported.
+4. Reject an unknown schema major version until the consumer explicitly supports
+   it.
+5. Use each entry's `status`; do not promote `experimental` or `unsupported`
+   behavior based on a matching entry-point name.
+
+New optional fields, identifiers, and surfaces using the defined statuses can be
+added in a compatible v1 minor manifest update. Removing or redefining an existing
+identifier, changing required field meaning or status vocabulary, or weakening the
+rules above requires a new schema major version.
+
+## Stability and privacy
+
+The command reads a packaged constant and performs no repository scan, network
+request, telemetry, or configuration write. Identical Evergreen versions produce
+byte-for-byte identical JSON output. The package's contract tests validate both the
+CLI output and committed example against the public JSON Schema and ensure every
+surface references registered capability identifiers.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/MIGRATION_PACKETS.html
+
+# Migration packets
+
+`evergreen context <finding-id>` converts one scan finding into a portable plan for a human or coding agent. Add `--json` for the versioned `evergreen.context.v1` representation.
+
+```bash
+npx evergreen-deprecation scan . --json
+npx evergreen-deprecation context '<finding-id>' . --json
+```
+
+## Packet contents
+
+- The complete lifecycle finding and authoritative sources.
+- The declaration file plus exact import, call, and configuration usages.
+- Rule-specific behavioral and compatibility constraints.
+- Ordered migration steps resolved to declaration, usage, or all affected paths.
+- Suggested ecosystem verification commands and a final Evergreen re-scan.
+
+Built-in registry rules carry reviewed migration guidance next to their lifecycle evidence. This keeps the scan engine and CLI independent of ecosystem-specific migration knowledge. External detectors can provide the same optional guidance through the detector SDK; otherwise Evergreen emits a conservative generic packet.
+
+## Safety and determinism
+
+Evergreen generates context but never edits files or executes verification commands. Packet generation is local, deterministic for a scan result, and does not require an LLM or network access.
+
+The runtime validator checks more than field types: packet sources and usages must equal the finding evidence, affected files must be derived from those locations, step IDs and commands must be unique, and every step path must stay inside the affected-file set. The JSON contract is published at `schemas/context.v1.schema.json`.
+
+Suggested commands may require project-specific setup and should be reviewed before execution. A migration is complete only after the relevant repository tests pass and a fresh Evergreen scan no longer reports the finding.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/COMPATIBILITY.html
+
+# Environment doctor and compatibility matrix
+
+Evergreen can inspect its execution environment without scanning source files:
+
+```bash
+evergreen doctor .
+evergreen doctor . --json
+```
+
+The doctor checks the Node.js runtime, installed package entry points, local MCP
+server, portable Agent Skill, shared plugin prerequisites, and local or CI
+workspace. It is read-only: it does not change configuration, execute suggested
+repairs, start a network listener, or upload repository data.
+
+Text and JSON are generated from the same deterministic result. The JSON contract
+is `evergreen.doctor.v1`; its schema is
+[`schemas/doctor.v1.schema.json`](../schemas/doctor.v1.schema.json). A failed check
+always includes a concrete remediation. Warnings describe usable but not yet stable
+integration paths and do not make the command fail.
+
+## Compatibility matrix
+
+Matrix version: **2026-10-15 / v1**
+
+| Surface | Combination | Status | Notes |
+| --- | --- | --- | --- |
+| CLI | Node.js 22+ on Linux | Supported | Primary local and CI execution path. |
+| CLI | Node.js 22+ on macOS | Supported | Same deterministic CLI and JSON contracts. |
+| CLI | Node.js 22+ on Windows | Experimental | The core is portable; the full Windows suite is not yet a release gate. |
+| GitHub Actions | Ubuntu runner | Supported | Composite Action, annotations, baselines, severity gate, and JSON artifact. |
+| GitHub Actions | macOS runner | Experimental | Expected to work through `bash`; not yet in the required runner matrix. |
+| GitHub Actions | Windows runner | Unsupported | The current composite Action requires `bash`. Use the CLI explicitly if available. |
+| GitLab CI | Linux runner using the CLI | Experimental | Doctor detects `GITLAB_CI` and `CI_PROJECT_DIR`; a Catalog component is not published yet. |
+| MCP | Local stdio host | Supported | No HTTP listener, account, credential, or hosted Evergreen service. |
+| Agent Skill | skills.sh / skills CLI monorepo discovery | Supported | `arminazimi/evergreen` discovers and installs `evergreen-deprecation`. |
+| Agent Skill | Codex, Claude Code, Cursor, GitHub Copilot, or Gemini CLI | Supported | Project installation validated through the skills CLI on 2026-10-15. |
+| Agent Skill | Other hosts supporting the open Agent Skills directory format | Experimental | The portable files can be copied or linked, but these hosts are not in the representative install gate. |
+| Host plugins | Codex or Claude packaged plugin | Experimental | Shared MCP and Skill prerequisites exist; stable host packages are not published yet. |
+
+## Ecosystem coverage
+
+| Detector ecosystem | Status | Coverage |
+| --- | --- | --- |
+| GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
+| Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
+| Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
+| Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
+
+`Supported` means the combination is part of the documented product contract.
+`Experimental` means it is usable but lacks a complete release gate or stable
+distribution package. `Unsupported` means Evergreen does not currently claim the
+combination works.
+
+## CI behavior
+
+- In GitHub Actions, the doctor requires `GITHUB_WORKSPACE` to name an accessible
+  checkout directory.
+- In GitLab CI, the doctor requires `CI_PROJECT_DIR` to name an accessible checkout
+  directory.
+- Outside those environments, it reports local execution and does not require CI
+  variables.
+
+The checks only read Evergreen's own packaged metadata and test workspace
+accessibility. They do not inspect secrets, tokens, repository contents, or remote
+services.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/AGENT_SKILLS.html
+
+# Evergreen Agent Skill
+
+Evergreen ships one portable skill at `skills/evergreen-deprecation/SKILL.md`. It follows the open Agent Skills directory format: standard YAML frontmatter plus Markdown instructions. There is no vendor-specific manifest, invocation policy, tool allowlist, script, or generated prompt.
+
+## Design
+
+The skill is intentionally an orchestration layer. It tells an agent when to discover, explain, migrate, and verify, then maps those intents to Evergreen's MCP tools or CLI commands. Lifecycle rules, evidence, affected-file calculation, migration steps, and verification behavior remain in the executable and versioned JSON contracts.
+
+This split prevents prompt drift: improving a detector or migration packet changes every client without requiring a rewritten skill.
+
+## Installation
+
+The skills CLI discovers the Skill directly from the Evergreen monorepo. No dedicated distribution repository is needed:
+
+```sh
+npx skills add arminazimi/evergreen
+```
+
+The repository currently exposes one Skill. For a non-interactive or explicitly selected install, use:
+
+```sh
+npx skills add arminazimi/evergreen --skill evergreen-deprecation --yes
+```
+
+Update it with:
+
+```sh
+npx skills update evergreen-deprecation
+```
+
+The npm package also includes the complete `skills/evergreen-deprecation` folder for hosts that prefer a manual copy or link.
+
+The host also needs one Evergreen execution path:
+
+- the local `evergreen-mcp` stdio server; or
+- the `evergreen` CLI available on `PATH`.
+
+No account or API key is required.
+
+## Discovery and host compatibility
+
+On 2026-10-15, `npx skills add arminazimi/evergreen --list` discovered exactly one Skill named `evergreen-deprecation`. A clean project installation then selected and installed that Skill for five representative skills CLI targets:
+
+| Host | `--agent` value | Install result |
+| --- | --- | --- |
+| Codex | `codex` | Passed |
+| Claude Code | `claude-code` | Passed |
+| Cursor | `cursor` | Passed |
+| GitHub Copilot | `github-copilot` | Passed |
+| Gemini CLI | `gemini-cli` | Passed |
+
+The same install registered the Skill with skills.sh. It is discoverable as `arminazimi/evergreen@evergreen-deprecation` at [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation). The skills CLI security summary reported Gen Agent Trust Hub **Safe**, Socket **0 alerts**, and Snyk **Low Risk** at validation time. These external assessments can change and do not replace review of the installed files.
+
+## Evaluation
+
+Trigger evaluation cases live in `skills/evergreen-deprecation/evals/cases.json`. The versioned corpus contains 60 prompts: 30 expected triggers and 30 expected non-triggers, including 12 deliberately ambiguous requests. Each of the `agent-skills`, `codex`, and `claude` discovery lanes has 20 cases with an even positive/negative split.
+
+Run the deterministic metadata-selection proxy from the repository root:
+
+```sh
+npm run eval:skill-triggers
+```
+
+The command builds the evaluator, prints JSON results overall and by host lane, lists any failed case IDs, and exits unsuccessfully when the corpus has fewer than 50 cases, recall is below 90%, or the false-trigger rate is 5% or higher. It has no model, network, account, or API-key dependency, so CI and contributors can reproduce the same baseline.
+
+Current published baseline:
+
+| Lane | Cases | Recall | False-trigger rate |
+| --- | ---: | ---: | ---: |
+| All | 60 | 100% | 0% |
+| Agent Skills | 20 | 100% | 0% |
+| Codex | 20 | 100% | 0% |
+| Claude | 20 | 100% | 0% |
+
+This is a contract test for the concepts exposed by the skill metadata, not a claim that every model version will make an identical routing decision. Live host checks can add observations without weakening the deterministic CI gate. Generic dependency upgrades, vulnerability or security audits, deprecated application APIs, and unrelated modernization are explicit negative cases.
+
+### Dependency guard evaluation
+
+The Skill also tells an agent to check a package, runtime, or action before adding it (`check_dependency` or `evergreen check`). `skills/evergreen-deprecation/evals/dependency-cases.json` measures that trigger: 48 prompts, 27 expected checks and 21 that should not trigger one, split evenly across the three discovery lanes. Positives add or choose a dependency in npm, PyPI, and GitHub Actions terms (`npm install request-promise`, `Add actions/checkout@v4 to the CI workflow`, `Which package should I use for date handling?`). Negatives are removals, installs of what the lockfile already declares, routine upgrades, `dependency injection`, tests, documentation, and refactors; six edge cases are labeled ambiguous with the decision and reason recorded.
+
+`npm run eval:skill-triggers` reports recall and false-trigger rate for it under `dependencyGuard`, overall and by lane, with the same gates (at least 40 cases, recall of 90% or more, false-trigger rate under 5%). Like the lifecycle evaluation it is a deterministic proxy for what the Skill metadata says, not a measurement of any particular model; live runs in each host can add observations without weakening the gate.
+
+CI also validates the portable frontmatter, small instruction surface, vendor neutrality, complete tool mapping, and safety invariants.
+
+Independent forward tests exercise three different agent situations:
+
+| Agent situation | Observable success criterion | Result |
+| --- | --- | --- |
+| Skill discovery | Classify every trigger and non-trigger case through the metadata contract without reading expected answers. | 60/60 correct across three lanes. |
+| MCP-capable agent | Discover, explain, create context, migrate, and verify through the real stdio protocol in one session. | Passed with all five tools; checkout finding verified absent. |
+| CLI-only agent | Complete the same lifecycle using only documented CLI fallbacks and a fresh final scan. | Passed; request migration changed only two packet files and ended with zero findings. |
+
+Forward-test observations are recorded on the Week 11 GitHub issue when the phase is completed. Discovery testing narrowed an ambiguous generic migration trigger to migrations from Evergreen findings. CLI testing replaced the packet's `npx` rescan suggestion with the already-installed `evergreen` executable so verification remains offline-capable and version-consistent. MCP testing clarified that an empty usage list means there are no additional usages beyond the declaration, rather than implying that the declaration itself is not relevant.
+
+## Limits and security assumptions
+
+- Evergreen currently covers its documented GitHub Actions, Node.js, npm, and Python rules. The skill reports unsupported ecosystems instead of inventing migration advice.
+- Dynamic references that detectors cannot classify remain explicit limitations.
+- MCP verification needs the same server session that observed the finding. The CLI fallback uses a fresh scan and conservatively compares the rule and declaration path.
+- The skill grants no permissions. Suggested verification commands remain subject to the host's normal authorization rules.
+- The bundle contains no executable skill scripts and declares no pre-approved tools.
+- Installing through the skills CLI copies or links instruction files into the selected host's Skill directory; it does not install the Evergreen runtime itself.
+- Repository analysis remains local. The selected host receives structured Evergreen results, which can include paths and short source excerpts, so its own privacy policy still applies.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/RULES.html
+
+# Lifecycle rules
+
+Every lifecycle claim Evergreen makes comes from a rule in `registry/`. A rule says which component is affected, in which versions, what happened to it, who says so, and when that was last checked. This page is the reference for writing one.
+
+The format is `evergreen.registry.v2`. Its JSON Schema is [`schemas/registry.v2.schema.json`](../schemas/registry.v2.schema.json), and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md). All four bundled registries (`github-actions`, `nodejs`, `npm`, `python`) use it.
+
+## A complete rule
+
+```json
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "npm",
+  "freshness": { "maxReviewAgeDays": 365 },
+  "rules": [
+    {
+      "id": "npm.package.request.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request is deprecated",
+      "summary": "The package is fully deprecated and no new changes are expected.",
+      "severity": "high",
+      "replacement": "Native fetch or a maintained HTTP client",
+      "deadline": "2020-02-11",
+      "sources": [
+        { "title": "request package deprecation notice", "url": "https://www.npmjs.com/package/request" }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": ["Preserve request method, headers, authentication, redirects, and error semantics at each call site."],
+        "steps": [
+          { "id": "replace-request-calls", "title": "Rewrite request usages", "instructions": "Translate each reported import and call to native fetch or a maintained client.", "targets": "usages" }
+        ],
+        "verification": [
+          { "command": "npm run test --if-present", "purpose": "Run the repository tests when defined." }
+        ]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "request" }
+      ],
+      "x-npm": { "package": "request" }
+    }
+  ]
+}
+```
+
+A second, smaller example lives in [`examples/registry.v2.example.json`](../examples/registry.v2.example.json). The bundled files in `registry/` are the best reference for each ecosystem.
+
+## The registry file
+
+| Field | Required | Meaning |
+|---|---|---|
+| `schemaVersion` | yes | Always `evergreen.registry.v2`. |
+| `ecosystem` | yes | A lowercase slug such as `npm`. Every rule in the file must use the same value. |
+| `freshness.maxReviewAgeDays` | no | How long a rule may go without review before the weekly check reports it stale. Defaults to 365. |
+| `rules` | yes | The rules, in the order detectors should consider them. |
+
+## A rule
+
+| Field | Required | Meaning |
+|---|---|---|
+| `id` | yes | Stable and unique, lowercase with dots and hyphens, for example `npm.package.request.deprecated`. Baselines and reports refer to it, so do not rename it. |
+| `ecosystem` | yes | Matches the registry's `ecosystem`. |
+| `purl` | yes | The affected component as a [Package URL](https://github.com/package-url/purl-spec), canonical and **without a version**: `pkg:npm/request`, `pkg:npm/%40angular/core`, `pkg:pypi/django-nose`, `pkg:github/actions/checkout`. Runtimes with no registry use `pkg:generic/<name>`, for example `pkg:generic/nodejs`. |
+| `vers` | yes | The affected versions as a [VERS](https://github.com/package-url/vers-spec) range, for example `vers:npm/*` (every version), `vers:semver/<5.0.0`, `vers:semver/>=20.0.0\|<21.0.0`, `vers:pypi/<3.10`. Write it in canonical form: no spaces, no explicit `=`, constraints sorted by version. |
+| `event` | yes | What happened: `deprecated`, `end-of-support`, `end-of-life`, or `removed`. Use the word the source uses; see [Choosing an event](#choosing-an-event). |
+| `title` | yes | One line that names the problem. |
+| `summary` | yes | One or two sentences stating what the source says, without advice. |
+| `severity` | yes | `info`, `low`, `medium`, `high`, or `critical`. |
+| `replacement` | no | What to move to. |
+| `deadline` | no | The date from the source, as `YYYY-MM-DD`. Omit it when the source gives none. |
+| `sources` | yes | At least one authoritative source, each with a `title` and an `https` `url` (and optionally `accessedAt`). |
+| `provenance` | yes | See below. |
+| `migration` | no | Constraints, ordered steps, and verification commands. Used by `evergreen context`. Step `targets` are `declaration`, `usages`, or `all`; step ids are unique within the rule. |
+| `usage` | no | Imports, calls, and configuration keys that show where a repository depends on the component. |
+| `x-<ecosystem>` | no | Matching hints the ecosystem's detector reads, such as `x-npm.package`, `x-nodejs.major`, `x-python.kind`, or `x-github-actions.supportedFromMajor`. See [Detector hints](#detector-hints). |
+
+### Provenance
+
+Provenance makes a rule auditable.
+
+| Field | Meaning |
+|---|---|
+| `observedAt` | The date you last saw the claim at its source. |
+| `reviewedAt` | The date a maintainer last checked the rule against its sources. It must not be earlier than `observedAt`. |
+| `reviewer` | Who reviewed it. |
+| `importer` | The importer that drafted the rule, when one did. Omit it for hand-written rules. |
+
+Dates are real calendar dates written `YYYY-MM-DD`; timestamps are rejected.
+
+### Choosing an event
+
+| Event | Use it when the source says |
+|---|---|
+| `deprecated` | The maintainer deprecated it, or put it in maintenance mode and recommends something else. |
+| `end-of-support` | The release or version no longer receives support, for example because its runtime is gone. |
+| `end-of-life` | The project or release line has reached end of life, is unmaintained, or is archived. |
+| `removed` | The component, release, or service has been retired and no longer works. |
+
+If the source's wording fits two events, use the earlier one and quote the source in `summary`.
+
+## Evidence policy
+
+- Every rule needs an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
+- Never infer lifecycle status from popularity, download counts, or a newer version existing.
+- Dates, affected versions, and replacements must match the source. If the source is ambiguous, say so in the pull request.
+- Rules are reviewed data, not code. Changes to `registry/` and `schemas/` are reviewed by a maintainer (see `.github/CODEOWNERS`).
+
+## Validation
+
+Everything above is enforced when a registry loads, and `npm run check` runs it on the bundled files. Validation reports every problem at once and names the rule and field, for example:
+
+```text
+Invalid registry (2 problems):
+- rule "npm.package.request.deprecated": provenance.reviewedAt is required
+- rule "npm.package.left-pad.deprecated": purl must be canonical and version-less (expected "pkg:npm/left-pad")
+```
+
+Beyond the schema, validation checks that:
+
+- `purl` is canonical and has no version, qualifiers, or subpath;
+- `vers` is canonical, its scheme is supported, every version in it is valid for that scheme, and the scheme fits the PURL type (for example `pypi` ranges on `pkg:pypi`);
+- ids are unique, the rule's `ecosystem` matches the registry's, and there are no unknown fields (extensions must be named `x-<name>`);
+- `migration` and `usage` entries are valid.
+
+Supported version schemes are `semver`, `npm`, `cargo`, `golang`, `composer` (Semantic Versioning), `pypi` (PEP 440), `maven`, `nuget`, `gem`, and `intdot`.
+
+## Freshness and sources
+
+Scans never check freshness and never use the network, so results stay deterministic. A weekly workflow, [`.github/workflows/sources.yml`](../.github/workflows/sources.yml), runs `tools/check-sources.ts` and reports, separately:
+
+- **stale** rules, reviewed longer ago than their `freshness.maxReviewAgeDays`;
+- **changed** sources, whose final URL or title differs from the one recorded in `registry/sources.lock.json`;
+- **unreachable** sources;
+- **blocked** sources behind a bot challenge, which cannot be verified;
+- **unrecorded** sources, not in the lock yet.
+
+The check never edits rules. When it reports something, review the source, update the rule and its `reviewedAt`, and refresh the lock:
+
+```bash
+npm run build
+node dist/tools/check-sources.js --update-lock
+```
+
+Run it locally with `npm run check:sources`.
+
+## Detector hints
+
+Existing detectors read a few fields that are specific to their ecosystem. In v2 they sit under `x-<ecosystem>` and are merged into the rule when the registry loads, so a detector sees the same rule it always has.
+
+| Registry | Hints |
+|---|---|
+| `npm` | `x-npm.package` |
+| `nodejs` | `x-nodejs.major` for one release line, or `x-nodejs.maximumMajor` for every line up to and including it |
+| `python` | `x-python.kind` (`runtime` with `maximumVersion` such as `"3.9"`, or `package` with `package`) |
+| `github-actions` | `x-github-actions.action` and `x-github-actions.supportedFromMajor` |
+
+The hints must agree with `purl` and `vers`: `x-npm.package` is the package in `pkg:npm/...`, and `x-github-actions.supportedFromMajor: 5` goes with `vers:semver/<5.0.0`. New detectors should not add hints that `purl` and `vers` can already express.
+
+## Drafting rules from sources
+
+Rules do not have to be typed by hand. [Importers](IMPORTERS.md) read an authoritative source such as the Node.js release schedule or npm's deprecation flags and draft rules for you to review.
+
+## Converting a v1 file
+
+A tool converts registries written in the older, detector-specific format of the four bundled detectors. It derives `purl` and `vers` from the old fields, refuses to guess lifecycle events, and checks that every rule reads back unchanged:
+
+```bash
+npm run build
+node dist/tools/registry-v1-to-v2.js registry/example.json \
+  --observed-at 2026-10-13 --reviewed-at 2026-10-14 --reviewer your-name \
+  --event example.rule.id=deprecated --out registry/example.json
+```
+
+## Detectors outside this repository
+
+The public SDK still validates the v1 envelope (`validateRegistry`), so external detectors keep working unchanged. Loading v2 registries is currently internal to the bundled detectors; see [detector authoring](DETECTORS.md#registry-validation).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/DATA.html
+
+# Lifecycle data: updates, signing, and trust
+
+Evergreen's findings come from lifecycle rules (`registry/`). The rules that ship inside each release are always available. Between releases you can fetch newer rules, which are signed so that Evergreen can tell they came from the project's release workflow. This page explains how that works, what is checked, and what Evergreen promises.
+
+## What you can rely on
+
+- **Scans never use the network.** A scan, `check`, `explain`, `context`, `baseline`, `doctor`, and `data status` read local files only. The only command that connects to anything is `evergreen data update`, and it runs only when you run it. A test fails if any other code path opens a socket, resolves a name, or calls `fetch`.
+- **Downloaded data is verified before it is used, every time it is loaded.** If it cannot be verified, Evergreen uses the data shipped with the installed release and says so in the result. It never loads data it could not verify.
+- **You can see how fresh the evidence is.** Every scan and check says which data it used and how old it is, and warns when that is more than 30 days.
+- **You can fix the data version** for reproducible CI.
+- **No account, no telemetry.** Updating asks a public release list and downloads public files. Nothing about you or your repository is sent.
+
+## Commands
+
+```bash
+evergreen data status                       # which data is in use, where it came from, how old it is (--json for tools)
+evergreen data update                       # fetch and verify the newest signed bundle
+evergreen data update --data-version 2026.10.01   # fetch exactly that bundle, without making it active
+evergreen scan . --data-version 2026.10.01  # use exactly that bundle (every command takes this)
+EVERGREEN_DATA_VERSION=bundled evergreen scan .   # use only the data shipped with this release
+```
+
+`data status` reports one of three sources: **bundled** (shipped with the release), **cache** (the newest verified download), or **pinned** (the version you asked for). Its age is counted from when a downloaded bundle was built, or from the newest review date among the rules for bundled data.
+
+### Updating
+
+`evergreen data update` lists the project's `data-v…` releases, picks the newest one that has a bundle and a signature, downloads both (https only, with size limits and timeouts), verifies them completely, and only then stores them in your cache and makes them active. If anything is wrong the previous data stays active and nothing is written. Running it again when nothing changed says so.
+
+It refuses a bundle that is older than the active one (a replayed old bundle would roll your rules back), a bundle the installed release already beats, and anything that fails verification. Three bundles are kept.
+
+Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or newer). To use a mirror, point `EVERGREEN_DATA_URL` at its release list.
+
+### Pinning
+
+`--data-version X` or `EVERGREEN_DATA_VERSION=X` (the flag wins) makes Evergreen use exactly bundle `X` from your cache, or `bundled` for the data shipped with the release. Unlike the automatic choice, a pin that cannot be met **stops the run** with exit code 2 instead of quietly using something else, so a CI job that pins its data either uses it or fails. The message tells you how to fetch it: `evergreen data update --data-version X`. A pinned bundle is verified just like any other, and is used whatever its age (the stale warning still appears).
+
+### Where the data is stored
+
+`EVERGREEN_DATA_DIR` if set, otherwise `~/Library/Caches/evergreen` (macOS), `$XDG_CACHE_HOME/evergreen` or `~/.cache/evergreen` (Linux), or `%LOCALAPPDATA%\evergreen\Cache` (Windows). Inside, `data/<version>/` holds `bundle.json` and its signature `bundle.json.sigstore.json`, and `data/active.json` names the active version. Deleting the directory returns Evergreen to the bundled data.
+
+## What is in a bundle
+
+One JSON file (`evergreen.data-bundle.v1`, [schema](../schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the four registries (GitHub Actions, Node.js, npm, Python) and the GitHub Actions SHA map. The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+
+## Trust model
+
+A bundle is signed with **Sigstore keyless signing**. There is no long-lived signing key to steal or lose: the release workflow proves who it is to Sigstore with a short-lived GitHub identity token, receives a certificate that lasts minutes, signs the bundle, and the signature is recorded in a public transparency log.
+
+Evergreen accepts a bundle only if **all** of these hold, checked offline:
+
+1. The signature verifies against the exact bytes downloaded (certificate chain, validity period, transparency-log inclusion).
+2. The signer is the project's release workflow: issuer `https://token.actions.githubusercontent.com` and an identity matching
+
+   ```text
+   ^https://github\.com/arminazimi/evergreen/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$
+   ```
+
+   A valid signature from any other workflow, repository, or branch is refused.
+3. The format is one Evergreen understands and its `minimumEvergreenVersion` is not newer than the installed release.
+4. The bundle is complete, and every file matches its digest and size, with nothing missing or extra.
+
+The certificates and log keys come from the Sigstore public-good trusted root, which ships in the npm package (`data/sigstore-trusted-root.json`) so that verification needs no network. That is also why you should keep Evergreen reasonably current: if Sigstore rotates its keys and the root in your installed release is too old, signatures made after the rotation stop verifying. Evergreen then falls back to its bundled data and tells you; it does not skip the check.
+
+To check a release by hand with [cosign](https://docs.sigstore.dev/):
+
+```bash
+cosign verify-blob \
+  --bundle evergreen-data-2026.10.16.json.sigstore.json \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/data-release\.yml@refs/(?:tags/data-v\d{4}\.\d{2}\.\d{2}(?:\.\d+)?|heads/main)$' \
+  evergreen-data-2026.10.16.json
+```
+
+### What this does not protect against
+
+- A compromise of the repository's release workflow or of a maintainer with permission to push a `data-v…` tag: the workflow would sign whatever it was given. Rule changes are reviewed before they reach `main`, and the signature proves where a bundle came from, not that its contents are correct.
+- A compromised Evergreen package: the trusted root and the signer identity are part of the release you installed.
+- Wrong evidence. Signing says who published a rule, not that the claim is true; each rule cites its sources and review date for that reason.
+
+## When something is wrong
+
+Evergreen reports every refusal in the result, in the scan's `diagnostics` and in `data status`, for example:
+
+```text
+Ignoring downloaded lifecycle data 2026.10.16: registry/npm.json does not match its digest. Using the data bundled with Evergreen 0.2.0.
+```
+
+Common causes are a damaged download (run `evergreen data update` again), a bundle that needs a newer Evergreen (upgrade), and an expired trust root (upgrade). Data that is merely old is not an error; it is flagged stale after 30 days, and `evergreen data update` is the remedy.
+
+## Publishing a bundle
+
+Maintainers push a `data-vYYYY.MM.DD` tag; see [Releasing](RELEASING.md#publishing-lifecycle-data). The workflow builds the bundle twice and requires identical bytes, signs it, verifies the signature, and attaches the bundle, the signature, and checksums to a GitHub release.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/VALIDATION.html
+
+# v0.1 validation
+
+Evergreen v0.1 was validated on 2026-10-14 against 20 public repositories pinned to immutable commits: ten Node.js repositories, nine Python repositories, and one Node.js/GitHub Actions repository. The complete corpus and expected finding locations live in `benchmarks/public-repositories.json`; the executable harness is `benchmarks/public-repositories.ts`.
+
+## Results
+
+| Measure | Result |
+| --- | ---: |
+| Repositories | 20 |
+| Expected findings | 27 |
+| True positives | 27 |
+| False positives | 0 |
+| False negatives | 0 |
+| Precision | 1.0000 |
+| Recall | 1.0000 |
+| Median scan time | 8.19 ms |
+| p95 scan time | 48.88 ms |
+| Slowest scan | 49.73 ms |
+
+Scan time measures only local Evergreen analysis after checkout. It excludes network and Git operations, which the harness reports separately as `checkoutMs` per repository and `medianCheckoutMs`, `p95CheckoutMs`, and `slowestCheckoutMs` in the summary, so Evergreen's own cost is never mixed with the time spent downloading a repository. The run used the development machine, so duration is a reference rather than a cross-machine guarantee.
+
+## GitHub Actions corpus additions
+
+The corpus has since grown to 30 repositories. The ten added entries are GitHub Actions repositories taken from reviewed migration commits (see [Mining migrations](../benchmarks/mining/queries.md)). Eight are pinned to the commit *before* a migration, where Evergreen must report exactly the workflow locations the migration changed, and two are pinned to the migration commit itself, where it must report nothing. Together they include reusable workflows (`Akenon-Studio/.github`) and SHA-pinned actions (`smartcrabai/paperhanger`, `openmcp-project/crossplane-headlamp-plugin`).
+
+Every expected finding in these entries has `groundTruthSource.kind` set to `migration-commit` and links to the commit that fixed it; a test checks each link against `benchmarks/mining/review-log.json`. A SHA-pinned entry is only accepted as zero-finding after checking that no pinned reference carries a version comment below the rule's supported major, because Evergreen does not classify SHA pins yet and would otherwise hide a deprecated version. Across all 30 repositories the harness reports 48 expected findings, 48 true positives, and no false positives or false negatives (observed 2026-10-16). The table above is the original 20-repository v0.1 run.
+
+## Method
+
+Every expected result is identified by rule ID, repository-relative path, and line at a pinned commit. The harness downloads each commit to a temporary directory, runs all built-in detectors, compares sets in both directions, reports per-repository timing, and removes the checkout. It exits unsuccessfully for any unexpected or missing finding.
+
+```bash
+npm run validate:public-repos
+```
+
+The audit covers both positive and zero-finding repositories across npm/Node.js, Python, and GitHub Actions. Findings were checked against their repository declarations and the authoritative sources bundled with the matching lifecycle rule.
+
+## The 50-repository corpus
+
+The corpus now has 50 repositories: the 20 from v0.1, the ten GitHub Actions entries above, and twenty more across the shipped detectors.
+
+- Sixteen are pinned to the parent of a reviewed migration commit: six clean ones where the migration explains every finding (node-sass removals, Python runtime floors raised to a supported release), and ten where other deprecated declarations were still present. Findings that the migration fixed cite it with `groundTruthSource.kind` `migration-commit`; the rest are `maintainer-review` and quote the exact line that was read at that commit.
+- Four are zero-finding repositories, including monorepos (`withastro/astro`, `vitest-dev/vitest`, `lerna/lerna`, `changesets/changesets`). They were also searched by hand for deprecated actions, runtimes and packages, independently of Evergreen's own rules.
+
+The review tool (`benchmarks/mining/review.ts`) now accepts npm package, Python package, and Node.js and Python runtime rules as well as GitHub Actions rules, and `mine.ts` can mine one group at a time and append without replacing reviewed candidates (`--queries npm,python --limit 10 --append`). Across all 50 repositories the harness reports 81 expected findings, 81 true positives, no false positives and no false negatives (observed 2026-10-16).
+
+## Precision thresholds
+
+[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
+
+```text
+THRESHOLD  npm: precision 0.9 is below the required 0.95
+```
+
+The weekly corpus workflow therefore fails on a precision regression even if the exact-match comparison is later relaxed. Mark a new detector `"stable": false` until its corpus coverage is meaningful; it is still scored and reported but never fails the run. Never lower a floor to make a run pass.
+
+## Weekly run and refreshing pins
+
+Pull request CI never touches the network, so the corpus is checked by [`.github/workflows/corpus.yml`](../.github/workflows/corpus.yml) every Monday and on demand (Actions → Public corpus → Run workflow). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:
+
+```text
+UNEXPECTED owner/repo@4ec1ebe0fa: github-actions.setup-node.node20:.github/workflows/ci.yml:20
+MISSING    owner/repo@4ec1ebe0fa: nodejs.runtime.eol-18:package.json:83
+```
+
+`UNEXPECTED` means Evergreen reported a finding the corpus does not list; `MISSING` means a listed finding was not reported. Because every commit is pinned, a mismatch means Evergreen's rules or detectors changed, not the repository. Decide which side is right before touching the corpus: fix the detector or rule when the corpus is right, and update the expected entry (with its `groundTruthSource`) only when the new result is correct.
+
+To move an entry to a newer commit, change its `commit` to the full 40-character SHA, run `npm run observe:public-repos` to list what Evergreen now reports, review every difference against the repository at that commit, update `expected`, and run `npm run validate:public-repos` until it passes. Never refresh a pin only to make a failing run green.
+
+## Interpretation and limits
+
+Precision and recall are measured only against Evergreen's documented v0.1 rule set and the pinned corpus. They do not mean Evergreen detects every possible deprecation in these ecosystems. The corpus is public and reproducible, but not a statistically representative sample of all software. Dynamic action references and unsupported ecosystems remain intentionally unclassified.
+
+The controlled source-usage benchmark provides a separate exact-match test for imports, calls, and configuration keys; see [Benchmarks](BENCHMARKS.md).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/PRIVACY.html
+
+# Evergreen privacy
+
+Evergreen analyzes software repositories on the user's computer. The Codex and Claude plugins start a local stdio MCP server and do not send repository contents to an Evergreen-operated service. Evergreen does not require an Evergreen account, collect analytics, use advertising identifiers, or sell personal data.
+
+The local tools read supported manifests, lockfiles, workflow files, runtime-version files, and relevant source excerpts from the repository path the user authorizes. Results can contain file paths and short source excerpts. The host application receives those results, so its privacy policy and the user's workspace settings also apply.
+
+The plugin launches the exact published `evergreen-deprecation` npm version recorded in its manifest. The package manager may contact the configured npm registry to obtain that package. Lifecycle evidence links are returned as references; Evergreen does not open them automatically.
+
+Scans use no network. The one exception is `evergreen data update`, which you run yourself to fetch newer, signed lifecycle rules from the project's public GitHub releases. It sends nothing about you or your repository (a request for a public release list and two public files, which the host can see as it can any download), verifies the signature before using the data, and falls back to the rules shipped with the release if verification fails. See [Lifecycle data](DATA.md).
+
+Evergreen's tools do not edit repository files, execute suggested migration commands, open a network listener, or request credentials. Users can disable or remove the plugin at any time. Questions can be reported through [GitHub Issues](https://github.com/arminazimi/evergreen/issues).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/DETECTORS.html
+
+# Detector authoring
+
+Evergreen detectors are adapters at the detector SDK seam. They inspect a repository and return lifecycle findings; the scan engine handles detector attribution, sorting, reporting, and composition.
+
+## Supported interface
+
+Import the public SDK from `evergreen-deprecation/sdk`:
+
+```ts
+import {
+  defineDetector,
+  DETECTOR_API_VERSION,
+  type Detector,
+} from "evergreen-deprecation/sdk";
+```
+
+A compatible detector has one stable identifier and one operation:
+
+```ts
+export const detector = defineDetector({
+  apiVersion: DETECTOR_API_VERSION,
+  id: "example-ecosystem",
+  async scan({ root }) {
+    return [];
+  },
+}) satisfies Detector;
+```
+
+The interface guarantees:
+
+- `root` is an absolute repository path.
+- `id` uses lowercase letters, numbers, and single hyphens.
+- `scan` returns findings without a `detector` field; the engine adds it from `id`.
+- Findings must be deterministic for the same repository and bundled registry.
+- Repository contents are untrusted input.
+- The core contract provides no network capability. Detectors should use bundled, reviewed registry data so scans remain local and reproducible.
+- An incompatible `apiVersion` fails before the detector scans.
+
+See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
+
+## Start a new detector in this repository
+
+Do not copy an existing detector by hand. Generate the skeleton from a checkout of this repository:
+
+```bash
+npm ci
+npm run build
+node dist/src/cli.js new-detector go-modules --ecosystem go
+```
+
+The id is the detector's stable identifier (lowercase letters, digits, and single hyphens, starting with a letter). `--ecosystem` is the registry slug and defaults to the id. The command creates nine files and nothing else:
+
+| File | What it is for |
+| --- | --- |
+| `src/detectors/<id>.ts` | The detector. It imports only the public SDK, reports nothing yet, and says in its header what to do next. |
+| `src/detectors/<id>/parse.ts` | A pure, bounded parser: contents in, `{ value, line }` declarations out. Its header lists the rules it keeps and a place to document the forms it deliberately does not read. |
+| `registry/<id>.json` | An empty `evergreen.registry.v2` registry for your rules ([Lifecycle rules](RULES.md)). |
+| `tests/<id>-detector.test.ts` | The conformance suite (determinism, zero-finding, malformed input) against the generated fixtures. |
+| `tests/<id>-parse.test.ts` | The invariants every parser keeps: no throw on junk, bounded input and lines, determinism, 1-based lines. |
+| `tests/fixtures/<id>/` | A README with a table of cases, and `zero/` and `malformed/` fixtures to replace with real ones. |
+| `docs/detectors/<id>.md` | The page that describes what the detector reads, its rules, and its limits. |
+
+The skeleton compiles and passes its own tests with zero rules, so every later change starts from a green build. The command refuses to run outside a checkout, refuses an id or ecosystem that an existing detector, registry file, or rule-id prefix already uses (it lists every clash and the file that holds it), and writes nothing if any target file exists.
+
+After generating:
+
+1. **Fixtures first.** Fill `tests/fixtures/<id>/` with small repositories: one positive per declaration type, lookalike negatives (comments, unrelated keys, dynamic values), a zero-finding one, and a malformed one. Describe each in the README table.
+2. **Parser.** Teach `parse.ts` to read the declarations, one form at a time, each with a test. Bound the input, never evaluate what you read, and return nothing, not an error, for forms you do not support.
+3. **Rules.** Add evidence-backed rules to `registry/<id>.json` ([evidence policy](../CONTRIBUTING.md#evidence-policy)).
+4. **Detector.** In `<id>.ts`, find the files, parse them, and match declarations to rules. Report an exact path and line. Add the expected findings to the conformance test.
+5. **Register it.** Add the detector to `builtInDetectors` in `src/detectors/index.ts`. To ship its rules in the signed data bundle ([Lifecycle data](DATA.md)), add the ecosystem to `BUNDLED_ECOSYSTEMS` in `src/data-bundle.ts`. The generator leaves both to you on purpose, so a skeleton never changes what scans report or what a data release contains.
+6. **Check.** `npm run check` must pass, and `npm run validate:public-repos` must still match exactly. A new detector starts non-stable in `benchmarks/thresholds.json` until the corpus has meaningful coverage ([Validation](VALIDATION.md#precision-thresholds)).
+
+Detectors that live outside this repository use the public SDK directly, as described below; `new-detector` is for contributors to Evergreen itself.
+
+## Unclassified references
+
+Detectors may implement the optional `analyze` operation when they need to return both findings and references that could not be classified safely. The stable `scan` operation remains required, so existing external detectors continue to work unchanged. The engine adds the detector ID, sorts the references deterministically, and exposes them under `unclassified.count` and `unclassified.references` in `evergreen.scan.v1` JSON output.
+
+The built-in GitHub Actions detector uses this metadata for full 40-character commit pins it cannot resolve. It classifies a covered action from a valid trailing version comment first, or from Evergreen's bundled exact SHA-to-release map when no comment is present. An unknown SHA is reported with reason `unknown-sha`; a present but unusable comment is reported with reason `invalid-version-comment`. Neither case becomes a lifecycle finding because Evergreen does not guess a release line.
+
+This resolution is fully offline. The bundled map is reviewed and regenerated by a separate maintainer tool; repository scans never query GitHub or another service.
+
+## Registry validation
+
+The bundled registries use the shared `evergreen.registry.v2` format, keyed by Package URL and version range with provenance for every rule. See [Lifecycle rules](RULES.md) for the format, the evidence policy, and how to write a rule. The v2 loader is internal to the bundled detectors for now; the public SDK validates the v1-style envelope below, so detectors outside this repository keep working unchanged.
+
+Registry files for external detectors use a versioned envelope:
+
+```json
+{
+  "schemaVersion": "example.registry.v1",
+  "rules": []
+}
+```
+
+Use `validateRegistry` for the envelope and a detector-owned type guard for each rule:
+
+```ts
+const registry = validateRegistry(JSON.parse(contents), {
+  schemaVersion: "example.registry.v1",
+  isRule: (value): value is ExampleRule =>
+    isDeprecationRule(value) && typeof value.package === "string",
+});
+```
+
+Validation rejects a missing or unexpected schema version, a non-array `rules` value, and the first invalid rule with its array index. `isDeprecationRule` validates the fields shared by every Evergreen lifecycle rule.
+
+Rules may include optional migration guidance so `evergreen context` can produce ecosystem-specific packets without hard-coding detector knowledge in the CLI:
+
+```json
+{
+  "migration": {
+    "constraints": ["Preserve observable behavior."],
+    "steps": [
+      {
+        "id": "replace-declaration",
+        "title": "Replace the declaration",
+        "instructions": "Move to the supported replacement.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      { "command": "npm test", "purpose": "Run the repository tests." }
+    ]
+  }
+}
+```
+
+Step targets are `declaration`, `usages`, or `all`. The packet module resolves those targets to exact repository paths. Step IDs must be unique within a rule, and constraints, steps, and verification commands must all be non-empty. External detectors without migration guidance receive deterministic generic fallback steps.
+
+## Source usage contracts
+
+Detectors can enrich findings with concrete repository usages through the public `analyzeSourceUsage` helper. Pass all matched rules in one batch so the repository is traversed once:
+
+```ts
+import {
+  analyzeSourceUsage,
+  type SourceUsageContract,
+} from "evergreen-deprecation/sdk";
+
+const contracts: SourceUsageContract[] = [{
+  id: "legacy-client",
+  matchers: [
+    { kind: "import", language: "typescript", module: "legacy-client" },
+    {
+      kind: "call",
+      language: "typescript",
+      module: "legacy-client",
+      targets: ["default", "get"],
+    },
+  ],
+}];
+
+const analyses = await analyzeSourceUsage(root, contracts);
+```
+
+Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
+
+## Compatibility policy
+
+`evergreen.detector.v1` remains compatible throughout the `0.1.x` line. Additive fields will be optional. A future breaking interface will use a new API version so an old adapter fails clearly instead of producing unreliable findings.
+
+Run `npm run check` against the minimum Evergreen version your detector supports. The repository compatibility suite exercises an external adapter, rejects an old API version, validates registry failure modes, and runs the published example through the same engine seam used by built-in detectors.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/IMPORTERS.html
+
+# Lifecycle importers
+
+An importer reads one authoritative, machine-readable source and drafts [lifecycle rules](RULES.md) from it. Importers exist so the registry grows from sources instead of being typed in by hand. They are maintainer tooling: scans never run them, never use the network, and never read their drafts. The decision behind them is [Decision 0005](decisions/0005-lifecycle-importers.md).
+
+Two rules hold for every importer:
+
+- **Importers never write the registry.** They produce drafts. A person reviews each draft and changes `registry/` in a pull request.
+- **Drafts are marked unreviewed.** The runner stamps every draft with `provenance.reviewer: "pending-review"`, and a test fails if that value ever appears in a bundled registry.
+
+## The workflow
+
+```bash
+npm ci && npm run build
+
+# 1. Draft rules from the source (network)
+node dist/tools/importers/run.js nodejs-schedule --out drafts.json
+
+# 2. See exactly what would change in the registry
+node dist/tools/importers/diff.js drafts.json registry/nodejs.json
+
+# 3. Write the pull-request description, with an evidence table
+node dist/tools/importers/pr-body.js drafts.json registry/nodejs.json --out body.md
+```
+
+`run.js --list` lists the importers. `diff.js` exits with 10 when there are changes, 0 when there are none, and 1 on an error. Only `run.js` uses the network.
+
+### Reviewing drafts
+
+The diff classifies each draft as **added**, **changed** (split into dates, sources, and other fields), **removed**, or **unchanged**, and flags **duplicates**: a draft with the same component and versions as an existing rule under a different id. Applying a draft means overlaying the fields the importer sets on the existing rule, so fields an importer never sets (migration steps, usage matchers, hand-written text) are never reported and never lost.
+
+When you accept a draft:
+
+1. Check each source against the rule: the event, the affected versions, and the date.
+2. Copy the rule into the registry file and set `provenance.reviewer` and `provenance.reviewedAt`. Leave `importer` as it is.
+3. Keep one id per component. If the diff reports a duplicate, decide which id stays and retire the other.
+4. Add `migration` and `usage` for a new rule if you can; importers leave them to people.
+5. Run `npm run check`.
+
+Do not remove a rule only because an importer stopped drafting it. A source can stop listing something because the thing is gone, and a retired image or release is exactly what an old workflow needs to be told about. The diff reports such rules as "no longer drafted"; remove one only when its fact is no longer true.
+
+## The importers
+
+| Importer | Registry | Reads | Candidate list |
+|---|---|---|---|
+| `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
+| `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
+| `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
+| `pypi-status` | `python` | PyPI's Simple API (PEP 792 project status markers): archived, deprecated, and quarantined projects. | `tools/importers/pypi-candidates.ts` |
+| `github-actions-runtime` | `github-actions` | Each action's own `action.yml` at its major tags: releases that run on a Node.js runtime GitHub has retired. | `tools/importers/github-actions-candidates.ts` |
+| `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
+
+Some registries have no list of what is deprecated (npm and PyPI expose a flag per package), so those importers check a **candidate list**. To widen coverage, add a name to the list in a pull request: one line, in sorted order. A candidate that is not deprecated produces no rule, and the importer names it in its notes so it can be removed.
+
+Two importers have limits worth knowing:
+
+- `runner-images` drafts rules for a `github-runners` ecosystem that has no registry file and no detector yet, because Evergreen does not read `runs-on:` labels. Its drafts have no effect until one exists.
+- `github-actions-runtime` relies on a small table of retired Node.js runtimes in `tools/importers/github-actions.ts`. Each row is a dated fact with the GitHub post that states it. Add a row, with its source, when GitHub retires another runtime.
+
+## Writing an importer
+
+An importer is one module that implements `Importer` from [`tools/importers/types.ts`](../tools/importers/types.ts):
+
+```ts
+export interface Importer {
+  readonly id: string;        // lowercase letters, numbers, hyphens; becomes provenance.importer
+  readonly ecosystem: string; // the registry its drafts belong to, for example "nodejs"
+  readonly description: string;
+  readonly sources: readonly { title: string; url: string }[];
+  import(context: ImporterContext): Promise<{ rules: DraftRule[]; notes: string[] }>;
+}
+```
+
+[`tools/importers/example.ts`](../tools/importers/example.ts) is a complete, small importer to copy from. The real ones next to it are the best reference for each kind of source.
+
+### What the context gives you
+
+`context.fetchText(url, { accept? })` is how an importer reads anything. It returns a response body, or throws an `ImporterError` for a failed response. `fetchJson(context, url)` parses JSON. `context.now` is the date of the run. An importer must not read files, the clock, or the environment, so a run can be replayed from a recording and gives the same drafts every time.
+
+### What you return
+
+Return complete [v2 rules](RULES.md) **without `provenance`**; the runner adds it. Return `notes`, a list of plain sentences for the reviewer about what you skipped and why, in a stable order. The runner sorts the rules by id, puts their fields in registry order, validates them as a v2 registry for your ecosystem, and fails with every problem listed.
+
+Follow these as you write the rules:
+
+- **Cite what you read.** The sources are the pages you fetched or the posts that state the fact. If you cannot establish a fact, do not draft it; write a note.
+- **Set only what the source tells you.** Leave out `replacement` or `migration` unless the source gives it. A field you set overwrites the registry's value when a draft is applied; a field you leave out is left alone.
+- **Use the ids and wording the registry already uses**, so a draft for an existing rule shows up as a change rather than a second rule. If an id would differ from an existing rule for the same component, the diff flags it.
+- **Fill in the detector hint** (`x-<ecosystem>`) the ecosystem's detector reads, and make it agree with `purl` and `vers`.
+- **Let time decide.** Compare dates to `context.now`, never to a fixed day, so a later run drafts the right thing.
+- **Treat a missing thing and a failure differently.** A 404 for one candidate is worth a note. Any other failure should stop the run: an outage must never look like "nothing is deprecated".
+- **Write for the detector as it is.** The Python detector reads one runtime rule; the drafts for it are one rule. A rule no detector can use is data, not protection.
+
+### Recordings and tests
+
+Tests never use the network. An importer is tested against a recording of its real responses:
+
+```bash
+# Capture today's responses (network) and write the drafts
+node dist/tools/importers/run.js <id> --record tests/importers/recordings/<id>.json --out drafts.json
+
+# Replay them (no network). Without --now, the run uses the day the recording was made.
+node dist/tools/importers/run.js <id> --replay tests/importers/recordings/<id>.json
+```
+
+A recording holds every response, including failures such as a 404, keyed by URL and `Accept` header. Replay refuses a request nothing recorded, and refuses a recording that holds responses the importer no longer reads, so recordings cannot go stale unnoticed. Name the file after the importer's id.
+
+Put the tests in `tests/importers/<id>.test.ts`. Test the recording end to end, then test the cases a recording cannot show with small inline contexts: the calendar moving (`now`), partial or malformed data, a missing item, and a failure. The tests for `nodejs-schedule` and `github-actions-runtime` are good models. Also check how your drafts compare with the existing registry using `diffDrafts` from `tools/importers/diff.ts`; that is how the first run of each importer found real differences between the sources and the hand-written rules.
+
+### Registering it
+
+Export the importer and add it to the list in [`tools/importers/index.ts`](../tools/importers/index.ts); `run.js --list` then shows it. If it needs a candidate list, keep the list in its own file, sorted, with a test that every entry is valid and distinct.
+
+### Checks you do not have to write
+
+`npm run check` already verifies that every committed recording is valid and named for its importer, that no bundled rule is still `pending-review`, and that `npm test` includes tests in subdirectories.
+
+## What importers are not
+
+- They do not decide what is true. A source can be wrong or ambiguous; the reviewer decides.
+- They do not run on a schedule yet. Scheduling importers to open data pull requests is a separate step.
+- They do not touch scans. A repository scan uses only the bundled registry and never the network.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html
+
+# Evergreen plugin for Claude
+
+Evergreen's Claude plugin packages the canonical lifecycle Skill with the same version-pinned local MCP server used by the Codex adapter. It does not fork detectors, migration logic, or verification behavior.
+
+## Requirements
+
+- Claude Code 2.1.292 or newer for the one-command marketplace install shown below.
+- Node.js 22 or newer for the local Evergreen MCP server.
+
+## Install
+
+Install directly from Evergreen's GitHub marketplace:
+
+```sh
+claude plugin install evergreen --marketplace arminazimi/evergreen
+```
+
+For older Claude Code versions, add the marketplace and install in two steps:
+
+```sh
+claude plugin marketplace add arminazimi/evergreen
+claude plugin install evergreen@evergreen
+```
+
+Choose a scope when needed:
+
+```sh
+claude plugin install evergreen@evergreen --scope user
+claude plugin install evergreen@evergreen --scope project
+claude plugin install evergreen@evergreen --scope local
+```
+
+User scope enables Evergreen for you on this machine. Project scope records it in the repository's `.claude/settings.json` for collaborators. Local scope enables it only for you in the current repository.
+
+For development without installing, load the adapter directory for one session:
+
+```sh
+claude --plugin-dir ./plugins/claude
+```
+
+## Confirm
+
+```sh
+claude plugin list
+claude plugin details evergreen
+```
+
+The installed plugin exposes the `evergreen-deprecation` Skill and the local `evergreen` MCP server. Scan, list, explain, context, and verify behavior is checked against the Codex adapter by `npm run eval:plugins`.
+
+## Dependency guard
+
+The plugin includes a `PostToolUse` hook that runs after Claude Code writes or edits a file. When the edit adds a dependency that Evergreen's lifecycle rules mark as deprecated, Claude gets a warning with the evidence and the replacement, and you see a one-line notice.
+
+What it looks at:
+
+- `package.json`: dependencies added or whose version changed.
+- `requirements*.txt`, `constraints*.txt`, and `pyproject.toml`: added requirements.
+- GitHub workflows and `action.yml`: added `uses:` references that carry a version tag, such as `actions/checkout@v4`.
+
+Only what the edit added is checked, so existing dependencies never produce repeated warnings. For a range such as `^2.88.2` the lower bound is checked.
+
+```text
+Evergreen: pkg:npm/request@2.88.2 — request is deprecated (high, deprecated).
+The package is fully deprecated and no new changes are expected.
+Replacement: Native fetch or a maintained HTTP client.
+Evidence: https://www.npmjs.com/package/request
+```
+
+Behavior you can rely on:
+
+- It never blocks and never edits files. The warning explains the problem and cites its sources, and you or Claude decide what to do.
+- It checks with `evergreen check`, which runs locally against the lifecycle rules bundled in the pinned release. No repository content leaves your machine.
+- A package with no rule produces no output. That is absence of evidence, not a safety claim.
+- If the check cannot run (for example, offline on the first use), the hook says so instead of staying silent, and the edit is unaffected. An unreadable payload exits quietly.
+
+The hook script is generated from `integrations/dependency-guard/guard.mjs`, which the Codex integration shares. It uses the same pinned package as the MCP server (`evergreen-deprecation@<version>`). Set `EVERGREEN_CHECK_COMMAND` to use another Evergreen command, for example a local build.
+
+## Update
+
+```sh
+claude plugin update evergreen@evergreen
+```
+
+The marketplace has automatic updates off by default. You can manage that setting from the Marketplaces tab in `/plugin`.
+
+## Disable and re-enable
+
+```sh
+claude plugin disable evergreen@evergreen
+claude plugin enable evergreen@evergreen
+```
+
+Disabling stops the Skill and MCP server from loading but keeps the installed files and settings.
+
+## Remove
+
+```sh
+claude plugin uninstall evergreen@evergreen
+```
+
+If it was installed at project scope, add `--scope project`. To remove the marketplace after uninstalling its plugin:
+
+```sh
+claude plugin marketplace remove evergreen
+```
+
+## Public directory submission
+
+The public Claude directory submission uses:
+
+- Repository: `https://github.com/arminazimi/evergreen`
+- Plugin path: `plugins/claude`
+- Tracked branch: `main`
+- Submission type: Plugin bundle
+
+The submitter must connect a GitHub account with push access, answer Anthropic's data-handling and compliance questions, and submit from the [Claude developer portal](https://claude.ai/directory/manage). The local package is prepared for that review with a manifest, README, Apache-2.0 license, exact npm runtime pin, strict Claude validation, and the repository security/evaluation evidence in [Plugin host evaluation](PLUGIN_EVALS.md).
+
+---
+
+Source: https://arminazimi.github.io/evergreen/CODEX_PLUGIN.html
+
+# Codex plugin installation and management
+
+Evergreen ships as a portable Agent Plugins package with a Codex compatibility manifest. It bundles the canonical Evergreen Skill and a local, read-only stdio MCP server. No Evergreen account or hosted Evergreen service is required.
+
+## Requirements
+
+- Codex CLI or Codex in the ChatGPT desktop app with plugin support.
+- Node.js 22 or newer.
+- Access to the npm registry the first time the pinned Evergreen runtime is launched.
+
+## Dependency guard
+
+The plugin ships a `PostToolUse` hook (`hooks/hooks.json`, matched to `apply_patch`) and the Skill carries the same instruction for sessions where hooks are off. When a patch adds a dependency that Evergreen's lifecycle rules mark as deprecated, Codex receives a warning with the evidence and the replacement, and you see a one-line notice.
+
+It reads the patch Codex applied and checks only what the patch **added or changed**, in `package.json`, `requirements*.txt`, `constraints*.txt`, `pyproject.toml`, GitHub workflows, and `action.yml`. Existing dependencies never produce repeated warnings.
+
+```text
+Evergreen: pkg:npm/request@2.88.2 — request is deprecated (high, deprecated).
+The package is fully deprecated and no new changes are expected.
+Replacement: Native fetch or a maintained HTTP client.
+Evidence: https://www.npmjs.com/package/request
+```
+
+- **Trust the hook first.** Codex does not run plugin hooks until you review them: enabling the plugin does not trust its hooks. Run `/hooks` in Codex and trust the Evergreen hook. Trust is tied to the hook's contents, so a plugin update asks again.
+- **It never blocks or edits files.** It warns and cites sources; you and Codex decide what to do. If the check cannot run, the hook says so instead of staying silent, and the patch is unaffected.
+- **It is local.** It runs `evergreen check` from the same pinned release as the MCP server; no repository content leaves your machine. A package with no rule produces no output, which is absence of evidence, not a safety claim.
+- **If hooks are off** (`[features] hooks = false`) or you do not trust the hook, the Skill still tells Codex to call the `check_dependency` tool before adding a dependency.
+
+The script is generated from `integrations/dependency-guard/guard.mjs`, shared with the Claude plugin. Set `EVERGREEN_CHECK_COMMAND` to use another Evergreen command, for example a local build.
+
+## Install from this repository
+
+The repository marketplace is discovered from `.agents/plugins/marketplace.json` and exposes the package as `evergreen@evergreen-codex`:
+
+```sh
+codex plugin add evergreen@evergreen-codex
+```
+
+For a remote checkout, add or refresh the repository marketplace first:
+
+```sh
+codex plugin marketplace add arminazimi/evergreen --ref main
+codex plugin add evergreen@evergreen-codex
+```
+
+Restart the current Codex session after installation so the packaged Skill and MCP server are discovered together.
+
+## Verify the installation
+
+List the installed plugin:
+
+```sh
+codex plugin list --json
+```
+
+Then ask Codex to run the packaged workflow:
+
+```text
+Scan this repository for supported lifecycle risks.
+Explain the highest-severity Evergreen finding.
+Create migration context for this deprecation.
+Verify that the finding is gone after my change.
+```
+
+The installed workflow must expose scan, list, explain, context, and verify. Suggested migration commands are returned as guidance and are never executed by Evergreen.
+
+Maintainers can run the same end-to-end check against an installed cache path:
+
+```sh
+npm run validate:codex-plugin -- --plugin-root /absolute/path/to/installed/evergreen
+```
+
+## Update
+
+For the repo-local marketplace, reinstall the plugin so the cache is rebuilt from the current package:
+
+```sh
+codex plugin remove evergreen@evergreen-codex
+codex plugin add evergreen@evergreen-codex
+```
+
+For a Git-backed marketplace added from `arminazimi/evergreen`, refresh its snapshot before reinstalling:
+
+```sh
+codex plugin marketplace upgrade evergreen-codex
+```
+
+The package pins its MCP runtime to the same semantic version as the plugin manifest, preventing a silent mix of plugin metadata and runtime versions.
+
+## Remove
+
+```sh
+codex plugin remove evergreen@evergreen-codex
+```
+
+If the repository marketplace was added explicitly and is no longer needed:
+
+```sh
+codex plugin marketplace remove evergreen-codex
+```
+
+Removal deletes the installed plugin cache. It does not modify the repository being scanned.
+
+## Local data and permissions
+
+- The MCP process runs locally over stdio and reads only repository paths authorized by the host.
+- Evergreen does not upload repository contents, require credentials, edit files, run migration commands, or open a network listener.
+- Tool results can contain repository paths and short source excerpts and are returned to the Codex host.
+- The host remains responsible for filesystem approvals and any later edits an agent makes.
+
+See [Privacy](PRIVACY.md) for the complete data boundary and [Codex submission](CODEX_SUBMISSION.md) for public-directory review status.
+
+---
+
+Source: https://arminazimi.github.io/evergreen/RELEASING.html
+
+# Releasing Evergreen
+
+Any maintainer can cut a release by following this page. A release publishes four things that must agree on one version: the npm package `evergreen-deprecation`, the GitHub Action (`arminazimi/evergreen@vX.Y.Z`), the generated Claude and Codex plugin packages, and the bundled lifecycle registries inside the package. Publishing needs maintainer accounts, so releases are `lane: maintainer` work.
+
+## Before you start
+
+- You are on an up-to-date `main` with a clean working tree, and CI on `main` is green.
+- You can publish to the `evergreen-deprecation` package on npm and push tags to the repository.
+- Choose the version. Patch for fixes and rule data, minor for new detectors, commands, or output fields, and a major version only for a breaking change to an output schema or the detector SDK.
+
+## Gates
+
+Every gate must pass on the commit you will tag. None of them is optional.
+
+| Gate | Command | What it proves |
+|---|---|---|
+| Full check | `npm run check` | Build, Action bundle matches source, all tests including coverage floors in CI, plugin packages are in sync, plugin evals. This is what CI and `npm publish` (through `prepack`) run. |
+| Coverage floors | `npm run test:coverage` | Lines, branches, and functions stay above the floors in `package.json`. |
+| Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
+| Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
+| Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `registry/sources.lock.json` does not. |
+
+The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.
+
+## Steps
+
+1. **Update the changelog.** Draft the entries from conventional commits with `npm run release:notes` (or run the *Release notes* workflow, which uploads the same text), then write them into `CHANGELOG.md`:
+
+   ```bash
+   node dist/tools/changelog.js --write X.Y.Z --date YYYY-MM-DD
+   ```
+
+   Only `feat`, `fix`, and breaking commits become entries; `docs`, `test`, `ci`, and `chore` commits are left out. The command moves the hand-written `Unreleased` bullets into a new `## X.Y.Z - YYYY-MM-DD` section, appends the generated bullets, and leaves an empty `## Unreleased` above. Read the section, remove duplicates, and make each bullet a clear imperative sentence.
+2. **Bump the version.** Run `npm version X.Y.Z --no-git-tag-version`, then regenerate everything derived from it:
+
+   ```bash
+   npm run build:plugins
+   npm run build:action
+   ```
+
+   This updates the plugin manifests and `.mcp.json` pins under `plugins/` and `.claude-plugin/marketplace.json`, and rebuilds `dist/action/index.js`. Never edit those generated files by hand.
+3. **Update the version in the docs and examples.** The README and `docs/GITHUB_ACTION.md` show `arminazimi/evergreen@vX.Y.Z`; update them to the new tag. The host setups under `examples/agents/` pin `evergreen-deprecation@X.Y.Z` (and the Gemini extension its `version`); a test fails until they match `package.json`.
+4. **Run the gates** above on the result, then commit as `chore: release X.Y.Z` through a pull request. Merge it once CI is green.
+5. **Tag the merge commit.** On `main` after the merge:
+
+   ```bash
+   git tag -a vX.Y.Z -m "vX.Y.Z"
+   git push origin vX.Y.Z
+   ```
+
+6. **Publish to npm.** `prepack` runs `npm run check` again, so a broken tree cannot be published:
+
+   ```bash
+   npm publish
+   ```
+
+   Confirm with `npm view evergreen-deprecation version` and run `npx evergreen-deprecation@X.Y.Z --help` in an empty directory.
+7. **Create the GitHub release** for the tag, with the changelog section as the body.
+8. **Move the major tag** only if the project publishes one (for example `v1`), as a force-updated lightweight tag pointing at the new release. Do not move it for a pre-1.0 version.
+9. **Package the plugins.** For Codex, `npm run package:codex-plugin` writes `artifacts/evergreen-codex-plugin-<version>.zip`; follow [Codex submission](CODEX_SUBMISSION.md) to submit it. The Claude plugin is served from the repository marketplace, so the merged change in step 4 is its release; see [Claude plugin](CLAUDE_PLUGIN.md).
+10. **Announce** only after the npm package, tag, and release are live.
+
+## Rule data
+
+Lifecycle rules ship inside the npm package under `registry/`, so every package release carries the rules as of its commit. Between package releases, rules reach users through a signed data release.
+
+## Publishing lifecycle data
+
+Use this when rules change and you do not want to wait for a package release. The data in `registry/` on `main` is what gets published, so merge the rule changes first and let CI pass.
+
+1. **Check the data.** `npm run check`, then `npm run validate:public-repos` and `npm run check:sources` as in the gates above.
+2. **Dry run.** In GitHub, open Actions, *Data release*, *Run workflow* on `main` with *dry run* on (the default). It builds the bundle twice and requires identical bytes, signs it, verifies the signature, and keeps the files as a workflow artifact without publishing anything. Note that signing writes an entry to the public Sigstore transparency log, even in a dry run.
+3. **Tag.** The tag must be `data-v` plus the date of the commit being released in UTC, with `.N` for a second bundle that day:
+
+   ```bash
+   git tag -a data-v2026.10.16 -m "Lifecycle data 2026.10.16" <commit>
+   git push origin data-v2026.10.16
+   ```
+
+   If the tag and the bundle's version disagree the workflow stops and says which tag the commit needs.
+4. **Confirm.** The release has `evergreen-data-<version>.json`, its `.sigstore.json` signature, and `SHA256SUMS`. On a clean machine, `evergreen data update` should report the new version, and `evergreen data status` should show `cache` and the signer identity.
+
+A data release does not change the npm package or the Action. If the data format itself changes, that needs a new `schemaVersion`, a package release that understands it, and a `minimumEvergreenVersion` in the bundle. See the [decision record](decisions/0006-data-bundle.md) and [Lifecycle data](DATA.md).
+
+## Rolling back
+
+Decide by what has already been published, and prefer fixing forward.
+
+- **Nothing published yet** (the pull request or tag only): close the pull request, or delete the tag with `git push origin :refs/tags/vX.Y.Z` and `git tag -d vX.Y.Z`.
+- **Bad npm release**: do not rely on `npm unpublish`, which is restricted for packages that have users. Publish a fixed patch release, then mark the bad one with `npm deprecate evergreen-deprecation@X.Y.Z "Use X.Y.Z+1: <reason>"`.
+- **Bad Action tag**: users pin the tag, so ship a fixed patch tag and point the README at it. If you must move a tag that was published only minutes ago, say so in the release notes.
+- **Bad plugin package**: revert the generated files through a pull request and release a patch version; withdraw a pending Codex submission through its portal.
+- **Bad rule**: revert or correct the rule in `registry/` and release a patch. If the rule is actively harmful (it reports something that is not deprecated), release first and discuss afterwards.
+
+After any rollback, add a line to `CHANGELOG.md` explaining what happened and which version replaces the bad one.
