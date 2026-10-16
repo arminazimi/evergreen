@@ -699,6 +699,203 @@
         "verification": [{ "command": "python -m pytest", "purpose": "Run APIsec CLI integration and repository tests when defined." }]
       },
       "x-python": { "kind": "package", "package": "apisec-code-bolt" }
+    },
+    {
+      "id": "python.package.ghops.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/ghops",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "ghops is deprecated and no longer maintained",
+      "summary": "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex.",
+      "severity": "high",
+      "replacement": "repoindex",
+      "sources": [{ "title": "ghops deprecation notice", "url": "https://pypi.org/project/ghops/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve repository discovery, grouping, metadata, configuration, command output, and any persisted collection state."],
+        "steps": [{ "id": "replace-ghops", "title": "Move to repoindex", "instructions": "Replace ghops with repoindex, translate configuration and commands, and migrate any persisted repository collection data.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run repository discovery, metadata, command, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "ghops" }],
+      "x-python": { "kind": "package", "package": "ghops" }
+    },
+    {
+      "id": "python.package.mondobrain.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/mondobrain",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "mondobrain is no longer maintained",
+      "summary": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
+      "severity": "high",
+      "replacement": "datawhys",
+      "sources": [{ "title": "mondobrain maintenance and replacement notice", "url": "https://pypi.org/project/mondobrain/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve data loading, analysis workflows, notebook integration, model behavior, and serialized artifacts relied on by users."],
+        "steps": [{ "id": "replace-mondobrain", "title": "Move to datawhys", "instructions": "Replace the distribution and translate mondobrain imports and workflows to datawhys equivalents.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run affected data workflow and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "mondobrain" }],
+      "x-python": { "kind": "package", "package": "mondobrain" }
+    },
+    {
+      "id": "python.package.vsscale.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/vsscale",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "vsscale is deprecated",
+      "summary": "The maintainer states that vsscale is deprecated and directs users to vsjetpack.",
+      "severity": "medium",
+      "replacement": "vsjetpack",
+      "sources": [{ "title": "vsscale deprecation notice", "url": "https://pypi.org/project/vsscale/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve scaling kernels, descaling behavior, clip formats, dimensions, chroma handling, and VapourSynth frame output."],
+        "steps": [{ "id": "replace-vsscale", "title": "Move to vsjetpack", "instructions": "Replace vsscale with vsjetpack and translate scaling and descaling imports and calls to the maintained APIs.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run VapourSynth scaling, format, dimension, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "vsscale" }],
+      "x-python": { "kind": "package", "package": "vsscale" }
+    },
+    {
+      "id": "python.package.batchnotebook.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/batchnotebook",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "BatchNotebook is deprecated",
+      "summary": "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.",
+      "severity": "medium",
+      "replacement": "runipy",
+      "sources": [{ "title": "BatchNotebook deprecation notice", "url": "https://pypi.org/project/BatchNotebook/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve notebook input and output paths, cell execution order, timeouts, errors, kernel selection, and rendered report artifacts."],
+        "steps": [{ "id": "replace-batchnotebook", "title": "Replace BatchNotebook", "instructions": "Move notebook execution to runipy as recommended by the maintainer, or to the maintained notebook execution facility selected by the project, then remove BatchNotebook.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run notebook execution, timeout, failure, output, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "batchnotebook" }],
+      "x-python": { "kind": "package", "package": "batchnotebook" }
+    },
+    {
+      "id": "python.package.llama-index-experimental.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/llama-index-experimental",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "llama-index-experimental is no longer maintained",
+      "summary": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
+      "severity": "high",
+      "sources": [{ "title": "llama-index-experimental lifecycle notice", "url": "https://pypi.org/project/llama-index-experimental/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve data connectors, indexes, query behavior, prompts, model configuration, serialization, and observability used by the application."],
+        "steps": [{ "id": "replace-llama-index-experimental", "title": "Replace experimental integrations", "instructions": "Inventory the experimental APIs in use, select maintained LlamaIndex or alternative implementations for each, migrate call sites, then remove the package.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run indexing, retrieval, generation, persistence, and project tests when defined." }]
+      },
+      "x-python": { "kind": "package", "package": "llama-index-experimental" }
+    },
+    {
+      "id": "python.package.superlinked.deprecated",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/superlinked",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "superlinked is deprecated for new projects",
+      "summary": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
+      "severity": "medium",
+      "replacement": "SIE and sie-sdk",
+      "sources": [{ "title": "superlinked legacy framework notice", "url": "https://pypi.org/project/superlinked/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["SIE is not a drop-in replacement; preserve schemas, indexing, storage, vector search, query weighting, model behavior, and deployment requirements explicitly."],
+        "steps": [{ "id": "replace-superlinked", "title": "Redesign on SIE where appropriate", "instructions": "Map legacy framework responsibilities to SIE Server and sie-sdk, redesign incompatible application layers, migrate data and queries, then remove superlinked only after parity is proven.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run indexing, retrieval, ranking, storage, deployment, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "superlinked" }],
+      "x-python": { "kind": "package", "package": "superlinked" }
+    },
+    {
+      "id": "python.package.cmip-ref.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/cmip-ref",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "cmip_ref was renamed and is no longer maintained",
+      "summary": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
+      "severity": "high",
+      "replacement": "climate-ref",
+      "sources": [{ "title": "cmip_ref rename and maintenance notice", "url": "https://pypi.org/project/cmip-ref/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve configuration, climate data inputs, diagnostics, output formats, provenance, and command behavior."],
+        "steps": [{ "id": "replace-cmip-ref", "title": "Move to climate-ref", "instructions": "Replace cmip_ref with climate-ref, update imports from cmip_ref to climate_ref, and translate any changed configuration or commands.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run climate data, diagnostics, output, command, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "cmip_ref" }],
+      "x-python": { "kind": "package", "package": "cmip-ref" }
+    },
+    {
+      "id": "python.package.headroom-cli.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/headroom-cli",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "headroom-cli was renamed and is no longer maintained",
+      "summary": "The maintainer states that headroom-cli is no longer maintained and development continues as quotagauge.",
+      "severity": "high",
+      "replacement": "quotagauge",
+      "sources": [{ "title": "headroom-cli rename and migration notice", "url": "https://pypi.org/project/headroom-cli/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve provider configuration, usage history, statusline and hook integration, CLI behavior, and the existing ~/.headroom state."],
+        "steps": [{ "id": "replace-headroom-cli", "title": "Move to quotagauge", "instructions": "Install quotagauge, run its initialization for configured providers, verify settings rewrites and state migration, then uninstall headroom-cli.", "targets": "all" }],
+        "verification": [{ "command": "quotagauge init --all", "purpose": "Initialize integrations and exercise the maintainer-provided state migration." }]
+      },
+      "x-python": { "kind": "package", "package": "headroom-cli" }
+    },
+    {
+      "id": "python.package.agentops-toolkit.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/agentops-toolkit",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "agentops-toolkit was renamed and is no longer maintained",
+      "summary": "The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator.",
+      "severity": "high",
+      "replacement": "agentops-accelerator",
+      "sources": [{ "title": "agentops-toolkit rename notice", "url": "https://pypi.org/project/agentops-toolkit/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve the agentops import path, CLI entrypoints, public APIs, configuration, telemetry, and stored project state."],
+        "steps": [{ "id": "replace-agentops-toolkit", "title": "Move to agentops-accelerator", "instructions": "Replace the distribution with agentops-accelerator while retaining existing agentops imports and verifying CLI and public API compatibility.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run AgentOps API, CLI, telemetry, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "agentops" }],
+      "x-python": { "kind": "package", "package": "agentops-toolkit" }
+    },
+    {
+      "id": "python.package.aiohttp-valera-validator.eol",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/aiohttp-valera-validator",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "aiohttp-valera-validator was renamed and is no longer maintained",
+      "summary": "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.",
+      "severity": "high",
+      "replacement": "aiohttp-d42-validator",
+      "sources": [{ "title": "aiohttp-valera-validator rename notice", "url": "https://pypi.org/project/aiohttp-valera-validator/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve request parameter, query, body, and response validation; schema semantics; aiohttp middleware behavior; and error responses."],
+        "steps": [{ "id": "replace-aiohttp-valera-validator", "title": "Move to aiohttp-d42-validator", "instructions": "Replace the distribution, update imports to aiohttp_d42_validator, and translate schemas and decorators to the renamed package.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run valid and invalid request, schema, response, middleware, and project tests when defined." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "aiohttp_valera_validator" }],
+      "x-python": { "kind": "package", "package": "aiohttp-valera-validator" }
     }
   ]
 }
