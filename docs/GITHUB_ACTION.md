@@ -86,4 +86,32 @@ steps:
       upload-sarif: true
 ```
 
-The token of a pull request from a fork is read-only, so the upload would fail there. Enable it for pushes and for pull requests from the same repository, for example `upload-sarif: ${{ github.event_name == 'push' }}`. Code scanning is free for public repositories and needs GitHub Code Security on private ones. The SARIF carries only locations and Evergreen's own rule text, not source content; see the SARIF page of the documentation for the field mapping when it is published.
+The token of a pull request from a fork is read-only, so the upload would fail there. Enable it for pushes and for pull requests from the same repository, for example `upload-sarif: ${{ github.event_name == 'push' }}`. Code scanning is free for public repositories and needs GitHub Code Security on private ones. The SARIF carries only locations and Evergreen's own rule text, not source content; the mapping is below.
+
+### SARIF output
+
+The same SARIF is available from the CLI, so other CI systems and editors can read it:
+
+```bash
+evergreen scan . --format sarif > evergreen.sarif
+```
+
+Output is deterministic: rules and results are sorted, paths are repository-relative with forward slashes on every platform, and neither the scan time nor the checkout path is written. Two scans of the same commit produce identical files.
+
+| SARIF | Evergreen |
+| --- | --- |
+| `tool.driver.name`, `version` | `Evergreen` and the installed version |
+| `rules[].id`, `name` | The lifecycle rule id, for example `github-actions.checkout.node20` |
+| `rules[].shortDescription` | The rule title |
+| `rules[].help` (`text` and `markdown`) | Replacement, deadline, migration steps, verification commands, and sources |
+| `rules[].helpUri` | The first evidence source |
+| `rules[].properties.tags` | `lifecycle` and the detector id |
+| `results[].ruleId`, `ruleIndex` | The finding's rule |
+| `results[].level` | `critical` and `high` → `error`; `medium` → `warning`; `low` and `info` → `note` |
+| `results[].message.text` | The finding summary, which names the exact reference, such as `actions/checkout@v3` |
+| `results[].locations[]` | File path (`uriBaseId` `%SRCROOT%`) and `startLine` when the finding has a line |
+| `results[].partialFingerprints["evergreenFindingId/v1"]` | The finding id, so alerts keep their identity between runs |
+
+JSON, text, annotations, and SARIF are renderings of the same findings. A finding suppressed by a baseline is absent from all of them.
+
+**Privacy.** SARIF contains no source code: only file paths, line numbers, and Evergreen's own rule text and evidence links. It is uploaded only when `upload-sarif` is `true`, and then only to GitHub code scanning in the same repository. Nothing is sent to an Evergreen service.

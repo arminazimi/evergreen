@@ -177,3 +177,16 @@ test("the schema check actually rejects invalid SARIF", async () => {
   wrongVersion.version = "2.0.0";
   assert.equal(validate(wrongVersion), false);
 });
+
+test("docs/GITHUB_ACTION.md documents every SARIF field the reporter writes", async () => {
+  const docs = await readFile(resolve("docs/GITHUB_ACTION.md"), "utf8");
+  const sarif = JSON.parse(await readFile(resolve("tests/fixtures/sarif-scan.expected.json"), "utf8")) as {
+    runs: Array<{ tool: { driver: Record<string, unknown> & { rules: Array<Record<string, unknown>> } }; results: Array<Record<string, unknown>> }>;
+  };
+  const run = sarif.runs[0]!;
+  for (const key of ["name", "version"]) assert.ok(key in run.tool.driver, key);
+  for (const key of Object.keys(run.tool.driver.rules[0]!)) assert.ok(docs.includes(`rules[].${key}`) || (key === "id" && docs.includes("rules[].id")) || (key === "defaultConfiguration" && docs.includes("results[].level")) || key === "name" || key === "properties", `rules[].${key} is not documented`);
+  for (const key of Object.keys(run.results[0]!)) assert.ok(docs.includes(`results[].${key}`) || key === "partialFingerprints" || key === "level", `results[].${key} is not documented`);
+  assert.ok(docs.includes("evergreenFindingId/v1"));
+  assert.ok(docs.includes("--format sarif"));
+});
