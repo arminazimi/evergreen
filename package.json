@@ -72,7 +72,8 @@
     "validate:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js",
     "observe:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js --observe",
     "prepack": "npm run check",
-    "release:notes": "npm run build --silent && node dist/tools/changelog.js"
+    "release:notes": "npm run build --silent && node dist/tools/changelog.js",
+    "metrics:adoption": "npm run build --silent && node dist/tools/adoption-metrics.js"
   },
   "engines": {
     "node": ">=22"
