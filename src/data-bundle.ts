@@ -7,7 +7,7 @@ import { DEFAULT_MAX_REVIEW_AGE_DAYS, validateRegistryV2 } from "./registry.js";
 export const DATA_BUNDLE_SCHEMA_VERSION = "evergreen.data-bundle.v1" as const;
 
 /** The registries a bundle carries, in the order they are listed. The SHA map is carried as kind "sha-map". */
-export const BUNDLED_ECOSYSTEMS = ["github-actions", "nodejs", "npm", "python"] as const;
+export const BUNDLED_ECOSYSTEMS = ["container", "github-actions", "nodejs", "npm", "python"] as const;
 const SHA_MAP_PATH = "registry/github-actions-shas.json";
 
 /**

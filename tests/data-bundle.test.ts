@@ -68,6 +68,7 @@ test("the same build from the command line is identical too", async () => {
 test("the bundle lists every registry and the SHA map, and matches the published schema", async () => {
   const bundle = await build(resolve("."));
   assert.deepEqual(bundle.manifest.files.map((file) => file.path), [
+    "registry/container.json",
     "registry/github-actions-shas.json",
     "registry/github-actions.json",
     "registry/nodejs.json",
