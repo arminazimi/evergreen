@@ -345,7 +345,7 @@
       "vers": "vers:semver/<6.0.0",
       "event": "end-of-support",
       "title": "Unsupported actions/setup-go runtime",
-      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Version 6.0.0 and 6.1.0 still declare node20; version 6.2.0 and later declare node24.",
       "severity": "high",
       "replacement": "actions/setup-go@v6 or later",
       "deadline": "2026-09-23",
@@ -355,8 +355,8 @@
           "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
         },
         {
-          "title": "actions/setup-go v6.0.0 release notes",
-          "url": "https://github.com/actions/setup-go/releases/tag/v6.0.0"
+          "title": "actions/setup-go v6.2.0 release notes (action.yml moves to node24)",
+          "url": "https://github.com/actions/setup-go/releases/tag/v6.2.0"
         }
       ],
       "provenance": {
@@ -840,6 +840,566 @@
       "x-github-actions": {
         "action": "actions/create-github-app-token",
         "supportedFromMajor": 3
+      }
+    },
+    {
+      "id": "github-actions.first-interaction.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/first-interaction",
+      "vers": "vers:semver/<3.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/first-interaction runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/first-interaction@v3 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/first-interaction v3.0.0 release notes",
+          "url": "https://github.com/actions/first-interaction/releases/tag/v3.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the welcome messages and the token inputs when upgrading; v3 renamed some inputs, so compare them with the release notes."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade first-interaction",
+            "instructions": "Change the uses reference to actions/first-interaction@v3 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review first-interaction inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/first-interaction",
+        "supportedFromMajor": 3
+      }
+    },
+    {
+      "id": "github-actions.setup-buildx-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/setup-buildx-action",
+      "vers": "vers:semver/<4.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/setup-buildx-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/setup-buildx-action@v4 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/setup-buildx-action v4.0.0 release notes",
+          "url": "https://github.com/docker/setup-buildx-action/releases/tag/v4.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the builder driver, version, and endpoint inputs; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-buildx-action",
+            "instructions": "Change the uses reference to docker/setup-buildx-action@v4 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-buildx-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/setup-buildx-action",
+        "supportedFromMajor": 4
+      }
+    },
+    {
+      "id": "github-actions.build-push-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/build-push-action",
+      "vers": "vers:semver/<7.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/build-push-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/build-push-action@v7 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/build-push-action v7.0.0 release notes",
+          "url": "https://github.com/docker/build-push-action/releases/tag/v7.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the build context, tags, platforms, cache, and push settings; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade build-push-action",
+            "instructions": "Change the uses reference to docker/build-push-action@v7 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review build-push-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/build-push-action",
+        "supportedFromMajor": 7
+      }
+    },
+    {
+      "id": "github-actions.login-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/login-action",
+      "vers": "vers:semver/<4.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/login-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/login-action@v4 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/login-action v4.0.0 release notes",
+          "url": "https://github.com/docker/login-action/releases/tag/v4.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the registry, username, and secret inputs; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade login-action",
+            "instructions": "Change the uses reference to docker/login-action@v4 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review login-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/login-action",
+        "supportedFromMajor": 4
+      }
+    },
+    {
+      "id": "github-actions.setup-qemu-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/setup-qemu-action",
+      "vers": "vers:semver/<4.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/setup-qemu-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/setup-qemu-action@v4 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/setup-qemu-action v4.0.0 release notes",
+          "url": "https://github.com/docker/setup-qemu-action/releases/tag/v4.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the emulated platforms and image inputs; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-qemu-action",
+            "instructions": "Change the uses reference to docker/setup-qemu-action@v4 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-qemu-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/setup-qemu-action",
+        "supportedFromMajor": 4
+      }
+    },
+    {
+      "id": "github-actions.metadata-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/metadata-action",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/metadata-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/metadata-action@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/metadata-action v6.0.0 release notes",
+          "url": "https://github.com/docker/metadata-action/releases/tag/v6.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the images, tags, and labels configuration so published image names do not change; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade metadata-action",
+            "instructions": "Change the uses reference to docker/metadata-action@v6 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review metadata-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/metadata-action",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.action-gh-release.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/softprops/action-gh-release",
+      "vers": "vers:semver/<3.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported softprops/action-gh-release runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "softprops/action-gh-release@v3 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "softprops/action-gh-release v3.0.0 release notes",
+          "url": "https://github.com/softprops/action-gh-release/releases/tag/v3.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the release tag, name, notes, draft and prerelease flags, and the files to upload; the job still needs contents: write."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade action-gh-release",
+            "instructions": "Change the uses reference to softprops/action-gh-release@v3 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review action-gh-release inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "softprops/action-gh-release",
+        "supportedFromMajor": 3
+      }
+    },
+    {
+      "id": "github-actions.setup-terraform.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/hashicorp/setup-terraform",
+      "vers": "vers:semver/<4.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported hashicorp/setup-terraform runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "hashicorp/setup-terraform@v4 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "hashicorp/setup-terraform v4.0.0 release notes",
+          "url": "https://github.com/hashicorp/setup-terraform/releases/tag/v4.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the Terraform version, CLI configuration credentials, and wrapper setting when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-terraform",
+            "instructions": "Change the uses reference to hashicorp/setup-terraform@v4 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-terraform inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "hashicorp/setup-terraform",
+        "supportedFromMajor": 4
+      }
+    },
+    {
+      "id": "github-actions.setup-uv.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/astral-sh/setup-uv",
+      "vers": "vers:semver/<7.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported astral-sh/setup-uv runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "astral-sh/setup-uv@v7 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "astral-sh/setup-uv v7.0.0 release notes",
+          "url": "https://github.com/astral-sh/setup-uv/releases/tag/v7.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the uv version, Python version, and cache inputs; v7 is a breaking release, so read its notes before upgrading self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-uv",
+            "instructions": "Change the uses reference to astral-sh/setup-uv@v7 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-uv inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "astral-sh/setup-uv",
+        "supportedFromMajor": 7
+      }
+    },
+    {
+      "id": "github-actions.bake-action.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/docker/bake-action",
+      "vers": "vers:semver/<7.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported docker/bake-action runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "docker/bake-action@v7 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "docker/bake-action v7.0.0 release notes",
+          "url": "https://github.com/docker/bake-action/releases/tag/v7.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the bake targets, files, and push settings; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade bake-action",
+            "instructions": "Change the uses reference to docker/bake-action@v7 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review bake-action inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "docker/bake-action",
+        "supportedFromMajor": 7
       }
     }
   ]

@@ -96,7 +96,8 @@
       "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/publish.yml", "line": 33, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7." } }
+        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/publish.yml", "line": 33, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7." } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/tests.yml", "line": 49, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 49 of .github/workflows/tests.yml reads uses: astral-sh/setup-uv@v6, a release below the supported major." } }
       ]
     },
     {
@@ -177,7 +178,8 @@
       "expected": [
         { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
         { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 27, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } }
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
+        { "ruleId": "github-actions.setup-terraform.node20", "path": ".github/workflows/ci.yml", "line": 18, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 18 of .github/workflows/ci.yml reads - uses: hashicorp/setup-terraform@v3, a release below the supported major." } }
       ]
     },
     {
@@ -208,7 +210,8 @@
       "ecosystem": "node-actions",
       "expected": [
         { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/build-and-push.yml", "line": 24, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yml", "line": 20, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } }
+        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yml", "line": 20, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } },
+        { "ruleId": "github-actions.setup-buildx-action.node20", "path": ".github/workflows/build-and-push.yml", "line": 66, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 66 of .github/workflows/build-and-push.yml reads uses: docker/setup-buildx-action@v3, a release below the supported major." } }
       ]
     },
     { "repository": "openmcp-project/crossplane-headlamp-plugin", "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3", "ecosystem": "node-actions", "expected": [] },
@@ -315,7 +318,10 @@
         { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 6, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732" } },
         { "ruleId": "github-actions.deploy-pages.node20", "path": ".github/workflows/docs.yml", "line": 81, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 81 of .github/workflows/docs.yml reads uses: actions/deploy-pages@v4, a release below the supported major." } },
         { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/docs.yml", "line": 30, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 30 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/docs.yml", "line": 52, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 52 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major." } }
+        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/docs.yml", "line": 52, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 52 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major." } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/ci.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads - uses: astral-sh/setup-uv@v5, a release below the supported major." } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/docs.yml", "line": 35, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 35 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major." } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/docs.yml", "line": 57, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 57 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major." } }
       ]
     },
     {
@@ -325,7 +331,9 @@
       "expected": [
         { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yml reads uses: actions/checkout@v4" } },
         { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads - uses: actions/checkout@v4" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811" } }
+        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811" } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/ci.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/ci.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major." } },
+        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major." } }
       ]
     },
     {
@@ -335,7 +343,8 @@
       "expected": [
         { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/webpack.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/webpack.yml reads - uses: actions/checkout@v3" } },
         { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/webpack.yml", "line": 22, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 22 of .github/workflows/webpack.yml reads - uses: actions/setup-node@v3" } },
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 48, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/polyswarm/ppdns-chrome-extension/commit/5cc480df63ba227b3ec9508145954c18f5ffdf07" } }
+        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 48, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/polyswarm/ppdns-chrome-extension/commit/5cc480df63ba227b3ec9508145954c18f5ffdf07" } },
+        { "ruleId": "github-actions.action-gh-release.node20", "path": ".github/workflows/webpack.yml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/webpack.yml reads uses: softprops/action-gh-release@v1, a release below the supported major." } }
       ]
     },
     {
