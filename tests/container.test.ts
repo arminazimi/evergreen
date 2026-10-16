@@ -42,6 +42,7 @@ async function expected(ruleId: string, path: string, line: number, value: strin
     location: { path, line },
     replacement: rule.replacement!,
     deadline: rule.deadline!,
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -143,4 +144,29 @@ test("a repository with no container files scans to nothing without reading the 
 test("test fixture directories are not scanned", async () => {
   const root = await repository({ "tests/fixtures/old/Dockerfile": "FROM node:16\n", "docker/Dockerfile": "FROM node:16\n" });
   assert.deepEqual((await containerDetector.scan({ root })).map((finding) => finding.location.path), ["docker/Dockerfile"]);
+});
+
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
+
+test("every curated container rule has migration guidance with real verification commands", async () => {
+  const registry = validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8")));
+  for (const rule of registry.rules) {
+    assert.ok(rule.migration, rule.id);
+    assert.ok(rule.migration.constraints.length >= 1, rule.id);
+    assert.ok(rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.length >= 1, rule.id);
+    for (const check of rule.migration.verification) assert.match(check.command, /^docker /, rule.id);
+  }
+});
+
+test("a migration packet for a container finding names the file, steps, and verification", async () => {
+  const root = resolve(fixtures, "positive");
+  const result = await scanRepository(root, [containerDetector]);
+  const finding = result.findings.find((item) => item.id === "container.node.eol-20-and-older:Dockerfile:2");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("Dockerfile"));
+  assert.ok(packet.steps.some((step) => step.id === "update-image-declaration"));
+  assert.ok(packet.verification.some((check) => check.command === "docker build ."));
 });

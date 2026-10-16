@@ -23,6 +23,36 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE node --version",
+            "purpose": "Confirm the container runs the intended Node.js version."
+          }
+        ]
       }
     },
     {
@@ -46,6 +76,36 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, requires-python, CI matrices, and deployment runtimes on one supported Python release.",
+          "Confirm binary wheels and dependencies support the target Python release; rebuild any virtual environment or wheel cache inside the image."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE python --version",
+            "purpose": "Confirm the container runs the intended Python version."
+          }
+        ]
       }
     },
     {
@@ -69,6 +129,36 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+          "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Validate the Compose file after changing the image tag."
+          },
+          {
+            "command": "docker compose run --rm db postgres --version",
+            "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+          }
+        ]
       }
     },
     {
@@ -92,6 +182,36 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "A new MySQL release line can need a data directory upgrade; read the upgrade notes and take a backup before starting the new image on existing data.",
+          "Check SQL modes, authentication plugins, and client libraries against the target release."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Validate the Compose file after changing the image tag."
+          },
+          {
+            "command": "docker compose run --rm db mysqld --version",
+            "purpose": "Confirm the database container runs the intended release (service name may differ)."
+          }
+        ]
       }
     },
     {
@@ -115,6 +235,36 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, .ruby-version, Gemfile ruby requirement, and CI matrices on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby, and rebuild bundled gems inside the image."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE ruby --version",
+            "purpose": "Confirm the container runs the intended Ruby version."
+          }
+        ]
       }
     }
   ]
