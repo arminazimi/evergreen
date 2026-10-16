@@ -281,6 +281,566 @@
         "action": "actions/download-artifact",
         "supportedFromMajor": 7
       }
+    },
+    {
+      "id": "github-actions.setup-python.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-python",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-python runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-python@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-python v6.0.0 release notes",
+          "url": "https://github.com/actions/setup-python/releases/tag/v6.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the requested Python version, caching, and architecture inputs when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-python",
+            "instructions": "Change the uses reference to actions/setup-python@v6 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-python inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/setup-python",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.setup-go.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-go",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-go runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-go@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-go v6.0.0 release notes",
+          "url": "https://github.com/actions/setup-go/releases/tag/v6.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the requested Go version, module cache, and architecture inputs when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-go",
+            "instructions": "Change the uses reference to actions/setup-go@v6 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-go inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/setup-go",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.setup-java.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-java",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-java runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-java@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-java v5.0.0 release notes",
+          "url": "https://github.com/actions/setup-java/releases/tag/v5.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the JDK distribution, version, build-tool cache, and publishing inputs when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-java",
+            "instructions": "Change the uses reference to actions/setup-java@v5 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-java inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/setup-java",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.setup-dotnet.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-dotnet",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-dotnet runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-dotnet@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-dotnet v5.0.0 release notes",
+          "url": "https://github.com/actions/setup-dotnet/releases/tag/v5.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the SDK version, global.json handling, and package-source authentication inputs when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade setup-dotnet",
+            "instructions": "Change the uses reference to actions/setup-dotnet@v5 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review setup-dotnet inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/setup-dotnet",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.github-script.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/github-script",
+      "vers": "vers:semver/<8.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/github-script runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/github-script@v8 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/github-script v8 release notes",
+          "url": "https://github.com/actions/github-script/releases/tag/v8"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the script, github-token, and result-encoding behavior; check the script against the target release's bundled Octokit."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade github-script",
+            "instructions": "Change the uses reference to actions/github-script@v8 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review github-script inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/github-script",
+        "supportedFromMajor": 8
+      }
+    },
+    {
+      "id": "github-actions.labeler.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/labeler",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/labeler runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/labeler@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/labeler v6.0.0 release notes",
+          "url": "https://github.com/actions/labeler/releases/tag/v6.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the labeler configuration file location, sync-labels behavior, and token permissions when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade labeler",
+            "instructions": "Change the uses reference to actions/labeler@v6 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review labeler inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/labeler",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.stale.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/stale",
+      "vers": "vers:semver/<10.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/stale runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/stale@v10 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/stale v10.0.0 release notes",
+          "url": "https://github.com/actions/stale/releases/tag/v10.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the stale and close timing, exempt labels, and operations-per-run limits when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade stale",
+            "instructions": "Change the uses reference to actions/stale@v10 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review stale inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/stale",
+        "supportedFromMajor": 10
+      }
+    },
+    {
+      "id": "github-actions.configure-pages.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/configure-pages",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/configure-pages runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/configure-pages@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/configure-pages v6.0.0 release notes",
+          "url": "https://github.com/actions/configure-pages/releases/tag/v6.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the Pages site configuration and static-site generator inputs when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade configure-pages",
+            "instructions": "Change the uses reference to actions/configure-pages@v6 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review configure-pages inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/configure-pages",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.deploy-pages.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/deploy-pages",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/deploy-pages runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/deploy-pages@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/deploy-pages v5.0.0 release notes",
+          "url": "https://github.com/actions/deploy-pages/releases/tag/v5.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the artifact name, environment, and the pages and id-token permissions the deployment job needs."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade deploy-pages",
+            "instructions": "Change the uses reference to actions/deploy-pages@v5 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review deploy-pages inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/deploy-pages",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.create-github-app-token.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/create-github-app-token",
+      "vers": "vers:semver/<3.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/create-github-app-token runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/create-github-app-token@v3 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/create-github-app-token v3.0.0 release notes",
+          "url": "https://github.com/actions/create-github-app-token/releases/tag/v3.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "claude-agent"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the app identifier, private key input, owner and repository scoping, and requested permissions when upgrading."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade create-github-app-token",
+            "instructions": "Change the uses reference to actions/create-github-app-token@v3 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review create-github-app-token inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "x-github-actions": {
+        "action": "actions/create-github-app-token",
+        "supportedFromMajor": 3
+      }
     }
   ]
 }

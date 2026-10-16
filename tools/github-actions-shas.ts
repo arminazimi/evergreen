@@ -6,6 +6,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
+import { chooseTag } from "./sha-tags.js";
+
 const SCHEMA_VERSION = "evergreen.github-actions-shas.v1";
 const EXACT_VERSION = /^v\d+\.\d+\.\d+$/;
 const SHA = /^[0-9a-f]{40}$/;
@@ -73,10 +75,7 @@ async function buildShaRegistry(): Promise<{
       const sha = tag.commit.sha.toLowerCase();
       if (!EXACT_VERSION.test(tag.name) || !SHA.test(sha)) continue;
       const existing = versions.get(sha);
-      if (existing && existing !== tag.name) {
-        throw new Error(`${action}@${sha} has conflicting tags ${existing} and ${tag.name}`);
-      }
-      versions.set(sha, tag.name);
+      versions.set(sha, existing && existing !== tag.name ? chooseTag(action, sha, existing, tag.name) : tag.name);
     }
     actions[action] = Object.fromEntries(
       [...versions].sort(([left], [right]) => left.localeCompare(right)),
