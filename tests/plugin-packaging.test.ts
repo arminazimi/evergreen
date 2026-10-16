@@ -187,6 +187,7 @@ test("plugin drift check rejects a changed generated package", async () => {
   try {
     await mkdir(join(root, "skills/evergreen-deprecation"), { recursive: true });
     await mkdir(join(root, "brand/assets"), { recursive: true });
+    await mkdir(join(root, "integrations/dependency-guard"), { recursive: true });
     await mkdir(join(root, "examples/demo/.github/workflows"), { recursive: true });
     await mkdir(join(root, "examples/demo/src"), { recursive: true });
     await writeFile(
@@ -197,6 +198,7 @@ test("plugin drift check rejects a changed generated package", async () => {
     for (const path of [
       "brand/assets/evergreen-mark-light.svg",
       "brand/assets/evergreen-mark-dark.svg",
+      "integrations/dependency-guard/guard.mjs",
       "examples/demo/package.json",
       "examples/demo/.github/workflows/ci.yml",
       "examples/demo/src/client.js",
