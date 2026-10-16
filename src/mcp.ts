@@ -1,8 +1,9 @@
-import { McpServer, ResourceNotFoundError, ResourceTemplate } from "@modelcontextprotocol/server";
+import { completable, McpServer, ResourceNotFoundError, ResourceTemplate } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 
 import { EvergreenAgentTools } from "./agent-tools.js";
 import { bundledRules, checkDependency } from "./check-dependency.js";
+import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
 import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";
 import { VERSION } from "./version.js";
 
@@ -127,6 +128,31 @@ export function createEvergreenMcpServer(
         throw new ResourceNotFoundError(uri.href, "No finding with this URI was observed in this MCP session. Call scan_repository, then list resources.");
       }
       return { contents: [{ uri: uri.href, mimeType: "application/json", text: JSON.stringify(entry.finding, null, 2) }] };
+    },
+  );
+
+  server.registerPrompt(
+    MIGRATE_FINDING_PROMPT,
+    {
+      title: "Migrate a finding",
+      description:
+        "Drives one finding from scan to verified migration: runs a fresh local scan, embeds the finding's migration packet, and tells the model to edit within the packet's constraints, run the project's checks, and call verify_migration in this session.",
+      argsSchema: z.object({
+        finding_id: completable(
+          z.string().min(1).describe("Exact finding ID returned by Evergreen, for example from scan_repository or list_deprecations."),
+          (value) => tools.observedFindings().map((entry) => entry.finding.id).filter((id) => id.startsWith(value)),
+        ),
+        repository_path: z.string().min(1).optional().describe("Local path to the repository. Defaults to the server working directory."),
+      }),
+    },
+    async ({ finding_id, repository_path }) => {
+      const repository = repository_path ?? ".";
+      const packet = await tools.context(finding_id, repository);
+      server.sendResourceListChanged();
+      return {
+        description: `Migrate ${packet.finding.title} at ${packet.finding.location.path}`,
+        messages: [{ role: "user" as const, content: { type: "text" as const, text: renderMigrationPrompt(packet, repository) } }],
+      };
     },
   );
 
