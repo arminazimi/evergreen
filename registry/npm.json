@@ -1118,6 +1118,260 @@
         { "kind": "import", "language": "typescript", "module": "lodash.isequal" }
       ],
       "x-npm": { "package": "lodash.isequal" }
+    },
+    {
+      "id": "npm.package.npmlog.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/npmlog",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "npmlog is no longer supported",
+      "summary": "npm states that the npmlog package is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "npmlog package deprecation notice", "url": "https://www.npmjs.com/package/npmlog" },
+        { "title": "npmlog registry metadata", "url": "https://registry.npmjs.org/npmlog/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve log levels, prefixes, headings, progress integration, stream routing, formatting, and quiet-mode behavior."],
+        "steps": [{ "id": "replace-npmlog", "title": "Replace npmlog", "instructions": "Select a maintained logger that covers the used behavior, translate configuration and calls, then remove npmlog.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run logging output, level filtering, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "npmlog" },
+        { "kind": "import", "language": "typescript", "module": "npmlog" }
+      ],
+      "x-npm": { "package": "npmlog" }
+    },
+    {
+      "id": "npm.package.are-we-there-yet.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/are-we-there-yet",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "are-we-there-yet is no longer supported",
+      "summary": "npm states that the are-we-there-yet package is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "are-we-there-yet package deprecation notice", "url": "https://www.npmjs.com/package/are-we-there-yet" },
+        { "title": "are-we-there-yet registry metadata", "url": "https://registry.npmjs.org/are-we-there-yet/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve weighted completion, nested tracker groups, stream progress, event timing, and completion semantics."],
+        "steps": [{ "id": "replace-are-we-there-yet", "title": "Replace progress tracking", "instructions": "Select a maintained progress tracker or implement the required aggregation locally, migrate tracker construction and updates, then remove the package.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run nested progress, completion, event, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "are-we-there-yet" },
+        { "kind": "import", "language": "typescript", "module": "are-we-there-yet" }
+      ],
+      "x-npm": { "package": "are-we-there-yet" }
+    },
+    {
+      "id": "npm.package.gauge.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/gauge",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "gauge is no longer supported",
+      "summary": "npm states that the gauge package is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "gauge package deprecation notice", "url": "https://www.npmjs.com/package/gauge" },
+        { "title": "gauge registry metadata", "url": "https://registry.npmjs.org/gauge/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve terminal detection, redraw behavior, themes, templates, progress values, status sections, and non-TTY output."],
+        "steps": [{ "id": "replace-gauge", "title": "Replace the terminal gauge", "instructions": "Select a maintained terminal progress implementation, migrate rendering and update calls, then remove gauge.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run TTY, non-TTY, redraw, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "gauge" },
+        { "kind": "import", "language": "typescript", "module": "gauge" }
+      ],
+      "x-npm": { "package": "gauge" }
+    },
+    {
+      "id": "npm.package.osenv.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/osenv",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "osenv is no longer supported",
+      "summary": "npm states that the osenv package is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "osenv package deprecation notice", "url": "https://www.npmjs.com/package/osenv" },
+        { "title": "osenv registry metadata", "url": "https://registry.npmjs.org/osenv/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve platform-specific home, temp, editor, shell, path, and environment-variable fallback behavior actually used by the application."],
+        "steps": [{ "id": "replace-osenv", "title": "Replace operating-system environment helpers", "instructions": "Replace each osenv helper with maintained runtime APIs and explicit environment-variable handling, then remove osenv.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run environment resolution and cross-platform repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "osenv" },
+        { "kind": "import", "language": "typescript", "module": "osenv" }
+      ],
+      "x-npm": { "package": "osenv" }
+    },
+    {
+      "id": "npm.package.read-package-json.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/read-package-json",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "read-package-json is no longer supported",
+      "summary": "npm states that read-package-json is no longer supported and recommends @npmcli/package-json.",
+      "severity": "high",
+      "replacement": "@npmcli/package-json",
+      "sources": [
+        { "title": "read-package-json package deprecation notice", "url": "https://www.npmjs.com/package/read-package-json" },
+        { "title": "read-package-json registry metadata", "url": "https://registry.npmjs.org/read-package-json/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve package normalization, extra metadata loading, error handling, file paths, warnings, and callback or promise timing relied on by callers."],
+        "steps": [{ "id": "replace-read-package-json", "title": "Move to @npmcli/package-json", "instructions": "Replace the dependency and reads with @npmcli/package-json, adapting its promise-based API and normalized result shape.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run valid, malformed, missing, and normalized package metadata tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "read-package-json" },
+        { "kind": "import", "language": "typescript", "module": "read-package-json" }
+      ],
+      "x-npm": { "package": "read-package-json" }
+    },
+    {
+      "id": "npm.package.npmcli-move-file.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40npmcli/move-file",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@npmcli/move-file is deprecated",
+      "summary": "npm states that @npmcli/move-file functionality moved to @npmcli/fs.",
+      "severity": "medium",
+      "replacement": "@npmcli/fs",
+      "sources": [
+        { "title": "@npmcli/move-file package deprecation notice", "url": "https://www.npmjs.com/package/@npmcli/move-file" },
+        { "title": "@npmcli/move-file registry metadata", "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve overwrite, cross-device fallback, directory creation, permissions, error propagation, and platform-specific move behavior."],
+        "steps": [{ "id": "replace-npmcli-move-file", "title": "Move to @npmcli/fs", "instructions": "Replace the dependency and imports with the move-file functionality exposed by @npmcli/fs, adapting changed exports and options.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run same-device, cross-device, overwrite, failure, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "@npmcli/move-file" },
+        { "kind": "import", "language": "typescript", "module": "@npmcli/move-file" }
+      ],
+      "x-npm": { "package": "@npmcli/move-file" }
+    },
+    {
+      "id": "npm.package.figgy-pudding.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/figgy-pudding",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "figgy-pudding is no longer supported",
+      "summary": "npm states that the figgy-pudding module is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "figgy-pudding package deprecation notice", "url": "https://www.npmjs.com/package/figgy-pudding" },
+        { "title": "figgy-pudding registry metadata", "url": "https://registry.npmjs.org/figgy-pudding/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve option defaults, validation, inheritance, provider lookup, key enumeration, and sensitive-value handling."],
+        "steps": [{ "id": "replace-figgy-pudding", "title": "Replace configuration wrappers", "instructions": "Replace figgy-pudding instances with explicit validated configuration objects or a maintained configuration library, then remove the package.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run configuration defaults, validation, inheritance, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "figgy-pudding" },
+        { "kind": "import", "language": "typescript", "module": "figgy-pudding" }
+      ],
+      "x-npm": { "package": "figgy-pudding" }
+    },
+    {
+      "id": "npm.package.fstream.eol",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/fstream",
+      "vers": "vers:npm/*",
+      "event": "end-of-life",
+      "title": "fstream is no longer supported",
+      "summary": "npm states that the fstream package is no longer supported.",
+      "severity": "high",
+      "sources": [
+        { "title": "fstream package deprecation notice", "url": "https://www.npmjs.com/package/fstream" },
+        { "title": "fstream registry metadata", "url": "https://registry.npmjs.org/fstream/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve filesystem traversal, filtering, permissions, ownership, symlink handling, stream backpressure, and archive boundary security."],
+        "steps": [{ "id": "replace-fstream", "title": "Replace filesystem streaming", "instructions": "Select maintained filesystem and archive primitives for the used fstream behavior, migrate readers and writers, then remove fstream.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run files, directories, symlinks, permissions, errors, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "fstream" },
+        { "kind": "import", "language": "typescript", "module": "fstream" }
+      ],
+      "x-npm": { "package": "fstream" }
+    },
+    {
+      "id": "npm.package.source-map-url.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/source-map-url",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "source-map-url is deprecated",
+      "summary": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
+      "severity": "medium",
+      "replacement": "convert-source-map",
+      "sources": [
+        { "title": "source-map-url maintainer deprecation notice", "url": "https://github.com/lydell/source-map-url#deprecated" },
+        { "title": "source-map-url registry metadata", "url": "https://registry.npmjs.org/source-map-url/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve JavaScript and CSS comment forms, inline and external map URLs, insertion position, removal behavior, and malformed-input handling."],
+        "steps": [{ "id": "replace-source-map-url", "title": "Move to convert-source-map", "instructions": "Replace source-map-url parsing and mutation calls with convert-source-map equivalents and explicit handling for any unsupported comment forms.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run inline, external, JavaScript, CSS, malformed, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "source-map-url" },
+        { "kind": "import", "language": "typescript", "module": "source-map-url" }
+      ],
+      "x-npm": { "package": "source-map-url" }
+    },
+    {
+      "id": "npm.package.resolve-url.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/resolve-url",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "resolve-url is deprecated",
+      "summary": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
+      "severity": "medium",
+      "replacement": "URL",
+      "sources": [
+        { "title": "resolve-url maintainer deprecation notice", "url": "https://github.com/lydell/resolve-url#deprecated" },
+        { "title": "resolve-url registry metadata", "url": "https://registry.npmjs.org/resolve-url/latest" }
+      ],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "migration": {
+        "constraints": ["Preserve base URL selection, sequential resolution, protocol-relative URLs, absolute URLs, encoding, and browser compatibility."],
+        "steps": [{ "id": "replace-resolve-url", "title": "Use the URL API", "instructions": "Replace resolve-url calls with URL construction, applying each base explicitly and returning the same string form expected by callers.", "targets": "all" }],
+        "verification": [{ "command": "npm run test --if-present", "purpose": "Run relative, absolute, protocol-relative, encoded, multi-base, and repository tests." }]
+      },
+      "usage": [
+        { "kind": "import", "language": "javascript", "module": "resolve-url" },
+        { "kind": "import", "language": "typescript", "module": "resolve-url" }
+      ],
+      "x-npm": { "package": "resolve-url" }
     }
   ]
 }
