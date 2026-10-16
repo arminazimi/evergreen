@@ -553,6 +553,152 @@
       },
       "usage": [{ "kind": "import", "language": "python", "module": "multimodal_timesfm" }],
       "x-python": { "kind": "package", "package": "multimodal-timesfm" }
+    },
+    {
+      "id": "python.package.saroku.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/saroku", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "saroku was renamed to trikesh", "summary": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
+      "severity": "medium", "replacement": "trikesh",
+      "sources": [{ "title": "saroku rename notice", "url": "https://pypi.org/project/saroku/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve command behavior, configuration, output formats, and any persisted state."],
+        "steps": [{ "id": "replace-saroku", "title": "Replace saroku", "instructions": "Replace the distribution and translate saroku imports and commands to trikesh equivalents.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run affected command and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "saroku" }],
+      "x-python": { "kind": "package", "package": "saroku" }
+    },
+    {
+      "id": "python.package.seofleet-cli.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/seofleet-cli", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "seofleet-cli is deprecated", "summary": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
+      "severity": "medium", "replacement": "llmscout-cli",
+      "sources": [{ "title": "seofleet-cli deprecation notice", "url": "https://pypi.org/project/seofleet-cli/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve scan targets, configured checks, output formats, exit codes, and CI invocation."],
+        "steps": [{ "id": "replace-seofleet-cli", "title": "Replace seofleet-cli", "instructions": "Replace the distribution and CLI invocation with llmscout-cli, then migrate configuration using the current project documentation.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run CLI integration and repository tests when defined." }]
+      },
+      "x-python": { "kind": "package", "package": "seofleet-cli" }
+    },
+    {
+      "id": "python.package.superlinked-server.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/superlinked-server", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "superlinked-server is deprecated", "summary": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
+      "severity": "medium", "replacement": "SIE Server and sie-sdk",
+      "sources": [{ "title": "superlinked-server deprecation notice", "url": "https://pypi.org/project/superlinked-server/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve model selection, indexing, query behavior, deployment settings, authentication, and response contracts."],
+        "steps": [{ "id": "replace-superlinked-server", "title": "Adopt SIE", "instructions": "Deploy SIE Server, replace the legacy package with sie-sdk, and translate server and client configuration to the current interfaces.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run inference, indexing, query, and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "superlinked_server" }],
+      "x-python": { "kind": "package", "package": "superlinked-server" }
+    },
+    {
+      "id": "python.package.goobook.eol",
+      "ecosystem": "python", "purl": "pkg:pypi/goobook", "vers": "vers:pypi/*", "event": "end-of-life",
+      "title": "goobook is no longer maintained", "summary": "The maintainer states that the project is no longer maintained.",
+      "severity": "medium",
+      "sources": [{ "title": "goobook maintenance notice", "url": "https://pypi.org/project/goobook/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve contact fields, address-book search, authentication, caching, and command output used by scripts."],
+        "steps": [{ "id": "replace-goobook", "title": "Select a maintained contacts client", "instructions": "Choose a maintained Google Contacts or CardDAV client, export or preserve local state, and replace goobook commands and integrations.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run contact lookup, synchronization, and repository tests when defined." }]
+      },
+      "x-python": { "kind": "package", "package": "goobook" }
+    },
+    {
+      "id": "python.package.imagej.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/imagej", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "imagej was renamed to pyimagej", "summary": "The maintainers state that the imagej Python package was renamed to pyimagej.",
+      "severity": "medium", "replacement": "pyimagej",
+      "sources": [{ "title": "imagej rename notice", "url": "https://pypi.org/project/imagej/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve ImageJ initialization, JVM options, endpoints, datasets, conversions, and headless behavior."],
+        "steps": [{ "id": "replace-imagej", "title": "Replace imagej with pyimagej", "instructions": "Replace the distribution and verify imports and initialization against the current pyimagej API.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run ImageJ integration and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "imagej" }],
+      "x-python": { "kind": "package", "package": "imagej" }
+    },
+    {
+      "id": "python.package.poetry-version-plugin.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/poetry-version-plugin", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "poetry-version-plugin is deprecated", "summary": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
+      "severity": "medium", "replacement": "uv, PDM, Hatch, or poetry-dynamic-versioning",
+      "sources": [{ "title": "poetry-version-plugin deprecation notice", "url": "https://pypi.org/project/poetry-version-plugin/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve the version source, tag format, source-tree state, built metadata, editable installs, and release automation."],
+        "steps": [{ "id": "replace-poetry-version-plugin", "title": "Replace dynamic versioning", "instructions": "Choose a maintained versioning workflow, migrate Poetry configuration and release jobs, and remove poetry-version-plugin.", "targets": "all" }],
+        "verification": [{ "command": "python -m build", "purpose": "Build distributions and inspect their resolved versions." }]
+      },
+      "x-python": { "kind": "package", "package": "poetry-version-plugin" }
+    },
+    {
+      "id": "python.package.api-shield.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/api-shield", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "api-shield is deprecated", "summary": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
+      "severity": "medium", "replacement": "waygate",
+      "sources": [{ "title": "api-shield deprecation notice", "url": "https://pypi.org/project/api-shield/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve feature flags, rollout state, rate limits, maintenance windows, storage, and framework adapters."],
+        "steps": [{ "id": "replace-api-shield", "title": "Replace api-shield", "instructions": "Replace the distribution, change shield imports and commands to waygate, and migrate configuration using the maintained documentation.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run policy, rollout, rate-limit, and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "shield" }],
+      "x-python": { "kind": "package", "package": "api-shield" }
+    },
+    {
+      "id": "python.package.asyncio-requests.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/asyncio-requests", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "asyncio-requests is retired", "summary": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+      "severity": "high", "replacement": "asyncio-gateway",
+      "sources": [{ "title": "asyncio-gateway migration notice", "url": "https://pypi.org/project/asyncio-gateway/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling."],
+        "steps": [{ "id": "replace-asyncio-requests", "title": "Replace asyncio-requests", "instructions": "Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run protocol, TLS, response, and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "asyncio_requests" }],
+      "x-python": { "kind": "package", "package": "asyncio-requests" }
+    },
+    {
+      "id": "python.package.opennms-api-wrapper.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/opennms-api-wrapper", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "opennms-api-wrapper was renamed", "summary": "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.",
+      "severity": "medium", "replacement": "python-opennms",
+      "sources": [{ "title": "opennms-api-wrapper rename notice", "url": "https://pypi.org/project/opennms-api-wrapper/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve server URLs, authentication, timeout and TLS settings, resource queries, pagination, and response models."],
+        "steps": [{ "id": "replace-opennms-api-wrapper", "title": "Replace the OpenNMS client", "instructions": "Replace the distribution and migrate opennms_api_wrapper imports to the opennms module provided by python-opennms.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run OpenNMS client and repository tests." }]
+      },
+      "usage": [{ "kind": "import", "language": "python", "module": "opennms_api_wrapper" }],
+      "x-python": { "kind": "package", "package": "opennms-api-wrapper" }
+    },
+    {
+      "id": "python.package.apisec-code-bolt.deprecated",
+      "ecosystem": "python", "purl": "pkg:pypi/apisec-code-bolt", "vers": "vers:pypi/*", "event": "deprecated",
+      "title": "apisec-code-bolt was renamed", "summary": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
+      "severity": "medium", "replacement": "apisec-surface",
+      "sources": [{ "title": "apisec-surface rename notice", "url": "https://pypi.org/project/apisec-surface/" }],
+      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "migration": {
+        "constraints": ["Preserve authentication, configuration, saved credentials, scan scope, manifest output, upload behavior, and CI exit codes."],
+        "steps": [{ "id": "replace-apisec-code-bolt", "title": "Replace apisec-code-bolt", "instructions": "Replace the distribution with apisec-surface and verify the renamed command, while retaining compatible state and configuration documented by the maintainer.", "targets": "all" }],
+        "verification": [{ "command": "python -m pytest", "purpose": "Run APIsec CLI integration and repository tests when defined." }]
+      },
+      "x-python": { "kind": "package", "package": "apisec-code-bolt" }
     }
   ]
 }
