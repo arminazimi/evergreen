@@ -61,6 +61,15 @@ npx evergreen-deprecation baseline .
 npx evergreen-deprecation scan . --baseline .evergreen-baseline.json
 ```
 
+Check a single dependency before adding it, without scanning a repository:
+
+```bash
+npx evergreen-deprecation check pkg:npm/request@2.88.2
+npx evergreen-deprecation check pkg:github/actions/checkout@v4 --json
+```
+
+The command prints the lifecycle problem, replacement, and evidence, and exits `1` when a rule at or above `--fail-on` (default `high`) applies, `0` otherwise, and `2` for invalid input. A package Evergreen has no rule for reports `no-data`, which is not a claim that it is safe. Without a version, a package whose rules only cover some versions reports `version-dependent`; add a version to get a definite answer.
+
 Inspect the evidence and migration direction for one result:
 
 ```bash

@@ -1,3 +1,4 @@
+import type { DependencyCheck } from "./check-dependency.js";
 import type { Finding, ScanResult, Severity } from "./domain.js";
 import type { MigrationPacket } from "./migration-packet.js";
 import { VERSION } from "./version.js";
@@ -153,6 +154,24 @@ export function renderText(result: ScanResult): string {
     lines.push("", `Note: ${diagnostic}`);
   }
 
+  return lines.join("\n");
+}
+
+export function renderCheckText(check: DependencyCheck): string {
+  const lines = [
+    "Evergreen check",
+    check.version ? `${check.purl}@${check.version}` : check.purl,
+    `Status: ${check.status}${check.severity ? ` (${check.severity})` : ""}`,
+    "",
+    check.message,
+  ];
+  for (const finding of check.findings) {
+    lines.push("", `${finding.severity.toUpperCase()} ${finding.title}`, finding.summary);
+    lines.push(`Event: ${finding.event}`, `Affected versions: ${finding.affectedVersions}`);
+    if (finding.replacement) lines.push(`Replacement: ${finding.replacement}`);
+    if (finding.deadline) lines.push(`Deadline: ${finding.deadline}`);
+    for (const source of finding.sources) lines.push(`Source: ${source.url}`);
+  }
   return lines.join("\n");
 }
 
