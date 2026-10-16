@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
@@ -24,6 +25,7 @@ Usage:
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen data status [--json]
+  evergreen data update [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
   evergreen doctor [path] [--json]
@@ -71,6 +73,19 @@ async function main(args: string[]): Promise<number> {
   }
   if (command === "data") {
     const subcommand = args[1];
+    if (subcommand === "update") {
+      try {
+        const result = await updateData();
+        process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDataUpdateText(result)}\n`);
+        return 0;
+      } catch (error) {
+        if (error instanceof DataUpdateError) {
+          process.stderr.write(`${error.message}\n`);
+          return 1;
+        }
+        throw error;
+      }
+    }
     if (subcommand !== "status") {
       process.stderr.write(`Unknown data command: ${subcommand ?? ""}\n\n${HELP}`);
       return 2;
