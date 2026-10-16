@@ -7,6 +7,7 @@
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 
+import { findCollisions } from "./collisions.js";
 import { scaffoldNames, ScaffoldError } from "./names.js";
 import type { ScaffoldNames } from "./names.js";
 import { detectorTemplate } from "./templates/detector.js";
@@ -70,6 +71,11 @@ export async function scaffoldDetector(id: string, options: ScaffoldOptions = {}
   const root = options.root ?? process.cwd();
   const names = scaffoldNames(id, options.ecosystem);
   await assertEvergreenCheckout(root);
+
+  const collisions = await findCollisions(root, names);
+  if (collisions.length > 0) {
+    throw new ScaffoldError(`Nothing was written: ${collisions.join("; ")}.`);
+  }
 
   const files = renderScaffold(names);
   const existing: string[] = [];

@@ -128,3 +128,59 @@ test("the command creates the skeleton from a checkout, and explains itself else
   }
   assert.match((await run(["new-detector"], checkout)).stderr, /Usage: evergreen new-detector <id>/);
 });
+
+test("a detector id that is already taken is refused, and nothing is written", async () => {
+  const checkout = await scaffoldCheckout(roots);
+  for (const taken of ["npm", "python", "github-actions"]) {
+    await assert.rejects(
+      scaffoldDetector(taken, { root: checkout }),
+      (error: unknown) => error instanceof ScaffoldError && error.message.startsWith("Nothing was written:") && error.message.includes(`the detector id "${taken}" is already used by src/detectors/${taken}.ts`),
+      taken,
+    );
+  }
+  assert.equal(await exists(join(checkout, "tests", "fixtures", "npm")), false);
+  assert.equal(await exists(join(checkout, "docs", "detectors")), false);
+});
+
+test("a registry name or rule namespace that is already taken is refused", async () => {
+  const checkout = await scaffoldCheckout(roots);
+  // nodejs has a registry but no detector of its own: the npm detector reads it.
+  await assert.rejects(scaffoldDetector("nodejs", { root: checkout }), /"nodejs" is already a registry name or rule namespace, used by registry\/nodejs\.json/);
+  await assert.rejects(scaffoldDetector("my-runtimes", { root: checkout, ecosystem: "nodejs" }), /the ecosystem "nodejs" is already used by registry\/nodejs\.json; rule ids and registries must stay unique/);
+  await assert.rejects(scaffoldDetector("my-npm", { root: checkout, ecosystem: "npm" }), /the ecosystem "npm" is already used by registry\/npm\.json/);
+
+  // A rule-id prefix counts even when no registry file or ecosystem carries that name.
+  await writeFile(
+    join(checkout, "registry", "legacy-rules.json"),
+    JSON.stringify({ schemaVersion: "evergreen.registry.v2", ecosystem: "legacy-rules", rules: [{ id: "oldstuff.package.thing.deprecated" }] }),
+  );
+  await assert.rejects(scaffoldDetector("oldstuff", { root: checkout }), /"oldstuff" is already a registry name or rule namespace, used by registry\/legacy-rules\.json/);
+  await assert.rejects(scaffoldDetector("legacy-rules", { root: checkout }), /"legacy-rules" is already a registry name/);
+});
+
+test("every collision is reported at once, so one run is enough to fix a name", async () => {
+  const checkout = await scaffoldCheckout(roots);
+  await assert.rejects(scaffoldDetector("npm", { root: checkout, ecosystem: "python" }), (error: unknown) => {
+    const message = (error as Error).message;
+    return message.includes('the detector id "npm"') && message.includes('"npm" is already a registry name') && message.includes('the ecosystem "python" is already used by registry/python.json');
+  });
+});
+
+test("detectors written as classes are found too, and fresh names still work", async () => {
+  const checkout = await scaffoldCheckout(roots);
+  await writeFile(join(checkout, "src", "detectors", "legacy.ts"), 'export class Legacy {\n  readonly id = "legacy-class";\n}\n');
+  await assert.rejects(scaffoldDetector("legacy-class", { root: checkout }), /the detector id "legacy-class" is already used by src\/detectors\/legacy\.ts/);
+  const created = await scaffoldDetector("fresh-one", { root: checkout });
+  assert.equal(created.files.length, 9);
+  await assert.rejects(scaffoldDetector("fresh-one", { root: checkout }), /Nothing was written: the detector id "fresh-one" is already used by src\/detectors\/fresh-one\.ts/);
+});
+
+test("the command reports a collision with a usage-style exit code", async () => {
+  const checkout = await scaffoldCheckout(roots);
+  const result = await execute(process.execPath, [resolve("dist/src/cli.js"), "new-detector", "python"], { cwd: checkout }).then(
+    () => ({ code: 0, stderr: "" }),
+    (error: { code: number; stderr: string }) => error,
+  );
+  assert.equal(result.code, 2);
+  assert.match(result.stderr, /the detector id "python" is already used by src\/detectors\/python\.ts/);
+});
