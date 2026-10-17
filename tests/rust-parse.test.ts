@@ -85,3 +85,54 @@ test("handles CRLF, comments after values, and single-quoted strings with 1-base
   const contents = "[dependencies]\r\nfailure = '0.1' # old\r\nserde = { version = \"1\", optional = true } # keep\r\n";
   assert.deepEqual(parseCargoToml(contents).map((declaration) => [declaration.kind === "dependency" ? declaration.crate : "", declaration.value, declaration.line]), [["failure", "0.1", 2], ["serde", "1", 3]]);
 });
+
+import { parseCargoLock } from "../src/detectors/rust/parse-cargo-lock.js";
+import { parseRustToolchain } from "../src/detectors/rust/parse-rust-toolchain.js";
+
+test("Cargo.lock: reads registry packages with the line of their version, and skips the project and path or git sources", async () => {
+  assert.deepEqual(parseCargoLock(await fixture("positive/Cargo.lock")), [
+    { crate: "failure", value: "0.1.8", line: 7 },
+    { crate: "serde", value: "1.0.197", line: 21 },
+  ]);
+  assert.deepEqual(parseCargoLock(await fixture("negative/Cargo.lock")), [], "no source, so nothing from the registry");
+  const mixed = ['[[package]]', 'name = "a"', 'version = "1.0.0"', 'source = "git+https://example.com/a#abc"', "", '[[package]]', 'name = "b"', 'version = "2.0.0"', 'source = "sparse+https://index.crates.io/"'].join("\n");
+  assert.deepEqual(parseCargoLock(mixed), [{ crate: "b", value: "2.0.0", line: 8 }]);
+});
+
+test("Cargo.lock: malformed, truncated, and oversized input returns nothing", async () => {
+  const malformed = await fixture("malformed/Cargo.lock");
+  assert.doesNotThrow(() => parseCargoLock(malformed));
+  assert.deepEqual(parseCargoLock(malformed), []);
+  for (const junk of ["", "[[package]", '[[package]]\nname = "x"\nversion = ', "\u0000", "version = 3\n"]) assert.deepEqual(parseCargoLock(junk), []);
+  assert.deepEqual(parseCargoLock("#".repeat(1024 * 1024 + 1)), []);
+});
+
+test("rust-toolchain: reads the pinned channel from the TOML and the legacy form with exact lines", async () => {
+  assert.deepEqual(parseRustToolchain(await fixture("positive/rust-toolchain.toml")), [{ value: "1.70.0", line: 2 }]);
+  assert.deepEqual(parseRustToolchain(await fixture("positive/legacy/rust-toolchain")), [{ value: "1.65.0", line: 1 }]);
+  assert.deepEqual(parseRustToolchain("# a comment\n\n1.60.0 # pinned\n"), [{ value: "1.60.0", line: 3 }]);
+  assert.deepEqual(parseRustToolchain("[toolchain]\r\nchannel = '1.75.0'\r\n"), [{ value: "1.75.0", line: 2 }]);
+});
+
+test("rust-toolchain: stable and nightly channels are returned as written, and comments, other keys, and malformed files return nothing", async () => {
+  assert.deepEqual(parseRustToolchain(await fixture("zero/rust-toolchain.toml")), [{ value: "stable", line: 2 }]);
+  assert.deepEqual(parseRustToolchain(await fixture("negative/rust-toolchain.toml")), [{ value: "stable", line: 3 }], "the commented-out 1.60.0 is ignored");
+  assert.deepEqual(parseRustToolchain("[toolchain]\nchannel = 'nightly-2024-01-01'\n"), [{ value: "nightly-2024-01-01", line: 2 }]);
+  assert.deepEqual(parseRustToolchain("[toolchain]\ncomponents = [\"clippy\"]\n"), []);
+  assert.deepEqual(parseRustToolchain("[toolchain]\nchannel = 17\n"), []);
+  assert.deepEqual(parseRustToolchain(""), []);
+  const malformed = await fixture("malformed/rust-toolchain.toml");
+  assert.doesNotThrow(() => parseRustToolchain(malformed));
+  assert.deepEqual(parseRustToolchain(malformed), []);
+  assert.deepEqual(parseRustToolchain("#".repeat(1024 * 1024 + 1)), []);
+});
+
+test("multi-line arrays are skipped over without losing the lines after them", () => {
+  const contents = ["[dependencies]", 'serde = { version = "1", features = [', '  "derive",', "] }", 'failure = "0.1"', "", "[package]", "edition = \"2021\""].join("\n");
+  // The multi-line serde entry is not read (documented); everything after it keeps its exact line.
+  assert.deepEqual(
+    parseCargoToml(contents).map((declaration) => [declaration.kind, declaration.value, declaration.line]),
+    [["dependency", "0.1", 5], ["edition", "2021", 8]],
+  );
+  assert.deepEqual(parseCargoLock(['[[package]]', 'name = "a"', 'version = "1.0.0"', 'source = "registry+https://github.com/rust-lang/crates.io-index"', "dependencies = [", ' "b",', "]"].join("\n")), [{ crate: "a", value: "1.0.0", line: 3 }]);
+});
