@@ -2351,6 +2351,94 @@
           }
         }
       ]
+    },
+    {
+      "repository": "kagkarlsson/db-scheduler",
+      "commit": "466ff4b458b971470b16cfaf4fb840b60d0266fa",
+      "ecosystem": "java",
+      "expected": []
+    },
+    {
+      "repository": "piomin/sample-spring-reactive",
+      "commit": "a3338559767512f932c8439d96ec0d5cd2449fbb",
+      "ecosystem": "java",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "danvega/loom",
+      "commit": "ea1d482d08c9564aae128ac193247545ff5664de",
+      "ecosystem": "java",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>19</java.version>`, a compile level of JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 44 of pom.xml reads `<source>19</source>`, the maven-compiler-plugin source level, JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 45 of pom.xml reads `<target>19</target>`, the maven-compiler-plugin target level, JDK 19, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "krakowski/jextract-demo",
+      "commit": "f439799e5de999b50161db125fd06e584c073e60",
+      "ecosystem": "java",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-22-24",
+          "path": "build.gradle.kts",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of build.gradle.kts reads `languageVersion.set(JavaLanguageVersion.of(22))`, the Gradle toolchain JDK 22, a non-LTS release that the Oracle Java SE Support Roadmap lists as superseded and the Temurin support page lists as EOSL."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Descended/Henesys",
+      "commit": "b10f1bd910c227b546727fb71c7239a636807b18",
+      "ecosystem": "java",
+      "expected": [
+        {
+          "ruleId": "java.maven.mysql.mysql-connector-java.relocated",
+          "path": "pom.xml",
+          "line": 46,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 46 of pom.xml reads `<version>8.0.33</version>` for the dependency `mysql:mysql-connector-java` declared on lines 44 to 45. The artifact's own 8.0.33 POM on Maven Central declares a relocation to `com.mysql:mysql-connector-j`."
+          }
+        }
+      ]
     }
   ]
 }

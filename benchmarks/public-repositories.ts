@@ -22,7 +22,7 @@ interface ExpectedFinding {
 interface CorpusEntry {
   repository: string;
   commit: string;
-  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "kubernetes" | "rust";
+  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "java" | "kubernetes" | "rust";
   expected: ExpectedFinding[];
 }
 
