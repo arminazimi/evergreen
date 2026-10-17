@@ -10,6 +10,8 @@ import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { kubernetesDetector } from "../src/detectors/kubernetes/index.js";
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
 
@@ -42,6 +44,7 @@ async function expected(ruleId: string, path: string, line: number, declaration:
     location: { path, line },
     replacement: rule.replacement!,
     deadline: rule.deadline!,
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -205,4 +208,25 @@ test("dynamic and cluster-dependent declarations are never reported", async () =
     ].join("\n"),
   });
   assert.deepEqual(await kubernetesDetector.scan({ root }), []);
+});
+
+test("every curated kubernetes rule has migration guidance with real verification commands", async () => {
+  const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
+  for (const rule of registry.rules) {
+    assert.ok(rule.migration, rule.id);
+    assert.ok(rule.migration.constraints.length >= 1, rule.id);
+    assert.ok(rule.migration.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(rule.migration.verification.length >= 1, rule.id);
+    for (const check of rule.migration.verification) assert.match(check.command, /^(?:kubeconform|kubectl|helm|kustomize) /, rule.id);
+  }
+});
+
+test("a migration packet for a kubernetes finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [kubernetesDetector]);
+  const finding = result.findings.find((item) => item.id === `${CRONJOB}:manifests/web.yaml:34`);
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("manifests/web.yaml"));
+  assert.ok(packet.steps.some((step) => step.id === "update-api-version"));
+  assert.ok(packet.verification.some((check) => check.command.startsWith("kubeconform -strict")));
 });

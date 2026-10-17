@@ -27,6 +27,48 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep routing behavior unchanged: the same hosts, paths, and backends.",
+          "In networking.k8s.io/v1, spec.backend is renamed spec.defaultBackend, and each backend's serviceName and servicePort become service.name and service.port.number (or service.port.name for a named port).",
+          "pathType is required on every path in networking.k8s.io/v1; use ImplementationSpecific to keep the old undefined behavior, or Prefix or Exact if that is what was intended.",
+          "If an Ingress is selected by an ingress class annotation, check the IngressClass resource still matches."
+        ],
+        "steps": [
+          {
+            "id": "update-api-version",
+            "title": "Change the Ingress apiVersion",
+            "instructions": "Change the reported `apiVersion` to `networking.k8s.io/v1`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "rewrite-backends",
+            "title": "Rewrite backends and paths",
+            "instructions": "Rename spec.backend to spec.defaultBackend, convert serviceName and servicePort to the service.name and service.port forms, and add a pathType to every path.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-other-manifests",
+            "title": "Align other Ingress declarations",
+            "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old Ingress API version, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+          },
+          {
+            "command": "kubectl apply --dry-run=server -f <manifest-path>",
+            "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "For a Helm chart, render it and validate the output."
+          }
+        ]
       }
     },
     {
@@ -54,6 +96,48 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep routing behavior unchanged: the same hosts, paths, and backends.",
+          "In networking.k8s.io/v1, spec.backend is renamed spec.defaultBackend, and each backend's serviceName and servicePort become service.name and service.port.number (or service.port.name for a named port).",
+          "pathType is required on every path in networking.k8s.io/v1; use ImplementationSpecific to keep the old undefined behavior, or Prefix or Exact if that is what was intended.",
+          "If an Ingress is selected by an ingress class annotation, check the IngressClass resource still matches."
+        ],
+        "steps": [
+          {
+            "id": "update-api-version",
+            "title": "Change the Ingress apiVersion",
+            "instructions": "Change the reported `apiVersion` to `networking.k8s.io/v1`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "rewrite-backends",
+            "title": "Rewrite backends and paths",
+            "instructions": "Rename spec.backend to spec.defaultBackend, convert serviceName and servicePort to the service.name and service.port forms, and add a pathType to every path.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-other-manifests",
+            "title": "Align other Ingress declarations",
+            "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old Ingress API version, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+          },
+          {
+            "command": "kubectl apply --dry-run=server -f <manifest-path>",
+            "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "For a Helm chart, render it and validate the output."
+          }
+        ]
       }
     },
     {
@@ -81,6 +165,40 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the schedule, job template, and concurrency and history settings unchanged.",
+          "The migration guide lists no notable changes between batch/v1beta1 and batch/v1 for CronJob."
+        ],
+        "steps": [
+          {
+            "id": "update-api-version",
+            "title": "Change the CronJob apiVersion",
+            "instructions": "Change the reported `apiVersion` to `batch/v1` and adjust the fields below that differ between the two versions.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-other-manifests",
+            "title": "Align other CronJob declarations",
+            "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old API version of CronJob, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+          },
+          {
+            "command": "kubectl apply --dry-run=server -f <manifest-path>",
+            "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "For a Helm chart, render it and validate the output."
+          }
+        ]
       }
     },
     {
@@ -108,6 +226,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "PodSecurityPolicy has no drop-in replacement: the admission controller was removed together with the API, so the policy must be re-expressed.",
+          "Decide the intended Pod Security Standard (privileged, baseline, or restricted) for each namespace the policy covered before changing anything.",
+          "Remove Roles and ClusterRoles that grant `use` on the PodSecurityPolicy once it is gone."
+        ],
+        "steps": [
+          {
+            "id": "choose-replacement",
+            "title": "Choose a replacement policy",
+            "instructions": "Replace the PodSecurityPolicy with Pod Security Admission labels on the affected namespaces, or with a third-party admission webhook, as the Kubernetes migration guide describes.",
+            "targets": "declaration"
+          },
+          {
+            "id": "remove-policy-rbac",
+            "title": "Remove references to the policy",
+            "instructions": "Delete the PodSecurityPolicy manifest and any Role or ClusterRole rule that grants `use` on it.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl label --dry-run=server --overwrite ns --all pod-security.kubernetes.io/enforce=baseline",
+            "purpose": "Preview which existing pods would violate the chosen Pod Security Standard, without changing any namespace."
+          },
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the remaining manifests against the target Kubernetes version."
+          }
+        ]
       }
     },
     {
@@ -135,6 +284,40 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the scaling targets and the min and max replica counts unchanged.",
+          "In autoscaling/v2, targetAverageUtilization is replaced by target.averageUtilization together with target.type: Utilization."
+        ],
+        "steps": [
+          {
+            "id": "update-api-version",
+            "title": "Change the HorizontalPodAutoscaler apiVersion",
+            "instructions": "Change the reported `apiVersion` to `autoscaling/v2` and rewrite any metric target fields that use the old names.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-other-manifests",
+            "title": "Align other HorizontalPodAutoscaler declarations",
+            "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old API version, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+          },
+          {
+            "command": "kubectl apply --dry-run=server -f <manifest-path>",
+            "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "For a Helm chart, render it and validate the output."
+          }
+        ]
       }
     }
   ]
