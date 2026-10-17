@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "evergreen.baseline.v1",
+  "createdAt": "2026-10-17T15:22:12.431Z",
+  "findings": [
+    {
+      "fingerprint": "c4acf4e39ee7deb26a060eb819aaea5e56aee731652863cea385053434576c5e",
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json"
+    },
+    {
+      "fingerprint": "403c245315e5876c2aae87d56b6afc1bfb2d57714e1c6ab66bc1aa421e9b2a43",
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json"
+    },
+    {
+      "fingerprint": "ff45d7b1791353407cf58af6ce801386fbbb89917338d04f10871c03a9a28ac3",
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json"
+    }
+  ]
+}

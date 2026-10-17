@@ -140,3 +140,34 @@ test("a baseline with suppression fields still suppresses, and a baseline withou
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+const smoke = resolve("tests/fixtures/smoke");
+
+test("a baseline written by Evergreen 0.1.0 loads, matches today's fingerprints, and still suppresses its findings", async () => {
+  const old = await readBaseline(resolve("tests/fixtures/baselines/v0.1.0.json"));
+  assert.equal(old.schemaVersion, "evergreen.baseline.v1");
+  assert.deepEqual(old.findings.map((entry) => Object.keys(entry).sort()), Array(3).fill(["fingerprint", "path", "ruleId"]), "no suppression fields");
+
+  const { builtInDetectors } = await import("../src/detectors/index.js");
+  const { scanRepository } = await import("../src/engine.js");
+  const scan = await scanRepository(smoke, builtInDetectors);
+  const remaining = applyBaseline(scan, old).findings.map((finding) => finding.ruleId).sort();
+  // Everything 0.1.0 recorded is still suppressed; only rules that did not exist then appear (Node.js 19 was added in 0.2.0).
+  assert.deepEqual(remaining, ["nodejs.runtime.eol-19"]);
+  assert.equal(scan.findings.length - remaining.length, old.findings.length);
+});
+
+test("the schema accepts the baseline Evergreen 0.1.0 wrote", async () => {
+  const validate = await baselineValidator();
+  const old = JSON.parse(await readFile(resolve("tests/fixtures/baselines/v0.1.0.json"), "utf8"));
+  assert.ok(validate(old), JSON.stringify(validate.errors));
+});
+
+test("the CLI scans with a 0.1.0 baseline and reports only what the baseline does not cover", async () => {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const { stdout } = await promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", resolve("tests/fixtures/baselines/v0.1.0.json"), "--json"]);
+  const output = JSON.parse(stdout) as { findings: Array<{ ruleId: string }>; diagnostics: string[] };
+  assert.deepEqual(output.findings.map((finding) => finding.ruleId), ["nodejs.runtime.eol-19"]);
+  assert.ok(output.diagnostics.includes("Suppressed 3 findings from the baseline."));
+});
