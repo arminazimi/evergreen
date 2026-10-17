@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Go](detectors/go.md).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [Go](detectors/go.md), [Kubernetes APIs](detectors/kubernetes.md).
 
 ## Start a new detector in this repository
 
