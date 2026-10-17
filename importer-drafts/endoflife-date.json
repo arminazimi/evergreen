@@ -1,0 +1,574 @@
+{
+  "importer": "endoflife-date",
+  "ecosystem": "container",
+  "observedAt": "2026-10-17",
+  "rules": [
+    {
+      "id": "container.amazonlinux.eol-2018.03-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/amazonlinux",
+      "vers": "vers:semver/<2023.0.0",
+      "event": "end-of-life",
+      "title": "Amazon Linux image release lines 2018.03 and older are end-of-life",
+      "summary": "These Amazon Linux release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A amazonlinux image on a supported release line",
+      "deadline": "2026-06-30",
+      "sources": [
+        {
+          "title": "Amazon Linux release policy (vendor)",
+          "url": "https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/amazon-linux"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.caddy.eol-1-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/caddy",
+      "vers": "vers:semver/<2.0.0",
+      "event": "end-of-life",
+      "title": "Caddy image release lines 1 and older are end-of-life",
+      "summary": "These Caddy release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A caddy image on a supported release line",
+      "deadline": "2020-07-01",
+      "sources": [
+        {
+          "title": "Caddy release policy (vendor)",
+          "url": "https://github.com/caddyserver/caddy/security"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/caddy"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.clickhouse.eol-26.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/clickhouse",
+      "vers": "vers:semver/<26.3.0",
+      "event": "end-of-life",
+      "title": "ClickHouse image release lines 26.2 and older are end-of-life",
+      "summary": "These ClickHouse release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A clickhouse image on a supported release line",
+      "deadline": "2026-08-29",
+      "sources": [
+        {
+          "title": "ClickHouse release policy (vendor)",
+          "url": "https://clickhouse.com/docs/resources/support-center/knowledge-base/setup-installation/production#how-to-choose-between-clickhouse-releases"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/clickhouse"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.consul.eol-1.20-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/consul",
+      "vers": "vers:semver/<1.21.0",
+      "event": "end-of-life",
+      "title": "Hashicorp Consul image release lines 1.20 and older are end-of-life",
+      "summary": "These Hashicorp Consul release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A consul image on a supported release line",
+      "deadline": "2026-05-24",
+      "sources": [
+        {
+          "title": "Hashicorp Consul release policy (vendor)",
+          "url": "https://developer.hashicorp.com/consul/docs/enterprise/support"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/consul"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.couchbase.eol-7.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/couchbase",
+      "vers": "vers:semver/<7.6.0",
+      "event": "end-of-life",
+      "title": "Couchbase Server image release lines 7.2 and older are end-of-life",
+      "summary": "These Couchbase Server release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A couchbase image on a supported release line",
+      "deadline": "2026-07-31",
+      "sources": [
+        {
+          "title": "Couchbase Server release policy (vendor)",
+          "url": "https://www.couchbase.com/support-policy/enterprise-software/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/couchbase-server"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.couchdb.eol-3.3-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/couchdb",
+      "vers": "vers:semver/<3.4.0",
+      "event": "end-of-life",
+      "title": "Apache CouchDB image release lines 3.3 and older are end-of-life",
+      "summary": "These Apache CouchDB release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A couchdb image on a supported release line",
+      "deadline": "2025-05-05",
+      "sources": [
+        {
+          "title": "Apache CouchDB release policy (vendor)",
+          "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/apache-couchdb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.drupal.eol-10.5-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/drupal",
+      "vers": "vers:semver/<10.6.0",
+      "event": "end-of-life",
+      "title": "Drupal image release lines 10.5 and older are end-of-life",
+      "summary": "These Drupal release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A drupal image on a supported release line",
+      "deadline": "2026-07-01",
+      "sources": [
+        {
+          "title": "Drupal release policy (vendor)",
+          "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/drupal"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.golang.eol-1.25-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/golang",
+      "vers": "vers:semver/<1.26.0",
+      "event": "end-of-life",
+      "title": "Go image release lines 1.25 and older are end-of-life",
+      "summary": "These Go release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A golang image on a supported release line",
+      "deadline": "2026-08-19",
+      "sources": [
+        {
+          "title": "Go release policy (vendor)",
+          "url": "https://go.dev/doc/devel/release#policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/go"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.mariadb.eol-10.10-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/mariadb",
+      "vers": "vers:semver/<10.11.0",
+      "event": "end-of-life",
+      "title": "MariaDB image release lines 10.10 and older are end-of-life",
+      "summary": "These MariaDB release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A mariadb image on a supported release line",
+      "deadline": "2026-07-06",
+      "sources": [
+        {
+          "title": "MariaDB release policy (vendor)",
+          "url": "https://mariadb.org/about/#maintenance-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mariadb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.matomo.eol-4-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/matomo",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-life",
+      "title": "Matomo image release lines 4 and older are end-of-life",
+      "summary": "These Matomo release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A matomo image on a supported release line",
+      "deadline": "2024-12-19",
+      "sources": [
+        {
+          "title": "Matomo release policy (vendor)",
+          "url": "https://matomo.org/faq/new-to-piwik/faq_18925/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/matomo"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.mysql.eol-8.3-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/mysql",
+      "vers": "vers:semver/<8.4.0",
+      "event": "end-of-life",
+      "title": "MySQL image release lines 8.3 and older are end-of-life",
+      "summary": "These MySQL release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A mysql image on a supported release line",
+      "deadline": "2026-04-30",
+      "sources": [
+        {
+          "title": "MySQL release policy (vendor)",
+          "url": "https://www.oracle.com/us/support/library/lifetime-support-technology-069183.pdf"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mysql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.oraclelinux.eol-7-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/oraclelinux",
+      "vers": "vers:semver/<8.0.0",
+      "event": "end-of-life",
+      "title": "Oracle Linux image release lines 7 and older are end-of-life",
+      "summary": "These Oracle Linux release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A oraclelinux image on a supported release line",
+      "deadline": "2024-12-31",
+      "sources": [
+        {
+          "title": "Oracle Linux release policy (vendor)",
+          "url": "https://www.oracle.com/a/ocom/docs/elsp-lifetime-069338.pdf"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/oracle-linux"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.phpmyadmin.eol-4.8-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/phpmyadmin",
+      "vers": "vers:semver/<4.9.0",
+      "event": "end-of-life",
+      "title": "phpMyAdmin image release lines 4.8 and older are end-of-life",
+      "summary": "These phpMyAdmin release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A phpmyadmin image on a supported release line",
+      "deadline": "2019-06-04",
+      "sources": [
+        {
+          "title": "phpMyAdmin release policy (vendor)",
+          "url": "https://www.phpmyadmin.net/downloads/#versions"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/phpmyadmin"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.postgres.eol-13-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/postgres",
+      "vers": "vers:semver/<14.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL image release lines 13 and older are end-of-life",
+      "summary": "These PostgreSQL release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A postgres image on a supported release line",
+      "deadline": "2025-11-13",
+      "sources": [
+        {
+          "title": "PostgreSQL release policy (vendor)",
+          "url": "https://www.postgresql.org/support/versioning/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/postgresql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.python.eol-3.10-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/python",
+      "vers": "vers:semver/<3.11.0",
+      "event": "end-of-life",
+      "title": "Python image release lines 3.10 and older are end-of-life",
+      "summary": "These Python release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A python image on a supported release line",
+      "deadline": "2026-10-01",
+      "sources": [
+        {
+          "title": "Python release policy (vendor)",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/python"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.redis.eol-6.0-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/redis",
+      "vers": "vers:semver/<6.2.0",
+      "event": "end-of-life",
+      "title": "Redis image release lines 6.0 and older are end-of-life",
+      "summary": "These Redis release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A redis image on a supported release line",
+      "deadline": "2022-05-31",
+      "sources": [
+        {
+          "title": "Redis release policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/redis"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.ruby.eol-3.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/ruby",
+      "vers": "vers:semver/<3.3.0",
+      "event": "end-of-life",
+      "title": "Ruby image release lines 3.2 and older are end-of-life",
+      "summary": "These Ruby release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A ruby image on a supported release line",
+      "deadline": "2026-03-31",
+      "sources": [
+        {
+          "title": "Ruby release policy (vendor)",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/ruby"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.traefik.eol-3.6-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/traefik",
+      "vers": "vers:semver/<3.7.0",
+      "event": "end-of-life",
+      "title": "Traefik image release lines 3.6 and older are end-of-life",
+      "summary": "These Traefik release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A traefik image on a supported release line",
+      "deadline": "2026-09-07",
+      "sources": [
+        {
+          "title": "Traefik release policy (vendor)",
+          "url": "https://doc.traefik.io/traefik/deprecation/releases"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/traefik"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.wordpress.eol-4.6-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/wordpress",
+      "vers": "vers:semver/<4.7.0",
+      "event": "end-of-life",
+      "title": "WordPress image release lines 4.6 and older are end-of-life",
+      "summary": "These WordPress release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A wordpress image on a supported release line",
+      "deadline": "2025-07-31",
+      "sources": [
+        {
+          "title": "WordPress release policy (vendor)",
+          "url": "https://codex.wordpress.org/Supported_Versions"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/wordpress"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    },
+    {
+      "id": "container.zookeeper.eol-3.7-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/zookeeper",
+      "vers": "vers:semver/<3.8.0",
+      "event": "end-of-life",
+      "title": "Apache ZooKeeper image release lines 3.7 and older are end-of-life",
+      "summary": "These Apache ZooKeeper release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A zookeeper image on a supported release line",
+      "deadline": "2024-01-19",
+      "sources": [
+        {
+          "title": "Apache ZooKeeper release policy (vendor)",
+          "url": "https://zookeeper.apache.org/releases/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/zookeeper"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "endoflife-date"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped amazon-corretto: no release line below 8 has ended.",
+    "Skipped clear-linux: no release-policy link to the vendor's own page, and endoflife.date alone is not evidence.",
+    "Skipped nodejs: no release line below 1 has ended.",
+    "Skipped vinyl-cache: no release line below 6.0 has ended.",
+    "Drafted 20 of 24 candidate products; only the vendor release-policy link counts as evidence."
+  ]
+}
