@@ -3,6 +3,7 @@
   "detectors": {
     "container": { "stable": false, "minPrecision": 0.95 },
     "go": { "stable": false, "minPrecision": 0.95 },
+    "java": { "stable": false, "minPrecision": 0.95 },
     "kubernetes": { "stable": false, "minPrecision": 0.95 },
     "github-actions": { "stable": true, "minPrecision": 0.95 },
     "nodejs": { "stable": true, "minPrecision": 0.95 },
