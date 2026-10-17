@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
+import { promisify } from "node:util";
+
+import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 import { buildFiles, drift, loadRegistries, renderRulePage, ruleUrl, write } from "../tools/build-reference-pages.js";
@@ -172,3 +176,44 @@ test("the page says where the machine-readable data lives and that no CLE export
   assert.match(page, /A CLE \(ECMA-428\) export is not published yet\./);
 });
 
+const run = promisify(execFile);
+const generator = resolve("dist/tools/build-reference-pages.js");
+
+async function checkIn(directory: string): Promise<{ code: number; stderr: string }> {
+  try {
+    await run(process.execPath, [generator, "--check"], { cwd: directory });
+    return { code: 0, stderr: "" };
+  } catch (error) {
+    const failure = error as { code: number; stderr: string };
+    return { code: failure.code, stderr: failure.stderr };
+  }
+}
+
+test("--check passes on fresh pages and fails, naming the page, when one drifts", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-reference-cli-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, "registry"), { recursive: true });
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule()])));
+  await write(buildFiles([registry([rule()])]), root);
+  assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
+
+  // The registry changes, but the pages are not regenerated.
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule({ summary: "A different claim." })])));
+  const drifted = await checkIn(root);
+  assert.equal(drifted.code, 1);
+  assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.md/);
+  assert.match(drifted.stderr, /npm run build:reference/);
+
+  // A rule is removed: its page is stale.
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([])));
+  assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.md/);
+});
+
+test("CI runs the drift check", async () => {
+  const workflow = parse(await readFile(".github/workflows/ci.yml", "utf8")) as {
+    jobs: { check: { steps: Array<{ name?: string; run?: string; if?: string }> } };
+  };
+  const step = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-reference-pages.js --check");
+  assert.ok(step, "ci.yml has no reference-page drift step");
+  assert.match(step.if ?? "", /runner\.os == 'Linux'/);
+});
