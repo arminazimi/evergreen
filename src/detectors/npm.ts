@@ -188,14 +188,27 @@ function propertyLine(contents: string, property: string): number {
   return match ? contents.slice(0, match.index).split(/\r?\n/).length : 1;
 }
 
-function runtimeMajors(value: string): number[] {
+/** Up to this line the detector has always listed every end-of-life line a range allows. */
+const LEGACY_MAXIMUM_MAJOR = 20;
+
+/**
+ * The end-of-life candidates a declaration allows. A range whose lowest allowed version is at or below
+ * Node.js 20 lists every line up to 20, as it always has. A range whose lowest version is a newer line is
+ * checked against the newer lines too (up to `newestRuleMajor`) only if that floor line is itself end-of-life:
+ * `>=21` is a problem, but `>=22` and `>=24` have supported floors, so the end-of-life lines 23 and 25 they
+ * also allow are not a problem with the declaration.
+ */
+function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: number) => boolean): number[] {
   const range = semver.validRange(value);
   if (!range) {
     const direct = /^(?:v)?(\d+)(?:\.\d+){0,2}$/.exec(value.trim());
     return direct?.[1] ? [Number.parseInt(direct[1], 10)] : [];
   }
-  const eolMajors = Array.from({ length: 21 }, (_, index) => index);
-  return eolMajors.filter((major) => semver.intersects(range, `${major}.x`));
+  const floor = semver.minVersion(range)?.major ?? 0;
+  // Past Node.js 20 only a floor that is itself end-of-life (a line with a rule) makes the declaration a problem.
+  const maximum = floor > LEGACY_MAXIMUM_MAJOR ? (hasRule(floor) ? newestRuleMajor : LEGACY_MAXIMUM_MAJOR) : LEGACY_MAXIMUM_MAJOR;
+  const candidates = Array.from({ length: maximum + 1 }, (_, index) => index);
+  return candidates.filter((major) => semver.intersects(range, `${major}.x`));
 }
 
 function ruleForMajor(rules: NodeRule[], major: number): NodeRule | undefined {
@@ -311,6 +324,7 @@ export class NpmDetector implements Detector {
     for (const directory of workspaceDirectories) await load(directory);
 
     const findings: DetectorFinding[] = [];
+    const newestRuleMajor = Math.max(0, ...nodeRules.map((rule) => rule.major ?? 0));
     const seenRuntimeRules = new Set<string>();
     const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string }> = [];
 
@@ -322,7 +336,7 @@ export class NpmDetector implements Detector {
         if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
       }
       for (const declaration of declarations) {
-        for (const major of runtimeMajors(declaration.value)) {
+        for (const major of runtimeMajors(declaration.value, newestRuleMajor, (major) => ruleForMajor([...nodeRules], major) !== undefined)) {
           const rule = ruleForMajor([...nodeRules], major);
           const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
           if (rule && !seenRuntimeRules.has(key)) {

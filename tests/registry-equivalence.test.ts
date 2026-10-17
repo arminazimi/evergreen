@@ -19,7 +19,7 @@ test("scanning the equivalence fixture reports every bundled rule exactly as bef
   const masked = JSON.parse(JSON.stringify(stable).split(root).join("<root>"));
   const expected = JSON.parse(await readFile(resolve("tests/fixtures/registry-equivalence.expected.json"), "utf8"));
   assert.deepEqual(masked, expected);
-  assert.equal(new Set(stable.findings.map((finding) => finding.ruleId)).size, 15);
+  assert.equal(new Set(stable.findings.map((finding) => finding.ruleId)).size, 16);
 });
 
 test("each migrated registry reads back as the v1 rules it replaced", async () => {

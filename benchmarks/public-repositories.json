@@ -6,8 +6,31 @@
       "commit": "a419aa7350389a275ab45fde2e849ed1f02449ef",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 83, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 83, "groundTruthSource": { "kind": "maintainer-review" } }
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 83,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 83,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 83,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 83 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        }
       ]
     },
     {
@@ -24,8 +47,31 @@
       "commit": "2fecd029c6ce6b79d65158d28a76538f7f6b0378",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 66, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 66, "groundTruthSource": { "kind": "maintainer-review" } }
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 66 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        }
       ]
     },
     { "repository": "axios/axios", "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12", "ecosystem": "node", "expected": [] },
@@ -58,12 +104,66 @@
       "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "nodejs.runtime.legacy", "path": "package.json", "line": 50, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.github-script.node20", "path": ".github/workflows/release.yml", "line": 219, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 219 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major." } },
-        { "ruleId": "github-actions.github-script.node20", "path": ".github/workflows/release.yml", "line": 285, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 285 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major." } },
-        { "ruleId": "github-actions.github-script.node20", "path": ".github/workflows/release.yml", "line": 58, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 58 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major." } }
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 219,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 219 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 285,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 285 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 58,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 58 of .github/workflows/release.yml reads uses: actions/github-script@v7, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 50 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        }
       ]
     },
     { "repository": "psf/requests", "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60", "ecosystem": "python", "expected": [] },
@@ -352,8 +452,24 @@
       "commit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152" } }
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152"
+          }
+        }
       ]
     },
     {
@@ -361,10 +477,51 @@
       "commit": "1fc1442b31f3104122b919f959cfe55d15338cca",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-18", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": ".nvmrc", "line": 1, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } },
-        { "ruleId": "nodejs.runtime.legacy", "path": "package.json", "line": 25, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6" } }
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".nvmrc",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/connectrpc/connect-playwright-es/commit/2f1f55524f3d95ddec166b5226bcbe1d7d766dd6"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 25 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        }
       ]
     },
     {
@@ -803,6 +960,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 42 of package.json reads `\"node\": \">= 18 <=20\"`, which nodejs.runtime.eol-20 reports."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 42 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
         }
       ]
     },
@@ -1052,6 +1218,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 26 of excalidraw-app/package.json reads `\"node\": \">=18.0.0\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 47 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "excalidraw-app/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 26 of excalidraw-app/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
         }
       ]
@@ -1464,6 +1648,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 5 of examples/next-websockets-encoder/package.json reads `\"node\": \">=18.15.0\"`, a Node.js range that includes a release line that has ended, in a workspace package."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "examples/next-prisma-websockets-starter/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 5 of examples/next-prisma-websockets-starter/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "examples/next-websockets-encoder/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 5 of examples/next-websockets-encoder/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
         }
       ]
     },
@@ -1488,6 +1690,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 22 of examples/solid/solid-start-streaming/package.json reads `\"node\": \">=18\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "examples/solid/solid-start-streaming/package.json",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the Node.js range on line 22 of examples/solid/solid-start-streaming/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
         }
       ]

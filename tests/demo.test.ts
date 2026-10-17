@@ -11,6 +11,7 @@ test("the public demo exercises discovery and migration context", async () => {
   assert.deepEqual(result.findings.map((finding) => finding.ruleId), [
     "github-actions.checkout.node20",
     "nodejs.runtime.eol-18",
+    "nodejs.runtime.eol-19",
     "nodejs.runtime.eol-20",
     "npm.package.request.deprecated",
   ]);

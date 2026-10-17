@@ -125,8 +125,8 @@ test("the npm detector reports deprecated packages and runtimes in each workspac
   const byLocation = (ruleId: string) => findings.filter((finding) => finding.ruleId === ruleId).map((finding) => `${finding.location.path}:${finding.impact?.usageCount ?? "-"}`).sort();
   assert.deepEqual(byLocation("npm.package.request.deprecated"), ["package.json:2", "packages/a/package.json:3", "packages/b/package.json:0"]);
   assert.deepEqual(byLocation("npm.package.left-pad.deprecated"), ["packages/a/package.json:0"]);
-  // ">=18" reaches the end-of-life lines 18 and 20, as it does at the root of a single package; ">=22" at the root reaches none.
-  assert.deepEqual(findings.filter((finding) => finding.ruleId.startsWith("nodejs.")).map((finding) => `${finding.ruleId}|${finding.location.path}`), ["nodejs.runtime.eol-18|packages/a/package.json", "nodejs.runtime.eol-20|packages/a/package.json"]);
+  // ">=18" reaches the end-of-life lines 18, 19, and 20, as it does at the root of a single package; ">=22" at the root reaches none.
+  assert.deepEqual(findings.filter((finding) => finding.ruleId.startsWith("nodejs.")).map((finding) => `${finding.ruleId}|${finding.location.path}`), ["nodejs.runtime.eol-18|packages/a/package.json", "nodejs.runtime.eol-19|packages/a/package.json", "nodejs.runtime.eol-20|packages/a/package.json"]);
   const rootRequest = findings.find((finding) => finding.location.path === "package.json" && finding.ruleId === "npm.package.request.deprecated")!;
   assert.deepEqual([...new Set(rootRequest.usages?.map((usage) => usage.location.path))], ["index.js"]);
 });
