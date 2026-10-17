@@ -12,6 +12,13 @@ import {
   parseGradle,
 } from "../src/detectors/java/parse-gradle.js";
 import { MAXIMUM_INPUT_BYTES as MAXIMUM_WRAPPER_BYTES, MAXIMUM_VALUE_LENGTH, parseWrapper } from "../src/detectors/java/parse-wrapper.js";
+import {
+  MAXIMUM_INPUT_BYTES as MAXIMUM_PIN_BYTES,
+  MAXIMUM_LINE_LENGTH as MAXIMUM_PIN_LINE,
+  parseJavaVersion,
+  parseSdkmanrc,
+  parseToolVersions,
+} from "../src/detectors/java/parse-pins.js";
 import { MAXIMUM_DEPTH, MAXIMUM_ELEMENTS, parseXml } from "../src/detectors/java/xml.js";
 
 async function fixture(caseName: string, ...file: string[]): Promise<string> {
@@ -247,4 +254,52 @@ test("a binary or malformed wrapper file yields nothing", async () => {
 test("bounds wrapper size and value length", () => {
   assert.deepEqual(parseWrapper(`# ${"x".repeat(MAXIMUM_WRAPPER_BYTES)}\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n`), []);
   assert.deepEqual(parseWrapper(`distributionUrl=https\\://x.test/${"a".repeat(MAXIMUM_VALUE_LENGTH)}/gradle-8.5-bin.zip\n`), []);
+});
+
+// .java-version, .sdkmanrc, .tool-versions
+
+const pin = (value: string, major: number, line: number) => ({ kind: "jdk", role: "pin", value, major, line });
+
+test("reads the pinned JDK from each file with its line", async () => {
+  assert.deepEqual(parseJavaVersion(await fixture("positive", "pins", ".java-version")), [pin("16", 16, 1)]);
+  assert.deepEqual(parseSdkmanrc(await fixture("positive", "pins", ".sdkmanrc")), [pin("18.0.2-tem", 18, 2)]);
+  assert.deepEqual(parseToolVersions(await fixture("positive", "pins", ".tool-versions")), [pin("temurin-22.0.1", 22, 2)]);
+  assert.deepEqual(parseJavaVersion(await fixture("zero", "pins", ".java-version")), [pin("21", 21, 1)]);
+});
+
+test("returns supported JDKs, and skips other tools and comments", async () => {
+  assert.deepEqual(parseJavaVersion(await fixture("negative", "pins", ".java-version")), [pin("17", 17, 1)]);
+  assert.deepEqual(parseSdkmanrc(await fixture("negative", "pins", ".sdkmanrc")), []);
+  assert.deepEqual(parseToolVersions(await fixture("negative", "pins", ".tool-versions")), []);
+});
+
+test("reads legacy, vendor-prefixed, and fallback forms", () => {
+  assert.deepEqual(parseJavaVersion("# comment\n1.8\n17\n"), [pin("1.8", 8, 2)]);
+  assert.deepEqual(parseJavaVersion("openjdk64-17.0.1\n"), [pin("openjdk64-17.0.1", 17, 1)]);
+  assert.deepEqual(parseSdkmanrc("java = 21.0.1-zulu\r\n"), [pin("21.0.1-zulu", 21, 1)]);
+  assert.deepEqual(parseToolVersions("java adoptopenjdk-8.0.292+10 temurin-17.0.1 # note\n"), [pin("adoptopenjdk-8.0.292+10", 8, 1)]);
+  assert.deepEqual(parseToolVersions("﻿nodejs 20\njava 17\n"), [pin("17", 17, 2)]);
+});
+
+test("floating and unreadable values are dynamic or skipped", () => {
+  assert.deepEqual(parseJavaVersion("latest\n"), [{ kind: "dynamic", role: "pin", value: "latest", line: 1 }]);
+  assert.deepEqual(parseToolVersions("java system\n"), [{ kind: "dynamic", role: "pin", value: "system", line: 1 }]);
+  assert.deepEqual(parseToolVersions("java path:/usr/lib/jvm/17\n"), []);
+  assert.deepEqual(parseToolVersions("java ref:main\n"), []);
+  assert.deepEqual(parseSdkmanrc("java=\n"), []);
+  assert.deepEqual(parseSdkmanrc("javax=17\n"), []);
+});
+
+test("malformed pin files yield nothing and never throw", async () => {
+  for (const [read, file] of [[parseJavaVersion, ".java-version"], [parseSdkmanrc, ".sdkmanrc"], [parseToolVersions, ".tool-versions"]] as const) {
+    const malformed = await fixture("malformed", "pins", file);
+    assert.doesNotThrow(() => read(malformed));
+    assert.deepEqual(read(malformed), [], file);
+    for (const junk of ["", "\0", "\r\n\r\n", "=", "   ", "#"]) assert.deepEqual(read(junk), [], JSON.stringify(junk));
+  }
+});
+
+test("bounds pin file size and line length", () => {
+  assert.deepEqual(parseJavaVersion(`# ${"x".repeat(MAXIMUM_PIN_BYTES)}\n17\n`), []);
+  assert.deepEqual(parseJavaVersion(`${"1".repeat(MAXIMUM_PIN_LINE + 1)}\n17\n`), [pin("17", 17, 2)]);
 });
