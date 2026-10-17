@@ -42,6 +42,16 @@ export interface KotlinPluginDeclaration {
   line: number;
 }
 
+/** The Gradle version a wrapper downloads; evidence only, no rule judges it yet. */
+export interface GradleWrapperDeclaration {
+  kind: "gradle-wrapper";
+  /** The Gradle version, for example `8.5`. */
+  value: string;
+  /** The `distributionUrl` as written, with escapes removed. */
+  url: string;
+  line: number;
+}
+
 export interface JdkVersion {
   major: number;
 }

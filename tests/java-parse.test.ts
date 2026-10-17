@@ -11,6 +11,7 @@ import {
   MAXIMUM_LINE_LENGTH,
   parseGradle,
 } from "../src/detectors/java/parse-gradle.js";
+import { MAXIMUM_INPUT_BYTES as MAXIMUM_WRAPPER_BYTES, MAXIMUM_VALUE_LENGTH, parseWrapper } from "../src/detectors/java/parse-wrapper.js";
 import { MAXIMUM_DEPTH, MAXIMUM_ELEMENTS, parseXml } from "../src/detectors/java/xml.js";
 
 async function fixture(caseName: string, ...file: string[]): Promise<string> {
@@ -208,4 +209,42 @@ test("gradle parsing is deterministic and handles CRLF", async () => {
   const contents = await fixture("positive", "gradle-groovy", "build.gradle");
   assert.deepEqual(parseGradle(contents), parseGradle(contents));
   assert.deepEqual(parseGradle("\r\nsourceCompatibility = 17\r\n"), [{ kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 }]);
+});
+
+// gradle-wrapper.properties
+
+test("reads the Gradle version from distributionUrl with its line", async () => {
+  assert.deepEqual(parseWrapper(await fixture("positive", "gradle-groovy", "gradle", "wrapper", "gradle-wrapper.properties")), [
+    { kind: "gradle-wrapper", value: "8.5", url: "https://services.gradle.org/distributions/gradle-8.5-bin.zip", line: 3 },
+  ]);
+  assert.deepEqual(parseWrapper(await fixture("zero", "gradle", "gradle", "wrapper", "gradle-wrapper.properties")).map((entry) => entry.value), ["9.1.0"]);
+});
+
+test("reads colon and space separators, continuations, snapshots, and the last value", () => {
+  const cases: Array<[string, string | undefined]> = [
+    ["distributionUrl: https://services.gradle.org/distributions/gradle-7.6.4-all.zip\n", "7.6.4"],
+    ["distributionUrl https\\://x.test/gradle-8.14-rc-1-bin.zip\n", "8.14-rc-1"],
+    ["distributionUrl=https\\://x.test/gradle-8.5-2023\\\n  0101-bin.zip\n", "8.5-20230101"],
+    ["distributionUrl=https\\://x.test/dist/\\\n  gradle-8.5-bin.zip\n", "8.5"],
+    ["distributionUrl=https\\://x.test/gradle-6.9-bin.zip\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n", "8.5"],
+    ["# distributionUrl=https\\://x.test/gradle-8.5-bin.zip\n! distributionUrl=x\n", undefined],
+    ["distributionUrl=https\\://x.test/custom-bin.zip\n", undefined],
+    ["distributionUrl=https\\://x.test/gradle--bin.zip\n", undefined],
+    ["distributionUrl=\n", undefined],
+    ["otherUrl=https\\://x.test/gradle-8.5-bin.zip\n", undefined],
+    ["distributionUrl=file\\:///opt/gradle-8.5-bin.zip\r\n", "8.5"],
+  ];
+  for (const [source, version] of cases) assert.deepEqual(parseWrapper(source).map((entry) => entry.value), version ? [version] : [], source);
+});
+
+test("a binary or malformed wrapper file yields nothing", async () => {
+  const malformed = await fixture("malformed", "gradle", "gradle", "wrapper", "gradle-wrapper.properties");
+  assert.doesNotThrow(() => parseWrapper(malformed));
+  assert.deepEqual(parseWrapper(malformed), []);
+  for (const junk of ["", "\0", "=", "distributionUrl", "\\", "distributionUrl=\\"]) assert.deepEqual(parseWrapper(junk), [], JSON.stringify(junk));
+});
+
+test("bounds wrapper size and value length", () => {
+  assert.deepEqual(parseWrapper(`# ${"x".repeat(MAXIMUM_WRAPPER_BYTES)}\ndistributionUrl=https\\://x.test/gradle-8.5-bin.zip\n`), []);
+  assert.deepEqual(parseWrapper(`distributionUrl=https\\://x.test/${"a".repeat(MAXIMUM_VALUE_LENGTH)}/gradle-8.5-bin.zip\n`), []);
 });
