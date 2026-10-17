@@ -1,0 +1,49 @@
+---
+title: "vsdeband is deprecated"
+description: "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package."
+---
+
+# vsdeband is deprecated
+
+The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | medium |
+| Ecosystem | `python` |
+| Component | `pkg:pypi/vsdeband` |
+| Affected versions | `vers:pypi/*` |
+| Date from the source | The source gives no day |
+| Replacement | vsjetpack |
+| Evidence last seen | 2026-10-16 |
+| Reviewed | 2026-10-16 by arminazimi |
+| Review due | 2027-10-16 (365 days after the last review) |
+| Rule ID | `python.package.vsdeband.deprecated` |
+
+## Sources
+
+- [vsdeband deprecation notice](https://pypi.org/project/vsdeband/)
+
+## Migration
+
+**Constraints**
+
+- Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output.
+
+**Steps**
+
+1. **Replace vsdeband.** Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.
+2. **Compare rendered output.** Render representative clips and compare frame properties and visual output around gradients and motion.
+
+**Verification**
+
+- `python -m pytest`: Run video-processing and repository tests when defined.
+
+## Detected by
+
+The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.vsdeband.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

@@ -1,0 +1,50 @@
+---
+title: "rollup-plugin-babel is deprecated"
+description: "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel."
+---
+
+# rollup-plugin-babel is deprecated
+
+npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | medium |
+| Ecosystem | `npm` |
+| Component | `pkg:npm/rollup-plugin-babel` |
+| Affected versions | `vers:npm/*` |
+| Date from the source | The source gives no day |
+| Replacement | @rollup/plugin-babel |
+| Evidence last seen | 2026-10-16 |
+| Reviewed | 2026-10-16 by arminazimi, drafted by the `npm-deprecated` importer |
+| Review due | 2027-10-16 (365 days after the last review) |
+| Rule ID | `npm.package.rollup-plugin-babel.deprecated` |
+
+## Sources
+
+- [rollup-plugin-babel package deprecation notice](https://www.npmjs.com/package/rollup-plugin-babel)
+- [rollup-plugin-babel registry metadata](https://registry.npmjs.org/rollup-plugin-babel/latest)
+
+## Migration
+
+**Constraints**
+
+- Preserve Babel presets and plugins, file inclusion, helper strategy, output targets, source maps, and Rollup output behavior.
+
+**Steps**
+
+1. **Replace the Rollup Babel plugin.** Replace rollup-plugin-babel with @rollup/plugin-babel and update Rollup imports and plugin options.
+2. **Verify bundle output.** Compare emitted syntax, helpers, source maps, and bundle behavior for every configured output.
+
+**Verification**
+
+- `npm run build --if-present`: Build every Rollup output with the maintained Babel plugin.
+
+## Detected by
+
+The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.rollup-plugin-babel.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

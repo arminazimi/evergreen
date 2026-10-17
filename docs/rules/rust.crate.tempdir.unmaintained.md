@@ -1,0 +1,48 @@
+---
+title: "tempdir is no longer maintained"
+description: "The tempdir crate has been deprecated and its functionality merged into tempfile."
+---
+
+# tempdir is no longer maintained
+
+The tempdir crate has been deprecated and its functionality merged into tempfile.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | medium |
+| Ecosystem | `rust` |
+| Component | `pkg:cargo/tempdir` |
+| Affected versions | `vers:cargo/*` |
+| Date from the source | The source gives no day |
+| Replacement | tempfile |
+| Evidence last seen | 2026-10-17 |
+| Reviewed | 2026-10-17 by arminazimi |
+| Review due | 2026-12-01 (45 days after the last review) |
+| Rule ID | `rust.crate.tempdir.unmaintained` |
+
+## Sources
+
+- [RustSec advisory RUSTSEC-2018-0017](https://rustsec.org/advisories/RUSTSEC-2018-0017.html)
+
+## Migration
+
+**Constraints**
+
+- Keep temporary directories cleaned up on drop, as before.
+
+**Steps**
+
+1. **Replace tempdir with tempfile.** Replace the tempdir dependency with tempfile and change `TempDir::new(prefix)` calls to `tempfile::tempdir()` or `tempfile::Builder`.
+
+**Verification**
+
+- `cargo build --all-targets && cargo test`: Build and run the tests that create temporary directories.
+
+## Detected by
+
+The `rust` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.tempdir.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

@@ -1,0 +1,50 @@
+---
+title: "q is deprecated"
+description: "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises."
+---
+
+# q is deprecated
+
+The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | high |
+| Ecosystem | `npm` |
+| Component | `pkg:npm/q` |
+| Affected versions | `vers:npm/*` |
+| Date from the source | The source gives no day |
+| Replacement | Native Promise |
+| Evidence last seen | 2026-10-16 |
+| Reviewed | 2026-10-16 by arminazimi, drafted by the `npm-deprecated` importer |
+| Review due | 2027-10-16 (365 days after the last review) |
+| Rule ID | `npm.package.q.deprecated` |
+
+## Sources
+
+- [q package deprecation notice](https://www.npmjs.com/package/q)
+- [q registry metadata](https://registry.npmjs.org/q/latest)
+
+## Migration
+
+**Constraints**
+
+- Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions.
+
+**Steps**
+
+1. **Audit Q-specific behavior.** Identify Q-only APIs and semantic assumptions before translating promise chains.
+2. **Use native promises.** Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.
+
+**Verification**
+
+- `npm run test --if-present`: Run asynchronous success, rejection, ordering, and repository tests.
+
+## Detected by
+
+The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.q.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

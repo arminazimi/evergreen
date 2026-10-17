@@ -1,0 +1,54 @@
+---
+title: "Python 3.10 and older are end-of-life"
+description: "These Python release lines no longer receive security or bug fixes from the Python core team."
+---
+
+# Python 3.10 and older are end-of-life
+
+These Python release lines no longer receive security or bug fixes from the Python core team.
+
+| | |
+| --- | --- |
+| Status | End of life |
+| Severity | high |
+| Ecosystem | `python` |
+| Component | `pkg:generic/python` |
+| Affected versions | `vers:pypi/<3.11` |
+| Date from the source | 2026-10-01 |
+| Replacement | A supported Python release |
+| Evidence last seen | 2026-10-17 |
+| Reviewed | 2026-10-17 by arminazimi, drafted by the `python-release-cycle` importer |
+| Review due | 2027-10-17 (365 days after the last review) |
+| Rule ID | `python.runtime.eol-3.10-and-older` |
+
+## Sources
+
+- [Status of Python versions](https://devguide.python.org/versions/)
+- [Python release cycle (machine-readable)](https://peps.python.org/api/release-cycle.json)
+- [PEP 619 — Python 3.10 release schedule](https://peps.python.org/pep-0619/)
+
+## Migration
+
+**Constraints**
+
+- Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.
+- Confirm binary wheels and framework dependencies support the selected Python release.
+
+**Steps**
+
+1. **Update the Python requirement.** Raise the reported requires-python range or pinned runtime to a supported Python release.
+2. **Align runtime surfaces.** Update matching version files, CI matrices, container images, and deployment configuration.
+
+**Verification**
+
+- `python --version`: Confirm the active Python runtime is supported.
+- `python -m pytest`: Run the Python test suite on the target runtime.
+- `python -m pip check`: Check installed dependency compatibility.
+
+## Detected by
+
+The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.runtime.eol-3.10-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

@@ -1,0 +1,49 @@
+---
+title: "har-validator is deprecated"
+description: "npm states that har-validator is no longer supported."
+---
+
+# har-validator is deprecated
+
+npm states that har-validator is no longer supported.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | medium |
+| Ecosystem | `npm` |
+| Component | `pkg:npm/har-validator` |
+| Affected versions | `vers:npm/*` |
+| Date from the source | The source gives no day |
+| Evidence last seen | 2026-10-16 |
+| Reviewed | 2026-10-16 by arminazimi, drafted by the `npm-deprecated` importer |
+| Review due | 2027-10-16 (365 days after the last review) |
+| Rule ID | `npm.package.har-validator.deprecated` |
+
+## Sources
+
+- [har-validator package deprecation notice](https://www.npmjs.com/package/har-validator)
+- [har-validator registry metadata](https://registry.npmjs.org/har-validator/latest)
+
+## Migration
+
+**Constraints**
+
+- Preserve the accepted HAR specification version, validation strictness, and error reporting.
+
+**Steps**
+
+1. **Select a maintained HAR validator.** Choose a maintained validator that supports the project's HAR version and required validation semantics.
+2. **Replace validation calls.** Translate har-validator calls and handle the replacement's result and error format explicitly.
+
+**Verification**
+
+- `npm run test --if-present`: Run valid and invalid HAR fixtures and repository tests.
+
+## Detected by
+
+The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.har-validator.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.

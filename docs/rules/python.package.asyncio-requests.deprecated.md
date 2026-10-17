@@ -1,0 +1,48 @@
+---
+title: "asyncio-requests is retired"
+description: "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name."
+---
+
+# asyncio-requests is retired
+
+The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | high |
+| Ecosystem | `python` |
+| Component | `pkg:pypi/asyncio-requests` |
+| Affected versions | `vers:pypi/*` |
+| Date from the source | The source gives no day |
+| Replacement | asyncio-gateway |
+| Evidence last seen | 2026-10-16 |
+| Reviewed | 2026-10-16 by arminazimi |
+| Review due | 2027-10-16 (365 days after the last review) |
+| Rule ID | `python.package.asyncio-requests.deprecated` |
+
+## Sources
+
+- [asyncio-gateway migration notice](https://pypi.org/project/asyncio-gateway/)
+
+## Migration
+
+**Constraints**
+
+- Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling.
+
+**Steps**
+
+1. **Replace asyncio-requests.** Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.
+
+**Verification**
+
+- `python -m pytest`: Run protocol, TLS, response, and repository tests.
+
+## Detected by
+
+The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.asyncio-requests.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
