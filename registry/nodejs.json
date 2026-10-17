@@ -12,16 +12,16 @@
       "summary": "Node.js 20 no longer receives security or bug fixes.",
       "severity": "high",
       "replacement": "Node.js 22 LTS or later",
-      "deadline": "2026-03-24",
+      "deadline": "2026-04-30",
       "sources": [
         {
-          "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-13",
-        "reviewedAt": "2026-10-14",
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
       },
       "migration": {
@@ -72,16 +72,16 @@
       "summary": "Node.js 18 no longer receives security or bug fixes.",
       "severity": "high",
       "replacement": "Node.js 22 LTS or later",
-      "deadline": "2025-03-27",
+      "deadline": "2025-04-30",
       "sources": [
         {
-          "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-13",
-        "reviewedAt": "2026-10-14",
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
       },
       "migration": {

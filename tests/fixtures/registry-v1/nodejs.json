@@ -9,7 +9,7 @@
       "summary": "Node.js 20 no longer receives security or bug fixes.",
       "severity": "high",
       "replacement": "Node.js 22 LTS or later",
-      "deadline": "2026-03-24",
+      "deadline": "2026-04-30",
       "migration": {
         "constraints": ["Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.", "Confirm native modules and production dependencies support the target Node.js major."],
         "steps": [
@@ -24,8 +24,8 @@
       },
       "sources": [
         {
-          "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
         }
       ]
     },
@@ -37,7 +37,7 @@
       "summary": "Node.js 18 no longer receives security or bug fixes.",
       "severity": "high",
       "replacement": "Node.js 22 LTS or later",
-      "deadline": "2025-03-27",
+      "deadline": "2025-04-30",
       "migration": {
         "constraints": ["Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.", "Confirm native modules and production dependencies support the target Node.js major."],
         "steps": [
@@ -52,8 +52,8 @@
       },
       "sources": [
         {
-          "title": "Node.js end-of-life releases",
-          "url": "https://nodejs.org/en/about/eol"
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
         }
       ]
     },
