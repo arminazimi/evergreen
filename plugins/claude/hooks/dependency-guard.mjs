@@ -12,7 +12,7 @@ import { basename, isAbsolute, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 // Replaced with the exact release when the plugin package is generated.
-const PACKAGE_SPEC = "evergreen-deprecation@0.1.0";
+const PACKAGE_SPEC = "evergreen-deprecation@0.2.0";
 
 const NON_DEPENDENCY_KEYS = new Set(["name", "version", "description", "main", "module", "types", "type", "license", "author", "homepage", "repository", "bugs", "packageManager", "node", "npm", "engines"]);
 

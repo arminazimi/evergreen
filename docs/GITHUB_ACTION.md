@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.1.0
+      - uses: arminazimi/evergreen@v0.2.0
         with:
           baseline: .evergreen-baseline.json
           fail-on-severity: high
@@ -81,7 +81,7 @@ permissions:
 
 steps:
   - uses: actions/checkout@v7
-  - uses: arminazimi/evergreen@v0.1.0
+  - uses: arminazimi/evergreen@v0.2.0
     with:
       upload-sarif: true
 ```

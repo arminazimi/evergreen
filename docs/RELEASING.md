@@ -35,7 +35,7 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
    ```
 
    Only `feat`, `fix`, and breaking commits become entries; `docs`, `test`, `ci`, and `chore` commits are left out. The command moves the hand-written `Unreleased` bullets into a new `## X.Y.Z - YYYY-MM-DD` section, appends the generated bullets, and leaves an empty `## Unreleased` above. Read the section, remove duplicates, and make each bullet a clear imperative sentence.
-2. **Bump the version.** Run `npm version X.Y.Z --no-git-tag-version`, then regenerate everything derived from it:
+2. **Bump the version.** Run `npm version X.Y.Z --no-git-tag-version`, set the same version in `src/version.ts` and `server.json`, then regenerate everything derived from it:
 
    ```bash
    npm run build:plugins

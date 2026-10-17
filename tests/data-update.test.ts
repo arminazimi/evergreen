@@ -13,6 +13,7 @@ import { buildDataBundle, serializeDataBundle } from "../src/data-bundle.js";
 import type { DataBundle } from "../src/data-bundle.js";
 import { configureActiveData, resolveActiveData } from "../src/data-source.js";
 import { compareBundleVersions, DataUpdateError, latestDataRelease, renderDataUpdateText, updateData } from "../src/data-update.js";
+import { VERSION } from "../src/version.js";
 
 const execute = promisify(execFile);
 const roots: string[] = [];
@@ -132,7 +133,7 @@ test("an update downloads, verifies, stores, and activates the newest bundle", a
   assert.equal(result.contentDigest, bundle.manifest.contentDigest);
   assert.deepEqual(result.signer, signer);
   assert.deepEqual(result.rules.npm!.after - result.rules.npm!.before!, 1);
-  assert.match(renderDataUpdateText(result), /Updated lifecycle data: 0\.1\.0 \(bundled\) → 2999\.01\.01 \(cache\)\.\nRules: npm: \d+ → \d+ rules\./);
+  assert.match(renderDataUpdateText(result), new RegExp(`Updated lifecycle data: ${VERSION.replace(/\./g, '\\.')} \\(bundled\\) → 2999\.01\.01 \\(cache\\)\\.\nRules: npm: \\d+ → \\d+ rules\\.`));
 
   assert.deepEqual((await readdir(join(cache, "data"))).sort(), ["2999.01.01", "active.json"]);
   assert.equal(JSON.parse(await readFile(join(cache, "data", "active.json"), "utf8")).version, "2999.01.01");

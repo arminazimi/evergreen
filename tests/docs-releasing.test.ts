@@ -51,3 +51,22 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   assert.match(docs, /workflow filename `publish\.yml`/);
   await access(resolve(".github/workflows/publish.yml"));
 });
+
+test("every place that carries the release version agrees with package.json", async () => {
+  const version = (JSON.parse(await read("package.json")) as { version: string }).version;
+  const { VERSION } = await import("../src/version.js");
+  assert.equal(VERSION, version, "src/version.ts");
+  const server = JSON.parse(await read("server.json")) as { version: string; packages: Array<{ version: string }> };
+  assert.equal(server.version, version, "server.json version");
+  for (const entry of server.packages) assert.equal(entry.version, version, "server.json package version");
+  const pins = [
+    "examples/agents/kilo/kilo.jsonc",
+    "examples/agents/gemini/settings.json",
+    "examples/agents/gemini/gemini-extension.json",
+    "examples/agents/copilot/.vscode/mcp.json",
+    "examples/agents/cursor/.cursor/mcp.json",
+    "examples/agents/copilot/coding-agent-mcp.json",
+  ];
+  for (const path of pins) assert.match(await read(path), new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`), path);
+  assert.match(await read("README.md"), new RegExp(`arminazimi/evergreen@v${version.replace(/\./g, "\\.")}`));
+});
