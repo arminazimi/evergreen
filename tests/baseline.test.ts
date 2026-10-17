@@ -188,20 +188,20 @@ test("daysBetween counts whole calendar days across month and year ends", () => 
 test("a suppression is reported when it expires within the window, using only the day it is given", () => {
   const today = "2026-10-17";
   const lines = (expires: string | undefined, options = {}) =>
-    applyBaseline(result, baselineWith(entryFor(expires === undefined ? {} : { expires, owner: "platform", reason: "tracked" })), { today, ...options }).diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+    applyBaseline(result, baselineWith(entryFor(expires === undefined ? {} : { expires, owner: "platform", reason: "tracked" })), { today, ...options }).diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
   assert.deepEqual(lines("2026-10-31"), ["Baseline suppression expires in 14 days (2026-10-31): example at package.json (owner: platform; reason: tracked)."]);
   assert.deepEqual(lines("2026-10-17"), ["Baseline suppression expires today (2026-10-17): example at package.json (owner: platform; reason: tracked)."]);
   assert.deepEqual(lines("2026-10-18"), ["Baseline suppression expires in 1 day (2026-10-18): example at package.json (owner: platform; reason: tracked)."]);
   assert.deepEqual(lines("2026-11-01"), [], "one day past the default window");
   assert.deepEqual(lines("2026-11-01", { warnWithinDays: 30 }).length, 1, "a wider window");
-  assert.deepEqual(lines("2026-10-16"), [], "already expired: the policy for that is separate");
+  assert.deepEqual(lines("2026-10-16"), [], "already expired: reported by the expiry policy, not as a warning");
   assert.deepEqual(lines(undefined), [], "no expiry, no warning");
   assert.equal(DEFAULT_WARN_DAYS, 14);
 });
 
 test("without a reference day nothing is compared, and an unmatched or unrelated entry never warns", () => {
   const near = entryFor({ expires: "2026-10-18" });
-  assert.deepEqual(applyBaseline(result, baselineWith(near)).diagnostics.filter((line) => line.startsWith("Baseline suppression")), []);
+  assert.deepEqual(applyBaseline(result, baselineWith(near)).diagnostics.filter((line) => line.startsWith("Baseline suppression expires")), []);
   const gone = { ...near, fingerprint: "b".repeat(64) };
   assert.deepEqual(applyBaseline(result, baselineWith(gone), { today: "2026-10-17" }).diagnostics, ["Suppressed 0 findings from the baseline."]);
 });
@@ -210,7 +210,7 @@ test("warnings are listed soonest first, one per distinct suppression", () => {
   const sorted = expiringSuppressions([entryFor({ expires: "2026-10-30" }), entryFor({ expires: "2026-10-20", ruleId: "b" }), entryFor({ expires: "2026-10-20", ruleId: "a" })] as never[], "2026-10-17", 14);
   assert.deepEqual(sorted.map((entry) => [entry.expires, entry.ruleId, entry.daysLeft]), [["2026-10-20", "a", 3], ["2026-10-20", "b", 3], ["2026-10-30", "example", 13]]);
   const duplicated = applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-20" }), entryFor({ expires: "2026-10-20" })), { today: "2026-10-17" });
-  assert.equal(duplicated.diagnostics.filter((line) => line.startsWith("Baseline suppression")).length, 1);
+  assert.equal(duplicated.diagnostics.filter((line) => line.startsWith("Baseline suppression expires")).length, 1);
 });
 
 test("the CLI warns about a suppression that is about to expire, for the day it is told, and rejects bad options", async () => {
@@ -224,12 +224,86 @@ test("the CLI warns about a suppression that is about to expire, for the day it 
     const path = join(directory, "baseline.json");
     await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", reason: "tracked", expires: "2026-11-05" })));
     const run = (...extra: string[]) => promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", ...extra]);
-    const warnings = async (...extra: string[]) => (JSON.parse((await run(...extra)).stdout) as { diagnostics: string[] }).diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+    const warnings = async (...extra: string[]) => (JSON.parse((await run(...extra)).stdout) as { diagnostics: string[] }).diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
     assert.equal((await warnings("--today", "2026-10-25")).length, 4, "ten days before: all four suppressions");
     assert.deepEqual(await warnings("--today", "2026-10-01"), [], "five weeks before: outside the default window");
     assert.equal((await warnings("--today", "2026-10-01", "--baseline-warn-days", "60")).length, 4, "a window of sixty days");
     await assert.rejects(run("--today", "yesterday"), (error: { code: number; stderr: string }) => error.code === 2 && /--today must be a date/.test(error.stderr));
     await assert.rejects(run("--baseline-warn-days", "-3"), (error: { code: number }) => error.code === 2);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+import { evaluateBaseline, expiredPolicies, expiredSuppressionsFail } from "../src/baseline.js";
+
+test("an expired suppression stops hiding its finding, says so with its owner and reason, and the day itself still counts", () => {
+  const entry = entryFor({ expires: "2026-10-10", owner: "platform", reason: "tracked" });
+  const after = evaluateBaseline(result, baselineWith(entry), { today: "2026-10-17" });
+  assert.equal(after.result.findings.length, 1, "the finding is back");
+  assert.deepEqual(after.expired, [{ ruleId: "example", path: "package.json", expires: "2026-10-10", daysAgo: 7, owner: "platform", reason: "tracked" }]);
+  assert.ok(after.result.diagnostics.includes("Baseline suppression expired 7 days ago (2026-10-10) and no longer hides its finding: example at package.json (owner: platform; reason: tracked)."));
+  assert.ok(after.result.diagnostics.includes("Suppressed 0 findings from the baseline."));
+
+  const sameDay = evaluateBaseline(result, baselineWith(entry), { today: "2026-10-10" });
+  assert.equal(sameDay.result.findings.length, 0, "it is still in force on its expires day");
+  assert.deepEqual(sameDay.expired, []);
+
+  const oneDay = evaluateBaseline(result, baselineWith(entryFor({ expires: "2026-10-16" })), { today: "2026-10-17" });
+  assert.match(oneDay.result.diagnostics.join("\n"), /expired 1 day ago \(2026-10-16\)/);
+});
+
+test("only an expired suppression resurfaces: no expiry, a future expiry, or no reference day keep hiding", () => {
+  for (const [name, entry, today] of [
+    ["no expiry", entryFor({}), "2030-01-01"],
+    ["future expiry", entryFor({ expires: "2027-01-01" }), "2026-10-17"],
+    ["no reference day", entryFor({ expires: "2020-01-01" }), undefined],
+  ] as const) {
+    const evaluated = evaluateBaseline(result, baselineWith(entry), today === undefined ? {} : { today });
+    assert.equal(evaluated.result.findings.length, 0, name);
+    assert.deepEqual(evaluated.expired, [], name);
+  }
+});
+
+test("a finding stays hidden while one of its suppressions is still in force", () => {
+  const evaluated = evaluateBaseline(result, baselineWith(entryFor({ expires: "2026-10-01" }), entryFor({ expires: "2027-01-01" })), { today: "2026-10-17" });
+  assert.equal(evaluated.result.findings.length, 0);
+  assert.deepEqual(evaluated.expired, []);
+});
+
+test("the scan result itself carries no new field; the expired list is returned beside it", () => {
+  const evaluated = evaluateBaseline(result, baselineWith(entryFor({ expires: "2026-10-10" })), { today: "2026-10-17" });
+  assert.deepEqual(Object.keys(evaluated.result).sort(), Object.keys(result).sort());
+});
+
+test("the fail policy fails on any expired suppression, and resurface never does", () => {
+  const expired = evaluateBaseline(result, baselineWith(entryFor({ expires: "2026-10-10" })), { today: "2026-10-17" }).expired;
+  assert.deepEqual([...expiredPolicies], ["resurface", "fail"]);
+  assert.equal(expiredSuppressionsFail("fail", expired), true);
+  assert.equal(expiredSuppressionsFail("resurface", expired), false);
+  assert.equal(expiredSuppressionsFail(undefined, expired), false, "resurface is the default");
+  assert.equal(expiredSuppressionsFail("fail", []), false);
+});
+
+test("the CLI resurfaces an expired suppression by default and exits 1 only with --on-expired fail", async () => {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-policy-"));
+  try {
+    const { builtInDetectors } = await import("../src/detectors/index.js");
+    const { scanRepository } = await import("../src/engine.js");
+    const scan = await scanRepository(smoke, builtInDetectors);
+    const path = join(directory, "baseline.json");
+    await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", expires: "2026-10-01" })));
+    const run = (...extra: string[]) => promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", "--today", "2026-10-17", ...extra]);
+    const resurface = JSON.parse((await run()).stdout) as { findings: unknown[]; diagnostics: string[] };
+    assert.equal(resurface.findings.length, scan.findings.length, "everything is back");
+    assert.equal(resurface.diagnostics.filter((line) => line.startsWith("Baseline suppression expired")).length, scan.findings.length);
+    await assert.rejects(run("--on-expired", "fail"), (error: { code: number; stderr: string }) => error.code === 1 && /on-expired fail/.test(error.stderr));
+    await assert.rejects(run("--on-expired", "never"), (error: { code: number }) => error.code === 2);
+    // Before the expiry, the fail policy does nothing.
+    const before = await promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", "--today", "2026-09-01", "--on-expired", "fail"]);
+    assert.equal((JSON.parse(before.stdout) as { findings: unknown[] }).findings.length, 0);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

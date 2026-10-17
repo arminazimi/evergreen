@@ -1,7 +1,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
-import { applyBaseline, readBaseline } from "./baseline.js";
+import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./baseline.js";
+import type { ExpiredPolicy } from "./baseline.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js";
 import { severityValues } from "./domain.js";
@@ -29,6 +30,8 @@ export interface GitHubActionOptions {
   today?: string;
   /** Days before a suppression's `expires` to warn (default 14). */
   baselineWarnDays?: number;
+  /** What an expired suppression does: `resurface` (default) or `fail`. */
+  onExpired?: ExpiredPolicy;
   failOnSeverity?: SeverityGate;
 }
 
@@ -37,8 +40,13 @@ export interface GitHubActionOutcome {
   reportPath: string;
   sarifPath?: string;
   annotations: GitHubAnnotation[];
+  /** The job should fail: the severity gate was met, or the `fail` expiry policy applies. */
   failed: boolean;
+  /** A finding met the severity gate. */
+  gateFailed: boolean;
   gate: SeverityGate;
+  /** True when the `fail` policy is set and a baseline suppression had expired. */
+  expiredFailure: boolean;
 }
 
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
@@ -76,11 +84,15 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);
   let result = await scanRepository(root, builtInDetectors);
+  let expiredFailure = false;
   if (options.baselinePath) {
-    result = applyBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
+    const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
       today: options.today ?? new Date().toISOString().slice(0, 10),
       ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
+      ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
     });
+    result = evaluated.result;
+    expiredFailure = expiredSuppressionsFail(options.onExpired, evaluated.expired);
   }
 
   const reportPath = resolve(options.reportPath);
@@ -94,13 +106,16 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   }
 
   const gateRank = gate === "none" ? Number.POSITIVE_INFINITY : severityRank.get(gate)!;
+  const gateFailed = result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank);
   return {
     result,
     reportPath,
     ...(sarifPath ? { sarifPath } : {}),
     annotations: result.findings.map(annotationFor),
-    failed: result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank),
+    failed: expiredFailure || gateFailed,
+    gateFailed,
     gate,
+    expiredFailure,
   };
 }
 

@@ -211,7 +211,7 @@ test("the Action runner warns about suppressions that expire soon, for the day i
     const baseline = join(directory, "baseline.json");
     await writeBaseline(baseline, createBaseline(scan, { owner: "platform", expires: "2026-11-05" }));
     const options = { root: smoke, reportPath: join(directory, "report.json"), baselinePath: baseline };
-    const lines = async (extra: object) => (await runGitHubAction({ ...options, ...extra })).result.diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+    const lines = async (extra: object) => (await runGitHubAction({ ...options, ...extra })).result.diagnostics.filter((line) => line.startsWith("Baseline suppression expires"));
     assert.equal((await lines({ today: "2026-10-25" })).length, 4);
     assert.equal((await lines({ today: "2026-10-01" })).length, 0);
     assert.equal((await lines({ today: "2026-10-01", baselineWarnDays: 60 })).length, 4);
@@ -224,4 +224,33 @@ test("action.yml declares baseline-warn-days with a 14-day default and passes it
   const action = parseYaml(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
   assert.equal(action.inputs["baseline-warn-days"]?.default, "14");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_BASELINE-WARN-DAYS"], "${{ inputs.baseline-warn-days }}");
+});
+
+test("the Action runner brings back an expired suppression and fails the job only under the fail policy", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-action-policy-"));
+  try {
+    const smoke = resolve("tests/fixtures/smoke");
+    const scan = await scanRepository(smoke, builtInDetectors);
+    const baseline = join(directory, "baseline.json");
+    await writeBaseline(baseline, createBaseline(scan, { expires: "2026-10-01" }));
+    const options = { root: smoke, reportPath: join(directory, "report.json"), baselinePath: baseline, today: "2026-10-17", failOnSeverity: "none" as const };
+    const resurface = await runGitHubAction(options);
+    assert.equal(resurface.result.findings.length, scan.findings.length);
+    assert.equal(resurface.failed, false, "resurface does not fail a job whose gate is none");
+    assert.equal(resurface.expiredFailure, false);
+    const strict = await runGitHubAction({ ...options, onExpired: "fail" });
+    assert.equal(strict.failed, true);
+    assert.equal(strict.gateFailed, false, "the severity gate was not the reason");
+    assert.equal(strict.expiredFailure, true);
+    const early = await runGitHubAction({ ...options, onExpired: "fail", today: "2026-09-01" });
+    assert.equal(early.failed, false);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("action.yml declares on-expired, defaulting to resurface, and passes it to the scan step", async () => {
+  const action = parseYaml(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs["on-expired"]?.default, "resurface");
+  assert.equal(action.runs.steps[0]?.env?.["INPUT_ON-EXPIRED"], "${{ inputs.on-expired }}");
 });

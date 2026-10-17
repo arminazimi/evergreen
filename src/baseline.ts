@@ -113,6 +113,24 @@ export interface ApplyBaselineOptions {
   today?: string;
   /** How many days before `expires` a suppression is reported as expiring soon. */
   warnWithinDays?: number;
+  /**
+   * What an expired suppression does (needs `today`). `resurface` (the default): it stops hiding its finding.
+   * `fail`: the same, and the scan reports a failure in `expired`, whatever the finding's severity.
+   */
+  onExpired?: ExpiredPolicy;
+}
+
+export const expiredPolicies = ["resurface", "fail"] as const;
+export type ExpiredPolicy = (typeof expiredPolicies)[number];
+
+/** An expired suppression that matched a finding in this scan. */
+export interface ExpiredSuppression {
+  ruleId: string;
+  path: string;
+  expires: string;
+  daysAgo: number;
+  owner?: string;
+  reason?: string;
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -137,27 +155,67 @@ function expiryLine(entry: BaselineEntry & { daysLeft: number }): string {
   return `Baseline suppression expires ${when} (${entry.expires}): ${entry.ruleId} at ${entry.path}${who.length > 0 ? ` (${who.join("; ")})` : ""}.`;
 }
 
-export function applyBaseline(result: ScanResult, baseline: Baseline, options: ApplyBaselineOptions = {}): ScanResult {
+function expiredLine(entry: ExpiredSuppression): string {
+  const who = [entry.owner ? `owner: ${entry.owner}` : undefined, entry.reason ? `reason: ${entry.reason}` : undefined].filter((part) => part !== undefined);
+  return `Baseline suppression expired ${entry.daysAgo === 0 ? "today" : `${entry.daysAgo} day${entry.daysAgo === 1 ? "" : "s"} ago`} (${entry.expires}) and no longer hides its finding: ${entry.ruleId} at ${entry.path}${who.length > 0 ? ` (${who.join("; ")})` : ""}.`;
+}
+
+/** A suppression is expired on any day after its `expires` day; the day itself still counts. */
+function isExpired(entry: BaselineEntry, today: string | undefined): entry is BaselineEntry & { expires: string } {
+  return today !== undefined && isIsoDate(entry.expires) && entry.expires < today;
+}
+
+/**
+ * Applies a baseline and also returns the suppressions that had expired, so a caller that enforces the `fail`
+ * policy knows. `applyBaseline` is the same without that list. The expired list is not part of the scan result.
+ */
+export function evaluateBaseline(result: ScanResult, baseline: Baseline, options: ApplyBaselineOptions = {}): { result: ScanResult; expired: ExpiredSuppression[] } {
   const byFingerprint = new Map<string, BaselineEntry[]>();
   for (const entry of baseline.findings) byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
   const matched: BaselineEntry[] = [];
+  const expired: ExpiredSuppression[] = [];
   const findings = result.findings.filter((finding) => {
     const entries = byFingerprint.get(findingFingerprint(finding));
     if (!entries) return true;
-    matched.push(...entries);
+    // A finding stays hidden while at least one entry for it has not expired.
+    const live = entries.filter((entry) => !isExpired(entry, options.today));
+    if (live.length === 0) {
+      for (const entry of entries) {
+        if (isExpired(entry, options.today)) {
+          expired.push({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, daysAgo: daysBetween(entry.expires, options.today!), ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}) });
+        }
+      }
+      return true;
+    }
+    matched.push(...live);
     return false;
   });
-  const suppressedCount = result.findings.length - findings.length;
+  const hidden = result.findings.length - findings.length;
   const warnings = options.today === undefined
     ? []
     : expiringSuppressions([...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()], options.today, options.warnWithinDays ?? DEFAULT_WARN_DAYS).map(expiryLine);
+  const expiredSorted = [...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values()]
+    .sort((left, right) => right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path));
   return {
-    ...result,
-    findings,
-    diagnostics: [
-      ...result.diagnostics,
-      `Suppressed ${suppressedCount} finding${suppressedCount === 1 ? "" : "s"} from the baseline.`,
-      ...warnings,
-    ],
+    result: {
+      ...result,
+      findings,
+      diagnostics: [
+        ...result.diagnostics,
+        `Suppressed ${hidden} finding${hidden === 1 ? "" : "s"} from the baseline.`,
+        ...expiredSorted.map(expiredLine),
+        ...warnings,
+      ],
+    },
+    expired: expiredSorted,
   };
+}
+
+export function applyBaseline(result: ScanResult, baseline: Baseline, options: ApplyBaselineOptions = {}): ScanResult {
+  return evaluateBaseline(result, baseline, options).result;
+}
+
+/** True when the policy is `fail` and at least one suppression had expired. */
+export function expiredSuppressionsFail(policy: ExpiredPolicy | undefined, expired: readonly ExpiredSuppression[]): boolean {
+  return policy === "fail" && expired.length > 0;
 }
