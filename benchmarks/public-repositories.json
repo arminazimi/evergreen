@@ -1937,6 +1937,287 @@
       ]
     },
     { "repository": "facebook/docusaurus", "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9", "ecosystem": "node", "expected": [] },
-    { "repository": "pydantic/pydantic-ai", "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1", "ecosystem": "python", "expected": [] }
+    { "repository": "pydantic/pydantic-ai", "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "sharkdp/hyperfine",
+      "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
+      "ecosystem": "rust",
+      "expected": [
+        {
+          "ruleId": "rust.crate.atty.unmaintained",
+          "path": "Cargo.toml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+          }
+        },
+        {
+          "ruleId": "rust.crate.atty.unmaintained",
+          "path": "Cargo.toml",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 64 of Cargo.toml declares `atty = \"0.2\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8 ('Remove dependency on `atty` and use `std::io::IsTerminal` instead')."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 44 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 53,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 53 of .github/workflows/CICD.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 88,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 88 of .github/workflows/CICD.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 328,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 328 of .github/workflows/CICD.yml reads `uses: softprops/action-gh-release@v1`, which github-actions.action-gh-release.node20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rustwasm/wasm-pack",
+      "commit": "62ab39cf82ec4d358c1f08f348cd0dc44768f412",
+      "ecosystem": "rust",
+      "expected": [
+        {
+          "ruleId": "rust.crate.atty.unmaintained",
+          "path": "Cargo.toml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of Cargo.toml declares `atty = \"0.2.14\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/rustwasm/wasm-pack/commit/650936bbdd4849b8473f5c0273c02f8bb7ff5492 ('Remove unmaintained dependency atty in favor of stdlib')."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/book.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/book.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/book.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/book.yml reads `uses: actions/cache@v3`, which github-actions.cache.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of .github/workflows/release.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/release.yml",
+          "line": 103,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 103 of .github/workflows/release.yml reads `uses: actions/upload-artifact@v1`, which github-actions.upload-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/release.yml",
+          "line": 130,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 130 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/release.yml",
+          "line": 135,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 135 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/release.yml",
+          "line": 140,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 140 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/release.yml",
+          "line": 145,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 145 of .github/workflows/release.yml reads `uses: actions/download-artifact@v2`, which github-actions.download-artifact.retired reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/test.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 39 of .github/workflows/test.yml reads `- uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/test.yml reads `uses: actions/cache@v3`, which github-actions.cache.node20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "casey/just",
+      "commit": "0363b25013c193ea67ed7fea87946142393e2b21",
+      "ecosystem": "rust",
+      "expected": [
+        {
+          "ruleId": "rust.crate.ansi-term.unmaintained",
+          "path": "Cargo.toml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of Cargo.toml declares `ansi_term = \"0.12.0\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/casey/just/commit/49b5f3ba78fd58df66e72ca292700e8992aa0a1a ('Switch from ansi_term to nu_ansi_term')."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/release.yaml",
+          "line": 127,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 127 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/release.yaml",
+          "line": 137,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 137 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/release.yaml",
+          "line": 185,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 185 of .github/workflows/release.yaml reads `uses: softprops/action-gh-release@v2.6.1`, which github-actions.action-gh-release.node20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bootandy/dust",
+      "commit": "6c20fae3e8bc63922e2f97dae1bdcf1512b1a255",
+      "ecosystem": "rust",
+      "expected": [
+        {
+          "ruleId": "rust.crate.ansi-term.unmaintained",
+          "path": "Cargo.toml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of Cargo.toml declares `ansi_term = \"0.12\"`, a crate the RustSec advisory database marks unmaintained. The maintainers removed or replaced it in https://github.com/bootandy/dust/commit/d39224d6707e7bc890ff546b2da793a5b46a2160 ('deps: switch from ansi_term to nu_ansi_term')."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 70 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 135,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 135 of .github/workflows/CICD.yml reads `- uses: actions/checkout@v1`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/CICD.yml",
+          "line": 297,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 297 of .github/workflows/CICD.yml reads `uses: softprops/action-gh-release@v1`, which github-actions.action-gh-release.node20 reports."
+          }
+        }
+      ]
+    },
+    { "repository": "sharkdp/fd", "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696", "ecosystem": "rust", "expected": [] }
   ]
 }

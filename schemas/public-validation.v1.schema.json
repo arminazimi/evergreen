@@ -17,7 +17,7 @@
         "properties": {
           "repository": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
           "commit": { "type": "string", "pattern": "^[a-fA-F0-9]{40}$" },
-          "ecosystem": { "enum": ["container", "go", "node", "node-actions", "python"] },
+          "ecosystem": { "enum": ["container", "go", "node", "node-actions", "python", "rust"] },
           "expected": {
             "type": "array",
             "items": {
