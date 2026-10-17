@@ -1,0 +1,168 @@
+{
+  "importer": "go-2",
+  "ecosystem": "go",
+  "observedAt": "2026-10-17",
+  "rules": [
+    {
+      "id": "go.module.cloud.google.com.go.pubsub.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/cloud.google.com/go/pubsub",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "cloud.google.com/go/pubsub is deprecated",
+      "summary": "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026. For migration, see https://github.com/googleapis/google-cloud-go/blob/main/pubsub/MIGRATING.md\"",
+      "severity": "medium",
+      "replacement": "cloud.google.com/go/pubsub/v2",
+      "sources": [
+        {
+          "title": "cloud.google.com/go/pubsub v1.51.1 go.mod",
+          "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    },
+    {
+      "id": "go.module.github.com.cncf.udpa.go.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/cncf/udpa/go",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/cncf/udpa/go is deprecated",
+      "summary": "The latest github.com/cncf/udpa/go module declares: \"use github.com/cncf/xds/go instead.\"",
+      "severity": "medium",
+      "replacement": "github.com/cncf/xds/go",
+      "sources": [
+        {
+          "title": "github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod",
+          "url": "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    },
+    {
+      "id": "go.module.github.com.discord.lilliput.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/discord/lilliput",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/discord/lilliput is deprecated",
+      "summary": "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes. See https://github.com/discord/lilliput/issues/303\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "github.com/discord/lilliput v1.5.1 go.mod",
+          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    },
+    {
+      "id": "go.module.github.com.golang.protobuf.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/golang/protobuf",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/golang/protobuf is deprecated",
+      "summary": "The latest github.com/golang/protobuf module declares: \"Use the \"google.golang.org/protobuf\" module instead.\"",
+      "severity": "medium",
+      "replacement": "google.golang.org/protobuf",
+      "sources": [
+        {
+          "title": "github.com/golang/protobuf v1.5.4 go.mod",
+          "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    },
+    {
+      "id": "go.module.github.com.streadway.amqp.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/streadway/amqp",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/streadway/amqp is deprecated",
+      "summary": "The latest github.com/streadway/amqp module declares: \"Consider using the github.com/rabbitmq/amqp091-go package instead.\"",
+      "severity": "medium",
+      "replacement": "github.com/rabbitmq/amqp091-go",
+      "sources": [
+        {
+          "title": "github.com/streadway/amqp v1.1.0 go.mod",
+          "url": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    },
+    {
+      "id": "go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "go.opentelemetry.io/otel/exporters/zipkin is deprecated",
+      "summary": "The latest go.opentelemetry.io/otel/exporters/zipkin module declares: \"The zipkin exporter is deprecated and will be removed in early 2027. See the blog post \"Deprecating Zipkin Exporter\": https://opentelemetry.io/blog/2025/deprecating-zipkin-exporters/\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod",
+          "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "go-2"
+      }
+    }
+  ],
+  "notes": []
+}
