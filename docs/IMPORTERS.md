@@ -53,6 +53,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `go-1` | `go` | The Go release history and support policy: one `end-of-support` rule per Go release line that has lost support, from the "two newest major releases" policy. | none |
 | `go-2` | `go` | The Go module proxy: direct modules whose latest `go.mod` carries an official `// Deprecated:` comment. | `tools/importers/go-2.ts` |
 | `kubernetes-1` | `kubernetes` | The Kubernetes Deprecated API Migration Guide: one `removed` rule per group, kind, and API version the guide says is no longer served. The guide names the release, not a date, so the `deadline` is the date of that release's announcement on kubernetes.io, from a small dated table in the importer. | none |
+| `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
