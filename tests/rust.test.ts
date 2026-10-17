@@ -48,6 +48,7 @@ async function expected(ruleId: string, path: string, line: number, summary: (ru
     location: { path, line },
     replacement: rule.replacement!,
     ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -156,4 +157,28 @@ test("nested crates are found, vendored and fixture directories and symbolic lin
   await symlink(join(root, "crates"), join(root, "linked")).catch(() => undefined);
   assert.deepEqual((await detector.scan({ root })).map((finding) => finding.location.path), ["crates/a/Cargo.toml"]);
   assert.deepEqual(await detector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
+});
+
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
+
+test("every curated Rust rule has migration guidance with real verification commands", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.some((check) => /^(?:rustc --version|cargo build --all-targets && cargo test)/.test(check.command)), rule.id);
+  }
+});
+
+test("a migration packet for a Rust finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [detector]);
+  const toolchain = result.findings.find((finding) => finding.id === "rust.toolchain.end-of-support-1.98-and-older:rust-toolchain.toml:2");
+  assert.ok(toolchain);
+  const packet = validateMigrationPacket(createMigrationPacket(result, toolchain.id));
+  assert.ok(packet.affectedFiles.includes("rust-toolchain.toml"));
+  assert.ok(packet.steps.some((step) => step.id === "update-toolchain-pin"));
+  assert.ok(packet.verification.some((check) => check.command === "cargo build --all-targets && cargo test"));
+
+  const crate = result.findings.find((finding) => finding.ruleId === "rust.crate.atty.unmaintained")!;
+  const cratePacket = validateMigrationPacket(createMigrationPacket(result, crate.id));
+  assert.ok(cratePacket.steps.some((step) => step.id === "replace-atty"));
 });
