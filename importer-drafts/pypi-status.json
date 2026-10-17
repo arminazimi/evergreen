@@ -1,0 +1,212 @@
+{
+  "importer": "pypi-status",
+  "ecosystem": "python",
+  "observedAt": "2026-10-17",
+  "rules": [
+    {
+      "id": "python.package.argparse.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/argparse",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "argparse is archived on PyPI",
+      "summary": "PyPI marks argparse as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "argparse on PyPI",
+          "url": "https://pypi.org/project/argparse/"
+        },
+        {
+          "title": "argparse project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/argparse/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "argparse"
+      }
+    },
+    {
+      "id": "python.package.enum.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/enum",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "enum is archived on PyPI",
+      "summary": "PyPI marks enum as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "enum on PyPI",
+          "url": "https://pypi.org/project/enum/"
+        },
+        {
+          "title": "enum project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/enum/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "enum"
+      }
+    },
+    {
+      "id": "python.package.google-cloud.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/google-cloud",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "google-cloud is archived on PyPI",
+      "summary": "PyPI marks google-cloud as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "google-cloud on PyPI",
+          "url": "https://pypi.org/project/google-cloud/"
+        },
+        {
+          "title": "google-cloud project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/google-cloud/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "google-cloud"
+      }
+    },
+    {
+      "id": "python.package.pathlib.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pathlib",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "pathlib is archived on PyPI",
+      "summary": "PyPI marks pathlib as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "pathlib on PyPI",
+          "url": "https://pypi.org/project/pathlib/"
+        },
+        {
+          "title": "pathlib project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pathlib/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "pathlib"
+      }
+    },
+    {
+      "id": "python.package.pil.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pil",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "PIL is archived on PyPI",
+      "summary": "PyPI marks PIL as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "PIL on PyPI",
+          "url": "https://pypi.org/project/pil/"
+        },
+        {
+          "title": "PIL project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pil/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "PIL"
+      }
+    },
+    {
+      "id": "python.package.typing.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/typing",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "typing is archived on PyPI",
+      "summary": "PyPI marks typing as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "typing on PyPI",
+          "url": "https://pypi.org/project/typing/"
+        },
+        {
+          "title": "typing project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/typing/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "pypi-status"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "typing"
+      }
+    }
+  ],
+  "notes": []
+}
