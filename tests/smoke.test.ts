@@ -44,3 +44,10 @@ test("the publish workflow runs the smoke script on a fresh job after publishing
   assert.match(step.run!, /npx --yes "evergreen-deprecation@\$version"/);
   assert.match(step["working-directory"] ?? "", /runner\.temp/, "not inside the checkout, where npx would run this repository");
 });
+
+test("the smoke job waits long enough for the registry to serve a new version", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const text = await readFile(".github/workflows/publish.yml", "utf8");
+  const attempts = Number(/seq 1 (\d+)/.exec(text)?.[1]);
+  assert.ok(attempts * 15 >= 600, "at least ten minutes of waiting; 0.2.0 needed more than 2.5");
+});
