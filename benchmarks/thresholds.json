@@ -8,6 +8,7 @@
     "github-actions": { "stable": true, "minPrecision": 0.95 },
     "nodejs": { "stable": true, "minPrecision": 0.95 },
     "npm": { "stable": true, "minPrecision": 0.95 },
-    "python": { "stable": true, "minPrecision": 0.95 }
+    "python": { "stable": true, "minPrecision": 0.95 },
+    "rust": { "stable": false, "minPrecision": 0.95 }
   }
 }

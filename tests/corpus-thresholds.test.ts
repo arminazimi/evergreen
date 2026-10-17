@@ -11,10 +11,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The container and Go detectors are experimental: it is scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, name !== "container" && name !== "go" && name !== "java" && name !== "kubernetes", name);
+    // The container, Go, Java, Kubernetes, and Rust detectors are experimental: it is scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["container", "go", "java", "kubernetes", "rust"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });

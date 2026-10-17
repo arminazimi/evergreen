@@ -77,6 +77,7 @@ test("the bundle lists every registry and the SHA map, and matches the published
     "registry/nodejs.json",
     "registry/npm.json",
     "registry/python.json",
+    "registry/rust.json",
   ]);
   assert.equal(bundle.manifest.version, "2026.10.16");
   assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");

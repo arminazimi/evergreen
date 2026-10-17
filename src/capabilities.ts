@@ -88,6 +88,7 @@ const manifest = {
     { id: "nodejs", status: "supported", detectorIds: ["npm"] },
     { id: "npm", status: "supported", detectorIds: ["npm"] },
     { id: "python", status: "supported", detectorIds: ["python"] },
+    { id: "rust", status: "experimental", detectorIds: ["rust"] },
   ],
   capabilities: [
     {
@@ -95,35 +96,35 @@ const manifest = {
       status: "supported",
       version: "1",
       description: "Scan a local repository with all built-in lifecycle detectors.",
-      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"],
+      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"],
     },
     {
       id: "deprecation.list",
       status: "supported",
       version: "1",
       description: "List compact lifecycle findings from a fresh local scan.",
-      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"],
+      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"],
     },
     {
       id: "deprecation.explain",
       status: "supported",
       version: "1",
       description: "Explain one evidence-backed finding by its exact identifier.",
-      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"],
+      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"],
     },
     {
       id: "migration.context.create",
       status: "supported",
       version: "1",
       description: "Create a validated migration packet for one finding.",
-      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"],
+      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"],
     },
     {
       id: "migration.verify",
       status: "supported",
       version: "1",
       description: "Re-scan and verify that an observed finding is absent.",
-      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python"],
+      ecosystems: ["container", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"],
     },
     {
       id: "environment.doctor",
