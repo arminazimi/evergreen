@@ -11,6 +11,8 @@ import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { boundsCheck } from "../src/conformance/checks/bounds.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { goDetector, matchModule } from "../src/detectors/go/index.js";
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -47,6 +49,7 @@ async function expected(ruleId: string, path: string, line: number, what: string
     location: { path, line },
     replacement: rule.replacement!,
     deadline: rule.deadline!,
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -114,4 +117,21 @@ test("direct module rules match by module path and version range", () => {
   assert.equal(matchModule([moduleRule], "example.com/old", "v2.0.0"), undefined);
   assert.equal(matchModule([moduleRule], "example.com/other", "v1.0.0"), undefined);
   assert.equal(matchModule([moduleRule], "example.com/old", "not-a-version"), undefined);
+});
+
+test("every curated Go rule has migration guidance with real verification commands", async () => {
+  for (const rule of await rules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.some((check) => /^go build \.\/\.\.\. && go test \.\/\.\.\.$/.test(check.command)), rule.id);
+  }
+});
+
+test("a migration packet for a Go finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [goDetector]);
+  const finding = result.findings.find((item) => item.id === "go.runtime.end-of-support-1.23:go.mod:5");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("go.mod"));
+  assert.ok(packet.steps.some((step) => step.id === "update-go-declaration"));
+  assert.ok(packet.verification.some((check) => check.command === "go build ./... && go test ./..."));
 });
