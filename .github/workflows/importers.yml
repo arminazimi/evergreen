@@ -43,6 +43,8 @@ jobs:
           - { importer: npm-deprecated, ecosystem: npm }
           - { importer: pypi-status, ecosystem: python }
           - { importer: python-release-cycle, ecosystem: python }
+          - { importer: rust-1, ecosystem: rust }
+          - { importer: rust-2, ecosystem: rust }
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -105,6 +107,8 @@ jobs:
           - npm-deprecated
           - pypi-status
           - python-release-cycle
+          - rust-1
+          - rust-2
     steps:
       - uses: actions/checkout@v7
       - name: Fetch the drafts, if this importer found a difference
