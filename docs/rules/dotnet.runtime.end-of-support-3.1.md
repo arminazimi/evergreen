@@ -50,4 +50,46 @@ No built-in detector reads `dotnet` declarations yet; the rule is data in the [l
 
 ## Data
 
-This page is generated from [`registry/dotnet.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json), rule `dotnet.runtime.end-of-support-3.1`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/dotnet.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json), rule `dotnet.runtime.end-of-support-3.1`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
+  "headline": ".NET Core 3.1 is no longer supported",
+  "description": ".NET Core 3.1 (Long Term Support) reached the end of its support on 2022-12-13. Microsoft no longer ships security or quality fixes for it.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "end-of-support",
+    "dotnet",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": ".NET Core 3.1 is no longer supported",
+    "identifier": "pkg:generic/dotnet"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": ".NET and .NET Core official support policy",
+      "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": ".NET releases index (channel, support phase, end-of-life date)",
+      "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

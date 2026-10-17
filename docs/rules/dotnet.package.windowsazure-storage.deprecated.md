@@ -47,4 +47,51 @@ No built-in detector reads `dotnet` declarations yet; the rule is data in the [l
 
 ## Data
 
-This page is generated from [`registry/dotnet.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json), rule `dotnet.package.windowsazure-storage.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/dotnet.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json), rule `dotnet.package.windowsazure-storage.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
+  "headline": "WindowsAzure.Storage is deprecated on NuGet",
+  "description": "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "deprecated",
+    "dotnet",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "WindowsAzure.Storage is deprecated on NuGet",
+    "identifier": "pkg:nuget/WindowsAzure.Storage"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "WindowsAzure.Storage on NuGet (deprecation metadata)",
+      "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "NuGet package deprecation",
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Azure SDK support policies",
+      "url": "https://azure.github.io/azure-sdk/policies_support.html"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>
