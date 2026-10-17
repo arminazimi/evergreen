@@ -26,6 +26,7 @@ Read the [public documentation](https://arminazimi.github.io/evergreen/), run th
 | Ecosystem | What Evergreen reads | What it reports |
 | --- | --- | --- |
 | **Container base images** *(experimental)* | `Dockerfile`, `*.Dockerfile`, `Containerfile`, `compose.yaml`, `docker-compose.yml`: base images of official `node`, `python`, `postgres`, `mysql`, and `ruby` | Image release lines that are end of life. Variables, `latest`, and floating tags are listed as unclassified, never guessed. See [Container base images](docs/detectors/container.md) |
+| **Go** *(experimental)* | `go.mod` and `go.work`: `go` and `toolchain` directives, and direct `require` entries | Go release lines that no longer receive fixes, and direct modules with a lifecycle rule. Versions Evergreen cannot read are listed as unclassified. See [Go](docs/detectors/go.md) |
 | **GitHub Actions** | `.github/workflows/*.yml`: `uses:` references to actions, including full-SHA pins resolved through a trailing version comment or a bundled release map | Actions on retired runtimes (such as Node.js 20) and retired or deprecated majors, at the exact line |
 | **Node.js** | `engines.node`, `volta`, `.nvmrc`, `.node-version` | Runtime versions that are end of life or out of support |
 | **npm** | `package.json` dependencies, `package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, and the imports and calls that use each package | Deprecated or unmaintained packages, with the replacement and where the package is used |
