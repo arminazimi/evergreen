@@ -1,0 +1,80 @@
+{
+  "importer": "python-release-cycle",
+  "ecosystem": "python",
+  "observedAt": "2026-10-17",
+  "rules": [
+    {
+      "id": "python.runtime.eol-3.10-and-older",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/<3.11",
+      "event": "end-of-life",
+      "title": "Python 3.10 and older are end-of-life",
+      "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "severity": "high",
+      "replacement": "A supported Python release",
+      "deadline": "2026-10-01",
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "Python release cycle (machine-readable)",
+          "url": "https://peps.python.org/api/release-cycle.json"
+        },
+        {
+          "title": "PEP 619 — Python 3.10 release schedule",
+          "url": "https://peps.python.org/pep-0619/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "python-release-cycle"
+      },
+      "migration": {
+        "constraints": [
+          "Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.",
+          "Confirm binary wheels and framework dependencies support the selected Python release."
+        ],
+        "steps": [
+          {
+            "id": "update-python-declaration",
+            "title": "Update the Python requirement",
+            "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-python-runtimes",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python --version",
+            "purpose": "Confirm the active Python runtime is supported."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the Python test suite on the target runtime."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Check installed dependency compatibility."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "runtime",
+        "maximumVersion": "3.10"
+      }
+    }
+  ],
+  "notes": [
+    "Not yet end-of-life: 3.11 (ends 2027-10), 3.12 (ends 2028-10), 3.13 (ends 2029-10), 3.14 (ends 2030-10), 3.15 (ends 2031-10), 3.16 (ends 2032-10)."
+  ]
+}
