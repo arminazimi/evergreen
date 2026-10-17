@@ -49,4 +49,41 @@ The [`java`](../detectors/java.md) detector. See [Detectors](../DETECTORS.md) an
 
 ## Data
 
-This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.jdk.end-of-support-9-10`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.jdk.end-of-support-9-10`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+  "headline": "Java 9 and 10 are no longer supported",
+  "description": "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "end-of-support",
+    "java",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Java 9 and 10 are no longer supported",
+    "identifier": "pkg:generic/java"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Oracle Java SE Support Roadmap",
+      "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

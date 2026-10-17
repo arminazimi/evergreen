@@ -48,4 +48,41 @@ The [`java`](../detectors/java.md) detector. See [Detectors](../DETECTORS.md) an
 
 ## Data
 
-This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.maven.org.slf4j.slf4j-log4j12.relocated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.maven.org.slf4j.slf4j-log4j12.relocated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
+  "headline": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j",
+  "description": "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "deprecated",
+    "java",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j",
+    "identifier": "pkg:maven/org.slf4j/slf4j-log4j12"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central",
+      "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

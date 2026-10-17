@@ -47,4 +47,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.sklearn.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.sklearn.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
+  "headline": "sklearn is deprecated on PyPI",
+  "description": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "sklearn is deprecated on PyPI",
+    "identifier": "pkg:pypi/sklearn"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "sklearn deprecation notice",
+      "url": "https://pypi.org/project/sklearn/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

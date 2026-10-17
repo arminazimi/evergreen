@@ -49,4 +49,41 @@ The [`go`](../detectors/go.md) detector. See [Detectors](../DETECTORS.md) and [C
 
 ## Data
 
-This page is generated from [`registry/go.json`](https://github.com/arminazimi/evergreen/blob/main/registry/go.json), rule `go.runtime.end-of-support-1.24`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/go.json`](https://github.com/arminazimi/evergreen/blob/main/registry/go.json), rule `go.runtime.end-of-support-1.24`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.24.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.24.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.24.html",
+  "headline": "Go 1.24 is no longer supported",
+  "description": "The Go release policy supports a major release until two newer major releases exist. Go 1.24 support ended when Go 1.26 was released.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-support",
+    "go",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Go 1.24 is no longer supported",
+    "identifier": "pkg:generic/golang"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Go release history and support policy",
+      "url": "https://go.dev/doc/devel/release"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

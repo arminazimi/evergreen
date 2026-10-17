@@ -47,4 +47,46 @@ The `github-actions` detector. See [Detectors](../DETECTORS.md) and [Compatibili
 
 ## Data
 
-This page is generated from [`registry/github-actions.json`](https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json), rule `github-actions.download-artifact.retired`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/github-actions.json`](https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json), rule `github-actions.download-artifact.retired`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+  "headline": "Retired actions/download-artifact release",
+  "description": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-14",
+  "keywords": [
+    "removed",
+    "github-actions",
+    "critical"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Retired actions/download-artifact release",
+    "identifier": "pkg:github/actions/download-artifact"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Deprecation notice for artifact actions v3",
+      "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

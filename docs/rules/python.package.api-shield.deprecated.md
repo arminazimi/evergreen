@@ -45,4 +45,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.api-shield.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.api-shield.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+  "headline": "api-shield is deprecated",
+  "description": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "api-shield is deprecated",
+    "identifier": "pkg:pypi/api-shield"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "api-shield deprecation notice",
+      "url": "https://pypi.org/project/api-shield/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

@@ -53,4 +53,46 @@ The [`kubernetes`](../detectors/kubernetes.md) detector. See [Detectors](../DETE
 
 ## Data
 
-This page is generated from [`registry/kubernetes.json`](https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json), rule `kubernetes.networking-k8s-io.ingress.v1beta1.removed`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/kubernetes.json`](https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json), rule `kubernetes.networking-k8s-io.ingress.v1beta1.removed`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+  "headline": "Ingress networking.k8s.io/v1beta1 is no longer served",
+  "description": "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "removed",
+    "kubernetes",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Ingress networking.k8s.io/v1beta1 is no longer served",
+    "identifier": "pkg:generic/kubernetes/networking.k8s.io/Ingress"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Kubernetes Deprecated API Migration Guide",
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+      "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

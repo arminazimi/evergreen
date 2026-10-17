@@ -45,4 +45,41 @@ The `rust` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COM
 
 ## Data
 
-This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.atty.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.atty.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
+  "headline": "atty is no longer maintained",
+  "description": "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "deprecated",
+    "rust",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "atty is no longer maintained",
+    "identifier": "pkg:cargo/atty"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "RustSec advisory RUSTSEC-2024-0375",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0375.html"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

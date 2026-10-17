@@ -46,4 +46,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pytest-runner.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pytest-runner.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+  "headline": "pytest-runner is deprecated",
+  "description": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "pytest-runner is deprecated",
+    "identifier": "pkg:pypi/pytest-runner"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "pytest-runner deprecation notice",
+      "url": "https://pypi.org/project/pytest-runner/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

@@ -14,6 +14,7 @@ import { getCapabilityManifest } from "../src/capabilities.js";
 import { DEFAULT_MAX_REVIEW_AGE_DAYS, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 
+export const SITE_URL = "https://arminazimi.github.io/evergreen";
 const REPOSITORY_URL = "https://github.com/arminazimi/evergreen";
 const RULES_DIRECTORY = "docs/rules";
 
@@ -33,6 +34,7 @@ export interface GeneratedFile {
   contents: string;
 }
 
+export const ruleUrl = (id: string) => `${SITE_URL}/rules/${id}.html`;
 const dataUrl = (ecosystem: string) => `${REPOSITORY_URL}/blob/main/registry/${ecosystem}.json`;
 
 function addDays(date: string, days: number): string {
@@ -43,6 +45,9 @@ function addDays(date: string, days: number): string {
 
 /** A string safe inside a YAML double-quoted scalar. */
 const yaml = (value: string) => JSON.stringify(value);
+
+/** JSON for a `<script>` element: `<` is escaped so the data can never close the element. */
+const scriptJson = (value: unknown) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
 
 /** A table cell: no pipes or newlines. */
 const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
@@ -58,6 +63,26 @@ function description(rule: RegistryV2Rule): string {
 
 function detectorsFor(ecosystem: string): string[] {
   return getCapabilityManifest().ecosystems.find((entry) => entry.id === ecosystem)?.detectorIds.slice().sort() ?? [];
+}
+
+/** schema.org metadata for a rule page, so search engines and agents can read it as data. */
+function jsonLd(rule: RegistryV2Rule, url: string): unknown {
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": url,
+    url,
+    mainEntityOfPage: url,
+    headline: rule.title,
+    description: description(rule),
+    inLanguage: "en",
+    dateModified: rule.provenance.reviewedAt,
+    keywords: [rule.event, rule.ecosystem, rule.severity],
+    about: { "@type": "Thing", name: rule.title, identifier: rule.purl },
+    citation: rule.sources.map((source) => ({ "@type": "CreativeWork", name: source.title, url: source.url })),
+    isBasedOn: dataUrl(rule.ecosystem),
+    publisher: { "@type": "Organization", name: "Evergreen", url: SITE_URL },
+  };
 }
 
 export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): string {
@@ -97,6 +122,7 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     lines.push("", "**Verification**", "", ...rule.migration.verification.map((check) => `- \`${check.command}\`: ${check.purpose}`));
   }
 
+  const url = ruleUrl(rule.id);
   const detectors = detectorsFor(rule.ecosystem);
   lines.push("", "## Detected by", "");
   if (detectors.length === 0) {
@@ -110,7 +136,11 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     "",
     "## Data",
     "",
-    `This page is generated from [\`registry/${rule.ecosystem}.json\`](${dataUrl(rule.ecosystem)}), rule \`${rule.id}\`, in the \`${REGISTRY_V2_SCHEMA_VERSION}\` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.`,
+    `This page is generated from [\`registry/${rule.ecosystem}.json\`](${dataUrl(rule.ecosystem)}), rule \`${rule.id}\`, in the \`${REGISTRY_V2_SCHEMA_VERSION}\` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.`,
+    "",
+    '<script type="application/ld+json">',
+    scriptJson(jsonLd(rule, url)),
+    "</script>",
     "",
   );
   return lines.join("\n");

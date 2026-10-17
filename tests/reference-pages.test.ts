@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { after, test } from "node:test";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { buildFiles, drift, loadRegistries, renderRulePage, write } from "../tools/build-reference-pages.js";
+import { buildFiles, drift, loadRegistries, renderRulePage, ruleUrl, write } from "../tools/build-reference-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -35,6 +35,12 @@ const registry = (rules: RegistryV2Rule[], maxReviewAgeDays?: number): RegistryV
   ...(maxReviewAgeDays ? { freshness: { maxReviewAgeDays } } : {}),
   rules,
 });
+
+function structuredData(page: string): Record<string, unknown> {
+  const match = /<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/.exec(page);
+  assert.ok(match, "the page has no JSON-LD block");
+  return JSON.parse(match[1]!) as Record<string, unknown>;
+}
 
 test("every bundled rule has a page, and the committed pages match the registry", async () => {
   const registries = await loadRegistries();
@@ -129,3 +135,40 @@ test("only v2 rule registries are read from the registry directory", async () =>
   assert.deepEqual((await loadRegistries(root)).map((item) => item.ecosystem), ["demo"]);
   assert.ok((await readFile(join(root, "demo.json"), "utf8")).length > 0);
 });
+
+test("each page carries valid structured data that agrees with the page", async () => {
+  for (const item of await loadRegistries()) {
+    for (const entry of item.rules) {
+      const page = renderRulePage(entry, 365);
+      const data = structuredData(page);
+      assert.equal(data["@context"], "https://schema.org");
+      assert.equal(data["@type"], "TechArticle");
+      assert.equal(data.url, ruleUrl(entry.id));
+      assert.equal(data["@id"], data.url);
+      assert.equal(data.headline, entry.title);
+      assert.equal(data.dateModified, entry.provenance.reviewedAt);
+      assert.deepEqual((data.citation as Array<{ url: string }>).map((citation) => citation.url), entry.sources.map((source) => source.url));
+      assert.equal((data.about as { identifier: string }).identifier, entry.purl);
+      assert.equal(typeof data.description, "string");
+      assert.ok((data.description as string).length <= 201);
+      assert.match(data.isBasedOn as string, new RegExp(`/registry/${entry.ecosystem}\\.json$`));
+      assert.equal((data.publisher as { url: string }).url, "https://arminazimi.github.io/evergreen");
+    }
+  }
+});
+
+test("data can never close the structured-data element", () => {
+  const page = renderRulePage(rule({ summary: "Bad </script><script>alert(1)</script> text", title: "A </script> title" }), 365);
+  const block = page.slice(page.indexOf('<script type="application/ld+json">'));
+  // Only the closing tag the generator writes: no `</` appears inside the JSON.
+  assert.equal(block.indexOf("</"), block.lastIndexOf("</script>"));
+  assert.equal(structuredData(page).headline, "A </script> title");
+  assert.equal(structuredData(page).description, "Bad </script><script>alert(1)</script> text");
+});
+
+test("the page says where the machine-readable data lives and that no CLE export exists yet", () => {
+  const page = renderRulePage(rule(), 365);
+  assert.match(page, /registry\/demo\.json/);
+  assert.match(page, /A CLE \(ECMA-428\) export is not published yet\./);
+});
+

@@ -46,4 +46,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.humanwhocodes-object-schema.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.humanwhocodes-object-schema.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+  "headline": "@humanwhocodes/object-schema is deprecated",
+  "description": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "@humanwhocodes/object-schema is deprecated",
+    "identifier": "pkg:npm/%40humanwhocodes/object-schema"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "@humanwhocodes/object-schema package deprecation notice",
+      "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "@humanwhocodes/object-schema registry metadata",
+      "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

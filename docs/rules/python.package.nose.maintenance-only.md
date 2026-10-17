@@ -49,4 +49,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.nose.maintenance-only`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.nose.maintenance-only`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
+  "headline": "nose is maintenance-only",
+  "description": "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-14",
+  "keywords": [
+    "deprecated",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "nose is maintenance-only",
+    "identifier": "pkg:pypi/nose"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "nose note to users",
+      "url": "https://nose.readthedocs.io/en/latest/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

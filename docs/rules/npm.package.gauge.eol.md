@@ -45,4 +45,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.gauge.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.gauge.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+  "headline": "gauge is no longer supported",
+  "description": "npm states that the gauge package is no longer supported.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-life",
+    "npm",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "gauge is no longer supported",
+    "identifier": "pkg:npm/gauge"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "gauge package deprecation notice",
+      "url": "https://www.npmjs.com/package/gauge"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "gauge registry metadata",
+      "url": "https://registry.npmjs.org/gauge/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

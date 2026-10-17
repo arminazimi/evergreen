@@ -47,4 +47,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.distribute.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.distribute.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+  "headline": "distribute is deprecated",
+  "description": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "distribute is deprecated",
+    "identifier": "pkg:pypi/distribute"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Distribute deprecation notice",
+      "url": "https://pypi.org/project/distribute/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

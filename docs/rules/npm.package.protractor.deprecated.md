@@ -46,4 +46,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.protractor.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.protractor.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+  "headline": "Protractor is deprecated",
+  "description": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Protractor is deprecated",
+    "identifier": "pkg:npm/protractor"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "protractor package deprecation notice",
+      "url": "https://www.npmjs.com/package/protractor"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "protractor registry metadata",
+      "url": "https://registry.npmjs.org/protractor/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

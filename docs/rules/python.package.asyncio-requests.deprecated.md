@@ -45,4 +45,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.asyncio-requests.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.asyncio-requests.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+  "headline": "asyncio-requests is retired",
+  "description": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "asyncio-requests is retired",
+    "identifier": "pkg:pypi/asyncio-requests"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "asyncio-gateway migration notice",
+      "url": "https://pypi.org/project/asyncio-gateway/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

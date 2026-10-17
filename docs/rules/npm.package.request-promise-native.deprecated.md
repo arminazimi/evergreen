@@ -47,4 +47,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.request-promise-native.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.request-promise-native.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+  "headline": "request-promise-native is deprecated",
+  "description": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "request-promise-native is deprecated",
+    "identifier": "pkg:npm/request-promise-native"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "request-promise-native package deprecation notice",
+      "url": "https://www.npmjs.com/package/request-promise-native"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "request-promise-native registry metadata",
+      "url": "https://registry.npmjs.org/request-promise-native/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>
