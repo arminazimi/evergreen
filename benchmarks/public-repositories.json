@@ -1414,6 +1414,85 @@
         }
       ]
     },
-    { "repository": "helm/helm", "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0", "ecosystem": "go", "expected": [] }
+    { "repository": "helm/helm", "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0", "ecosystem": "go", "expected": [] },
+    {
+      "repository": "trpc/trpc",
+      "commit": "10e2ef98f7842b94eb3026e4f9bcfe62cc39b088",
+      "ecosystem": "node",
+      "expected": [
+        {
+          "ruleId": "container.postgres.eol-13-and-older",
+          "path": "examples/next-prisma-websockets-starter/docker-compose.yaml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of examples/next-prisma-websockets-starter/docker-compose.yaml reads `image: postgres:13`, a Docker image release line that has ended, in a file inside the repository's examples."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "examples/next-prisma-websockets-starter/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/next-prisma-websockets-starter/package.json reads `\"node\": \">=18.15.0\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "examples/next-websockets-encoder/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/next-websockets-encoder/package.json reads `\"node\": \">=18.15.0\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "examples/next-prisma-websockets-starter/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/next-prisma-websockets-starter/package.json reads `\"node\": \">=18.15.0\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "examples/next-websockets-encoder/package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/next-websockets-encoder/package.json reads `\"node\": \">=18.15.0\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "TanStack/query",
+      "commit": "a636462b853438903567c9907c188a068021c633",
+      "ecosystem": "node",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "examples/solid/solid-start-streaming/package.json",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of examples/solid/solid-start-streaming/package.json reads `\"node\": \">=18\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "examples/solid/solid-start-streaming/package.json",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of examples/solid/solid-start-streaming/package.json reads `\"node\": \">=18\"`, a Node.js range that includes a release line that has ended, in a workspace package."
+          }
+        }
+      ]
+    },
+    { "repository": "facebook/docusaurus", "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9", "ecosystem": "node", "expected": [] },
+    { "repository": "pydantic/pydantic-ai", "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1", "ecosystem": "python", "expected": [] }
   ]
 }
