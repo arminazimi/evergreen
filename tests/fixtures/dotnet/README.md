@@ -10,7 +10,7 @@ These fixtures define the parser boundary for .NET declarations (see [decision 0
 | `positive/lib/Win.vbproj` | An OS-specific moniker, `net5.0-windows` (line 4), belongs to the 5.0 line. |
 | `positive/central/Directory.Build.props` | `TargetFramework` `net6.0` (line 4). `ManagePackageVersionsCentrally` (line 5) is read, not judged. |
 | `positive/central/Directory.Packages.props` | `PackageVersion` entries (line 4 `WindowsAzure.Storage` 9.3.3, line 5 `Serilog` 3.1.1). |
-| `positive/lock/packages.lock.json` | A `Direct` dependency `WindowsAzure.Storage` resolved to 9.3.3 (key on line 6, `resolved` on line 8). The `Transitive` `Newtonsoft.Json` (line 11) is not a declaration of the project. |
+| `positive/lock/packages.lock.json` | A `Direct` dependency `WindowsAzure.Storage` resolved to 9.3.3 (key on line 5, `resolved` on line 8). The `Transitive` `Newtonsoft.Json` (line 11) is not a declaration of the project. |
 | `negative/Dynamic.csproj` | Commented-out targets and packages, a target written as `$(Tfm)`, prose in `Description`, a property version, a floating version (`5.*`), a version range, and a `PackageReference` with no version produce no declarations. |
 | `negative/Targets.csproj` | `netstandard2.0` (specification, not a runtime), `net48` (.NET Framework, out of scope) and `net8.0` (supported): nothing to judge. |
 | `negative/global.json` | A version under `msbuild-sdks` and an `sdk` object with no `version`: no SDK is pinned. |
