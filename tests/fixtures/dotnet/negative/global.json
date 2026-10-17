@@ -1,0 +1,9 @@
+{
+  "msbuild-sdks": {
+    "Contoso.Build": "3.1.426"
+  },
+  "sdk": {
+    "rollForward": "latestMajor",
+    "allowPrerelease": false
+  }
+}
