@@ -31,7 +31,7 @@ what the finished detector must not report.
 | `zero/kustomize/` | A kustomization that references a supported manifest: no findings. |
 | `malformed/manifests/broken.yaml` | A valid first document followed by a broken one. A file with any syntax error yields no declarations, including from the valid document. |
 | `malformed/manifests/tab.yaml` | A tab used for indentation. |
-| `malformed/manifests/nul.yaml` | A NUL byte inside the file. |
+| `malformed/manifests/nul-byte.yaml` | A NUL byte inside the file. |
 | `malformed/helm/mychart/Chart.yaml` | An unclosed flow sequence. |
 | `malformed/helm/mychart/templates/cronjob.yaml` | Unclosed template actions. |
 | `malformed/kustomize/kustomization.yaml` | An unclosed flow sequence and a truncated inline patch. |
