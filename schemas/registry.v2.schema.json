@@ -132,7 +132,7 @@
           "additionalProperties": false,
           "properties": {
             "kind": { "const": "import" },
-            "language": { "enum": ["javascript", "typescript", "python", "go"] },
+            "language": { "enum": ["javascript", "typescript", "python", "go", "java", "kotlin"] },
             "module": { "$ref": "#/$defs/nonEmpty" }
           }
         },

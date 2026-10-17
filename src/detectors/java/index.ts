@@ -9,6 +9,7 @@ import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import { analyzeSourceUsage } from "../../source-usage.js";
 import { versContains } from "../../vers/index.js";
 import { jdkRuleVersion } from "./jdk-version.js";
 import type { DependencyDeclaration, DynamicJdkDeclaration, JdkDeclaration } from "./jdk-version.js";
@@ -113,6 +114,7 @@ export class JavaDetector implements Detector {
     const rules = rulesByPurl(registry.rules);
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
+    const withUsage: Array<{ id: string; rule: RegistryV2Rule }> = [];
 
     for (const { path, declaration } of located) {
       const location = { path, line: declaration.line };
@@ -148,6 +150,7 @@ export class JavaDetector implements Detector {
 
       const rule = candidates?.find((item) => matches(item, version));
       if (!rule) continue;
+      if ((rule.usage ?? []).length > 0) withUsage.push({ id: `${rule.id}:${path}:${declaration.line}`, rule });
       findings.push({
         id: `${rule.id}:${path}:${declaration.line}`,
         ruleId: rule.id,
@@ -160,6 +163,15 @@ export class JavaDetector implements Detector {
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
       });
+    }
+
+    // Where the repository's Java and Kotlin source imports an affected dependency, so a packet can list the files.
+    const analyses = new Map(
+      (await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]),
+    );
+    for (const finding of findings) {
+      const analysis = analyses.get(finding.id);
+      if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
     }
     return { findings, unclassified };
   }

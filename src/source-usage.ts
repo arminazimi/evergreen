@@ -60,6 +60,8 @@ function languageFor(path: string): SourceLanguage | undefined {
   if ([".ts", ".tsx", ".mts", ".cts"].includes(extension)) return "typescript";
   if (extension === ".py") return "python";
   if (extension === ".go") return "go";
+  if (extension === ".java") return "java";
+  if (extension === ".kt") return "kotlin";
   if (extension === ".json") return "json";
   if ([".yaml", ".yml"].includes(extension)) return "yaml";
   if (extension === ".toml") return "toml";
@@ -207,6 +209,7 @@ function pythonImports(line: string, lineNumber: number): ImportReference[] {
 function moduleMatches(actual: string, expected: string, language: SourceLanguage): boolean {
   if (language === "python") return actual === expected || actual.startsWith(`${expected}.`);
   if (language === "go") return actual === expected || actual.startsWith(`${expected}/`);
+  if (language === "java" || language === "kotlin") return actual === expected || actual.startsWith(`${expected}.`);
   return actual === expected;
 }
 
@@ -250,6 +253,24 @@ function goImports(lines: readonly string[], maskedLines: readonly string[]): Im
       column: line.indexOf(match[2]) + 1,
       bindings: alias === "_" || alias === "." ? [] : [{ module: match[2], local: alias ?? goPackageName(match[2]), imported: "*" }],
     });
+  }
+  return references;
+}
+
+/**
+ * Import declarations in a Java or Kotlin file: `import a.b.C;`, `import static a.b.C.m;`, wildcard imports, and
+ * Kotlin imports without a semicolon or with `as`. An import binds names, but calls through them are not mapped,
+ * so only the import itself is reported.
+ */
+function jvmImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  const entry = /^\s*import\s+(?:static\s+)?([A-Za-z_][\w$]*(?:\.[A-Za-z_][\w$]*)*)(?:\.\*)?/;
+  for (const [index, masked] of maskedLines.entries()) {
+    if (!/^\s*import\s/.test(masked)) continue;
+    const line = lines[index]!;
+    const match = entry.exec(line);
+    if (!match?.[1]) continue;
+    references.push({ module: match[1], line: index + 1, column: line.indexOf(match[1]) + 1, bindings: [] });
   }
   return references;
 }
@@ -352,7 +373,7 @@ export async function analyzeSourceUsage(
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
-    const imports = file.language === "go" ? goImports(lines, maskedLines) : lines.flatMap((line, index) => {
+    const imports = file.language === "go" ? goImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];

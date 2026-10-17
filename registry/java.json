@@ -152,7 +152,19 @@
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi",
         "importer": "java-2"
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "java",
+          "module": "com.mysql"
+        },
+        {
+          "kind": "import",
+          "language": "kotlin",
+          "module": "com.mysql"
+        }
+      ]
     },
     {
       "id": "java.maven.org.slf4j.slf4j-log4j12.relocated",
@@ -175,7 +187,29 @@
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi",
         "importer": "java-2"
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "java",
+          "module": "org.apache.log4j"
+        },
+        {
+          "kind": "import",
+          "language": "kotlin",
+          "module": "org.apache.log4j"
+        },
+        {
+          "kind": "import",
+          "language": "java",
+          "module": "org.slf4j.impl"
+        },
+        {
+          "kind": "import",
+          "language": "kotlin",
+          "module": "org.slf4j.impl"
+        }
+      ]
     }
   ]
 }
