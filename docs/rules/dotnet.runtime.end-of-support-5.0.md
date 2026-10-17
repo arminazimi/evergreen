@@ -1,6 +1,7 @@
 ---
-title: ".NET 5 is no longer supported"
+title: ".NET 5 is no longer supported — dates, impact, migration"
 description: ".NET 5 (Standard Term Support) reached the end of its support on 2022-05-10. Microsoft no longer ships security or quality fixes for it."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html"
 ---
 
 # .NET 5 is no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html",
   "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html",
-  "headline": ".NET 5 is no longer supported",
+  "headline": ".NET 5 is no longer supported — dates, impact, migration",
   "description": ".NET 5 (Standard Term Support) reached the end of its support on 2022-05-10. Microsoft no longer ships security or quality fixes for it.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

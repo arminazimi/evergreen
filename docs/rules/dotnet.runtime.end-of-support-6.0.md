@@ -1,6 +1,7 @@
 ---
-title: ".NET 6 is no longer supported"
+title: ".NET 6 is no longer supported — dates, impact, migration"
 description: ".NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html"
 ---
 
 # .NET 6 is no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html",
   "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html",
-  "headline": ".NET 6 is no longer supported",
+  "headline": ".NET 6 is no longer supported — dates, impact, migration",
   "description": ".NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

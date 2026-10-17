@@ -1,6 +1,7 @@
 ---
-title: ".NET Core 3.1 is no longer supported"
+title: ".NET Core 3.1 is no longer supported — dates, impact, migration"
 description: ".NET Core 3.1 (Long Term Support) reached the end of its support on 2022-12-13. Microsoft no longer ships security or quality fixes for it."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html"
 ---
 
 # .NET Core 3.1 is no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
   "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html",
-  "headline": ".NET Core 3.1 is no longer supported",
+  "headline": ".NET Core 3.1 is no longer supported — dates, impact, migration",
   "description": ".NET Core 3.1 (Long Term Support) reached the end of its support on 2022-12-13. Microsoft no longer ships security or quality fixes for it.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",
