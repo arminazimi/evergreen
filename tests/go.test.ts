@@ -135,3 +135,17 @@ test("a migration packet for a Go finding names the file, steps, and verificatio
   assert.ok(packet.steps.some((step) => step.id === "update-go-declaration"));
   assert.ok(packet.verification.some((check) => check.command === "go build ./... && go test ./..."));
 });
+
+test("a go directive older than Go 1.21 is reported by the 'and older' rule", async () => {
+  const root = await repository({ "go.mod": "module a\n\ngo 1.15\n", "tools/go.mod": "module b\n\ngo 1.20.3\ntoolchain go1.20.14\n", "ok/go.mod": "module c\n\ngo 1.26\n" });
+  const findings = await goDetector.scan({ root });
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line, finding.severity]),
+    [
+      ["go.runtime.end-of-support-1.20-and-older", "go.mod", 3, "medium"],
+      ["go.runtime.end-of-support-1.20-and-older", "tools/go.mod", 3, "medium"],
+      ["go.runtime.end-of-support-1.20-and-older", "tools/go.mod", 4, "high"],
+    ],
+  );
+  assert.equal(findings[0]!.deadline, "2024-02-06");
+});
