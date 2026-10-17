@@ -1,6 +1,7 @@
 ---
-title: "vsscale is deprecated"
+title: "vsscale is deprecated — dates, impact, migration"
 description: "The maintainer states that vsscale is deprecated and directs users to vsjetpack."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html"
 ---
 
 # vsscale is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html",
-  "headline": "vsscale is deprecated",
+  "headline": "vsscale is deprecated — dates, impact, migration",
   "description": "The maintainer states that vsscale is deprecated and directs users to vsjetpack.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

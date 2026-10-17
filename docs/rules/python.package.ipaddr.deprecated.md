@@ -1,6 +1,7 @@
 ---
-title: "ipaddr is superseded"
+title: "ipaddr is superseded — dates, impact, migration"
 description: "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html"
 ---
 
 # ipaddr is superseded
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
-  "headline": "ipaddr is superseded",
+  "headline": "ipaddr is superseded — dates, impact, migration",
   "description": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

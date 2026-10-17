@@ -1,6 +1,7 @@
 ---
-title: "Python 3.10 and older are end-of-life"
+title: "Python 3.10 and older are end-of-life — dates, impact, migration"
 description: "These Python release lines no longer receive security or bug fixes from the Python core team."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html"
 ---
 
 # Python 3.10 and older are end-of-life
@@ -60,7 +61,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html",
-  "headline": "Python 3.10 and older are end-of-life",
+  "headline": "Python 3.10 and older are end-of-life — dates, impact, migration",
   "description": "These Python release lines no longer receive security or bug fixes from the Python core team.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

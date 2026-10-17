@@ -1,6 +1,7 @@
 ---
-title: "Unsupported actions/first-interaction runtime"
+title: "Unsupported actions/first-interaction runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.first-interaction.node20.html"
 ---
 
 # Unsupported actions/first-interaction runtime
@@ -56,7 +57,7 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
   "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.first-interaction.node20.html",
   "url": "https://arminazimi.github.io/evergreen/rules/github-actions.first-interaction.node20.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.first-interaction.node20.html",
-  "headline": "Unsupported actions/first-interaction runtime",
+  "headline": "Unsupported actions/first-interaction runtime — dates, impact, migration",
   "description": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

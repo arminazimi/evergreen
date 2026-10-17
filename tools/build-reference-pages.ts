@@ -1,8 +1,8 @@
-// Generates one public reference page per lifecycle rule, and an index, from registry/*.json.
+// Generates one public reference page per lifecycle rule, an index, and a sitemap, from registry/*.json.
 //
 //   node dist/tools/build-reference-pages.js [--check]
 //
-// Output: docs/rules/<rule id>.md and docs/rules/index.md. With --check nothing is
+// Output: docs/rules/<rule id>.md, docs/rules/index.md, and docs/sitemap.xml. With --check nothing is
 // written: the command exits 1 and names every file that differs from what the registry would produce, so
 // a page can never silently disagree with the data. It reads registry/*.json only and never uses the network.
 
@@ -52,6 +52,9 @@ const scriptJson = (value: unknown) => JSON.stringify(value, null, 2).replace(/<
 /** A table cell: no pipes or newlines. */
 const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
 
+/** The page title: the rule's own title (which names the product and version) plus what the page offers. */
+export const pageTitle = (rule: RegistryV2Rule) => `${rule.title} — dates, impact, migration`;
+
 /** A short description for search results: the summary, cut at a sentence or word boundary. */
 function description(rule: RegistryV2Rule): string {
   const text = rule.summary.replace(/\s+/g, " ").trim();
@@ -73,7 +76,7 @@ function jsonLd(rule: RegistryV2Rule, url: string): unknown {
     "@id": url,
     url,
     mainEntityOfPage: url,
-    headline: rule.title,
+    headline: pageTitle(rule),
     description: description(rule),
     inLanguage: "en",
     dateModified: rule.provenance.reviewedAt,
@@ -89,8 +92,9 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
   const reviewDue = addDays(rule.provenance.reviewedAt, maxReviewAgeDays);
   const lines: string[] = [
     "---",
-    `title: ${yaml(rule.title)}`,
+    `title: ${yaml(pageTitle(rule))}`,
     `description: ${yaml(description(rule))}`,
+    `canonical_url: ${yaml(ruleUrl(rule.id))}`,
     "---",
     "",
     `# ${rule.title}`,
@@ -149,8 +153,9 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
 export function renderIndex(registries: readonly RegistryV2[]): string {
   const lines = [
     "---",
-    'title: "Lifecycle reference"',
+    'title: "Lifecycle reference — end of life, removed, and deprecated components"',
     'description: "One page per lifecycle rule: status, affected versions, dates, sources, migration, and the detector that reads it."',
+    `canonical_url: ${yaml(`${SITE_URL}/rules/`)}`,
     "---",
     "",
     "# Lifecycle reference",
@@ -167,6 +172,21 @@ export function renderIndex(registries: readonly RegistryV2[]): string {
   return lines.join("\n");
 }
 
+export function renderSitemap(registries: readonly RegistryV2[]): string {
+  const entries: Array<{ loc: string; lastmod?: string }> = [{ loc: `${SITE_URL}/` }, { loc: `${SITE_URL}/rules/` }];
+  for (const registry of registries) {
+    for (const rule of registry.rules) entries.push({ loc: ruleUrl(rule.id), lastmod: rule.provenance.reviewedAt });
+  }
+  entries.sort((left, right) => left.loc.localeCompare(right.loc));
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...entries.map((entry) => `  <url><loc>${entry.loc}</loc>${entry.lastmod ? `<lastmod>${entry.lastmod}</lastmod>` : ""}</url>`),
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
 /** The v2 registries in `registry/`, in ecosystem order. Other JSON files there are not rule registries. */
 export async function loadRegistries(directory = "registry"): Promise<RegistryV2[]> {
   const registries: RegistryV2[] = [];
@@ -180,6 +200,7 @@ export async function loadRegistries(directory = "registry"): Promise<RegistryV2
 export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
   const files: GeneratedFile[] = [
     { path: `${RULES_DIRECTORY}/index.md`, contents: renderIndex(registries) },
+    { path: "docs/sitemap.xml", contents: renderSitemap(registries) },
   ];
   const seen = new Set<string>();
   for (const registry of registries) {
@@ -229,7 +250,7 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
     return 1;
   }
   await write(files);
-  console.log(`Wrote ${files.length} files in docs/rules/.`);
+  console.log(`Wrote ${files.length} files in docs/rules/ and docs/sitemap.xml.`);
   return 0;
 }
 

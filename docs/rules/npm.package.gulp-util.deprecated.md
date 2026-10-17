@@ -1,6 +1,7 @@
 ---
-title: "gulp-util is deprecated"
+title: "gulp-util is deprecated — dates, impact, migration"
 description: "npm marks gulp-util as deprecated and links to the Gulp migration guidance."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html"
 ---
 
 # gulp-util is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
-  "headline": "gulp-util is deprecated",
+  "headline": "gulp-util is deprecated — dates, impact, migration",
   "description": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

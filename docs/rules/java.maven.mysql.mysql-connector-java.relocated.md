@@ -1,6 +1,7 @@
 ---
-title: "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j"
+title: "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j — dates, impact, migration"
 description: "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\""
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html"
 ---
 
 # mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j
@@ -57,7 +58,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
-  "headline": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+  "headline": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j — dates, impact, migration",
   "description": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

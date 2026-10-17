@@ -1,6 +1,7 @@
 ---
-title: "opennms-api-wrapper was renamed"
+title: "opennms-api-wrapper was renamed — dates, impact, migration"
 description: "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html"
 ---
 
 # opennms-api-wrapper was renamed
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html",
-  "headline": "opennms-api-wrapper was renamed",
+  "headline": "opennms-api-wrapper was renamed — dates, impact, migration",
   "description": "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

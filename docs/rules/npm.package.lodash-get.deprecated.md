@@ -1,6 +1,7 @@
 ---
-title: "lodash.get is deprecated"
+title: "lodash.get is deprecated — dates, impact, migration"
 description: "npm recommends replacing lodash.get with JavaScript's optional chaining operator."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html"
 ---
 
 # lodash.get is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
-  "headline": "lodash.get is deprecated",
+  "headline": "lodash.get is deprecated — dates, impact, migration",
   "description": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

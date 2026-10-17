@@ -1,6 +1,7 @@
 ---
-title: "Java 26 is no longer supported"
+title: "Java 26 is no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 26 as a non-LTS release whose Premier Support ended in September 2026."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html"
 ---
 
 # Java 26 is no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html",
-  "headline": "Java 26 is no longer supported",
+  "headline": "Java 26 is no longer supported — dates, impact, migration",
   "description": "The Oracle Java SE Support Roadmap lists Java 26 as a non-LTS release whose Premier Support ended in September 2026.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

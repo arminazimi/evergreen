@@ -1,6 +1,7 @@
 ---
-title: "failure is no longer maintained"
+title: "failure is no longer maintained — dates, impact, migration"
 description: "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html"
 ---
 
 # failure is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
   "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
-  "headline": "failure is no longer maintained",
+  "headline": "failure is no longer maintained — dates, impact, migration",
   "description": "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

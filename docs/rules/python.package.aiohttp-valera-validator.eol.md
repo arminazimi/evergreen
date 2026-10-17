@@ -1,6 +1,7 @@
 ---
-title: "aiohttp-valera-validator was renamed and is no longer maintained"
+title: "aiohttp-valera-validator was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html"
 ---
 
 # aiohttp-valera-validator was renamed and is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html",
-  "headline": "aiohttp-valera-validator was renamed and is no longer maintained",
+  "headline": "aiohttp-valera-validator was renamed and is no longer maintained — dates, impact, migration",
   "description": "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

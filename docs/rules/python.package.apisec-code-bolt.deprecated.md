@@ -1,6 +1,7 @@
 ---
-title: "apisec-code-bolt was renamed"
+title: "apisec-code-bolt was renamed — dates, impact, migration"
 description: "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html"
 ---
 
 # apisec-code-bolt was renamed
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
-  "headline": "apisec-code-bolt was renamed",
+  "headline": "apisec-code-bolt was renamed — dates, impact, migration",
   "description": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

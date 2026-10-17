@@ -1,6 +1,7 @@
 ---
-title: "domexception is deprecated"
+title: "domexception is deprecated — dates, impact, migration"
 description: "npm directs users of domexception to the platform-native DOMException implementation."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html"
 ---
 
 # domexception is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
-  "headline": "domexception is deprecated",
+  "headline": "domexception is deprecated — dates, impact, migration",
   "description": "npm directs users of domexception to the platform-native DOMException implementation.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

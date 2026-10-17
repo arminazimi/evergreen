@@ -1,6 +1,7 @@
 ---
-title: "q is deprecated"
+title: "q is deprecated — dates, impact, migration"
 description: "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html"
 ---
 
 # q is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
-  "headline": "q is deprecated",
+  "headline": "q is deprecated — dates, impact, migration",
   "description": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

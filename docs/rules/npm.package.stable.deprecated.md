@@ -1,6 +1,7 @@
 ---
-title: "stable is deprecated"
+title: "stable is deprecated — dates, impact, migration"
 description: "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html"
 ---
 
 # stable is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
-  "headline": "stable is deprecated",
+  "headline": "stable is deprecated — dates, impact, migration",
   "description": "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

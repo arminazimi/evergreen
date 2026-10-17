@@ -1,6 +1,7 @@
 ---
-title: "sklearn is deprecated on PyPI"
+title: "sklearn is deprecated on PyPI — dates, impact, migration"
 description: "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html"
 ---
 
 # sklearn is deprecated on PyPI
@@ -56,7 +57,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html",
-  "headline": "sklearn is deprecated on PyPI",
+  "headline": "sklearn is deprecated on PyPI — dates, impact, migration",
   "description": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "abab is deprecated"
+title: "abab is deprecated — dates, impact, migration"
 description: "npm directs users of abab to the platform-native atob and btoa functions."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html"
 ---
 
 # abab is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
-  "headline": "abab is deprecated",
+  "headline": "abab is deprecated — dates, impact, migration",
   "description": "npm directs users of abab to the platform-native atob and btoa functions.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "node-pre-gyp is deprecated"
+title: "node-pre-gyp is deprecated — dates, impact, migration"
 description: "npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox/node-pre-gyp will receive updates."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html"
 ---
 
 # node-pre-gyp is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html",
-  "headline": "node-pre-gyp is deprecated",
+  "headline": "node-pre-gyp is deprecated — dates, impact, migration",
   "description": "npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox/node-pre-gyp will receive updates.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "figgy-pudding is no longer supported"
+title: "figgy-pudding is no longer supported — dates, impact, migration"
 description: "npm states that the figgy-pudding module is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html"
 ---
 
 # figgy-pudding is no longer supported
@@ -54,7 +55,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
-  "headline": "figgy-pudding is no longer supported",
+  "headline": "figgy-pudding is no longer supported — dates, impact, migration",
   "description": "npm states that the figgy-pudding module is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "goobook is no longer maintained"
+title: "goobook is no longer maintained — dates, impact, migration"
 description: "The maintainer states that the project is no longer maintained."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html"
 ---
 
 # goobook is no longer maintained
@@ -53,7 +54,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html",
-  "headline": "goobook is no longer maintained",
+  "headline": "goobook is no longer maintained — dates, impact, migration",
   "description": "The maintainer states that the project is no longer maintained.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "lodash.isequal is deprecated"
+title: "lodash.isequal is deprecated — dates, impact, migration"
 description: "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html"
 ---
 
 # lodash.isequal is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
-  "headline": "lodash.isequal is deprecated",
+  "headline": "lodash.isequal is deprecated — dates, impact, migration",
   "description": "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

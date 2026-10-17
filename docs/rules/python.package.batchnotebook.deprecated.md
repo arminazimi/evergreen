@@ -1,6 +1,7 @@
 ---
-title: "BatchNotebook is deprecated"
+title: "BatchNotebook is deprecated — dates, impact, migration"
 description: "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html"
 ---
 
 # BatchNotebook is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html",
-  "headline": "BatchNotebook is deprecated",
+  "headline": "BatchNotebook is deprecated — dates, impact, migration",
   "description": "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

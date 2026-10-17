@@ -1,6 +1,7 @@
 ---
-title: "llama-index-experimental is no longer maintained"
+title: "llama-index-experimental is no longer maintained — dates, impact, migration"
 description: "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html"
 ---
 
 # llama-index-experimental is no longer maintained
@@ -53,7 +54,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
-  "headline": "llama-index-experimental is no longer maintained",
+  "headline": "llama-index-experimental is no longer maintained — dates, impact, migration",
   "description": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

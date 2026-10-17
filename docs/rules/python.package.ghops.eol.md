@@ -1,6 +1,7 @@
 ---
-title: "ghops is deprecated and no longer maintained"
+title: "ghops is deprecated and no longer maintained — dates, impact, migration"
 description: "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html"
 ---
 
 # ghops is deprecated and no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
-  "headline": "ghops is deprecated and no longer maintained",
+  "headline": "ghops is deprecated and no longer maintained — dates, impact, migration",
   "description": "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

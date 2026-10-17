@@ -1,6 +1,7 @@
 ---
-title: "request-promise is deprecated"
+title: "request-promise is deprecated — dates, impact, migration"
 description: "npm states that request-promise is deprecated because it extends the deprecated request package."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise.deprecated.html"
 ---
 
 # request-promise is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise.deprecated.html",
-  "headline": "request-promise is deprecated",
+  "headline": "request-promise is deprecated — dates, impact, migration",
   "description": "npm states that request-promise is deprecated because it extends the deprecated request package.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "nomnom is deprecated"
+title: "nomnom is deprecated — dates, impact, migration"
 description: "npm states that nomnom is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html"
 ---
 
 # nomnom is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
-  "headline": "nomnom is deprecated",
+  "headline": "nomnom is deprecated — dates, impact, migration",
   "description": "npm states that nomnom is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

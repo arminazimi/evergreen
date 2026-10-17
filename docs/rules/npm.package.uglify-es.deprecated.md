@@ -1,6 +1,7 @@
 ---
-title: "uglify-es is deprecated"
+title: "uglify-es is deprecated — dates, impact, migration"
 description: "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\""
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html"
 ---
 
 # uglify-es is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html",
-  "headline": "uglify-es is deprecated",
+  "headline": "uglify-es is deprecated — dates, impact, migration",
   "description": "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\"",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

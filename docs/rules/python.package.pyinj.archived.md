@@ -1,6 +1,7 @@
 ---
-title: "pyinj is archived on PyPI"
+title: "pyinj is archived on PyPI — dates, impact, migration"
 description: "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html"
 ---
 
 # pyinj is archived on PyPI
@@ -57,7 +58,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
-  "headline": "pyinj is archived on PyPI",
+  "headline": "pyinj is archived on PyPI — dates, impact, migration",
   "description": "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

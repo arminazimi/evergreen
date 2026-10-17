@@ -1,6 +1,7 @@
 ---
-title: "datacommons is deprecated"
+title: "datacommons is deprecated — dates, impact, migration"
 description: "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.datacommons.deprecated.html"
 ---
 
 # datacommons is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.datacommons.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.datacommons.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.datacommons.deprecated.html",
-  "headline": "datacommons is deprecated",
+  "headline": "datacommons is deprecated — dates, impact, migration",
   "description": "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

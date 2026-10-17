@@ -1,6 +1,7 @@
 ---
-title: "babel-eslint is deprecated"
+title: "babel-eslint is deprecated — dates, impact, migration"
 description: "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\""
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html"
 ---
 
 # babel-eslint is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
-  "headline": "babel-eslint is deprecated",
+  "headline": "babel-eslint is deprecated — dates, impact, migration",
   "description": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

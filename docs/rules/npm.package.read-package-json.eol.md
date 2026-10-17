@@ -1,6 +1,7 @@
 ---
-title: "read-package-json is no longer supported"
+title: "read-package-json is no longer supported — dates, impact, migration"
 description: "npm states that read-package-json is no longer supported and recommends @npmcli/package-json."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html"
 ---
 
 # read-package-json is no longer supported
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html",
-  "headline": "read-package-json is no longer supported",
+  "headline": "read-package-json is no longer supported — dates, impact, migration",
   "description": "npm states that read-package-json is no longer supported and recommends @npmcli/package-json.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

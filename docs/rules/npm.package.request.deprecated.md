@@ -1,6 +1,7 @@
 ---
-title: "request is deprecated"
+title: "request is deprecated — dates, impact, migration"
 description: "The package is fully deprecated and no new changes are expected."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html"
 ---
 
 # request is deprecated
@@ -57,7 +58,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html",
-  "headline": "request is deprecated",
+  "headline": "request is deprecated — dates, impact, migration",
   "description": "The package is fully deprecated and no new changes are expected.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

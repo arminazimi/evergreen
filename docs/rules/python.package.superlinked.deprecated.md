@@ -1,6 +1,7 @@
 ---
-title: "superlinked is deprecated for new projects"
+title: "superlinked is deprecated for new projects — dates, impact, migration"
 description: "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html"
 ---
 
 # superlinked is deprecated for new projects
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
-  "headline": "superlinked is deprecated for new projects",
+  "headline": "superlinked is deprecated for new projects — dates, impact, migration",
   "description": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

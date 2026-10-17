@@ -1,6 +1,7 @@
 ---
-title: "pep8 was renamed to pycodestyle"
+title: "pep8 was renamed to pycodestyle — dates, impact, migration"
 description: "The maintainers renamed the pep8 project to pycodestyle to reduce confusion."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html"
 ---
 
 # pep8 was renamed to pycodestyle
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
-  "headline": "pep8 was renamed to pycodestyle",
+  "headline": "pep8 was renamed to pycodestyle — dates, impact, migration",
   "description": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

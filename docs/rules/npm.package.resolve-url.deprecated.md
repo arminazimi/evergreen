@@ -1,6 +1,7 @@
 ---
-title: "resolve-url is deprecated"
+title: "resolve-url is deprecated — dates, impact, migration"
 description: "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html"
 ---
 
 # resolve-url is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
-  "headline": "resolve-url is deprecated",
+  "headline": "resolve-url is deprecated — dates, impact, migration",
   "description": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

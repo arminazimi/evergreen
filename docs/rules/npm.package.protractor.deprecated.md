@@ -1,6 +1,7 @@
 ---
-title: "Protractor is deprecated"
+title: "Protractor is deprecated — dates, impact, migration"
 description: "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html"
 ---
 
 # Protractor is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
-  "headline": "Protractor is deprecated",
+  "headline": "Protractor is deprecated — dates, impact, migration",
   "description": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

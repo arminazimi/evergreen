@@ -1,6 +1,7 @@
 ---
-title: "api-shield is deprecated"
+title: "api-shield is deprecated — dates, impact, migration"
 description: "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html"
 ---
 
 # api-shield is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
-  "headline": "api-shield is deprecated",
+  "headline": "api-shield is deprecated — dates, impact, migration",
   "description": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "mondobrain is no longer maintained"
+title: "mondobrain is no longer maintained — dates, impact, migration"
 description: "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html"
 ---
 
 # mondobrain is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
-  "headline": "mondobrain is no longer maintained",
+  "headline": "mondobrain is no longer maintained — dates, impact, migration",
   "description": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

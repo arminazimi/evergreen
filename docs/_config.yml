@@ -1,4 +1,6 @@
 title: Evergreen
+url: https://arminazimi.github.io
+baseurl: /evergreen
 description: Local-first deprecation intelligence for software repositories.
 theme: jekyll-theme-minimal
 show_downloads: true

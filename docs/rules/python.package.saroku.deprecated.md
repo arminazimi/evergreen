@@ -1,6 +1,7 @@
 ---
-title: "saroku was renamed to trikesh"
+title: "saroku was renamed to trikesh — dates, impact, migration"
 description: "The maintainer states that saroku was renamed and is no longer maintained under that name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html"
 ---
 
 # saroku was renamed to trikesh
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
-  "headline": "saroku was renamed to trikesh",
+  "headline": "saroku was renamed to trikesh — dates, impact, migration",
   "description": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

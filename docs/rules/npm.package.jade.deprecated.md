@@ -1,6 +1,7 @@
 ---
-title: "jade is deprecated"
+title: "jade is deprecated — dates, impact, migration"
 description: "npm states that Jade was renamed to Pug and directs users to the pug package."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.jade.deprecated.html"
 ---
 
 # jade is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.jade.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.jade.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.jade.deprecated.html",
-  "headline": "jade is deprecated",
+  "headline": "jade is deprecated — dates, impact, migration",
   "description": "npm states that Jade was renamed to Pug and directs users to the pug package.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

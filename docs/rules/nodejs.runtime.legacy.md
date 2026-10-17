@@ -1,6 +1,7 @@
 ---
-title: "Legacy Node.js runtime is end-of-life"
+title: "Legacy Node.js runtime is end-of-life — dates, impact, migration"
 description: "This Node.js release line is end-of-life and no longer receives security or bug fixes."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html"
 ---
 
 # Legacy Node.js runtime is end-of-life
@@ -59,7 +60,7 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
   "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
-  "headline": "Legacy Node.js runtime is end-of-life",
+  "headline": "Legacy Node.js runtime is end-of-life — dates, impact, migration",
   "description": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

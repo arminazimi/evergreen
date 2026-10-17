@@ -1,6 +1,7 @@
 ---
-title: "tempdir is no longer maintained"
+title: "tempdir is no longer maintained — dates, impact, migration"
 description: "The tempdir crate has been deprecated and its functionality merged into tempfile."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html"
 ---
 
 # tempdir is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
   "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
-  "headline": "tempdir is no longer maintained",
+  "headline": "tempdir is no longer maintained — dates, impact, migration",
   "description": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

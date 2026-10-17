@@ -1,6 +1,7 @@
 ---
-title: "Unsupported actions/setup-go runtime"
+title: "Unsupported actions/setup-go runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Version 6.0.0 and 6.1.0 still declare node20; version 6.2.0 and later declare node24."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.setup-go.node20.html"
 ---
 
 # Unsupported actions/setup-go runtime
@@ -56,7 +57,7 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
   "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-go.node20.html",
   "url": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-go.node20.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-go.node20.html",
-  "headline": "Unsupported actions/setup-go runtime",
+  "headline": "Unsupported actions/setup-go runtime — dates, impact, migration",
   "description": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Version 6.0.0 and 6.1.0 still declare node20; version 6.2.0 and later declare node24.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

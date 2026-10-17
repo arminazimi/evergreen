@@ -1,6 +1,7 @@
 ---
-title: "agentops-toolkit was renamed and is no longer maintained"
+title: "agentops-toolkit was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.agentops-toolkit.eol.html"
 ---
 
 # agentops-toolkit was renamed and is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.agentops-toolkit.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.agentops-toolkit.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.agentops-toolkit.eol.html",
-  "headline": "agentops-toolkit was renamed and is no longer maintained",
+  "headline": "agentops-toolkit was renamed and is no longer maintained — dates, impact, migration",
   "description": "The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

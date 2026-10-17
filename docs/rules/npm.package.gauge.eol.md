@@ -1,6 +1,7 @@
 ---
-title: "gauge is no longer supported"
+title: "gauge is no longer supported — dates, impact, migration"
 description: "npm states that the gauge package is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html"
 ---
 
 # gauge is no longer supported
@@ -54,7 +55,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
-  "headline": "gauge is no longer supported",
+  "headline": "gauge is no longer supported — dates, impact, migration",
   "description": "npm states that the gauge package is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

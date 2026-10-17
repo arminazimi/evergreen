@@ -1,6 +1,7 @@
 ---
-title: "PyCrypto is obsolete and vulnerable"
+title: "PyCrypto is obsolete and vulnerable — dates, impact, migration"
 description: "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html"
 ---
 
 # PyCrypto is obsolete and vulnerable
@@ -59,7 +60,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
-  "headline": "PyCrypto is obsolete and vulnerable",
+  "headline": "PyCrypto is obsolete and vulnerable — dates, impact, migration",
   "description": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

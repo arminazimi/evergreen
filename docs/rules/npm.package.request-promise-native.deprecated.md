@@ -1,6 +1,7 @@
 ---
-title: "request-promise-native is deprecated"
+title: "request-promise-native is deprecated — dates, impact, migration"
 description: "npm states that request-promise-native is deprecated because it extends the deprecated request package."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html"
 ---
 
 # request-promise-native is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
-  "headline": "request-promise-native is deprecated",
+  "headline": "request-promise-native is deprecated — dates, impact, migration",
   "description": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

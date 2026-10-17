@@ -1,6 +1,7 @@
 ---
-title: "asyncio-requests is retired"
+title: "asyncio-requests is retired — dates, impact, migration"
 description: "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html"
 ---
 
 # asyncio-requests is retired
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
-  "headline": "asyncio-requests is retired",
+  "headline": "asyncio-requests is retired — dates, impact, migration",
   "description": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "django-nose is maintenance-only"
+title: "django-nose is maintenance-only — dates, impact, migration"
 description: "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html"
 ---
 
 # django-nose is maintenance-only
@@ -58,7 +59,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
-  "headline": "django-nose is maintenance-only",
+  "headline": "django-nose is maintenance-only — dates, impact, migration",
   "description": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

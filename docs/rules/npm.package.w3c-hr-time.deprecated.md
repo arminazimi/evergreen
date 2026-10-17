@@ -1,6 +1,7 @@
 ---
-title: "w3c-hr-time is deprecated"
+title: "w3c-hr-time is deprecated — dates, impact, migration"
 description: "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html"
 ---
 
 # w3c-hr-time is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
-  "headline": "w3c-hr-time is deprecated",
+  "headline": "w3c-hr-time is deprecated — dates, impact, migration",
   "description": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "superlinked-server is deprecated"
+title: "superlinked-server is deprecated — dates, impact, migration"
 description: "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html"
 ---
 
 # superlinked-server is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
-  "headline": "superlinked-server is deprecated",
+  "headline": "superlinked-server is deprecated — dates, impact, migration",
   "description": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

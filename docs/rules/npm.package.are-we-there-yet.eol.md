@@ -1,6 +1,7 @@
 ---
-title: "are-we-there-yet is no longer supported"
+title: "are-we-there-yet is no longer supported — dates, impact, migration"
 description: "npm states that the are-we-there-yet package is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html"
 ---
 
 # are-we-there-yet is no longer supported
@@ -54,7 +55,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
-  "headline": "are-we-there-yet is no longer supported",
+  "headline": "are-we-there-yet is no longer supported — dates, impact, migration",
   "description": "npm states that the are-we-there-yet package is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

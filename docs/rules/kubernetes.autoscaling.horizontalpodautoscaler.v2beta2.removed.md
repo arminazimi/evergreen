@@ -1,6 +1,7 @@
 ---
-title: "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served"
+title: "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta2 API version of HorizontalPodAutoscaler is no longer served as of v1.26, which was released on 2022-12-09."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html"
 ---
 
 # HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served
@@ -59,7 +60,7 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
   "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html",
   "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html",
-  "headline": "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served",
+  "headline": "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served — dates, impact, migration",
   "description": "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta2 API version of HorizontalPodAutoscaler is no longer served as of v1.26, which was released on 2022-12-09.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

@@ -1,6 +1,7 @@
 ---
-title: "cmip_ref was renamed and is no longer maintained"
+title: "cmip_ref was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html"
 ---
 
 # cmip_ref was renamed and is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
-  "headline": "cmip_ref was renamed and is no longer maintained",
+  "headline": "cmip_ref was renamed and is no longer maintained — dates, impact, migration",
   "description": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

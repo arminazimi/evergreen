@@ -1,6 +1,7 @@
 ---
-title: "Node Sass is end-of-life"
+title: "Node Sass is end-of-life — dates, impact, migration"
 description: "Node Sass is no longer maintained and its repository has been archived."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html"
 ---
 
 # Node Sass is end-of-life
@@ -57,7 +58,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
-  "headline": "Node Sass is end-of-life",
+  "headline": "Node Sass is end-of-life — dates, impact, migration",
   "description": "Node Sass is no longer maintained and its repository has been archived.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

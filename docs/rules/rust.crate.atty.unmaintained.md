@@ -1,6 +1,7 @@
 ---
-title: "atty is no longer maintained"
+title: "atty is no longer maintained — dates, impact, migration"
 description: "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html"
 ---
 
 # atty is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
   "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html",
-  "headline": "atty is no longer maintained",
+  "headline": "atty is no longer maintained — dates, impact, migration",
   "description": "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

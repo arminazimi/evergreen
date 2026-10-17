@@ -1,6 +1,7 @@
 ---
-title: "Java 18 to 20 are no longer supported"
+title: "Java 18 to 20 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html"
 ---
 
 # Java 18 to 20 are no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
-  "headline": "Java 18 to 20 are no longer supported",
+  "headline": "Java 18 to 20 are no longer supported — dates, impact, migration",
   "description": "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

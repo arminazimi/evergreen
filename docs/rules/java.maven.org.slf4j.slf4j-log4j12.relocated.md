@@ -1,6 +1,7 @@
 ---
-title: "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j"
+title: "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j — dates, impact, migration"
 description: "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html"
 ---
 
 # org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j
@@ -57,7 +58,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html",
-  "headline": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j",
+  "headline": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j — dates, impact, migration",
   "description": "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

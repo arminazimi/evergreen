@@ -1,6 +1,7 @@
 ---
-title: "MySQL image release lines 8.0 and older are past end-of-life"
+title: "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration"
 description: "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html"
 ---
 
 # MySQL image release lines 8.0 and older are past end-of-life
@@ -57,7 +58,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   "@id": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
   "url": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
-  "headline": "MySQL image release lines 8.0 and older are past end-of-life",
+  "headline": "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration",
   "description": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

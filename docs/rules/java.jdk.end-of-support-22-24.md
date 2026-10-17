@@ -1,6 +1,7 @@
 ---
-title: "Java 22 to 24 are no longer supported"
+title: "Java 22 to 24 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 22 to 24 as non-LTS releases whose Premier Support ended between September 2024 and September 2025."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-22-24.html"
 ---
 
 # Java 22 to 24 are no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-22-24.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-22-24.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-22-24.html",
-  "headline": "Java 22 to 24 are no longer supported",
+  "headline": "Java 22 to 24 are no longer supported — dates, impact, migration",
   "description": "The Oracle Java SE Support Roadmap lists Java 22 to 24 as non-LTS releases whose Premier Support ended between September 2024 and September 2025.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

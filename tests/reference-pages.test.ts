@@ -9,7 +9,7 @@ import { promisify } from "node:util";
 import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { buildFiles, drift, loadRegistries, renderRulePage, ruleUrl, write } from "../tools/build-reference-pages.js";
+import { SITE_URL, buildFiles, drift, loadRegistries, pageTitle, renderRulePage, renderSitemap, ruleUrl, write } from "../tools/build-reference-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -66,7 +66,8 @@ test("a page states status, versions, dates, sources, freshness, migration, and 
     }),
     180,
   );
-  assert.match(page, /^---\ntitle: "Demo 1 is end of life"\n/);
+  assert.match(page, /^---\ntitle: "Demo 1 is end of life — dates, impact, migration"\n/);
+  assert.match(page, /canonical_url: "https:\/\/arminazimi\.github\.io\/evergreen\/rules\/demo\.thing\.eol-1\.html"/);
   assert.match(page, /\| Status \| End of life \|/);
   assert.match(page, /\| Affected versions \| `vers:semver\/<2\.0\.0` \|/);
   assert.match(page, /\| Date from the source \| 2026-01-31 \|/);
@@ -99,6 +100,40 @@ test("bundled detectors are linked to their pages", async () => {
   assert.match(renderRulePage(npm.rules[0]!, 365), /The `npm` detector\./);
 });
 
+test("titles are unique, follow the search-friendly pattern, and every page names its canonical URL", async () => {
+  const titles = new Map<string, string>();
+  for (const item of await loadRegistries()) {
+    for (const entry of item.rules) {
+      const page = renderRulePage(entry, 365);
+      const title = /^title: (.*)$/m.exec(page)![1]!;
+      assert.ok((JSON.parse(title) as string).endsWith(" — dates, impact, migration"), entry.id);
+      assert.equal(titles.has(title), false, `${entry.id} repeats the title of ${titles.get(title)}`);
+      titles.set(title, entry.id);
+      assert.ok(page.includes(`canonical_url: "${ruleUrl(entry.id)}"`), entry.id);
+      assert.ok(entry.title.length > 0 && JSON.parse(title).length <= 120, `${entry.id}: the title is too long for a search result`);
+    }
+  }
+});
+
+test("the sitemap lists the site, the index, and every rule once, with the review date", async () => {
+  const registries = await loadRegistries();
+  const sitemap = renderSitemap(registries);
+  const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);
+  assert.equal(new Set(locations).size, locations.length);
+  assert.deepEqual(locations, [...locations].sort());
+  assert.ok(locations.includes(`${SITE_URL}/`));
+  assert.ok(locations.includes(`${SITE_URL}/rules/`));
+  assert.equal(locations.length, registries.reduce((sum, item) => sum + item.rules.length, 0) + 2);
+  assert.match(sitemap, /<url><loc>[^<]+<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/);
+  assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
+  assert.ok(sitemap.length < 50_000_000 && locations.length < 50_000);
+});
+
+test("the site configuration gives the absolute URL the canonical links rely on", async () => {
+  const config = parse(await readFile("docs/_config.yml", "utf8")) as { url: string; baseurl: string };
+  assert.equal(`${config.url}${config.baseurl}`, SITE_URL);
+});
+
 test("a long summary is cut at a sentence for the description", () => {
   const long = `${"First sentence that is fairly long and descriptive. ".repeat(2)}${"More words follow here. ".repeat(20)}`;
   const description = /^description: (.*)$/m.exec(renderRulePage(rule({ summary: long }), 365))![1]!;
@@ -116,12 +151,13 @@ test("drift names a changed page, a missing page, and a stale page", async () =>
 
   await writeFile(join(root, "docs/rules/demo.thing.eol-1.md"), "edited\n");
   const fewer = buildFiles([registry([rule()])]);
-  assert.deepEqual(await drift(fewer, root), ["differs: docs/rules/demo.thing.eol-1.md", "differs: docs/rules/index.md", "stale: docs/rules/demo.other.eol-2.md"]);
+  assert.deepEqual(await drift(fewer, root), ["differs: docs/rules/demo.thing.eol-1.md", "differs: docs/rules/index.md", "differs: docs/sitemap.xml", "stale: docs/rules/demo.other.eol-2.md"]);
 
   await write(fewer, root);
   assert.deepEqual(await drift(fewer, root), []);
   assert.deepEqual(await drift(buildFiles([registry([rule(), rule({ id: "demo.new.eol-3" })])]), root), [
     "differs: docs/rules/index.md",
+    "differs: docs/sitemap.xml",
     "missing: docs/rules/demo.new.eol-3.md",
   ]);
 });
@@ -149,7 +185,7 @@ test("each page carries valid structured data that agrees with the page", async 
       assert.equal(data["@type"], "TechArticle");
       assert.equal(data.url, ruleUrl(entry.id));
       assert.equal(data["@id"], data.url);
-      assert.equal(data.headline, entry.title);
+      assert.equal(data.headline, pageTitle(entry));
       assert.equal(data.dateModified, entry.provenance.reviewedAt);
       assert.deepEqual((data.citation as Array<{ url: string }>).map((citation) => citation.url), entry.sources.map((source) => source.url));
       assert.equal((data.about as { identifier: string }).identifier, entry.purl);
@@ -166,7 +202,7 @@ test("data can never close the structured-data element", () => {
   const block = page.slice(page.indexOf('<script type="application/ld+json">'));
   // Only the closing tag the generator writes: no `</` appears inside the JSON.
   assert.equal(block.indexOf("</"), block.lastIndexOf("</script>"));
-  assert.equal(structuredData(page).headline, "A </script> title");
+  assert.equal(structuredData(page).headline, "A </script> title — dates, impact, migration");
   assert.equal(structuredData(page).description, "Bad </script><script>alert(1)</script> text");
 });
 

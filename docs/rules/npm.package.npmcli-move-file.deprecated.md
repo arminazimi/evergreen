@@ -1,6 +1,7 @@
 ---
-title: "@npmcli/move-file is deprecated"
+title: "@npmcli/move-file is deprecated — dates, impact, migration"
 description: "npm states that @npmcli/move-file functionality moved to @npmcli/fs."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html"
 ---
 
 # @npmcli/move-file is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
-  "headline": "@npmcli/move-file is deprecated",
+  "headline": "@npmcli/move-file is deprecated — dates, impact, migration",
   "description": "npm states that @npmcli/move-file functionality moved to @npmcli/fs.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

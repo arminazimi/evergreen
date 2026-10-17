@@ -1,6 +1,7 @@
 ---
-title: "nose is maintenance-only"
+title: "nose is maintenance-only — dates, impact, migration"
 description: "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html"
 ---
 
 # nose is maintenance-only
@@ -58,7 +59,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html",
-  "headline": "nose is maintenance-only",
+  "headline": "nose is maintenance-only — dates, impact, migration",
   "description": "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

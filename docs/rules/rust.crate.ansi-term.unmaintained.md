@@ -1,6 +1,7 @@
 ---
-title: "ansi_term is no longer maintained"
+title: "ansi_term is no longer maintained — dates, impact, migration"
 description: "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html"
 ---
 
 # ansi_term is no longer maintained
@@ -54,7 +55,7 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
   "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
-  "headline": "ansi_term is no longer maintained",
+  "headline": "ansi_term is no longer maintained — dates, impact, migration",
   "description": "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

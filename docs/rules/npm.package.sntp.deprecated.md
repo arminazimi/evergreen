@@ -1,6 +1,7 @@
 ---
-title: "sntp is deprecated"
+title: "sntp is deprecated — dates, impact, migration"
 description: "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html"
 ---
 
 # sntp is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
-  "headline": "sntp is deprecated",
+  "headline": "sntp is deprecated — dates, impact, migration",
   "description": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

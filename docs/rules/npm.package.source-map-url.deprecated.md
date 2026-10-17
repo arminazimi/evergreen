@@ -1,6 +1,7 @@
 ---
-title: "source-map-url is deprecated"
+title: "source-map-url is deprecated — dates, impact, migration"
 description: "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html"
 ---
 
 # source-map-url is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
-  "headline": "source-map-url is deprecated",
+  "headline": "source-map-url is deprecated — dates, impact, migration",
   "description": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

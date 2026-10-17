@@ -1,6 +1,7 @@
 ---
-title: "Go 1.21 is no longer supported"
+title: "Go 1.21 is no longer supported — dates, impact, migration"
 description: "The Go release policy supports a major release until two newer major releases exist. Go 1.21 support ended when Go 1.23 was released."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html"
 ---
 
 # Go 1.21 is no longer supported
@@ -58,7 +59,7 @@ This page is generated from [`registry/go.json`](https://github.com/arminazimi/e
   "@id": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html",
   "url": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html",
-  "headline": "Go 1.21 is no longer supported",
+  "headline": "Go 1.21 is no longer supported — dates, impact, migration",
   "description": "The Go release policy supports a major release until two newer major releases exist. Go 1.21 support ended when Go 1.23 was released.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

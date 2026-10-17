@@ -1,6 +1,7 @@
 ---
-title: "vsdeband is deprecated"
+title: "vsdeband is deprecated — dates, impact, migration"
 description: "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html"
 ---
 
 # vsdeband is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
-  "headline": "vsdeband is deprecated",
+  "headline": "vsdeband is deprecated — dates, impact, migration",
   "description": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

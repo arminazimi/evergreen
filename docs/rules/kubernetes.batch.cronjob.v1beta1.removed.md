@@ -1,6 +1,7 @@
 ---
-title: "CronJob batch/v1beta1 is no longer served"
+title: "CronJob batch/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html"
 ---
 
 # CronJob batch/v1beta1 is no longer served
@@ -59,7 +60,7 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
   "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
   "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
-  "headline": "CronJob batch/v1beta1 is no longer served",
+  "headline": "CronJob batch/v1beta1 is no longer served — dates, impact, migration",
   "description": "The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

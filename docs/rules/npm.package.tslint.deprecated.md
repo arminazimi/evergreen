@@ -1,6 +1,7 @@
 ---
-title: "tslint is deprecated"
+title: "tslint is deprecated — dates, impact, migration"
 description: "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\""
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html"
 ---
 
 # tslint is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
-  "headline": "tslint is deprecated",
+  "headline": "tslint is deprecated — dates, impact, migration",
   "description": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

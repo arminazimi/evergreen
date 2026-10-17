@@ -1,6 +1,7 @@
 ---
-title: "Unsupported actions/cache runtime"
+title: "Unsupported actions/cache runtime — dates, impact, migration"
 description: "This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.cache.node20.html"
 ---
 
 # Unsupported actions/cache runtime
@@ -56,7 +57,7 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
   "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.cache.node20.html",
   "url": "https://arminazimi.github.io/evergreen/rules/github-actions.cache.node20.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.cache.node20.html",
-  "headline": "Unsupported actions/cache runtime",
+  "headline": "Unsupported actions/cache runtime — dates, impact, migration",
   "description": "This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

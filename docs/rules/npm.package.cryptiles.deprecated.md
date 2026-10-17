@@ -1,6 +1,7 @@
 ---
-title: "cryptiles is deprecated"
+title: "cryptiles is deprecated — dates, impact, migration"
 description: "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html"
 ---
 
 # cryptiles is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
-  "headline": "cryptiles is deprecated",
+  "headline": "cryptiles is deprecated — dates, impact, migration",
   "description": "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

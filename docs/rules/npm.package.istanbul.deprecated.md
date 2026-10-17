@@ -1,6 +1,7 @@
 ---
-title: "istanbul is deprecated"
+title: "istanbul is deprecated — dates, impact, migration"
 description: "npm states that istanbul is no longer maintained and recommends nyc."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.istanbul.deprecated.html"
 ---
 
 # istanbul is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.istanbul.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.istanbul.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.istanbul.deprecated.html",
-  "headline": "istanbul is deprecated",
+  "headline": "istanbul is deprecated — dates, impact, migration",
   "description": "npm states that istanbul is no longer maintained and recommends nyc.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

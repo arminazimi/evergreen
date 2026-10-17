@@ -1,6 +1,7 @@
 ---
-title: "Java 9 and 10 are no longer supported"
+title: "Java 9 and 10 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html"
 ---
 
 # Java 9 and 10 are no longer supported
@@ -58,7 +59,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
-  "headline": "Java 9 and 10 are no longer supported",
+  "headline": "Java 9 and 10 are no longer supported — dates, impact, migration",
   "description": "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

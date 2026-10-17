@@ -1,6 +1,7 @@
 ---
-title: "multimodal-timesfm is no longer maintained"
+title: "multimodal-timesfm is no longer maintained — dates, impact, migration"
 description: "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html"
 ---
 
 # multimodal-timesfm is no longer maintained
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
-  "headline": "multimodal-timesfm is no longer maintained",
+  "headline": "multimodal-timesfm is no longer maintained — dates, impact, migration",
   "description": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

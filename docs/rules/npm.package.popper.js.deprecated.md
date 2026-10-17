@@ -1,6 +1,7 @@
 ---
-title: "popper.js is deprecated"
+title: "popper.js is deprecated — dates, impact, migration"
 description: "npm identifies popper.js as the legacy Popper v1 package and directs users to @popperjs/core for Popper v2."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.popper.js.deprecated.html"
 ---
 
 # popper.js is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.popper.js.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.popper.js.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.popper.js.deprecated.html",
-  "headline": "popper.js is deprecated",
+  "headline": "popper.js is deprecated — dates, impact, migration",
   "description": "npm identifies popper.js as the legacy Popper v1 package and directs users to @popperjs/core for Popper v2.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

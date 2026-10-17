@@ -1,6 +1,7 @@
 ---
-title: "sourcemap-codec is deprecated"
+title: "sourcemap-codec is deprecated — dates, impact, migration"
 description: "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html"
 ---
 
 # sourcemap-codec is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
-  "headline": "sourcemap-codec is deprecated",
+  "headline": "sourcemap-codec is deprecated — dates, impact, migration",
   "description": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

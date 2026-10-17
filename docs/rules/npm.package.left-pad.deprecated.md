@@ -1,6 +1,7 @@
 ---
-title: "left-pad is deprecated"
+title: "left-pad is deprecated — dates, impact, migration"
 description: "The package author recommends the built-in String.prototype.padStart method."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html"
 ---
 
 # left-pad is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
-  "headline": "left-pad is deprecated",
+  "headline": "left-pad is deprecated — dates, impact, migration",
   "description": "The package author recommends the built-in String.prototype.padStart method.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",

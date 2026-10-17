@@ -1,6 +1,7 @@
 ---
-title: "rollup-plugin-babel is deprecated"
+title: "rollup-plugin-babel is deprecated — dates, impact, migration"
 description: "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-babel.deprecated.html"
 ---
 
 # rollup-plugin-babel is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-babel.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-babel.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-babel.deprecated.html",
-  "headline": "rollup-plugin-babel is deprecated",
+  "headline": "rollup-plugin-babel is deprecated — dates, impact, migration",
   "description": "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

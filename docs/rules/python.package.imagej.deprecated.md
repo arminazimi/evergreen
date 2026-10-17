@@ -1,6 +1,7 @@
 ---
-title: "imagej was renamed to pyimagej"
+title: "imagej was renamed to pyimagej — dates, impact, migration"
 description: "The maintainers state that the imagej Python package was renamed to pyimagej."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html"
 ---
 
 # imagej was renamed to pyimagej
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
-  "headline": "imagej was renamed to pyimagej",
+  "headline": "imagej was renamed to pyimagej — dates, impact, migration",
   "description": "The maintainers state that the imagej Python package was renamed to pyimagej.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

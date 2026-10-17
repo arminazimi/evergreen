@@ -1,6 +1,7 @@
 ---
-title: "@humanwhocodes/config-array is deprecated"
+title: "@humanwhocodes/config-array is deprecated — dates, impact, migration"
 description: "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html"
 ---
 
 # @humanwhocodes/config-array is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
-  "headline": "@humanwhocodes/config-array is deprecated",
+  "headline": "@humanwhocodes/config-array is deprecated — dates, impact, migration",
   "description": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

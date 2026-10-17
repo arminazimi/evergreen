@@ -1,6 +1,7 @@
 ---
-title: "osenv is no longer supported"
+title: "osenv is no longer supported — dates, impact, migration"
 description: "npm states that the osenv package is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html"
 ---
 
 # osenv is no longer supported
@@ -54,7 +55,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
-  "headline": "osenv is no longer supported",
+  "headline": "osenv is no longer supported — dates, impact, migration",
   "description": "npm states that the osenv package is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "boom is deprecated"
+title: "boom is deprecated — dates, impact, migration"
 description: "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html"
 ---
 
 # boom is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
-  "headline": "boom is deprecated",
+  "headline": "boom is deprecated — dates, impact, migration",
   "description": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

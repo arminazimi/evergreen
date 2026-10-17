@@ -1,6 +1,7 @@
 ---
-title: "distribute is deprecated"
+title: "distribute is deprecated — dates, impact, migration"
 description: "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html"
 ---
 
 # distribute is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
-  "headline": "distribute is deprecated",
+  "headline": "distribute is deprecated — dates, impact, migration",
   "description": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

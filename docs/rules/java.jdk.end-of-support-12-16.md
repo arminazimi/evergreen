@@ -1,6 +1,7 @@
 ---
-title: "Java 12 to 16 are no longer supported"
+title: "Java 12 to 16 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 12 to 16 as non-LTS releases whose Premier Support ended between September 2019 and September 2021."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-12-16.html"
 ---
 
 # Java 12 to 16 are no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-12-16.html",
   "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-12-16.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-12-16.html",
-  "headline": "Java 12 to 16 are no longer supported",
+  "headline": "Java 12 to 16 are no longer supported — dates, impact, migration",
   "description": "The Oracle Java SE Support Roadmap lists Java 12 to 16 as non-LTS releases whose Premier Support ended between September 2019 and September 2021.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

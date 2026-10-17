@@ -1,6 +1,7 @@
 ---
-title: "django-celery is no longer required"
+title: "django-celery is no longer required — dates, impact, migration"
 description: "The project states that django-celery is no longer required because Celery supports Django directly."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html"
 ---
 
 # django-celery is no longer required
@@ -55,7 +56,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html",
-  "headline": "django-celery is no longer required",
+  "headline": "django-celery is no longer required — dates, impact, migration",
   "description": "The project states that django-celery is no longer required because Celery supports Django directly.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "Node.js 23 is end-of-life"
+title: "Node.js 23 is end-of-life — dates, impact, migration"
 description: "Node.js 23 no longer receives security or bug fixes."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html"
 ---
 
 # Node.js 23 is end-of-life
@@ -58,7 +59,7 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html",
   "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html",
-  "headline": "Node.js 23 is end-of-life",
+  "headline": "Node.js 23 is end-of-life — dates, impact, migration",
   "description": "Node.js 23 no longer receives security or bug fixes.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

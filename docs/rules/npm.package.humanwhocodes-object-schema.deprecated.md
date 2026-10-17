@@ -1,6 +1,7 @@
 ---
-title: "@humanwhocodes/object-schema is deprecated"
+title: "@humanwhocodes/object-schema is deprecated — dates, impact, migration"
 description: "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html"
 ---
 
 # @humanwhocodes/object-schema is deprecated
@@ -55,7 +56,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
-  "headline": "@humanwhocodes/object-schema is deprecated",
+  "headline": "@humanwhocodes/object-schema is deprecated — dates, impact, migration",
   "description": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

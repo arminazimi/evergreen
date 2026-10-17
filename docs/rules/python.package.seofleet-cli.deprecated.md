@@ -1,6 +1,7 @@
 ---
-title: "seofleet-cli is deprecated"
+title: "seofleet-cli is deprecated — dates, impact, migration"
 description: "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html"
 ---
 
 # seofleet-cli is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
-  "headline": "seofleet-cli is deprecated",
+  "headline": "seofleet-cli is deprecated — dates, impact, migration",
   "description": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "querystring is deprecated"
+title: "querystring is deprecated — dates, impact, migration"
 description: "npm describes the querystring API as legacy and recommends URLSearchParams for new code."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html"
 ---
 
 # querystring is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
-  "headline": "querystring is deprecated",
+  "headline": "querystring is deprecated — dates, impact, migration",
   "description": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "karma-phantomjs-launcher is deprecated"
+title: "karma-phantomjs-launcher is deprecated — dates, impact, migration"
 description: "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html"
 ---
 
 # karma-phantomjs-launcher is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
-  "headline": "karma-phantomjs-launcher is deprecated",
+  "headline": "karma-phantomjs-launcher is deprecated — dates, impact, migration",
   "description": "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

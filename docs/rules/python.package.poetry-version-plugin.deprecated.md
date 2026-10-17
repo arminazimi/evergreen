@@ -1,6 +1,7 @@
 ---
-title: "poetry-version-plugin is deprecated"
+title: "poetry-version-plugin is deprecated — dates, impact, migration"
 description: "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html"
 ---
 
 # poetry-version-plugin is deprecated
@@ -54,7 +55,7 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
-  "headline": "poetry-version-plugin is deprecated",
+  "headline": "poetry-version-plugin is deprecated — dates, impact, migration",
   "description": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

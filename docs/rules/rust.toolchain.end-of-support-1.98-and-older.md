@@ -1,6 +1,7 @@
 ---
-title: "Rust 1.98 and older are no longer supported"
+title: "Rust 1.98 and older are no longer supported — dates, impact, migration"
 description: "The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html"
 ---
 
 # Rust 1.98 and older are no longer supported
@@ -59,7 +60,7 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
   "@id": "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html",
   "url": "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html",
-  "headline": "Rust 1.98 and older are no longer supported",
+  "headline": "Rust 1.98 and older are no longer supported — dates, impact, migration",
   "description": "The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

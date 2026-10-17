@@ -1,6 +1,7 @@
 ---
-title: "npmlog is no longer supported"
+title: "npmlog is no longer supported — dates, impact, migration"
 description: "npm states that the npmlog package is no longer supported."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html"
 ---
 
 # npmlog is no longer supported
@@ -54,7 +55,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
-  "headline": "npmlog is no longer supported",
+  "headline": "npmlog is no longer supported — dates, impact, migration",
   "description": "npm states that the npmlog package is no longer supported.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

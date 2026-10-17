@@ -1,6 +1,7 @@
 ---
-title: "@hapi/joi is deprecated"
+title: "@hapi/joi is deprecated — dates, impact, migration"
 description: "npm marks @hapi/joi as deprecated and directs users to the joi package."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html"
 ---
 
 # @hapi/joi is deprecated
@@ -56,7 +57,7 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
-  "headline": "@hapi/joi is deprecated",
+  "headline": "@hapi/joi is deprecated — dates, impact, migration",
   "description": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
   "inLanguage": "en",
   "dateModified": "2026-10-16",

@@ -1,6 +1,7 @@
 ---
-title: "Retired actions/download-artifact release"
+title: "Retired actions/download-artifact release — dates, impact, migration"
 description: "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html"
 ---
 
 # Retired actions/download-artifact release
@@ -56,7 +57,7 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
   "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
   "url": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
-  "headline": "Retired actions/download-artifact release",
+  "headline": "Retired actions/download-artifact release — dates, impact, migration",
   "description": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
   "inLanguage": "en",
   "dateModified": "2026-10-14",
