@@ -1,6 +1,11 @@
 {
   "schemaVersion": "evergreen.source-lock.v1",
   "sources": {
+    "https://adoptium.net/support/": {
+      "finalUrl": "https://adoptium.net/support/",
+      "title": "Temurin™ Support | Adoptium",
+      "checkedAt": "2026-10-17"
+    },
     "https://devguide.python.org/versions/": {
       "finalUrl": "https://devguide.python.org/versions/",
       "title": "Status of Python versions",
@@ -230,6 +235,11 @@
       "finalUrl": "https://sass-lang.com/blog/node-sass-is-end-of-life/",
       "title": "Sass: Node Sass is end-of-life",
       "checkedAt": "2026-10-16"
+    },
+    "https://www.oracle.com/java/technologies/java-se-support-roadmap.html": {
+      "finalUrl": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html",
+      "title": "Oracle Java SE Support Roadmap",
+      "checkedAt": "2026-10-17"
     }
   }
 }
