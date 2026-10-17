@@ -1,0 +1,57 @@
+name: Publish to npm
+
+# Publishes the package when a version tag is pushed, with no stored npm token: npm trusted publishing
+# exchanges this job's OIDC identity for a short-lived publish credential, and the package is published
+# with a provenance attestation that names this repository, workflow, and commit.
+#
+# One-time setup on npmjs.com (package -> Settings -> Trusted publisher -> GitHub Actions):
+#   organization or user: arminazimi    repository: evergreen    workflow filename: publish.yml
+# See docs/RELEASING.md.
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"
+
+permissions: {}
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write # the npm trusted-publishing exchange and the provenance attestation; nothing else
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          # Trusted publishing needs npm 11.5.1 or newer, which Node 24 ships.
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: npm
+      - run: npm ci
+      - name: The tag must match package.json
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $expected." >&2
+            exit 1
+          fi
+      - name: The tagged commit must be on main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "$GITHUB_SHA is not on main; tag the merge commit." >&2
+            exit 1
+          fi
+      - name: Publish (prepack runs npm run check)
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) npm publish --provenance --access public --tag next ;;
+            *)   npm publish --provenance --access public ;;
+          esac
