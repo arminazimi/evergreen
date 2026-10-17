@@ -107,13 +107,18 @@ test("against the registry it updates the rules that exist and flags the one it 
   const drafts = await execute(npmDeprecatedImporter, { replay: recording });
   const diff = diffDrafts(drafts, existing);
   const existingIds = new Set(existing.rules.map((rule) => rule.id));
-  const expectedChanged = drafts.rules
+  const overlap = drafts.rules
     .map((rule) => rule.id)
     .filter((id) => existingIds.has(id))
     .sort();
-  assert.deepEqual(diff.changed.map((change) => change.id), expectedChanged);
+  // Every drafted rule the registry already has is either updated (hand-written wording differs) or unchanged
+  // (reviewed rules accepted straight from a draft, such as babel-eslint, tslint, and uglify-es).
+  assert.deepEqual([...diff.changed.map((change) => change.id), ...diff.unchanged].sort(), overlap);
+  for (const id of ["npm.package.babel-eslint.deprecated", "npm.package.tslint.deprecated", "npm.package.uglify-es.deprecated"]) {
+    assert.ok(diff.unchanged.includes(id), `${id} was accepted from its draft`);
+  }
   assert.deepEqual(diff.duplicates, [{ draft: "npm.package.node-sass.deprecated", existing: "npm.package.node-sass.eol" }]);
-  assert.equal(diff.added.length, drafts.rules.length - expectedChanged.length);
+  assert.equal(diff.added.length, drafts.rules.length - overlap.length);
 });
 
 test("a response that is not JSON is reported with its URL", async () => {

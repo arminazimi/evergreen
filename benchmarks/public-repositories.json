@@ -552,9 +552,42 @@
       "commit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build.yml", "line": 15, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 15 of .github/workflows/build.yml reads uses: actions/checkout@v2" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 12, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads uses: actions/checkout@v2" } },
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 41, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Dimi20cen/peario/commit/667ffbf195df203851b2e8bf7902a9ab74548994" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/build.yml reads uses: actions/checkout@v2"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads uses: actions/checkout@v2"
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/Dimi20cen/peario/commit/667ffbf195df203851b2e8bf7902a9ab74548994"
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of package.json declares `\"babel-eslint\": \"^10.0.3\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
+          }
+        }
       ]
     },
     {
@@ -591,10 +624,51 @@
       "commit": "bd6b101b3897b1133db84370deeff32803b1f7ff",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/webpack.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/webpack.yml reads - uses: actions/checkout@v3" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/webpack.yml", "line": 22, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 22 of .github/workflows/webpack.yml reads - uses: actions/setup-node@v3" } },
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 48, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/polyswarm/ppdns-chrome-extension/commit/5cc480df63ba227b3ec9508145954c18f5ffdf07" } },
-        { "ruleId": "github-actions.action-gh-release.node20", "path": ".github/workflows/webpack.yml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/webpack.yml reads uses: softprops/action-gh-release@v1, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/webpack.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/webpack.yml reads - uses: actions/checkout@v3"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/webpack.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of .github/workflows/webpack.yml reads - uses: actions/setup-node@v3"
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 48,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/polyswarm/ppdns-chrome-extension/commit/5cc480df63ba227b3ec9508145954c18f5ffdf07"
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/webpack.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of .github/workflows/webpack.yml reads uses: softprops/action-gh-release@v1, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of package.json declares `\"babel-eslint\": \"^10.1.0\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
+          }
+        }
       ]
     },
     {
@@ -1118,6 +1192,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 42 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 341,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 341 of package.json declares `\"babel-eslint\": \"^10.1.0\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
           }
         }
       ]

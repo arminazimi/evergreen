@@ -287,23 +287,61 @@
       "severity": "medium",
       "replacement": "joi",
       "sources": [
-        { "title": "@hapi/joi package deprecation notice", "url": "https://www.npmjs.com/package/@hapi/joi" },
-        { "title": "@hapi/joi registry metadata", "url": "https://registry.npmjs.org/@hapi%2fjoi/latest" }
+        {
+          "title": "@hapi/joi package deprecation notice",
+          "url": "https://www.npmjs.com/package/@hapi/joi"
+        },
+        {
+          "title": "@hapi/joi registry metadata",
+          "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve validation schemas, preferences, extensions, and error handling."],
-        "steps": [
-          { "id": "replace-hapi-joi", "title": "Replace @hapi/joi", "instructions": "Move the dependency and imports from @hapi/joi to joi, then adapt any API differences for the installed target version.", "targets": "all" },
-          { "id": "verify-joi-schemas", "title": "Verify validation behavior", "instructions": "Exercise successful and failing validation paths and compare their values and errors.", "targets": "usages" }
+        "constraints": [
+          "Preserve validation schemas, preferences, extensions, and error handling."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run schema validation and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-hapi-joi",
+            "title": "Replace @hapi/joi",
+            "instructions": "Move the dependency and imports from @hapi/joi to joi, then adapt any API differences for the installed target version.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-joi-schemas",
+            "title": "Verify validation behavior",
+            "instructions": "Exercise successful and failing validation paths and compare their values and errors.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run schema validation and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "@hapi/joi" },
-        { "kind": "import", "language": "typescript", "module": "@hapi/joi" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@hapi/joi"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@hapi/joi"
+        }
       ],
-      "x-npm": { "package": "@hapi/joi" }
+      "x-npm": {
+        "package": "@hapi/joi"
+      }
     },
     {
       "id": "npm.package.babel-preset-es2015.deprecated",
@@ -316,23 +354,61 @@
       "severity": "medium",
       "replacement": "@babel/preset-env",
       "sources": [
-        { "title": "babel-preset-es2015 package deprecation notice", "url": "https://www.npmjs.com/package/babel-preset-es2015" },
-        { "title": "babel-preset-es2015 registry metadata", "url": "https://registry.npmjs.org/babel-preset-es2015/latest" }
+        {
+          "title": "babel-preset-es2015 package deprecation notice",
+          "url": "https://www.npmjs.com/package/babel-preset-es2015"
+        },
+        {
+          "title": "babel-preset-es2015 registry metadata",
+          "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve the JavaScript syntax targets and emitted runtime behavior required by supported environments."],
-        "steps": [
-          { "id": "replace-es2015-preset", "title": "Replace the Babel preset", "instructions": "Replace babel-preset-es2015 with @babel/preset-env and update Babel configuration to use @babel/preset-env.", "targets": "all" },
-          { "id": "configure-targets", "title": "Configure supported targets", "instructions": "Set explicit target environments so the replacement emits only the transforms and polyfill behavior the project requires.", "targets": "usages" }
+        "constraints": [
+          "Preserve the JavaScript syntax targets and emitted runtime behavior required by supported environments."
         ],
-        "verification": [{ "command": "npm run build --if-present", "purpose": "Build the project and verify the replacement Babel output." }]
+        "steps": [
+          {
+            "id": "replace-es2015-preset",
+            "title": "Replace the Babel preset",
+            "instructions": "Replace babel-preset-es2015 with @babel/preset-env and update Babel configuration to use @babel/preset-env.",
+            "targets": "all"
+          },
+          {
+            "id": "configure-targets",
+            "title": "Configure supported targets",
+            "instructions": "Set explicit target environments so the replacement emits only the transforms and polyfill behavior the project requires.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the project and verify the replacement Babel output."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "babel-preset-es2015" },
-        { "kind": "import", "language": "typescript", "module": "babel-preset-es2015" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "babel-preset-es2015"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "babel-preset-es2015"
+        }
       ],
-      "x-npm": { "package": "babel-preset-es2015" }
+      "x-npm": {
+        "package": "babel-preset-es2015"
+      }
     },
     {
       "id": "npm.package.boom.deprecated",
@@ -345,23 +421,61 @@
       "severity": "medium",
       "replacement": "@hapi/boom",
       "sources": [
-        { "title": "boom package deprecation notice", "url": "https://www.npmjs.com/package/boom" },
-        { "title": "boom registry metadata", "url": "https://registry.npmjs.org/boom/latest" }
+        {
+          "title": "boom package deprecation notice",
+          "url": "https://www.npmjs.com/package/boom"
+        },
+        {
+          "title": "boom registry metadata",
+          "url": "https://registry.npmjs.org/boom/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve HTTP status codes, payload shape, headers, and error classification."],
-        "steps": [
-          { "id": "replace-boom", "title": "Replace boom", "instructions": "Move the dependency and imports from boom to @hapi/boom and update changed API calls.", "targets": "all" },
-          { "id": "verify-http-errors", "title": "Verify HTTP errors", "instructions": "Compare status codes and serialized error payloads for every affected error path.", "targets": "usages" }
+        "constraints": [
+          "Preserve HTTP status codes, payload shape, headers, and error classification."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP error behavior and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-boom",
+            "title": "Replace boom",
+            "instructions": "Move the dependency and imports from boom to @hapi/boom and update changed API calls.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-http-errors",
+            "title": "Verify HTTP errors",
+            "instructions": "Compare status codes and serialized error payloads for every affected error path.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP error behavior and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "boom" },
-        { "kind": "import", "language": "typescript", "module": "boom" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "boom"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "boom"
+        }
       ],
-      "x-npm": { "package": "boom" }
+      "x-npm": {
+        "package": "boom"
+      }
     },
     {
       "id": "npm.package.cryptiles.deprecated",
@@ -374,23 +488,61 @@
       "severity": "medium",
       "replacement": "@hapi/cryptiles",
       "sources": [
-        { "title": "cryptiles package deprecation notice", "url": "https://www.npmjs.com/package/cryptiles" },
-        { "title": "cryptiles registry metadata", "url": "https://registry.npmjs.org/cryptiles/latest" }
+        {
+          "title": "cryptiles package deprecation notice",
+          "url": "https://www.npmjs.com/package/cryptiles"
+        },
+        {
+          "title": "cryptiles registry metadata",
+          "url": "https://registry.npmjs.org/cryptiles/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve random-token entropy, timing-safe comparisons, and cryptographic input and output encodings."],
-        "steps": [
-          { "id": "replace-cryptiles", "title": "Replace cryptiles", "instructions": "Move the dependency and imports from cryptiles to @hapi/cryptiles and adapt changed APIs.", "targets": "all" },
-          { "id": "verify-crypto-behavior", "title": "Verify cryptographic behavior", "instructions": "Exercise token generation and comparison paths with their existing encodings and lengths.", "targets": "usages" }
+        "constraints": [
+          "Preserve random-token entropy, timing-safe comparisons, and cryptographic input and output encodings."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run security-sensitive behavior and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-cryptiles",
+            "title": "Replace cryptiles",
+            "instructions": "Move the dependency and imports from cryptiles to @hapi/cryptiles and adapt changed APIs.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-crypto-behavior",
+            "title": "Verify cryptographic behavior",
+            "instructions": "Exercise token generation and comparison paths with their existing encodings and lengths.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run security-sensitive behavior and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "cryptiles" },
-        { "kind": "import", "language": "typescript", "module": "cryptiles" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "cryptiles"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "cryptiles"
+        }
       ],
-      "x-npm": { "package": "cryptiles" }
+      "x-npm": {
+        "package": "cryptiles"
+      }
     },
     {
       "id": "npm.package.gulp-util.deprecated",
@@ -403,23 +555,61 @@
       "severity": "medium",
       "replacement": "Maintained purpose-specific modules listed by Gulp",
       "sources": [
-        { "title": "gulp-util package deprecation notice", "url": "https://www.npmjs.com/package/gulp-util" },
-        { "title": "gulp-util registry metadata", "url": "https://registry.npmjs.org/gulp-util/latest" }
+        {
+          "title": "gulp-util package deprecation notice",
+          "url": "https://www.npmjs.com/package/gulp-util"
+        },
+        {
+          "title": "gulp-util registry metadata",
+          "url": "https://registry.npmjs.org/gulp-util/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve each used utility's logging, file, plugin-error, and stream behavior."],
-        "steps": [
-          { "id": "inventory-gulp-util", "title": "Inventory gulp-util APIs", "instructions": "Map every imported gulp-util member to the purpose-specific replacement recommended by Gulp.", "targets": "usages" },
-          { "id": "replace-gulp-util", "title": "Install focused replacements", "instructions": "Replace gulp-util imports and dependency with only the maintained modules required by those usages.", "targets": "all" }
+        "constraints": [
+          "Preserve each used utility's logging, file, plugin-error, and stream behavior."
         ],
-        "verification": [{ "command": "npm run build --if-present", "purpose": "Run the Gulp build and verify task output." }]
+        "steps": [
+          {
+            "id": "inventory-gulp-util",
+            "title": "Inventory gulp-util APIs",
+            "instructions": "Map every imported gulp-util member to the purpose-specific replacement recommended by Gulp.",
+            "targets": "usages"
+          },
+          {
+            "id": "replace-gulp-util",
+            "title": "Install focused replacements",
+            "instructions": "Replace gulp-util imports and dependency with only the maintained modules required by those usages.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Run the Gulp build and verify task output."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "gulp-util" },
-        { "kind": "import", "language": "typescript", "module": "gulp-util" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "gulp-util"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "gulp-util"
+        }
       ],
-      "x-npm": { "package": "gulp-util" }
+      "x-npm": {
+        "package": "gulp-util"
+      }
     },
     {
       "id": "npm.package.har-validator.deprecated",
@@ -431,23 +621,61 @@
       "summary": "npm states that har-validator is no longer supported.",
       "severity": "medium",
       "sources": [
-        { "title": "har-validator package deprecation notice", "url": "https://www.npmjs.com/package/har-validator" },
-        { "title": "har-validator registry metadata", "url": "https://registry.npmjs.org/har-validator/latest" }
+        {
+          "title": "har-validator package deprecation notice",
+          "url": "https://www.npmjs.com/package/har-validator"
+        },
+        {
+          "title": "har-validator registry metadata",
+          "url": "https://registry.npmjs.org/har-validator/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve the accepted HAR specification version, validation strictness, and error reporting."],
-        "steps": [
-          { "id": "select-har-validator", "title": "Select a maintained HAR validator", "instructions": "Choose a maintained validator that supports the project's HAR version and required validation semantics.", "targets": "all" },
-          { "id": "replace-har-validation", "title": "Replace validation calls", "instructions": "Translate har-validator calls and handle the replacement's result and error format explicitly.", "targets": "usages" }
+        "constraints": [
+          "Preserve the accepted HAR specification version, validation strictness, and error reporting."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run valid and invalid HAR fixtures and repository tests." }]
+        "steps": [
+          {
+            "id": "select-har-validator",
+            "title": "Select a maintained HAR validator",
+            "instructions": "Choose a maintained validator that supports the project's HAR version and required validation semantics.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-har-validation",
+            "title": "Replace validation calls",
+            "instructions": "Translate har-validator calls and handle the replacement's result and error format explicitly.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run valid and invalid HAR fixtures and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "har-validator" },
-        { "kind": "import", "language": "typescript", "module": "har-validator" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "har-validator"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "har-validator"
+        }
       ],
-      "x-npm": { "package": "har-validator" }
+      "x-npm": {
+        "package": "har-validator"
+      }
     },
     {
       "id": "npm.package.inflight.deprecated",
@@ -460,23 +688,61 @@
       "severity": "medium",
       "replacement": "lru-cache",
       "sources": [
-        { "title": "inflight package deprecation notice", "url": "https://www.npmjs.com/package/inflight" },
-        { "title": "inflight registry metadata", "url": "https://registry.npmjs.org/inflight/latest" }
+        {
+          "title": "inflight package deprecation notice",
+          "url": "https://www.npmjs.com/package/inflight"
+        },
+        {
+          "title": "inflight registry metadata",
+          "url": "https://registry.npmjs.org/inflight/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve request coalescing, callback delivery, cache-key identity, and cleanup on success and failure."],
-        "steps": [
-          { "id": "replace-inflight", "title": "Replace inflight", "instructions": "Implement keyed coalescing with lru-cache or another maintained primitive and remove inflight.", "targets": "all" },
-          { "id": "verify-coalescing", "title": "Verify concurrent behavior", "instructions": "Test duplicate concurrent requests, failures, retries, and cleanup after completion.", "targets": "usages" }
+        "constraints": [
+          "Preserve request coalescing, callback delivery, cache-key identity, and cleanup on success and failure."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run concurrency, memory-lifecycle, and repository tests." }]
+        "steps": [
+          {
+            "id": "replace-inflight",
+            "title": "Replace inflight",
+            "instructions": "Implement keyed coalescing with lru-cache or another maintained primitive and remove inflight.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-coalescing",
+            "title": "Verify concurrent behavior",
+            "instructions": "Test duplicate concurrent requests, failures, retries, and cleanup after completion.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run concurrency, memory-lifecycle, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "inflight" },
-        { "kind": "import", "language": "typescript", "module": "inflight" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "inflight"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "inflight"
+        }
       ],
-      "x-npm": { "package": "inflight" }
+      "x-npm": {
+        "package": "inflight"
+      }
     },
     {
       "id": "npm.package.istanbul.deprecated",
@@ -489,23 +755,61 @@
       "severity": "medium",
       "replacement": "nyc",
       "sources": [
-        { "title": "istanbul package deprecation notice", "url": "https://www.npmjs.com/package/istanbul" },
-        { "title": "istanbul registry metadata", "url": "https://registry.npmjs.org/istanbul/latest" }
+        {
+          "title": "istanbul package deprecation notice",
+          "url": "https://www.npmjs.com/package/istanbul"
+        },
+        {
+          "title": "istanbul registry metadata",
+          "url": "https://registry.npmjs.org/istanbul/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve test execution, include and exclude patterns, source maps, reporters, and coverage thresholds."],
-        "steps": [
-          { "id": "replace-istanbul", "title": "Replace Istanbul CLI", "instructions": "Replace istanbul with nyc in dependencies, scripts, and coverage configuration.", "targets": "all" },
-          { "id": "compare-coverage", "title": "Compare coverage output", "instructions": "Run the same test suite and compare covered files, reporters, and enforced thresholds.", "targets": "usages" }
+        "constraints": [
+          "Preserve test execution, include and exclude patterns, source maps, reporters, and coverage thresholds."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the instrumented test suite and coverage checks." }]
+        "steps": [
+          {
+            "id": "replace-istanbul",
+            "title": "Replace Istanbul CLI",
+            "instructions": "Replace istanbul with nyc in dependencies, scripts, and coverage configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-coverage",
+            "title": "Compare coverage output",
+            "instructions": "Run the same test suite and compare covered files, reporters, and enforced thresholds.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the instrumented test suite and coverage checks."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "istanbul" },
-        { "kind": "import", "language": "typescript", "module": "istanbul" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "istanbul"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "istanbul"
+        }
       ],
-      "x-npm": { "package": "istanbul" }
+      "x-npm": {
+        "package": "istanbul"
+      }
     },
     {
       "id": "npm.package.jade.deprecated",
@@ -518,23 +822,61 @@
       "severity": "medium",
       "replacement": "pug",
       "sources": [
-        { "title": "jade package deprecation notice", "url": "https://www.npmjs.com/package/jade" },
-        { "title": "jade registry metadata", "url": "https://registry.npmjs.org/jade/latest" }
+        {
+          "title": "jade package deprecation notice",
+          "url": "https://www.npmjs.com/package/jade"
+        },
+        {
+          "title": "jade registry metadata",
+          "url": "https://registry.npmjs.org/jade/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve template rendering, locals, includes, inheritance, whitespace, and generated HTML."],
-        "steps": [
-          { "id": "replace-jade", "title": "Replace Jade with Pug", "instructions": "Replace the jade dependency, imports, file extensions, and build integrations with pug equivalents.", "targets": "all" },
-          { "id": "compare-rendered-html", "title": "Compare rendered output", "instructions": "Render representative templates and review generated HTML and escaping behavior for differences.", "targets": "usages" }
+        "constraints": [
+          "Preserve template rendering, locals, includes, inheritance, whitespace, and generated HTML."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run template rendering and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-jade",
+            "title": "Replace Jade with Pug",
+            "instructions": "Replace the jade dependency, imports, file extensions, and build integrations with pug equivalents.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-rendered-html",
+            "title": "Compare rendered output",
+            "instructions": "Render representative templates and review generated HTML and escaping behavior for differences.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run template rendering and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "jade" },
-        { "kind": "import", "language": "typescript", "module": "jade" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "jade"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "jade"
+        }
       ],
-      "x-npm": { "package": "jade" }
+      "x-npm": {
+        "package": "jade"
+      }
     },
     {
       "id": "npm.package.karma-phantomjs-launcher.deprecated",
@@ -547,23 +889,61 @@
       "severity": "medium",
       "replacement": "A maintained Karma browser launcher such as karma-chrome-launcher",
       "sources": [
-        { "title": "karma-phantomjs-launcher package deprecation notice", "url": "https://www.npmjs.com/package/karma-phantomjs-launcher" },
-        { "title": "karma-phantomjs-launcher registry metadata", "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest" }
+        {
+          "title": "karma-phantomjs-launcher package deprecation notice",
+          "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+        },
+        {
+          "title": "karma-phantomjs-launcher registry metadata",
+          "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve browser test coverage, Karma execution mode, launch flags, and CI behavior."],
-        "steps": [
-          { "id": "select-browser-launcher", "title": "Select a maintained browser launcher", "instructions": "Choose a maintained Karma launcher supported by local and CI environments and add its package.", "targets": "declaration" },
-          { "id": "replace-phantomjs-launcher", "title": "Replace PhantomJS configuration", "instructions": "Replace the PhantomJS launcher and browser name in Karma configuration, then remove karma-phantomjs-launcher.", "targets": "all" }
+        "constraints": [
+          "Preserve browser test coverage, Karma execution mode, launch flags, and CI behavior."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the browser test suite in its supported local or CI mode." }]
+        "steps": [
+          {
+            "id": "select-browser-launcher",
+            "title": "Select a maintained browser launcher",
+            "instructions": "Choose a maintained Karma launcher supported by local and CI environments and add its package.",
+            "targets": "declaration"
+          },
+          {
+            "id": "replace-phantomjs-launcher",
+            "title": "Replace PhantomJS configuration",
+            "instructions": "Replace the PhantomJS launcher and browser name in Karma configuration, then remove karma-phantomjs-launcher.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the browser test suite in its supported local or CI mode."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "karma-phantomjs-launcher" },
-        { "kind": "import", "language": "typescript", "module": "karma-phantomjs-launcher" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "karma-phantomjs-launcher"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "karma-phantomjs-launcher"
+        }
       ],
-      "x-npm": { "package": "karma-phantomjs-launcher" }
+      "x-npm": {
+        "package": "karma-phantomjs-launcher"
+      }
     },
     {
       "id": "npm.package.natives.deprecated",
@@ -576,23 +956,61 @@
       "severity": "high",
       "replacement": "graceful-fs 4.x",
       "sources": [
-        { "title": "natives package deprecation notice", "url": "https://www.npmjs.com/package/natives" },
-        { "title": "natives registry metadata", "url": "https://registry.npmjs.org/natives/latest" }
+        {
+          "title": "natives package deprecation notice",
+          "url": "https://www.npmjs.com/package/natives"
+        },
+        {
+          "title": "natives registry metadata",
+          "url": "https://registry.npmjs.org/natives/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve filesystem behavior, retry semantics, and compatibility with the Node.js versions supported by the project."],
-        "steps": [
-          { "id": "replace-natives", "title": "Replace natives", "instructions": "Replace the natives dependency and imports with graceful-fs 4.x, using its public filesystem API instead of Node.js internals.", "targets": "all" },
-          { "id": "verify-filesystem-behavior", "title": "Verify filesystem behavior", "instructions": "Exercise affected file operations, including concurrent access and error paths, on every supported Node.js version.", "targets": "usages" }
+        "constraints": [
+          "Preserve filesystem behavior, retry semantics, and compatibility with the Node.js versions supported by the project."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run filesystem behavior and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-natives",
+            "title": "Replace natives",
+            "instructions": "Replace the natives dependency and imports with graceful-fs 4.x, using its public filesystem API instead of Node.js internals.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-filesystem-behavior",
+            "title": "Verify filesystem behavior",
+            "instructions": "Exercise affected file operations, including concurrent access and error paths, on every supported Node.js version.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run filesystem behavior and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "natives" },
-        { "kind": "import", "language": "typescript", "module": "natives" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "natives"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "natives"
+        }
       ],
-      "x-npm": { "package": "natives" }
+      "x-npm": {
+        "package": "natives"
+      }
     },
     {
       "id": "npm.package.node-pre-gyp.deprecated",
@@ -605,23 +1023,61 @@
       "severity": "high",
       "replacement": "@mapbox/node-pre-gyp",
       "sources": [
-        { "title": "node-pre-gyp package deprecation notice", "url": "https://www.npmjs.com/package/node-pre-gyp" },
-        { "title": "node-pre-gyp registry metadata", "url": "https://registry.npmjs.org/node-pre-gyp/latest" }
+        {
+          "title": "node-pre-gyp package deprecation notice",
+          "url": "https://www.npmjs.com/package/node-pre-gyp"
+        },
+        {
+          "title": "node-pre-gyp registry metadata",
+          "url": "https://registry.npmjs.org/node-pre-gyp/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve native-binary download locations, ABI selection, source-build fallback, install scripts, and publishing behavior."],
-        "steps": [
-          { "id": "replace-node-pre-gyp", "title": "Replace node-pre-gyp", "instructions": "Move the dependency, scripts, imports, and binary configuration from node-pre-gyp to @mapbox/node-pre-gyp.", "targets": "all" },
-          { "id": "verify-native-install", "title": "Verify native package installation", "instructions": "Test prebuilt-binary download and source-build fallback on every supported platform and Node.js ABI.", "targets": "all" }
+        "constraints": [
+          "Preserve native-binary download locations, ABI selection, source-build fallback, install scripts, and publishing behavior."
         ],
-        "verification": [{ "command": "npm run build --if-present", "purpose": "Build or install the native package with the scoped replacement." }]
+        "steps": [
+          {
+            "id": "replace-node-pre-gyp",
+            "title": "Replace node-pre-gyp",
+            "instructions": "Move the dependency, scripts, imports, and binary configuration from node-pre-gyp to @mapbox/node-pre-gyp.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-native-install",
+            "title": "Verify native package installation",
+            "instructions": "Test prebuilt-binary download and source-build fallback on every supported platform and Node.js ABI.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build or install the native package with the scoped replacement."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "node-pre-gyp" },
-        { "kind": "import", "language": "typescript", "module": "node-pre-gyp" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "node-pre-gyp"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "node-pre-gyp"
+        }
       ],
-      "x-npm": { "package": "node-pre-gyp" }
+      "x-npm": {
+        "package": "node-pre-gyp"
+      }
     },
     {
       "id": "npm.package.nomnom.deprecated",
@@ -633,23 +1089,61 @@
       "summary": "npm states that nomnom is no longer supported.",
       "severity": "medium",
       "sources": [
-        { "title": "nomnom package deprecation notice", "url": "https://www.npmjs.com/package/nomnom" },
-        { "title": "nomnom registry metadata", "url": "https://registry.npmjs.org/nomnom/latest" }
+        {
+          "title": "nomnom package deprecation notice",
+          "url": "https://www.npmjs.com/package/nomnom"
+        },
+        {
+          "title": "nomnom registry metadata",
+          "url": "https://registry.npmjs.org/nomnom/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve command names, option aliases, defaults, validation, help output, exit codes, and parsed argument shapes."],
-        "steps": [
-          { "id": "select-cli-parser", "title": "Select a maintained CLI parser", "instructions": "Choose a maintained parser that supports the commands and option semantics used by the project.", "targets": "all" },
-          { "id": "replace-nomnom", "title": "Replace nomnom", "instructions": "Translate command and option declarations to the selected parser, update imports, and remove nomnom.", "targets": "all" }
+        "constraints": [
+          "Preserve command names, option aliases, defaults, validation, help output, exit codes, and parsed argument shapes."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run CLI parsing, help, error-path, and repository tests." }]
+        "steps": [
+          {
+            "id": "select-cli-parser",
+            "title": "Select a maintained CLI parser",
+            "instructions": "Choose a maintained parser that supports the commands and option semantics used by the project.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-nomnom",
+            "title": "Replace nomnom",
+            "instructions": "Translate command and option declarations to the selected parser, update imports, and remove nomnom.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run CLI parsing, help, error-path, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "nomnom" },
-        { "kind": "import", "language": "typescript", "module": "nomnom" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "nomnom"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "nomnom"
+        }
       ],
-      "x-npm": { "package": "nomnom" }
+      "x-npm": {
+        "package": "nomnom"
+      }
     },
     {
       "id": "npm.package.popper.js.deprecated",
@@ -662,23 +1156,61 @@
       "severity": "medium",
       "replacement": "@popperjs/core",
       "sources": [
-        { "title": "popper.js package deprecation notice", "url": "https://www.npmjs.com/package/popper.js" },
-        { "title": "popper.js registry metadata", "url": "https://registry.npmjs.org/popper.js/latest" }
+        {
+          "title": "popper.js package deprecation notice",
+          "url": "https://www.npmjs.com/package/popper.js"
+        },
+        {
+          "title": "popper.js registry metadata",
+          "url": "https://registry.npmjs.org/popper.js/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve placement, modifiers, boundary and overflow behavior, event listeners, and browser support."],
-        "steps": [
-          { "id": "replace-popper-v1", "title": "Replace Popper v1", "instructions": "Replace popper.js with @popperjs/core and migrate constructors, options, and modifiers to the Popper v2 API.", "targets": "all" },
-          { "id": "verify-positioning", "title": "Verify positioned elements", "instructions": "Exercise every placement, scrolling container, viewport edge, and dynamic update path used by the interface.", "targets": "usages" }
+        "constraints": [
+          "Preserve placement, modifiers, boundary and overflow behavior, event listeners, and browser support."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run positioning and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-popper-v1",
+            "title": "Replace Popper v1",
+            "instructions": "Replace popper.js with @popperjs/core and migrate constructors, options, and modifiers to the Popper v2 API.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-positioning",
+            "title": "Verify positioned elements",
+            "instructions": "Exercise every placement, scrolling container, viewport edge, and dynamic update path used by the interface.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run positioning and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "popper.js" },
-        { "kind": "import", "language": "typescript", "module": "popper.js" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "popper.js"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "popper.js"
+        }
       ],
-      "x-npm": { "package": "popper.js" }
+      "x-npm": {
+        "package": "popper.js"
+      }
     },
     {
       "id": "npm.package.protractor.deprecated",
@@ -690,23 +1222,61 @@
       "summary": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
       "severity": "high",
       "sources": [
-        { "title": "protractor package deprecation notice", "url": "https://www.npmjs.com/package/protractor" },
-        { "title": "protractor registry metadata", "url": "https://registry.npmjs.org/protractor/latest" }
+        {
+          "title": "protractor package deprecation notice",
+          "url": "https://www.npmjs.com/package/protractor"
+        },
+        {
+          "title": "protractor registry metadata",
+          "url": "https://registry.npmjs.org/protractor/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve end-to-end coverage, browser matrix, selectors, waits, authentication state, screenshots, retries, and CI artifacts."],
-        "steps": [
-          { "id": "select-e2e-runner", "title": "Select a maintained end-to-end runner", "instructions": "Choose a maintained runner that supports the browsers, environments, and test capabilities the suite requires.", "targets": "all" },
-          { "id": "migrate-protractor-suite", "title": "Migrate the Protractor suite", "instructions": "Translate configuration, page objects, selectors, waits, assertions, and CI commands incrementally to the selected runner.", "targets": "all" }
+        "constraints": [
+          "Preserve end-to-end coverage, browser matrix, selectors, waits, authentication state, screenshots, retries, and CI artifacts."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run the migrated end-to-end suite and repository tests." }]
+        "steps": [
+          {
+            "id": "select-e2e-runner",
+            "title": "Select a maintained end-to-end runner",
+            "instructions": "Choose a maintained runner that supports the browsers, environments, and test capabilities the suite requires.",
+            "targets": "all"
+          },
+          {
+            "id": "migrate-protractor-suite",
+            "title": "Migrate the Protractor suite",
+            "instructions": "Translate configuration, page objects, selectors, waits, assertions, and CI commands incrementally to the selected runner.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the migrated end-to-end suite and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "protractor" },
-        { "kind": "import", "language": "typescript", "module": "protractor" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "protractor"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "protractor"
+        }
       ],
-      "x-npm": { "package": "protractor" }
+      "x-npm": {
+        "package": "protractor"
+      }
     },
     {
       "id": "npm.package.querystring.deprecated",
@@ -719,23 +1289,61 @@
       "severity": "medium",
       "replacement": "URLSearchParams",
       "sources": [
-        { "title": "querystring package deprecation notice", "url": "https://www.npmjs.com/package/querystring" },
-        { "title": "querystring registry metadata", "url": "https://registry.npmjs.org/querystring/latest" }
+        {
+          "title": "querystring package deprecation notice",
+          "url": "https://www.npmjs.com/package/querystring"
+        },
+        {
+          "title": "querystring registry metadata",
+          "url": "https://registry.npmjs.org/querystring/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve percent encoding, repeated keys, empty values, ordering, array handling, and input coercion expected by callers."],
-        "steps": [
-          { "id": "replace-querystring", "title": "Replace querystring", "instructions": "Translate parse and stringify usages to URLSearchParams and remove the querystring dependency.", "targets": "all" },
-          { "id": "verify-query-round-trips", "title": "Verify query-string behavior", "instructions": "Compare representative and malformed inputs, including repeated keys and non-ASCII values, before and after migration.", "targets": "usages" }
+        "constraints": [
+          "Preserve percent encoding, repeated keys, empty values, ordering, array handling, and input coercion expected by callers."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run query parsing, serialization, and repository tests." }]
+        "steps": [
+          {
+            "id": "replace-querystring",
+            "title": "Replace querystring",
+            "instructions": "Translate parse and stringify usages to URLSearchParams and remove the querystring dependency.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-query-round-trips",
+            "title": "Verify query-string behavior",
+            "instructions": "Compare representative and malformed inputs, including repeated keys and non-ASCII values, before and after migration.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run query parsing, serialization, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "querystring" },
-        { "kind": "import", "language": "typescript", "module": "querystring" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "querystring"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "querystring"
+        }
       ],
-      "x-npm": { "package": "querystring" }
+      "x-npm": {
+        "package": "querystring"
+      }
     },
     {
       "id": "npm.package.request-promise.deprecated",
@@ -748,23 +1356,61 @@
       "severity": "high",
       "replacement": "Native fetch or a maintained promise-based HTTP client",
       "sources": [
-        { "title": "request-promise package deprecation notice", "url": "https://www.npmjs.com/package/request-promise" },
-        { "title": "request-promise registry metadata", "url": "https://registry.npmjs.org/request-promise/latest" }
+        {
+          "title": "request-promise package deprecation notice",
+          "url": "https://www.npmjs.com/package/request-promise"
+        },
+        {
+          "title": "request-promise registry metadata",
+          "url": "https://registry.npmjs.org/request-promise/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve request options, authentication, redirects, timeouts, retries, transforms, full-response mode, and rejection semantics."],
-        "steps": [
-          { "id": "select-promise-http-client", "title": "Select the target HTTP client", "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise behavior.", "targets": "all" },
-          { "id": "replace-request-promise", "title": "Replace request-promise", "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise.", "targets": "all" }
+        "constraints": [
+          "Preserve request options, authentication, redirects, timeouts, retries, transforms, full-response mode, and rejection semantics."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP behavior and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "select-promise-http-client",
+            "title": "Select the target HTTP client",
+            "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise behavior.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-request-promise",
+            "title": "Replace request-promise",
+            "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP behavior and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "request-promise" },
-        { "kind": "import", "language": "typescript", "module": "request-promise" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "request-promise"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "request-promise"
+        }
       ],
-      "x-npm": { "package": "request-promise" }
+      "x-npm": {
+        "package": "request-promise"
+      }
     },
     {
       "id": "npm.package.request-promise-native.deprecated",
@@ -777,23 +1423,61 @@
       "severity": "high",
       "replacement": "Native fetch or a maintained promise-based HTTP client",
       "sources": [
-        { "title": "request-promise-native package deprecation notice", "url": "https://www.npmjs.com/package/request-promise-native" },
-        { "title": "request-promise-native registry metadata", "url": "https://registry.npmjs.org/request-promise-native/latest" }
+        {
+          "title": "request-promise-native package deprecation notice",
+          "url": "https://www.npmjs.com/package/request-promise-native"
+        },
+        {
+          "title": "request-promise-native registry metadata",
+          "url": "https://registry.npmjs.org/request-promise-native/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve request options, authentication, redirects, timeouts, transforms, full-response mode, and native-Promise rejection behavior."],
-        "steps": [
-          { "id": "select-native-promise-http-client", "title": "Select the target HTTP client", "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise-native behavior.", "targets": "all" },
-          { "id": "replace-request-promise-native", "title": "Replace request-promise-native", "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise-native.", "targets": "all" }
+        "constraints": [
+          "Preserve request options, authentication, redirects, timeouts, transforms, full-response mode, and native-Promise rejection behavior."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run HTTP behavior and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "select-native-promise-http-client",
+            "title": "Select the target HTTP client",
+            "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise-native behavior.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-request-promise-native",
+            "title": "Replace request-promise-native",
+            "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise-native.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP behavior and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "request-promise-native" },
-        { "kind": "import", "language": "typescript", "module": "request-promise-native" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "request-promise-native"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "request-promise-native"
+        }
       ],
-      "x-npm": { "package": "request-promise-native" }
+      "x-npm": {
+        "package": "request-promise-native"
+      }
     },
     {
       "id": "npm.package.rollup-plugin-babel.deprecated",
@@ -806,23 +1490,61 @@
       "severity": "medium",
       "replacement": "@rollup/plugin-babel",
       "sources": [
-        { "title": "rollup-plugin-babel package deprecation notice", "url": "https://www.npmjs.com/package/rollup-plugin-babel" },
-        { "title": "rollup-plugin-babel registry metadata", "url": "https://registry.npmjs.org/rollup-plugin-babel/latest" }
+        {
+          "title": "rollup-plugin-babel package deprecation notice",
+          "url": "https://www.npmjs.com/package/rollup-plugin-babel"
+        },
+        {
+          "title": "rollup-plugin-babel registry metadata",
+          "url": "https://registry.npmjs.org/rollup-plugin-babel/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve Babel presets and plugins, file inclusion, helper strategy, output targets, source maps, and Rollup output behavior."],
-        "steps": [
-          { "id": "replace-rollup-babel", "title": "Replace the Rollup Babel plugin", "instructions": "Replace rollup-plugin-babel with @rollup/plugin-babel and update Rollup imports and plugin options.", "targets": "all" },
-          { "id": "verify-bundle-output", "title": "Verify bundle output", "instructions": "Compare emitted syntax, helpers, source maps, and bundle behavior for every configured output.", "targets": "usages" }
+        "constraints": [
+          "Preserve Babel presets and plugins, file inclusion, helper strategy, output targets, source maps, and Rollup output behavior."
         ],
-        "verification": [{ "command": "npm run build --if-present", "purpose": "Build every Rollup output with the maintained Babel plugin." }]
+        "steps": [
+          {
+            "id": "replace-rollup-babel",
+            "title": "Replace the Rollup Babel plugin",
+            "instructions": "Replace rollup-plugin-babel with @rollup/plugin-babel and update Rollup imports and plugin options.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-bundle-output",
+            "title": "Verify bundle output",
+            "instructions": "Compare emitted syntax, helpers, source maps, and bundle behavior for every configured output.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build every Rollup output with the maintained Babel plugin."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "rollup-plugin-babel" },
-        { "kind": "import", "language": "typescript", "module": "rollup-plugin-babel" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "rollup-plugin-babel"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "rollup-plugin-babel"
+        }
       ],
-      "x-npm": { "package": "rollup-plugin-babel" }
+      "x-npm": {
+        "package": "rollup-plugin-babel"
+      }
     },
     {
       "id": "npm.package.sntp.deprecated",
@@ -835,23 +1557,61 @@
       "severity": "high",
       "replacement": "@hapi/sntp",
       "sources": [
-        { "title": "sntp package deprecation notice", "url": "https://www.npmjs.com/package/sntp" },
-        { "title": "sntp registry metadata", "url": "https://registry.npmjs.org/sntp/latest" }
+        {
+          "title": "sntp package deprecation notice",
+          "url": "https://www.npmjs.com/package/sntp"
+        },
+        {
+          "title": "sntp registry metadata",
+          "url": "https://registry.npmjs.org/sntp/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve server selection, timeout behavior, clock-offset calculations, error handling, and any security-sensitive time checks."],
-        "steps": [
-          { "id": "replace-sntp", "title": "Replace sntp", "instructions": "Move the dependency and imports from sntp to @hapi/sntp and adapt changed APIs.", "targets": "all" },
-          { "id": "verify-time-behavior", "title": "Verify network-time behavior", "instructions": "Test successful queries, timeouts, invalid responses, and clock-offset handling with controlled fixtures.", "targets": "usages" }
+        "constraints": [
+          "Preserve server selection, timeout behavior, clock-offset calculations, error handling, and any security-sensitive time checks."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run time synchronization and repository tests when defined." }]
+        "steps": [
+          {
+            "id": "replace-sntp",
+            "title": "Replace sntp",
+            "instructions": "Move the dependency and imports from sntp to @hapi/sntp and adapt changed APIs.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-time-behavior",
+            "title": "Verify network-time behavior",
+            "instructions": "Test successful queries, timeouts, invalid responses, and clock-offset handling with controlled fixtures.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run time synchronization and repository tests when defined."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "sntp" },
-        { "kind": "import", "language": "typescript", "module": "sntp" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "sntp"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "sntp"
+        }
       ],
-      "x-npm": { "package": "sntp" }
+      "x-npm": {
+        "package": "sntp"
+      }
     },
     {
       "id": "npm.package.stable.deprecated",
@@ -864,20 +1624,55 @@
       "severity": "medium",
       "replacement": "Array.prototype.sort",
       "sources": [
-        { "title": "stable package deprecation notice", "url": "https://www.npmjs.com/package/stable" },
-        { "title": "stable registry metadata", "url": "https://registry.npmjs.org/stable/latest" }
+        {
+          "title": "stable package deprecation notice",
+          "url": "https://www.npmjs.com/package/stable"
+        },
+        {
+          "title": "stable registry metadata",
+          "url": "https://registry.npmjs.org/stable/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve comparator behavior, input mutation, output ordering, and support for the project's minimum JavaScript runtime."],
-        "steps": [{ "id": "replace-stable", "title": "Use native stable sorting", "instructions": "Replace stable package calls with Array.prototype.sort using the same comparator, then remove the dependency.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run ordering and repository tests on every supported runtime." }]
+        "constraints": [
+          "Preserve comparator behavior, input mutation, output ordering, and support for the project's minimum JavaScript runtime."
+        ],
+        "steps": [
+          {
+            "id": "replace-stable",
+            "title": "Use native stable sorting",
+            "instructions": "Replace stable package calls with Array.prototype.sort using the same comparator, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run ordering and repository tests on every supported runtime."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "stable" },
-        { "kind": "import", "language": "typescript", "module": "stable" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "stable"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "stable"
+        }
       ],
-      "x-npm": { "package": "stable" }
+      "x-npm": {
+        "package": "stable"
+      }
     },
     {
       "id": "npm.package.abab.deprecated",
@@ -890,20 +1685,55 @@
       "severity": "medium",
       "replacement": "Native atob() and btoa()",
       "sources": [
-        { "title": "abab package deprecation notice", "url": "https://www.npmjs.com/package/abab" },
-        { "title": "abab registry metadata", "url": "https://registry.npmjs.org/abab/latest" }
+        {
+          "title": "abab package deprecation notice",
+          "url": "https://www.npmjs.com/package/abab"
+        },
+        {
+          "title": "abab registry metadata",
+          "url": "https://registry.npmjs.org/abab/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve accepted input, binary-string output, thrown errors, Unicode handling, and support for the project's minimum runtime."],
-        "steps": [{ "id": "replace-abab", "title": "Use platform Base64 functions", "instructions": "Replace abab imports and calls with the runtime's native atob and btoa functions, then remove the dependency.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run Base64 edge-case and repository tests." }]
+        "constraints": [
+          "Preserve accepted input, binary-string output, thrown errors, Unicode handling, and support for the project's minimum runtime."
+        ],
+        "steps": [
+          {
+            "id": "replace-abab",
+            "title": "Use platform Base64 functions",
+            "instructions": "Replace abab imports and calls with the runtime's native atob and btoa functions, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run Base64 edge-case and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "abab" },
-        { "kind": "import", "language": "typescript", "module": "abab" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "abab"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "abab"
+        }
       ],
-      "x-npm": { "package": "abab" }
+      "x-npm": {
+        "package": "abab"
+      }
     },
     {
       "id": "npm.package.domexception.deprecated",
@@ -916,20 +1746,55 @@
       "severity": "medium",
       "replacement": "Native DOMException",
       "sources": [
-        { "title": "domexception package deprecation notice", "url": "https://www.npmjs.com/package/domexception" },
-        { "title": "domexception registry metadata", "url": "https://registry.npmjs.org/domexception/latest" }
+        {
+          "title": "domexception package deprecation notice",
+          "url": "https://www.npmjs.com/package/domexception"
+        },
+        {
+          "title": "domexception registry metadata",
+          "url": "https://registry.npmjs.org/domexception/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve exception names, messages, codes where consumed, instanceof checks, serialization, and minimum-runtime support."],
-        "steps": [{ "id": "replace-domexception", "title": "Use native DOMException", "instructions": "Replace domexception imports and constructors with the global DOMException implementation, then remove the dependency.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run exception behavior and repository tests." }]
+        "constraints": [
+          "Preserve exception names, messages, codes where consumed, instanceof checks, serialization, and minimum-runtime support."
+        ],
+        "steps": [
+          {
+            "id": "replace-domexception",
+            "title": "Use native DOMException",
+            "instructions": "Replace domexception imports and constructors with the global DOMException implementation, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run exception behavior and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "domexception" },
-        { "kind": "import", "language": "typescript", "module": "domexception" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "domexception"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "domexception"
+        }
       ],
-      "x-npm": { "package": "domexception" }
+      "x-npm": {
+        "package": "domexception"
+      }
     },
     {
       "id": "npm.package.w3c-hr-time.deprecated",
@@ -942,20 +1807,55 @@
       "severity": "medium",
       "replacement": "Native performance.now() and performance.timeOrigin",
       "sources": [
-        { "title": "w3c-hr-time package deprecation notice", "url": "https://www.npmjs.com/package/w3c-hr-time" },
-        { "title": "w3c-hr-time registry metadata", "url": "https://registry.npmjs.org/w3c-hr-time/latest" }
+        {
+          "title": "w3c-hr-time package deprecation notice",
+          "url": "https://www.npmjs.com/package/w3c-hr-time"
+        },
+        {
+          "title": "w3c-hr-time registry metadata",
+          "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve monotonic timing, time-origin assumptions, units, precision expectations, and minimum-runtime support."],
-        "steps": [{ "id": "replace-w3c-hr-time", "title": "Use native high-resolution time", "instructions": "Replace w3c-hr-time imports and clock reads with native performance.now() and performance.timeOrigin, then remove the dependency.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run timing behavior and repository tests without relying on exact wall-clock values." }]
+        "constraints": [
+          "Preserve monotonic timing, time-origin assumptions, units, precision expectations, and minimum-runtime support."
+        ],
+        "steps": [
+          {
+            "id": "replace-w3c-hr-time",
+            "title": "Use native high-resolution time",
+            "instructions": "Replace w3c-hr-time imports and clock reads with native performance.now() and performance.timeOrigin, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run timing behavior and repository tests without relying on exact wall-clock values."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "w3c-hr-time" },
-        { "kind": "import", "language": "typescript", "module": "w3c-hr-time" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "w3c-hr-time"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "w3c-hr-time"
+        }
       ],
-      "x-npm": { "package": "w3c-hr-time" }
+      "x-npm": {
+        "package": "w3c-hr-time"
+      }
     },
     {
       "id": "npm.package.sourcemap-codec.deprecated",
@@ -968,20 +1868,55 @@
       "severity": "medium",
       "replacement": "@jridgewell/sourcemap-codec",
       "sources": [
-        { "title": "sourcemap-codec package deprecation notice", "url": "https://www.npmjs.com/package/sourcemap-codec" },
-        { "title": "sourcemap-codec registry metadata", "url": "https://registry.npmjs.org/sourcemap-codec/latest" }
+        {
+          "title": "sourcemap-codec package deprecation notice",
+          "url": "https://www.npmjs.com/package/sourcemap-codec"
+        },
+        {
+          "title": "sourcemap-codec registry metadata",
+          "url": "https://registry.npmjs.org/sourcemap-codec/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve decoded segment ordering, generated and original positions, names, empty lines, and encoded source-map output."],
-        "steps": [{ "id": "replace-sourcemap-codec", "title": "Move to the maintained codec", "instructions": "Replace the dependency and imports with @jridgewell/sourcemap-codec and adapt any changed exports.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run source-map round-trip and repository tests." }]
+        "constraints": [
+          "Preserve decoded segment ordering, generated and original positions, names, empty lines, and encoded source-map output."
+        ],
+        "steps": [
+          {
+            "id": "replace-sourcemap-codec",
+            "title": "Move to the maintained codec",
+            "instructions": "Replace the dependency and imports with @jridgewell/sourcemap-codec and adapt any changed exports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run source-map round-trip and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "sourcemap-codec" },
-        { "kind": "import", "language": "typescript", "module": "sourcemap-codec" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "sourcemap-codec"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "sourcemap-codec"
+        }
       ],
-      "x-npm": { "package": "sourcemap-codec" }
+      "x-npm": {
+        "package": "sourcemap-codec"
+      }
     },
     {
       "id": "npm.package.humanwhocodes-config-array.deprecated",
@@ -994,20 +1929,55 @@
       "severity": "medium",
       "replacement": "@eslint/config-array",
       "sources": [
-        { "title": "@humanwhocodes/config-array package deprecation notice", "url": "https://www.npmjs.com/package/@humanwhocodes/config-array" },
-        { "title": "@humanwhocodes/config-array registry metadata", "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest" }
+        {
+          "title": "@humanwhocodes/config-array package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+        },
+        {
+          "title": "@humanwhocodes/config-array registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve config matching, normalization, naming, ignore handling, cache behavior, and exported API semantics."],
-        "steps": [{ "id": "replace-config-array", "title": "Move to the ESLint package", "instructions": "Replace the dependency and imports with @eslint/config-array, then adapt renamed or changed exports using its maintained API.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run configuration selection and repository tests." }]
+        "constraints": [
+          "Preserve config matching, normalization, naming, ignore handling, cache behavior, and exported API semantics."
+        ],
+        "steps": [
+          {
+            "id": "replace-config-array",
+            "title": "Move to the ESLint package",
+            "instructions": "Replace the dependency and imports with @eslint/config-array, then adapt renamed or changed exports using its maintained API.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run configuration selection and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "@humanwhocodes/config-array" },
-        { "kind": "import", "language": "typescript", "module": "@humanwhocodes/config-array" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@humanwhocodes/config-array"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@humanwhocodes/config-array"
+        }
       ],
-      "x-npm": { "package": "@humanwhocodes/config-array" }
+      "x-npm": {
+        "package": "@humanwhocodes/config-array"
+      }
     },
     {
       "id": "npm.package.humanwhocodes-object-schema.deprecated",
@@ -1020,20 +1990,55 @@
       "severity": "medium",
       "replacement": "@eslint/object-schema",
       "sources": [
-        { "title": "@humanwhocodes/object-schema package deprecation notice", "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema" },
-        { "title": "@humanwhocodes/object-schema registry metadata", "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest" }
+        {
+          "title": "@humanwhocodes/object-schema package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+        },
+        {
+          "title": "@humanwhocodes/object-schema registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve validation, merge strategies, required keys, defaults, error behavior, and exported API semantics."],
-        "steps": [{ "id": "replace-object-schema", "title": "Move to the ESLint package", "instructions": "Replace the dependency and imports with @eslint/object-schema, then adapt renamed or changed exports using its maintained API.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run schema validation, merge, and repository tests." }]
+        "constraints": [
+          "Preserve validation, merge strategies, required keys, defaults, error behavior, and exported API semantics."
+        ],
+        "steps": [
+          {
+            "id": "replace-object-schema",
+            "title": "Move to the ESLint package",
+            "instructions": "Replace the dependency and imports with @eslint/object-schema, then adapt renamed or changed exports using its maintained API.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run schema validation, merge, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "@humanwhocodes/object-schema" },
-        { "kind": "import", "language": "typescript", "module": "@humanwhocodes/object-schema" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@humanwhocodes/object-schema"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@humanwhocodes/object-schema"
+        }
       ],
-      "x-npm": { "package": "@humanwhocodes/object-schema" }
+      "x-npm": {
+        "package": "@humanwhocodes/object-schema"
+      }
     },
     {
       "id": "npm.package.q.deprecated",
@@ -1046,23 +2051,61 @@
       "severity": "high",
       "replacement": "Native Promise",
       "sources": [
-        { "title": "q package deprecation notice", "url": "https://www.npmjs.com/package/q" },
-        { "title": "q registry metadata", "url": "https://registry.npmjs.org/q/latest" }
+        {
+          "title": "q package deprecation notice",
+          "url": "https://www.npmjs.com/package/q"
+        },
+        {
+          "title": "q registry metadata",
+          "url": "https://registry.npmjs.org/q/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions."],
-        "steps": [
-          { "id": "audit-q-extensions", "title": "Audit Q-specific behavior", "instructions": "Identify Q-only APIs and semantic assumptions before translating promise chains.", "targets": "usages" },
-          { "id": "replace-q", "title": "Use native promises", "instructions": "Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.", "targets": "all" }
+        "constraints": [
+          "Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run asynchronous success, rejection, ordering, and repository tests." }]
+        "steps": [
+          {
+            "id": "audit-q-extensions",
+            "title": "Audit Q-specific behavior",
+            "instructions": "Identify Q-only APIs and semantic assumptions before translating promise chains.",
+            "targets": "usages"
+          },
+          {
+            "id": "replace-q",
+            "title": "Use native promises",
+            "instructions": "Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run asynchronous success, rejection, ordering, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "q" },
-        { "kind": "import", "language": "typescript", "module": "q" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "q"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "q"
+        }
       ],
-      "x-npm": { "package": "q" }
+      "x-npm": {
+        "package": "q"
+      }
     },
     {
       "id": "npm.package.lodash-get.deprecated",
@@ -1075,20 +2118,55 @@
       "severity": "medium",
       "replacement": "Optional chaining (?.)",
       "sources": [
-        { "title": "lodash.get package deprecation notice", "url": "https://www.npmjs.com/package/lodash.get" },
-        { "title": "lodash.get registry metadata", "url": "https://registry.npmjs.org/lodash.get/latest" }
+        {
+          "title": "lodash.get package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.get"
+        },
+        {
+          "title": "lodash.get registry metadata",
+          "url": "https://registry.npmjs.org/lodash.get/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve path semantics, array-index access, default-value behavior, nullish handling, and minimum-runtime support."],
-        "steps": [{ "id": "replace-lodash-get", "title": "Use optional chaining", "instructions": "Rewrite each lodash.get call with optional chaining and nullish coalescing where a default value is required, then remove the dependency.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run nested access, default-value, nullish, and repository tests." }]
+        "constraints": [
+          "Preserve path semantics, array-index access, default-value behavior, nullish handling, and minimum-runtime support."
+        ],
+        "steps": [
+          {
+            "id": "replace-lodash-get",
+            "title": "Use optional chaining",
+            "instructions": "Rewrite each lodash.get call with optional chaining and nullish coalescing where a default value is required, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run nested access, default-value, nullish, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "lodash.get" },
-        { "kind": "import", "language": "typescript", "module": "lodash.get" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "lodash.get"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "lodash.get"
+        }
       ],
-      "x-npm": { "package": "lodash.get" }
+      "x-npm": {
+        "package": "lodash.get"
+      }
     },
     {
       "id": "npm.package.lodash-isequal.deprecated",
@@ -1101,23 +2179,61 @@
       "severity": "medium",
       "replacement": "node:util.isDeepStrictEqual",
       "sources": [
-        { "title": "lodash.isequal package deprecation notice", "url": "https://www.npmjs.com/package/lodash.isequal" },
-        { "title": "lodash.isequal registry metadata", "url": "https://registry.npmjs.org/lodash.isequal/latest" }
+        {
+          "title": "lodash.isequal package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.isequal"
+        },
+        {
+          "title": "lodash.isequal registry metadata",
+          "url": "https://registry.npmjs.org/lodash.isequal/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Confirm compatibility for prototypes, boxed primitives, Maps, Sets, typed arrays, symbols, circular references, and cross-realm values."],
-        "steps": [
-          { "id": "compare-deep-equality-semantics", "title": "Compare equality semantics", "instructions": "Identify value types used at each call site and confirm node:util.isDeepStrictEqual has acceptable semantics.", "targets": "usages" },
-          { "id": "replace-lodash-isequal", "title": "Use Node deep strict equality", "instructions": "Replace lodash.isequal imports and calls with node:util.isDeepStrictEqual, then remove the dependency.", "targets": "all" }
+        "constraints": [
+          "Confirm compatibility for prototypes, boxed primitives, Maps, Sets, typed arrays, symbols, circular references, and cross-realm values."
         ],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run deep-equality edge cases and repository tests." }]
+        "steps": [
+          {
+            "id": "compare-deep-equality-semantics",
+            "title": "Compare equality semantics",
+            "instructions": "Identify value types used at each call site and confirm node:util.isDeepStrictEqual has acceptable semantics.",
+            "targets": "usages"
+          },
+          {
+            "id": "replace-lodash-isequal",
+            "title": "Use Node deep strict equality",
+            "instructions": "Replace lodash.isequal imports and calls with node:util.isDeepStrictEqual, then remove the dependency.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run deep-equality edge cases and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "lodash.isequal" },
-        { "kind": "import", "language": "typescript", "module": "lodash.isequal" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "lodash.isequal"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "lodash.isequal"
+        }
       ],
-      "x-npm": { "package": "lodash.isequal" }
+      "x-npm": {
+        "package": "lodash.isequal"
+      }
     },
     {
       "id": "npm.package.npmlog.eol",
@@ -1129,20 +2245,55 @@
       "summary": "npm states that the npmlog package is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "npmlog package deprecation notice", "url": "https://www.npmjs.com/package/npmlog" },
-        { "title": "npmlog registry metadata", "url": "https://registry.npmjs.org/npmlog/latest" }
+        {
+          "title": "npmlog package deprecation notice",
+          "url": "https://www.npmjs.com/package/npmlog"
+        },
+        {
+          "title": "npmlog registry metadata",
+          "url": "https://registry.npmjs.org/npmlog/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve log levels, prefixes, headings, progress integration, stream routing, formatting, and quiet-mode behavior."],
-        "steps": [{ "id": "replace-npmlog", "title": "Replace npmlog", "instructions": "Select a maintained logger that covers the used behavior, translate configuration and calls, then remove npmlog.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run logging output, level filtering, and repository tests." }]
+        "constraints": [
+          "Preserve log levels, prefixes, headings, progress integration, stream routing, formatting, and quiet-mode behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-npmlog",
+            "title": "Replace npmlog",
+            "instructions": "Select a maintained logger that covers the used behavior, translate configuration and calls, then remove npmlog.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run logging output, level filtering, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "npmlog" },
-        { "kind": "import", "language": "typescript", "module": "npmlog" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "npmlog"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "npmlog"
+        }
       ],
-      "x-npm": { "package": "npmlog" }
+      "x-npm": {
+        "package": "npmlog"
+      }
     },
     {
       "id": "npm.package.are-we-there-yet.eol",
@@ -1154,20 +2305,55 @@
       "summary": "npm states that the are-we-there-yet package is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "are-we-there-yet package deprecation notice", "url": "https://www.npmjs.com/package/are-we-there-yet" },
-        { "title": "are-we-there-yet registry metadata", "url": "https://registry.npmjs.org/are-we-there-yet/latest" }
+        {
+          "title": "are-we-there-yet package deprecation notice",
+          "url": "https://www.npmjs.com/package/are-we-there-yet"
+        },
+        {
+          "title": "are-we-there-yet registry metadata",
+          "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve weighted completion, nested tracker groups, stream progress, event timing, and completion semantics."],
-        "steps": [{ "id": "replace-are-we-there-yet", "title": "Replace progress tracking", "instructions": "Select a maintained progress tracker or implement the required aggregation locally, migrate tracker construction and updates, then remove the package.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run nested progress, completion, event, and repository tests." }]
+        "constraints": [
+          "Preserve weighted completion, nested tracker groups, stream progress, event timing, and completion semantics."
+        ],
+        "steps": [
+          {
+            "id": "replace-are-we-there-yet",
+            "title": "Replace progress tracking",
+            "instructions": "Select a maintained progress tracker or implement the required aggregation locally, migrate tracker construction and updates, then remove the package.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run nested progress, completion, event, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "are-we-there-yet" },
-        { "kind": "import", "language": "typescript", "module": "are-we-there-yet" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "are-we-there-yet"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "are-we-there-yet"
+        }
       ],
-      "x-npm": { "package": "are-we-there-yet" }
+      "x-npm": {
+        "package": "are-we-there-yet"
+      }
     },
     {
       "id": "npm.package.gauge.eol",
@@ -1179,20 +2365,55 @@
       "summary": "npm states that the gauge package is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "gauge package deprecation notice", "url": "https://www.npmjs.com/package/gauge" },
-        { "title": "gauge registry metadata", "url": "https://registry.npmjs.org/gauge/latest" }
+        {
+          "title": "gauge package deprecation notice",
+          "url": "https://www.npmjs.com/package/gauge"
+        },
+        {
+          "title": "gauge registry metadata",
+          "url": "https://registry.npmjs.org/gauge/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve terminal detection, redraw behavior, themes, templates, progress values, status sections, and non-TTY output."],
-        "steps": [{ "id": "replace-gauge", "title": "Replace the terminal gauge", "instructions": "Select a maintained terminal progress implementation, migrate rendering and update calls, then remove gauge.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run TTY, non-TTY, redraw, and repository tests." }]
+        "constraints": [
+          "Preserve terminal detection, redraw behavior, themes, templates, progress values, status sections, and non-TTY output."
+        ],
+        "steps": [
+          {
+            "id": "replace-gauge",
+            "title": "Replace the terminal gauge",
+            "instructions": "Select a maintained terminal progress implementation, migrate rendering and update calls, then remove gauge.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run TTY, non-TTY, redraw, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "gauge" },
-        { "kind": "import", "language": "typescript", "module": "gauge" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "gauge"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "gauge"
+        }
       ],
-      "x-npm": { "package": "gauge" }
+      "x-npm": {
+        "package": "gauge"
+      }
     },
     {
       "id": "npm.package.osenv.eol",
@@ -1204,20 +2425,55 @@
       "summary": "npm states that the osenv package is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "osenv package deprecation notice", "url": "https://www.npmjs.com/package/osenv" },
-        { "title": "osenv registry metadata", "url": "https://registry.npmjs.org/osenv/latest" }
+        {
+          "title": "osenv package deprecation notice",
+          "url": "https://www.npmjs.com/package/osenv"
+        },
+        {
+          "title": "osenv registry metadata",
+          "url": "https://registry.npmjs.org/osenv/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve platform-specific home, temp, editor, shell, path, and environment-variable fallback behavior actually used by the application."],
-        "steps": [{ "id": "replace-osenv", "title": "Replace operating-system environment helpers", "instructions": "Replace each osenv helper with maintained runtime APIs and explicit environment-variable handling, then remove osenv.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run environment resolution and cross-platform repository tests." }]
+        "constraints": [
+          "Preserve platform-specific home, temp, editor, shell, path, and environment-variable fallback behavior actually used by the application."
+        ],
+        "steps": [
+          {
+            "id": "replace-osenv",
+            "title": "Replace operating-system environment helpers",
+            "instructions": "Replace each osenv helper with maintained runtime APIs and explicit environment-variable handling, then remove osenv.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run environment resolution and cross-platform repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "osenv" },
-        { "kind": "import", "language": "typescript", "module": "osenv" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "osenv"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "osenv"
+        }
       ],
-      "x-npm": { "package": "osenv" }
+      "x-npm": {
+        "package": "osenv"
+      }
     },
     {
       "id": "npm.package.read-package-json.eol",
@@ -1230,20 +2486,55 @@
       "severity": "high",
       "replacement": "@npmcli/package-json",
       "sources": [
-        { "title": "read-package-json package deprecation notice", "url": "https://www.npmjs.com/package/read-package-json" },
-        { "title": "read-package-json registry metadata", "url": "https://registry.npmjs.org/read-package-json/latest" }
+        {
+          "title": "read-package-json package deprecation notice",
+          "url": "https://www.npmjs.com/package/read-package-json"
+        },
+        {
+          "title": "read-package-json registry metadata",
+          "url": "https://registry.npmjs.org/read-package-json/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve package normalization, extra metadata loading, error handling, file paths, warnings, and callback or promise timing relied on by callers."],
-        "steps": [{ "id": "replace-read-package-json", "title": "Move to @npmcli/package-json", "instructions": "Replace the dependency and reads with @npmcli/package-json, adapting its promise-based API and normalized result shape.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run valid, malformed, missing, and normalized package metadata tests." }]
+        "constraints": [
+          "Preserve package normalization, extra metadata loading, error handling, file paths, warnings, and callback or promise timing relied on by callers."
+        ],
+        "steps": [
+          {
+            "id": "replace-read-package-json",
+            "title": "Move to @npmcli/package-json",
+            "instructions": "Replace the dependency and reads with @npmcli/package-json, adapting its promise-based API and normalized result shape.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run valid, malformed, missing, and normalized package metadata tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "read-package-json" },
-        { "kind": "import", "language": "typescript", "module": "read-package-json" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "read-package-json"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "read-package-json"
+        }
       ],
-      "x-npm": { "package": "read-package-json" }
+      "x-npm": {
+        "package": "read-package-json"
+      }
     },
     {
       "id": "npm.package.npmcli-move-file.deprecated",
@@ -1256,20 +2547,55 @@
       "severity": "medium",
       "replacement": "@npmcli/fs",
       "sources": [
-        { "title": "@npmcli/move-file package deprecation notice", "url": "https://www.npmjs.com/package/@npmcli/move-file" },
-        { "title": "@npmcli/move-file registry metadata", "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest" }
+        {
+          "title": "@npmcli/move-file package deprecation notice",
+          "url": "https://www.npmjs.com/package/@npmcli/move-file"
+        },
+        {
+          "title": "@npmcli/move-file registry metadata",
+          "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve overwrite, cross-device fallback, directory creation, permissions, error propagation, and platform-specific move behavior."],
-        "steps": [{ "id": "replace-npmcli-move-file", "title": "Move to @npmcli/fs", "instructions": "Replace the dependency and imports with the move-file functionality exposed by @npmcli/fs, adapting changed exports and options.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run same-device, cross-device, overwrite, failure, and repository tests." }]
+        "constraints": [
+          "Preserve overwrite, cross-device fallback, directory creation, permissions, error propagation, and platform-specific move behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-npmcli-move-file",
+            "title": "Move to @npmcli/fs",
+            "instructions": "Replace the dependency and imports with the move-file functionality exposed by @npmcli/fs, adapting changed exports and options.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run same-device, cross-device, overwrite, failure, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "@npmcli/move-file" },
-        { "kind": "import", "language": "typescript", "module": "@npmcli/move-file" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@npmcli/move-file"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@npmcli/move-file"
+        }
       ],
-      "x-npm": { "package": "@npmcli/move-file" }
+      "x-npm": {
+        "package": "@npmcli/move-file"
+      }
     },
     {
       "id": "npm.package.figgy-pudding.eol",
@@ -1281,20 +2607,55 @@
       "summary": "npm states that the figgy-pudding module is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "figgy-pudding package deprecation notice", "url": "https://www.npmjs.com/package/figgy-pudding" },
-        { "title": "figgy-pudding registry metadata", "url": "https://registry.npmjs.org/figgy-pudding/latest" }
+        {
+          "title": "figgy-pudding package deprecation notice",
+          "url": "https://www.npmjs.com/package/figgy-pudding"
+        },
+        {
+          "title": "figgy-pudding registry metadata",
+          "url": "https://registry.npmjs.org/figgy-pudding/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve option defaults, validation, inheritance, provider lookup, key enumeration, and sensitive-value handling."],
-        "steps": [{ "id": "replace-figgy-pudding", "title": "Replace configuration wrappers", "instructions": "Replace figgy-pudding instances with explicit validated configuration objects or a maintained configuration library, then remove the package.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run configuration defaults, validation, inheritance, and repository tests." }]
+        "constraints": [
+          "Preserve option defaults, validation, inheritance, provider lookup, key enumeration, and sensitive-value handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-figgy-pudding",
+            "title": "Replace configuration wrappers",
+            "instructions": "Replace figgy-pudding instances with explicit validated configuration objects or a maintained configuration library, then remove the package.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run configuration defaults, validation, inheritance, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "figgy-pudding" },
-        { "kind": "import", "language": "typescript", "module": "figgy-pudding" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "figgy-pudding"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "figgy-pudding"
+        }
       ],
-      "x-npm": { "package": "figgy-pudding" }
+      "x-npm": {
+        "package": "figgy-pudding"
+      }
     },
     {
       "id": "npm.package.fstream.eol",
@@ -1306,20 +2667,55 @@
       "summary": "npm states that the fstream package is no longer supported.",
       "severity": "high",
       "sources": [
-        { "title": "fstream package deprecation notice", "url": "https://www.npmjs.com/package/fstream" },
-        { "title": "fstream registry metadata", "url": "https://registry.npmjs.org/fstream/latest" }
+        {
+          "title": "fstream package deprecation notice",
+          "url": "https://www.npmjs.com/package/fstream"
+        },
+        {
+          "title": "fstream registry metadata",
+          "url": "https://registry.npmjs.org/fstream/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve filesystem traversal, filtering, permissions, ownership, symlink handling, stream backpressure, and archive boundary security."],
-        "steps": [{ "id": "replace-fstream", "title": "Replace filesystem streaming", "instructions": "Select maintained filesystem and archive primitives for the used fstream behavior, migrate readers and writers, then remove fstream.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run files, directories, symlinks, permissions, errors, and repository tests." }]
+        "constraints": [
+          "Preserve filesystem traversal, filtering, permissions, ownership, symlink handling, stream backpressure, and archive boundary security."
+        ],
+        "steps": [
+          {
+            "id": "replace-fstream",
+            "title": "Replace filesystem streaming",
+            "instructions": "Select maintained filesystem and archive primitives for the used fstream behavior, migrate readers and writers, then remove fstream.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run files, directories, symlinks, permissions, errors, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "fstream" },
-        { "kind": "import", "language": "typescript", "module": "fstream" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "fstream"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "fstream"
+        }
       ],
-      "x-npm": { "package": "fstream" }
+      "x-npm": {
+        "package": "fstream"
+      }
     },
     {
       "id": "npm.package.source-map-url.deprecated",
@@ -1332,20 +2728,55 @@
       "severity": "medium",
       "replacement": "convert-source-map",
       "sources": [
-        { "title": "source-map-url maintainer deprecation notice", "url": "https://github.com/lydell/source-map-url#deprecated" },
-        { "title": "source-map-url registry metadata", "url": "https://registry.npmjs.org/source-map-url/latest" }
+        {
+          "title": "source-map-url maintainer deprecation notice",
+          "url": "https://github.com/lydell/source-map-url#deprecated"
+        },
+        {
+          "title": "source-map-url registry metadata",
+          "url": "https://registry.npmjs.org/source-map-url/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve JavaScript and CSS comment forms, inline and external map URLs, insertion position, removal behavior, and malformed-input handling."],
-        "steps": [{ "id": "replace-source-map-url", "title": "Move to convert-source-map", "instructions": "Replace source-map-url parsing and mutation calls with convert-source-map equivalents and explicit handling for any unsupported comment forms.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run inline, external, JavaScript, CSS, malformed, and repository tests." }]
+        "constraints": [
+          "Preserve JavaScript and CSS comment forms, inline and external map URLs, insertion position, removal behavior, and malformed-input handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-source-map-url",
+            "title": "Move to convert-source-map",
+            "instructions": "Replace source-map-url parsing and mutation calls with convert-source-map equivalents and explicit handling for any unsupported comment forms.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run inline, external, JavaScript, CSS, malformed, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "source-map-url" },
-        { "kind": "import", "language": "typescript", "module": "source-map-url" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "source-map-url"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "source-map-url"
+        }
       ],
-      "x-npm": { "package": "source-map-url" }
+      "x-npm": {
+        "package": "source-map-url"
+      }
     },
     {
       "id": "npm.package.resolve-url.deprecated",
@@ -1358,20 +2789,268 @@
       "severity": "medium",
       "replacement": "URL",
       "sources": [
-        { "title": "resolve-url maintainer deprecation notice", "url": "https://github.com/lydell/resolve-url#deprecated" },
-        { "title": "resolve-url registry metadata", "url": "https://registry.npmjs.org/resolve-url/latest" }
+        {
+          "title": "resolve-url maintainer deprecation notice",
+          "url": "https://github.com/lydell/resolve-url#deprecated"
+        },
+        {
+          "title": "resolve-url registry metadata",
+          "url": "https://registry.npmjs.org/resolve-url/latest"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi", "importer": "npm-deprecated" },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
       "migration": {
-        "constraints": ["Preserve base URL selection, sequential resolution, protocol-relative URLs, absolute URLs, encoding, and browser compatibility."],
-        "steps": [{ "id": "replace-resolve-url", "title": "Use the URL API", "instructions": "Replace resolve-url calls with URL construction, applying each base explicitly and returning the same string form expected by callers.", "targets": "all" }],
-        "verification": [{ "command": "npm run test --if-present", "purpose": "Run relative, absolute, protocol-relative, encoded, multi-base, and repository tests." }]
+        "constraints": [
+          "Preserve base URL selection, sequential resolution, protocol-relative URLs, absolute URLs, encoding, and browser compatibility."
+        ],
+        "steps": [
+          {
+            "id": "replace-resolve-url",
+            "title": "Use the URL API",
+            "instructions": "Replace resolve-url calls with URL construction, applying each base explicitly and returning the same string form expected by callers.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run relative, absolute, protocol-relative, encoded, multi-base, and repository tests."
+          }
+        ]
       },
       "usage": [
-        { "kind": "import", "language": "javascript", "module": "resolve-url" },
-        { "kind": "import", "language": "typescript", "module": "resolve-url" }
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "resolve-url"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "resolve-url"
+        }
       ],
-      "x-npm": { "package": "resolve-url" }
+      "x-npm": {
+        "package": "resolve-url"
+      }
+    },
+    {
+      "id": "npm.package.babel-eslint.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/babel-eslint",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "babel-eslint is deprecated",
+      "summary": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
+      "severity": "medium",
+      "replacement": "@babel/eslint-parser",
+      "sources": [
+        {
+          "title": "babel-eslint on npm",
+          "url": "https://www.npmjs.com/package/babel-eslint"
+        },
+        {
+          "title": "babel-eslint registry metadata",
+          "url": "https://registry.npmjs.org/babel-eslint/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the same parser options, lint rules, and supported syntax (decorators, class properties, Flow) in the new parser configuration."
+        ],
+        "steps": [
+          {
+            "id": "replace-babel-eslint",
+            "title": "Replace the parser package",
+            "instructions": "Replace babel-eslint with @babel/eslint-parser in dependencies and set the ESLint parser to @babel/eslint-parser.",
+            "targets": "all"
+          },
+          {
+            "id": "check-babel-config",
+            "title": "Provide a Babel configuration",
+            "instructions": "@babel/eslint-parser needs a Babel config (or requireConfigFile: false with parserOptions.babelOptions); add one so the same syntax parses.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Run the linter with the new parser and compare the results."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "babel-eslint"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "babel-eslint"
+        },
+        {
+          "kind": "config-key",
+          "language": "json",
+          "key": "parser",
+          "valueIncludes": "babel-eslint"
+        },
+        {
+          "kind": "config-key",
+          "language": "yaml",
+          "key": "parser",
+          "valueIncludes": "babel-eslint"
+        }
+      ],
+      "x-npm": {
+        "package": "babel-eslint"
+      }
+    },
+    {
+      "id": "npm.package.tslint.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/tslint",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "tslint is deprecated",
+      "summary": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
+      "severity": "medium",
+      "replacement": "ESLint with typescript-eslint",
+      "sources": [
+        {
+          "title": "tslint on npm",
+          "url": "https://www.npmjs.com/package/tslint"
+        },
+        {
+          "title": "tslint registry metadata",
+          "url": "https://registry.npmjs.org/tslint/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the enforced rule set and any custom rules; map each TSLint rule to its typescript-eslint or ESLint equivalent."
+        ],
+        "steps": [
+          {
+            "id": "replace-tslint",
+            "title": "Replace TSLint with ESLint",
+            "instructions": "Replace tslint with eslint and typescript-eslint in dependencies and scripts, and port the rules from tslint.json to the ESLint configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "port-custom-rules",
+            "title": "Port custom rules and disables",
+            "instructions": "Convert `tslint:disable` comments and any custom TSLint rules to their ESLint equivalents.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Run the new linter on the project and compare the findings."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "tslint"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "tslint"
+        }
+      ],
+      "x-npm": {
+        "package": "tslint"
+      }
+    },
+    {
+      "id": "npm.package.uglify-es.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/uglify-es",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "uglify-es is deprecated",
+      "summary": "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\"",
+      "severity": "medium",
+      "replacement": "uglify-js (3.13 or later) or terser",
+      "sources": [
+        {
+          "title": "uglify-es on npm",
+          "url": "https://www.npmjs.com/package/uglify-es"
+        },
+        {
+          "title": "uglify-es registry metadata",
+          "url": "https://registry.npmjs.org/uglify-es/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the same minification options, source maps, and output syntax level."
+        ],
+        "steps": [
+          {
+            "id": "replace-uglify-es",
+            "title": "Replace uglify-es",
+            "instructions": "Replace uglify-es with uglify-js 3.13 or later (or terser) in dependencies, build scripts, and bundler configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-output",
+            "title": "Compare minified output",
+            "instructions": "Build and compare bundle size, source maps, and behavior of the minified output.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build with the new minifier and compare the output."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "uglify-es"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "uglify-es"
+        }
+      ],
+      "x-npm": {
+        "package": "uglify-es"
+      }
     }
   ]
 }
