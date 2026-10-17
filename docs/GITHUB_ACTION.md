@@ -47,6 +47,15 @@ Create and commit the baseline locally when existing findings are accepted:
 npx evergreen-deprecation baseline . --output .evergreen-baseline.json
 ```
 
+A baseline entry can also say why a finding is accepted and until when. These fields are all optional, so a baseline written without them keeps working, and they never change which findings are suppressed:
+
+```json
+{ "fingerprint": "…", "ruleId": "nodejs.runtime.eol-20", "path": "package.json",
+  "owner": "platform-team", "reason": "Upgrade tracked in PLAT-12", "created": "2026-10-17", "expires": "2027-01-31" }
+```
+
+`owner` and `reason` are non-empty text (up to 500 characters); `created` and `expires` are calendar dates (`YYYY-MM-DD`), and `expires` is not before `created`. An entry with a malformed field makes the baseline fail to load, with the entry's position in the message. The schema is [`schemas/baseline.v1.schema.json`](../schemas/baseline.v1.schema.json). Warnings before `expires` and what happens after it come in later changes; today the fields are recorded and validated only.
+
 The Action then annotates and gates only findings not represented by that baseline.
 
 ## Inputs and outputs
