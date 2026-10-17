@@ -98,7 +98,7 @@ test("a commented-out import and an unrelated package are not usages", async () 
 test("Go matchers are valid usage matchers", () => {
   assert.equal(isUsageMatcher({ kind: "import", language: "go", module: "example.com/old" }), true);
   assert.equal(isUsageMatcher({ kind: "call", language: "go", module: "example.com/old", targets: ["Do"] }), true);
-  assert.equal(isUsageMatcher({ kind: "import", language: "rust", module: "x" }), false);
+  assert.equal(isUsageMatcher({ kind: "import", language: "swift", module: "x" }), false);
 });
 
 const moduleRule: RegistryV2Rule = {

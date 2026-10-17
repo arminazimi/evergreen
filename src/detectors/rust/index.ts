@@ -4,6 +4,7 @@ import { basename, dirname, join } from "node:path";
 import { loadDataFile } from "../../data-source.js";
 import type { UnclassifiedReference } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
+import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
@@ -103,6 +104,8 @@ export class RustDetector implements Detector {
       });
     };
 
+    // Findings about an abandoned crate wait for their source usages, which are read once for all of them.
+    const abandoned: Array<{ rule: RegistryV2Rule; path: string; line: number; summary: string }> = [];
     const manifests: Array<{ directory: string; dependencies: CargoDependencyDeclaration[] }> = [];
     const locks: Array<{ directory: string; path: string; packages: CargoLockPackage[] }> = [];
 
@@ -122,7 +125,7 @@ export class RustDetector implements Detector {
         // An abandoned crate is abandoned at every version, so the declaration itself is the finding.
         for (const dependency of dependencies) {
           for (const rule of crateRules.get(dependency.crate) ?? []) {
-            if (coversEveryVersion(rule)) report(rule, path, dependency.line, `${path} declares ${dependency.crate} ${dependency.value}${dependency.name !== dependency.crate ? ` (as ${dependency.name})` : ""} in ${dependency.section}. ${rule.summary}`);
+            if (coversEveryVersion(rule)) abandoned.push({ rule, path, line: dependency.line, summary: `${path} declares ${dependency.crate} ${dependency.value}${dependency.name !== dependency.crate ? ` (as ${dependency.name})` : ""} in ${dependency.section}. ${rule.summary}` });
           }
         }
       } else if (name === "Cargo.lock") {
@@ -156,6 +159,15 @@ export class RustDetector implements Detector {
           }
         }
       }
+    }
+
+    // Where the repository's Rust source uses each abandoned crate, so a migration packet can list the files.
+    const withUsage = abandoned.filter((item) => (item.rule.usage ?? []).length > 0);
+    const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: `${item.rule.id}:${item.path}:${item.line}`, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+    for (const item of abandoned) {
+      report(item.rule, item.path, item.line, item.summary);
+      const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
+      if (analysis) Object.assign(findings[findings.length - 1]!, { usages: analysis.usages, impact: analysis.impact });
     }
 
     findings.sort((left, right) => left.location.path.localeCompare(right.location.path) || (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id));

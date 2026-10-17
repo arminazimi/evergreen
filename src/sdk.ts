@@ -132,13 +132,13 @@ export function isUsageMatcher(value: unknown): value is UsageMatcher {
   if (!isRecord(value) || !sourceLanguageValues.includes(value.language as never)) return false;
   if (value.kind === "import") {
     return (
-      ["javascript", "typescript", "python", "go", "java", "kotlin"].includes(value.language as string) &&
+      ["javascript", "typescript", "python", "go", "java", "kotlin", "rust"].includes(value.language as string) &&
       isNonEmptyString(value.module)
     );
   }
   if (value.kind === "call") {
     return (
-      ["javascript", "typescript", "python", "go"].includes(value.language as string) &&
+      ["javascript", "typescript", "python", "go", "rust"].includes(value.language as string) &&
       isNonEmptyString(value.module) &&
       Array.isArray(value.targets) &&
       value.targets.length > 0 &&

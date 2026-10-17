@@ -105,7 +105,25 @@
             "purpose": "Build and test after the error-handling change."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "failure"
+        },
+        {
+          "kind": "call",
+          "language": "rust",
+          "module": "failure",
+          "targets": [
+            "err_msg",
+            "format_err",
+            "bail",
+            "ensure"
+          ]
+        }
+      ]
     },
     {
       "id": "rust.crate.tempdir.unmaintained",
@@ -146,7 +164,22 @@
             "purpose": "Build and run the tests that create temporary directories."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "tempdir"
+        },
+        {
+          "kind": "call",
+          "language": "rust",
+          "module": "tempdir",
+          "targets": [
+            "TempDir::new"
+          ]
+        }
+      ]
     },
     {
       "id": "rust.crate.atty.unmaintained",
@@ -187,7 +220,23 @@
             "purpose": "Build and test after removing atty."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "atty"
+        },
+        {
+          "kind": "call",
+          "language": "rust",
+          "module": "atty",
+          "targets": [
+            "is",
+            "isnt"
+          ]
+        }
+      ]
     },
     {
       "id": "rust.crate.ansi-term.unmaintained",
@@ -228,7 +277,14 @@
             "purpose": "Build and test after the styling change."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "ansi_term"
+        }
+      ]
     }
   ]
 }

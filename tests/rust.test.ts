@@ -39,6 +39,8 @@ async function committedRules() {
 
 async function expected(ruleId: string, path: string, line: number, summary: (rule: RegistryV2Rule) => string): Promise<DetectorFinding> {
   const rule = (await committedRules()).find((item) => item.id === ruleId)!;
+  // A rule with usage matchers reports where the source uses the crate, even when nowhere.
+  const usage = (rule.usage ?? []).length > 0 ? { usages: [], impact: { usageCount: 0, affectedFiles: 0, level: "none" as const } } : {};
   return {
     id: `${ruleId}:${path}:${line}`,
     ruleId,
@@ -50,6 +52,7 @@ async function expected(ruleId: string, path: string, line: number, summary: (ru
     ...(rule.deadline ? { deadline: rule.deadline } : {}),
     migration: rule.migration!,
     sources: rule.sources,
+    ...usage,
   };
 }
 
