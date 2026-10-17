@@ -2218,6 +2218,139 @@
         }
       ]
     },
-    { "repository": "sharkdp/fd", "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696", "ecosystem": "rust", "expected": [] }
+    { "repository": "sharkdp/fd", "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696", "ecosystem": "rust", "expected": [] },
+    {
+      "repository": "argoproj/argocd-example-apps",
+      "commit": "8088f4c0d970abb09e250248cc97e35623447cb5",
+      "ecosystem": "kubernetes",
+      "expected": []
+    },
+    {
+      "repository": "kelseyhightower/ingress-with-static-ip",
+      "commit": "a1100ac69885e91fd89045f73dfdbe1026e5de3f",
+      "ecosystem": "kubernetes",
+      "expected": [
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "nginx-ing.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of nginx-ing.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "unixhot/salt-kubebin",
+      "commit": "9f545ee1f3115b3ff6fa8390cf74e85caf244aa1",
+      "ecosystem": "kubernetes",
+      "expected": [
+        {
+          "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+          "path": "example/cronjob.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of example/cronjob.yaml reads `apiVersion: batch/v1beta1` and the next line reads `kind: CronJob`. The Kubernetes Deprecated API Migration Guide says this API version of CronJob is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "addons/Ingress-traefic/ui.yaml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of addons/Ingress-traefic/ui.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in the second document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "addons/ingress/traefik-ui.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of addons/ingress/traefik-ui.yml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in the second document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "example/nginx-ingress.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of example/nginx-ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "kubernetes/examples",
+      "commit": "d6b8cd27eacb51e651a1aa6f7c190a28713eff6e",
+      "ecosystem": "kubernetes",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "_archived/meteor/dockerbase/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of _archived/meteor/dockerbase/Dockerfile reads `FROM node:0.10`, a Node.js release line older than the supported ones."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "_archived/cluster-dns/images/frontend/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of _archived/cluster-dns/images/frontend/Dockerfile reads `FROM python:2.7-slim`, a Python release line older than the supported ones."
+          }
+        },
+        {
+          "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+          "path": "_archived/podsecuritypolicy/rbac/policies.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of _archived/podsecuritypolicy/rbac/policies.yaml reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+          "path": "_archived/podsecuritypolicy/rbac/policies.yaml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of _archived/podsecuritypolicy/rbac/policies.yaml, the second document of the file, reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "lusyoe/springboot-k8s-example",
+      "commit": "ae5fbede35012c6db258a51835d8f09ad42380fb",
+      "ecosystem": "kubernetes",
+      "expected": [
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "charts/templates/ingress.yaml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of charts/templates/ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in a Helm template, under a `.Values.ingress.enabled` condition that does not ask the cluster what it supports. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "k8s-example.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of k8s-example.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress` in a later document of the file. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
+          }
+        }
+      ]
+    }
   ]
 }
