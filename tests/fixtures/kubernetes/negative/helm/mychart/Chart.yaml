@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mychart
+version: 0.1.0
+# kubeVersion: ">=1.19.0 <1.22.0"
+annotations:
+  kubeVersion: ">=1.19.0 <1.22.0"

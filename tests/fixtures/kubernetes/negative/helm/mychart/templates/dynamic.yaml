@@ -1,0 +1,11 @@
+{{- /* apiVersion: extensions/v1beta1 */}}
+# apiVersion: extensions/v1beta1
+apiVersion: {{ .Values.apiVersion }}
+kind: {{ .Values.kind }}
+metadata:
+  name: dynamic
+---
+apiVersion: {{ include "mychart.ingress.apiVersion" . }}
+kind: Ingress
+metadata:
+  name: helper

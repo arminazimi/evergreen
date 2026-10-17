@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namePrefix: prod-
+resources:
+  - ingress.yaml
+  - ../base
+patches:
+  - target:
+      group: batch
+      version: v1beta1
+      kind: CronJob
+      name: cleanup
+    patch: |-
+      - op: replace
+        path: /spec/schedule
+        value: "0 4 * * *"
+  - patch: |-
+      apiVersion: policy/v1beta1
+      kind: PodDisruptionBudget
+      metadata:
+        name: web
+      spec:
+        minAvailable: 1

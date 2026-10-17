@@ -1,0 +1,6 @@
+apiVersion: v2
+name: mychart
+description: A chart that still ships legacy APIs
+version: 0.1.0
+appVersion: "1.0.0"
+kubeVersion: ">=1.19.0-0 <1.22.0-0"
