@@ -103,18 +103,61 @@ export async function readBaseline(path: string): Promise<Baseline> {
   return baseline;
 }
 
-export function applyBaseline(result: ScanResult, baseline: Baseline): ScanResult {
-  const suppressed = new Set(baseline.findings.map((entry) => entry.fingerprint));
-  const findings = result.findings.filter(
-    (finding) => !suppressed.has(findingFingerprint(finding)),
-  );
+export const DEFAULT_WARN_DAYS = 14;
+
+export interface ApplyBaselineOptions {
+  /**
+   * The reference day (YYYY-MM-DD) that suppression dates are compared with. Nothing here reads the clock: the
+   * caller says what "today" is, so the same inputs always give the same result. Without it, no date is compared.
+   */
+  today?: string;
+  /** How many days before `expires` a suppression is reported as expiring soon. */
+  warnWithinDays?: number;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** Whole days from `from` to `to`, both YYYY-MM-DD; negative when `to` is earlier. */
+export function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY_MS);
+}
+
+/** The suppressions that matched a finding in this scan and expire within the window, soonest first. */
+export function expiringSuppressions(matched: readonly BaselineEntry[], today: string, warnWithinDays: number): Array<BaselineEntry & { daysLeft: number }> {
+  return matched
+    .filter((entry): entry is BaselineEntry & { expires: string } => isIsoDate(entry.expires))
+    .map((entry) => ({ ...entry, daysLeft: daysBetween(today, entry.expires) }))
+    .filter((entry) => entry.daysLeft >= 0 && entry.daysLeft <= warnWithinDays)
+    .sort((left, right) => left.daysLeft - right.daysLeft || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path));
+}
+
+function expiryLine(entry: BaselineEntry & { daysLeft: number }): string {
+  const when = entry.daysLeft === 0 ? "today" : `in ${entry.daysLeft} day${entry.daysLeft === 1 ? "" : "s"}`;
+  const who = [entry.owner ? `owner: ${entry.owner}` : undefined, entry.reason ? `reason: ${entry.reason}` : undefined].filter((part) => part !== undefined);
+  return `Baseline suppression expires ${when} (${entry.expires}): ${entry.ruleId} at ${entry.path}${who.length > 0 ? ` (${who.join("; ")})` : ""}.`;
+}
+
+export function applyBaseline(result: ScanResult, baseline: Baseline, options: ApplyBaselineOptions = {}): ScanResult {
+  const byFingerprint = new Map<string, BaselineEntry[]>();
+  for (const entry of baseline.findings) byFingerprint.set(entry.fingerprint, [...(byFingerprint.get(entry.fingerprint) ?? []), entry]);
+  const matched: BaselineEntry[] = [];
+  const findings = result.findings.filter((finding) => {
+    const entries = byFingerprint.get(findingFingerprint(finding));
+    if (!entries) return true;
+    matched.push(...entries);
+    return false;
+  });
   const suppressedCount = result.findings.length - findings.length;
+  const warnings = options.today === undefined
+    ? []
+    : expiringSuppressions([...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()], options.today, options.warnWithinDays ?? DEFAULT_WARN_DAYS).map(expiryLine);
   return {
     ...result,
     findings,
     diagnostics: [
       ...result.diagnostics,
       `Suppressed ${suppressedCount} finding${suppressedCount === 1 ? "" : "s"} from the baseline.`,
+      ...warnings,
     ],
   };
 }

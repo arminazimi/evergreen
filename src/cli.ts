@@ -5,7 +5,8 @@ import http from "node:http";
 import process from "node:process";
 import { resolve } from "node:path";
 
-import { applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
+import { DEFAULT_WARN_DAYS, applyBaseline, createBaseline, readBaseline, writeBaseline } from "./baseline.js";
+import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
 import { AgentFileError } from "./agent-instructions.js";
@@ -27,7 +28,7 @@ const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
   evergreen scan [path] [--json | --format <text|json|sarif>]
-  evergreen scan [path] --baseline <file> [--json]
+  evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--today <YYYY-MM-DD>] [--json]
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen mcp
@@ -219,7 +220,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--baseline-warn-days"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -281,7 +282,14 @@ async function main(args: string[]): Promise<number> {
   }
   const baselinePath = optionValue("--baseline");
   if (baselinePath) {
-    result = applyBaseline(result, await readBaseline(resolve(baselinePath)));
+    const today = optionValue("--today") ?? new Date().toISOString().slice(0, 10);
+    const warnValue = optionValue("--baseline-warn-days");
+    const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
+    if (!isIsoDate(today) || !Number.isInteger(warnWithinDays) || warnWithinDays < 0 || warnWithinDays > 365) {
+      process.stderr.write("--today must be a date (YYYY-MM-DD) and --baseline-warn-days a whole number from 0 to 365.\n");
+      return 2;
+    }
+    result = applyBaseline(result, await readBaseline(resolve(baselinePath)), { today, warnWithinDays });
   }
   if (command === "context") {
     try {

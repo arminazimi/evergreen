@@ -55,10 +55,15 @@ async function main(): Promise<void> {
       reportPath,
       ...(sarifPath ? { sarifPath } : {}),
       ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
+      ...(process.env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
       failOnSeverity: (process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
     });
 
     for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
+    // A suppression about to expire is a warning on the run, not a finding.
+    for (const diagnostic of outcome.result.diagnostics) {
+      if (diagnostic.startsWith("Baseline suppression expires")) console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
+    }
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     await setOutput("finding-count", String(outcome.result.findings.length));

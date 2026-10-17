@@ -202,3 +202,26 @@ test("action.yml declares the attribution input, on by default, and passes it to
   assert.equal(action.inputs.attribution?.default, "true");
   assert.equal(action.runs.steps[0]?.env?.INPUT_ATTRIBUTION, "${{ inputs.attribution }}");
 });
+
+test("the Action runner warns about suppressions that expire soon, for the day it is given", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-action-expiry-"));
+  try {
+    const smoke = resolve("tests/fixtures/smoke");
+    const scan = await scanRepository(smoke, builtInDetectors);
+    const baseline = join(directory, "baseline.json");
+    await writeBaseline(baseline, createBaseline(scan, { owner: "platform", expires: "2026-11-05" }));
+    const options = { root: smoke, reportPath: join(directory, "report.json"), baselinePath: baseline };
+    const lines = async (extra: object) => (await runGitHubAction({ ...options, ...extra })).result.diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+    assert.equal((await lines({ today: "2026-10-25" })).length, 4);
+    assert.equal((await lines({ today: "2026-10-01" })).length, 0);
+    assert.equal((await lines({ today: "2026-10-01", baselineWarnDays: 60 })).length, 4);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("action.yml declares baseline-warn-days with a 14-day default and passes it to the scan step", async () => {
+  const action = parseYaml(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs["baseline-warn-days"]?.default, "14");
+  assert.equal(action.runs.steps[0]?.env?.["INPUT_BASELINE-WARN-DAYS"], "${{ inputs.baseline-warn-days }}");
+});

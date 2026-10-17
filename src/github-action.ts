@@ -25,6 +25,10 @@ export interface GitHubActionOptions {
   /** When set, also write the findings as SARIF 2.1.0 to this path, for upload to code scanning. */
   sarifPath?: string;
   baselinePath?: string;
+  /** The day suppression dates are compared with (YYYY-MM-DD); defaults to today in UTC. */
+  today?: string;
+  /** Days before a suppression's `expires` to warn (default 14). */
+  baselineWarnDays?: number;
   failOnSeverity?: SeverityGate;
 }
 
@@ -73,7 +77,10 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   const gate = parseGate(options.failOnSeverity);
   let result = await scanRepository(root, builtInDetectors);
   if (options.baselinePath) {
-    result = applyBaseline(result, await readBaseline(resolve(root, options.baselinePath)));
+    result = applyBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
+      today: options.today ?? new Date().toISOString().slice(0, 10),
+      ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
+    });
   }
 
   const reportPath = resolve(options.reportPath);

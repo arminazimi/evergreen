@@ -171,3 +171,66 @@ test("the CLI scans with a 0.1.0 baseline and reports only what the baseline doe
   assert.deepEqual(output.findings.map((finding) => finding.ruleId), ["nodejs.runtime.eol-19"]);
   assert.ok(output.diagnostics.includes("Suppressed 3 findings from the baseline."));
 });
+
+import { DEFAULT_WARN_DAYS, daysBetween, expiringSuppressions } from "../src/baseline.js";
+
+const entryFor = (overrides: object) => ({ fingerprint: findingFingerprint(finding), ruleId: "example", path: "package.json", ...overrides });
+const baselineWith = (...entries: object[]) => ({ schemaVersion: "evergreen.baseline.v1" as const, createdAt: "2026-10-17T00:00:00.000Z", findings: entries as never[] });
+
+test("daysBetween counts whole calendar days across month and year ends", () => {
+  assert.equal(daysBetween("2026-10-17", "2026-10-17"), 0);
+  assert.equal(daysBetween("2026-10-17", "2026-10-31"), 14);
+  assert.equal(daysBetween("2026-12-31", "2027-01-01"), 1);
+  assert.equal(daysBetween("2028-02-28", "2028-03-01"), 2, "leap year");
+  assert.equal(daysBetween("2026-10-17", "2026-10-10"), -7);
+});
+
+test("a suppression is reported when it expires within the window, using only the day it is given", () => {
+  const today = "2026-10-17";
+  const lines = (expires: string | undefined, options = {}) =>
+    applyBaseline(result, baselineWith(entryFor(expires === undefined ? {} : { expires, owner: "platform", reason: "tracked" })), { today, ...options }).diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+  assert.deepEqual(lines("2026-10-31"), ["Baseline suppression expires in 14 days (2026-10-31): example at package.json (owner: platform; reason: tracked)."]);
+  assert.deepEqual(lines("2026-10-17"), ["Baseline suppression expires today (2026-10-17): example at package.json (owner: platform; reason: tracked)."]);
+  assert.deepEqual(lines("2026-10-18"), ["Baseline suppression expires in 1 day (2026-10-18): example at package.json (owner: platform; reason: tracked)."]);
+  assert.deepEqual(lines("2026-11-01"), [], "one day past the default window");
+  assert.deepEqual(lines("2026-11-01", { warnWithinDays: 30 }).length, 1, "a wider window");
+  assert.deepEqual(lines("2026-10-16"), [], "already expired: the policy for that is separate");
+  assert.deepEqual(lines(undefined), [], "no expiry, no warning");
+  assert.equal(DEFAULT_WARN_DAYS, 14);
+});
+
+test("without a reference day nothing is compared, and an unmatched or unrelated entry never warns", () => {
+  const near = entryFor({ expires: "2026-10-18" });
+  assert.deepEqual(applyBaseline(result, baselineWith(near)).diagnostics.filter((line) => line.startsWith("Baseline suppression")), []);
+  const gone = { ...near, fingerprint: "b".repeat(64) };
+  assert.deepEqual(applyBaseline(result, baselineWith(gone), { today: "2026-10-17" }).diagnostics, ["Suppressed 0 findings from the baseline."]);
+});
+
+test("warnings are listed soonest first, one per distinct suppression", () => {
+  const sorted = expiringSuppressions([entryFor({ expires: "2026-10-30" }), entryFor({ expires: "2026-10-20", ruleId: "b" }), entryFor({ expires: "2026-10-20", ruleId: "a" })] as never[], "2026-10-17", 14);
+  assert.deepEqual(sorted.map((entry) => [entry.expires, entry.ruleId, entry.daysLeft]), [["2026-10-20", "a", 3], ["2026-10-20", "b", 3], ["2026-10-30", "example", 13]]);
+  const duplicated = applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-20" }), entryFor({ expires: "2026-10-20" })), { today: "2026-10-17" });
+  assert.equal(duplicated.diagnostics.filter((line) => line.startsWith("Baseline suppression")).length, 1);
+});
+
+test("the CLI warns about a suppression that is about to expire, for the day it is told, and rejects bad options", async () => {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-expiry-"));
+  try {
+    const { builtInDetectors } = await import("../src/detectors/index.js");
+    const { scanRepository } = await import("../src/engine.js");
+    const scan = await scanRepository(smoke, builtInDetectors);
+    const path = join(directory, "baseline.json");
+    await writeFile(path, JSON.stringify(createBaseline(scan, { owner: "platform", reason: "tracked", expires: "2026-11-05" })));
+    const run = (...extra: string[]) => promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, "--baseline", path, "--json", ...extra]);
+    const warnings = async (...extra: string[]) => (JSON.parse((await run(...extra)).stdout) as { diagnostics: string[] }).diagnostics.filter((line) => line.startsWith("Baseline suppression"));
+    assert.equal((await warnings("--today", "2026-10-25")).length, 4, "ten days before: all four suppressions");
+    assert.deepEqual(await warnings("--today", "2026-10-01"), [], "five weeks before: outside the default window");
+    assert.equal((await warnings("--today", "2026-10-01", "--baseline-warn-days", "60")).length, 4, "a window of sixty days");
+    await assert.rejects(run("--today", "yesterday"), (error: { code: number; stderr: string }) => error.code === 2 && /--today must be a date/.test(error.stderr));
+    await assert.rejects(run("--baseline-warn-days", "-3"), (error: { code: number }) => error.code === 2);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
