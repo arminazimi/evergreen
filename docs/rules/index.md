@@ -15,6 +15,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
 
+## dotnet
+
+- [WindowsAzure.Storage is deprecated on NuGet](dotnet.package.windowsazure-storage.deprecated.html) — deprecated, `dotnet.package.windowsazure-storage.deprecated`
+- [.NET Core 3.1 is no longer supported](dotnet.runtime.end-of-support-3.1.html) — end of support, `dotnet.runtime.end-of-support-3.1`
+- [.NET 5 is no longer supported](dotnet.runtime.end-of-support-5.0.html) — end of support, `dotnet.runtime.end-of-support-5.0`
+- [.NET 6 is no longer supported](dotnet.runtime.end-of-support-6.0.html) — end of support, `dotnet.runtime.end-of-support-6.0`
+- [.NET 7 is no longer supported](dotnet.runtime.end-of-support-7.0.html) — end of support, `dotnet.runtime.end-of-support-7.0`
+
 ## github-actions
 
 - [Unsupported softprops/action-gh-release runtime](github-actions.action-gh-release.node20.html) — end of support, `github-actions.action-gh-release.node20`
