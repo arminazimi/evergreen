@@ -254,3 +254,18 @@ test("action.yml declares on-expired, defaulting to resurface, and passes it to 
   assert.equal(action.inputs["on-expired"]?.default, "resurface");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_ON-EXPIRED"], "${{ inputs.on-expired }}");
 });
+
+test("the job summary shows the baseline counts and the suppressions that are expiring or expired", async () => {
+  const { renderSummary } = await import("../src/github-action.js");
+  const text = renderSummary([], false, "high", undefined, false, {
+    suppressed: 5,
+    today: "2026-10-17",
+    warnWithinDays: 14,
+    expiring: [{ ruleId: "nodejs.runtime.eol-18", path: "package.json", expires: "2026-10-20", daysLeft: 3, owner: "platform" }],
+    expired: [{ ruleId: "npm.package.request.deprecated", path: "a/package.json", expires: "2026-10-10", daysAgo: 7 }],
+  });
+  assert.match(text, /Baseline: 5 findings suppressed, 1 expiring within 14 days, 1 expired\./);
+  assert.match(text, /\| npm\.package\.request\.deprecated \| `a\/package\.json` \| expired 7 days ago \(2026-10-10\) \| — \|/);
+  assert.match(text, /\| nodejs\.runtime\.eol-18 \| `package\.json` \| expires in 3 days \(2026-10-20\) \| platform \|/);
+  assert.equal(renderSummary([], false, "high", undefined, false).includes("Baseline:"), false, "no baseline, no line");
+});

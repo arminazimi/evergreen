@@ -44,7 +44,7 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 
 | Tool | Input | Output | Purpose |
 | --- | --- | --- | --- |
-| `scan_repository` | `repository_path?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. |
+| `scan_repository` | `repository_path?`, `baseline?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. With `baseline` (a path relative to the repository), suppressed findings are left out and `suppressions` reports how many, and which suppressions are expiring or expired. |
 | `list_deprecations` | `repository_path?` | `evergreen.deprecations.v1` (`deprecations.v1.schema.json`) | Compact list for planning. |
 | `explain_deprecation` | `finding_id`, `repository_path?` | one finding (`finding.v1.schema.json`) | The complete evidence-backed finding. |
 | `create_migration_context` | `finding_id`, `repository_path?` | `evergreen.context.v1` (`context.v1.schema.json`) | Validated, rule-specific migration packet. |

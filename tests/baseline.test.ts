@@ -271,9 +271,37 @@ test("a finding stays hidden while one of its suppressions is still in force", (
   assert.deepEqual(evaluated.expired, []);
 });
 
-test("the scan result itself carries no new field; the expired list is returned beside it", () => {
+test("the scan result gains only a suppressions field, and only when a baseline was applied", () => {
   const evaluated = evaluateBaseline(result, baselineWith(entryFor({ expires: "2026-10-10" })), { today: "2026-10-17" });
-  assert.deepEqual(Object.keys(evaluated.result).sort(), Object.keys(result).sort());
+  assert.deepEqual(Object.keys(evaluated.result).sort(), [...Object.keys(result), "suppressions"].sort());
+  assert.equal("suppressions" in result, false, "the input scan is not changed");
+});
+
+test("the structured suppression state lists counts, the expiring and the expired suppressions, soonest and longest-ago first", () => {
+  const baseline = baselineWith(entryFor({ expires: "2026-10-20", owner: "a", reason: "r1" }));
+  const state = applyBaseline(result, baseline, { today: "2026-10-17", warnWithinDays: 7 }).suppressions;
+  assert.deepEqual(state, { suppressed: 1, today: "2026-10-17", warnWithinDays: 7, expiring: [{ ruleId: "example", path: "package.json", expires: "2026-10-20", owner: "a", reason: "r1", daysLeft: 3 }], expired: [] });
+  const gone = applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-10" })), { today: "2026-10-17" }).suppressions;
+  assert.deepEqual(gone, { suppressed: 0, today: "2026-10-17", warnWithinDays: 14, expiring: [], expired: [{ ruleId: "example", path: "package.json", expires: "2026-10-10", daysAgo: 7 }] });
+  const noDay = applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-10" }))).suppressions;
+  assert.deepEqual(noDay, { suppressed: 1, expiring: [], expired: [] }, "without a reference day only the count is known");
+});
+
+test("the scan schema accepts a result with suppression state and rejects a malformed one", async () => {
+  const schema = JSON.parse(await readFile(resolve("schemas/scan.v1.schema.json"), "utf8"));
+  const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
+  const withState = applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-20", owner: "a" })), { today: "2026-10-17" });
+  assert.ok(validate(withState), JSON.stringify(validate.errors));
+  assert.ok(validate(result), "a scan without a baseline is still valid");
+  assert.equal(validate({ ...withState, suppressions: { ...withState.suppressions, expiring: [{ ruleId: "x", path: "y", expires: "soon" }] } }), false);
+  assert.equal(validate({ ...withState, suppressions: { suppressed: -1, expiring: [], expired: [] } }), false);
+});
+
+test("the text report shows the suppression counts, and a scan without a baseline shows none", async () => {
+  const { renderText } = await import("../src/reporters.js");
+  const withBaseline = renderText(applyBaseline(result, baselineWith(entryFor({ expires: "2026-10-20" })), { today: "2026-10-17" }));
+  assert.match(withBaseline, /Baseline: 1 finding suppressed, 1 expiring within 14 days, 0 expired\./);
+  assert.equal(renderText(result).includes("Baseline:"), false);
 });
 
 test("the fail policy fails on any expired suppression, and resurface never does", () => {

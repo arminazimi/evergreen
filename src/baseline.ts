@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 
-import type { Finding, ScanResult } from "./domain.js";
+import type { Finding, ScanResult, SuppressionRef, SuppressionState } from "./domain.js";
 import { isIsoDate } from "./registry.js";
 
 /**
@@ -191,11 +191,18 @@ export function evaluateBaseline(result: ScanResult, baseline: Baseline, options
     return false;
   });
   const hidden = result.findings.length - findings.length;
-  const warnings = options.today === undefined
-    ? []
-    : expiringSuppressions([...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()], options.today, options.warnWithinDays ?? DEFAULT_WARN_DAYS).map(expiryLine);
   const expiredSorted = [...new Map(expired.map((entry) => [`${entry.ruleId}:${entry.path}:${entry.expires}`, entry])).values()]
     .sort((left, right) => right.daysAgo - left.daysAgo || left.ruleId.localeCompare(right.ruleId) || left.path.localeCompare(right.path));
+  const expiringEntries = options.today === undefined
+    ? []
+    : expiringSuppressions([...new Map(matched.map((entry) => [`${entry.fingerprint}:${entry.expires}`, entry])).values()], options.today, options.warnWithinDays ?? DEFAULT_WARN_DAYS);
+  const ref = (entry: BaselineEntry & { expires: string }, extra: object): SuppressionRef => ({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}), ...extra });
+  const suppressions: SuppressionState = {
+    suppressed: hidden,
+    ...(options.today === undefined ? {} : { today: options.today, warnWithinDays: options.warnWithinDays ?? DEFAULT_WARN_DAYS }),
+    expiring: expiringEntries.map((entry) => ref(entry as BaselineEntry & { expires: string }, { daysLeft: entry.daysLeft })),
+    expired: expiredSorted.map((entry) => ({ ruleId: entry.ruleId, path: entry.path, expires: entry.expires, ...(entry.owner ? { owner: entry.owner } : {}), ...(entry.reason ? { reason: entry.reason } : {}), daysAgo: entry.daysAgo })),
+  };
   return {
     result: {
       ...result,
@@ -204,8 +211,9 @@ export function evaluateBaseline(result: ScanResult, baseline: Baseline, options
         ...result.diagnostics,
         `Suppressed ${hidden} finding${hidden === 1 ? "" : "s"} from the baseline.`,
         ...expiredSorted.map(expiredLine),
-        ...warnings,
+        ...expiringEntries.map(expiryLine),
       ],
+      suppressions,
     },
     expired: expiredSorted,
   };

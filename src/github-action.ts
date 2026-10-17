@@ -8,7 +8,7 @@ import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js"
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
-import type { DataInfo } from "./domain.js";
+import type { DataInfo, SuppressionState } from "./domain.js";
 
 export type SeverityGate = Severity | "none";
 export type AnnotationLevel = "notice" | "warning" | "error";
@@ -129,7 +129,7 @@ const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g
  * The job summary the Action writes: a count per severity, the most severe findings with a link to their
  * evidence, the age of the lifecycle data, and (when `attribution` is on) one small line linking to Evergreen.
  */
-export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean): string {
+export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
   const lines = ["## Evergreen", "", `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`, ""];
 
@@ -152,6 +152,17 @@ export function renderSummary(findings: readonly Finding[], failed: boolean, gat
     }
     if (findings.length > top.length) lines.push("", `…and ${findings.length - top.length} more; the JSON report artifact lists every finding.`);
     lines.push("");
+  }
+
+  if (suppressions) {
+    lines.push(`Baseline: ${suppressions.suppressed} finding${suppressions.suppressed === 1 ? "" : "s"} suppressed, ${suppressions.expiring.length} expiring${suppressions.warnWithinDays === undefined ? "" : ` within ${suppressions.warnWithinDays} days`}, ${suppressions.expired.length} expired.`, "");
+    const rows = [...suppressions.expired.map((ref) => ({ ref, when: `expired ${ref.daysAgo === 0 ? "today" : `${ref.daysAgo} day${ref.daysAgo === 1 ? "" : "s"} ago`}` })), ...suppressions.expiring.map((ref) => ({ ref, when: ref.daysLeft === 0 ? "expires today" : `expires in ${ref.daysLeft} day${ref.daysLeft === 1 ? "" : "s"}` }))];
+    if (rows.length > 0) {
+      lines.push("| Suppression | Location | When | Owner |", "|---|---|---|---|");
+      for (const { ref, when } of rows.slice(0, SUMMARY_FINDINGS)) lines.push(`| ${cell(ref.ruleId)} | \`${cell(ref.path)}\` | ${when} (${ref.expires}) | ${ref.owner ? cell(ref.owner) : "—"} |`);
+      if (rows.length > SUMMARY_FINDINGS) lines.push("", `…and ${rows.length - SUMMARY_FINDINGS} more.`);
+      lines.push("");
+    }
   }
 
   if (data) {
