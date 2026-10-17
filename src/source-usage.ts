@@ -59,6 +59,7 @@ function languageFor(path: string): SourceLanguage | undefined {
   if ([".js", ".jsx", ".mjs", ".cjs"].includes(extension)) return "javascript";
   if ([".ts", ".tsx", ".mts", ".cts"].includes(extension)) return "typescript";
   if (extension === ".py") return "python";
+  if (extension === ".go") return "go";
   if (extension === ".json") return "json";
   if ([".yaml", ".yml"].includes(extension)) return "yaml";
   if (extension === ".toml") return "toml";
@@ -204,9 +205,53 @@ function pythonImports(line: string, lineNumber: number): ImportReference[] {
 }
 
 function moduleMatches(actual: string, expected: string, language: SourceLanguage): boolean {
-  return language === "python"
-    ? actual === expected || actual.startsWith(`${expected}.`)
-    : actual === expected;
+  if (language === "python") return actual === expected || actual.startsWith(`${expected}.`);
+  if (language === "go") return actual === expected || actual.startsWith(`${expected}/`);
+  return actual === expected;
+}
+
+/** The identifier a Go import path binds by default: its last element, skipping a `/vN` major-version suffix. */
+function goPackageName(path: string): string {
+  const parts = path.split("/");
+  let name = parts[parts.length - 1]!;
+  if (/^v\d+$/.test(name) && parts.length > 1) name = parts[parts.length - 2]!;
+  return name.replace(/^go-/, "").replace(/[.-]go$/, "").replace(/[^A-Za-z0-9_]/g, "_");
+}
+
+/**
+ * Import declarations in a Go file: single `import "x"` lines and `import ( ... )` groups. Blank (`_`) and dot
+ * (`.`) imports are real imports but bind no name, so only the import itself is reported, not calls through it.
+ */
+function goImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  let inGroup = false;
+  const entry = /^\s*(?:import\s+)?(?:([A-Za-z_]\w*|\.)\s+)?"([^"]+)"/;
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index]!;
+    let candidate: string | undefined;
+    if (inGroup) {
+      if (/^\s*\)/.test(masked)) {
+        inGroup = false;
+        continue;
+      }
+      candidate = line;
+    } else if (/^\s*import\s*\(/.test(masked)) {
+      inGroup = !/\)\s*$/.test(masked);
+      continue;
+    } else if (/^\s*import\s+(?:[A-Za-z_]\w*\s+|\.\s+)?"/.test(line) && /^\s*import\b/.test(masked)) {
+      candidate = line;
+    }
+    const match = candidate === undefined ? null : entry.exec(candidate);
+    if (!match?.[2]) continue;
+    const alias = match[1];
+    references.push({
+      module: match[2],
+      line: index + 1,
+      column: line.indexOf(match[2]) + 1,
+      bindings: alias === "_" || alias === "." ? [] : [{ module: match[2], local: alias ?? goPackageName(match[2]), imported: "*" }],
+    });
+  }
+  return references;
 }
 
 function maskCodeLine(
@@ -307,7 +352,7 @@ export async function analyzeSourceUsage(
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
-    const imports = lines.flatMap((line, index) => {
+    const imports = file.language === "go" ? goImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];

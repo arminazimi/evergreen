@@ -4,6 +4,7 @@ import { basename, join } from "node:path";
 import { loadDataFile } from "../../data-source.js";
 import type { UnclassifiedReference } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
+import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
@@ -59,6 +60,9 @@ export class GoDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "go";
 
+  /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/go.json`. */
+  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/go.json")).rules) {}
+
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
   }
@@ -67,9 +71,10 @@ export class GoDetector implements Detector {
     const files = await goFiles(context.root);
     if (files.length === 0) return { findings: [], unclassified: [] };
 
-    const registry = validateRegistryV2(await loadDataFile("registry/go.json"));
-    const runtimeRules = registry.rules.filter((rule) => rule.purl === RUNTIME_PURL);
-    const moduleRules = registry.rules.filter((rule) => rule.purl.startsWith("pkg:golang/"));
+    const allRules = await this.loadRules();
+    const runtimeRules = allRules.filter((rule) => rule.purl === RUNTIME_PURL);
+    const moduleRules = allRules.filter((rule) => rule.purl.startsWith("pkg:golang/"));
+    const matchedModules: Array<{ rule: RegistryV2Rule; path: string; line: number; summary: string }> = [];
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
 
@@ -100,7 +105,7 @@ export class GoDetector implements Detector {
       for (const declaration of declarations) {
         if (declaration.kind === "require") {
           const rule = matchModule(moduleRules, declaration.module, declaration.value);
-          if (rule) report(rule, path, declaration.line, `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}`);
+          if (rule) matchedModules.push({ rule, path, line: declaration.line, summary: `${path} requires ${declaration.module} ${declaration.value}. ${rule.summary}` });
           continue;
         }
         const version = normalizeVersion(declaration.value);
@@ -119,6 +124,17 @@ export class GoDetector implements Detector {
           declaration.kind === "go" ? "medium" : rule.severity,
         );
       }
+    }
+
+    // Where the repository's Go source uses each affected module, so a migration packet can list the files.
+    const withUsage = matchedModules.filter((item) => (item.rule.usage ?? []).length > 0);
+    const analyses = new Map(
+      (await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: `${item.rule.id}:${item.path}:${item.line}`, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]),
+    );
+    for (const item of matchedModules) {
+      report(item.rule, item.path, item.line, item.summary);
+      const analysis = analyses.get(`${item.rule.id}:${item.path}:${item.line}`);
+      if (analysis) Object.assign(findings[findings.length - 1]!, { usages: analysis.usages, impact: analysis.impact });
     }
     return { findings, unclassified };
   }

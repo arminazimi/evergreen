@@ -18,6 +18,7 @@ export const sourceLanguageValues = [
   "javascript",
   "typescript",
   "python",
+  "go",
   "json",
   "yaml",
   "toml",
@@ -28,13 +29,13 @@ export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python";
+  language: "javascript" | "typescript" | "python" | "go";
   module: string;
 }
 
 export interface CallUsageMatcher {
   kind: "call";
-  language: "javascript" | "typescript" | "python";
+  language: "javascript" | "typescript" | "python" | "go";
   module: string;
   targets: string[];
 }

@@ -25,7 +25,7 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 - `// indirect` requirements, `replace` and `exclude` directives, `retract`, and `-mod=vendor` contents are not read.
 - Dynamic or malformed files (an unterminated `require` block, for example) produce nothing, not partial results.
 - Releases older than Go 1.21 have no rule yet, so a `go 1.18` directive is not reported. This is a data gap, not a statement that it is supported.
-- Source usage (imports and calls of an affected package) is not mapped for Go yet.
+- Source usage: imports (single and `import (...)` groups, aliases, `/vN` major-version paths) and qualified calls of an affected module are mapped to files and lines. Blank (`_`) and dot (`.`) imports count as imports but bind no name, so calls through them are not found. Raw multi-line strings are not masked, so a quoted import path inside one could be counted.
 
 ## Known limits and false-positive boundaries
 
