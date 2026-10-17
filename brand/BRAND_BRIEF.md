@@ -203,7 +203,7 @@ introduce a display face until the product needs a distinct editorial layer.
 
 The approved `Version Notches` mark, palette, and construction rules live in
 [`brand/README.md`](README.md). The rings express major, minor, and patch lifecycle
-layers; the migration node expresses one evidence-backed transition. Muted Pine
+layers; the staggered notches express distinct lifecycle boundaries. Verified Green
 is reserved for functional success states and must not become the primary brand
 color merely because the product is named Evergreen.
 
