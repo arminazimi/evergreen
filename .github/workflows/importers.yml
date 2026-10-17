@@ -33,6 +33,8 @@ jobs:
           - { importer: container-official-images, ecosystem: container }
           - { importer: endoflife-date, ecosystem: container }
           - { importer: github-actions-runtime, ecosystem: github-actions }
+          - { importer: go-1, ecosystem: go }
+          - { importer: go-2, ecosystem: go }
           - { importer: nodejs-schedule, ecosystem: nodejs }
           - { importer: npm-deprecated, ecosystem: npm }
           - { importer: pypi-status, ecosystem: python }
@@ -89,6 +91,8 @@ jobs:
           - container-official-images
           - endoflife-date
           - github-actions-runtime
+          - go-1
+          - go-2
           - nodejs-schedule
           - npm-deprecated
           - pypi-status
