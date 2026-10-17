@@ -1,6 +1,7 @@
 ---
-title: "WindowsAzure.Storage is deprecated on NuGet"
+title: "WindowsAzure.Storage is deprecated on NuGet — dates, impact, migration"
 description: "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html"
 ---
 
 # WindowsAzure.Storage is deprecated on NuGet
@@ -56,7 +57,7 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
   "url": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html",
-  "headline": "WindowsAzure.Storage is deprecated on NuGet",
+  "headline": "WindowsAzure.Storage is deprecated on NuGet — dates, impact, migration",
   "description": "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",

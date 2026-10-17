@@ -31,6 +31,7 @@ jobs:
       matrix:
         include:
           - { importer: container-official-images, ecosystem: container }
+          - { importer: dotnet-1, ecosystem: dotnet }
           - { importer: endoflife-date, ecosystem: container }
           - { importer: github-actions-runtime, ecosystem: github-actions }
           - { importer: go-1, ecosystem: go }
@@ -95,6 +96,7 @@ jobs:
       matrix:
         importer:
           - container-official-images
+          - dotnet-1
           - endoflife-date
           - github-actions-runtime
           - go-1

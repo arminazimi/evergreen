@@ -1,6 +1,7 @@
 ---
-title: ".NET 7 is no longer supported"
+title: ".NET 7 is no longer supported — dates, impact, migration"
 description: ".NET 7 (Standard Term Support) reached the end of its support on 2024-05-14. Microsoft no longer ships security or quality fixes for it."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html"
 ---
 
 # .NET 7 is no longer supported
@@ -13,7 +14,7 @@ description: ".NET 7 (Standard Term Support) reached the end of its support on 2
 | Severity | high |
 | Ecosystem | `dotnet` |
 | Component | `pkg:generic/dotnet` |
-| Affected versions | `vers:semver/>=7.0.0\|<8.0.0` |
+| Affected versions | `vers:semver/>=7.0.0\|<7.1.0` |
 | Date from the source | 2024-05-14 |
 | Replacement | .NET 10 (LTS), or the newest supported .NET release |
 | Evidence last seen | 2026-10-17 |
@@ -59,7 +60,7 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
   "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html",
   "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html",
-  "headline": ".NET 7 is no longer supported",
+  "headline": ".NET 7 is no longer supported — dates, impact, migration",
   "description": ".NET 7 (Standard Term Support) reached the end of its support on 2024-05-14. Microsoft no longer ships security or quality fixes for it.",
   "inLanguage": "en",
   "dateModified": "2026-10-17",
