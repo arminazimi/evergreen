@@ -18,6 +18,12 @@ import {
   parseChart,
   parseTemplate,
 } from "../src/detectors/kubernetes/parse-helm.js";
+import {
+  MAXIMUM_ENTRIES,
+  MAXIMUM_INPUT_BYTES as MAXIMUM_KUSTOMIZATION_BYTES,
+  MAXIMUM_PATCH_BYTES,
+  parseKustomization,
+} from "../src/detectors/kubernetes/parse-kustomize.js";
 
 async function fixture(caseName: string, ...file: string[]): Promise<string> {
   return readFile(resolve("tests/fixtures/kubernetes", caseName, ...file), "utf8");
@@ -323,4 +329,116 @@ test("handles CRLF and is deterministic", async () => {
   ]);
   const contents = await fixture("positive", "helm", "mychart", "templates", "ingress.yaml");
   assert.deepEqual(parseTemplate(contents), parseTemplate(contents));
+});
+
+// kustomization.yaml
+
+const kustomization = (contents: string) =>
+  parseKustomization(contents).map((entry) =>
+    entry.kind === "resource"
+      ? { kind: entry.kind, value: entry.value, line: entry.line }
+      : { kind: entry.kind, value: entry.value, resource: entry.resource, line: entry.line, kindLine: entry.kindLine },
+  );
+
+test("reads local resources, a patch target, and an inline patch with mapped lines", async () => {
+  assert.deepEqual(kustomization(await fixture("positive", "kustomize", "kustomization.yaml")), [
+    { kind: "resource", value: "ingress.yaml", line: 5 },
+    { kind: "resource", value: "../base", line: 6 },
+    { kind: "api", value: "batch/v1beta1", resource: "CronJob", line: 10, kindLine: 11 },
+    { kind: "api", value: "policy/v1beta1", resource: "PodDisruptionBudget", line: 18, kindLine: 19 },
+  ]);
+  assert.deepEqual(kustomization(await fixture("zero", "kustomize", "kustomization.yaml")), [
+    { kind: "resource", value: "deployment.yaml", line: 4 },
+  ]);
+});
+
+test("does not read the file's own API, remote or variable resources, or lookalike keys", async () => {
+  assert.deepEqual(kustomization(await fixture("negative", "kustomize", "kustomization.yaml")), []);
+});
+
+test("reads a core-group target, legacy patchesJson6902, and patchesStrategicMerge", () => {
+  const source = [
+    "resources:",
+    "  - a.yaml",
+    "patchesJson6902:",
+    "  - target:",
+    "      version: v1",
+    "      kind: Namespace",
+    "    path: ns.json",
+    "patchesStrategicMerge:",
+    "  - patch.yaml",
+    "  - |-",
+    "    apiVersion: extensions/v1beta1",
+    "    kind: Ingress",
+  ].join("\n");
+  assert.deepEqual(kustomization(source), [
+    { kind: "resource", value: "a.yaml", line: 2 },
+    { kind: "api", value: "v1", resource: "Namespace", line: 5, kindLine: 6 },
+    { kind: "api", value: "extensions/v1beta1", resource: "Ingress", line: 11, kindLine: 12 },
+  ]);
+});
+
+test("needs a literal group, version, and kind in a target and a block-scalar inline patch", () => {
+  for (const contents of [
+    "patches:\n  - target:\n      group: batch\n      kind: CronJob\n",
+    "patches:\n  - target:\n      group: batch\n      version: v1beta1\n",
+    "patches:\n  - target:\n      group: batch\n      version: $(V)\n      kind: CronJob\n",
+    "patches:\n  - target:\n      group: Batch\n      version: v1beta1\n      kind: CronJob\n",
+    "patches:\n  - patch: 'apiVersion: batch/v1beta1'\n",
+    "patches:\n  - patch: >-\n      apiVersion: batch/v1beta1\n      kind: CronJob\n",
+    "patches:\n  - patch: |-\n      - op: add\n        path: /a\n        value: b\n",
+    "patches:\n  - patch: |-\n      apiVersion: batch/v1beta1\n",
+    "patches:\n  - patch: |-\n      apiVersion: [batch\n      kind: CronJob\n",
+    "patches: not-a-list\n",
+    "patches:\n  - just a string\n",
+  ]) {
+    assert.deepEqual(parseKustomization(contents), [], contents);
+  }
+});
+
+test("rejects paths that are not local", () => {
+  for (const path of [
+    "https://example.test/base",
+    "ssh://git@example.test/repo.git",
+    "git@github.com:org/repo.git",
+    "github.com/org/repo//base?ref=v1",
+    "example.test/org/repo",
+    "$(BASE)/a.yaml",
+    "/etc/passwd",
+    "a\\b.yaml",
+    "",
+  ]) {
+    assert.deepEqual(parseKustomization(`resources:\n  - "${path.replace(/\\/g, "\\\\")}"\n`), [], path);
+  }
+  assert.deepEqual(kustomization("resources:\n  - ./base.d/a.yaml\n  - ../../shared\n"), [
+    { kind: "resource", value: "./base.d/a.yaml", line: 2 },
+    { kind: "resource", value: "../../shared", line: 3 },
+  ]);
+});
+
+test("a file that is some other kind of object, or that uses an alias, yields nothing", () => {
+  assert.deepEqual(parseKustomization("kind: Deployment\nresources:\n  - a.yaml\n"), []);
+  assert.deepEqual(parseKustomization("x: &a b.yaml\nresources:\n  - *a\n"), []);
+  assert.deepEqual(kustomization("kind: Component\nresources:\n  - a.yaml\n"), [{ kind: "resource", value: "a.yaml", line: 3 }]);
+});
+
+test("malformed or oversized kustomization yields nothing and never throws", async () => {
+  const malformed = await fixture("malformed", "kustomize", "kustomization.yaml");
+  assert.doesNotThrow(() => parseKustomization(malformed));
+  assert.deepEqual(parseKustomization(malformed), []);
+  for (const junk of ["", "\u0000", "{", "[[[", "resources: [", "- a\n- b\n"]) {
+    assert.deepEqual(parseKustomization(junk), [], JSON.stringify(junk));
+  }
+  assert.deepEqual(parseKustomization(`# ${"x".repeat(MAXIMUM_KUSTOMIZATION_BYTES)}\nresources:\n  - a.yaml\n`), []);
+  const tooMany = `resources:\n${"  - a.yaml\n".repeat(MAXIMUM_ENTRIES + 1)}`;
+  assert.deepEqual(parseKustomization(tooMany), []);
+  const body = `apiVersion: batch/v1beta1\nkind: CronJob\n# ${"x".repeat(MAXIMUM_PATCH_BYTES)}\n`;
+  const patch = `patches:\n  - patch: |-\n${body.replace(/^/gm, "      ")}`;
+  assert.deepEqual(parseKustomization(patch), []);
+});
+
+test("kustomization parsing is deterministic and uses one-based lines", async () => {
+  const contents = await fixture("positive", "kustomize", "kustomization.yaml");
+  assert.deepEqual(parseKustomization(contents), parseKustomization(contents));
+  assert.deepEqual(kustomization("\r\nresources:\r\n  - a.yaml\r\n"), [{ kind: "resource", value: "a.yaml", line: 3 }]);
 });
