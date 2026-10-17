@@ -22,11 +22,7 @@ interface ExpectedFinding {
 interface CorpusEntry {
   repository: string;
   commit: string;
-<<<<<<< HEAD
-  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "rust";
-=======
-  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "kubernetes";
->>>>>>> 403a8c5 (feat(kubernetes): add five pinned public repositories with independent ground truth)
+  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "kubernetes" | "rust";
   expected: ExpectedFinding[];
 }
 
