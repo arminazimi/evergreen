@@ -372,7 +372,24 @@
       "commit": "584732abf870b5561ba50052d02caf0c85635204",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 52, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/connectrpc/connect-query-es/commit/7c5e7897223ab1b50df507adf8304980f6d49231" } }
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 52,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/connectrpc/connect-query-es/commit/7c5e7897223ab1b50df507adf8304980f6d49231"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "packages/protoc-gen-connect-query/package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of packages/protoc-gen-connect-query/package.json reads `\"node\": \">=20\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
+          }
+        }
       ]
     },
     {
@@ -1017,6 +1034,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 47 of package.json reads `\"node\": \">=18.0.0\"`, which nodejs.runtime.eol-20 reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "excalidraw-app/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of excalidraw-app/package.json reads `\"node\": \">=18.0.0\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "excalidraw-app/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of excalidraw-app/package.json reads `\"node\": \">=18.0.0\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
           }
         }
       ]

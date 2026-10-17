@@ -318,7 +318,7 @@ function configKeyMatch(line: string, matcher: ConfigUsageMatcher): number | und
   return keyIndex === -1 ? match.index + 1 : keyIndex + 1;
 }
 
-function impactFor(usages: readonly SourceUsage[]): MigrationImpact {
+export function impactFor(usages: readonly SourceUsage[]): MigrationImpact {
   const usageCount = usages.length;
   return {
     usageCount,

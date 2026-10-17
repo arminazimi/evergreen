@@ -468,6 +468,16 @@ Matrix version: **2026-10-15 / v1**
 distribution package. `Unsupported` means Evergreen does not currently claim the
 combination works.
 
+## Monorepos
+
+The npm and Python detectors read every package of a workspace, not only the repository root. Packages are found from the declarations the package managers use: `workspaces` in `package.json` (npm and Yarn, array or `packages` form), `pnpm-workspace.yaml` (with `!` exclusions), `lerna.json`, and `[tool.uv.workspace]` `members` and `exclude` in `pyproject.toml`. Globs support `*`, `?`, and `**`.
+
+- Findings name the package's own file, for example `packages/a/package.json`, and carry the usages inside that package's directory; usages outside every package stay with the root.
+- A workspace without its own lockfile resolves versions against the root's lockfile.
+- Discovery is bounded: eight directory levels, 500 packages, symbolic links never followed, and `node_modules`, `vendor`, `dist`, `build`, `target`, virtual environments, and fixture directories skipped.
+- A malformed workspace manifest is skipped, so one bad package does not hide the others. A malformed root `package.json` is still an error.
+- Without a workspace declaration only the root is scanned, as before. Python projects that are not uv workspaces (for example separate `pyproject.toml` files under `services/`) are not discovered.
+
 ## CI behavior
 
 - In GitHub Actions, the doctor requires `GITHUB_WORKSPACE` to name an accessible

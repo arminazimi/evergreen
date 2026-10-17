@@ -11,7 +11,8 @@ import type {
 } from "../domain.js";
 import { relativePosix } from "../paths.js";
 import { loadDataFile } from "../data-source.js";
-import { analyzeSourceUsage } from "../source-usage.js";
+import { analyzeSourceUsage, impactFor } from "../source-usage.js";
+import { discoverNpmWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import {
   DETECTOR_API_VERSION,
   isDeprecationRule,
@@ -255,11 +256,11 @@ export class NpmDetector implements Detector {
   readonly id = "npm";
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
-    const manifestPath = resolve(context.root, "package.json");
-    const manifestContents = await readOptional(manifestPath);
-    if (!manifestContents) return [];
+    const rootManifest = await readOptional(resolve(context.root, "package.json"));
+    const workspaceDirectories = await discoverNpmWorkspaces(context.root);
+    if (!rootManifest && workspaceDirectories.length === 0) return [];
 
-    const [packageRules, nodeRules, resolvedVersions] = await Promise.all([
+    const [packageRules, nodeRules, rootVersions] = await Promise.all([
       loadRegistry(
         "registry/npm.json",
         {
@@ -283,66 +284,92 @@ export class NpmDetector implements Detector {
       ),
       collectResolvedVersions(context.root),
     ]);
-    const manifest = JSON.parse(manifestContents) as PackageManifest;
+
+    // The root project is "", each workspace is its relative directory. A workspace without its own lockfile
+    // resolves against the root's, which is where npm, pnpm, and Yarn put the one shared lockfile.
+    const projects: Array<{ directory: string; manifestPath: string; contents: string; manifest: PackageManifest; resolved: ResolvedVersions }> = [];
+    const load = async (directory: string): Promise<void> => {
+      const manifestPath = resolve(context.root, directory, "package.json");
+      const contents = directory === "" ? rootManifest : await readOptional(manifestPath);
+      if (!contents) return;
+      let manifest: PackageManifest;
+      try {
+        manifest = JSON.parse(contents) as PackageManifest;
+      } catch (error) {
+        // A malformed root manifest has always been an error; a malformed workspace manifest is skipped so one bad package does not hide the rest.
+        if (directory === "") throw error;
+        return;
+      }
+      const own = directory === "" ? new Map<string, Set<string>>() : await collectResolvedVersions(resolve(context.root, directory));
+      const resolved: ResolvedVersions = new Map(rootVersions);
+      for (const [name, versions] of own) resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
+      projects.push({ directory, manifestPath, contents, manifest, resolved });
+    };
+    await load("");
+    for (const directory of workspaceDirectories) await load(directory);
+
     const findings: DetectorFinding[] = [];
-
-    const declarations = manifestRuntimeDeclarations(
-      context.root,
-      manifestPath,
-      manifestContents,
-      manifest,
-    );
-    for (const filename of [".nvmrc", ".node-version"] as const) {
-      const path = resolve(context.root, filename);
-      const value = (await readOptional(path))?.trim();
-      if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
-    }
-
     const seenRuntimeRules = new Set<string>();
-    for (const declaration of declarations) {
-      for (const major of runtimeMajors(declaration.value)) {
-        const rule = ruleForMajor([...nodeRules], major);
-        const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
-        if (rule && !seenRuntimeRules.has(key)) {
-          findings.push(declarationFinding(context.root, declaration, rule, major));
-          seenRuntimeRules.add(key);
+    const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string }> = [];
+
+    for (const project of projects) {
+      const declarations = manifestRuntimeDeclarations(context.root, project.manifestPath, project.contents, project.manifest);
+      for (const filename of [".nvmrc", ".node-version"] as const) {
+        const path = resolve(context.root, project.directory, filename);
+        const value = (await readOptional(path))?.trim();
+        if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
+      }
+      for (const declaration of declarations) {
+        for (const major of runtimeMajors(declaration.value)) {
+          const rule = ruleForMajor([...nodeRules], major);
+          const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
+          if (rule && !seenRuntimeRules.has(key)) {
+            findings.push(declarationFinding(context.root, declaration, rule, major));
+            seenRuntimeRules.add(key);
+          }
         }
       }
-    }
 
-    const declared = new Map<string, { range: string; section: string }>();
-    for (const section of dependencySections) {
-      for (const [name, range] of Object.entries(manifest[section] ?? {})) {
-        declared.set(name, { range, section });
+      const declared = new Map<string, { range: string; section: string }>();
+      for (const section of dependencySections) {
+        for (const [name, range] of Object.entries(project.manifest[section] ?? {})) {
+          declared.set(name, { range, section });
+        }
+      }
+      for (const rule of packageRules) {
+        const dependency = declared.get(rule.package);
+        if (dependency) matched.push({ rule, project, range: dependency.range, section: dependency.section });
       }
     }
 
-    const matchedPackageRules = packageRules.filter((rule) => declared.has(rule.package));
+    const matchedRules = [...new Map(matched.map((item) => [item.rule.id, item.rule])).values()];
     const usageAnalyses = await analyzeSourceUsage(
       context.root,
-      matchedPackageRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
+      matchedRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
     );
     const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
+    const projectDirectories = projects.map((project) => project.directory);
 
-    for (const rule of matchedPackageRules) {
-      const dependency = declared.get(rule.package)!;
-      const resolved = [...(resolvedVersions.get(rule.package) ?? [])].sort(semver.compare);
+    for (const { rule, project, range, section } of matched) {
+      const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
       const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
-      const line = propertyLine(manifestContents, rule.package);
-      const usage = usageByRule.get(rule.id)!;
+      const line = propertyLine(project.contents, rule.package);
+      const path = relativePosix(context.root, project.manifestPath);
+      // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
+      const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
       findings.push({
-        id: `${rule.id}:package.json:${line}`,
+        id: `${rule.id}:${path}:${line}`,
         ruleId: rule.id,
         title: rule.title,
-        summary: `${rule.package} is declared in ${dependency.section} as ${dependency.range}; resolved: ${resolvedText}. ${rule.summary}`,
+        summary: `${rule.package} is declared in ${section} as ${range}; resolved: ${resolvedText}. ${rule.summary}`,
         severity: rule.severity,
-        location: { path: "package.json", line },
+        location: { path, line },
         ...(rule.replacement ? { replacement: rule.replacement } : {}),
         ...(rule.deadline ? { deadline: rule.deadline } : {}),
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
-        usages: usage.usages,
-        impact: usage.impact,
+        usages,
+        impact: impactFor(usages),
       });
     }
 

@@ -6,7 +6,8 @@ import { parse as parseToml } from "smol-toml";
 import { relativePosix } from "../paths.js";
 import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
-import { analyzeSourceUsage } from "../source-usage.js";
+import { analyzeSourceUsage, impactFor } from "../source-usage.js";
+import { discoverPythonWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import {
   DETECTOR_API_VERSION,
   isDeprecationRule,
@@ -332,33 +333,45 @@ export class PythonDetector implements Detector {
   readonly id = "python";
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
-    const pyprojectPath = resolve(context.root, "pyproject.toml");
-    const pyprojectContents = await readOptional(pyprojectPath);
-    const pyproject = pyprojectContents
-      ? asRecord(parseToml(pyprojectContents))
-      : undefined;
-    const requirements = await requirementFiles(context.root);
-    const versionDeclarations = await collectVersionFiles(context.root);
-    if (!pyprojectContents && requirements.length === 0 && versionDeclarations.length === 0) {
-      return [];
+    const memberDirectories = await discoverPythonWorkspaces(context.root);
+    // The root project is "", each uv workspace member is its relative directory.
+    const projects: Array<{
+      directory: string;
+      declarations: Declaration[];
+      dependencies: Map<string, DirectDependency>;
+      resolved: ResolvedVersions;
+    }> = [];
+    for (const directory of ["", ...memberDirectories]) {
+      const projectRoot = resolve(context.root, directory);
+      const pyprojectPath = resolve(projectRoot, "pyproject.toml");
+      const pyprojectContents = await readOptional(pyprojectPath);
+      const pyproject = pyprojectContents ? asRecord(parseToml(pyprojectContents)) : undefined;
+      const requirements = await requirementFiles(projectRoot);
+      const versionDeclarations = await collectVersionFiles(projectRoot);
+      if (!pyprojectContents && requirements.length === 0 && versionDeclarations.length === 0) continue;
+
+      const dependencies = new Map<string, DirectDependency>();
+      const resolved: ResolvedVersions = new Map();
+      const declarations = pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
+      declarations.push(...versionDeclarations);
+      if (pyproject && pyprojectContents) collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies);
+      for (const path of requirements) {
+        collectRequirementsFile(path, await readFile(path, "utf8"), dependencies, resolved);
+      }
+      await collectLockfiles(projectRoot, resolved);
+      projects.push({ directory, declarations, dependencies, resolved });
+    }
+    if (projects.length === 0) return [];
+
+    // A workspace shares the root's lockfile (uv.lock), so root-resolved versions apply to every project.
+    const rootResolved: ResolvedVersions = new Map();
+    await collectLockfiles(context.root, rootResolved);
+    for (const project of projects) {
+      for (const [name, versions] of rootResolved) project.resolved.set(name, new Set([...(project.resolved.get(name) ?? []), ...versions]));
     }
 
     const rules = await loadRules();
-    const dependencies = new Map<string, DirectDependency>();
-    const resolvedVersions: ResolvedVersions = new Map();
-    const declarations = pyproject && pyprojectContents
-      ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject)
-      : [];
-    declarations.push(...versionDeclarations);
-
-    if (pyproject && pyprojectContents) {
-      collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies);
-    }
-    for (const path of requirements) {
-      const contents = await readFile(path, "utf8");
-      collectRequirementsFile(path, contents, dependencies, resolvedVersions);
-    }
-    await collectLockfiles(context.root, resolvedVersions);
+    const declarations = projects.flatMap((project) => project.declarations);
 
     const runtimeRule = rules.find((rule): rule is PythonRuntimeRule => rule.kind === "runtime");
     const findings: DetectorFinding[] = [];
@@ -386,35 +399,40 @@ export class PythonDetector implements Detector {
 
     const matchedPackageRules = rules.filter(
       (rule): rule is PythonPackageRule =>
-        rule.kind === "package" && dependencies.has(normalizePackageName(rule.package)),
+        rule.kind === "package" && projects.some((project) => project.dependencies.has(normalizePackageName(rule.package))),
     );
     const usageAnalyses = await analyzeSourceUsage(
       context.root,
       matchedPackageRules.map((rule) => ({ id: rule.id, matchers: rule.usage ?? [] })),
     );
     const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
+    const projectDirectories = projects.map((project) => project.directory);
 
-    for (const rule of matchedPackageRules) {
-      const dependency = dependencies.get(normalizePackageName(rule.package))!;
-      const resolved = [...(resolvedVersions.get(dependency.name) ?? [])].sort();
-      const usage = usageByRule.get(rule.id)!;
-      findings.push({
-        id: `${rule.id}:${relativePosix(context.root, dependency.path)}:${dependency.line}`,
-        ruleId: rule.id,
-        title: rule.title,
-        summary: `${dependency.name} is declared as ${dependency.constraint || "unconstrained"}; resolved: ${resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile"}. ${rule.summary}`,
-        severity: rule.severity,
-        location: {
-          path: relativePosix(context.root, dependency.path),
-          line: dependency.line,
-        },
-        ...(rule.replacement ? { replacement: rule.replacement } : {}),
-        ...(rule.deadline ? { deadline: rule.deadline } : {}),
-        ...(rule.migration ? { migration: rule.migration } : {}),
-        sources: rule.sources,
-        usages: usage.usages,
-        impact: usage.impact,
-      });
+    for (const project of projects) {
+      for (const rule of matchedPackageRules) {
+        const dependency = project.dependencies.get(normalizePackageName(rule.package));
+        if (!dependency) continue;
+        const resolved = [...(project.resolved.get(dependency.name) ?? [])].sort();
+        // Each project reports the usages inside its own directory; the root keeps the ones outside every member.
+        const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
+        findings.push({
+          id: `${rule.id}:${relativePosix(context.root, dependency.path)}:${dependency.line}`,
+          ruleId: rule.id,
+          title: rule.title,
+          summary: `${dependency.name} is declared as ${dependency.constraint || "unconstrained"}; resolved: ${resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile"}. ${rule.summary}`,
+          severity: rule.severity,
+          location: {
+            path: relativePosix(context.root, dependency.path),
+            line: dependency.line,
+          },
+          ...(rule.replacement ? { replacement: rule.replacement } : {}),
+          ...(rule.deadline ? { deadline: rule.deadline } : {}),
+          ...(rule.migration ? { migration: rule.migration } : {}),
+          sources: rule.sources,
+          usages,
+          impact: impactFor(usages),
+        });
+      }
     }
 
     return findings;
