@@ -1,0 +1,762 @@
+{
+  "importer": "npm-deprecated",
+  "ecosystem": "npm",
+  "observedAt": "2026-10-17",
+  "rules": [
+    {
+      "id": "npm.package.babel-eslint.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/babel-eslint",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "babel-eslint is deprecated",
+      "summary": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "babel-eslint on npm",
+          "url": "https://www.npmjs.com/package/babel-eslint"
+        },
+        {
+          "title": "babel-eslint registry metadata",
+          "url": "https://registry.npmjs.org/babel-eslint/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "babel-eslint"
+      }
+    },
+    {
+      "id": "npm.package.babel-preset-es2015.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/babel-preset-es2015",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "babel-preset-es2015 is deprecated",
+      "summary": "npm marks babel-preset-es2015 as deprecated: \"🙌 Thanks for using Babel: we recommend using babel-preset-env now: please read https://babeljs.io/env to update!\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "babel-preset-es2015 on npm",
+          "url": "https://www.npmjs.com/package/babel-preset-es2015"
+        },
+        {
+          "title": "babel-preset-es2015 registry metadata",
+          "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "babel-preset-es2015"
+      }
+    },
+    {
+      "id": "npm.package.boom.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/boom",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "boom is deprecated",
+      "summary": "npm marks boom as deprecated: \"This module has moved and is now available at @hapi/boom. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "boom on npm",
+          "url": "https://www.npmjs.com/package/boom"
+        },
+        {
+          "title": "boom registry metadata",
+          "url": "https://registry.npmjs.org/boom/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "boom"
+      }
+    },
+    {
+      "id": "npm.package.cryptiles.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/cryptiles",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "cryptiles is deprecated",
+      "summary": "npm marks cryptiles as deprecated: \"This module has moved and is now available at @hapi/cryptiles. Please update your dependencies as this version is no longer maintained an may contain bugs and security issues.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "cryptiles on npm",
+          "url": "https://www.npmjs.com/package/cryptiles"
+        },
+        {
+          "title": "cryptiles registry metadata",
+          "url": "https://registry.npmjs.org/cryptiles/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "cryptiles"
+      }
+    },
+    {
+      "id": "npm.package.gulp-util.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/gulp-util",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "gulp-util is deprecated",
+      "summary": "npm marks gulp-util as deprecated: \"gulp-util is deprecated - replace it, following the guidelines at https://medium.com/gulpjs/gulp-util-ca3b1f9f9ac5\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "gulp-util on npm",
+          "url": "https://www.npmjs.com/package/gulp-util"
+        },
+        {
+          "title": "gulp-util registry metadata",
+          "url": "https://registry.npmjs.org/gulp-util/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "gulp-util"
+      }
+    },
+    {
+      "id": "npm.package.hapi.joi.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40hapi/joi",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@hapi/joi is deprecated",
+      "summary": "npm marks @hapi/joi as deprecated: \"Switch to 'npm install joi'\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@hapi/joi on npm",
+          "url": "https://www.npmjs.com/package/@hapi/joi"
+        },
+        {
+          "title": "@hapi/joi registry metadata",
+          "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "@hapi/joi"
+      }
+    },
+    {
+      "id": "npm.package.har-validator.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/har-validator",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "har-validator is deprecated",
+      "summary": "npm marks har-validator as deprecated: \"this library is no longer supported\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "har-validator on npm",
+          "url": "https://www.npmjs.com/package/har-validator"
+        },
+        {
+          "title": "har-validator registry metadata",
+          "url": "https://registry.npmjs.org/har-validator/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "har-validator"
+      }
+    },
+    {
+      "id": "npm.package.inflight.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/inflight",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "inflight is deprecated",
+      "summary": "npm marks inflight as deprecated: \"This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "inflight on npm",
+          "url": "https://www.npmjs.com/package/inflight"
+        },
+        {
+          "title": "inflight registry metadata",
+          "url": "https://registry.npmjs.org/inflight/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "inflight"
+      }
+    },
+    {
+      "id": "npm.package.istanbul.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/istanbul",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "istanbul is deprecated",
+      "summary": "npm marks istanbul as deprecated: \"This module is no longer maintained, try this instead: npm i nyc Visit https://istanbul.js.org/integrations for other alternatives.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "istanbul on npm",
+          "url": "https://www.npmjs.com/package/istanbul"
+        },
+        {
+          "title": "istanbul registry metadata",
+          "url": "https://registry.npmjs.org/istanbul/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "istanbul"
+      }
+    },
+    {
+      "id": "npm.package.jade.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/jade",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "jade is deprecated",
+      "summary": "npm marks jade as deprecated: \"Jade has been renamed to pug, please install the latest version of pug instead of jade\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "jade on npm",
+          "url": "https://www.npmjs.com/package/jade"
+        },
+        {
+          "title": "jade registry metadata",
+          "url": "https://registry.npmjs.org/jade/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "jade"
+      }
+    },
+    {
+      "id": "npm.package.karma-phantomjs-launcher.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/karma-phantomjs-launcher",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "karma-phantomjs-launcher is deprecated",
+      "summary": "npm marks karma-phantomjs-launcher as deprecated: \"PhantomJS development have stopped, use puppeteer or similar\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "karma-phantomjs-launcher on npm",
+          "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+        },
+        {
+          "title": "karma-phantomjs-launcher registry metadata",
+          "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "karma-phantomjs-launcher"
+      }
+    },
+    {
+      "id": "npm.package.left-pad.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/left-pad",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "left-pad is deprecated",
+      "summary": "npm marks left-pad as deprecated: \"use String.prototype.padStart()\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "left-pad on npm",
+          "url": "https://www.npmjs.com/package/left-pad"
+        },
+        {
+          "title": "left-pad registry metadata",
+          "url": "https://registry.npmjs.org/left-pad/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "left-pad"
+      }
+    },
+    {
+      "id": "npm.package.natives.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/natives",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "natives is deprecated",
+      "summary": "npm marks natives as deprecated: \"This module relies on Node.js's internals and will break at some point. Do not use it, and update to graceful-fs@4.x.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "natives on npm",
+          "url": "https://www.npmjs.com/package/natives"
+        },
+        {
+          "title": "natives registry metadata",
+          "url": "https://registry.npmjs.org/natives/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "natives"
+      }
+    },
+    {
+      "id": "npm.package.node-pre-gyp.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/node-pre-gyp",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "node-pre-gyp is deprecated",
+      "summary": "npm marks node-pre-gyp as deprecated: \"Please upgrade to @mapbox/node-pre-gyp: the non-scoped node-pre-gyp package is deprecated and only the @mapbox scoped package will recieve updates in the future\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "node-pre-gyp on npm",
+          "url": "https://www.npmjs.com/package/node-pre-gyp"
+        },
+        {
+          "title": "node-pre-gyp registry metadata",
+          "url": "https://registry.npmjs.org/node-pre-gyp/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "node-pre-gyp"
+      }
+    },
+    {
+      "id": "npm.package.node-sass.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/node-sass",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "node-sass is deprecated",
+      "summary": "npm marks node-sass as deprecated: \"Node Sass is no longer supported. Please use `sass` or `sass-embedded` instead.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "node-sass on npm",
+          "url": "https://www.npmjs.com/package/node-sass"
+        },
+        {
+          "title": "node-sass registry metadata",
+          "url": "https://registry.npmjs.org/node-sass/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "node-sass"
+      }
+    },
+    {
+      "id": "npm.package.nomnom.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/nomnom",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "nomnom is deprecated",
+      "summary": "npm marks nomnom as deprecated: \"Package no longer supported. Contact support@npmjs.com for more info.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "nomnom on npm",
+          "url": "https://www.npmjs.com/package/nomnom"
+        },
+        {
+          "title": "nomnom registry metadata",
+          "url": "https://registry.npmjs.org/nomnom/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "nomnom"
+      }
+    },
+    {
+      "id": "npm.package.popper.js.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/popper.js",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "popper.js is deprecated",
+      "summary": "npm marks popper.js as deprecated: \"You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "popper.js on npm",
+          "url": "https://www.npmjs.com/package/popper.js"
+        },
+        {
+          "title": "popper.js registry metadata",
+          "url": "https://registry.npmjs.org/popper.js/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "popper.js"
+      }
+    },
+    {
+      "id": "npm.package.protractor.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/protractor",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "protractor is deprecated",
+      "summary": "npm marks protractor as deprecated: \"We have news to share - Protractor is deprecated and will reach end-of-life by Summer 2023. To learn more and find out about other options please refer to this post on the Angular blog. Thank you for using and contributing to Protractor. https://goo.gle/state-of-e2e-in-angular\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "protractor on npm",
+          "url": "https://www.npmjs.com/package/protractor"
+        },
+        {
+          "title": "protractor registry metadata",
+          "url": "https://registry.npmjs.org/protractor/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "protractor"
+      }
+    },
+    {
+      "id": "npm.package.querystring.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/querystring",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "querystring is deprecated",
+      "summary": "npm marks querystring as deprecated: \"The querystring API is considered Legacy. new code should use the URLSearchParams API instead.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "querystring on npm",
+          "url": "https://www.npmjs.com/package/querystring"
+        },
+        {
+          "title": "querystring registry metadata",
+          "url": "https://registry.npmjs.org/querystring/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "querystring"
+      }
+    },
+    {
+      "id": "npm.package.request-promise-native.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request-promise-native",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request-promise-native is deprecated",
+      "summary": "npm marks request-promise-native as deprecated: \"request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "request-promise-native on npm",
+          "url": "https://www.npmjs.com/package/request-promise-native"
+        },
+        {
+          "title": "request-promise-native registry metadata",
+          "url": "https://registry.npmjs.org/request-promise-native/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "request-promise-native"
+      }
+    },
+    {
+      "id": "npm.package.request-promise.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request-promise",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request-promise is deprecated",
+      "summary": "npm marks request-promise as deprecated: \"request-promise has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "request-promise on npm",
+          "url": "https://www.npmjs.com/package/request-promise"
+        },
+        {
+          "title": "request-promise registry metadata",
+          "url": "https://registry.npmjs.org/request-promise/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "request-promise"
+      }
+    },
+    {
+      "id": "npm.package.request.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/request",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request is deprecated",
+      "summary": "npm marks request as deprecated: \"request has been deprecated, see https://github.com/request/request/issues/3142\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "request on npm",
+          "url": "https://www.npmjs.com/package/request"
+        },
+        {
+          "title": "request registry metadata",
+          "url": "https://registry.npmjs.org/request/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "request"
+      }
+    },
+    {
+      "id": "npm.package.rollup-plugin-babel.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/rollup-plugin-babel",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "rollup-plugin-babel is deprecated",
+      "summary": "npm marks rollup-plugin-babel as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-babel.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "rollup-plugin-babel on npm",
+          "url": "https://www.npmjs.com/package/rollup-plugin-babel"
+        },
+        {
+          "title": "rollup-plugin-babel registry metadata",
+          "url": "https://registry.npmjs.org/rollup-plugin-babel/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "rollup-plugin-babel"
+      }
+    },
+    {
+      "id": "npm.package.sntp.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/sntp",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "sntp is deprecated",
+      "summary": "npm marks sntp as deprecated: \"This module moved to @hapi/sntp. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "sntp on npm",
+          "url": "https://www.npmjs.com/package/sntp"
+        },
+        {
+          "title": "sntp registry metadata",
+          "url": "https://registry.npmjs.org/sntp/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "sntp"
+      }
+    },
+    {
+      "id": "npm.package.tslint.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/tslint",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "tslint is deprecated",
+      "summary": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "tslint on npm",
+          "url": "https://www.npmjs.com/package/tslint"
+        },
+        {
+          "title": "tslint registry metadata",
+          "url": "https://registry.npmjs.org/tslint/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "tslint"
+      }
+    },
+    {
+      "id": "npm.package.uglify-es.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/uglify-es",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "uglify-es is deprecated",
+      "summary": "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "uglify-es on npm",
+          "url": "https://www.npmjs.com/package/uglify-es"
+        },
+        {
+          "title": "uglify-es registry metadata",
+          "url": "https://registry.npmjs.org/uglify-es/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "pending-review",
+        "importer": "npm-deprecated"
+      },
+      "x-npm": {
+        "package": "uglify-es"
+      }
+    }
+  ],
+  "notes": []
+}
