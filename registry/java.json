@@ -130,6 +130,52 @@
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
       }
+    },
+    {
+      "id": "java.maven.mysql.mysql-connector-java.relocated",
+      "ecosystem": "java",
+      "purl": "pkg:maven/mysql/mysql-connector-java",
+      "vers": "vers:maven/>=8.0.31",
+      "event": "deprecated",
+      "title": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+      "summary": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
+      "severity": "medium",
+      "replacement": "com.mysql:mysql-connector-j",
+      "sources": [
+        {
+          "title": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
+          "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "java-2"
+      }
+    },
+    {
+      "id": "java.maven.org.slf4j.slf4j-log4j12.relocated",
+      "ecosystem": "java",
+      "purl": "pkg:maven/org.slf4j/slf4j-log4j12",
+      "vers": "vers:maven/>=2.0.13",
+      "event": "deprecated",
+      "title": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j",
+      "summary": "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j.",
+      "severity": "medium",
+      "replacement": "org.slf4j:slf4j-reload4j",
+      "sources": [
+        {
+          "title": "org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central",
+          "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "java-2"
+      }
     }
   ]
 }

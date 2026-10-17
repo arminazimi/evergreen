@@ -36,6 +36,7 @@ jobs:
           - { importer: go-1, ecosystem: go }
           - { importer: go-2, ecosystem: go }
           - { importer: java-1, ecosystem: java }
+          - { importer: java-2, ecosystem: java }
           - { importer: kubernetes-1, ecosystem: kubernetes }
           - { importer: kubernetes-2, ecosystem: kubernetes }
           - { importer: nodejs-schedule, ecosystem: nodejs }
@@ -97,6 +98,7 @@ jobs:
           - go-1
           - go-2
           - java-1
+          - java-2
           - kubernetes-1
           - kubernetes-2
           - nodejs-schedule

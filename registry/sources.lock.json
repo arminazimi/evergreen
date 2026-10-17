@@ -231,6 +231,16 @@
       "title": null,
       "checkedAt": "2026-10-16"
     },
+    "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom": {
+      "finalUrl": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom",
+      "title": null,
+      "checkedAt": "2026-10-17"
+    },
+    "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom": {
+      "finalUrl": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom",
+      "title": null,
+      "checkedAt": "2026-10-17"
+    },
     "https://sass-lang.com/blog/node-sass-is-end-of-life/": {
       "finalUrl": "https://sass-lang.com/blog/node-sass-is-end-of-life/",
       "title": "Sass: Node Sass is end-of-life",
