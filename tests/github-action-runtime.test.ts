@@ -126,3 +126,21 @@ test("action metadata declares the optional SARIF upload to code scanning", asyn
   assert.match(upload.if ?? "", /steps\.scan\.outputs\.sarif-path != ''/);
   assert.equal(upload.with?.sarif_file, "${{ steps.scan.outputs.sarif-path }}");
 });
+
+test("the job summary ends with one linked attribution line, which can be turned off", async () => {
+  const { ATTRIBUTION_LINE, renderSummary } = await import("../src/github-action.js");
+  const on = renderSummary(2, false, "high", undefined, true);
+  assert.equal(on, `## Evergreen\n\nFound **2** new lifecycle findings; passed the severity gate.\n\n${ATTRIBUTION_LINE}\n`);
+  assert.match(ATTRIBUTION_LINE, /\[Evergreen\]\(https:\/\/github\.com\/arminazimi\/evergreen\)/);
+  const off = renderSummary(1, true, "medium", undefined, false);
+  assert.equal(off, "## Evergreen\n\nFound **1** new lifecycle finding; failed the **medium** severity gate.\n");
+  assert.equal(off.includes("Scanned by"), false);
+});
+
+test("action.yml declares the attribution input, on by default, and passes it to the scan step", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { parse } = await import("yaml");
+  const action = parse(await readFile("action.yml", "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs.attribution?.default, "true");
+  assert.equal(action.runs.steps[0]?.env?.INPUT_ATTRIBUTION, "${{ inputs.attribution }}");
+});

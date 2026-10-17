@@ -33,6 +33,12 @@ inputs:
       on the job; leave it off for pull requests from forks, whose token is read-only.
     required: false
     default: "false"
+  attribution:
+    description: >-
+      Add one line to the job summary that says the scan was done by Evergreen and links to it.
+      Set to "false" to leave it out.
+    required: false
+    default: "true"
 
 outputs:
   report-path:
@@ -57,6 +63,7 @@ runs:
         INPUT_BASELINE: ${{ inputs.baseline }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
+        INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
       if: always() && inputs.upload-report == 'true'
       uses: actions/upload-artifact@v7

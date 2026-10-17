@@ -5,8 +5,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo } from "./domain.js";
-import { runGitHubAction } from "./github-action.js";
-import { describeData } from "./reporters.js";
+import { renderSummary, runGitHubAction } from "./github-action.js";
 import type { GitHubAnnotation, SeverityGate } from "./github-action.js";
 
 function commandValue(value: string): string {
@@ -35,12 +34,9 @@ async function setOutput(name: string, value: string): Promise<void> {
 async function writeSummary(findings: number, failed: boolean, gate: SeverityGate, data?: DataInfo): Promise<void> {
   const summary = process.env.GITHUB_STEP_SUMMARY;
   if (!summary) return;
-  const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
-  await appendFile(
-    summary,
-    `## Evergreen\n\nFound **${findings}** new lifecycle finding${findings === 1 ? "" : "s"}; ${status}.\n${data ? `\n${describeData(data)}${data.stale ? "\n\n> **Warning:** the lifecycle data is stale, so findings may miss recent changes." : ""}\n` : ""}`,
-    "utf8",
-  );
+  // On by default; `attribution: "false"` turns the line off.
+  const attribution = process.env.INPUT_ATTRIBUTION !== "false";
+  await appendFile(summary, renderSummary(findings, failed, gate, data, attribution), "utf8");
 }
 
 async function main(): Promise<void> {
