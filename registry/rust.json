@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "rust",
+  "freshness": {
+    "maxReviewAgeDays": 45
+  },
+  "rules": [
+    {
+      "id": "rust.toolchain.end-of-support-1.98-and-older",
+      "ecosystem": "rust",
+      "purl": "pkg:generic/rust",
+      "vers": "vers:semver/<1.99.0",
+      "event": "end-of-support",
+      "title": "Rust 1.98 and older are no longer supported",
+      "summary": "The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01.",
+      "severity": "medium",
+      "replacement": "The latest stable Rust release",
+      "deadline": "2026-10-01",
+      "sources": [
+        {
+          "title": "Rust security policy",
+          "url": "https://www.rust-lang.org/policies/security"
+        },
+        {
+          "title": "Rust release notes (release dates)",
+          "url": "https://github.com/rust-lang/rust/blob/master/RELEASES.md"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "rust.crate.failure.unmaintained",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/failure",
+      "vers": "vers:cargo/*",
+      "event": "deprecated",
+      "title": "failure is no longer maintained",
+      "summary": "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.",
+      "severity": "medium",
+      "replacement": "anyhow, eyre, fehler, or snafu",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2020-0036",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2020-0036.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "rust.crate.tempdir.unmaintained",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/tempdir",
+      "vers": "vers:cargo/*",
+      "event": "deprecated",
+      "title": "tempdir is no longer maintained",
+      "summary": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
+      "severity": "medium",
+      "replacement": "tempfile",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2018-0017",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "rust.crate.atty.unmaintained",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/atty",
+      "vers": "vers:cargo/*",
+      "event": "deprecated",
+      "title": "atty is no longer maintained",
+      "summary": "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.",
+      "severity": "medium",
+      "replacement": "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2024-0375",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2024-0375.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "rust.crate.ansi-term.unmaintained",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/ansi_term",
+      "vers": "vers:cargo/*",
+      "event": "deprecated",
+      "title": "ansi_term is no longer maintained",
+      "summary": "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.",
+      "severity": "medium",
+      "replacement": "A maintained terminal-styling crate (the advisory lists unvetted alternatives such as anstyle, nu-ansi-term, owo-colors, and console)",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2021-0139",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2021-0139.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}
