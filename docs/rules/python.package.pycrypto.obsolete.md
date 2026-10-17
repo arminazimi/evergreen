@@ -50,4 +50,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pycrypto.obsolete`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pycrypto.obsolete`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+  "headline": "PyCrypto is obsolete and vulnerable",
+  "description": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-14",
+  "keywords": [
+    "end-of-life",
+    "python",
+    "critical"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "PyCrypto is obsolete and vulnerable",
+    "identifier": "pkg:pypi/pycrypto"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Archived PyCrypto repository warning",
+      "url": "https://github.com/pycrypto/pycrypto"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

@@ -46,4 +46,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.vsdeband.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.vsdeband.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html",
+  "headline": "vsdeband is deprecated",
+  "description": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "vsdeband is deprecated",
+    "identifier": "pkg:pypi/vsdeband"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "vsdeband deprecation notice",
+      "url": "https://pypi.org/project/vsdeband/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

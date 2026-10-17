@@ -49,4 +49,41 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/nodejs.json`](https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json), rule `nodejs.runtime.eol-18`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/nodejs.json`](https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json), rule `nodejs.runtime.eol-18`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-18.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-18.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-18.html",
+  "headline": "Node.js 18 is end-of-life",
+  "description": "Node.js 18 no longer receives security or bug fixes.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "end-of-life",
+    "nodejs",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Node.js 18 is end-of-life",
+    "identifier": "pkg:generic/nodejs"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Node.js Release Working Group schedule",
+      "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

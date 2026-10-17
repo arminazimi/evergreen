@@ -46,4 +46,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.multimodal-timesfm.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.multimodal-timesfm.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+  "headline": "multimodal-timesfm is no longer maintained",
+  "description": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "python",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "multimodal-timesfm is no longer maintained",
+    "identifier": "pkg:pypi/multimodal-timesfm"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "multimodal-timesfm rename notice",
+      "url": "https://pypi.org/project/multimodal-timesfm/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

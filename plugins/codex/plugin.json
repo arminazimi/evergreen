@@ -36,8 +36,8 @@
           "Explain the highest-severity Evergreen finding.",
           "Create migration context for this deprecation."
         ],
-        "brandColor": "#571729",
-        "brandColorDark": "#B96779",
+        "brandColor": "#23423A",
+        "brandColorDark": "#9AC7B6",
         "composerIcon": "./assets/evergreen-mark-light.svg",
         "composerIconDark": "./assets/evergreen-mark-dark.svg",
         "logo": "./assets/evergreen-mark-light.svg",

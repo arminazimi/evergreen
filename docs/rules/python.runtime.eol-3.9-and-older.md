@@ -50,4 +50,46 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.runtime.eol-3.9-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.runtime.eol-3.9-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+  "headline": "Python 3.9 and older are end-of-life",
+  "description": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-14",
+  "keywords": [
+    "end-of-life",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Python 3.9 and older are end-of-life",
+    "identifier": "pkg:generic/python"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Status of Python versions",
+      "url": "https://devguide.python.org/versions/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "PEP 596 — Python 3.9 release schedule",
+      "url": "https://peps.python.org/pep-0596/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

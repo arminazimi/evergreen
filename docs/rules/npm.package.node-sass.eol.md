@@ -48,4 +48,41 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.node-sass.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.node-sass.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+  "headline": "Node Sass is end-of-life",
+  "description": "Node Sass is no longer maintained and its repository has been archived.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-14",
+  "keywords": [
+    "end-of-life",
+    "npm",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Node Sass is end-of-life",
+    "identifier": "pkg:npm/node-sass"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Node Sass is end-of-life",
+      "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

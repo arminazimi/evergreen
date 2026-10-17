@@ -48,4 +48,51 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pyinj.archived`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.pyinj.archived`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html",
+  "headline": "pyinj is archived on PyPI",
+  "description": "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-life",
+    "python",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "pyinj is archived on PyPI",
+    "identifier": "pkg:pypi/pyinj"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "pyinj archival and migration notice",
+      "url": "https://pypi.org/project/pyinj/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "pyinj project status (PyPI Simple API)",
+      "url": "https://pypi.org/simple/pyinj/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Project status markers (PEP 792)",
+      "url": "https://packaging.python.org/specifications/project-status-markers/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

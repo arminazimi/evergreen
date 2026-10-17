@@ -47,4 +47,46 @@ The `github-actions` detector. See [Detectors](../DETECTORS.md) and [Compatibili
 
 ## Data
 
-This page is generated from [`registry/github-actions.json`](https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json), rule `github-actions.setup-terraform.node20`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/github-actions.json`](https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json), rule `github-actions.setup-terraform.node20`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-terraform.node20.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-terraform.node20.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-terraform.node20.html",
+  "headline": "Unsupported hashicorp/setup-terraform runtime",
+  "description": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-support",
+    "github-actions",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Unsupported hashicorp/setup-terraform runtime",
+    "identifier": "pkg:github/hashicorp/setup-terraform"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "hashicorp/setup-terraform v4.0.0 release notes",
+      "url": "https://github.com/hashicorp/setup-terraform/releases/tag/v4.0.0"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

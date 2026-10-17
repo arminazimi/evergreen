@@ -45,4 +45,41 @@ The `rust` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COM
 
 ## Data
 
-This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.tempdir.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.tempdir.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+  "headline": "tempdir is no longer maintained",
+  "description": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "deprecated",
+    "rust",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "tempdir is no longer maintained",
+    "identifier": "pkg:cargo/tempdir"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "RustSec advisory RUSTSEC-2018-0017",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

@@ -15,23 +15,22 @@ accessibility, layout, template, and export rules are in
 - Ring radii: `96`, `70`, and `44`
 - Stroke width: `18`
 - Notches: one stroke-width square at 12, 3, and 6 o'clock
-- Migration node: a `14 × 14` square bridging the inner and middle rings at 4:30
 
 The three rings represent major, minor, and patch lifecycle layers. Their small,
-separate notches distinguish the mark from an open `C`, while the migration node
-represents one evidence-backed transition between versions.
+separate notches distinguish the mark from an open `C` and create a precise,
+recognizable lifecycle signal without an additional symbol.
 
 ## Palette
 
 | Token | Value | Use |
 | --- | --- | --- |
-| Obsidian | `#0A0A0C` | Dark canvas and monochrome mark |
-| Black Cherry | `#2B0B15` | Deep supporting surface |
-| Deep Burgundy | `#571729` | Primary brand ring |
-| Garnet | `#8F3048` | Secondary brand ring |
-| Dusty Rose | `#B96779` | Inner ring and warm accent |
-| Warm Ivory | `#F3ECE8` | Dark-mode text and node |
-| Muted Pine | `#365C4C` | Functional success states only |
+| Carbon | `#0C1110` | Dark canvas and monochrome mark |
+| Deep Mineral | `#17211E` | Deep supporting surface |
+| Forest Slate | `#23423A` | Outer brand ring |
+| Mineral Green | `#4C7C6D` | Middle brand ring and accent |
+| Mist Green | `#9AC7B6` | Inner brand ring and light accent |
+| Frost | `#F3F6F4` | Light canvas and dark-mode text |
+| Verified Green | `#2F7D5B` | Functional success states only |
 
 ## Files
 
@@ -54,8 +53,8 @@ the tagline. Before the final release, convert the approved wordmark to outlines
 
 The original open-concentric-ring concept was intentionally not adopted unchanged:
 broken concentric rings are common in technology and identity systems. The selected
-mark adds a fixed three-notch pattern at 12, 3, and 6 o'clock plus the migration
-node at 4:30, and uses a documented major/minor/patch construction grid.
+mark adds a fixed three-notch pattern at 12, 3, and 6 o'clock and uses a
+documented major/minor/patch construction grid.
 
 This is a preliminary obvious-confusion review, not legal trademark clearance.
 Before a v1 brand launch, repeat image-similarity searches on the final outlined

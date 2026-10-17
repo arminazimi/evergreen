@@ -1,21 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
   <title id="title">Evergreen lifecycle scan walkthrough</title>
   <desc id="desc">A branded terminal panel showing evidence-backed findings from the bundled review fixture.</desc>
-  <rect width="1200" height="675" fill="#0A0A0C"/>
-  <path d="M0 48H1200M48 0V675" stroke="#F3ECE8" stroke-opacity=".04"/>
-  <rect x="64" y="56" width="1072" height="563" rx="24" fill="#2B0B15" stroke="#F3ECE8" stroke-opacity=".12"/>
-  <circle cx="103" cy="94" r="7" fill="#8F3048"/><circle cx="127" cy="94" r="7" fill="#B96779"/><circle cx="151" cy="94" r="7" fill="#365C4C"/>
-  <text x="96" y="158" fill="#F3ECE8" font-family="Menlo, monospace" font-size="23" font-weight="700">EVERGREEN SCAN</text>
-  <text x="96" y="196" fill="#B96779" font-family="Menlo, monospace" font-size="17">review-fixtures/demo  ·  4 findings</text>
-  <text x="96" y="252" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">HIGH    actions/checkout@v4 runtime</text>
-  <text x="96" y="284" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">.github/workflows/ci.yml:9  →  actions/checkout@v5+</text>
-  <text x="96" y="340" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">MEDIUM  Node.js 18 and 20 are end-of-life</text>
-  <text x="96" y="372" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:5  →  Node.js 22 LTS+</text>
-  <text x="96" y="428" fill="#F3ECE8" font-family="Menlo, monospace" font-size="18">HIGH    request 2.88.2 is deprecated</text>
-  <text x="96" y="460" fill="#F3ECE8" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:8  →  native fetch or maintained HTTP client</text>
-  <text x="96" y="532" fill="#365C4C" font-family="Menlo, monospace" font-size="16">LOCAL ANALYSIS  /  READ-ONLY TOOLS  /  EVIDENCE LINKS</text>
+  <rect width="1200" height="675" fill="#0C1110"/>
+  <path d="M0 48H1200M48 0V675" stroke="#F3F6F4" stroke-opacity=".04"/>
+  <rect x="64" y="56" width="1072" height="563" rx="24" fill="#17211E" stroke="#F3F6F4" stroke-opacity=".12"/>
+  <circle cx="103" cy="94" r="7" fill="#23423A"/><circle cx="127" cy="94" r="7" fill="#4C7C6D"/><circle cx="151" cy="94" r="7" fill="#9AC7B6"/>
+  <text x="96" y="158" fill="#F3F6F4" font-family="Menlo, monospace" font-size="23" font-weight="700">EVERGREEN SCAN</text>
+  <text x="96" y="196" fill="#9AC7B6" font-family="Menlo, monospace" font-size="17">review-fixtures/demo  ·  4 findings</text>
+  <text x="96" y="252" fill="#F3F6F4" font-family="Menlo, monospace" font-size="18">HIGH    actions/checkout@v4 runtime</text>
+  <text x="96" y="284" fill="#F3F6F4" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">.github/workflows/ci.yml:9  →  actions/checkout@v5+</text>
+  <text x="96" y="340" fill="#F3F6F4" font-family="Menlo, monospace" font-size="18">MEDIUM  Node.js 18 and 20 are end-of-life</text>
+  <text x="96" y="372" fill="#F3F6F4" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:5  →  Node.js 22 LTS+</text>
+  <text x="96" y="428" fill="#F3F6F4" font-family="Menlo, monospace" font-size="18">HIGH    request 2.88.2 is deprecated</text>
+  <text x="96" y="460" fill="#F3F6F4" fill-opacity=".66" font-family="Menlo, monospace" font-size="16">package.json:8  →  native fetch or maintained HTTP client</text>
+  <text x="96" y="532" fill="#9AC7B6" font-family="Menlo, monospace" font-size="16">LOCAL ANALYSIS  /  READ-ONLY TOOLS  /  EVIDENCE LINKS</text>
   <g transform="translate(958 454) scale(.55)" fill="none" stroke-width="18">
-    <circle cx="128" cy="128" r="96" stroke="#571729"/><circle cx="128" cy="128" r="70" stroke="#8F3048"/><circle cx="128" cy="128" r="44" stroke="#B96779"/>
-    <rect x="161" y="161" width="14" height="14" rx="2" fill="#F3ECE8" stroke="none"/>
+    <circle cx="128" cy="128" r="96" stroke="#23423A"/><circle cx="128" cy="128" r="70" stroke="#4C7C6D"/><circle cx="128" cy="128" r="44" stroke="#9AC7B6"/>
   </g>
 </svg>

@@ -9,7 +9,7 @@
       "output": "exports/social-preview-dark.png",
       "width": 1280,
       "height": 640,
-      "background": "#0A0A0C"
+      "background": "#0C1110"
     },
     {
       "name": "social-preview-light",
@@ -17,7 +17,7 @@
       "output": "exports/social-preview-light.png",
       "width": 1280,
       "height": 640,
-      "background": "#F3ECE8"
+      "background": "#F3F6F4"
     },
     {
       "name": "avatar-dark",
@@ -25,7 +25,7 @@
       "output": "exports/avatar-dark.png",
       "width": 512,
       "height": 512,
-      "background": "#0A0A0C"
+      "background": "#0C1110"
     },
     {
       "name": "avatar-light",
@@ -33,7 +33,7 @@
       "output": "exports/avatar-light.png",
       "width": 512,
       "height": 512,
-      "background": "#F3ECE8"
+      "background": "#F3F6F4"
     },
     {
       "name": "banner-dark",
@@ -41,7 +41,7 @@
       "output": "exports/banner-dark.png",
       "width": 1500,
       "height": 500,
-      "background": "#0A0A0C"
+      "background": "#0C1110"
     },
     {
       "name": "banner-light",
@@ -49,7 +49,7 @@
       "output": "exports/banner-light.png",
       "width": 1500,
       "height": 500,
-      "background": "#F3ECE8"
+      "background": "#F3F6F4"
     },
     {
       "name": "marketplace-feature-dark",
@@ -57,7 +57,7 @@
       "output": "exports/marketplace-feature-dark.png",
       "width": 965,
       "height": 482,
-      "background": "#2B0B15"
+      "background": "#17211E"
     },
     {
       "name": "marketplace-feature-light",
@@ -65,7 +65,7 @@
       "output": "exports/marketplace-feature-light.png",
       "width": 965,
       "height": 482,
-      "background": "#F3ECE8"
+      "background": "#F3F6F4"
     },
     {
       "name": "marketplace-logo-dark",

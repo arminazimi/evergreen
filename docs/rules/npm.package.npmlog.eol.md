@@ -45,4 +45,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.npmlog.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.npmlog.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html",
+  "headline": "npmlog is no longer supported",
+  "description": "npm states that the npmlog package is no longer supported.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-life",
+    "npm",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "npmlog is no longer supported",
+    "identifier": "pkg:npm/npmlog"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "npmlog package deprecation notice",
+      "url": "https://www.npmjs.com/package/npmlog"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "npmlog registry metadata",
+      "url": "https://registry.npmjs.org/npmlog/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

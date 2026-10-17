@@ -48,4 +48,41 @@ The [`java`](../detectors/java.md) detector. See [Detectors](../DETECTORS.md) an
 
 ## Data
 
-This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.maven.mysql.mysql-connector-java.relocated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.maven.mysql.mysql-connector-java.relocated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+  "headline": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+  "description": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "deprecated",
+    "java",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+    "identifier": "pkg:maven/mysql/mysql-connector-java"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
+      "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

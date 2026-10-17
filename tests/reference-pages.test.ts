@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
+import { promisify } from "node:util";
+
+import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { buildFiles, drift, loadRegistries, renderRulePage, write } from "../tools/build-reference-pages.js";
+import { buildFiles, drift, loadRegistries, renderRulePage, ruleUrl, write } from "../tools/build-reference-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -35,6 +39,12 @@ const registry = (rules: RegistryV2Rule[], maxReviewAgeDays?: number): RegistryV
   ...(maxReviewAgeDays ? { freshness: { maxReviewAgeDays } } : {}),
   rules,
 });
+
+function structuredData(page: string): Record<string, unknown> {
+  const match = /<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/.exec(page);
+  assert.ok(match, "the page has no JSON-LD block");
+  return JSON.parse(match[1]!) as Record<string, unknown>;
+}
 
 test("every bundled rule has a page, and the committed pages match the registry", async () => {
   const registries = await loadRegistries();
@@ -128,4 +138,82 @@ test("only v2 rule registries are read from the registry directory", async () =>
   await writeFile(join(root, "shas.json"), JSON.stringify({ schemaVersion: "other", entries: [] }));
   assert.deepEqual((await loadRegistries(root)).map((item) => item.ecosystem), ["demo"]);
   assert.ok((await readFile(join(root, "demo.json"), "utf8")).length > 0);
+});
+
+test("each page carries valid structured data that agrees with the page", async () => {
+  for (const item of await loadRegistries()) {
+    for (const entry of item.rules) {
+      const page = renderRulePage(entry, 365);
+      const data = structuredData(page);
+      assert.equal(data["@context"], "https://schema.org");
+      assert.equal(data["@type"], "TechArticle");
+      assert.equal(data.url, ruleUrl(entry.id));
+      assert.equal(data["@id"], data.url);
+      assert.equal(data.headline, entry.title);
+      assert.equal(data.dateModified, entry.provenance.reviewedAt);
+      assert.deepEqual((data.citation as Array<{ url: string }>).map((citation) => citation.url), entry.sources.map((source) => source.url));
+      assert.equal((data.about as { identifier: string }).identifier, entry.purl);
+      assert.equal(typeof data.description, "string");
+      assert.ok((data.description as string).length <= 201);
+      assert.match(data.isBasedOn as string, new RegExp(`/registry/${entry.ecosystem}\\.json$`));
+      assert.equal((data.publisher as { url: string }).url, "https://arminazimi.github.io/evergreen");
+    }
+  }
+});
+
+test("data can never close the structured-data element", () => {
+  const page = renderRulePage(rule({ summary: "Bad </script><script>alert(1)</script> text", title: "A </script> title" }), 365);
+  const block = page.slice(page.indexOf('<script type="application/ld+json">'));
+  // Only the closing tag the generator writes: no `</` appears inside the JSON.
+  assert.equal(block.indexOf("</"), block.lastIndexOf("</script>"));
+  assert.equal(structuredData(page).headline, "A </script> title");
+  assert.equal(structuredData(page).description, "Bad </script><script>alert(1)</script> text");
+});
+
+test("the page says where the machine-readable data lives and that no CLE export exists yet", () => {
+  const page = renderRulePage(rule(), 365);
+  assert.match(page, /registry\/demo\.json/);
+  assert.match(page, /A CLE \(ECMA-428\) export is not published yet\./);
+});
+
+const run = promisify(execFile);
+const generator = resolve("dist/tools/build-reference-pages.js");
+
+async function checkIn(directory: string): Promise<{ code: number; stderr: string }> {
+  try {
+    await run(process.execPath, [generator, "--check"], { cwd: directory });
+    return { code: 0, stderr: "" };
+  } catch (error) {
+    const failure = error as { code: number; stderr: string };
+    return { code: failure.code, stderr: failure.stderr };
+  }
+}
+
+test("--check passes on fresh pages and fails, naming the page, when one drifts", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-reference-cli-"));
+  temporaryRoots.push(root);
+  await mkdir(join(root, "registry"), { recursive: true });
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule()])));
+  await write(buildFiles([registry([rule()])]), root);
+  assert.deepEqual(await checkIn(root), { code: 0, stderr: "" });
+
+  // The registry changes, but the pages are not regenerated.
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([rule({ summary: "A different claim." })])));
+  const drifted = await checkIn(root);
+  assert.equal(drifted.code, 1);
+  assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.md/);
+  assert.match(drifted.stderr, /npm run build:reference/);
+
+  // A rule is removed: its page is stale.
+  await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([])));
+  assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.md/);
+});
+
+test("CI runs the drift check", async () => {
+  const workflow = parse(await readFile(".github/workflows/ci.yml", "utf8")) as {
+    jobs: { check: { steps: Array<{ name?: string; run?: string; if?: string }> } };
+  };
+  const step = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-reference-pages.js --check");
+  assert.ok(step, "ci.yml has no reference-page drift step");
+  assert.match(step.if ?? "", /runner\.os == 'Linux'/);
 });

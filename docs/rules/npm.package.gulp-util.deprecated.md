@@ -47,4 +47,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.gulp-util.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.gulp-util.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+  "headline": "gulp-util is deprecated",
+  "description": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "gulp-util is deprecated",
+    "identifier": "pkg:npm/gulp-util"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "gulp-util package deprecation notice",
+      "url": "https://www.npmjs.com/package/gulp-util"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "gulp-util registry metadata",
+      "url": "https://registry.npmjs.org/gulp-util/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

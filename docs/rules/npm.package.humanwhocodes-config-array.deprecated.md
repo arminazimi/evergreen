@@ -46,4 +46,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.humanwhocodes-config-array.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.humanwhocodes-config-array.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+  "headline": "@humanwhocodes/config-array is deprecated",
+  "description": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "@humanwhocodes/config-array is deprecated",
+    "identifier": "pkg:npm/%40humanwhocodes/config-array"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "@humanwhocodes/config-array package deprecation notice",
+      "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "@humanwhocodes/config-array registry metadata",
+      "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

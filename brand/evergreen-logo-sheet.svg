@@ -20,39 +20,36 @@
       <rect x="119" y="160" width="18" height="30" fill="black"/>
     </mask>
     <g id="brand-mark">
-      <circle cx="128" cy="128" r="96" fill="none" stroke="#571729" stroke-width="18" mask="url(#outer-notch)"/>
-      <circle cx="128" cy="128" r="70" fill="none" stroke="#8F3048" stroke-width="18" mask="url(#middle-notch)"/>
-      <circle cx="128" cy="128" r="44" fill="none" stroke="#B96779" stroke-width="18" mask="url(#inner-notch)"/>
-      <rect x="161" y="161" width="14" height="14" rx="2" fill="#F3ECE8"/>
+      <circle cx="128" cy="128" r="96" fill="none" stroke="#23423A" stroke-width="18" mask="url(#outer-notch)"/>
+      <circle cx="128" cy="128" r="70" fill="none" stroke="#4C7C6D" stroke-width="18" mask="url(#middle-notch)"/>
+      <circle cx="128" cy="128" r="44" fill="none" stroke="#9AC7B6" stroke-width="18" mask="url(#inner-notch)"/>
     </g>
     <g id="light-mark">
-      <circle cx="128" cy="128" r="96" fill="none" stroke="#0A0A0C" stroke-width="18" mask="url(#outer-notch)"/>
-      <circle cx="128" cy="128" r="70" fill="none" stroke="#571729" stroke-width="18" mask="url(#middle-notch)"/>
-      <circle cx="128" cy="128" r="44" fill="none" stroke="#B96779" stroke-width="18" mask="url(#inner-notch)"/>
-      <rect x="161" y="161" width="14" height="14" rx="2" fill="#365C4C"/>
+      <circle cx="128" cy="128" r="96" fill="none" stroke="#23423A" stroke-width="18" mask="url(#outer-notch)"/>
+      <circle cx="128" cy="128" r="70" fill="none" stroke="#4C7C6D" stroke-width="18" mask="url(#middle-notch)"/>
+      <circle cx="128" cy="128" r="44" fill="none" stroke="#9AC7B6" stroke-width="18" mask="url(#inner-notch)"/>
     </g>
     <g id="mono-mark">
-      <g fill="none" stroke="#F3ECE8" stroke-width="18">
+      <g fill="none" stroke="#F3F6F4" stroke-width="18">
         <circle cx="128" cy="128" r="96" mask="url(#outer-notch)"/>
         <circle cx="128" cy="128" r="70" mask="url(#middle-notch)"/>
         <circle cx="128" cy="128" r="44" mask="url(#inner-notch)"/>
       </g>
-      <rect x="161" y="161" width="14" height="14" rx="2" fill="#F3ECE8"/>
     </g>
   </defs>
 
   <rect width="1600" height="900" fill="#111113"/>
-  <rect x="40" y="40" width="740" height="510" rx="24" fill="#0A0A0C"/>
-  <rect x="820" y="40" width="740" height="510" rx="24" fill="#F3ECE8"/>
+  <rect x="40" y="40" width="740" height="510" rx="24" fill="#0C1110"/>
+  <rect x="820" y="40" width="740" height="510" rx="24" fill="#F3F6F4"/>
   <rect x="40" y="590" width="1520" height="270" rx="24" fill="#19181A"/>
 
   <g transform="translate(92 150) scale(.95)"><use href="#brand-mark"/></g>
-  <text x="355" y="290" fill="#F3ECE8" font-family="Inter Variable, Inter, Arial, sans-serif" font-size="50" font-weight="700" letter-spacing="5">EVERGREEN</text>
+  <text x="355" y="290" fill="#F3F6F4" font-family="Inter Variable, Inter, Arial, sans-serif" font-size="50" font-weight="700" letter-spacing="5">EVERGREEN</text>
   <text x="357" y="326" fill="#BDB7B4" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1.5">KNOW WHAT BREAKS NEXT.</text>
 
   <g transform="translate(872 150) scale(.95)"><use href="#light-mark"/></g>
-  <text x="1135" y="290" fill="#0A0A0C" font-family="Inter Variable, Inter, Arial, sans-serif" font-size="50" font-weight="700" letter-spacing="5">EVERGREEN</text>
-  <text x="1137" y="326" fill="#571729" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1.5">KNOW WHAT BREAKS NEXT.</text>
+  <text x="1135" y="290" fill="#0C1110" font-family="Inter Variable, Inter, Arial, sans-serif" font-size="50" font-weight="700" letter-spacing="5">EVERGREEN</text>
+  <text x="1137" y="326" fill="#4C7C6D" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" letter-spacing="1.5">KNOW WHAT BREAKS NEXT.</text>
 
   <g transform="translate(100 625) scale(.72)"><use href="#mono-mark"/></g>
   <g transform="translate(335 677) scale(.32)"><use href="#brand-mark"/></g>
@@ -61,15 +58,15 @@
   <text x="468" y="815" fill="#BDB7B4" font-family="ui-monospace, monospace" font-size="14">32px</text>
 
   <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="13" fill="#BDB7B4">
-    <circle cx="760" cy="710" r="34" fill="#0A0A0C" stroke="#3A393C"/>
-    <text x="720" y="775">#0A0A0C</text>
-    <circle cx="910" cy="710" r="34" fill="#571729"/>
-    <text x="870" y="775">#571729</text>
-    <circle cx="1060" cy="710" r="34" fill="#8F3048"/>
-    <text x="1020" y="775">#8F3048</text>
-    <circle cx="1210" cy="710" r="34" fill="#B96779"/>
-    <text x="1170" y="775">#B96779</text>
-    <circle cx="1360" cy="710" r="34" fill="#F3ECE8"/>
-    <text x="1320" y="775">#F3ECE8</text>
+    <circle cx="760" cy="710" r="34" fill="#0C1110" stroke="#3A393C"/>
+    <text x="720" y="775">#0C1110</text>
+    <circle cx="910" cy="710" r="34" fill="#23423A"/>
+    <text x="870" y="775">#23423A</text>
+    <circle cx="1060" cy="710" r="34" fill="#4C7C6D"/>
+    <text x="1020" y="775">#4C7C6D</text>
+    <circle cx="1210" cy="710" r="34" fill="#9AC7B6"/>
+    <text x="1170" y="775">#9AC7B6</text>
+    <circle cx="1360" cy="710" r="34" fill="#F3F6F4"/>
+    <text x="1320" y="775">#F3F6F4</text>
   </g>
 </svg>

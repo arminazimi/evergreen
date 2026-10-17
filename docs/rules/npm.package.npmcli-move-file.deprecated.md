@@ -46,4 +46,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.npmcli-move-file.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.npmcli-move-file.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
+  "headline": "@npmcli/move-file is deprecated",
+  "description": "npm states that @npmcli/move-file functionality moved to @npmcli/fs.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "@npmcli/move-file is deprecated",
+    "identifier": "pkg:npm/%40npmcli/move-file"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "@npmcli/move-file package deprecation notice",
+      "url": "https://www.npmjs.com/package/@npmcli/move-file"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "@npmcli/move-file registry metadata",
+      "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

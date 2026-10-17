@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Evergreen mark for light surfaces</title>
-  <desc id="desc">Three precise lifecycle rings with staggered notches and a migration node.</desc>
+  <desc id="desc">Three precise lifecycle rings with staggered version notches.</desc>
   <defs>
     <mask id="outer-notch">
       <rect width="256" height="256" fill="white"/>
@@ -16,9 +16,8 @@
     </mask>
   </defs>
   <g fill="none" stroke-width="18">
-    <circle cx="128" cy="128" r="96" stroke="#0A0A0C" mask="url(#outer-notch)"/>
-    <circle cx="128" cy="128" r="70" stroke="#571729" mask="url(#middle-notch)"/>
-    <circle cx="128" cy="128" r="44" stroke="#B96779" mask="url(#inner-notch)"/>
+    <circle cx="128" cy="128" r="96" stroke="#23423A" mask="url(#outer-notch)"/>
+    <circle cx="128" cy="128" r="70" stroke="#4C7C6D" mask="url(#middle-notch)"/>
+    <circle cx="128" cy="128" r="44" stroke="#9AC7B6" mask="url(#inner-notch)"/>
   </g>
-  <rect x="161" y="161" width="14" height="14" rx="2" fill="#365C4C"/>
 </svg>

@@ -50,4 +50,46 @@ The [`kubernetes`](../detectors/kubernetes.md) detector. See [Detectors](../DETE
 
 ## Data
 
-This page is generated from [`registry/kubernetes.json`](https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json), rule `kubernetes.batch.cronjob.v1beta1.removed`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/kubernetes.json`](https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json), rule `kubernetes.batch.cronjob.v1beta1.removed`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html",
+  "headline": "CronJob batch/v1beta1 is no longer served",
+  "description": "The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-17",
+  "keywords": [
+    "removed",
+    "kubernetes",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "CronJob batch/v1beta1 is no longer served",
+    "identifier": "pkg:generic/kubernetes/batch/CronJob"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Kubernetes Deprecated API Migration Guide",
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+      "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

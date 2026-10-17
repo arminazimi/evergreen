@@ -49,4 +49,46 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ## Data
 
-This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.python.eol-3.10-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.python.eol-3.10-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html",
+  "headline": "Python image release lines 3.10 and older are end-of-life",
+  "description": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-life",
+    "container",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Python image release lines 3.10 and older are end-of-life",
+    "identifier": "pkg:docker/library/python"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Status of Python versions",
+      "url": "https://devguide.python.org/versions/"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Python release cycle (machine-readable)",
+      "url": "https://peps.python.org/api/release-cycle.json"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

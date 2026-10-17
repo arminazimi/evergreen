@@ -47,4 +47,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.cryptiles.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.cryptiles.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html",
+  "headline": "cryptiles is deprecated",
+  "description": "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "cryptiles is deprecated",
+    "identifier": "pkg:npm/cryptiles"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "cryptiles package deprecation notice",
+      "url": "https://www.npmjs.com/package/cryptiles"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "cryptiles registry metadata",
+      "url": "https://registry.npmjs.org/cryptiles/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

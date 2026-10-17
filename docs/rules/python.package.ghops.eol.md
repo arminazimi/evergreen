@@ -45,4 +45,41 @@ The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../C
 
 ## Data
 
-This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.ghops.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.package.ghops.eol`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html",
+  "headline": "ghops is deprecated and no longer maintained",
+  "description": "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "end-of-life",
+    "python",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "ghops is deprecated and no longer maintained",
+    "identifier": "pkg:pypi/ghops"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "ghops deprecation notice",
+      "url": "https://pypi.org/project/ghops/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

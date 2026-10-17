@@ -46,4 +46,46 @@ The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMP
 
 ## Data
 
-This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.domexception.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet.
+This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.domexception.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+  "headline": "domexception is deprecated",
+  "description": "npm directs users of domexception to the platform-native DOMException implementation.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-16",
+  "keywords": [
+    "deprecated",
+    "npm",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "domexception is deprecated",
+    "identifier": "pkg:npm/domexception"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "domexception package deprecation notice",
+      "url": "https://www.npmjs.com/package/domexception"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "domexception registry metadata",
+      "url": "https://registry.npmjs.org/domexception/latest"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>
