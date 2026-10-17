@@ -136,6 +136,26 @@
       "title": "Release v3.0.0 · softprops/action-gh-release · GitHub",
       "checkedAt": "2026-10-16"
     },
+    "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/": {
+      "finalUrl": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/",
+      "title": "Kubernetes 1.22: Reaching New Peaks | Kubernetes",
+      "checkedAt": "2026-10-17"
+    },
+    "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/": {
+      "finalUrl": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/",
+      "title": "Kubernetes v1.25: Combiner | Kubernetes",
+      "checkedAt": "2026-10-17"
+    },
+    "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/": {
+      "finalUrl": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/",
+      "title": "Kubernetes v1.26: Electrifying | Kubernetes",
+      "checkedAt": "2026-10-17"
+    },
+    "https://kubernetes.io/docs/reference/using-api/deprecation-guide/": {
+      "finalUrl": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/",
+      "title": "Deprecated API Migration Guide | Kubernetes",
+      "checkedAt": "2026-10-17"
+    },
     "https://nodejs.org/en/about/eol": {
       "finalUrl": "https://nodejs.org/en/about/eol",
       "title": "Node.js — End-Of-Life",

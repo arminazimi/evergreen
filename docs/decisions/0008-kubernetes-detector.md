@@ -25,7 +25,7 @@ A Kubernetes API is identified by **group, version, and kind**. Lifecycle is a p
 
 - **PURL:** `pkg:generic/kubernetes/<group>/<Kind>`, for example `pkg:generic/kubernetes/extensions/Ingress` and `pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema`. The group is lower case exactly as in `apiVersion`; the kind keeps its case. The core group has no deprecated kinds in the migration guide, so it has no form yet.
 - **VERS:** the `semver` scheme, with the API version translated by a fixed rule: `vN` is `N.0.0`, `vNalphaM` is `N.0.0-alpha.M`, and `vNbetaM` is `N.0.0-beta.M`. `v1beta1` becomes `1.0.0-beta.1`, `v2beta2` becomes `2.0.0-beta.2`, `v1` becomes `1.0.0`. This preserves Kubernetes' own maturity order (alpha, then beta, then stable) and needs no new scheme or change to `src/vers.ts`. An `apiVersion` that does not fit `vN`, `vNalphaM`, or `vNbetaM` is not translated and is not classified.
-- A rule names the **exact** API version (`vers:semver/=1.0.0-beta.1`). A kind served by several beta versions gets one rule per version when the versions were removed in different releases (`autoscaling/v2beta1` and `autoscaling/v2beta2`).
+- A rule names the **exact** API version (`vers:semver/1.0.0-beta.1`). A kind served by several beta versions gets one rule per version when the versions were removed in different releases (`autoscaling/v2beta1` and `autoscaling/v2beta2`).
 
 ## Where lifecycle facts come from
 
