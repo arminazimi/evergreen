@@ -55,3 +55,33 @@ jobs:
             *-*) npm publish --provenance --access public --tag next ;;
             *)   npm publish --provenance --access public ;;
           esac
+
+  # Runs on a fresh machine against what is on the registry, not against this checkout, so a package that
+  # installs but does not work (like 0.1.0, which shipped no `evergreen-deprecation` bin) fails the release.
+  smoke:
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Wait for the registry to serve the new version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if npm view "evergreen-deprecation@$version" version >/dev/null 2>&1; then exit 0; fi
+            echo "Attempt $attempt: $version is not visible yet."
+            sleep 15
+          done
+          echo "evergreen-deprecation@$version never appeared on the registry." >&2
+          exit 1
+      - name: Run the published package on a small fixture
+        # Run from a temporary directory: inside the checkout, npx would resolve this repository's own bin.
+        working-directory: ${{ runner.temp }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- npx --yes "evergreen-deprecation@$version"
