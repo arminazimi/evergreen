@@ -9,6 +9,15 @@ import {
   MAXIMUM_INPUT_BYTES,
   parseManifest,
 } from "../src/detectors/kubernetes/parse-manifest.js";
+import {
+  MAXIMUM_ACTIONS,
+  MAXIMUM_DOCUMENTS as MAXIMUM_TEMPLATE_DOCUMENTS,
+  MAXIMUM_INPUT_BYTES as MAXIMUM_CHART_BYTES,
+  MAXIMUM_LINE_LENGTH,
+  MAXIMUM_NESTING,
+  parseChart,
+  parseTemplate,
+} from "../src/detectors/kubernetes/parse-helm.js";
 
 async function fixture(caseName: string, ...file: string[]): Promise<string> {
   return readFile(resolve("tests/fixtures/kubernetes", caseName, ...file), "utf8");
@@ -141,4 +150,177 @@ test("translates API versions to the semver text used by rules", () => {
   for (const bad of ["", "1", "v0", "v01", "v1beta", "v1beta0", "v1gamma1", "V1", "v1beta1x", "latest"]) {
     assert.equal(ruleVersion(bad), undefined, bad);
   }
+});
+
+// Helm charts
+
+const template = (contents: string) =>
+  parseTemplate(contents).map(({ value, resource, line, kindLine }) => ({ value, resource, line, kindLine }));
+
+test("reads a top-level kubeVersion from Chart.yaml", async () => {
+  assert.deepEqual(parseChart(await fixture("positive", "helm", "mychart", "Chart.yaml")), [
+    { kind: "kubeVersion", value: ">=1.19.0-0 <1.22.0-0", line: 6 },
+  ]);
+  assert.deepEqual(parseChart(await fixture("zero", "helm", "mychart", "Chart.yaml")), []);
+});
+
+test("ignores a commented or nested kubeVersion and the chart's own apiVersion", async () => {
+  assert.deepEqual(parseChart(await fixture("negative", "helm", "mychart", "Chart.yaml")), []);
+  for (const contents of ["kubeVersion: 1\n", "kubeVersion: {{ .x }}\n", "kubeVersion: ''\n", "- kubeVersion: '>=1'\n", "kubeVersion: [a]\n"]) {
+    assert.deepEqual(parseChart(contents), [], contents);
+  }
+});
+
+test("malformed or oversized Chart.yaml returns nothing", async () => {
+  const malformed = await fixture("malformed", "helm", "mychart", "Chart.yaml");
+  assert.doesNotThrow(() => parseChart(malformed));
+  assert.deepEqual(parseChart(malformed), []);
+  assert.deepEqual(parseChart(`# ${"x".repeat(MAXIMUM_CHART_BYTES)}\nkubeVersion: ">=1.0.0"\n`), []);
+  assert.deepEqual(parseChart(`kubeVersion: "${">=1.0.0 ".repeat(100)}"\n`), []);
+  for (const junk of ["", "\u0000", "{", "[[["]) assert.deepEqual(parseChart(junk), []);
+});
+
+test("reads literal declarations from templates, including inside a .Values condition", async () => {
+  assert.deepEqual(template(await fixture("positive", "helm", "mychart", "templates", "ingress.yaml")), [
+    { value: "networking.k8s.io/v1beta1", resource: "Ingress", line: 2, kindLine: 3 },
+  ]);
+  assert.deepEqual(template(await fixture("positive", "helm", "mychart", "templates", "cronjob.yml")), [
+    { value: "batch/v1beta1", resource: "CronJob", line: 1, kindLine: 2 },
+  ]);
+  assert.deepEqual(template(await fixture("zero", "helm", "mychart", "templates", "deployment.yaml")), [
+    { value: "apps/v1", resource: "Deployment", line: 1, kindLine: 2 },
+  ]);
+});
+
+test("drops declarations inside a capability ladder and dynamic values", async () => {
+  assert.deepEqual(parseTemplate(await fixture("negative", "helm", "mychart", "templates", "ingress.yaml")), []);
+  assert.deepEqual(parseTemplate(await fixture("negative", "helm", "mychart", "templates", "dynamic.yaml")), []);
+  assert.deepEqual(parseTemplate(await fixture("negative", "helm", "mychart", "templates", "_helpers.tpl")), []);
+});
+
+test("treats include, template, tpl, lookup, and define bodies as dynamic", () => {
+  const legacy = "apiVersion: extensions/v1beta1\nkind: Ingress\n";
+  for (const guard of [
+    '{{- if include "x.stable" . }}',
+    '{{- if eq (include "x.api" .) "v1" }}',
+    "{{- if tpl .Values.cond . }}",
+    '{{- if lookup "v1" "Namespace" "" "x" }}',
+    '{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion }}',
+    '{{- define "x.legacy" }}',
+    '{{- block "x" . }}',
+    '{{- with .Capabilities }}',
+    '{{- range .Capabilities.APIVersions }}',
+  ]) {
+    assert.deepEqual(parseTemplate(`${guard}\n${legacy}{{- end }}\n`), [], guard);
+  }
+});
+
+test("a later branch of a chain is dynamic once any earlier condition asked the cluster", () => {
+  const source = [
+    "{{- if .Values.a }}",
+    "apiVersion: batch/v1beta1",
+    "kind: CronJob",
+    "{{- else if .Capabilities.APIVersions.Has \"batch/v1\" }}",
+    "apiVersion: batch/v1",
+    "kind: CronJob",
+    "{{- else }}",
+    "apiVersion: batch/v1beta1",
+    "kind: CronJob",
+    "{{- end }}",
+  ].join("\n");
+  // The first branch is an ordinary value condition: one apiVersion and one kind line there is a pair,
+  // but the document also has dynamic lines, so the document is dropped rather than guessed.
+  assert.deepEqual(parseTemplate(source), []);
+  // Separate documents keep their own state; the block closes before the second one.
+  const separate = [
+    "{{- if .Capabilities.APIVersions.Has \"x\" }}",
+    "apiVersion: batch/v1beta1",
+    "kind: CronJob",
+    "{{- end }}",
+    "---",
+    "apiVersion: policy/v1beta1",
+    "kind: PodDisruptionBudget",
+  ].join("\n");
+  assert.deepEqual(template(separate), [
+    { value: "policy/v1beta1", resource: "PodDisruptionBudget", line: 6, kindLine: 7 },
+  ]);
+});
+
+test("reads several documents and counts every line, including multi-line actions", () => {
+  const source = [
+    "{{- /*",
+    "  a comment that spans lines",
+    "*/ -}}",
+    "apiVersion: batch/v1beta1 # legacy",
+    "kind: CronJob",
+    "metadata:",
+    "  name: {{ include \"x\" . |",
+    "    quote }}",
+    "---",
+    'apiVersion: "policy/v1beta1"',
+    "kind: 'PodSecurityPolicy'",
+  ].join("\n");
+  assert.deepEqual(template(source), [
+    { value: "batch/v1beta1", resource: "CronJob", line: 4, kindLine: 5 },
+    { value: "policy/v1beta1", resource: "PodSecurityPolicy", line: 10, kindLine: 11 },
+  ]);
+});
+
+test("skips documents with a duplicated key, indented keys, or half declarations", () => {
+  for (const contents of [
+    "apiVersion: batch/v1beta1\napiVersion: batch/v1\nkind: CronJob\n",
+    "apiVersion: batch/v1beta1\nkind: CronJob\nkind: Job\n",
+    "  apiVersion: batch/v1beta1\n  kind: CronJob\n",
+    "apiVersion: batch/v1beta1\n",
+    "kind: CronJob\n",
+    "apiVersion: |\nkind: CronJob\n",
+    "apiVersion: *x\nkind: CronJob\n",
+    "apiVersion: batch/v1beta1\nkind: Cron Job\n",
+  ]) {
+    assert.deepEqual(parseTemplate(contents), [], contents);
+  }
+});
+
+test("malformed templates return nothing and never throw", async () => {
+  const malformed = await fixture("malformed", "helm", "mychart", "templates", "cronjob.yaml");
+  assert.doesNotThrow(() => parseTemplate(malformed));
+  assert.deepEqual(parseTemplate(malformed), []);
+  for (const junk of [
+    "",
+    "\u0000\u0001",
+    "{{",
+    "{{ end }}",
+    "{{ if .x }}apiVersion: batch/v1beta1\nkind: CronJob\n",
+    '{{ "unterminated }}',
+    "{{/* unterminated",
+    "{{/* c */ x }}",
+    "}}{{",
+    "\r\n\r\n",
+  ]) {
+    assert.doesNotThrow(() => parseTemplate(junk));
+    assert.deepEqual(parseTemplate(junk), [], JSON.stringify(junk));
+  }
+});
+
+test("bounds template size, line length, actions, nesting, and documents", () => {
+  const pair = "apiVersion: batch/v1beta1\nkind: CronJob\n";
+  assert.deepEqual(parseTemplate(`# ${"x".repeat(MAXIMUM_CHART_BYTES)}\n${pair}`), []);
+  assert.deepEqual(template(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n${pair}`), [
+    { value: "batch/v1beta1", resource: "CronJob", line: 2, kindLine: 3 },
+  ]);
+  assert.deepEqual(parseTemplate(`apiVersion: ${"a".repeat(MAXIMUM_LINE_LENGTH)}\nkind: CronJob\n`), []);
+  assert.deepEqual(parseTemplate(`${"{{ x }}".repeat(MAXIMUM_ACTIONS + 1)}\n${pair}`), []);
+  assert.deepEqual(parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING + 1)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING + 1)}`), []);
+  assert.equal(parseTemplate(`${"{{ if .x }}".repeat(MAXIMUM_NESTING)}\n${pair}${"{{ end }}".repeat(MAXIMUM_NESTING)}`).length, 1);
+  const documents = (count: number) => Array(count).fill(pair).join("---\n");
+  assert.deepEqual(parseTemplate(documents(MAXIMUM_TEMPLATE_DOCUMENTS + 1)), []);
+  assert.equal(parseTemplate(documents(MAXIMUM_TEMPLATE_DOCUMENTS)).length, MAXIMUM_TEMPLATE_DOCUMENTS);
+});
+
+test("handles CRLF and is deterministic", async () => {
+  assert.deepEqual(template("{{- if .Values.x }}\r\napiVersion: batch/v1beta1\r\nkind: CronJob\r\n{{- end }}\r\n"), [
+    { value: "batch/v1beta1", resource: "CronJob", line: 2, kindLine: 3 },
+  ]);
+  const contents = await fixture("positive", "helm", "mychart", "templates", "ingress.yaml");
+  assert.deepEqual(parseTemplate(contents), parseTemplate(contents));
 });

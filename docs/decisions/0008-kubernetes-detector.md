@@ -49,7 +49,7 @@ Rejected inputs, which are never used to produce a rule or a finding:
 A declaration is **dynamic** when its value cannot be known without running something. Dynamic declarations produce **no finding** and no guess:
 
 - a Helm template value: `apiVersion: {{ .Values.apiVersion }}`, `kind: {{ .Values.kind }}`, or a value produced by `include`;
-- a Helm template declaration inside a block guarded by `.Capabilities` (`.Capabilities.APIVersions.Has`, `.Capabilities.KubeVersion`, `semverCompare` on a capability). The chart chooses the API by asking the cluster, and the legacy branch is the fallback for old clusters, so reporting it would be a false positive. Conditions on `.Values` do not make a declaration dynamic;
+- a Helm template declaration inside a block whose condition asks the cluster: `.Capabilities` (`.Capabilities.APIVersions.Has`, `.Capabilities.KubeVersion`), or a call to `include`, `template`, `tpl`, or `lookup`, which can hide the same check in a helper. The chart chooses the API by asking the cluster, and the legacy branch is the fallback for old clusters, so reporting it would be a false positive. Once one condition in an `if`/`else if`/`else` chain asks the cluster, every later branch is dynamic too, and so is everything inside a `define` or `block`. A template document with more than one `apiVersion` or `kind` line is skipped. Conditions on `.Values` do not make a declaration dynamic;
 - a YAML alias or merge key as a value;
 - a `kustomization` resource that is a remote URL or contains `$(`;
 - a kustomize patch whose body is not a YAML mapping or a JSON 6902 operation list.
