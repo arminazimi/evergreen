@@ -179,3 +179,24 @@ test("monorepo fixtures pass the conformance bounds and determinism checks", asy
   });
   await runDetectorConformance({ detector: pythonDetector, fixtures: [{ name: "uv workspace", root: python, expectedFindings: await pythonDetector.scan({ root: python }) }], checks: [boundsCheck, determinismCheck] });
 });
+
+test("a pnpm lockfile with several YAML documents resolves versions from all of them, and a broken one is skipped", async () => {
+  const lock = [
+    "lockfileVersion: '9.0'",
+    "importers:",
+    "  .: {}",
+    "packages:",
+    "  pnpm@10.0.0: {}",
+    "---",
+    "lockfileVersion: '9.0'",
+    "packages:",
+    "  request@2.88.2:",
+    "    resolution: {integrity: sha512-x}",
+    "",
+  ].join("\n");
+  const files = { "package.json": manifest({ dependencies: { request: "^2.88.0" } }), "pnpm-lock.yaml": lock };
+  const [finding] = await npmDetector.scan({ root: await repository(files) });
+  assert.match(finding!.summary, /resolved: 2\.88\.2/);
+  const broken = await npmDetector.scan({ root: await repository({ ...files, "pnpm-lock.yaml": "packages: [unclosed\n---\npackages:\n  request@2.88.2: {}\n" }) });
+  assert.equal(broken.length, 1);
+});

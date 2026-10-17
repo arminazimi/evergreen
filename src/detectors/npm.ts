@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import semver from "semver";
-import { parse as parseYaml } from "yaml";
+import { parseAllDocuments } from "yaml";
 
 import type {
   DeprecationRule,
@@ -125,17 +125,19 @@ function packageFromPnpmKey(rawKey: string): { name: string; version: string } |
   return semver.valid(version) ? { name, version } : undefined;
 }
 
+/**
+ * pnpm lockfiles can hold more than one YAML document (recent pnpm versions put the package-manager
+ * lockfile first and the project lockfile after a `---`), so every document is read. A document that does
+ * not parse is skipped: an unreadable lockfile means unresolved versions, never a failed scan.
+ */
 function parsePnpmLock(contents: string, target: ResolvedVersions): void {
-  const lock = parseYaml(contents) as {
-    packages?: Record<string, unknown>;
-    snapshots?: Record<string, unknown>;
-  };
-  for (const key of [
-    ...Object.keys(lock.packages ?? {}),
-    ...Object.keys(lock.snapshots ?? {}),
-  ]) {
-    const parsed = packageFromPnpmKey(key);
-    if (parsed) addResolved(target, parsed.name, parsed.version);
+  for (const document of parseAllDocuments(contents)) {
+    if (document.errors.length > 0) continue;
+    const lock = document.toJS() as { packages?: Record<string, unknown>; snapshots?: Record<string, unknown> } | null;
+    for (const key of [...Object.keys(lock?.packages ?? {}), ...Object.keys(lock?.snapshots ?? {})]) {
+      const parsed = packageFromPnpmKey(key);
+      if (parsed) addResolved(target, parsed.name, parsed.version);
+    }
   }
 }
 
