@@ -35,6 +35,7 @@ jobs:
           - { importer: github-actions-runtime, ecosystem: github-actions }
           - { importer: go-1, ecosystem: go }
           - { importer: go-2, ecosystem: go }
+          - { importer: kubernetes-1, ecosystem: kubernetes }
           - { importer: nodejs-schedule, ecosystem: nodejs }
           - { importer: npm-deprecated, ecosystem: npm }
           - { importer: pypi-status, ecosystem: python }
@@ -93,6 +94,7 @@ jobs:
           - github-actions-runtime
           - go-1
           - go-2
+          - kubernetes-1
           - nodejs-schedule
           - npm-deprecated
           - pypi-status

@@ -90,9 +90,9 @@
       "vers": "vers:semver/1.0.0-beta.1",
       "event": "removed",
       "title": "PodSecurityPolicy policy/v1beta1 is no longer served",
-      "summary": "The Kubernetes Deprecated API Migration Guide states that the policy/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.25, which was released on 2022-08-23. It also says the PodSecurityPolicy admission controller is removed.",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the policy/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.25, which was released on 2022-08-23.",
       "severity": "high",
-      "replacement": "Pod Security Admission or a third-party admission webhook",
+      "replacement": "Pod Security Admission or a 3rd party admission webhook",
       "deadline": "2022-08-23",
       "sources": [
         {
