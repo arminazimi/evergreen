@@ -1287,6 +1287,98 @@
         }
       ]
     },
-    { "repository": "gethomepage/homepage", "commit": "89b0d20655ca521e55ae65097c2da4285c87a403", "ecosystem": "container", "expected": [] }
+    { "repository": "gethomepage/homepage", "commit": "89b0d20655ca521e55ae65097c2da4285c87a403", "ecosystem": "container", "expected": [] },
+    {
+      "repository": "jesseduffield/lazygit",
+      "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
+      "ecosystem": "go",
+      "expected": [
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "charmbracelet/bubbletea",
+      "commit": "73b6d91ac1c3854dd4af046ab5f9e51d3b3b4290",
+      "ecosystem": "go",
+      "expected": [
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "examples/go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of examples/go.mod is `go 1.25.8`, a Go release line that no longer receives fixes."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/charmbracelet/bubbletea/commit/657aaae216e3f87df09b60959a9fe5de7b2ca419."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.24",
+          "path": "tutorials/go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of tutorials/go.mod is `go 1.24.2`, a Go release line that no longer receives fixes."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.24",
+          "path": "tutorials/go.mod",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of tutorials/go.mod is `toolchain go1.24.10`, a Go release line that no longer receives fixes."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "caddyserver/caddy",
+      "commit": "5ee9a2d424dc37ea20911026b7bf876de8f122a8",
+      "ecosystem": "go",
+      "expected": [
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.1`, a Go release line that no longer receives fixes. The maintainers raised the floor to Go 1.26 in https://github.com/caddyserver/caddy/commit/90ccea768fc192ba0feff7a8df4344916eb7331f."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "prometheus/node_exporter",
+      "commit": "baf644aaa87148ab0068cd334730a6c9737cfb46",
+      "ecosystem": "go",
+      "expected": [
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/prometheus/node_exporter/commit/25fbb7c67ee365afe89e42c3986964d5a2140bc8."
+          }
+        }
+      ]
+    },
+    { "repository": "helm/helm", "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0", "ecosystem": "go", "expected": [] }
   ]
 }
