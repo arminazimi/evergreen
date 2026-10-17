@@ -33,6 +33,7 @@ Read the [public documentation](https://arminazimi.github.io/evergreen/), run th
 | **Node.js** | `engines.node`, `volta`, `.nvmrc`, `.node-version` | Runtime versions that are end of life or out of support |
 | **npm** | `package.json` dependencies, `package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, and the imports and calls that use each package | Deprecated or unmaintained packages, with the replacement and where the package is used |
 | **Python** | `pyproject.toml`, `requirements*.txt`, `.python-version`, `runtime.txt`, `.tool-versions`, `poetry.lock`, `uv.lock`, `Pipfile.lock` | Python versions that are end of life, and deprecated or obsolete packages |
+| **Rust** *(experimental)* | `Cargo.toml`, `Cargo.lock`, `rust-toolchain(.toml)`: the pinned toolchain and direct crate dependencies | Toolchains older than the newest stable release, and direct dependencies on unmaintained crates with the files that use them. `edition`, `rust-version`, `stable`, and anything it cannot read literally are not judged. See [Rust](docs/detectors/rust.md) |
 
 Each finding carries its rule's sources, review date, and migration steps; see [Lifecycle rules](docs/RULES.md). Other ecosystems are not guessed at: Evergreen reports a package it has no rule for as `no-data`, never as safe, and new ecosystems start from a [generated detector skeleton](docs/DETECTORS.md#start-a-new-detector-in-this-repository). The [compatibility matrix](docs/COMPATIBILITY.md) lists supported environments and hosts.
 
