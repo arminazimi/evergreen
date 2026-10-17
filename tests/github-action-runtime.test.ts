@@ -9,6 +9,7 @@ import { parse as parseYaml } from "yaml";
 import { createBaseline, writeBaseline } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import type { Finding } from "../src/domain.js";
 import { runGitHubAction } from "../src/github-action.js";
 
 const temporaryRoots: string[] = [];
@@ -127,14 +128,71 @@ test("action metadata declares the optional SARIF upload to code scanning", asyn
   assert.equal(upload.with?.sarif_file, "${{ steps.scan.outputs.sarif-path }}");
 });
 
-test("the job summary ends with one linked attribution line, which can be turned off", async () => {
+const finding = (id: string, severity: Finding["severity"], title: string, path: string, line?: number): Finding => ({
+  id,
+  ruleId: id.split(":")[0]!,
+  detector: "npm",
+  title,
+  summary: "s",
+  severity,
+  location: line === undefined ? { path } : { path, line },
+  sources: [{ title: "Vendor | notice", url: "https://example.com/notice" }],
+});
+
+const data = { source: "bundled" as const, version: "0.2.0", createdAt: null, reviewedThrough: "2026-10-17", ageDays: 3, stale: false };
+
+test("the job summary snapshot: severity counts, top findings with evidence, data age, and attribution", async () => {
+  const { renderSummary } = await import("../src/github-action.js");
+  const findings = [
+    finding("a.low:p:1", "low", "Low one", "a/package.json", 3),
+    finding("b.high:p:2", "high", "High | one", "package.json", 7),
+    finding("c.high:p:3", "high", "High two", ".nvmrc"),
+    finding("d.critical:p:4", "critical", "Critical one", "Dockerfile", 2),
+  ];
+  assert.equal(
+    renderSummary(findings, true, "high", data, true),
+    [
+      "## Evergreen",
+      "",
+      "Found **4** new lifecycle findings; failed the **high** severity gate.",
+      "",
+      "| Severity | Findings |",
+      "|---|---|",
+      "| critical | 1 |",
+      "| high | 2 |",
+      "| low | 1 |",
+      "",
+      "| Severity | Finding | Location | Evidence |",
+      "|---|---|---|---|",
+      "| critical | Critical one | `Dockerfile:2` | [Vendor \\| notice](https://example.com/notice) |",
+      "| high | High \\| one | `package.json:7` | [Vendor \\| notice](https://example.com/notice) |",
+      "| high | High two | `.nvmrc` | [Vendor \\| notice](https://example.com/notice) |",
+      "| low | Low one | `a/package.json:3` | [Vendor \\| notice](https://example.com/notice) |",
+      "",
+      "Data: bundled 0.2.0, evidence reviewed through 2026-10-17 (3 days ago)",
+      "",
+      "<sub>Scanned by [Evergreen](https://github.com/arminazimi/evergreen)</sub>",
+      "",
+    ].join("\n"),
+  );
+});
+
+test("the summary lists at most ten findings, says how many more there are, and warns about stale data", async () => {
+  const { renderSummary } = await import("../src/github-action.js");
+  const many = Array.from({ length: 13 }, (_, index) => finding(`r${String(index).padStart(2, "0")}:p:1`, "medium", `Finding ${index}`, "package.json", index + 1));
+  const text = renderSummary(many, false, "high", { ...data, stale: true, ageDays: 40 }, false);
+  assert.equal(text.split("\n").filter((line) => line.startsWith("| medium | Finding")).length, 10);
+  assert.match(text, /…and 3 more; the JSON report artifact lists every finding\./);
+  assert.match(text, /\| medium \| 13 \|/);
+  assert.match(text, /> \*\*Warning:\*\* the lifecycle data is stale/);
+  assert.equal(text.includes("Scanned by"), false, "attribution off");
+});
+
+test("with no findings the summary has no tables, and the attribution line can be switched off", async () => {
   const { ATTRIBUTION_LINE, renderSummary } = await import("../src/github-action.js");
-  const on = renderSummary(2, false, "high", undefined, true);
-  assert.equal(on, `## Evergreen\n\nFound **2** new lifecycle findings; passed the severity gate.\n\n${ATTRIBUTION_LINE}\n`);
+  assert.equal(renderSummary([], false, "high", undefined, true), `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\n${ATTRIBUTION_LINE}\n`);
+  assert.equal(renderSummary([], false, "high", undefined, false), "## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n");
   assert.match(ATTRIBUTION_LINE, /\[Evergreen\]\(https:\/\/github\.com\/arminazimi\/evergreen\)/);
-  const off = renderSummary(1, true, "medium", undefined, false);
-  assert.equal(off, "## Evergreen\n\nFound **1** new lifecycle finding; failed the **medium** severity gate.\n");
-  assert.equal(off.includes("Scanned by"), false);
 });
 
 test("action.yml declares the attribution input, on by default, and passes it to the scan step", async () => {

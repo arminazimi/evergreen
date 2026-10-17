@@ -61,6 +61,8 @@ The Action then annotates and gates only findings not represented by that baseli
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
+The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
+
 `report-path` contains the local absolute JSON path, `finding-count` contains the post-baseline count, and `sarif-path` contains the SARIF file path when `upload-sarif` is `true`. High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
 
 ## Permissions and privacy

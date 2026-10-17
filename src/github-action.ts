@@ -99,11 +99,44 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
 
 export const ATTRIBUTION_LINE = "<sub>Scanned by [Evergreen](https://github.com/arminazimi/evergreen)</sub>";
 
-/** The job summary the Action writes. `attribution` adds one small line linking back to Evergreen. */
-export function renderSummary(findings: number, failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean): string {
+const SUMMARY_FINDINGS = 10;
+
+const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+
+/**
+ * The job summary the Action writes: a count per severity, the most severe findings with a link to their
+ * evidence, the age of the lifecycle data, and (when `attribution` is on) one small line linking to Evergreen.
+ */
+export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
-  const dataLines = data
-    ? `\n${describeData(data)}${data.stale ? "\n\n> **Warning:** the lifecycle data is stale, so findings may miss recent changes." : ""}\n`
-    : "";
-  return `## Evergreen\n\nFound **${findings}** new lifecycle finding${findings === 1 ? "" : "s"}; ${status}.\n${dataLines}${attribution ? `\n${ATTRIBUTION_LINE}\n` : ""}`;
+  const lines = ["## Evergreen", "", `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`, ""];
+
+  if (findings.length > 0) {
+    const counts = new Map<Severity, number>();
+    for (const finding of findings) counts.set(finding.severity, (counts.get(finding.severity) ?? 0) + 1);
+    lines.push("| Severity | Findings |", "|---|---|");
+    for (const severity of [...severityValues].reverse()) {
+      const count = counts.get(severity);
+      if (count) lines.push(`| ${severity} | ${count} |`);
+    }
+    lines.push("");
+
+    const top = [...findings].sort((left, right) => (severityRank.get(right.severity) ?? 0) - (severityRank.get(left.severity) ?? 0) || left.id.localeCompare(right.id)).slice(0, SUMMARY_FINDINGS);
+    lines.push("| Severity | Finding | Location | Evidence |", "|---|---|---|---|");
+    for (const finding of top) {
+      const source = finding.sources[0];
+      const location = `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
+      lines.push(`| ${finding.severity} | ${cell(finding.title)} | \`${cell(location)}\` | ${source ? `[${cell(source.title)}](${source.url})` : "—"} |`);
+    }
+    if (findings.length > top.length) lines.push("", `…and ${findings.length - top.length} more; the JSON report artifact lists every finding.`);
+    lines.push("");
+  }
+
+  if (data) {
+    lines.push(describeData(data));
+    if (data.stale) lines.push("", "> **Warning:** the lifecycle data is stale, so findings may miss recent changes.");
+    lines.push("");
+  }
+  if (attribution) lines.push(ATTRIBUTION_LINE, "");
+  return lines.join("\n");
 }

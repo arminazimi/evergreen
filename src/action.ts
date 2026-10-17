@@ -4,7 +4,7 @@ import { appendFile } from "node:fs/promises";
 import process from "node:process";
 import { resolve } from "node:path";
 
-import type { DataInfo } from "./domain.js";
+import type { DataInfo, Finding } from "./domain.js";
 import { renderSummary, runGitHubAction } from "./github-action.js";
 import type { GitHubAnnotation, SeverityGate } from "./github-action.js";
 
@@ -31,7 +31,7 @@ async function setOutput(name: string, value: string): Promise<void> {
   if (output) await appendFile(output, `${name}=${value}\n`, "utf8");
 }
 
-async function writeSummary(findings: number, failed: boolean, gate: SeverityGate, data?: DataInfo): Promise<void> {
+async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo): Promise<void> {
   const summary = process.env.GITHUB_STEP_SUMMARY;
   if (!summary) return;
   // On by default; `attribution: "false"` turns the line off.
@@ -62,7 +62,7 @@ async function main(): Promise<void> {
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
-    await writeSummary(outcome.result.findings.length, outcome.failed, outcome.gate, outcome.result.data);
+    await writeSummary(outcome.result.findings, outcome.failed, outcome.gate, outcome.result.data);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
