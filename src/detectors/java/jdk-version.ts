@@ -35,6 +35,13 @@ export interface DependencyDeclaration {
   line: number;
 }
 
+/** The version of a Kotlin Gradle plugin; evidence only, no rule judges it yet. */
+export interface KotlinPluginDeclaration {
+  kind: "kotlin-plugin";
+  value: string;
+  line: number;
+}
+
 export interface JdkVersion {
   major: number;
 }

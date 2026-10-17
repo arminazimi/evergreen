@@ -5,6 +5,12 @@ import { test } from "node:test";
 
 import { isDynamicVersion, jdkRuleVersion, parseJdkVersion } from "../src/detectors/java/jdk-version.js";
 import { MAXIMUM_INPUT_BYTES as MAXIMUM_POM_BYTES, parsePom } from "../src/detectors/java/parse-pom.js";
+import {
+  MAXIMUM_DECLARATIONS,
+  MAXIMUM_INPUT_BYTES as MAXIMUM_GRADLE_BYTES,
+  MAXIMUM_LINE_LENGTH,
+  parseGradle,
+} from "../src/detectors/java/parse-gradle.js";
 import { MAXIMUM_DEPTH, MAXIMUM_ELEMENTS, parseXml } from "../src/detectors/java/xml.js";
 
 async function fixture(caseName: string, ...file: string[]): Promise<string> {
@@ -118,4 +124,88 @@ test("reads the feature release of a JDK version text", () => {
 test("recognizes references that are never expanded", () => {
   for (const value of ["${jdk}", "$(JDK)", "latest", "system", "LTS", "default"]) assert.equal(isDynamicVersion(value), true, value);
   for (const value of ["22", "temurin-22", "1.8", ""]) assert.equal(isDynamicVersion(value), false, value);
+});
+
+// build.gradle and build.gradle.kts
+
+test("reads toolchain, compatibility, Kotlin plugin, and dependency declarations from Groovy", async () => {
+  assert.deepEqual(parseGradle(await fixture("positive", "gradle-groovy", "build.gradle")), [
+    { kind: "kotlin-plugin", value: "1.9.22", line: 3 },
+    { kind: "jdk", role: "toolchain", value: "20", major: 20, line: 8 },
+    { kind: "jdk", role: "compile-level", value: "19", major: 19, line: 10 },
+    { kind: "jdk", role: "compile-level", value: "18", major: 18, line: 11 },
+    { kind: "dependency", group: "com.google.guava", artifact: "guava", version: "33.0.0-jre", line: 15 },
+  ]);
+});
+
+test("reads the Kotlin DSL forms", async () => {
+  assert.deepEqual(parseGradle(await fixture("positive", "gradle-kotlin", "build.gradle.kts")), [
+    { kind: "kotlin-plugin", value: "1.9.22", line: 3 },
+    { kind: "jdk", role: "toolchain", value: "24", major: 24, line: 8 },
+    { kind: "jdk", role: "compile-level", value: "23", major: 23, line: 10 },
+    { kind: "dependency", group: "com.google.guava", artifact: "guava", version: "33.0.0-jre", line: 14 },
+  ]);
+  assert.deepEqual(parseGradle(await fixture("zero", "gradle", "build.gradle.kts")), [
+    { kind: "jdk", role: "toolchain", value: "25", major: 25, line: 7 },
+  ]);
+});
+
+test("ignores comments and strings, and returns expressions as dynamic", async () => {
+  assert.deepEqual(parseGradle(await fixture("negative", "gradle", "build.gradle")), [
+    { kind: "dynamic", role: "toolchain", value: "libs.versions.java.get().toInteger()", line: 7 },
+    { kind: "dynamic", role: "compile-level", value: "JavaVersion.toVersion(javaVersion)", line: 9 },
+    { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 10 },
+    { kind: "dynamic", role: "toolchain", value: "rootProject.ext.jdk", line: 14 },
+  ]);
+});
+
+test("reads legacy and compact forms", () => {
+  const source = [
+    "sourceCompatibility = 1.8",
+    "targetCompatibility JavaVersion.VERSION_1_8",
+    "sourceCompatibility = \"11\"",
+    "java.sourceCompatibility = JavaVersion.VERSION_17",
+    "compile 'a.b:c:1.0:sources@jar'",
+    "implementation(\"a.b:d:\\${v}\")",
+    "implementation \"a.b:e:$version\"",
+    "api('a.b:f:2.0')",
+    "kotlin(\"jvm\") version libs.versions.kotlin.get()",
+    "id(\"org.jetbrains.kotlin.android\") version \"1.9.0\"",
+    "sourceCompatibility = JavaVersion.VERSION_HIGHER",
+  ].join("\n");
+  assert.deepEqual(parseGradle(source), [
+    { kind: "jdk", role: "compile-level", value: "1.8", major: 8, line: 1 },
+    { kind: "jdk", role: "compile-level", value: "1.8", major: 8, line: 2 },
+    { kind: "jdk", role: "compile-level", value: "11", major: 11, line: 3 },
+    { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 4 },
+    { kind: "dependency", group: "a.b", artifact: "c", version: "1.0", line: 5 },
+    { kind: "dependency", group: "a.b", artifact: "f", version: "2.0", line: 8 },
+    { kind: "kotlin-plugin", value: "1.9.0", line: 10 },
+    { kind: "dynamic", role: "compile-level", value: "JavaVersion.VERSION_HIGHER", line: 11 },
+  ]);
+});
+
+test("a block comment or string that never ends yields nothing", async () => {
+  const malformed = await fixture("malformed", "gradle", "build.gradle");
+  assert.doesNotThrow(() => parseGradle(malformed));
+  assert.deepEqual(parseGradle(malformed), []);
+  for (const junk of ["", "\0", "/* sourceCompatibility = 17", "x = 'abc", 'x = """abc', "sourceCompatibility =", "{{{{", "\r\n\r\n"]) {
+    assert.doesNotThrow(() => parseGradle(junk));
+    assert.deepEqual(parseGradle(junk), [], JSON.stringify(junk));
+  }
+});
+
+test("bounds gradle size, line length, and declaration count", () => {
+  assert.deepEqual(parseGradle(`// ${"x".repeat(MAXIMUM_GRADLE_BYTES)}\nsourceCompatibility = 17\n`), []);
+  assert.deepEqual(parseGradle(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nsourceCompatibility = 17\n`), [
+    { kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 },
+  ]);
+  assert.deepEqual(parseGradle(`sourceCompatibility = ${"1".repeat(MAXIMUM_LINE_LENGTH)}\n`), []);
+  assert.equal(parseGradle("sourceCompatibility = 17\n".repeat(MAXIMUM_DECLARATIONS + 10)).length, MAXIMUM_DECLARATIONS);
+});
+
+test("gradle parsing is deterministic and handles CRLF", async () => {
+  const contents = await fixture("positive", "gradle-groovy", "build.gradle");
+  assert.deepEqual(parseGradle(contents), parseGradle(contents));
+  assert.deepEqual(parseGradle("\r\nsourceCompatibility = 17\r\n"), [{ kind: "jdk", role: "compile-level", value: "17", major: 17, line: 2 }]);
 });
