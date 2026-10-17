@@ -25,6 +25,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+          "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+          "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-jdk-declaration",
+            "title": "Move the reported declaration to a supported JDK",
+            "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-jdk-surfaces",
+            "title": "Align the other JDK declarations",
+            "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+          },
+          {
+            "command": "java -version",
+            "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+          }
+        ]
       }
     },
     {
@@ -51,6 +82,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+          "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+          "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-jdk-declaration",
+            "title": "Move the reported declaration to a supported JDK",
+            "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-jdk-surfaces",
+            "title": "Align the other JDK declarations",
+            "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+          },
+          {
+            "command": "java -version",
+            "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+          }
+        ]
       }
     },
     {
@@ -77,6 +139,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+          "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+          "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-jdk-declaration",
+            "title": "Move the reported declaration to a supported JDK",
+            "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-jdk-surfaces",
+            "title": "Align the other JDK declarations",
+            "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+          },
+          {
+            "command": "java -version",
+            "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+          }
+        ]
       }
     },
     {
@@ -103,6 +196,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+          "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+          "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-jdk-declaration",
+            "title": "Move the reported declaration to a supported JDK",
+            "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-jdk-surfaces",
+            "title": "Align the other JDK declarations",
+            "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+          },
+          {
+            "command": "java -version",
+            "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+          }
+        ]
       }
     },
     {
@@ -129,6 +253,37 @@
         "observedAt": "2026-10-17",
         "reviewedAt": "2026-10-17",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+          "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+          "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-jdk-declaration",
+            "title": "Move the reported declaration to a supported JDK",
+            "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-jdk-surfaces",
+            "title": "Align the other JDK declarations",
+            "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+          },
+          {
+            "command": "java -version",
+            "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+          }
+        ]
       }
     },
     {
@@ -164,7 +319,37 @@
           "language": "kotlin",
           "module": "com.mysql"
         }
-      ]
+      ],
+      "migration": {
+        "constraints": [
+          "Replace mysql:mysql-connector-java with com.mysql:mysql-connector-j; the relocation in the artifact's POM names the new coordinates, so keep the version unless you intend to upgrade it.",
+          "Update every module and dependency-management block that names the old coordinates, and remove exclusions that mention them."
+        ],
+        "steps": [
+          {
+            "id": "change-coordinates",
+            "title": "Change the dependency coordinates",
+            "instructions": "Replace the reported `mysql:mysql-connector-java` dependency with `com.mysql:mysql-connector-j`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-dependency-surfaces",
+            "title": "Align other declarations",
+            "instructions": "Update every other pom.xml, Gradle build file, version catalog, and BOM override that names the old coordinates.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Confirm the old coordinates are gone from the resolved dependency graph."
+          },
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project with the new coordinates."
+          }
+        ]
+      }
     },
     {
       "id": "java.maven.org.slf4j.slf4j-log4j12.relocated",
@@ -209,7 +394,37 @@
           "language": "kotlin",
           "module": "org.slf4j.impl"
         }
-      ]
+      ],
+      "migration": {
+        "constraints": [
+          "Replace org.slf4j:slf4j-log4j12 with org.slf4j:slf4j-reload4j; the relocation in the artifact's POM names the new coordinates, so keep the version unless you intend to upgrade it.",
+          "Update every module and dependency-management block that names the old coordinates, and remove exclusions that mention them."
+        ],
+        "steps": [
+          {
+            "id": "change-coordinates",
+            "title": "Change the dependency coordinates",
+            "instructions": "Replace the reported `org.slf4j:slf4j-log4j12` dependency with `org.slf4j:slf4j-reload4j`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-dependency-surfaces",
+            "title": "Align other declarations",
+            "instructions": "Update every other pom.xml, Gradle build file, version catalog, and BOM override that names the old coordinates.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Confirm the old coordinates are gone from the resolved dependency graph."
+          },
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project with the new coordinates."
+          }
+        ]
+      }
     }
   ]
 }

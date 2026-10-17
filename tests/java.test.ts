@@ -10,6 +10,8 @@ import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { javaDetector } from "../src/detectors/java/index.js";
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
 
@@ -41,6 +43,7 @@ async function expected(ruleId: string, path: string, line: number, subject: str
     severity: severity ?? rule.severity,
     location: { path, line },
     replacement: rule.replacement!,
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -163,4 +166,25 @@ test("a file that is too large or too deep is skipped without failing", async ()
 test("a repository with no JVM files scans to nothing without reading the registry", async () => {
   const root = await repository({ "README.md": "hello\n", "package.json": "{}\n" });
   assert.deepEqual(await javaDetector.analyze({ root }), { findings: [], unclassified: [] });
+});
+
+test("every curated java rule has migration guidance with real verification commands", async () => {
+  const registry = validateRegistryV2(JSON.parse(await readFile("registry/java.json", "utf8")));
+  for (const rule of registry.rules) {
+    assert.ok(rule.migration, rule.id);
+    assert.ok(rule.migration.constraints.length >= 1, rule.id);
+    assert.ok(rule.migration.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(rule.migration.verification.length >= 1, rule.id);
+    for (const check of rule.migration.verification) assert.match(check.command, /^(?:\.\/mvnw|\.\/gradlew|java|mvn|gradle) /, rule.id);
+  }
+});
+
+test("a migration packet for a JDK finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [javaDetector]);
+  const finding = result.findings.find((item) => item.id === `${R18_20}:gradle-groovy/build.gradle:8`);
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("gradle-groovy/build.gradle"));
+  assert.ok(packet.steps.some((step) => step.id === "update-jdk-declaration"));
+  assert.ok(packet.verification.some((check) => check.command.startsWith("./mvnw -B verify")));
 });
