@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>example</groupId>
+  <artifactId>lookalikes</artifactId>
+  <version>1.0.0</version>
+  <description>Set maven.compiler.release to 22 to build this.</description>
+
+  <properties>
+    <!-- <maven.compiler.release>22</maven.compiler.release> -->
+    <jdk.version>22</jdk.version>
+    <maven.compiler.release>${jdk.version}</maven.compiler.release>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <some.java.version>22</some.java.version>
+    <java.version>17</java.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <source>22</source>
+          <target>22</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,15 @@
+// languageVersion = JavaLanguageVersion.of(22)
+/* sourceCompatibility = JavaVersion.VERSION_22 */
+def message = "sourceCompatibility = JavaVersion.VERSION_22"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(libs.versions.java.get().toInteger())
+    }
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+kotlin {
+    jvmToolchain(rootProject.ext.jdk)
+}

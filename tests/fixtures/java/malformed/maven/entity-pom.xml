@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE project [<!ENTITY jdk "22">]>
+<project>
+  <properties>
+    <maven.compiler.release>&jdk;</maven.compiler.release>
+  </properties>
+</project>

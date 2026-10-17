@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<project>
+  <properties>
+    <maven.compiler.release>22</maven.compiler.release>
+    <java.version>18</java.version
