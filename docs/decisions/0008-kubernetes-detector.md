@@ -9,6 +9,7 @@ Evergreen will add a `kubernetes` detector that reads the `apiVersion` and `kind
 | Declaration | Files | Deterministic? |
 | --- | --- | --- |
 | top-level `apiVersion` and `kind` of each document | `*.yaml`, `*.yml` outside a Helm chart's `templates/` directory | Yes, when both are literal scalars in the same document |
+| the same, in a file that contains `{{` outside a chart | `*.yaml`, `*.yml` | Read as a template, not as plain YAML, so a cluster-guarded declaration is not reported |
 | `kubeVersion` | `Chart.yaml` | Read and carried as evidence; not judged (see below) |
 | top-level `apiVersion` and `kind` of each document | `*.yaml`, `*.yml` directly in a chart's `templates/` directory | Yes, when both are literal and not guarded by a capability check |
 | `resources` entries | `kustomization.yaml`, `kustomization.yml`, `Kustomization` | Read as local paths; the referenced files are read as manifests |
