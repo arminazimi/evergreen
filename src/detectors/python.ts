@@ -373,10 +373,19 @@ export class PythonDetector implements Detector {
     const rules = await loadRules();
     const declarations = projects.flatMap((project) => project.declarations);
 
-    const runtimeRule = rules.find((rule): rule is PythonRuntimeRule => rule.kind === "runtime");
+    // Each runtime rule reads "Python X.Y and older". A declaration is reported by the narrowest rule that
+    // covers the release line it names, so a 3.8 or 3.9 declaration keeps its existing finding and a 3.10
+    // declaration gets the newer rule, instead of every declaration matching only the first rule.
+    const runtimeRules = rules
+      .filter((rule): rule is PythonRuntimeRule => rule.kind === "runtime")
+      .sort((left, right) => {
+        const [leftMajor = 0, leftMinor = 0] = versionPair(left.maximumVersion) ?? [];
+        const [rightMajor = 0, rightMinor = 0] = versionPair(right.maximumVersion) ?? [];
+        return leftMajor - rightMajor || leftMinor - rightMinor;
+      });
     const findings: DetectorFinding[] = [];
-    if (runtimeRule) {
-      for (const declaration of declarations) {
+    for (const declaration of declarations) {
+      for (const runtimeRule of runtimeRules) {
         const version = unsupportedVersion(declaration.value, runtimeRule.maximumVersion);
         if (!version) continue;
         const severity: Severity =
@@ -394,6 +403,7 @@ export class PythonDetector implements Detector {
           ...(runtimeRule.migration ? { migration: runtimeRule.migration } : {}),
           sources: runtimeRule.sources,
         });
+        break;
       }
     }
 

@@ -61,13 +61,14 @@ test("when the schedule had not yet ended 3.10, it reproduces the hand-written r
   assert.deepEqual([change!.sources?.removed, change!.sources?.retitled], [[], []]);
 });
 
-test("the registry's catch-all rule is out of date against today's schedule", async () => {
+test("the registry covers every line the schedule says has ended: the 3.9 and 3.10 rules are both present", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as RegistryV2;
   const drafts = await execute(pythonReleaseCycleImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
-  // Python 3.10 ended on 2026-10-01, so the draft is a new rule, not an edit of the 3.9 one.
-  assert.deepEqual(diff.added.map((rule) => rule.id), ["python.runtime.eol-3.10-and-older"]);
-  assert.ok(registry.rules.some((rule) => rule.id === "python.runtime.eol-3.9-and-older"));
+  // Python 3.10 ended on 2026-10-01; the registry gained that rule next to the 3.9 one, so nothing is left to add.
+  assert.deepEqual(diff.added.map((rule) => rule.id), []);
+  const ids = registry.rules.map((rule) => rule.id);
+  assert.ok(ids.includes("python.runtime.eol-3.9-and-older") && ids.includes("python.runtime.eol-3.10-and-older"));
 });
 
 test("the draft is exactly what the Python detector reads", async () => {

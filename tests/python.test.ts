@@ -118,7 +118,7 @@ test("ignores supported runtimes, similarly named packages, and transitive-only 
   const root = await repository({
     "pyproject.toml": `[project]
 name = "modern-app"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = ["nose2>=0.16", "cryptography>=46"]
 `,
     "requirements.txt": "-r requirements-prod.txt\nhttps://example.com/archive.whl\n",
@@ -143,4 +143,21 @@ test("returns no findings when Python manifests are absent", async () => {
   const findings = await new PythonDetector().scan({ root });
 
   assert.deepEqual(findings, []);
+});
+
+test("each declaration is reported by the narrowest 'and older' runtime rule that covers it", async () => {
+  const root = await repository({
+    "pyproject.toml": `[project]\nname = "app"\nrequires-python = ">=3.9"\n`,
+    ".python-version": "3.10.14\n",
+    "runtime.txt": "python-3.12.1\n",
+  });
+  const findings = await new PythonDetector().scan({ root });
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path]).sort(),
+    [
+      ["python.runtime.eol-3.10-and-older", ".python-version"],
+      ["python.runtime.eol-3.9-and-older", "pyproject.toml"],
+    ],
+  );
+  assert.equal(findings.find((finding) => finding.location.path === ".python-version")?.deadline, "2026-10-01");
 });

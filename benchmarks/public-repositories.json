@@ -166,7 +166,22 @@
         }
       ]
     },
-    { "repository": "psf/requests", "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "psf/requests",
+      "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+      "ecosystem": "python",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
+      ]
+    },
     { "repository": "pallets/flask", "commit": "d086db856be187255b8ec61ef409357393020f32", "ecosystem": "python", "expected": [] },
     {
       "repository": "encode/httpx",
@@ -190,14 +205,54 @@
         { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/test.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/test.yml reads uses: actions/setup-python@v5, a release below the supported major." } }
       ]
     },
-    { "repository": "pytest-dev/pytest", "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "pytest-dev/pytest",
+      "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e",
+      "ecosystem": "python",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
+      ]
+    },
     {
       "repository": "cookiecutter/cookiecutter",
       "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/publish.yml", "line": 33, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7." } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/tests.yml", "line": 49, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 49 of .github/workflows/tests.yml reads uses: astral-sh/setup-uv@v6, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/publish.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of .github/workflows/publish.yml reads uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0, a SHA pin of a release below the supported v7."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 49 of .github/workflows/tests.yml reads uses: astral-sh/setup-uv@v6, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 46,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 46 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
       ]
     },
     {
@@ -214,9 +269,63 @@
         { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/pythonpackage.yml", "line": 21, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 21 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v5, a release below the supported major." } }
       ]
     },
-    { "repository": "fastapi/fastapi", "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed", "ecosystem": "python", "expected": [] },
-    { "repository": "pydantic/pydantic", "commit": "44d5e1e8fc8198ecd0083a00a05e099aba0423ab", "ecosystem": "python", "expected": [] },
-    { "repository": "pallets/click", "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "fastapi/fastapi",
+      "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed",
+      "ecosystem": "python",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "pydantic/pydantic",
+      "commit": "44d5e1e8fc8198ecd0083a00a05e099aba0423ab",
+      "ecosystem": "python",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pydantic-core/pyproject.toml",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 8 of pydantic-core/pyproject.toml reads `requires-python = '>=3.10'`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 45 of pyproject.toml reads `requires-python = '>=3.10'`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "pallets/click",
+      "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
+      "ecosystem": "python",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
+      ]
+    },
     {
       "repository": "Akenon-Studio/.github",
       "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
@@ -265,10 +374,51 @@
       "commit": "769857cab1e0fef95e84d0685df3a8d28333b241",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/python-package.yml", "line": 15, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/python-package.yml", "line": 39, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89" } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/python-package.yml", "line": 18, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 18 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/python-package.yml", "line": 42, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 42 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/python-package.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/python-package.yml",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/GongSunFangYun/mcauth3/commit/1fd89587226acd6fd0708f77b86f5a48283c5d89"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/python-package.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/python-package.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/python-package.yml reads uses: actions/setup-python@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
+          }
+        }
       ]
     },
     {

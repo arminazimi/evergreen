@@ -326,21 +326,57 @@
       "summary": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
       "severity": "high",
       "replacement": "scikit-learn",
-      "sources": [{ "title": "sklearn deprecation notice", "url": "https://pypi.org/project/sklearn/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "sources": [
+        {
+          "title": "sklearn deprecation notice",
+          "url": "https://pypi.org/project/sklearn/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
       "migration": {
-        "constraints": ["Keep Python imports as sklearn; only the distribution name used by installers and dependency metadata changes."],
+        "constraints": [
+          "Keep Python imports as sklearn; only the distribution name used by installers and dependency metadata changes."
+        ],
         "steps": [
-          { "id": "replace-sklearn-distribution", "title": "Replace the distribution name", "instructions": "Replace sklearn with scikit-learn in dependency declarations and installation commands without renaming sklearn imports.", "targets": "declaration" },
-          { "id": "refresh-sklearn-environment", "title": "Refresh the environment", "instructions": "Regenerate lock data and confirm the intended scikit-learn version resolves for every supported Python runtime.", "targets": "all" }
+          {
+            "id": "replace-sklearn-distribution",
+            "title": "Replace the distribution name",
+            "instructions": "Replace sklearn with scikit-learn in dependency declarations and installation commands without renaming sklearn imports.",
+            "targets": "declaration"
+          },
+          {
+            "id": "refresh-sklearn-environment",
+            "title": "Refresh the environment",
+            "instructions": "Regenerate lock data and confirm the intended scikit-learn version resolves for every supported Python runtime.",
+            "targets": "all"
+          }
         ],
         "verification": [
-          { "command": "python -m pip check", "purpose": "Check the resolved scikit-learn environment." },
-          { "command": "python -m pytest", "purpose": "Run model, preprocessing, and repository tests." }
+          {
+            "command": "python -m pip check",
+            "purpose": "Check the resolved scikit-learn environment."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run model, preprocessing, and repository tests."
+          }
         ]
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "sklearn" }],
-      "x-python": { "kind": "package", "package": "sklearn" }
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "sklearn"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "sklearn"
+      }
     },
     {
       "id": "python.package.distribute.deprecated",
@@ -352,20 +388,50 @@
       "summary": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
       "severity": "high",
       "replacement": "setuptools",
-      "sources": [{ "title": "Distribute deprecation notice", "url": "https://pypi.org/project/distribute/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
+      "sources": [
+        {
+          "title": "Distribute deprecation notice",
+          "url": "https://pypi.org/project/distribute/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
       "migration": {
-        "constraints": ["Preserve build backend behavior, package metadata, entry points, and supported installer environments."],
+        "constraints": [
+          "Preserve build backend behavior, package metadata, entry points, and supported installer environments."
+        ],
         "steps": [
-          { "id": "replace-distribute", "title": "Replace Distribute", "instructions": "Replace distribute requirements and bootstrap scripts with setuptools and remove distribute-specific installation logic.", "targets": "all" },
-          { "id": "verify-package-build", "title": "Verify package builds", "instructions": "Build source and wheel distributions in a clean environment and inspect their metadata and entry points.", "targets": "all" }
+          {
+            "id": "replace-distribute",
+            "title": "Replace Distribute",
+            "instructions": "Replace distribute requirements and bootstrap scripts with setuptools and remove distribute-specific installation logic.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-package-build",
+            "title": "Verify package builds",
+            "instructions": "Build source and wheel distributions in a clean environment and inspect their metadata and entry points.",
+            "targets": "all"
+          }
         ],
         "verification": [
-          { "command": "python -m pip check", "purpose": "Check the packaging environment after replacement." },
-          { "command": "python -m pytest", "purpose": "Run packaging and repository tests." }
+          {
+            "command": "python -m pip check",
+            "purpose": "Check the packaging environment after replacement."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run packaging and repository tests."
+          }
         ]
       },
-      "x-python": { "kind": "package", "package": "distribute" }
+      "x-python": {
+        "kind": "package",
+        "package": "distribute"
+      }
     },
     {
       "id": "python.package.pep8.deprecated",
@@ -377,18 +443,53 @@
       "summary": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
       "severity": "medium",
       "replacement": "pycodestyle",
-      "sources": [{ "title": "pycodestyle rename notice", "url": "https://pypi.org/project/pycodestyle/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve selected checks, ignore lists, file exclusions, maximum line length, and CI failure behavior."],
-        "steps": [
-          { "id": "replace-pep8", "title": "Replace pep8 with pycodestyle", "instructions": "Replace the dependency, commands, imports, and configuration section name with pycodestyle equivalents.", "targets": "all" },
-          { "id": "compare-style-results", "title": "Compare style results", "instructions": "Run both configurations on the same source tree and review any changed diagnostics before removing pep8.", "targets": "all" }
-        ],
-        "verification": [{ "command": "python -m pycodestyle .", "purpose": "Run the replacement style checker with project configuration." }]
+      "sources": [
+        {
+          "title": "pycodestyle rename notice",
+          "url": "https://pypi.org/project/pycodestyle/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "pep8" }],
-      "x-python": { "kind": "package", "package": "pep8" }
+      "migration": {
+        "constraints": [
+          "Preserve selected checks, ignore lists, file exclusions, maximum line length, and CI failure behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-pep8",
+            "title": "Replace pep8 with pycodestyle",
+            "instructions": "Replace the dependency, commands, imports, and configuration section name with pycodestyle equivalents.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-style-results",
+            "title": "Compare style results",
+            "instructions": "Run both configurations on the same source tree and review any changed diagnostics before removing pep8.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pycodestyle .",
+            "purpose": "Run the replacement style checker with project configuration."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "pep8"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "pep8"
+      }
     },
     {
       "id": "python.package.pyinj.archived",
@@ -401,21 +502,60 @@
       "severity": "medium",
       "replacement": "injx",
       "sources": [
-        { "title": "pyinj archival and migration notice", "url": "https://pypi.org/project/pyinj/" },
-        { "title": "pyinj project status (PyPI Simple API)", "url": "https://pypi.org/simple/pyinj/" },
-        { "title": "Project status markers (PEP 792)", "url": "https://packaging.python.org/specifications/project-status-markers/" }
+        {
+          "title": "pyinj archival and migration notice",
+          "url": "https://pypi.org/project/pyinj/"
+        },
+        {
+          "title": "pyinj project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pyinj/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
       ],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve provider scopes, binding resolution, constructor injection, overrides, and application startup behavior."],
-        "steps": [
-          { "id": "replace-pyinj", "title": "Replace pyinj with injx", "instructions": "Replace the distribution and imports, then translate bindings and injection declarations to the injx API.", "targets": "all" },
-          { "id": "verify-injection-graph", "title": "Verify the injection graph", "instructions": "Exercise application startup, nested dependencies, scopes, overrides, and missing-binding errors.", "targets": "usages" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run dependency-injection and repository tests." }]
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "pyinj" }],
-      "x-python": { "kind": "package", "package": "pyinj" }
+      "migration": {
+        "constraints": [
+          "Preserve provider scopes, binding resolution, constructor injection, overrides, and application startup behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-pyinj",
+            "title": "Replace pyinj with injx",
+            "instructions": "Replace the distribution and imports, then translate bindings and injection declarations to the injx API.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-injection-graph",
+            "title": "Verify the injection graph",
+            "instructions": "Exercise application startup, nested dependencies, scopes, overrides, and missing-binding errors.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run dependency-injection and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "pyinj"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "pyinj"
+      }
     },
     {
       "id": "python.package.pytest-runner.deprecated",
@@ -427,17 +567,46 @@
       "summary": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
       "severity": "high",
       "replacement": "tox, nox, or direct pytest invocation",
-      "sources": [{ "title": "pytest-runner deprecation notice", "url": "https://pypi.org/project/pytest-runner/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve test dependencies, pytest options, environment variables, supported Python versions, and CI exit behavior."],
-        "steps": [
-          { "id": "remove-pytest-runner", "title": "Remove pytest-runner", "instructions": "Remove pytest-runner from setup requirements and move test dependencies out of tests_require.", "targets": "declaration" },
-          { "id": "add-test-bootstrap", "title": "Add an explicit test runner", "instructions": "Configure tox, nox, or the existing environment manager to install test dependencies and invoke pytest directly.", "targets": "all" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run the test suite without setup.py test or pytest-runner." }]
+      "sources": [
+        {
+          "title": "pytest-runner deprecation notice",
+          "url": "https://pypi.org/project/pytest-runner/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "pytest-runner" }
+      "migration": {
+        "constraints": [
+          "Preserve test dependencies, pytest options, environment variables, supported Python versions, and CI exit behavior."
+        ],
+        "steps": [
+          {
+            "id": "remove-pytest-runner",
+            "title": "Remove pytest-runner",
+            "instructions": "Remove pytest-runner from setup requirements and move test dependencies out of tests_require.",
+            "targets": "declaration"
+          },
+          {
+            "id": "add-test-bootstrap",
+            "title": "Add an explicit test runner",
+            "instructions": "Configure tox, nox, or the existing environment manager to install test dependencies and invoke pytest directly.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without setup.py test or pytest-runner."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "pytest-runner"
+      }
     },
     {
       "id": "python.package.ipaddr.deprecated",
@@ -449,18 +618,53 @@
       "summary": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
       "severity": "medium",
       "replacement": "ipaddress",
-      "sources": [{ "title": "ipaddr supersession notice", "url": "https://pypi.org/project/ipaddr/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve IPv4 and IPv6 parsing, strictness, network boundaries, address ordering, exception behavior, and text formatting."],
-        "steps": [
-          { "id": "replace-ipaddr", "title": "Replace ipaddr", "instructions": "Replace the dependency and translate IPAddress, IPNetwork, and related usages to the standard-library ipaddress API.", "targets": "all" },
-          { "id": "verify-address-edge-cases", "title": "Verify address behavior", "instructions": "Test IPv4, IPv6, malformed input, host bits, networks, containment, and serialization used by the application.", "targets": "usages" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run networking edge cases and repository tests." }]
+      "sources": [
+        {
+          "title": "ipaddr supersession notice",
+          "url": "https://pypi.org/project/ipaddr/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "ipaddr" }],
-      "x-python": { "kind": "package", "package": "ipaddr" }
+      "migration": {
+        "constraints": [
+          "Preserve IPv4 and IPv6 parsing, strictness, network boundaries, address ordering, exception behavior, and text formatting."
+        ],
+        "steps": [
+          {
+            "id": "replace-ipaddr",
+            "title": "Replace ipaddr",
+            "instructions": "Replace the dependency and translate IPAddress, IPNetwork, and related usages to the standard-library ipaddress API.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-address-edge-cases",
+            "title": "Verify address behavior",
+            "instructions": "Test IPv4, IPv6, malformed input, host bits, networks, containment, and serialization used by the application.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run networking edge cases and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "ipaddr"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "ipaddr"
+      }
     },
     {
       "id": "python.package.django-celery.deprecated",
@@ -472,18 +676,53 @@
       "summary": "The project states that django-celery is no longer required because Celery supports Django directly.",
       "severity": "high",
       "replacement": "Celery's built-in Django integration",
-      "sources": [{ "title": "django-celery retirement notice", "url": "https://pypi.org/project/django-celery/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve task discovery, broker and result settings, periodic schedules, worker startup, retries, and Django application initialization."],
-        "steps": [
-          { "id": "adopt-celery-django", "title": "Adopt Celery's Django integration", "instructions": "Configure the Celery application using the current Django integration and translate djcelery settings and setup calls.", "targets": "all" },
-          { "id": "remove-django-celery", "title": "Remove django-celery", "instructions": "Remove django-celery and djcelery from dependencies, installed applications, imports, commands, and migrations after data needs are resolved.", "targets": "all" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run task, scheduling, result-backend, and repository tests." }]
+      "sources": [
+        {
+          "title": "django-celery retirement notice",
+          "url": "https://pypi.org/project/django-celery/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "djcelery" }],
-      "x-python": { "kind": "package", "package": "django-celery" }
+      "migration": {
+        "constraints": [
+          "Preserve task discovery, broker and result settings, periodic schedules, worker startup, retries, and Django application initialization."
+        ],
+        "steps": [
+          {
+            "id": "adopt-celery-django",
+            "title": "Adopt Celery's Django integration",
+            "instructions": "Configure the Celery application using the current Django integration and translate djcelery settings and setup calls.",
+            "targets": "all"
+          },
+          {
+            "id": "remove-django-celery",
+            "title": "Remove django-celery",
+            "instructions": "Remove django-celery and djcelery from dependencies, installed applications, imports, commands, and migrations after data needs are resolved.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run task, scheduling, result-backend, and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "djcelery"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "django-celery"
+      }
     },
     {
       "id": "python.package.datacommons.deprecated",
@@ -495,18 +734,53 @@
       "summary": "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.",
       "severity": "high",
       "replacement": "datacommons-client",
-      "sources": [{ "title": "datacommons deprecation notice", "url": "https://pypi.org/project/datacommons/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve API endpoints, authentication, statistical-variable identifiers, entity queries, response shapes, pagination, and retry behavior."],
-        "steps": [
-          { "id": "replace-datacommons", "title": "Replace the Data Commons client", "instructions": "Replace datacommons with datacommons-client and translate client construction and API calls using the official migration guide.", "targets": "all" },
-          { "id": "verify-datacommons-results", "title": "Verify query results", "instructions": "Compare representative entity, observation, and graph query responses and error paths against expected fixtures.", "targets": "usages" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run Data Commons integration and repository tests." }]
+      "sources": [
+        {
+          "title": "datacommons deprecation notice",
+          "url": "https://pypi.org/project/datacommons/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "datacommons" }],
-      "x-python": { "kind": "package", "package": "datacommons" }
+      "migration": {
+        "constraints": [
+          "Preserve API endpoints, authentication, statistical-variable identifiers, entity queries, response shapes, pagination, and retry behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-datacommons",
+            "title": "Replace the Data Commons client",
+            "instructions": "Replace datacommons with datacommons-client and translate client construction and API calls using the official migration guide.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-datacommons-results",
+            "title": "Verify query results",
+            "instructions": "Compare representative entity, observation, and graph query responses and error paths against expected fixtures.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run Data Commons integration and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "datacommons"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "datacommons"
+      }
     },
     {
       "id": "python.package.vsdeband.deprecated",
@@ -518,18 +792,53 @@
       "summary": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
       "severity": "medium",
       "replacement": "vsjetpack",
-      "sources": [{ "title": "vsdeband deprecation notice", "url": "https://pypi.org/project/vsdeband/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output."],
-        "steps": [
-          { "id": "replace-vsdeband", "title": "Replace vsdeband", "instructions": "Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.", "targets": "all" },
-          { "id": "compare-video-output", "title": "Compare rendered output", "instructions": "Render representative clips and compare frame properties and visual output around gradients and motion.", "targets": "usages" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run video-processing and repository tests when defined." }]
+      "sources": [
+        {
+          "title": "vsdeband deprecation notice",
+          "url": "https://pypi.org/project/vsdeband/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "vsdeband" }],
-      "x-python": { "kind": "package", "package": "vsdeband" }
+      "migration": {
+        "constraints": [
+          "Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output."
+        ],
+        "steps": [
+          {
+            "id": "replace-vsdeband",
+            "title": "Replace vsdeband",
+            "instructions": "Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-video-output",
+            "title": "Compare rendered output",
+            "instructions": "Render representative clips and compare frame properties and visual output around gradients and motion.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run video-processing and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "vsdeband"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "vsdeband"
+      }
     },
     {
       "id": "python.package.multimodal-timesfm.deprecated",
@@ -541,164 +850,544 @@
       "summary": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
       "severity": "medium",
       "replacement": "tsfmx",
-      "sources": [{ "title": "multimodal-timesfm rename notice", "url": "https://pypi.org/project/multimodal-timesfm/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve model identifiers, checkpoints, preprocessing, forecast horizons, covariates, device selection, and output shapes."],
-        "steps": [
-          { "id": "replace-multimodal-timesfm", "title": "Replace multimodal-timesfm", "instructions": "Replace the distribution and translate imports, model loading, and forecast calls to tsfmx.", "targets": "all" },
-          { "id": "compare-forecasts", "title": "Compare forecast behavior", "instructions": "Run pinned fixtures through both packages and compare shapes, missing-value handling, and forecast tolerances.", "targets": "usages" }
-        ],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run forecasting and repository tests when defined." }]
+      "sources": [
+        {
+          "title": "multimodal-timesfm rename notice",
+          "url": "https://pypi.org/project/multimodal-timesfm/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "multimodal_timesfm" }],
-      "x-python": { "kind": "package", "package": "multimodal-timesfm" }
+      "migration": {
+        "constraints": [
+          "Preserve model identifiers, checkpoints, preprocessing, forecast horizons, covariates, device selection, and output shapes."
+        ],
+        "steps": [
+          {
+            "id": "replace-multimodal-timesfm",
+            "title": "Replace multimodal-timesfm",
+            "instructions": "Replace the distribution and translate imports, model loading, and forecast calls to tsfmx.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-forecasts",
+            "title": "Compare forecast behavior",
+            "instructions": "Run pinned fixtures through both packages and compare shapes, missing-value handling, and forecast tolerances.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run forecasting and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "multimodal_timesfm"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "multimodal-timesfm"
+      }
     },
     {
       "id": "python.package.saroku.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/saroku", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "saroku was renamed to trikesh", "summary": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
-      "severity": "medium", "replacement": "trikesh",
-      "sources": [{ "title": "saroku rename notice", "url": "https://pypi.org/project/saroku/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve command behavior, configuration, output formats, and any persisted state."],
-        "steps": [{ "id": "replace-saroku", "title": "Replace saroku", "instructions": "Replace the distribution and translate saroku imports and commands to trikesh equivalents.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run affected command and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/saroku",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "saroku was renamed to trikesh",
+      "summary": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
+      "severity": "medium",
+      "replacement": "trikesh",
+      "sources": [
+        {
+          "title": "saroku rename notice",
+          "url": "https://pypi.org/project/saroku/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "saroku" }],
-      "x-python": { "kind": "package", "package": "saroku" }
+      "migration": {
+        "constraints": [
+          "Preserve command behavior, configuration, output formats, and any persisted state."
+        ],
+        "steps": [
+          {
+            "id": "replace-saroku",
+            "title": "Replace saroku",
+            "instructions": "Replace the distribution and translate saroku imports and commands to trikesh equivalents.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run affected command and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "saroku"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "saroku"
+      }
     },
     {
       "id": "python.package.seofleet-cli.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/seofleet-cli", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "seofleet-cli is deprecated", "summary": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
-      "severity": "medium", "replacement": "llmscout-cli",
-      "sources": [{ "title": "seofleet-cli deprecation notice", "url": "https://pypi.org/project/seofleet-cli/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve scan targets, configured checks, output formats, exit codes, and CI invocation."],
-        "steps": [{ "id": "replace-seofleet-cli", "title": "Replace seofleet-cli", "instructions": "Replace the distribution and CLI invocation with llmscout-cli, then migrate configuration using the current project documentation.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run CLI integration and repository tests when defined." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/seofleet-cli",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "seofleet-cli is deprecated",
+      "summary": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
+      "severity": "medium",
+      "replacement": "llmscout-cli",
+      "sources": [
+        {
+          "title": "seofleet-cli deprecation notice",
+          "url": "https://pypi.org/project/seofleet-cli/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "seofleet-cli" }
+      "migration": {
+        "constraints": [
+          "Preserve scan targets, configured checks, output formats, exit codes, and CI invocation."
+        ],
+        "steps": [
+          {
+            "id": "replace-seofleet-cli",
+            "title": "Replace seofleet-cli",
+            "instructions": "Replace the distribution and CLI invocation with llmscout-cli, then migrate configuration using the current project documentation.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run CLI integration and repository tests when defined."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "seofleet-cli"
+      }
     },
     {
       "id": "python.package.superlinked-server.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/superlinked-server", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "superlinked-server is deprecated", "summary": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
-      "severity": "medium", "replacement": "SIE Server and sie-sdk",
-      "sources": [{ "title": "superlinked-server deprecation notice", "url": "https://pypi.org/project/superlinked-server/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve model selection, indexing, query behavior, deployment settings, authentication, and response contracts."],
-        "steps": [{ "id": "replace-superlinked-server", "title": "Adopt SIE", "instructions": "Deploy SIE Server, replace the legacy package with sie-sdk, and translate server and client configuration to the current interfaces.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run inference, indexing, query, and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/superlinked-server",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "superlinked-server is deprecated",
+      "summary": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
+      "severity": "medium",
+      "replacement": "SIE Server and sie-sdk",
+      "sources": [
+        {
+          "title": "superlinked-server deprecation notice",
+          "url": "https://pypi.org/project/superlinked-server/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "superlinked_server" }],
-      "x-python": { "kind": "package", "package": "superlinked-server" }
+      "migration": {
+        "constraints": [
+          "Preserve model selection, indexing, query behavior, deployment settings, authentication, and response contracts."
+        ],
+        "steps": [
+          {
+            "id": "replace-superlinked-server",
+            "title": "Adopt SIE",
+            "instructions": "Deploy SIE Server, replace the legacy package with sie-sdk, and translate server and client configuration to the current interfaces.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run inference, indexing, query, and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "superlinked_server"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "superlinked-server"
+      }
     },
     {
       "id": "python.package.goobook.eol",
-      "ecosystem": "python", "purl": "pkg:pypi/goobook", "vers": "vers:pypi/*", "event": "end-of-life",
-      "title": "goobook is no longer maintained", "summary": "The maintainer states that the project is no longer maintained.",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/goobook",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "goobook is no longer maintained",
+      "summary": "The maintainer states that the project is no longer maintained.",
       "severity": "medium",
-      "sources": [{ "title": "goobook maintenance notice", "url": "https://pypi.org/project/goobook/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve contact fields, address-book search, authentication, caching, and command output used by scripts."],
-        "steps": [{ "id": "replace-goobook", "title": "Select a maintained contacts client", "instructions": "Choose a maintained Google Contacts or CardDAV client, export or preserve local state, and replace goobook commands and integrations.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run contact lookup, synchronization, and repository tests when defined." }]
+      "sources": [
+        {
+          "title": "goobook maintenance notice",
+          "url": "https://pypi.org/project/goobook/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "goobook" }
+      "migration": {
+        "constraints": [
+          "Preserve contact fields, address-book search, authentication, caching, and command output used by scripts."
+        ],
+        "steps": [
+          {
+            "id": "replace-goobook",
+            "title": "Select a maintained contacts client",
+            "instructions": "Choose a maintained Google Contacts or CardDAV client, export or preserve local state, and replace goobook commands and integrations.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run contact lookup, synchronization, and repository tests when defined."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "goobook"
+      }
     },
     {
       "id": "python.package.imagej.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/imagej", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "imagej was renamed to pyimagej", "summary": "The maintainers state that the imagej Python package was renamed to pyimagej.",
-      "severity": "medium", "replacement": "pyimagej",
-      "sources": [{ "title": "imagej rename notice", "url": "https://pypi.org/project/imagej/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve ImageJ initialization, JVM options, endpoints, datasets, conversions, and headless behavior."],
-        "steps": [{ "id": "replace-imagej", "title": "Replace imagej with pyimagej", "instructions": "Replace the distribution and verify imports and initialization against the current pyimagej API.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run ImageJ integration and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/imagej",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "imagej was renamed to pyimagej",
+      "summary": "The maintainers state that the imagej Python package was renamed to pyimagej.",
+      "severity": "medium",
+      "replacement": "pyimagej",
+      "sources": [
+        {
+          "title": "imagej rename notice",
+          "url": "https://pypi.org/project/imagej/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "imagej" }],
-      "x-python": { "kind": "package", "package": "imagej" }
+      "migration": {
+        "constraints": [
+          "Preserve ImageJ initialization, JVM options, endpoints, datasets, conversions, and headless behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-imagej",
+            "title": "Replace imagej with pyimagej",
+            "instructions": "Replace the distribution and verify imports and initialization against the current pyimagej API.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run ImageJ integration and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "imagej"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "imagej"
+      }
     },
     {
       "id": "python.package.poetry-version-plugin.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/poetry-version-plugin", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "poetry-version-plugin is deprecated", "summary": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
-      "severity": "medium", "replacement": "uv, PDM, Hatch, or poetry-dynamic-versioning",
-      "sources": [{ "title": "poetry-version-plugin deprecation notice", "url": "https://pypi.org/project/poetry-version-plugin/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve the version source, tag format, source-tree state, built metadata, editable installs, and release automation."],
-        "steps": [{ "id": "replace-poetry-version-plugin", "title": "Replace dynamic versioning", "instructions": "Choose a maintained versioning workflow, migrate Poetry configuration and release jobs, and remove poetry-version-plugin.", "targets": "all" }],
-        "verification": [{ "command": "python -m build", "purpose": "Build distributions and inspect their resolved versions." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/poetry-version-plugin",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "poetry-version-plugin is deprecated",
+      "summary": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
+      "severity": "medium",
+      "replacement": "uv, PDM, Hatch, or poetry-dynamic-versioning",
+      "sources": [
+        {
+          "title": "poetry-version-plugin deprecation notice",
+          "url": "https://pypi.org/project/poetry-version-plugin/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "poetry-version-plugin" }
+      "migration": {
+        "constraints": [
+          "Preserve the version source, tag format, source-tree state, built metadata, editable installs, and release automation."
+        ],
+        "steps": [
+          {
+            "id": "replace-poetry-version-plugin",
+            "title": "Replace dynamic versioning",
+            "instructions": "Choose a maintained versioning workflow, migrate Poetry configuration and release jobs, and remove poetry-version-plugin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m build",
+            "purpose": "Build distributions and inspect their resolved versions."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "poetry-version-plugin"
+      }
     },
     {
       "id": "python.package.api-shield.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/api-shield", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "api-shield is deprecated", "summary": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
-      "severity": "medium", "replacement": "waygate",
-      "sources": [{ "title": "api-shield deprecation notice", "url": "https://pypi.org/project/api-shield/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve feature flags, rollout state, rate limits, maintenance windows, storage, and framework adapters."],
-        "steps": [{ "id": "replace-api-shield", "title": "Replace api-shield", "instructions": "Replace the distribution, change shield imports and commands to waygate, and migrate configuration using the maintained documentation.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run policy, rollout, rate-limit, and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/api-shield",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "api-shield is deprecated",
+      "summary": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
+      "severity": "medium",
+      "replacement": "waygate",
+      "sources": [
+        {
+          "title": "api-shield deprecation notice",
+          "url": "https://pypi.org/project/api-shield/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "shield" }],
-      "x-python": { "kind": "package", "package": "api-shield" }
+      "migration": {
+        "constraints": [
+          "Preserve feature flags, rollout state, rate limits, maintenance windows, storage, and framework adapters."
+        ],
+        "steps": [
+          {
+            "id": "replace-api-shield",
+            "title": "Replace api-shield",
+            "instructions": "Replace the distribution, change shield imports and commands to waygate, and migrate configuration using the maintained documentation.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run policy, rollout, rate-limit, and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "shield"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "api-shield"
+      }
     },
     {
       "id": "python.package.asyncio-requests.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/asyncio-requests", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "asyncio-requests is retired", "summary": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
-      "severity": "high", "replacement": "asyncio-gateway",
-      "sources": [{ "title": "asyncio-gateway migration notice", "url": "https://pypi.org/project/asyncio-gateway/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling."],
-        "steps": [{ "id": "replace-asyncio-requests", "title": "Replace asyncio-requests", "instructions": "Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run protocol, TLS, response, and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/asyncio-requests",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "asyncio-requests is retired",
+      "summary": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+      "severity": "high",
+      "replacement": "asyncio-gateway",
+      "sources": [
+        {
+          "title": "asyncio-gateway migration notice",
+          "url": "https://pypi.org/project/asyncio-gateway/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "asyncio_requests" }],
-      "x-python": { "kind": "package", "package": "asyncio-requests" }
+      "migration": {
+        "constraints": [
+          "Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-asyncio-requests",
+            "title": "Replace asyncio-requests",
+            "instructions": "Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run protocol, TLS, response, and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "asyncio_requests"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "asyncio-requests"
+      }
     },
     {
       "id": "python.package.opennms-api-wrapper.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/opennms-api-wrapper", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "opennms-api-wrapper was renamed", "summary": "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.",
-      "severity": "medium", "replacement": "python-opennms",
-      "sources": [{ "title": "opennms-api-wrapper rename notice", "url": "https://pypi.org/project/opennms-api-wrapper/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve server URLs, authentication, timeout and TLS settings, resource queries, pagination, and response models."],
-        "steps": [{ "id": "replace-opennms-api-wrapper", "title": "Replace the OpenNMS client", "instructions": "Replace the distribution and migrate opennms_api_wrapper imports to the opennms module provided by python-opennms.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run OpenNMS client and repository tests." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/opennms-api-wrapper",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "opennms-api-wrapper was renamed",
+      "summary": "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.",
+      "severity": "medium",
+      "replacement": "python-opennms",
+      "sources": [
+        {
+          "title": "opennms-api-wrapper rename notice",
+          "url": "https://pypi.org/project/opennms-api-wrapper/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "opennms_api_wrapper" }],
-      "x-python": { "kind": "package", "package": "opennms-api-wrapper" }
+      "migration": {
+        "constraints": [
+          "Preserve server URLs, authentication, timeout and TLS settings, resource queries, pagination, and response models."
+        ],
+        "steps": [
+          {
+            "id": "replace-opennms-api-wrapper",
+            "title": "Replace the OpenNMS client",
+            "instructions": "Replace the distribution and migrate opennms_api_wrapper imports to the opennms module provided by python-opennms.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run OpenNMS client and repository tests."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "opennms_api_wrapper"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "opennms-api-wrapper"
+      }
     },
     {
       "id": "python.package.apisec-code-bolt.deprecated",
-      "ecosystem": "python", "purl": "pkg:pypi/apisec-code-bolt", "vers": "vers:pypi/*", "event": "deprecated",
-      "title": "apisec-code-bolt was renamed", "summary": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
-      "severity": "medium", "replacement": "apisec-surface",
-      "sources": [{ "title": "apisec-surface rename notice", "url": "https://pypi.org/project/apisec-surface/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve authentication, configuration, saved credentials, scan scope, manifest output, upload behavior, and CI exit codes."],
-        "steps": [{ "id": "replace-apisec-code-bolt", "title": "Replace apisec-code-bolt", "instructions": "Replace the distribution with apisec-surface and verify the renamed command, while retaining compatible state and configuration documented by the maintainer.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run APIsec CLI integration and repository tests when defined." }]
+      "ecosystem": "python",
+      "purl": "pkg:pypi/apisec-code-bolt",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "apisec-code-bolt was renamed",
+      "summary": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
+      "severity": "medium",
+      "replacement": "apisec-surface",
+      "sources": [
+        {
+          "title": "apisec-surface rename notice",
+          "url": "https://pypi.org/project/apisec-surface/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "apisec-code-bolt" }
+      "migration": {
+        "constraints": [
+          "Preserve authentication, configuration, saved credentials, scan scope, manifest output, upload behavior, and CI exit codes."
+        ],
+        "steps": [
+          {
+            "id": "replace-apisec-code-bolt",
+            "title": "Replace apisec-code-bolt",
+            "instructions": "Replace the distribution with apisec-surface and verify the renamed command, while retaining compatible state and configuration documented by the maintainer.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run APIsec CLI integration and repository tests when defined."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "apisec-code-bolt"
+      }
     },
     {
       "id": "python.package.ghops.eol",
@@ -710,15 +1399,47 @@
       "summary": "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex.",
       "severity": "high",
       "replacement": "repoindex",
-      "sources": [{ "title": "ghops deprecation notice", "url": "https://pypi.org/project/ghops/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve repository discovery, grouping, metadata, configuration, command output, and any persisted collection state."],
-        "steps": [{ "id": "replace-ghops", "title": "Move to repoindex", "instructions": "Replace ghops with repoindex, translate configuration and commands, and migrate any persisted repository collection data.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run repository discovery, metadata, command, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "ghops deprecation notice",
+          "url": "https://pypi.org/project/ghops/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "ghops" }],
-      "x-python": { "kind": "package", "package": "ghops" }
+      "migration": {
+        "constraints": [
+          "Preserve repository discovery, grouping, metadata, configuration, command output, and any persisted collection state."
+        ],
+        "steps": [
+          {
+            "id": "replace-ghops",
+            "title": "Move to repoindex",
+            "instructions": "Replace ghops with repoindex, translate configuration and commands, and migrate any persisted repository collection data.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run repository discovery, metadata, command, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "ghops"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "ghops"
+      }
     },
     {
       "id": "python.package.mondobrain.eol",
@@ -730,15 +1451,47 @@
       "summary": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
       "severity": "high",
       "replacement": "datawhys",
-      "sources": [{ "title": "mondobrain maintenance and replacement notice", "url": "https://pypi.org/project/mondobrain/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve data loading, analysis workflows, notebook integration, model behavior, and serialized artifacts relied on by users."],
-        "steps": [{ "id": "replace-mondobrain", "title": "Move to datawhys", "instructions": "Replace the distribution and translate mondobrain imports and workflows to datawhys equivalents.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run affected data workflow and project tests when defined." }]
+      "sources": [
+        {
+          "title": "mondobrain maintenance and replacement notice",
+          "url": "https://pypi.org/project/mondobrain/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "mondobrain" }],
-      "x-python": { "kind": "package", "package": "mondobrain" }
+      "migration": {
+        "constraints": [
+          "Preserve data loading, analysis workflows, notebook integration, model behavior, and serialized artifacts relied on by users."
+        ],
+        "steps": [
+          {
+            "id": "replace-mondobrain",
+            "title": "Move to datawhys",
+            "instructions": "Replace the distribution and translate mondobrain imports and workflows to datawhys equivalents.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run affected data workflow and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "mondobrain"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "mondobrain"
+      }
     },
     {
       "id": "python.package.vsscale.deprecated",
@@ -750,15 +1503,47 @@
       "summary": "The maintainer states that vsscale is deprecated and directs users to vsjetpack.",
       "severity": "medium",
       "replacement": "vsjetpack",
-      "sources": [{ "title": "vsscale deprecation notice", "url": "https://pypi.org/project/vsscale/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve scaling kernels, descaling behavior, clip formats, dimensions, chroma handling, and VapourSynth frame output."],
-        "steps": [{ "id": "replace-vsscale", "title": "Move to vsjetpack", "instructions": "Replace vsscale with vsjetpack and translate scaling and descaling imports and calls to the maintained APIs.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run VapourSynth scaling, format, dimension, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "vsscale deprecation notice",
+          "url": "https://pypi.org/project/vsscale/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "vsscale" }],
-      "x-python": { "kind": "package", "package": "vsscale" }
+      "migration": {
+        "constraints": [
+          "Preserve scaling kernels, descaling behavior, clip formats, dimensions, chroma handling, and VapourSynth frame output."
+        ],
+        "steps": [
+          {
+            "id": "replace-vsscale",
+            "title": "Move to vsjetpack",
+            "instructions": "Replace vsscale with vsjetpack and translate scaling and descaling imports and calls to the maintained APIs.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run VapourSynth scaling, format, dimension, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "vsscale"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "vsscale"
+      }
     },
     {
       "id": "python.package.batchnotebook.deprecated",
@@ -770,15 +1555,47 @@
       "summary": "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.",
       "severity": "medium",
       "replacement": "runipy",
-      "sources": [{ "title": "BatchNotebook deprecation notice", "url": "https://pypi.org/project/BatchNotebook/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve notebook input and output paths, cell execution order, timeouts, errors, kernel selection, and rendered report artifacts."],
-        "steps": [{ "id": "replace-batchnotebook", "title": "Replace BatchNotebook", "instructions": "Move notebook execution to runipy as recommended by the maintainer, or to the maintained notebook execution facility selected by the project, then remove BatchNotebook.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run notebook execution, timeout, failure, output, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "BatchNotebook deprecation notice",
+          "url": "https://pypi.org/project/BatchNotebook/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "batchnotebook" }],
-      "x-python": { "kind": "package", "package": "batchnotebook" }
+      "migration": {
+        "constraints": [
+          "Preserve notebook input and output paths, cell execution order, timeouts, errors, kernel selection, and rendered report artifacts."
+        ],
+        "steps": [
+          {
+            "id": "replace-batchnotebook",
+            "title": "Replace BatchNotebook",
+            "instructions": "Move notebook execution to runipy as recommended by the maintainer, or to the maintained notebook execution facility selected by the project, then remove BatchNotebook.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run notebook execution, timeout, failure, output, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "batchnotebook"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "batchnotebook"
+      }
     },
     {
       "id": "python.package.llama-index-experimental.eol",
@@ -789,14 +1606,40 @@
       "title": "llama-index-experimental is no longer maintained",
       "summary": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
       "severity": "high",
-      "sources": [{ "title": "llama-index-experimental lifecycle notice", "url": "https://pypi.org/project/llama-index-experimental/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve data connectors, indexes, query behavior, prompts, model configuration, serialization, and observability used by the application."],
-        "steps": [{ "id": "replace-llama-index-experimental", "title": "Replace experimental integrations", "instructions": "Inventory the experimental APIs in use, select maintained LlamaIndex or alternative implementations for each, migrate call sites, then remove the package.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run indexing, retrieval, generation, persistence, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "llama-index-experimental lifecycle notice",
+          "url": "https://pypi.org/project/llama-index-experimental/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "llama-index-experimental" }
+      "migration": {
+        "constraints": [
+          "Preserve data connectors, indexes, query behavior, prompts, model configuration, serialization, and observability used by the application."
+        ],
+        "steps": [
+          {
+            "id": "replace-llama-index-experimental",
+            "title": "Replace experimental integrations",
+            "instructions": "Inventory the experimental APIs in use, select maintained LlamaIndex or alternative implementations for each, migrate call sites, then remove the package.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run indexing, retrieval, generation, persistence, and project tests when defined."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "llama-index-experimental"
+      }
     },
     {
       "id": "python.package.superlinked.deprecated",
@@ -808,15 +1651,47 @@
       "summary": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
       "severity": "medium",
       "replacement": "SIE and sie-sdk",
-      "sources": [{ "title": "superlinked legacy framework notice", "url": "https://pypi.org/project/superlinked/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["SIE is not a drop-in replacement; preserve schemas, indexing, storage, vector search, query weighting, model behavior, and deployment requirements explicitly."],
-        "steps": [{ "id": "replace-superlinked", "title": "Redesign on SIE where appropriate", "instructions": "Map legacy framework responsibilities to SIE Server and sie-sdk, redesign incompatible application layers, migrate data and queries, then remove superlinked only after parity is proven.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run indexing, retrieval, ranking, storage, deployment, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "superlinked legacy framework notice",
+          "url": "https://pypi.org/project/superlinked/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "superlinked" }],
-      "x-python": { "kind": "package", "package": "superlinked" }
+      "migration": {
+        "constraints": [
+          "SIE is not a drop-in replacement; preserve schemas, indexing, storage, vector search, query weighting, model behavior, and deployment requirements explicitly."
+        ],
+        "steps": [
+          {
+            "id": "replace-superlinked",
+            "title": "Redesign on SIE where appropriate",
+            "instructions": "Map legacy framework responsibilities to SIE Server and sie-sdk, redesign incompatible application layers, migrate data and queries, then remove superlinked only after parity is proven.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run indexing, retrieval, ranking, storage, deployment, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "superlinked"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "superlinked"
+      }
     },
     {
       "id": "python.package.cmip-ref.eol",
@@ -828,15 +1703,47 @@
       "summary": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
       "severity": "high",
       "replacement": "climate-ref",
-      "sources": [{ "title": "cmip_ref rename and maintenance notice", "url": "https://pypi.org/project/cmip-ref/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve configuration, climate data inputs, diagnostics, output formats, provenance, and command behavior."],
-        "steps": [{ "id": "replace-cmip-ref", "title": "Move to climate-ref", "instructions": "Replace cmip_ref with climate-ref, update imports from cmip_ref to climate_ref, and translate any changed configuration or commands.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run climate data, diagnostics, output, command, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "cmip_ref rename and maintenance notice",
+          "url": "https://pypi.org/project/cmip-ref/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "cmip_ref" }],
-      "x-python": { "kind": "package", "package": "cmip-ref" }
+      "migration": {
+        "constraints": [
+          "Preserve configuration, climate data inputs, diagnostics, output formats, provenance, and command behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-cmip-ref",
+            "title": "Move to climate-ref",
+            "instructions": "Replace cmip_ref with climate-ref, update imports from cmip_ref to climate_ref, and translate any changed configuration or commands.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run climate data, diagnostics, output, command, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "cmip_ref"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "cmip-ref"
+      }
     },
     {
       "id": "python.package.headroom-cli.eol",
@@ -848,14 +1755,40 @@
       "summary": "The maintainer states that headroom-cli is no longer maintained and development continues as quotagauge.",
       "severity": "high",
       "replacement": "quotagauge",
-      "sources": [{ "title": "headroom-cli rename and migration notice", "url": "https://pypi.org/project/headroom-cli/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve provider configuration, usage history, statusline and hook integration, CLI behavior, and the existing ~/.headroom state."],
-        "steps": [{ "id": "replace-headroom-cli", "title": "Move to quotagauge", "instructions": "Install quotagauge, run its initialization for configured providers, verify settings rewrites and state migration, then uninstall headroom-cli.", "targets": "all" }],
-        "verification": [{ "command": "quotagauge init --all", "purpose": "Initialize integrations and exercise the maintainer-provided state migration." }]
+      "sources": [
+        {
+          "title": "headroom-cli rename and migration notice",
+          "url": "https://pypi.org/project/headroom-cli/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "x-python": { "kind": "package", "package": "headroom-cli" }
+      "migration": {
+        "constraints": [
+          "Preserve provider configuration, usage history, statusline and hook integration, CLI behavior, and the existing ~/.headroom state."
+        ],
+        "steps": [
+          {
+            "id": "replace-headroom-cli",
+            "title": "Move to quotagauge",
+            "instructions": "Install quotagauge, run its initialization for configured providers, verify settings rewrites and state migration, then uninstall headroom-cli.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "quotagauge init --all",
+            "purpose": "Initialize integrations and exercise the maintainer-provided state migration."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "headroom-cli"
+      }
     },
     {
       "id": "python.package.agentops-toolkit.eol",
@@ -867,15 +1800,47 @@
       "summary": "The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator.",
       "severity": "high",
       "replacement": "agentops-accelerator",
-      "sources": [{ "title": "agentops-toolkit rename notice", "url": "https://pypi.org/project/agentops-toolkit/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve the agentops import path, CLI entrypoints, public APIs, configuration, telemetry, and stored project state."],
-        "steps": [{ "id": "replace-agentops-toolkit", "title": "Move to agentops-accelerator", "instructions": "Replace the distribution with agentops-accelerator while retaining existing agentops imports and verifying CLI and public API compatibility.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run AgentOps API, CLI, telemetry, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "agentops-toolkit rename notice",
+          "url": "https://pypi.org/project/agentops-toolkit/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "agentops" }],
-      "x-python": { "kind": "package", "package": "agentops-toolkit" }
+      "migration": {
+        "constraints": [
+          "Preserve the agentops import path, CLI entrypoints, public APIs, configuration, telemetry, and stored project state."
+        ],
+        "steps": [
+          {
+            "id": "replace-agentops-toolkit",
+            "title": "Move to agentops-accelerator",
+            "instructions": "Replace the distribution with agentops-accelerator while retaining existing agentops imports and verifying CLI and public API compatibility.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run AgentOps API, CLI, telemetry, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "agentops"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "agentops-toolkit"
+      }
     },
     {
       "id": "python.package.aiohttp-valera-validator.eol",
@@ -887,15 +1852,117 @@
       "summary": "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.",
       "severity": "high",
       "replacement": "aiohttp-d42-validator",
-      "sources": [{ "title": "aiohttp-valera-validator rename notice", "url": "https://pypi.org/project/aiohttp-valera-validator/" }],
-      "provenance": { "observedAt": "2026-10-16", "reviewedAt": "2026-10-16", "reviewer": "arminazimi" },
-      "migration": {
-        "constraints": ["Preserve request parameter, query, body, and response validation; schema semantics; aiohttp middleware behavior; and error responses."],
-        "steps": [{ "id": "replace-aiohttp-valera-validator", "title": "Move to aiohttp-d42-validator", "instructions": "Replace the distribution, update imports to aiohttp_d42_validator, and translate schemas and decorators to the renamed package.", "targets": "all" }],
-        "verification": [{ "command": "python -m pytest", "purpose": "Run valid and invalid request, schema, response, middleware, and project tests when defined." }]
+      "sources": [
+        {
+          "title": "aiohttp-valera-validator rename notice",
+          "url": "https://pypi.org/project/aiohttp-valera-validator/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
       },
-      "usage": [{ "kind": "import", "language": "python", "module": "aiohttp_valera_validator" }],
-      "x-python": { "kind": "package", "package": "aiohttp-valera-validator" }
+      "migration": {
+        "constraints": [
+          "Preserve request parameter, query, body, and response validation; schema semantics; aiohttp middleware behavior; and error responses."
+        ],
+        "steps": [
+          {
+            "id": "replace-aiohttp-valera-validator",
+            "title": "Move to aiohttp-d42-validator",
+            "instructions": "Replace the distribution, update imports to aiohttp_d42_validator, and translate schemas and decorators to the renamed package.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run valid and invalid request, schema, response, middleware, and project tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "aiohttp_valera_validator"
+        }
+      ],
+      "x-python": {
+        "kind": "package",
+        "package": "aiohttp-valera-validator"
+      }
+    },
+    {
+      "id": "python.runtime.eol-3.10-and-older",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/<3.11",
+      "event": "end-of-life",
+      "title": "Python 3.10 and older are end-of-life",
+      "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "severity": "high",
+      "replacement": "A supported Python release",
+      "deadline": "2026-10-01",
+      "sources": [
+        {
+          "title": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "title": "Python release cycle (machine-readable)",
+          "url": "https://peps.python.org/api/release-cycle.json"
+        },
+        {
+          "title": "PEP 619 — Python 3.10 release schedule",
+          "url": "https://peps.python.org/pep-0619/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi",
+        "importer": "python-release-cycle"
+      },
+      "migration": {
+        "constraints": [
+          "Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.",
+          "Confirm binary wheels and framework dependencies support the selected Python release."
+        ],
+        "steps": [
+          {
+            "id": "update-python-declaration",
+            "title": "Update the Python requirement",
+            "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-python-runtimes",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python --version",
+            "purpose": "Confirm the active Python runtime is supported."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the Python test suite on the target runtime."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Check installed dependency compatibility."
+          }
+        ]
+      },
+      "x-python": {
+        "kind": "runtime",
+        "maximumVersion": "3.10"
+      }
     }
   ]
 }
