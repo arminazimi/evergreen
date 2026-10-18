@@ -8,11 +8,11 @@ branding:
 
 inputs:
   path:
-    description: Repository path to scan.
+    description: Repository root or subdirectory to scan. Defaults to the checked-out repository.
     required: false
     default: .
   baseline:
-    description: Optional baseline path, relative to the scanned repository.
+    description: Optional baseline path relative to path. Leave empty to report every finding.
     required: false
     default: ""
   baseline-warn-days:
@@ -30,11 +30,11 @@ inputs:
     required: false
     default: high
   report-name:
-    description: Name of the uploaded machine-readable report artifact.
+    description: Artifact name for the JSON report when upload-report is true.
     required: false
     default: evergreen-report
   upload-report:
-    description: Upload the JSON report to GitHub Actions artifacts.
+    description: Upload the JSON report to GitHub Actions artifacts. The local report is always generated.
     required: false
     default: "true"
   upload-sarif:
@@ -52,13 +52,13 @@ inputs:
 
 outputs:
   report-path:
-    description: Absolute path to the generated JSON report.
+    description: Absolute runner path to the generated JSON report, whether or not it is uploaded.
     value: ${{ steps.scan.outputs.report-path }}
   finding-count:
-    description: Number of findings remaining after baseline comparison.
+    description: Number of findings remaining after baseline comparison, as a decimal string.
     value: ${{ steps.scan.outputs.finding-count }}
   sarif-path:
-    description: Absolute path to the generated SARIF file, when upload-sarif is enabled.
+    description: Absolute runner path to the generated SARIF file, or empty when upload-sarif is false.
     value: ${{ steps.scan.outputs.sarif-path }}
 
 runs:
