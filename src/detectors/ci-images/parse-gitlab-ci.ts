@@ -35,13 +35,10 @@ export function parseGitlabCi(contents: string): GitlabCiParseResult {
     const document = parseDocument(contents, { lineCounter, merge: false });
     if (document.errors.length > 0 || !isMap(document.contents)) return empty;
 
-    let hasAlias = false;
-    visit(document, { Alias: () => { hasAlias = true; return visit.BREAK; } });
-    if (hasAlias) return empty;
-
     const references: GitlabImageReference[] = [];
     const root = document.contents;
     collectImage(root.get("image", true), lineCounter, references);
+    collectPool(root.get("default", true), lineCounter, references);
     collectServices(root.get("services", true), lineCounter, references);
 
     for (const item of root.items) {
@@ -50,13 +47,11 @@ export function parseGitlabCi(contents: string): GitlabCiParseResult {
       if (["image", "services", "stages", "variables", "workflow", "include", "default"].includes(key)) continue;
       if (!isMap(item.value)) continue;
       collectImage(item.value.get("image", true), lineCounter, references);
+      collectPool(item.value.get("default", true), lineCounter, references);
       collectServices(item.value.get("services", true), lineCounter, references);
     }
 
-    const unclassified = references.flatMap((reference) => {
-      const reason = classify(reference.value);
-      return { ...reference, reason };
-    });
+    const unclassified = references.map((reference) => ({ ...reference, reason: classify(reference.value) }));
     return { declarations: [], unclassified };
   } catch {
     return empty;
@@ -64,8 +59,18 @@ export function parseGitlabCi(contents: string): GitlabCiParseResult {
 }
 
 function collectImage(node: unknown, lineCounter: LineCounter, references: GitlabImageReference[]): void {
+  if (isMap(node)) {
+    collectImage(node.get("name", true), lineCounter, references);
+    return;
+  }
   if (!isScalar(node) || typeof node.value !== "string" || !node.range) return;
   addReference(node.value, node.range[0], lineCounter, references);
+}
+
+function collectPool(node: unknown, lineCounter: LineCounter, references: GitlabImageReference[]): void {
+  if (!isMap(node)) return;
+  collectImage(node.get("image", true), lineCounter, references);
+  collectServices(node.get("services", true), lineCounter, references);
 }
 
 function collectServices(node: unknown, lineCounter: LineCounter, references: GitlabImageReference[]): void {
@@ -91,6 +96,6 @@ function addReference(value: string, offset: number, lineCounter: LineCounter, r
 
 function classify(value: string): GitlabUnclassifiedReason {
   if (value.includes("$") || value.includes("<<")) return "dynamic";
-  if (value === "latest" || value.endsWith("-latest") || value.endsWith(":latest") || value.endsWith(":current")) return "floating";
+  if (value === "latest" || value.endsWith("-latest") || value.endsWith(":latest")) return "floating";
   return "gitlab-not-judged";
 }

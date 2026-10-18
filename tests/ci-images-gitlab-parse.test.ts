@@ -41,11 +41,28 @@ test("malformed GitLab YAML returns no result", () => {
   assert.deepEqual(parseGitlabCi(read("malformed/.gitlab-ci.yml")), { declarations: [], unclassified: [] });
 });
 
-test("junk, empty input, and aliases never throw or produce output", () => {
+test("inline default, object image, hidden job, and local aliases", () => {
+  assert.deepEqual(parseGitlabCi(`default:
+  image:
+    name: node:16
+  services:
+    - postgres:12
+.template:
+  image: alpine:3.18
+job:
+  image: *shared
+shared: &shared redis:6`), unclassified([
+    ["node:16", 3, "gitlab-not-judged"],
+    ["postgres:12", 5, "gitlab-not-judged"],
+    ["alpine:3.18", 7, "gitlab-not-judged"],
+  ]));
+});
+
+test("junk, empty input, and aliased values never throw", () => {
   for (const input of ["", "\u0000\u0001\u0002", "}}}{{{", "image: *runner\n"]) {
     assert.doesNotThrow(() => parseGitlabCi(input));
-    assert.deepEqual(parseGitlabCi(input), { declarations: [], unclassified: [] });
   }
+  assert.deepEqual(parseGitlabCi("image: node:16\nshared: &shared redis:6\njob:\n  image: *shared\n"), unclassified([["node:16", 1, "gitlab-not-judged"]]));
 });
 
 test("the result is deterministic and uses 1-based value lines", () => {
