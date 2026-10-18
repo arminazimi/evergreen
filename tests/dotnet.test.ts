@@ -11,6 +11,8 @@ import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { DotnetDetector, targetVersion } from "../src/detectors/dotnet/index.js";
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -203,4 +205,34 @@ test("bin, obj, vendored, and fixture directories and symbolic links are skipped
 test("one moniker listed twice on a line is one finding", async () => {
   const root = await repository({ "A.csproj": "<Project><PropertyGroup><TargetFrameworks>net6.0;net6.0-windows</TargetFrameworks></PropertyGroup></Project>" });
   assert.equal((await detector.scan({ root })).length, 1);
+});
+
+test("every curated .NET rule has migration guidance with real verification commands", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.some((check) => check.command === "dotnet build && dotnet test"), rule.id);
+  }
+});
+
+test("a migration packet for a .NET runtime finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [detector]);
+  const runtime = result.findings.find((finding) => finding.id === "dotnet.runtime.end-of-support-3.1:app/App.csproj:5");
+  assert.ok(runtime);
+  const packet = validateMigrationPacket(createMigrationPacket(result, runtime.id));
+  assert.ok(packet.affectedFiles.includes("app/App.csproj"));
+  assert.ok(packet.steps.some((step) => step.id === "raise-target-framework"));
+  assert.ok(packet.steps.some((step) => step.id === "raise-sdk-pin"));
+  assert.ok(packet.verification.some((check) => check.command === "dotnet --list-sdks && dotnet --list-runtimes"));
+  assert.ok(packet.verification.some((check) => check.command === "dotnet build && dotnet test"));
+});
+
+test("a migration packet for a deprecated package lists the C# files that use it", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [detector]);
+  const storage = result.findings.find((finding) => finding.id === "dotnet.package.windowsazure-storage.deprecated:app/App.csproj:10");
+  assert.ok(storage);
+  const packet = validateMigrationPacket(createMigrationPacket(result, storage.id));
+  assert.ok(packet.affectedFiles.includes("app/App.csproj"));
+  assert.ok(packet.affectedFiles.includes("app/Program.cs"), "the source file that uses the package is listed");
+  assert.ok(packet.steps.some((step) => step.id === "replace-windowsazure-storage"));
+  assert.ok(packet.verification.some((check) => check.command === "dotnet build && dotnet test"));
 });
