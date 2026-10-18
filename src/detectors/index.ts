@@ -1,5 +1,6 @@
 import type { Detector } from "../sdk.js";
 import { containerDetector } from "./container/index.js";
+import { dotnetDetector } from "./dotnet/index.js";
 import { goDetector } from "./go/index.js";
 import { javaDetector } from "./java/index.js";
 import { githubActionsDetector } from "./github-actions.js";
@@ -13,6 +14,7 @@ export const builtInDetectors: readonly Detector[] = [
   npmDetector,
   pythonDetector,
   containerDetector,
+  dotnetDetector,
   goDetector,
   javaDetector,
   kubernetesDetector,
