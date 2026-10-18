@@ -94,7 +94,9 @@
     "build:llms": "npm run build --silent && node dist/tools/build-llms-full.js",
     "check:reference": "npm run build --silent && node dist/tools/build-reference-pages.js --check",
     "build:reference": "npm run build --silent && node dist/tools/build-reference-pages.js",
-    "check:llms": "npm run build --silent && node dist/tools/build-llms-full.js --check"
+    "check:llms": "npm run build --silent && node dist/tools/build-llms-full.js --check",
+    "build:dashboard": "npm run build --silent && node dist/tools/build-dashboard-data.js --today run-date",
+    "check:dashboard": "npm run build --silent && node dist/tools/build-dashboard-data.js --today run-date --check"
   },
   "engines": {
     "node": ">=22"
