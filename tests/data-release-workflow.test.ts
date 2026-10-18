@@ -82,5 +82,6 @@ test("the workflow and the verifier agree on who may sign", () => {
 test("it publishes the bundle, its signature, and checksums", () => {
   assert.match(commands, /sha256sum evergreen-data-\*\.json evergreen-data-\*\.sigstore\.json > SHA256SUMS/);
   assert.match(commands, /gh release create .* out\/\*/s);
+  assert.match(commands, /--latest=false/, "a data bundle must never become the repository's Latest release");
   assert.match(commands, /--verify-tag/);
 });

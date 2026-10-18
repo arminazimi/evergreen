@@ -108,7 +108,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # A data bundle is not a release of the code, so it must never become the repository's "Latest"
+          # release: that label is what the GitHub Marketplace listing and visitors read as the Action's version.
           gh release create "${GITHUB_REF_NAME}" out/* \
             --title "Lifecycle data ${VERSION}" \
             --notes "Signed lifecycle data bundle ${VERSION}. Verify it with \`evergreen data update\`, or by hand with cosign against the certificate identity pattern in docs/decisions/0006-data-bundle.md." \
-            --verify-tag
+            --verify-tag \
+            --latest=false
