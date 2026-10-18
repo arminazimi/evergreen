@@ -1,0 +1,643 @@
+{
+  "schemaVersion": "evergreen.scan.v1",
+  "root": ".",
+  "scannedAt": "2026-10-18T08:37:40.424Z",
+  "findings": [
+    {
+      "id": "dotnet.package.windowsazure-storage.deprecated:app/App.csproj:10",
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "title": "WindowsAzure.Storage is deprecated on NuGet",
+      "summary": "app/App.csproj references WindowsAzure.Storage 9.3.3. Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored. The deprecation names Azure.Storage.Common as the replacement.",
+      "severity": "medium",
+      "location": {
+        "path": "app/App.csproj",
+        "line": 10
+      },
+      "replacement": "Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables, with Azure.Storage.Common",
+      "deadline": "2023-03-31",
+      "migration": {
+        "constraints": [
+          "Keep the data format and the blob, queue, and table names the same; only the client library changes."
+        ],
+        "steps": [
+          {
+            "id": "replace-windowsazure-storage",
+            "title": "Move to the Azure.Storage.* packages",
+            "instructions": "Replace WindowsAzure.Storage with the package for each service in use (Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables) and update CloudStorageAccount and CloudBlobClient code to the new client types.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test after the client library change."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
+          "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+        },
+        {
+          "title": "NuGet package deprecation",
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+        },
+        {
+          "title": "Azure SDK support policies",
+          "url": "https://azure.github.io/azure-sdk/policies_support.html"
+        }
+      ],
+      "usages": [
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 2,
+            "column": 1
+          },
+          "excerpt": "using Microsoft.WindowsAzure.Storage;"
+        },
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 3,
+            "column": 1
+          },
+          "excerpt": "using Microsoft.WindowsAzure.Storage.Blob;"
+        },
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 4,
+            "column": 1
+          },
+          "excerpt": "using Az = Microsoft.WindowsAzure.Storage.Queue;"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 13,
+            "column": 27
+          },
+          "excerpt": "var account = CloudStorageAccount.Parse(\"UseDevelopmentStorage=true\");"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 15,
+            "column": 33
+          },
+          "excerpt": "var container = new CloudBlobContainer(new Uri(\"https://x\"));"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Queue.CloudQueueClient",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 16,
+            "column": 30
+          },
+          "excerpt": "var queues = new Az.CloudQueueClient(new Uri(\"https://x\"), null);"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Table.CloudTableClient",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 17,
+            "column": 30
+          },
+          "excerpt": "var tables = new Microsoft.WindowsAzure.Storage.Table.CloudTableClient(new Uri(\"https://x\"), null);"
+        }
+      ],
+      "impact": {
+        "usageCount": 7,
+        "affectedFiles": 1,
+        "level": "medium"
+      },
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.package.windowsazure-storage.deprecated:central/Directory.Packages.props:4",
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "title": "WindowsAzure.Storage is deprecated on NuGet",
+      "summary": "central/Directory.Packages.props references WindowsAzure.Storage 9.3.3 (central package version). Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored. The deprecation names Azure.Storage.Common as the replacement.",
+      "severity": "medium",
+      "location": {
+        "path": "central/Directory.Packages.props",
+        "line": 4
+      },
+      "replacement": "Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables, with Azure.Storage.Common",
+      "deadline": "2023-03-31",
+      "migration": {
+        "constraints": [
+          "Keep the data format and the blob, queue, and table names the same; only the client library changes."
+        ],
+        "steps": [
+          {
+            "id": "replace-windowsazure-storage",
+            "title": "Move to the Azure.Storage.* packages",
+            "instructions": "Replace WindowsAzure.Storage with the package for each service in use (Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables) and update CloudStorageAccount and CloudBlobClient code to the new client types.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test after the client library change."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
+          "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+        },
+        {
+          "title": "NuGet package deprecation",
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+        },
+        {
+          "title": "Azure SDK support policies",
+          "url": "https://azure.github.io/azure-sdk/policies_support.html"
+        }
+      ],
+      "usages": [
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 2,
+            "column": 1
+          },
+          "excerpt": "using Microsoft.WindowsAzure.Storage;"
+        },
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 3,
+            "column": 1
+          },
+          "excerpt": "using Microsoft.WindowsAzure.Storage.Blob;"
+        },
+        {
+          "kind": "import",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 4,
+            "column": 1
+          },
+          "excerpt": "using Az = Microsoft.WindowsAzure.Storage.Queue;"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 13,
+            "column": 27
+          },
+          "excerpt": "var account = CloudStorageAccount.Parse(\"UseDevelopmentStorage=true\");"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 15,
+            "column": 33
+          },
+          "excerpt": "var container = new CloudBlobContainer(new Uri(\"https://x\"));"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Queue.CloudQueueClient",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 16,
+            "column": 30
+          },
+          "excerpt": "var queues = new Az.CloudQueueClient(new Uri(\"https://x\"), null);"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "symbol": "Microsoft.WindowsAzure.Storage.Table.CloudTableClient",
+          "location": {
+            "path": "app/Program.cs",
+            "line": 17,
+            "column": 30
+          },
+          "excerpt": "var tables = new Microsoft.WindowsAzure.Storage.Table.CloudTableClient(new Uri(\"https://x\"), null);"
+        }
+      ],
+      "impact": {
+        "usageCount": 7,
+        "affectedFiles": 1,
+        "level": "medium"
+      },
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-3.1:app/App.csproj:5",
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "title": ".NET Core 3.1 is no longer supported",
+      "summary": "app/App.csproj targets netcoreapp3.1. .NET Core 3.1 (Long Term Support) reached the end of its support on 2022-12-13. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 3.1.x is reported too.",
+      "severity": "high",
+      "location": {
+        "path": "app/App.csproj",
+        "line": 5
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2022-12-13",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 3.1 line to a supported one, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-3.1:global.json:3",
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "title": ".NET Core 3.1 is no longer supported",
+      "summary": "global.json pins .NET SDK 3.1.426. .NET Core 3.1 (Long Term Support) reached the end of its support on 2022-12-13. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 3.1.x is reported too.",
+      "severity": "high",
+      "location": {
+        "path": "global.json",
+        "line": 3
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2022-12-13",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 3.1 line to a supported one, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-5.0:lib/Win.vbproj:4",
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "title": ".NET 5 is no longer supported",
+      "summary": "lib/Win.vbproj targets net5.0-windows. .NET 5 (Standard Term Support) reached the end of its support on 2022-05-10. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 5.0.x is reported too.",
+      "severity": "high",
+      "location": {
+        "path": "lib/Win.vbproj",
+        "line": 4
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2022-05-10",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 5.0 line to a supported one, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-6.0:central/Directory.Build.props:4",
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "title": ".NET 6 is no longer supported",
+      "summary": "central/Directory.Build.props targets net6.0. .NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 6.0.x is reported too.",
+      "severity": "high",
+      "location": {
+        "path": "central/Directory.Build.props",
+        "line": 4
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2024-11-12",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 6.0 line to a supported one, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-6.0:lib/Lib.fsproj:4",
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "title": ".NET 6 is no longer supported",
+      "summary": "lib/Lib.fsproj targets net6.0. .NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 6.0.x is reported too.",
+      "severity": "high",
+      "location": {
+        "path": "lib/Lib.fsproj",
+        "line": 4
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2024-11-12",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 6.0 line to a supported one, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    },
+    {
+      "id": "dotnet.runtime.end-of-support-8.0:lib/Lib.fsproj:4",
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "title": ".NET 8 reaches end of support on 2026-11-10",
+      "summary": "lib/Lib.fsproj targets net8.0. .NET 8 (Long Term Support) is scheduled to reach the end of its support on 2026-11-10, according to Microsoft's releases index. After that date Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 8.0.x is reported too.",
+      "severity": "low",
+      "location": {
+        "path": "lib/Lib.fsproj",
+        "line": 4
+      },
+      "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+      "deadline": "2026-11-10",
+      "migration": {
+        "constraints": [
+          "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+          "Read the breaking-changes list of each release between the old and new line before raising the target.",
+          "This line is still supported today; the rule is a warning ahead of the announced date, so plan the move before it."
+        ],
+        "steps": [
+          {
+            "id": "raise-target-framework",
+            "title": "Raise the target framework",
+            "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 8.0 line to a line that will still be supported after 2026-11-10, for example net10.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "raise-sdk-pin",
+            "title": "Raise the SDK pin",
+            "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+            "targets": "all"
+          },
+          {
+            "id": "align-ci-and-images",
+            "title": "Align CI and container images",
+            "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "dotnet --list-sdks && dotnet --list-runtimes",
+            "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+          },
+          {
+            "command": "dotnet build && dotnet test",
+            "purpose": "Build and test every project on the new target."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "title": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "detector": "dotnet"
+    }
+  ],
+  "unclassified": {
+    "count": 0,
+    "references": []
+  },
+  "diagnostics": [],
+  "data": {
+    "source": "bundled",
+    "version": "0.2.0",
+    "createdAt": null,
+    "reviewedThrough": "2026-10-18",
+    "ageDays": 0,
+    "stale": false
+  }
+}
