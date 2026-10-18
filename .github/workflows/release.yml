@@ -67,18 +67,26 @@ jobs:
     env:
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
     steps:
+      # The default branch is checked out, not the release commit: the decision script then always comes from
+      # reviewed code on the default branch, even for a release (or a dry-run tag) that predates the script.
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || format('refs/tags/{0}', inputs.release_tag) }}
           fetch-depth: 0
       - name: Select the stable release tag
         id: release
+        env:
+          EVENT_SHA: ${{ github.event.workflow_run.head_sha }}
+          DISPATCH_TAG: ${{ inputs.release_tag }}
         shell: bash
         run: |
           # The decision lives in .github/scripts/major-tag.mjs, which has unit tests (tests/major-tag.test.ts).
-          release_sha="$(git rev-parse HEAD)"
+          if [ "$GITHUB_EVENT_NAME" = "workflow_run" ]; then
+            release_sha="$EVENT_SHA"
+          else
+            release_sha="$(git rev-list -n 1 "refs/tags/$DISPATCH_TAG")"
+          fi
           tags="$(git tag --points-at "$release_sha")"
-          version="$(node -p "require('./package.json').version")"
+          version="$(git show "$release_sha:package.json" | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
           echo "release-sha=$release_sha" >> "$GITHUB_OUTPUT"
           node .github/scripts/major-tag.mjs select --tags "$tags" --package-version "$version" >> "$GITHUB_OUTPUT"
       - name: Check the major tag only moves forward

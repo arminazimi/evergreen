@@ -81,7 +81,7 @@ test("the command line prints GITHUB_OUTPUT lines, exits 0 when nothing moves, a
   assert.equal(run("bogus").status, 1);
 });
 
-interface Step { name?: string; if?: string; run?: string; env?: Record<string, string> }
+interface Step { name?: string; if?: string; run?: string; uses?: string; with?: Record<string, unknown>; env?: Record<string, string> }
 interface Workflow {
   on: { workflow_dispatch: { inputs: Record<string, unknown> }; workflow_run: unknown };
   jobs: Record<string, { if?: string; permissions?: Record<string, string>; env?: Record<string, string>; steps: Step[] }>;
@@ -102,6 +102,11 @@ test("the workflow uses the script, keeps write access to the major-tag job, and
   assert.match(text, /major-tag\.mjs select/);
   assert.match(text, /major-tag\.mjs direction/);
   assert.doesNotMatch(text, /sort -V/, "version ordering is done by the tested script, not by shell");
+  const checkout = job.steps.find((step) => step.uses?.startsWith("actions/checkout"));
+  assert.ok(checkout, "the job checks out the repository");
+  assert.equal(checkout.with?.["ref"], undefined, "the decision script comes from the default branch, not from the release commit");
+  assert.match(text, /git rev-list -n 1/, "a dry-run tag is resolved to its commit without checking it out");
+  assert.match(text, /git show "\$release_sha:package\.json"/, "the version is read from the release commit");
   assert.match(job.if ?? "", /workflow_run/);
   assert.match(job.if ?? "", /inputs\.release_tag != ''/, "a manual run without a release tag does nothing");
 });
