@@ -1,0 +1,69 @@
+{
+  "name": "evergreen-vscode",
+  "displayName": "Evergreen",
+  "description": "Find end-of-life and deprecated dependencies with the local Evergreen CLI.",
+  "version": "0.1.0",
+  "publisher": "arminazimi",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arminazimi/evergreen.git",
+    "directory": "extensions/vscode"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "deprecation",
+    "end-of-life",
+    "evergreen",
+    "lifecycle"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "evergreen.scan",
+        "title": "Evergreen: Scan workspace"
+      }
+    ],
+    "configuration": {
+      "title": "Evergreen",
+      "properties": {
+        "evergreen.executablePath": {
+          "type": "string",
+          "default": "evergreen",
+          "description": "Path to the Evergreen CLI. The default uses `evergreen` from PATH."
+        },
+        "evergreen.runOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scan the workspace folder when a file is saved."
+        }
+      }
+    }
+  },
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited"
+    },
+    "virtualWorkspaces": false
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "npm run build && node --test out/test/",
+    "vscode:prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "1.85.0",
+    "typescript": "^5.9.0"
+  }
+}
