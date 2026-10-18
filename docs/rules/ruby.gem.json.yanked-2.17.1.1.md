@@ -16,7 +16,7 @@ RubyGems lists json 2.17.1.1 as yanked: the version is not available for downloa
 | Component | `pkg:gem/json` |
 | Affected versions | `vers:gem/2.17.1.1` |
 | Date from the source | The source gives no day |
-| Replacement | A published json release that is not yanked, for example 2.17.1 or later |
+| Replacement | A published json release that is not yanked |
 | Evidence last seen | 2026-10-18 |
 | Reviewed | 2026-10-18 by arminazimi |
 | Review due | 2027-01-16 (90 days after the last review) |
@@ -36,7 +36,7 @@ RubyGems lists json 2.17.1.1 as yanked: the version is not available for downloa
 **Steps**
 
 1. **Move off the yanked version.** Change the Gemfile or gemspec constraint to a published json release and run `bundle update json` so Gemfile.lock resolves a version that is not yanked.
-2. **Align the lockfile and gemspec.** Check every Gemfile.lock in the repository and the gemspec constraint so none resolves json 2.17.1.1.
+2. **Align the lockfile and gemspec.** Check every Gemfile.lock in the repository and the gemspec constraint so none resolves the yanked version.
 
 **Verification**
 

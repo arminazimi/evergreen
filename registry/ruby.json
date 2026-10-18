@@ -242,7 +242,7 @@
       "title": "json 2.17.1.1 is yanked",
       "summary": "RubyGems lists json 2.17.1.1 as yanked: the version is not available for download or for other gems that depended on it. The version page also flags two known security vulnerabilities.",
       "severity": "high",
-      "replacement": "A published json release that is not yanked, for example 2.17.1 or later",
+      "replacement": "A published json release that is not yanked",
       "sources": [
         {
           "title": "RubyGems: json 2.17.1.1 is yanked",
@@ -269,7 +269,7 @@
           {
             "id": "align-json-surfaces",
             "title": "Align the lockfile and gemspec",
-            "instructions": "Check every Gemfile.lock in the repository and the gemspec constraint so none resolves json 2.17.1.1.",
+            "instructions": "Check every Gemfile.lock in the repository and the gemspec constraint so none resolves the yanked version.",
             "targets": "all"
           }
         ],
