@@ -305,7 +305,52 @@
             "purpose": "Build and test after the client library change."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "csharp",
+          "module": "Microsoft.WindowsAzure.Storage"
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "module": "Microsoft.WindowsAzure.Storage",
+          "targets": [
+            "CloudStorageAccount.Parse",
+            "CloudStorageAccount.TryParse",
+            "CloudStorageAccount"
+          ]
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "module": "Microsoft.WindowsAzure.Storage.Blob",
+          "targets": [
+            "CloudBlobClient",
+            "CloudBlobContainer",
+            "CloudBlockBlob"
+          ]
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "module": "Microsoft.WindowsAzure.Storage.Queue",
+          "targets": [
+            "CloudQueueClient",
+            "CloudQueue"
+          ]
+        },
+        {
+          "kind": "call",
+          "language": "csharp",
+          "module": "Microsoft.WindowsAzure.Storage.Table",
+          "targets": [
+            "CloudTableClient",
+            "CloudTable"
+          ]
+        }
+      ]
     }
   ]
 }

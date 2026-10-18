@@ -37,8 +37,22 @@ async function committedRules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/dotnet.json", "utf8"))).rules;
 }
 
+const source = (kind: "import" | "call", symbol: string, line: number, column: number, excerpt: string) => ({ kind, language: "csharp" as const, symbol, location: { path: "app/Program.cs", line, column }, excerpt });
+/** What app/Program.cs in the positive fixture uses of WindowsAzure.Storage. */
+const storageUsages = [
+  source("import", "Microsoft.WindowsAzure.Storage", 2, 1, "using Microsoft.WindowsAzure.Storage;"),
+  source("import", "Microsoft.WindowsAzure.Storage", 3, 1, "using Microsoft.WindowsAzure.Storage.Blob;"),
+  source("import", "Microsoft.WindowsAzure.Storage", 4, 1, "using Az = Microsoft.WindowsAzure.Storage.Queue;"),
+  source("call", "Microsoft.WindowsAzure.Storage.CloudStorageAccount.Parse", 13, 27, 'var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");'),
+  source("call", "Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer", 15, 33, 'var container = new CloudBlobContainer(new Uri("https://x"));'),
+  source("call", "Microsoft.WindowsAzure.Storage.Queue.CloudQueueClient", 16, 30, 'var queues = new Az.CloudQueueClient(new Uri("https://x"), null);'),
+  source("call", "Microsoft.WindowsAzure.Storage.Table.CloudTableClient", 17, 30, 'var tables = new Microsoft.WindowsAzure.Storage.Table.CloudTableClient(new Uri("https://x"), null);'),
+];
+
 async function expected(ruleId: string, path: string, line: number, summary: (rule: RegistryV2Rule) => string): Promise<DetectorFinding> {
   const rule = (await committedRules()).find((item) => item.id === ruleId)!;
+  // A rule with usage matchers reports where the source uses the package, even when nowhere.
+  const usage = (rule.usage ?? []).length > 0 ? { usages: storageUsages, impact: { usageCount: 7, affectedFiles: 1, level: "medium" as const } } : {};
   return {
     id: `${ruleId}:${path}:${line}`,
     ruleId,
@@ -50,6 +64,7 @@ async function expected(ruleId: string, path: string, line: number, summary: (ru
     ...(rule.deadline ? { deadline: rule.deadline } : {}),
     migration: rule.migration!,
     sources: rule.sources,
+    ...usage,
   };
 }
 

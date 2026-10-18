@@ -61,6 +61,7 @@ function languageFor(path: string): SourceLanguage | undefined {
   if (extension === ".py") return "python";
   if (extension === ".go") return "go";
   if (extension === ".rs") return "rust";
+  if (extension === ".cs") return "csharp";
   if (extension === ".java") return "java";
   if (extension === ".kt") return "kotlin";
   if (extension === ".json") return "json";
@@ -212,6 +213,7 @@ function moduleMatches(actual: string, expected: string, language: SourceLanguag
   if (language === "go") return actual === expected || actual.startsWith(`${expected}/`);
   if (language === "java" || language === "kotlin") return actual === expected || actual.startsWith(`${expected}.`);
   if (language === "rust") return actual === expected || actual.startsWith(`${expected}::`);
+  if (language === "csharp") return actual === expected || actual.startsWith(`${expected}.`);
   return actual === expected;
 }
 
@@ -320,6 +322,26 @@ function rustImports(lines: readonly string[], maskedLines: readonly string[]): 
           : [{ module, local: leaf.alias ?? last, imported: last }];
       references.push({ module, line: first + 1, column, bindings });
     }
+  }
+  return references;
+}
+
+/**
+ * `using` directives in a C# file: `using N;`, `global using N;`, `using static N.Type;`, and `using Alias = N;`.
+ * A namespace import brings in every type of the namespace, so it binds no name; only an alias binds one. A
+ * `using` statement (`using (var x = …)`, `using var x = …`) is not a directive and does not match.
+ */
+function csharpImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const match = /^\s*(?:global\s+)?using\s+(static\s+)?(?:([A-Za-z_]\w*)\s*=\s*)?([A-Za-z_][\w.]*)\s*;/.exec(masked);
+    if (!match?.[3]) continue;
+    references.push({
+      module: match[3],
+      line: index + 1,
+      column: lines[index]!.search(/\S/) + 1,
+      bindings: match[2] && !match[1] ? [{ module: match[3], local: match[2], imported: "*" }] : [],
+    });
   }
   return references;
 }
@@ -484,7 +506,7 @@ export async function analyzeSourceUsage(
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
-    const imports = file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
+    const imports = file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
@@ -529,6 +551,30 @@ export async function analyzeSourceUsage(
                     location: { path: file.path, line: index + 1, column: match.index + 1 },
                     excerpt: lines[index]!.trim(),
                   });
+                }
+              }
+            }
+          }
+          // In C# a type is reached by its full name, or by its simple name when a `using` brings in its namespace.
+          if (file.language === "csharp") {
+            // `using N;` brings in the types of N itself, not those of its sub-namespaces.
+            const imported = imports.some((candidate) => candidate.module === matcher.module);
+            for (const target of matcher.targets) {
+              const path = (value: string): string => value.split(".").map(escapePattern).join("\\s*\\.\\s*");
+              const forms = [{ source: path(`${matcher.module}.${target}`) }, ...(imported ? [{ source: path(target) }] : [])];
+              for (const form of forms) {
+                const pattern = new RegExp(`(?<![\\w$.])${form.source}\\s*\\(`, "g");
+                for (const [index, line] of maskedLines.entries()) {
+                  for (const match of line.matchAll(pattern)) {
+                    if (match.index === undefined) continue;
+                    push(contract.id, {
+                      kind: "call",
+                      language: file.language,
+                      symbol: `${matcher.module}.${target}`,
+                      location: { path: file.path, line: index + 1, column: match.index + 1 },
+                      excerpt: lines[index]!.trim(),
+                    });
+                  }
                 }
               }
             }

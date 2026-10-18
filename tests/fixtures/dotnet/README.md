@@ -5,6 +5,8 @@ These fixtures define the parser boundary for .NET declarations (see [decision 0
 | Fixture | Expected case |
 | --- | --- |
 | `positive/global.json` | `sdk.version` `3.1.426` (line 3), which belongs to the 3.1 line. `rollForward` (line 4) is read but never judged. |
+| `positive/app/Program.cs` | C# source that uses WindowsAzure.Storage: three `using` directives (lines 2-4, one an alias), `CloudStorageAccount.Parse` (line 13), `new CloudBlobContainer` through the imported namespace (line 15), `new Az.CloudQueueClient` through the alias (line 16), and a fully qualified `CloudTableClient` (line 17). A commented-out call (line 6), a string that looks like a call (line 18), `account.CreateCloudBlobClient()` (a method on an instance), and a `using` statement (line 19) are not usages. |
+| `negative/Unrelated.cs` | A `Contoso.Storage` namespace with look-alike names: a member access on a variable, another namespace's `CloudBlobClient`, a comment, and a string: no usages. |
 | `positive/app/App.csproj` | `TargetFramework` `netcoreapp3.1` (line 5); `PackageReference` with a `Version` attribute (line 10 `WindowsAzure.Storage` 9.3.3, line 11 `Newtonsoft.Json` 13.0.3) and with a `<Version>` child element (line 12 `Microsoft.Azure.ServiceBus`, version on line 13). `LangVersion` (line 6) is never judged. |
 | `positive/lib/Lib.fsproj` | `TargetFrameworks` list on line 4: `netstandard2.0` is never judged, `net6.0` is past end of support, `net8.0` is supported today. |
 | `positive/lib/Win.vbproj` | An OS-specific moniker, `net5.0-windows` (line 4), belongs to the 5.0 line. |
