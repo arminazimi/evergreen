@@ -92,6 +92,7 @@
     "metrics:adoption": "npm run build --silent && node dist/tools/adoption-metrics.js",
     "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js",
     "build:llms": "npm run build --silent && node dist/tools/build-llms-full.js",
+    "build:coverage": "npm run build --silent && node dist/tools/coverage-matrix.js",
     "check:reference": "npm run build --silent && node dist/tools/build-reference-pages.js --check",
     "build:reference": "npm run build --silent && node dist/tools/build-reference-pages.js",
     "check:llms": "npm run build --silent && node dist/tools/build-llms-full.js --check"

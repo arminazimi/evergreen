@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "evergreen.coverage-descriptions.v1",
+  "rows": [
+    {
+      "ecosystems": ["container"],
+      "name": "Container base images",
+      "coverage": "`FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md)."
+    },
+    {
+      "ecosystems": ["dotnet"],
+      "name": ".NET",
+      "coverage": "`global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md)."
+    },
+    {
+      "ecosystems": ["go"],
+      "name": "Go",
+      "coverage": "`go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md)."
+    },
+    {
+      "ecosystems": ["java"],
+      "name": "Java and Kotlin (JVM)",
+      "coverage": "JDK declarations in `pom.xml`, Gradle build scripts, `.java-version`, `.sdkmanrc`, and `.tool-versions`, and direct Maven dependencies, for non-LTS JDK releases past end of support and moved artifacts. See [Java and Kotlin](detectors/java.md)."
+    },
+    {
+      "ecosystems": ["kubernetes"],
+      "name": "Kubernetes APIs",
+      "coverage": "The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served. See [Kubernetes APIs](detectors/kubernetes.md)."
+    },
+    {
+      "ecosystems": ["github-actions"],
+      "name": "GitHub Actions",
+      "coverage": "Selected first-party Action lifecycle rules and exact workflow locations."
+    },
+    {
+      "ecosystems": ["nodejs", "npm"],
+      "name": "Node.js and npm",
+      "coverage": "Runtime declarations, direct dependencies, lockfiles, and supported source usages."
+    },
+    {
+      "ecosystems": ["python"],
+      "name": "Python",
+      "coverage": "Runtime declarations, direct dependencies, common lockfiles, and supported source usages."
+    },
+    {
+      "ecosystems": ["rust"],
+      "name": "Rust",
+      "coverage": "The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md)."
+    }
+  ],
+  "unsupported": {
+    "name": "Other language and platform ecosystems",
+    "coverage": "Report the limitation; do not infer lifecycle status without a detector."
+  }
+}

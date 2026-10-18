@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { maturityLabels } from "../benchmarks/maturity.js";
 import { detectorOf, findingKey, scoreDetectors, violations } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 
@@ -64,7 +65,6 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   python: { corpus: ["python"], row: "Python" },
   rust: { corpus: ["rust"], row: "Rust" },
 };
-const LABELS = { experimental: "Experimental", beta: "Beta", stable: "Supported" } as const;
 // Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus
 // grows (#141, #142); the test fails if one of them starts to meet its level, so the entry is removed.
 const GRANDFATHERED = new Set(["github-actions", "nodejs", "npm", "python"]);
@@ -87,7 +87,7 @@ test("each detector's level agrees with its enforcement flag, its documented sta
     assert.equal(threshold.stable, threshold.level !== "experimental", `${name}: stable must be true exactly for beta and stable`);
     const info = ECOSYSTEMS[name];
     assert.ok(info, `${name} is missing from the table in this test`);
-    assert.ok(compatibility.includes(`| ${info.row} | ${LABELS[threshold.level]} |`), `docs/COMPATIBILITY.md must show ${info.row} as ${LABELS[threshold.level]}`);
+    assert.ok(compatibility.includes(`| ${info.row} | ${maturityLabels[threshold.level]} |`), `docs/COMPATIBILITY.md must show ${info.row} as ${maturityLabels[threshold.level]}`);
     const earned = earnedLevel(countEvidence(corpus, name, info.corpus));
     if (GRANDFATHERED.has(name)) {
       assert.ok(rank[earned] < rank[threshold.level], `${name} now earns ${threshold.level}; remove it from GRANDFATHERED`);
