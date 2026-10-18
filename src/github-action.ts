@@ -49,6 +49,8 @@ export interface GitHubActionOutcome {
   expiredFailure: boolean;
 }
 
+type GitHubActionFailure = Pick<GitHubActionOutcome, "result" | "reportPath" | "failed" | "gateFailed" | "gate" | "expiredFailure">;
+
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
 
 function annotationLevel(finding: Finding): AnnotationLevel {
@@ -117,6 +119,27 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     gate,
     expiredFailure,
   };
+}
+
+/**
+ * The actionable error shown when an Action policy gate fails. Keep this separate from the job
+ * summary so the reason and report location remain visible in the failed step's annotations.
+ */
+export function renderFailure(outcome: GitHubActionFailure): string | undefined {
+  if (!outcome.failed) return undefined;
+
+  const reasons: string[] = [];
+  if (outcome.gateFailed) {
+    const gateRank = severityRank.get(outcome.gate as Severity)!;
+    const count = outcome.result.findings.filter((finding) => severityRank.get(finding.severity)! >= gateRank).length;
+    reasons.push(`${count} finding${count === 1 ? "" : "s"} met or exceeded the ${outcome.gate} severity gate`);
+  }
+  if (outcome.expiredFailure) {
+    const count = outcome.result.suppressions?.expired.length ?? 0;
+    reasons.push(`${count} baseline suppression${count === 1 ? "" : "s"} expired while on-expired is fail`);
+  }
+
+  return `Evergreen failed: ${reasons.join("; ")}. JSON report: ${outcome.reportPath}. Next steps: review the annotations and JSON report, then fix the findings or update the baseline and rerun Evergreen.`;
 }
 
 export const ATTRIBUTION_LINE = "<sub>Scanned by [Evergreen](https://github.com/arminazimi/evergreen)</sub>";

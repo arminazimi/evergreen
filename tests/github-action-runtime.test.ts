@@ -10,7 +10,7 @@ import { createBaseline, writeBaseline } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import type { Finding } from "../src/domain.js";
-import { runGitHubAction } from "../src/github-action.js";
+import { renderFailure, runGitHubAction } from "../src/github-action.js";
 
 const temporaryRoots: string[] = [];
 
@@ -46,6 +46,10 @@ test("the GitHub Action reports only regressions and enforces severity gates", a
   assert.equal(outcome.result.findings.length, 1);
   assert.match(outcome.result.diagnostics.at(-1) ?? "", /Suppressed 1 finding/);
   assert.equal(outcome.failed, true);
+  assert.equal(
+    renderFailure(outcome),
+    `Evergreen failed: 1 finding met or exceeded the high severity gate. JSON report: ${reportPath}. Next steps: review the annotations and JSON report, then fix the findings or update the baseline and rerun Evergreen.`,
+  );
   assert.deepEqual(outcome.annotations[0], {
     level: "error",
     title: "Evergreen: Unsupported actions/checkout runtime",
@@ -242,6 +246,10 @@ test("the Action runner brings back an expired suppression and fails the job onl
     assert.equal(strict.failed, true);
     assert.equal(strict.gateFailed, false, "the severity gate was not the reason");
     assert.equal(strict.expiredFailure, true);
+    assert.equal(
+      renderFailure(strict),
+      `Evergreen failed: 4 baseline suppressions expired while on-expired is fail. JSON report: ${options.reportPath}. Next steps: review the annotations and JSON report, then fix the findings or update the baseline and rerun Evergreen.`,
+    );
     const early = await runGitHubAction({ ...options, onExpired: "fail", today: "2026-09-01" });
     assert.equal(early.failed, false);
   } finally {

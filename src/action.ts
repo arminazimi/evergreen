@@ -5,7 +5,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo, Finding, SuppressionState } from "./domain.js";
-import { renderSummary, runGitHubAction } from "./github-action.js";
+import { renderFailure, renderSummary, runGitHubAction } from "./github-action.js";
 import type { GitHubAnnotation, SeverityGate } from "./github-action.js";
 import type { ExpiredPolicy } from "./baseline.js";
 
@@ -76,9 +76,9 @@ async function main(): Promise<void> {
     console.log(
       `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
     );
-    if (outcome.expiredFailure) console.log("::error title=Evergreen baseline suppression expired::A baseline suppression has expired and on-expired is set to fail.");
-    if (outcome.failed) {
-      if (outcome.gateFailed) console.log(`::error title=Evergreen severity gate failed::A finding met the ${outcome.gate} threshold.`);
+    const failure = renderFailure(outcome);
+    if (failure) {
+      console.log(`::error title=Evergreen policy gate failed::${commandValue(failure)}`);
       process.exitCode = 1;
     }
   } catch (error) {
