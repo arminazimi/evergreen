@@ -1,0 +1,23 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.1.0
+jobs:
+  orb-only:
+    executor: node/default
+    steps:
+      - checkout
+  dynamic:
+    description: ubuntu-18.04
+    docker:
+      - image: << parameters.image >>
+      - image: << pipeline.parameters.x >>
+      - image: << .Environment.X >>
+      - image: $IMAGE
+      - image: ${IMAGE}
+      - image: latest
+      - image: ubuntu-latest
+      - image: 42
+    resource_class: machine.large
+  machine-dynamic:
+    machine:
+      image: $(vmImage)

@@ -1,0 +1,23 @@
+# vmImage: ubuntu-16.04
+name: pool-name-without-vmImage
+pool:
+  name: self-hosted
+variables:
+  runner: $(vmImage)
+  image: ${{ variables.image }}
+  image2: ${IMAGE}
+jobs:
+  - job: Dynamic
+    pool:
+      vmImage: $(vmImage)
+  - job: Template
+    pool:
+      vmImage: ${{ variables.image }}
+steps:
+  - script: echo ubuntu-18.04
+  - displayName: windows-2019
+  - resource_class: macos.medium
+  - pool:
+      vmImage: ubuntu-latest
+  - pool:
+      vmImage: windows-latest

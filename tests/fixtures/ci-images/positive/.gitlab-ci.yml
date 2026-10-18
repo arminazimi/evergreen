@@ -1,0 +1,10 @@
+image: node:16.20.2
+
+services:
+  - postgres:12.17
+  - name: redis:6.2.14
+
+build:
+  image: python:3.9.18
+  script:
+    - echo build

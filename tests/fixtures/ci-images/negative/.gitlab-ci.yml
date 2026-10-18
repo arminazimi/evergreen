@@ -1,0 +1,14 @@
+# image: alpine:3.12
+image: $IMAGE
+services:
+  - ${IMAGE}
+  - name: latest
+notes:
+  description: ubuntu-18.04
+  displayName: python:3.8
+  resource_class: docker
+  image: alpine:3.12
+job:
+  image: 42
+  script:
+    - echo ignored

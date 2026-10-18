@@ -1,0 +1,21 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.1.0
+jobs:
+  docker-build:
+    docker:
+      - image: cimg/node:14.21
+    steps:
+      - checkout
+  machine-build:
+    machine:
+      image: ubuntu-2004:202201-01
+    steps:
+      - checkout
+executors:
+  docker-runner:
+    docker:
+      - image: cimg/python:3.8
+  machine-runner:
+    machine:
+      image: ubuntu-2004:202201-01

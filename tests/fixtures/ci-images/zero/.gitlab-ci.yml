@@ -1,0 +1,7 @@
+image: node:latest
+services:
+  - name: postgres:latest
+build:
+  image: alpine:latest
+  script:
+    - echo current

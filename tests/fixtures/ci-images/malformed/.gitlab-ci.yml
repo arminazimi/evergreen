@@ -1,0 +1,5 @@
+image: alpine:3.20
+build:
+  script:
+    - echo broken
+  image: [unterminated
