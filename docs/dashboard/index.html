@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Accuracy dashboard — Evergreen</title>
+    <meta
+      name="description"
+      content="Per-detector precision, recall, and corpus evidence from Evergreen's last full public corpus run, generated from committed benchmark files."
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="dashboard.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <p class="kicker">EVERGREEN / EVIDENCE</p>
+      <h1>Accuracy and performance dashboard</h1>
+      <p class="lede">
+        Every number on this page is generated from committed files by
+        <a href="https://github.com/arminazimi/evergreen/blob/main/tools/build-dashboard-data.ts">tools/build-dashboard-data.ts</a>.
+        The data is <a href="data.json">data.json</a>; its inputs are
+        <a href="https://github.com/arminazimi/evergreen/blob/main/benchmarks/thresholds.json">benchmarks/thresholds.json</a>
+        and the
+        <a href="https://github.com/arminazimi/evergreen/blob/main/benchmarks/public-repositories.json">public corpus</a>.
+        Nothing on this page is typed by hand.
+      </p>
+    </header>
+
+    <main id="main">
+      <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+      <noscript>
+        <p class="status">
+          This page reads <a href="data.json">data.json</a> with JavaScript. The file is plain JSON you can read directly.
+        </p>
+      </noscript>
+
+      <div id="data-sections">
+      <section aria-labelledby="run-heading">
+        <h2 id="run-heading">Last full run</h2>
+        <div id="run"></div>
+      </section>
+
+      <section aria-labelledby="detectors-heading">
+        <h2 id="detectors-heading">Results per detector</h2>
+        <p>
+          <strong>Level</strong> is the promise recorded in
+          <a href="https://github.com/arminazimi/evergreen/blob/main/benchmarks/thresholds.json">benchmarks/thresholds.json</a>.
+          <strong>Earned level</strong> is the highest level the counted corpus evidence supports under
+          <a href="https://github.com/arminazimi/evergreen/blob/main/docs/decisions/0013-detector-maturity.md">decision 0013</a>.
+          Where a level is higher than its earned level, the row says so.
+        </p>
+        <div id="detectors-table" class="table-wrap" tabindex="0" role="group" aria-label="Results per detector"></div>
+      </section>
+
+      <section aria-labelledby="minimums-heading">
+        <h2 id="minimums-heading">Evidence required to earn a level</h2>
+        <p>
+          The thresholds an earned level is measured against, from
+          <a href="https://github.com/arminazimi/evergreen/blob/main/docs/decisions/0013-detector-maturity.md">decision 0013</a>.
+        </p>
+        <div id="minimums-table" class="table-wrap" tabindex="0" role="group" aria-label="Evidence required per level"></div>
+      </section>
+
+      <section aria-labelledby="definitions-heading">
+        <h2 id="definitions-heading">Definitions</h2>
+        <p>What each metric means, how it is computed, and the file it comes from.</p>
+        <div id="definitions-list"></div>
+      </section>
+      </div>
+
+      <section class="limitations" aria-labelledby="limitations-heading">
+        <h2 id="limitations-heading">Limitations</h2>
+        <ul id="limitations-list">
+          <li>
+            A precision of 1.0 means no regression against this corpus. The expected findings were written by
+            reviewing the same commits, so it does not show that the detectors generalize to unseen repositories.
+            See <a href="https://github.com/arminazimi/evergreen/blob/main/docs/decisions/0013-detector-maturity.md">ADR 0013</a>
+            and <a href="https://github.com/arminazimi/evergreen/issues/740">issue #740</a>.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>
+        Generated from committed files; do not edit <a href="data.json">data.json</a> by hand. Regenerate it with
+        <code>npm run build:dashboard</code>. This page makes no network requests other than
+        <a href="data.json">data.json</a> from this folder.
+      </p>
+    </footer>
+  </body>
+</html>
