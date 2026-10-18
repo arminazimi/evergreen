@@ -1,0 +1,4 @@
+# ruby 3.2.2
+nodejs 20.11.0
+ruby latest
+ruby ${RUBY_VERSION}

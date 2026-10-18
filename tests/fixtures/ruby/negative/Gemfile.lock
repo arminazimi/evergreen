@@ -1,0 +1,16 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rack (~> 2.2)
+  rake (= 13.0.6)
+
+RUBY VERSION
+   ruby ${RUBY_VERSION}
+
+BUNDLED WITH
+   2.4.10

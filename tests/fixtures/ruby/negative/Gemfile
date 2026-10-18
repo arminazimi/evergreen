@@ -1,0 +1,18 @@
+source "https://rubygems.org"
+
+# ruby "3.2.2"
+# gem "rack", "2.2.8"
+
+ruby ENV["RUBY_VERSION"]
+
+gem "dynamic", ENV.fetch("GEM_VERSION")
+gem "floating"
+gem "from-git", git: "https://example.com/from-git.git"
+gem "from-path", path: "../from-path"
+
+group :test do
+  gem "also-dynamic", ENV["SPEC_VERSION"]
+end
+
+eval_gemfile "extra.gemspec"
+gemspec
