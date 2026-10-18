@@ -1,6 +1,6 @@
 # Evergreen for VS Code
 
-Runs the installed [Evergreen](https://github.com/arminazimi/evergreen) CLI for a workspace folder and shows its output. The extension does not bundle the CLI, and it makes no network calls or telemetry.
+Shows [Evergreen](https://github.com/arminazimi/evergreen) lifecycle findings as inline diagnostics using the installed CLI. The extension does not bundle the CLI, and it makes no network calls or telemetry.
 
 ## Requirements
 
@@ -30,15 +30,39 @@ code --extensionDevelopmentPath="$(pwd)"
 
 ## Use
 
-Run **Evergreen: Scan workspace** from the Command Palette. The extension runs:
+Saving a file scans the workspace folder that contains it when `evergreen.runOnSave` is true (the default) and the workspace is trusted. The extension runs:
 
 ```bash
 evergreen scan --json <workspace-folder>
 ```
 
-The command output is written to the **Evergreen** output channel, followed by a one-line finding count.
+Each finding becomes a diagnostic at its exact location:
 
-If the CLI is not on `PATH`, set `evergreen.executablePath` in your settings to its full path. A missing CLI shows a single error message with the install command.
+- The path and line come from the finding; the column is used when present. A finding without a line is placed on the first line of its file.
+- Severity maps as `critical`/`high` to Error, `medium` to Warning, and `low`/`info` to Information.
+- The diagnostic code is the rule id, linked to the first source URL.
+- The diagnostic source is **Evergreen**.
+
+Old diagnostics for the folder are cleared before new ones are added, so fixed problems disappear on the next save. Only one scan runs per folder at a time; saves that arrive during a scan schedule one rerun.
+
+Run **Evergreen: Scan workspace** from the Command Palette to scan immediately. The CLI output is written to the **Evergreen** output channel.
+
+Select **Evergreen: explain this finding** from a diagnostic's quick actions, or run the command with the cursor on a diagnostic. It runs:
+
+```bash
+evergreen context <finding-id> <workspace-folder>
+```
+
+and shows the migration context in the **Evergreen** output channel.
+
+## Settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `evergreen.executablePath` | `evergreen` | Path to the Evergreen CLI. |
+| `evergreen.runOnSave` | `true` | Scan the workspace folder when a file is saved. |
+
+If the CLI is not on `PATH`, set `evergreen.executablePath` to its full path. A missing CLI shows one error message with the install command.
 
 ## Tests
 
@@ -46,7 +70,14 @@ If the CLI is not on `PATH`, set `evergreen.executablePath` in your settings to 
 npm test
 ```
 
-The unit tests run with Node's built-in test runner and do not need a VS Code window.
+The unit tests run with Node's built-in test runner and do not need a VS Code window. The mapping test uses a recorded real scan of `tests/fixtures/dotnet/positive`, stored in `src/test/fixtures/dotnet-positive.json`. Regenerate it after building the CLI at the repository root:
+
+```bash
+npm run build
+node extensions/vscode/scripts/record-fixtures.mjs
+```
+
+The recorder only normalizes the machine-specific `root` field; findings, locations, severities, and sources are exactly what the CLI printed.
 
 ## Notes
 

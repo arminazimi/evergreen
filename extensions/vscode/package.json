@@ -1,7 +1,7 @@
 {
   "name": "evergreen-vscode",
   "displayName": "Evergreen",
-  "description": "Find end-of-life and deprecated dependencies with the local Evergreen CLI.",
+  "description": "Show Evergreen lifecycle findings as inline diagnostics using the local CLI.",
   "version": "0.1.0",
   "publisher": "arminazimi",
   "license": "Apache-2.0",
@@ -32,6 +32,10 @@
       {
         "command": "evergreen.scan",
         "title": "Evergreen: Scan workspace"
+      },
+      {
+        "command": "evergreen.explainFinding",
+        "title": "Evergreen: explain this finding"
       }
     ],
     "configuration": {
@@ -58,7 +62,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "test": "npm run build && node --test out/test/",
+    "test": "npm run build && node --test \"out/test/**/*.test.js\"",
     "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
