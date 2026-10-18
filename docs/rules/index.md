@@ -8,6 +8,11 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/"
 
 Every lifecycle claim Evergreen makes comes from a reviewed rule with an authoritative source. Each rule has a page with its status, affected versions, dates, sources, and migration steps. These pages are generated from the registry; see [Lifecycle rules](../RULES.md).
 
+## ci-images
+
+- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html) — scheduled end of life, `ci-images.azure-pipelines.macos-14.scheduled-end-of-life`
+- [Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal](ci-images.azure-pipelines.ubuntu-22.04.scheduled-end-of-life.html) — scheduled end of life, `ci-images.azure-pipelines.ubuntu-22.04.scheduled-end-of-life`
+
 ## container
 
 - [MySQL image release lines 8.0 and older are past end-of-life](container.mysql.eol-8.0-and-older.html) — end of life, `container.mysql.eol-8.0-and-older`

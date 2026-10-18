@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "ci-images",
+  "rules": [
+    {
+      "id": "ci-images.azure-pipelines.macos-14.scheduled-end-of-life",
+      "ecosystem": "ci-images",
+      "purl": "pkg:generic/azure-pipelines/macos-image",
+      "vers": "vers:intdot/14",
+      "event": "scheduled-end-of-life",
+      "title": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal",
+      "summary": "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.",
+      "severity": "low",
+      "replacement": "macos-latest or macos-15",
+      "deadline": "2026-11-02",
+      "sources": [
+        {
+          "title": "Microsoft-hosted image deprecation schedule",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "ci-images.azure-pipelines.ubuntu-22.04.scheduled-end-of-life",
+      "ecosystem": "ci-images",
+      "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+      "vers": "vers:intdot/22.04",
+      "event": "scheduled-end-of-life",
+      "title": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
+      "summary": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
+      "severity": "low",
+      "replacement": "ubuntu-latest, ubuntu-24.04, or ubuntu-26.04",
+      "deadline": "2027-04-17",
+      "sources": [
+        {
+          "title": "Microsoft-hosted image deprecation schedule",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}

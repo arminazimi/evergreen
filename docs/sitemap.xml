@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://arminazimi.github.io/evergreen/</loc></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/</loc></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.scheduled-end-of-life.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.node.eol-21-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
