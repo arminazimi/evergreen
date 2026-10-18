@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.capabilities.v1",
-  "manifestVersion": "1.0.0",
+  "manifestVersion": "1.1.0",
   "product": {
     "name": "Evergreen",
     "package": "evergreen-deprecation",
@@ -17,16 +17,16 @@
     "unknownSchemaMajor": "reject"
   },
   "ecosystems": [
-    { "id": "container", "status": "experimental", "detectorIds": ["container"] },
-    { "id": "dotnet", "status": "experimental", "detectorIds": ["dotnet"] },
-    { "id": "github-actions", "status": "supported", "detectorIds": ["github-actions"] },
-    { "id": "go", "status": "experimental", "detectorIds": ["go"] },
-    { "id": "java", "status": "experimental", "detectorIds": ["java"] },
-    { "id": "kubernetes", "status": "experimental", "detectorIds": ["kubernetes"] },
-    { "id": "nodejs", "status": "supported", "detectorIds": ["npm"] },
-    { "id": "npm", "status": "supported", "detectorIds": ["npm"] },
-    { "id": "python", "status": "supported", "detectorIds": ["python"] },
-    { "id": "rust", "status": "experimental", "detectorIds": ["rust"] }
+    { "id": "container", "status": "experimental", "maturity": "experimental", "detectorIds": ["container"] },
+    { "id": "dotnet", "status": "experimental", "maturity": "experimental", "detectorIds": ["dotnet"] },
+    { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
+    { "id": "go", "status": "experimental", "maturity": "experimental", "detectorIds": ["go"] },
+    { "id": "java", "status": "experimental", "maturity": "experimental", "detectorIds": ["java"] },
+    { "id": "kubernetes", "status": "experimental", "maturity": "experimental", "detectorIds": ["kubernetes"] },
+    { "id": "nodejs", "status": "supported", "maturity": "stable", "detectorIds": ["npm"] },
+    { "id": "npm", "status": "supported", "maturity": "stable", "detectorIds": ["npm"] },
+    { "id": "python", "status": "supported", "maturity": "stable", "detectorIds": ["python"] },
+    { "id": "rust", "status": "experimental", "maturity": "experimental", "detectorIds": ["rust"] }
   ],
   "capabilities": [
     { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"] },

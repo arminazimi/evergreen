@@ -42,6 +42,7 @@
         "properties": {
           "id": { "type": "string", "minLength": 1 },
           "status": { "$ref": "#/$defs/supportStatus" },
+          "maturity": { "$ref": "#/$defs/maturityLevel" },
           "detectorIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
         }
       }
@@ -57,6 +58,7 @@
   },
   "$defs": {
     "supportStatus": { "enum": ["supported", "experimental", "unsupported"] },
+    "maturityLevel": { "enum": ["experimental", "beta", "stable"] },
     "identifier": { "type": "string", "pattern": "^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$" },
     "capability": {
       "type": "object",

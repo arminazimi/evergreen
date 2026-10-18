@@ -3,6 +3,7 @@ import * as z from "zod/v4";
 import { VERSION } from "./version.js";
 
 const supportStatusSchema = z.enum(["supported", "experimental", "unsupported"]);
+const maturityLevelSchema = z.enum(["experimental", "beta", "stable"]);
 const surfaceKindSchema = z.enum(["cli", "mcp", "skill", "plugin", "ci"]);
 
 const capabilitySchema = z.object({
@@ -43,6 +44,9 @@ export const capabilityManifestSchema = z.object({
   ecosystems: z.array(z.object({
     id: z.string().min(1),
     status: supportStatusSchema,
+    // The lowest `level` among the detectors in `detectorIds` (decision 0013); an ecosystem served by
+    // several detectors is only as mature as its least mature detector.
+    maturity: maturityLevelSchema,
     detectorIds: z.array(z.string().min(1)),
   })),
   capabilities: z.array(capabilitySchema),
@@ -63,7 +67,7 @@ const workflowCapabilityIds = [
 
 const manifest = {
   schemaVersion: "evergreen.capabilities.v1",
-  manifestVersion: "1.0.0",
+  manifestVersion: "1.1.0",
   product: {
     name: "Evergreen",
     package: "evergreen-deprecation",
@@ -80,16 +84,17 @@ const manifest = {
     unknownSchemaMajor: "reject",
   },
   ecosystems: [
-    { id: "container", status: "experimental", detectorIds: ["container"] },
-    { id: "dotnet", status: "experimental", detectorIds: ["dotnet"] },
-    { id: "github-actions", status: "supported", detectorIds: ["github-actions"] },
-    { id: "go", status: "experimental", detectorIds: ["go"] },
-    { id: "java", status: "experimental", detectorIds: ["java"] },
-    { id: "kubernetes", status: "experimental", detectorIds: ["kubernetes"] },
-    { id: "nodejs", status: "supported", detectorIds: ["npm"] },
-    { id: "npm", status: "supported", detectorIds: ["npm"] },
-    { id: "python", status: "supported", detectorIds: ["python"] },
-    { id: "rust", status: "experimental", detectorIds: ["rust"] },
+    { id: "container", status: "experimental", maturity: "experimental", detectorIds: ["container"] },
+    { id: "dotnet", status: "experimental", maturity: "experimental", detectorIds: ["dotnet"] },
+    { id: "github-actions", status: "supported", maturity: "stable", detectorIds: ["github-actions"] },
+    { id: "go", status: "experimental", maturity: "experimental", detectorIds: ["go"] },
+    { id: "java", status: "experimental", maturity: "experimental", detectorIds: ["java"] },
+    { id: "kubernetes", status: "experimental", maturity: "experimental", detectorIds: ["kubernetes"] },
+    // nodejs and npm share the npm detector, so both take its level.
+    { id: "nodejs", status: "supported", maturity: "stable", detectorIds: ["npm"] },
+    { id: "npm", status: "supported", maturity: "stable", detectorIds: ["npm"] },
+    { id: "python", status: "supported", maturity: "stable", detectorIds: ["python"] },
+    { id: "rust", status: "experimental", maturity: "experimental", detectorIds: ["rust"] },
   ],
   capabilities: [
     {
