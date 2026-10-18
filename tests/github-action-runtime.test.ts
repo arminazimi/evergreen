@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -23,6 +24,39 @@ async function fixtureRepository(): Promise<string> {
   temporaryRoots.push(root);
   await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "20" } }));
   return root;
+}
+
+async function runActionFixture(root: string, inputs: Record<string, string> = {}): Promise<{ code: number; stdout: string; outputs: string; summary: string }> {
+  const runner = join(root, ".runner");
+  const output = join(runner, "outputs.txt");
+  const summary = join(runner, "summary.md");
+  await mkdir(runner, { recursive: true });
+  await Promise.all([writeFile(output, ""), writeFile(summary, "")]);
+
+  const child = spawn(process.execPath, [resolve("dist/src/action.js")], {
+    env: {
+      ...process.env,
+      GITHUB_WORKSPACE: root,
+      RUNNER_TEMP: runner,
+      GITHUB_OUTPUT: output,
+      GITHUB_STEP_SUMMARY: summary,
+      INPUT_ATTRIBUTION: "false",
+      ...inputs,
+    },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  child.stdout.setEncoding("utf8");
+  child.stderr.setEncoding("utf8");
+  let stdout = "";
+  let stderr = "";
+  child.stdout.on("data", (chunk: string) => { stdout += chunk; });
+  child.stderr.on("data", (chunk: string) => { stderr += chunk; });
+  const code = await new Promise<number>((resolveCode, reject) => {
+    child.once("error", reject);
+    child.once("close", (status) => resolveCode(status ?? 1));
+  });
+  assert.equal(stderr, "");
+  return { code, stdout, outputs: await readFile(output, "utf8"), summary: await readFile(summary, "utf8") };
 }
 
 test("the GitHub Action reports only regressions and enforces severity gates", async () => {
@@ -66,6 +100,39 @@ test("the GitHub Action reports only regressions and enforces severity gates", a
     failOnSeverity: "critical",
   });
   assert.equal(criticalOnly.failed, false);
+});
+
+test("representative public, private, and no-findings Action runs honor baselines and gates", async () => {
+  const publicRoot = await mkdtemp(join(tmpdir(), "evergreen-action-public-"));
+  temporaryRoots.push(publicRoot);
+  await writeFile(join(publicRoot, "package.json"), JSON.stringify({ engines: { node: "24" } }));
+  await mkdir(join(publicRoot, ".github", "workflows"), { recursive: true });
+  await writeFile(join(publicRoot, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  const publicRun = await runActionFixture(publicRoot, { "INPUT_FAIL-ON-SEVERITY": "high" });
+  assert.equal(publicRun.code, 1, "a public repository without a baseline fails its configured gate");
+  assert.match(publicRun.stdout, /Evergreen policy gate failed/);
+  assert.match(publicRun.stdout, /1 finding met or exceeded the high severity gate/);
+  assert.match(publicRun.stdout, new RegExp(`JSON report: ${join(publicRoot, ".runner", "evergreen-report.json").replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+  assert.match(publicRun.outputs, /finding-count=1/);
+
+  const privateRoot = await fixtureRepository();
+  const baseline = join(privateRoot, ".evergreen-baseline.json");
+  await writeBaseline(baseline, createBaseline(await scanRepository(privateRoot, builtInDetectors)));
+  const privateRun = await runActionFixture(privateRoot, {
+    INPUT_BASELINE: ".evergreen-baseline.json",
+    "INPUT_FAIL-ON-SEVERITY": "high",
+  });
+  assert.equal(privateRun.code, 0, "a private repository can keep known findings in a local baseline");
+  assert.match(privateRun.outputs, /finding-count=0/);
+  assert.match(privateRun.summary, /Found \*\*0\*\* new lifecycle findings; passed the severity gate\./);
+
+  const cleanRoot = await mkdtemp(join(tmpdir(), "evergreen-action-clean-"));
+  temporaryRoots.push(cleanRoot);
+  await writeFile(join(cleanRoot, "package.json"), JSON.stringify({ engines: { node: "24" } }));
+  const cleanRun = await runActionFixture(cleanRoot, { "INPUT_FAIL-ON-SEVERITY": "high" });
+  assert.equal(cleanRun.code, 0);
+  assert.match(cleanRun.outputs, /finding-count=0/);
+  assert.match(cleanRun.stdout, /Evergreen found 0 new lifecycle findings\./);
 });
 
 test("the GitHub Action rejects an invalid severity gate", async () => {
