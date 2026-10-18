@@ -1,6 +1,6 @@
 # 0013 — Detector maturity levels and the evidence to move between them
 
-Status: proposed
+Status: accepted
 
 ## Problem
 
