@@ -7,7 +7,7 @@ import { test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { getCapabilityManifest } from "../src/capabilities.js";
+import { capabilityManifestSchema, getCapabilityManifest } from "../src/capabilities.js";
 
 const execute = promisify(execFile);
 const cli = resolve("dist/src/cli.js");
@@ -62,6 +62,16 @@ test("the schema accepts every maturity level, rejects an unknown one, and accep
   const older = structuredClone(example);
   for (const ecosystem of older.ecosystems) delete ecosystem.maturity;
   assert.ok(validate(older), JSON.stringify(validate.errors));
+});
+
+test("the exported manifest schema parses a 1.0.0 manifest without maturity", async () => {
+  const older = JSON.parse(await readFile(resolve("examples/capabilities.json"), "utf8"));
+  older.manifestVersion = "1.0.0";
+  for (const ecosystem of older.ecosystems) delete ecosystem.maturity;
+
+  const parsed = capabilityManifestSchema.parse(older);
+  assert.equal(parsed.manifestVersion, "1.0.0");
+  assert.ok(parsed.ecosystems.every((ecosystem) => ecosystem.maturity === undefined));
 });
 
 test("every surface uses shared capability identifiers and unsupported behavior is explicit", () => {
