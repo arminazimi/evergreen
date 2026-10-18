@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { parseGemfile } from "../src/detectors/ruby/parse-gemfile.js";
+import { parseGemfileLock } from "../src/detectors/ruby/parse-gemfile-lock.js";
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -139,5 +140,84 @@ test("Gemfile ignores dynamic values and unsupported ruby directive forms", () =
   assert.deepEqual(parseGemfile('gem "rack", ""\n'), []);
   assert.deepEqual(parseGemfile('gem "rack", "2.2.8", require: false\n'), [
     { kind: "gem", name: "rack", value: "2.2.8", line: 1 },
+  ]);
+});
+
+test("parses resolved gems and RUBY VERSION from a Gemfile.lock with exact lines", async () => {
+  assert.deepEqual(parseGemfileLock(await fixture("positive/Gemfile.lock")), [
+    { kind: "gem", name: "rack", value: "2.2.8", line: 4 },
+    { kind: "gem", name: "rake", value: "13.0.6", line: 5 },
+    { kind: "ruby", value: "3.2.2p53", line: 15 },
+  ]);
+});
+
+test("a valid Gemfile.lock with no lifecycle findings still parses its declarations", async () => {
+  assert.deepEqual(parseGemfileLock(await fixture("zero/Gemfile.lock")), [
+    { kind: "gem", name: "rake", value: "13.2.1", line: 4 },
+    { kind: "ruby", value: "3.3.0p0", line: 13 },
+  ]);
+});
+
+test("ignores DEPENDENCIES requirements, an empty specs section, a dynamic RUBY VERSION, and BUNDLED WITH", async () => {
+  assert.deepEqual(parseGemfileLock(await fixture("negative/Gemfile.lock")), []);
+});
+
+test("a malformed Gemfile.lock returns nothing and never throws", async () => {
+  const contents = await fixture("malformed/Gemfile.lock");
+  assert.doesNotThrow(() => parseGemfileLock(contents));
+  assert.deepEqual(parseGemfileLock(contents), []);
+  for (const junk of ["GEM\n  specs:\n    rack (2.2.8\n", "GEM\n  specs:\n    rack (2.2.8)\n    broken (\n", "GEM\n  specs:\n    rack ()\n", "\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n"]) {
+    assert.doesNotThrow(() => parseGemfileLock(junk));
+    assert.deepEqual(parseGemfileLock(junk), []);
+  }
+});
+
+test("Gemfile.lock reads only GEM specs, skips dependency requirements, and handles CRLF", () => {
+  const contents = [
+    "GEM",
+    "  remote: https://rubygems.org/",
+    "  specs:",
+    "    rails (7.1.3)",
+    "      actionpack (= 7.1.3)",
+    "    rake (13.0.6)",
+    "",
+    "GIT",
+    "  remote: https://example.com/local.git",
+    "  specs:",
+    "    local-gem (0.1.0)",
+    "",
+    "PATH",
+    "  remote: .",
+    "  specs:",
+    "    local (0.0.1)",
+    "",
+    "PLATFORMS",
+    "  ruby",
+    "",
+    "DEPENDENCIES",
+    "  rails (~> 7.1.3)",
+    "  rake (= 13.0.6)",
+    "",
+    "BUNDLED WITH",
+    "   2.4.10",
+  ].join("\n");
+  assert.deepEqual(parseGemfileLock(contents), [
+    { kind: "gem", name: "rails", value: "7.1.3", line: 4 },
+    { kind: "gem", name: "rake", value: "13.0.6", line: 6 },
+  ]);
+  assert.deepEqual(parseGemfileLock("GEM\r\n  specs:\r\n    rack (2.2.8)\r\n\r\nRUBY VERSION\r\n   ruby 3.2.2p53\r\n"), [
+    { kind: "gem", name: "rack", value: "2.2.8", line: 3 },
+    { kind: "ruby", value: "3.2.2p53", line: 6 },
+  ]);
+  assert.deepEqual(parseGemfileLock("CHECKSUMS\n  rake (13.0.6) sha256=abc\n"), []);
+});
+
+test("Gemfile.lock bounds untrusted input and returns the raw resolved value", () => {
+  assert.deepEqual(parseGemfileLock("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseGemfileLock(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nGEM\n  specs:\n    rack (2.2.8)\n`), [
+    { kind: "gem", name: "rack", value: "2.2.8", line: 4 },
+  ]);
+  assert.deepEqual(parseGemfileLock("GEM\n  specs:\n    nokogiri (1.16.2-x86_64-linux)\n"), [
+    { kind: "gem", name: "nokogiri", value: "1.16.2-x86_64-linux", line: 3 },
   ]);
 });
