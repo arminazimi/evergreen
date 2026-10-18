@@ -14,7 +14,7 @@ test("drafts the scheduled macOS 14 rule from the recording", async () => {
   const drafts = await execute(ciImagesImporter, { replay: recording });
   assert.equal(drafts.rules.length, 1);
   const rule = drafts.rules[0]!;
-  assert.equal(rule.id, "ci-images.azure-pipelines.macos-14.scheduled-end-of-life");
+  assert.equal(rule.id, "ci-images.azure-pipelines.macos-14");
   assert.equal(rule.ecosystem, "ci-images");
   assert.equal(rule.purl, "pkg:generic/azure-pipelines/macos-image");
   assert.equal(rule.vers, "vers:intdot/14");
@@ -29,7 +29,7 @@ test("drafts the scheduled macOS 14 rule from the recording", async () => {
 
 test("the same image becomes retired on its retirement date", async () => {
   const onTheDay = await execute(ciImagesImporter, { replay: recording, now: "2026-11-02" });
-  assert.equal(onTheDay.rules[0]!.id, "ci-images.azure-pipelines.macos-14.removed");
+  assert.equal(onTheDay.rules[0]!.id, "ci-images.azure-pipelines.macos-14");
   assert.equal(onTheDay.rules[0]!.event, "removed");
   assert.equal(onTheDay.rules[0]!.severity, "high");
 });

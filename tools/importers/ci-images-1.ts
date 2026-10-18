@@ -82,9 +82,8 @@ export const ciImagesImporter: Importer = {
         continue;
       }
 
-      const suffix = retired ? "removed" : "scheduled-end-of-life";
       rules.push({
-        id: `ci-images.azure-pipelines.${mapped.family}-${mapped.version}.${suffix}`,
+        id: `ci-images.azure-pipelines.${mapped.family}-${mapped.version}`,
         ecosystem: "ci-images",
         purl: `pkg:generic/azure-pipelines/${mapped.family}-image`,
         vers: `vers:intdot/${mapped.version}`,
