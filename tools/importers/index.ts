@@ -1,3 +1,4 @@
+import { ciImagesImporter } from "./ci-images-1.js";
 import { containerOfficialImagesImporter } from "./container.js";
 import { dotnetReleasesImporter } from "./dotnet-1.js";
 import { nugetDeprecationImporter } from "./dotnet-2.js";
@@ -19,4 +20,4 @@ import { runnerImagesImporter } from "./runner-images.js";
 import type { Importer } from "./types.js";
 
 /** Every importer the command line can run. Each importer adds itself here when it lands. */
-export const importers: readonly Importer[] = [containerOfficialImagesImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rustToolchainImporter, rustYankedImporter];
+export const importers: readonly Importer[] = [ciImagesImporter, containerOfficialImagesImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rustToolchainImporter, rustYankedImporter];

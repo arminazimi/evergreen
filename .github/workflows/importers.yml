@@ -30,6 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - { importer: ci-images-1, ecosystem: ci-images }
           - { importer: container-official-images, ecosystem: container }
           - { importer: dotnet-1, ecosystem: dotnet }
           - { importer: dotnet-2, ecosystem: dotnet }
@@ -96,6 +97,7 @@ jobs:
       fail-fast: false
       matrix:
         importer:
+          - ci-images-1
           - container-official-images
           - dotnet-1
           - dotnet-2
