@@ -65,6 +65,8 @@ test("each host README links its vendor documentation and is honest about verifi
   for (const host of ["cursor", "gemini", "copilot", "kilo"]) {
     const readme = await read(`${host}/README.md`);
     assert.match(readme, /Documentation: .*https:\/\//, host);
-    assert.match(readme, /have \*\*not\*\* yet been run inside a live installation/, host);
+    assert.match(readme, /has \*\*not\*\* been run inside a live installation of the host/, host);
+    assert.match(readme, /\*\*Checked \(2026-10-18\):\*\*.*evergreen-deprecation@0\.2\.0 evergreen-mcp/, host);
+    assert.doesNotMatch(readme, /needs the `evergreen-deprecation` package to be published/, host);
   }
 });
