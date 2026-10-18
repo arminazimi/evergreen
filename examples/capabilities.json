@@ -4,7 +4,7 @@
   "product": {
     "name": "Evergreen",
     "package": "evergreen-deprecation",
-    "version": "0.2.0"
+    "version": "0.3.0"
   },
   "compatibility": {
     "node": ">=22",
@@ -39,11 +39,11 @@
     { "id": "migration.execute", "status": "unsupported", "version": "1", "description": "Execute migration edits or suggested verification commands automatically.", "ecosystems": [] }
   ],
   "surfaces": [
-    { "id": "cli", "kind": "cli", "status": "supported", "version": "0.2.0", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "environment.doctor"] },
-    { "id": "mcp", "kind": "mcp", "status": "supported", "version": "0.2.0", "entryPoints": ["evergreen-mcp"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
+    { "id": "cli", "kind": "cli", "status": "supported", "version": "0.3.0", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "environment.doctor"] },
+    { "id": "mcp", "kind": "mcp", "status": "supported", "version": "0.3.0", "entryPoints": ["evergreen-mcp"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
     { "id": "skill", "kind": "skill", "status": "supported", "version": "1", "entryPoints": ["skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
     { "id": "plugin", "kind": "plugin", "status": "experimental", "version": "0", "entryPoints": ["evergreen-mcp", "skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
-    { "id": "ci.github-actions", "kind": "ci", "status": "supported", "version": "0.2.0", "entryPoints": ["action.yml", "evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] },
-    { "id": "ci.gitlab", "kind": "ci", "status": "experimental", "version": "0.2.0", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] }
+    { "id": "ci.github-actions", "kind": "ci", "status": "supported", "version": "0.3.0", "entryPoints": ["action.yml", "evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] },
+    { "id": "ci.gitlab", "kind": "ci", "status": "experimental", "version": "0.3.0", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] }
   ]
 }

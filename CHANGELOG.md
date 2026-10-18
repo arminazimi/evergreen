@@ -2,6 +2,71 @@
 
 ## Unreleased
 
+## 0.3.0 - 2026-10-18
+
+- Add four detectors, all experimental (decision 0013): Java and Kotlin (out-of-support JDK pins and moved Maven
+  dependencies), Kubernetes (removed API versions in manifests, Helm charts, and kustomize), Rust (unsupported
+  toolchains and abandoned crates, with the files that use them), and .NET (unsupported SDKs and target frameworks,
+  and deprecated NuGet packages, with the C# files that use them).
+- Add optional `owner`, `reason`, `created`, and `expires` to baseline suppressions. A suppression that is about to
+  expire is reported, and one that has expired stops hiding its finding, or fails the job with `--on-expired fail`.
+- Add the `scheduled-end-of-life` event for an announced end of life that has not happened yet, at low severity, with
+  the announced date. The first rules are .NET 8 and 9 (2026-11-10).
+- Add `maturity` (experimental, beta, or stable) to each ecosystem in the capability manifest, now version 1.1.0, and
+  define the three levels and the evidence each needs.
+- The GitHub Action explains which policy gate failed, how many findings caused it, and where the report is; its inputs
+  and outputs are documented and kept in step with `action.yml` by a test. The major Action tag will move
+  automatically from the first stable v1.0.0.
+- Lifecycle data published after this release requires Evergreen 0.3.0 or newer, because it can contain scheduled
+  end-of-life rules.
+- Known limits: the Cursor, Gemini CLI, GitHub Copilot, and Kilo Code setups under `examples/agents/` have not been run
+  inside the hosts themselves (the server command was checked against the published package).
+- Explain policy gate failures. (#752)
+- Maturity per ecosystem (#155). (#747)
+- Record announced end-of-life dates as scheduled rules; add .NET 8 and 9 (ADR 0010). (#737)
+- Map imports and calls of deprecated packages to C# files (#374). (#732)
+- Detect unsupported .NET targets and SDKs and deprecated NuGet packages (#373). (#731)
+- Import NuGet deprecations of candidate packages (#372). (#730)
+- Import end-of-support lines from the releases index (#371). (#729)
+- Seed the .NET registry with five sourced rules (#370). (#722)
+- Adopt mineral green identity. (#723)
+- Parse global.json, project files, Directory props, and packages.lock.json (#366, #367, #368, #369). (#719)
+- Map imports and calls of abandoned crates to files (#348). (#711)
+- Add migration steps and verification commands to the rules (#349). (#710)
+- Detect unsupported toolchains, abandoned crates, and yanked versions (#347). (#709)
+- Add the toolchain and yanked-versions importers (#345, #346). (#708)
+- Seed the Rust registry with five sourced rules (#344). (#707)
+- Parse Cargo.lock and rust-toolchain with exact lines (#342, #343). (#706)
+- Parse Cargo.toml dependencies, edition, and rust-version with exact lines (#341). (#705)
+- Add migration steps and verification commands to the rules. (#702)
+- Map imports of moved dependencies to files. (#701)
+- Show suppression state in JSON, text, the Action summary, and MCP (#222). (#700)
+- Add the detector for out-of-support JDKs and moved dependencies. (#698)
+- Bring back expired suppressions, with a resurface or fail policy (#221). (#699)
+- Warn before a suppression expires (#220). (#697)
+- Import Maven relocations for direct dependencies. (#696)
+- Import JDK support dates from the Oracle roadmap and Temurin. (#694)
+- Add optional owner, reason, created, and expires to baseline entries (#218). (#693)
+- Add the registry with five end-of-support JDK rules. (#692)
+- Show severity counts and top findings in the job summary (#214). (#691)
+- Parse .java-version, .sdkmanrc, and .tool-versions with exact line locations. (#690)
+- Parse gradle-wrapper.properties with exact line locations. (#689)
+- Add a Scanned by Evergreen line to the job summary (#294). (#688)
+- Parse build.gradle and build.gradle.kts with exact line locations. (#687)
+- Parse pom.xml with exact line locations. (#685)
+- Add babel-eslint, tslint, and uglify-es deprecation rules. (#684)
+- Add migration steps and verification commands to the rules. (#681)
+- Add the Python 3.10 end-of-life rule (#667). (#680)
+- Add the detector for removed API versions. (#679)
+- Import end-of-life release lines from the release history. (#678)
+- Import removed API versions from the migration guide. (#677)
+- Add the registry with five removed-API rules. (#676)
+- Parse resources and patches from kustomization.yaml. (#675)
+- Parse kubeVersion and literal apiVersion from Helm charts. (#674)
+- Parse apiVersion and kind from manifests with exact lines. (#673)
+- Add an end-of-support rule for Go 1.20 and older (#653). (#665)
+- Start the release notes at the latest release tag, not a data tag. (#759)
+
 ## 0.2.0 - 2026-10-17
 
 - Add the versioned Evergreen brand strategy, logo system, accessible design

@@ -82,7 +82,7 @@ cosign verify-blob \
 Evergreen reports every refusal in the result, in the scan's `diagnostics` and in `data status`, for example:
 
 ```text
-Ignoring downloaded lifecycle data 2026.10.16: registry/npm.json does not match its digest. Using the data bundled with Evergreen 0.2.0.
+Ignoring downloaded lifecycle data 2026.10.16: registry/npm.json does not match its digest. Using the data bundled with Evergreen 0.3.0.
 ```
 
 Common causes are a damaged download (run `evergreen data update` again), a bundle that needs a newer Evergreen (upgrade), and an expired trust root (upgrade). Data that is merely old is not an error; it is flagged stale after 30 days, and `evergreen data update` is the remedy.
