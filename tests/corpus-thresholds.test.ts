@@ -36,9 +36,9 @@ test("a stable detector below its floor is a violation; an experimental one or a
   const thresholds: Thresholds = {
     schemaVersion: "evergreen.corpus-thresholds.v1",
     detectors: {
-      npm: { stable: true, minPrecision: 0.95 },
-      python: { stable: true, minPrecision: 0.95 },
-      nodejs: { stable: false, minPrecision: 0.99 },
+      npm: { level: "stable", stable: true, minPrecision: 0.95 },
+      python: { level: "beta", stable: true, minPrecision: 0.95 },
+      nodejs: { level: "experimental", stable: false, minPrecision: 0.99 },
     },
   };
   const scores = {
@@ -47,4 +47,63 @@ test("a stable detector below its floor is a violation; an experimental one or a
   };
   assert.deepEqual(violations(scores, thresholds), [{ detector: "npm", precision: 0.9, minPrecision: 0.95 }]);
   assert.deepEqual(violations({ npm: { truePositives: 19, falsePositives: 1, falseNegatives: 0, precision: 0.95 } }, thresholds), []);
+});
+
+import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thresholds.js";
+
+// Decision 0013. The corpus ecosystems each detector reads, and the label its row has in docs/COMPATIBILITY.md.
+const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
+  container: { corpus: ["container"], row: "Container base images" },
+  dotnet: { corpus: ["dotnet"], row: ".NET" },
+  "github-actions": { corpus: ["node-actions"], row: "GitHub Actions" },
+  go: { corpus: ["go"], row: "Go" },
+  java: { corpus: ["java"], row: "Java and Kotlin (JVM)" },
+  kubernetes: { corpus: ["kubernetes"], row: "Kubernetes APIs" },
+  nodejs: { corpus: ["node"], row: "Node.js and npm" },
+  npm: { corpus: ["node"], row: "Node.js and npm" },
+  python: { corpus: ["python"], row: "Python" },
+  rust: { corpus: ["rust"], row: "Rust" },
+};
+const LABELS = { experimental: "Experimental", beta: "Beta", stable: "Supported" } as const;
+// Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus
+// grows (#141, #142); the test fails if one of them starts to meet its level, so the entry is removed.
+const GRANDFATHERED = new Set(["github-actions", "nodejs", "npm", "python"]);
+
+test("earnedLevel follows the evidence minimums", () => {
+  const none = { repositoriesWithFindings: 0, expectedFindings: 0, zeroFindingRepositories: 0 };
+  assert.equal(earnedLevel(none), "experimental");
+  assert.equal(earnedLevel(evidenceMinimums.beta), "beta");
+  assert.equal(earnedLevel({ ...evidenceMinimums.stable, zeroFindingRepositories: 3 }), "beta");
+  assert.equal(earnedLevel(evidenceMinimums.stable), "stable");
+  assert.equal(earnedLevel({ ...evidenceMinimums.beta, expectedFindings: 14 }), "experimental");
+});
+
+test("each detector's level agrees with its enforcement flag, its documented status, and its corpus evidence", async () => {
+  const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
+  const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Parameters<typeof countEvidence>[0] }).repositories;
+  const compatibility = await readFile(resolve("docs/COMPATIBILITY.md"), "utf8");
+  const rank = { experimental: 0, beta: 1, stable: 2 } as const;
+  for (const [name, threshold] of Object.entries(thresholds.detectors)) {
+    assert.equal(threshold.stable, threshold.level !== "experimental", `${name}: stable must be true exactly for beta and stable`);
+    const info = ECOSYSTEMS[name];
+    assert.ok(info, `${name} is missing from the table in this test`);
+    assert.ok(compatibility.includes(`| ${info.row} | ${LABELS[threshold.level]} |`), `docs/COMPATIBILITY.md must show ${info.row} as ${LABELS[threshold.level]}`);
+    const earned = earnedLevel(countEvidence(corpus, name, info.corpus));
+    if (GRANDFATHERED.has(name)) {
+      assert.ok(rank[earned] < rank[threshold.level], `${name} now earns ${threshold.level}; remove it from GRANDFATHERED`);
+    } else {
+      assert.ok(rank[earned] >= rank[threshold.level], `${name} is ${threshold.level} but its corpus evidence only supports ${earned}`);
+    }
+  }
+});
+
+test("the thresholds file records the full corpus run its levels rest on", async () => {
+  const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
+  const run = thresholds.lastFullRun;
+  assert.ok(run, "lastFullRun is recorded");
+  assert.match(run.date, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(run.repositories >= 85);
+  const detectors = Object.values(run.perDetector);
+  assert.equal(detectors.reduce((sum, item) => sum + item.truePositives + item.falsePositives, 0), run.findings);
+  assert.deepEqual(Object.keys(run.perDetector).sort(), Object.keys(thresholds.detectors).sort());
 });

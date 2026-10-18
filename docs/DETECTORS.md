@@ -75,6 +75,10 @@ After generating:
 
 Detectors that live outside this repository use the public SDK directly, as described below; `new-detector` is for contributors to Evergreen itself.
 
+## Maturity
+
+Every built-in detector has a level (`experimental`, `beta`, or `stable`) in `benchmarks/thresholds.json`. The level says what the detector promises and which corpus evidence it rests on; [decision 0013](decisions/0013-detector-maturity.md) defines both. A new detector starts as `experimental`, and moving it up is a pull request that changes the level and records the corpus run behind it.
+
 ## Unclassified references
 
 Detectors may implement the optional `analyze` operation when they need to return both findings and references that could not be classified safely. The stable `scan` operation remains required, so existing external detectors continue to work unchanged. The engine adds the detector ID, sorts the references deterministically, and exposes them under `unclassified.count` and `unclassified.references` in `evergreen.scan.v1` JSON output.

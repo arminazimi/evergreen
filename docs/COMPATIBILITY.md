@@ -55,7 +55,10 @@ Matrix version: **2026-10-15 / v1**
 
 `Supported` means the combination is part of the documented product contract.
 `Experimental` means it is usable but lacks a complete release gate or stable
-distribution package. `Unsupported` means Evergreen does not currently claim the
+distribution package. For detectors, `Experimental`, `Beta`, and `Supported`
+have the meanings and the evidence requirements in
+[decision 0013](decisions/0013-detector-maturity.md), and the level of each is
+recorded in `benchmarks/thresholds.json`. `Unsupported` means Evergreen does not currently claim the
 combination works.
 
 ## Monorepos

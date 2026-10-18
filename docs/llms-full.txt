@@ -502,7 +502,10 @@ Matrix version: **2026-10-15 / v1**
 
 `Supported` means the combination is part of the documented product contract.
 `Experimental` means it is usable but lacks a complete release gate or stable
-distribution package. `Unsupported` means Evergreen does not currently claim the
+distribution package. For detectors, `Experimental`, `Beta`, and `Supported`
+have the meanings and the evidence requirements in
+[decision 0013](decisions/0013-detector-maturity.md), and the level of each is
+recorded in `benchmarks/thresholds.json`. `Unsupported` means Evergreen does not currently claim the
 combination works.
 
 ## Monorepos
@@ -1144,6 +1147,10 @@ After generating:
 6. **Check.** `npm run check` must pass, and `npm run validate:public-repos` must still match exactly. A new detector starts non-stable in `benchmarks/thresholds.json` until the corpus has meaningful coverage ([Validation](VALIDATION.md#precision-thresholds)).
 
 Detectors that live outside this repository use the public SDK directly, as described below; `new-detector` is for contributors to Evergreen itself.
+
+## Maturity
+
+Every built-in detector has a level (`experimental`, `beta`, or `stable`) in `benchmarks/thresholds.json`. The level says what the detector promises and which corpus evidence it rests on; [decision 0013](decisions/0013-detector-maturity.md) defines both. A new detector starts as `experimental`, and moving it up is a pull request that changes the level and records the corpus run behind it.
 
 ## Unclassified references
 

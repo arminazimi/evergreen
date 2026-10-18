@@ -1,15 +1,115 @@
 {
   "schemaVersion": "evergreen.corpus-thresholds.v1",
   "detectors": {
-    "container": { "stable": false, "minPrecision": 0.95 },
-    "dotnet": { "stable": false, "minPrecision": 0.95 },
-    "go": { "stable": false, "minPrecision": 0.95 },
-    "java": { "stable": false, "minPrecision": 0.95 },
-    "kubernetes": { "stable": false, "minPrecision": 0.95 },
-    "github-actions": { "stable": true, "minPrecision": 0.95 },
-    "nodejs": { "stable": true, "minPrecision": 0.95 },
-    "npm": { "stable": true, "minPrecision": 0.95 },
-    "python": { "stable": true, "minPrecision": 0.95 },
-    "rust": { "stable": false, "minPrecision": 0.95 }
+    "container": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
+    "dotnet": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
+    "go": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
+    "java": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
+    "kubernetes": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
+    "github-actions": {
+      "level": "stable",
+      "stable": true,
+      "minPrecision": 0.95
+    },
+    "nodejs": {
+      "level": "stable",
+      "stable": true,
+      "minPrecision": 0.95
+    },
+    "npm": {
+      "level": "stable",
+      "stable": true,
+      "minPrecision": 0.95
+    },
+    "python": {
+      "level": "stable",
+      "stable": true,
+      "minPrecision": 0.95
+    },
+    "rust": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    }
+  },
+  "lastFullRun": {
+    "date": "2026-10-18",
+    "commit": "b19a781",
+    "repositories": 85,
+    "findings": 336,
+    "precision": 1,
+    "recall": 1,
+    "perDetector": {
+      "container": {
+        "truePositives": 16,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "dotnet": {
+        "truePositives": 23,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "github-actions": {
+        "truePositives": 201,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "go": {
+        "truePositives": 7,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "java": {
+        "truePositives": 6,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "kubernetes": {
+        "truePositives": 9,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "nodejs": {
+        "truePositives": 40,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "npm": {
+        "truePositives": 10,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "python": {
+        "truePositives": 19,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "rust": {
+        "truePositives": 5,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      }
+    }
   }
 }

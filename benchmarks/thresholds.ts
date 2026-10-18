@@ -1,14 +1,31 @@
 // Per-detector precision floors for the public corpus. A detector is named by the first segment of
 // its rule ids ("npm.package.request.deprecated" belongs to "npm").
 
+export const maturityLevels = ["experimental", "beta", "stable"] as const;
+export type MaturityLevel = (typeof maturityLevels)[number];
+
 export interface DetectorThreshold {
-  /** Only stable detectors are enforced; a detector that is still experimental is reported but never fails the run. */
+  /** What the detector promises (decision 0013). `beta` and `stable` are enforced; `experimental` is reported only. */
+  level: MaturityLevel;
+  /** Whether the precision floor is enforced: true for `beta` and `stable`, kept in step with `level` by a test. */
   stable: boolean;
   minPrecision: number;
 }
 
+/** The last full corpus run a level claim rests on (decision 0013). */
+export interface FullRunRecord {
+  date: string;
+  commit: string;
+  repositories: number;
+  findings: number;
+  precision: number;
+  recall: number;
+  perDetector: Record<string, { truePositives: number; falsePositives: number; falseNegatives: number }>;
+}
+
 export interface Thresholds {
   schemaVersion: "evergreen.corpus-thresholds.v1";
+  lastFullRun?: FullRunRecord;
   detectors: Record<string, DetectorThreshold>;
 }
 
@@ -74,4 +91,48 @@ export function violations(scores: Record<string, DetectorScore>, thresholds: Th
     if (precision < threshold.minPrecision) found.push({ detector, precision, minPrecision: threshold.minPrecision });
   }
   return found;
+}
+
+/** What a corpus has to show for a detector to hold a level (decision 0013). */
+export interface Evidence {
+  repositoriesWithFindings: number;
+  expectedFindings: number;
+  zeroFindingRepositories: number;
+}
+
+export const evidenceMinimums: Record<Exclude<MaturityLevel, "experimental">, Evidence> = {
+  beta: { repositoriesWithFindings: 8, expectedFindings: 15, zeroFindingRepositories: 2 },
+  stable: { repositoriesWithFindings: 20, expectedFindings: 60, zeroFindingRepositories: 4 },
+};
+
+const meets = (evidence: Evidence, minimum: Evidence): boolean =>
+  evidence.repositoriesWithFindings >= minimum.repositoriesWithFindings &&
+  evidence.expectedFindings >= minimum.expectedFindings &&
+  evidence.zeroFindingRepositories >= minimum.zeroFindingRepositories;
+
+/** The highest level the counted evidence supports. Precision, recall, and blind selection are checked separately. */
+export function earnedLevel(evidence: Evidence): MaturityLevel {
+  if (meets(evidence, evidenceMinimums.stable)) return "stable";
+  if (meets(evidence, evidenceMinimums.beta)) return "beta";
+  return "experimental";
+}
+
+/** Counts a detector's evidence from the corpus. `ecosystems` are the corpus ecosystems the detector reads. */
+export function countEvidence(
+  corpus: ReadonlyArray<{ repository: string; ecosystem: string; expected: ReadonlyArray<{ ruleId: string }> }>,
+  detector: string,
+  ecosystems: readonly string[],
+): Evidence {
+  const withFindings = new Set<string>();
+  let expectedFindings = 0;
+  let zeroFindingRepositories = 0;
+  for (const entry of corpus) {
+    const own = entry.expected.filter((finding) => detectorOf(finding.ruleId) === detector);
+    if (own.length > 0) {
+      withFindings.add(entry.repository);
+      expectedFindings += own.length;
+    }
+    if (ecosystems.includes(entry.ecosystem) && entry.expected.length === 0) zeroFindingRepositories += 1;
+  }
+  return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories };
 }
