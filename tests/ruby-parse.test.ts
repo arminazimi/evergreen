@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { parseGemfile } from "../src/detectors/ruby/parse-gemfile.js";
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -77,4 +78,66 @@ test("accepts the rbenv prefix and a patchlevel, and ignores other Ruby implemen
   assert.deepEqual(parseToolVersions("ruby ruby-3.2.2\n"), [{ value: "ruby-3.2.2", line: 1 }]);
   assert.deepEqual(parseRubyVersion("jruby-9.4.5.0\n"), []);
   assert.deepEqual(parseToolVersions("jruby 9.4.5.0\nruby 3.2.2\n"), [{ value: "3.2.2", line: 2 }]);
+});
+
+test("parses the ruby directive and direct gems from a Gemfile with exact lines", async () => {
+  assert.deepEqual(parseGemfile(await fixture("positive/Gemfile")), [
+    { kind: "ruby", value: "3.2.2", line: 3 },
+    { kind: "gem", name: "rack", value: "2.2.8", line: 5 },
+    { kind: "gem", name: "rake", value: "13.0.6", line: 8 },
+  ]);
+});
+
+test("a valid Gemfile with no lifecycle findings still parses its declarations", async () => {
+  assert.deepEqual(parseGemfile(await fixture("zero/Gemfile")), [
+    { kind: "ruby", value: "3.3.0", line: 3 },
+    { kind: "gem", name: "rake", value: "13.2.1", line: 5 },
+  ]);
+});
+
+test("ignores comments, dynamic values, floating gems, git and path gems, groups, and gemspec directives", async () => {
+  assert.deepEqual(parseGemfile(await fixture("negative/Gemfile")), []);
+});
+
+test("a malformed Gemfile returns nothing and never throws", async () => {
+  const contents = await fixture("malformed/Gemfile");
+  assert.doesNotThrow(() => parseGemfile(contents));
+  assert.deepEqual(parseGemfile(contents), []);
+  for (const junk of ['gem "rack", "1.0\n', 'gem "rack", ENV.fetch(\n', "\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n"]) {
+    assert.doesNotThrow(() => parseGemfile(junk));
+    assert.deepEqual(parseGemfile(junk), []);
+  }
+});
+
+test("Gemfile parsing handles CRLF, single quotes, inline comments, groups, and bounds", () => {
+  assert.deepEqual(parseGemfile("ruby '3.2.2'\r\ngem 'rack', '~> 2.2' # pinned\r\n"), [
+    { kind: "ruby", value: "3.2.2", line: 1 },
+    { kind: "gem", name: "rack", value: "~> 2.2", line: 2 },
+  ]);
+  assert.deepEqual(parseGemfile('group :test do\n  gem "rspec", "3.12.0"\nend\n'), [
+    { kind: "gem", name: "rspec", value: "3.12.0", line: 2 },
+  ]);
+  assert.deepEqual(parseGemfile("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseGemfile(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\ngem "rack", "2.2.8"\n`), [
+    { kind: "gem", name: "rack", value: "2.2.8", line: 2 },
+  ]);
+});
+
+test("Gemfile ignores dynamic values and unsupported ruby directive forms", () => {
+  assert.deepEqual(parseGemfile('ruby ENV["RUBY_VERSION"]\n'), []);
+  assert.deepEqual(parseGemfile('ruby file: ".ruby-version"\n'), []);
+  assert.deepEqual(parseGemfile('ruby "3.2.2", engine: "ruby"\n'), []);
+  assert.deepEqual(parseGemfile('ruby "latest"\n'), []);
+  assert.deepEqual(parseGemfile('gem "dynamic", ENV.fetch("GEM_VERSION")\n'), []);
+  assert.deepEqual(parseGemfile('gem "interpolated", "#{GEM_VERSION}"\n'), []);
+  assert.deepEqual(parseGemfile('gem "template", "${GEM_VERSION}"\n'), []);
+  assert.deepEqual(parseGemfile('gem "floating"\n'), []);
+  assert.deepEqual(parseGemfile('gem "from-git", git: "https://example.com/x.git"\n'), []);
+  assert.deepEqual(parseGemfile('gem "from-path", path: "../x"\n'), []);
+  assert.deepEqual(parseGemfile('gem "from-git", "1.2.3", git: "https://example.com/x.git"\n'), []);
+  assert.deepEqual(parseGemfile('gem "from-path", "1.2.3", path: "../x"\n'), []);
+  assert.deepEqual(parseGemfile('gem "rack", ""\n'), []);
+  assert.deepEqual(parseGemfile('gem "rack", "2.2.8", require: false\n'), [
+    { kind: "gem", name: "rack", value: "2.2.8", line: 1 },
+  ]);
 });

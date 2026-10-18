@@ -17,7 +17,7 @@ export interface RubyRuntimeDeclaration {
 }
 
 /** `3.2` (a release line), `3.2.2`, `3.2.2p53`, and the rbenv `ruby-3.2.2` form. `system`, `latest`, and templates do not match. */
-const PINNED_RUBY = /^(?:ruby-)?[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)*(?:p[0-9]+)?$/;
+export const PINNED_RUBY_VERSION = /^(?:ruby-)?[1-9][0-9]*\.[0-9]+(?:\.[0-9]+)*(?:p[0-9]+)?$/;
 
 /**
  * Parse the one runtime pinned by a `.ruby-version` file. Blank lines and full-line comments are ignored; a file
@@ -31,7 +31,7 @@ export function parseRubyVersion(contents: string): RubyRuntimeDeclaration[] {
     if (rawLine.length > MAXIMUM_LINE_LENGTH) continue;
     const value = rawLine.trim();
     if (value === "" || value.startsWith("#")) continue;
-    if (!PINNED_RUBY.test(value)) return [];
+    if (!PINNED_RUBY_VERSION.test(value)) return [];
     declarations.push({ value, line: index + 1 });
   }
   return declarations.length === 1 ? declarations : [];
@@ -51,7 +51,7 @@ export function parseToolVersions(contents: string): RubyRuntimeDeclaration[] {
     const text = rawLine.split("#", 1)[0]!.trim();
     if (text === "") continue;
     const [tool, ...versions] = text.split(/\s+/);
-    if (tool !== "ruby" || versions.length === 0 || versions.some((version) => !PINNED_RUBY.test(version))) continue;
+    if (tool !== "ruby" || versions.length === 0 || versions.some((version) => !PINNED_RUBY_VERSION.test(version))) continue;
     for (const value of versions) declarations.push({ value, line: index + 1 });
   }
   return declarations;
