@@ -32,6 +32,7 @@ jobs:
         include:
           - { importer: container-official-images, ecosystem: container }
           - { importer: dotnet-1, ecosystem: dotnet }
+          - { importer: dotnet-2, ecosystem: dotnet }
           - { importer: endoflife-date, ecosystem: container }
           - { importer: github-actions-runtime, ecosystem: github-actions }
           - { importer: go-1, ecosystem: go }
@@ -97,6 +98,7 @@ jobs:
         importer:
           - container-official-images
           - dotnet-1
+          - dotnet-2
           - endoflife-date
           - github-actions-runtime
           - go-1
