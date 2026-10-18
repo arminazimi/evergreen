@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 import { parseGemfile } from "../src/detectors/ruby/parse-gemfile.js";
 import { parseGemfileLock } from "../src/detectors/ruby/parse-gemfile-lock.js";
+import { parseGemspec } from "../src/detectors/ruby/parse-gemspec.js";
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -219,5 +220,62 @@ test("Gemfile.lock bounds untrusted input and returns the raw resolved value", (
   ]);
   assert.deepEqual(parseGemfileLock("GEM\n  specs:\n    nokogiri (1.16.2-x86_64-linux)\n"), [
     { kind: "gem", name: "nokogiri", value: "1.16.2-x86_64-linux", line: 3 },
+  ]);
+});
+
+test("parses required_ruby_version from a gemspec with exact lines", async () => {
+  assert.deepEqual(parseGemspec(await fixture("positive/example.gemspec")), [{ value: ">= 3.1.0", line: 7 }]);
+  assert.deepEqual(parseGemspec(await fixture("zero/example.gemspec")), [{ value: ">= 3.1.0", line: 5 }]);
+});
+
+test("ignores comments, prose, metadata, gem dependencies, and dynamic required_ruby_version values", async () => {
+  assert.deepEqual(parseGemspec(await fixture("negative/example.gemspec")), []);
+});
+
+test("a malformed gemspec returns nothing and never throws", async () => {
+  const contents = await fixture("malformed/broken.gemspec");
+  assert.doesNotThrow(() => parseGemspec(contents));
+  assert.deepEqual(parseGemspec(contents), []);
+  for (const junk of [
+    'spec.required_ruby_version = ">= 3.1.0\n',
+    'spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0\n',
+    "\u0000\u0001",
+    "\uFEFF",
+    "}}}",
+    "\r\n\r\n",
+  ]) {
+    assert.doesNotThrow(() => parseGemspec(junk));
+    assert.deepEqual(parseGemspec(junk), []);
+  }
+});
+
+test("gemspec supports single quotes and Gem::Requirement.new, and ignores unsupported expressions", () => {
+  assert.deepEqual(parseGemspec("s.required_ruby_version = '~> 3.1'\n"), [{ value: "~> 3.1", line: 1 }]);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0")\n'), [
+    { value: ">= 3.1.0", line: 1 },
+  ]);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0") # pinned\n'), [
+    { value: ">= 3.1.0", line: 1 },
+  ]);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = ">= 3.1.0" # pinned\n'), [
+    { value: ">= 3.1.0", line: 1 },
+  ]);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = ENV["RUBY_VERSION"]\n'), []);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = ">= #{MINIMUM}"\n'), []);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = ">= 3.1.0".freeze\n'), []);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = Gem::Requirement.new(">= 3.1.0", "< 4")\n'), []);
+});
+
+test("gemspec parsing handles CRLF, multiple assignments, and bounds", () => {
+  assert.deepEqual(parseGemspec('Gem::Specification.new do |spec|\r\n  spec.required_ruby_version = ">= 3.1.0"\r\nend\r\n'), [
+    { value: ">= 3.1.0", line: 2 },
+  ]);
+  assert.deepEqual(parseGemspec('spec.required_ruby_version = ">= 3.1.0"\ns.required_ruby_version = "~> 3.2"\n'), [
+    { value: ">= 3.1.0", line: 1 },
+    { value: "~> 3.2", line: 2 },
+  ]);
+  assert.deepEqual(parseGemspec("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseGemspec(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nspec.required_ruby_version = ">= 3.1.0"\n`), [
+    { value: ">= 3.1.0", line: 2 },
   ]);
 });
