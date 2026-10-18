@@ -17,7 +17,11 @@
         "properties": {
           "fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
           "ruleId": { "type": "string" },
-          "path": { "type": "string" }
+          "path": { "type": "string" },
+          "owner": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "\\S" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 500, "pattern": "\\S" },
+          "created": { "type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "expires": { "type": "string", "format": "date", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
         }
       }
     }

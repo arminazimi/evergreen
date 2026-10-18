@@ -132,7 +132,7 @@
           "additionalProperties": false,
           "properties": {
             "kind": { "const": "import" },
-            "language": { "enum": ["javascript", "typescript", "python", "go"] },
+            "language": { "enum": ["javascript", "typescript", "python", "go", "java", "kotlin", "rust", "csharp"] },
             "module": { "$ref": "#/$defs/nonEmpty" }
           }
         },
@@ -142,7 +142,7 @@
           "additionalProperties": false,
           "properties": {
             "kind": { "const": "call" },
-            "language": { "enum": ["javascript", "typescript", "python", "go"] },
+            "language": { "enum": ["javascript", "typescript", "python", "go", "rust", "csharp"] },
             "module": { "$ref": "#/$defs/nonEmpty" },
             "targets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } }
           }

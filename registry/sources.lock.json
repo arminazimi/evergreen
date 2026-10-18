@@ -1,6 +1,11 @@
 {
   "schemaVersion": "evergreen.source-lock.v1",
   "sources": {
+    "https://adoptium.net/support/": {
+      "finalUrl": "https://adoptium.net/support/",
+      "title": "Temurin™ Support | Adoptium",
+      "checkedAt": "2026-10-17"
+    },
     "https://devguide.python.org/versions/": {
       "finalUrl": "https://devguide.python.org/versions/",
       "title": "Status of Python versions",
@@ -226,10 +231,25 @@
       "title": null,
       "checkedAt": "2026-10-16"
     },
+    "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom": {
+      "finalUrl": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom",
+      "title": null,
+      "checkedAt": "2026-10-17"
+    },
+    "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom": {
+      "finalUrl": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom",
+      "title": null,
+      "checkedAt": "2026-10-17"
+    },
     "https://sass-lang.com/blog/node-sass-is-end-of-life/": {
       "finalUrl": "https://sass-lang.com/blog/node-sass-is-end-of-life/",
       "title": "Sass: Node Sass is end-of-life",
       "checkedAt": "2026-10-16"
+    },
+    "https://www.oracle.com/java/technologies/java-se-support-roadmap.html": {
+      "finalUrl": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html",
+      "title": "Oracle Java SE Support Roadmap",
+      "checkedAt": "2026-10-17"
     }
   }
 }

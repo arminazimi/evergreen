@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 
-import { findingFingerprint } from "./baseline.js";
+import { applyBaseline, findingFingerprint, readBaseline } from "./baseline.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { scanRepository } from "./engine.js";
@@ -66,8 +66,12 @@ export class FindingNotObservedError extends Error {
 export class EvergreenAgentTools {
   private readonly observed = new Map<string, Map<string, Finding>>();
 
-  async scan(repositoryPath = "."): Promise<ScanResult> {
-    const result = await scanRepository(repositoryPath, builtInDetectors);
+  async scan(repositoryPath = ".", baselinePath?: string): Promise<ScanResult> {
+    let result = await scanRepository(repositoryPath, builtInDetectors);
+    if (baselinePath) {
+      // A baseline path is relative to the repository, as in the Action. The reference day is today in UTC.
+      result = applyBaseline(result, await readBaseline(resolve(repositoryPath, baselinePath)), { today: new Date().toISOString().slice(0, 10) });
+    }
     this.remember(result);
     return result;
   }

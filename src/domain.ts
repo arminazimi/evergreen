@@ -19,6 +19,10 @@ export const sourceLanguageValues = [
   "typescript",
   "python",
   "go",
+  "rust",
+  "csharp",
+  "java",
+  "kotlin",
   "json",
   "yaml",
   "toml",
@@ -29,13 +33,13 @@ export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python" | "go";
+  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp";
   module: string;
 }
 
 export interface CallUsageMatcher {
   kind: "call";
-  language: "javascript" | "typescript" | "python" | "go";
+  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp";
   module: string;
   targets: string[];
 }
@@ -147,6 +151,34 @@ export interface DataInfo {
   stale: boolean;
 }
 
+/** One baseline suppression that matched a finding in a scan, with the dates that matter. */
+export interface SuppressionRef {
+  ruleId: string;
+  path: string;
+  /** The day the suppression ends (YYYY-MM-DD). */
+  expires: string;
+  owner?: string;
+  reason?: string;
+  /** Days left, for an expiring suppression. */
+  daysLeft?: number;
+  /** Days since it expired, for an expired one. */
+  daysAgo?: number;
+}
+
+/** What a baseline did to this scan. Present only when a baseline was applied. */
+export interface SuppressionState {
+  /** Findings the baseline hid. */
+  suppressed: number;
+  /** The day suppression dates were compared with, when one was given. */
+  today?: string;
+  /** The warning window in days, when a reference day was given. */
+  warnWithinDays?: number;
+  /** Suppressions in force that end within the window, soonest first. */
+  expiring: SuppressionRef[];
+  /** Suppressions that have ended and no longer hide their finding, longest ago first. */
+  expired: SuppressionRef[];
+}
+
 export interface ScanResult {
   schemaVersion: "evergreen.scan.v1";
   root: string;
@@ -155,4 +187,5 @@ export interface ScanResult {
   unclassified?: UnclassifiedSummary;
   diagnostics: string[];
   data?: DataInfo;
+  suppressions?: SuppressionState;
 }

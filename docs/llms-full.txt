@@ -81,7 +81,7 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 
 | Tool | Input | Output | Purpose |
 | --- | --- | --- | --- |
-| `scan_repository` | `repository_path?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. |
+| `scan_repository` | `repository_path?`, `baseline?` | `evergreen.scan.v1` (`scan.v1.schema.json`) | Complete result from all built-in detectors. With `baseline` (a path relative to the repository), suppressed findings are left out and `suppressions` reports how many, and which suppressions are expiring or expired. |
 | `list_deprecations` | `repository_path?` | `evergreen.deprecations.v1` (`deprecations.v1.schema.json`) | Compact list for planning. |
 | `explain_deprecation` | `finding_id`, `repository_path?` | one finding (`finding.v1.schema.json`) | The complete evidence-backed finding. |
 | `create_migration_context` | `finding_id`, `repository_path?` | `evergreen.context.v1` (`context.v1.schema.json`) | Validated, rule-specific migration packet. |
@@ -247,6 +247,34 @@ Create and commit the baseline locally when existing findings are accepted:
 npx evergreen-deprecation baseline . --output .evergreen-baseline.json
 ```
 
+A baseline entry can also say why a finding is accepted and until when. These fields are all optional, so a baseline written without them keeps working, and they never change which findings are suppressed:
+
+```json
+{ "fingerprint": "…", "ruleId": "nodejs.runtime.eol-20", "path": "package.json",
+  "owner": "platform-team", "reason": "Upgrade tracked in PLAT-12", "created": "2026-10-17", "expires": "2027-01-31" }
+```
+
+`owner` and `reason` are non-empty text (up to 500 characters); `created` and `expires` are calendar dates (`YYYY-MM-DD`), and `expires` is not before `created`. An entry with a malformed field makes the baseline fail to load, with the entry's position in the message. The schema is [`schemas/baseline.v1.schema.json`](../schemas/baseline.v1.schema.json). **Expiry warnings.** When a scan uses a baseline, every suppression that matched a finding and expires within the next 14 days is listed in the scan's diagnostics (and as a `warning` on the Action run), soonest first, with its owner and reason:
+
+```text
+Baseline suppression expires in 5 days (2026-10-22): nodejs.runtime.eol-18 at package.json (owner: platform-team; reason: Upgrade tracked in PLAT-12).
+```
+
+Change the window with `--baseline-warn-days <n>` on `evergreen scan` or the `baseline-warn-days` Action input (0 to 365). The comparison day is today in UTC; `--today YYYY-MM-DD` sets it explicitly, which makes a run reproducible; suppression dates are compared only with that day.
+
+**After `expires`.** A suppression is in force through its `expires` day and expired from the next day. An expired suppression stops hiding its finding: the finding is reported again, and the diagnostics say which suppression expired, how long ago, and its owner and reason. What happens beyond that is a policy, `--on-expired` on `evergreen scan` or the `on-expired` Action input:
+
+| Policy | Behavior |
+| --- | --- |
+| `resurface` (default) | The finding is back in the results and is judged by the usual severity gate. |
+| `fail` | The finding is back, and the scan also fails (the CLI exits 1, the Action fails the job) if any suppression has expired, even when the finding is below the gate. |
+
+Only entries with an `expires` can expire, so a baseline written before these fields behaves exactly as before. A finding stays hidden while at least one of its suppressions is in force.
+
+**Seeing what a baseline does.** A scan that uses a baseline never hides suppressions silently. `evergreen scan --json` adds a `suppressions` object to the result (and `scan.v1.schema.json` documents it): how many findings the baseline hid, the day it compared with, and the `expiring` and `expired` suppressions with their rule, path, `expires` day, owner, and reason. The text report ends its findings with a line such as `Baseline: 3 findings suppressed, 1 expiring within 14 days, 0 expired.`, the Action's job summary shows the same line and a table of the expiring and expired suppressions, and the MCP `scan_repository` tool returns the object when it is given a `baseline`. A scan without a baseline has no `suppressions` field.
+
+**Upgrading needs no migration.** A baseline written by an earlier version (the `evergreen.baseline.v1` schema, with only `fingerprint`, `ruleId`, and `path`) loads and suppresses exactly what it always did; a test loads a baseline written by the published 0.1.0 against the current scanner. Fingerprints do not depend on the new fields, so adding an owner or reason to an existing entry by hand does not change what it suppresses. A newer release can report findings that an older baseline never recorded (for example a rule added since); those appear as new, which is the point of a baseline.
+
 The Action then annotates and gates only findings not represented by that baseline.
 
 ## Inputs and outputs
@@ -255,6 +283,8 @@ The Action then annotates and gates only findings not represented by that baseli
 | --- | --- | --- |
 | `path` | `.` | Repository or subdirectory to scan. |
 | `baseline` | empty | Baseline path relative to `path`. Missing configured files fail the Action. |
+| `baseline-warn-days` | `14` | Warn when a baseline suppression expires within this many days (0 to 365). |
+| `on-expired` | `resurface` | What a baseline suppression does after its `expires` day: `resurface` (its finding is reported again) or `fail` (also fail the job). |
 | `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
 | `report-name` | `evergreen-report` | Artifact name for the JSON report. |
 | `upload-report` | `true` | Set to `false` to keep the report only on the runner. |
@@ -460,11 +490,14 @@ Matrix version: **2026-10-15 / v1**
 | Detector ecosystem | Status | Coverage |
 | --- | --- | --- |
 | Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
+| .NET | Experimental | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md). |
 | Go | Experimental | `go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md). |
+| Java and Kotlin (JVM) | Experimental | JDK declarations in `pom.xml`, Gradle build scripts, `.java-version`, `.sdkmanrc`, and `.tool-versions`, and direct Maven dependencies, for non-LTS JDK releases past end of support and moved artifacts. See [Java and Kotlin](detectors/java.md). |
 | Kubernetes APIs | Experimental | The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served. See [Kubernetes APIs](detectors/kubernetes.md). |
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
+| Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 
 `Supported` means the combination is part of the documented product contract.
@@ -937,6 +970,18 @@ The corpus now has 50 repositories: the 20 from v0.1, the ten GitHub Actions ent
 
 The review tool (`benchmarks/mining/review.ts`) now accepts npm package, Python package, and Node.js and Python runtime rules as well as GitHub Actions rules, and `mine.ts` can mine one group at a time and append without replacing reviewed candidates (`--queries npm,python --limit 10 --append`). Across all 50 repositories the harness reports 81 expected findings, 81 true positives, no false positives and no false negatives (observed 2026-10-16).
 
+## Kubernetes corpus
+
+Five public repositories at pinned commits cover the `kubernetes` detector: `argoproj/argocd-example-apps` (Helm and kustomize applications, no findings), `kelseyhightower/ingress-with-static-ip`, `unixhot/salt-kubebin` (a CronJob and three Ingresses), `kubernetes/examples` (two PodSecurityPolicy documents, plus the two end-of-life base images the container detector reports there), and `lusyoe/springboot-k8s-example` (a Helm template and a plain manifest).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Kubernetes ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a migration commit for the finding, so none is cited. The rules' dates and removal releases come from the Kubernetes migration guide, not from these repositories. A full run on 2026-10-17 over all 74 corpus entries (including the Java entries added in the next change) reported no false positives or false negatives, with nine expected `kubernetes` findings, all true.
+
+## Java and Kotlin corpus
+
+Five public repositories at pinned commits cover the `java` detector: `kagkarlsson/db-scheduler` (a multi-module Maven build, no findings), `piomin/sample-spring-reactive` (a `java.version` of 19), `danvega/loom` (`java.version`, `source`, and `target` of 19), `krakowski/jextract-demo` (a Gradle Kotlin DSL toolchain of 22), and `Descended/Henesys` (a `mysql:mysql-connector-java` 8.0.33 dependency, which the artifact's own POM relocates).
+
+Every finding in these repositories is recorded, not only the Java ones, and each was checked by reading its line at the pinned commit. The ground truth is a `maintainer-review` note naming the path and line; none of the repositories has a migration commit for the finding. The JDK dates come from the Oracle Java SE Support Roadmap and the Temurin support page, and the relocation from the Maven Central POM, not from these repositories. A full run on 2026-10-17 over the 74 corpus entries then in the file reported no false positives or false negatives, with six expected `java` findings, all true.
+
 ## Precision thresholds
 
 [`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
@@ -1062,7 +1107,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Go](detectors/go.md), [Kubernetes APIs](detectors/kubernetes.md).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md).
 
 ## Start a new detector in this repository
 
@@ -1181,7 +1226,7 @@ const contracts: SourceUsageContract[] = [{
 const analyses = await analyzeSourceUsage(root, contracts);
 ```
 
-Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
+Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
 
 ## Compatibility policy
 
@@ -1244,9 +1289,13 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | Importer | Registry | Reads | Candidate list |
 |---|---|---|---|
 | `container-official-images` | `container` | The vendors' own Node.js and Python schedules: one "and older" `end-of-life` rule per image. The Docker Official Images files are read only to note which end-of-life lines still have published tags; they carry no lifecycle data. PostgreSQL, MySQL, and Ruby image rules stay hand-written. | none |
+| `dotnet-1` | `dotnet` | The official .NET releases index: one `end-of-support` rule per release line whose end-of-life date has passed, each with its date. Lines that end in the future are noted, not drafted. | none |
+| `dotnet-2` | `dotnet` | The NuGet registration API: one `deprecated` rule per candidate package whose every listed version the publisher deprecated as legacy, with the alternate package it names. | `tools/importers/dotnet-candidates.ts` |
 | `endoflife-date` | `container` | The endoflife.date API v1 as an index over a sorted candidate list: one "and older" `end-of-life` rule per official Docker image. A product is drafted only with an official image and a release-policy link to the vendor's own page, which becomes the first source; endoflife.date is cited only as an index. | `tools/importers/endoflife-candidates.ts` |
 | `go-1` | `go` | The Go release history and support policy: one `end-of-support` rule per Go release line that has lost support, from the "two newest major releases" policy. | none |
 | `go-2` | `go` | The Go module proxy: direct modules whose latest `go.mod` carries an official `// Deprecated:` comment. | `tools/importers/go-2.ts` |
+| `java-1` | `java` | The Oracle Java SE Support Roadmap and the Eclipse Temurin support page: one `end-of-support` rule per group of non-LTS JDK feature releases whose last Premier Support month is over, citing Temurin where it lists a release as EOSL. LTS releases are never drafted. The sources give a month, so the rules have no `deadline`. | none |
+| `java-2` | `java` | Maven Central: dependencies whose own POM declares a `<relocation>` to new coordinates, found by walking down from the newest version while each POM keeps the same relocation. A relocation that only changes the version is skipped. | `tools/importers/maven-candidates.ts` |
 | `kubernetes-1` | `kubernetes` | The Kubernetes Deprecated API Migration Guide: one `removed` rule per group, kind, and API version the guide says is no longer served. The guide names the release, not a date, so the `deadline` is the date of that release's announcement on kubernetes.io, from a small dated table in the importer. | none |
 | `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
@@ -1254,6 +1303,8 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
 | `pypi-status` | `python` | PyPI's Simple API (PEP 792 project status markers): archived, deprecated, and quarantined projects. | `tools/importers/pypi-candidates.ts` |
 | `github-actions-runtime` | `github-actions` | Each action's own `action.yml` at its major tags: releases that run on a Node.js runtime GitHub has retired. | `tools/importers/github-actions-candidates.ts` |
+| `rust-1` | `rust` | `RELEASES.md` in the Rust repository: the one 'Rust 1.N and older are no longer supported' rule, from the policy that only the most recent stable release is supported. It moves every six weeks; headings dated in the future are ignored. | none |
+| `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. | `tools/importers/rust-candidates.ts` |
 | `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
 
 Some registries have no list of what is deprecated (npm and PyPI expose a flag per package), so those importers check a **candidate list**. To widen coverage, add a name to the list in a pull request: one line, in sorted order. A candidate that is not deprecated produces no rule, and the importer names it in its notes so it can be removed.

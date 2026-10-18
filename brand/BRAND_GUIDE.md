@@ -19,7 +19,7 @@ Scanner`, or another unofficial variant.
 ## Logo system
 
 The `Version Notches` mark represents major, minor, and patch lifecycle layers.
-Its migration node represents an evidence-backed transition between versions.
+Its staggered openings turn version boundaries into a compact lifecycle signal.
 
 ### Approved variants
 
@@ -50,7 +50,7 @@ preserve an equivalent external margin when placing them in a composition.
 
 ### Correct use
 
-- Preserve the exact geometry, proportions, notches, and migration node.
+- Preserve the exact geometry, proportions, and staggered notches.
 - Use an approved color variant with sufficient contrast.
 - Scale uniformly from the center.
 - Prefer generous negative space and a quiet surrounding composition.
@@ -60,8 +60,8 @@ preserve an equivalent external margin when placing them in a composition.
 
 - Do not rotate, skew, stretch, crop, outline, or add shadows to the mark.
 - Do not recolor individual rings outside the approved variants.
-- Do not fill the rings, close the notches, remove the node, or animate the
-  geometry as a loading spinner.
+- Do not fill the rings, close the notches, add a node, or animate the geometry
+  as a loading spinner.
 - Do not place the color mark on photography, gradients, or low-contrast colors.
 - Do not put the tagline inside the clear-space boundary.
 - Do not use a leaf, tree, shield, target, or generic AI sparkle as an alternate
@@ -74,15 +74,15 @@ CSS custom properties in [`tokens.css`](tokens.css).
 
 | Token | Value | Role |
 | --- | --- | --- |
-| Obsidian | `#0A0A0C` | Primary dark canvas and dark mark |
-| Black Cherry | `#2B0B15` | Elevated dark surface |
-| Deep Burgundy | `#571729` | Primary brand ring and accent |
-| Garnet | `#8F3048` | Secondary brand ring |
-| Dusty Rose | `#B96779` | Inner ring and warm accent |
-| Warm Ivory | `#F3ECE8` | Primary light canvas and dark-mode text |
-| Muted Pine | `#365C4C` | Functional success only |
+| Carbon | `#0C1110` | Primary dark canvas and dark mark |
+| Deep Mineral | `#17211E` | Elevated dark surface |
+| Forest Slate | `#23423A` | Outer brand ring and primary accent |
+| Mineral Green | `#4C7C6D` | Middle brand ring |
+| Mist Green | `#9AC7B6` | Inner brand ring and light accent |
+| Frost | `#F3F6F4` | Primary light canvas and dark-mode text |
+| Verified Green | `#2F7D5B` | Functional success only |
 
-Muted Pine is not a general brand accent. It communicates a successful or
+Verified Green is not a general brand accent. It communicates a successful or
 verified state and must retain that semantic meaning.
 
 ### Accessible color pairs
@@ -92,18 +92,13 @@ better; `AA Large` means large text at 3:1 or better.
 
 | Foreground | Background | Ratio | Approved use |
 | --- | --- | ---: | --- |
-| Warm Ivory | Obsidian | 16.93:1 | AA text and UI |
-| Warm Ivory | Black Cherry | 15.48:1 | AA text and UI |
-| Warm Ivory | Deep Burgundy | 11.52:1 | AA text and UI |
-| Warm Ivory | Garnet | 6.70:1 | AA text and UI |
-| Warm Ivory | Muted Pine | 6.44:1 | AA success text and UI |
-| Obsidian | Warm Ivory | 16.93:1 | AA text and UI |
-| Garnet | Warm Ivory | 6.70:1 | AA text and UI |
-| Muted Pine | Warm Ivory | 6.44:1 | AA success text and UI |
-| Dusty Rose | Obsidian | 4.97:1 | AA text and UI |
-| Dusty Rose | Black Cherry | 4.55:1 | AA text and UI |
-| Deep Burgundy | Dusty Rose | 3.38:1 | AA Large only |
-| Warm Ivory | Dusty Rose | 3.40:1 | AA Large only |
+| Frost | Carbon | 17.49:1 | AA text and UI |
+| Frost | Deep Mineral | 15.16:1 | AA text and UI |
+| Frost | Forest Slate | 10.09:1 | AA text and UI |
+| Mist Green | Carbon | 10.17:1 | AA text and UI |
+| Carbon | Frost | 17.49:1 | AA text and UI |
+| Forest Slate | Frost | 10.09:1 | AA text and UI |
+| Mineral Green | Frost | 4.38:1 | AA Large only |
 
 Do not use a pair below 3:1 for meaningful graphics or interface boundaries. Do
 not use a pair below 4.5:1 for normal text. Never communicate status with color
@@ -156,8 +151,8 @@ card backgrounds. Source references:
 - [GitHub Marketplace logo and feature-card guidance](https://docs.github.com/en/apps/github-marketplace/listing-an-app-on-github-marketplace/writing-a-listing-description-for-your-app#logo-and-feature-card)
 
 Marketplace feature images intentionally contain no wordmark or tagline because
-GitHub overlays the listing name and logo. Use `#F3ECE8` as text color on the
-dark feature background and `#0A0A0C` on the light alternative.
+GitHub overlays the listing name and logo. Use `#F3F6F4` as text color on the
+dark feature background and `#0C1110` on the light alternative.
 
 ## Asset rights
 

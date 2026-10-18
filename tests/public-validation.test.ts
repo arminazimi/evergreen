@@ -127,8 +127,8 @@ test("the corpus covers every shipped ecosystem with positive and zero-finding r
   };
   assert.ok(corpus.repositories.length >= 50);
   const ruleFamilies = new Set(corpus.repositories.flatMap((entry) => entry.expected.map((finding) => finding.ruleId.split(".")[0])));
-  for (const family of ["container", "github-actions", "go", "nodejs", "npm", "python"]) assert.ok(ruleFamilies.has(family), `no expected finding for ${family}`);
-  for (const ecosystem of ["node", "python", "node-actions", "container", "go"]) {
+  for (const family of ["container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "rust"]) assert.ok(ruleFamilies.has(family), `no expected finding for ${family}`);
+  for (const ecosystem of ["node", "python", "node-actions", "container", "go", "java", "kubernetes", "rust", "dotnet"]) {
     const entries = corpus.repositories.filter((entry) => entry.ecosystem === ecosystem);
     assert.ok(entries.some((entry) => entry.expected.length > 0), `${ecosystem} has no positive repository`);
     assert.ok(entries.some((entry) => entry.expected.length === 0), `${ecosystem} has no zero-finding repository`);

@@ -1,16 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
   <title id="title">Evergreen</title>
-  <desc id="desc">Three lifecycle rings with version notches and an evidence-backed migration node.</desc>
+  <desc id="desc">Three lifecycle rings with staggered version notches.</desc>
   <style>
-    .outer { stroke: #0A0A0C; }
-    .middle { stroke: #571729; }
-    .inner { stroke: #B96779; }
-    .node { fill: #365C4C; }
+    .outer { stroke: #23423A; }
+    .middle { stroke: #4C7C6D; }
+    .inner { stroke: #9AC7B6; }
     @media (prefers-color-scheme: dark) {
-      .outer { stroke: #571729; }
-      .middle { stroke: #8F3048; }
-      .inner { stroke: #B96779; }
-      .node { fill: #F3ECE8; }
+      .outer { stroke: #23423A; }
+      .middle { stroke: #4C7C6D; }
+      .inner { stroke: #9AC7B6; }
     }
   </style>
   <defs>
@@ -23,6 +21,5 @@
     <circle class="middle" cx="128" cy="128" r="70" mask="url(#middle-notch)"/>
     <circle class="inner" cx="128" cy="128" r="44" mask="url(#inner-notch)"/>
   </g>
-  <rect class="node" x="161" y="161" width="14" height="14" rx="2"/>
 </svg>
 

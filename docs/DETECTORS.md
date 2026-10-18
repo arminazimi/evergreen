@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Go](detectors/go.md), [Kubernetes APIs](detectors/kubernetes.md).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md).
 
 ## Start a new detector in this repository
 
@@ -157,7 +157,7 @@ const contracts: SourceUsageContract[] = [{
 const analyses = await analyzeSourceUsage(root, contracts);
 ```
 
-Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
+Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
 
 ## Compatibility policy
 

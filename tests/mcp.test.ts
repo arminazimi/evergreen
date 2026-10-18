@@ -474,3 +474,41 @@ test("a failed tool call returns an error, not structured content", async () => 
     await client.close();
   }
 });
+
+test("scan_repository takes an optional baseline and reports what it suppressed, and which suppressions are expiring or expired", async () => {
+  const { root } = await fixtureRepository();
+  const client = await connectTestClient();
+  try {
+    const plain = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root } });
+    const plainContent = plain.structuredContent as { findings: Array<{ id: string }>; suppressions?: unknown };
+    assert.equal(plainContent.findings.length, 1);
+    assert.equal("suppressions" in plainContent, false, "no baseline, no suppression state");
+
+    const { createBaseline } = await import("../src/baseline.js");
+    const { scanRepository } = await import("../src/engine.js");
+    const { builtInDetectors } = await import("../src/detectors/index.js");
+    const { writeFile } = await import("node:fs/promises");
+    const { join } = await import("node:path");
+    const scan = await scanRepository(root, builtInDetectors);
+    // Expires far in the future: suppressed and not expiring. One far in the past: back in the results.
+    await writeFile(join(root, "baseline-live.json"), JSON.stringify(createBaseline(scan, { owner: "platform", expires: "2999-01-01" })));
+    await writeFile(join(root, "baseline-old.json"), JSON.stringify(createBaseline(scan, { owner: "platform", expires: "2000-01-01" })));
+
+    const live = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root, baseline: "baseline-live.json" } });
+    const liveContent = live.structuredContent as { findings: unknown[]; suppressions: { suppressed: number; expiring: unknown[]; expired: unknown[] } };
+    assert.equal(liveContent.findings.length, 0);
+    assert.equal(liveContent.suppressions.suppressed, 1);
+    assert.deepEqual([liveContent.suppressions.expiring.length, liveContent.suppressions.expired.length], [0, 0]);
+
+    const old = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root, baseline: "baseline-old.json" } });
+    const oldContent = old.structuredContent as { findings: unknown[]; suppressions: { suppressed: number; expired: Array<{ owner: string; expires: string }> } };
+    assert.equal(oldContent.findings.length, 1, "the expired suppression no longer hides it");
+    assert.equal(oldContent.suppressions.suppressed, 0);
+    assert.equal(oldContent.suppressions.expired[0]!.owner, "platform");
+
+    const missing = await client.request("tools/call", { name: "scan_repository", arguments: { repository_path: root, baseline: "nope.json" } });
+    assert.equal(missing.isError, true, "an unreadable baseline is an error, not a silent full scan");
+  } finally {
+    await client.close();
+  }
+});

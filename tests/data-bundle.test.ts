@@ -69,13 +69,16 @@ test("the bundle lists every registry and the SHA map, and matches the published
   const bundle = await build(resolve("."));
   assert.deepEqual(bundle.manifest.files.map((file) => file.path), [
     "registry/container.json",
+    "registry/dotnet.json",
     "registry/github-actions-shas.json",
     "registry/github-actions.json",
     "registry/go.json",
+    "registry/java.json",
     "registry/kubernetes.json",
     "registry/nodejs.json",
     "registry/npm.json",
     "registry/python.json",
+    "registry/rust.json",
   ]);
   assert.equal(bundle.manifest.version, "2026.10.16");
   assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");

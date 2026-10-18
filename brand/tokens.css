@@ -1,11 +1,11 @@
 :root {
-  --evergreen-color-obsidian: #0a0a0c;
-  --evergreen-color-black-cherry: #2b0b15;
-  --evergreen-color-deep-burgundy: #571729;
-  --evergreen-color-garnet: #8f3048;
-  --evergreen-color-dusty-rose: #b96779;
-  --evergreen-color-warm-ivory: #f3ece8;
-  --evergreen-color-muted-pine: #365c4c;
+  --evergreen-color-carbon: #0c1110;
+  --evergreen-color-deep-mineral: #17211e;
+  --evergreen-color-forest-slate: #23423a;
+  --evergreen-color-mineral-green: #4c7c6d;
+  --evergreen-color-mist-green: #9ac7b6;
+  --evergreen-color-frost: #f3f6f4;
+  --evergreen-color-verified-green: #2f7d5b;
 
   --evergreen-font-sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
@@ -29,18 +29,18 @@
 }
 
 [data-evergreen-theme="dark"] {
-  --evergreen-canvas: var(--evergreen-color-obsidian);
-  --evergreen-surface: var(--evergreen-color-black-cherry);
-  --evergreen-text: var(--evergreen-color-warm-ivory);
-  --evergreen-text-accent: var(--evergreen-color-dusty-rose);
-  --evergreen-success: var(--evergreen-color-muted-pine);
+  --evergreen-canvas: var(--evergreen-color-carbon);
+  --evergreen-surface: var(--evergreen-color-deep-mineral);
+  --evergreen-text: var(--evergreen-color-frost);
+  --evergreen-text-accent: var(--evergreen-color-mist-green);
+  --evergreen-success: var(--evergreen-color-verified-green);
 }
 
 [data-evergreen-theme="light"] {
-  --evergreen-canvas: var(--evergreen-color-warm-ivory);
+  --evergreen-canvas: var(--evergreen-color-frost);
   --evergreen-surface: #fff;
-  --evergreen-text: var(--evergreen-color-obsidian);
-  --evergreen-text-accent: var(--evergreen-color-garnet);
-  --evergreen-success: var(--evergreen-color-muted-pine);
+  --evergreen-text: var(--evergreen-color-carbon);
+  --evergreen-text-accent: var(--evergreen-color-mineral-green);
+  --evergreen-success: var(--evergreen-color-verified-green);
 }
 

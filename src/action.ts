@@ -4,9 +4,10 @@ import { appendFile } from "node:fs/promises";
 import process from "node:process";
 import { resolve } from "node:path";
 
-import type { DataInfo, Finding } from "./domain.js";
+import type { DataInfo, Finding, SuppressionState } from "./domain.js";
 import { renderSummary, runGitHubAction } from "./github-action.js";
 import type { GitHubAnnotation, SeverityGate } from "./github-action.js";
+import type { ExpiredPolicy } from "./baseline.js";
 
 function commandValue(value: string): string {
   return value.replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A");
@@ -31,12 +32,13 @@ async function setOutput(name: string, value: string): Promise<void> {
   if (output) await appendFile(output, `${name}=${value}\n`, "utf8");
 }
 
-async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo): Promise<void> {
+async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo, expiredFailure = false, suppressions?: SuppressionState): Promise<void> {
   const summary = process.env.GITHUB_STEP_SUMMARY;
   if (!summary) return;
   // On by default; `attribution: "false"` turns the line off.
   const attribution = process.env.INPUT_ATTRIBUTION !== "false";
-  await appendFile(summary, renderSummary(findings, failed, gate, data, attribution), "utf8");
+  const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
+  await appendFile(summary, `${renderSummary(findings, failed, gate, data, attribution, suppressions)}${note}`, "utf8");
 }
 
 async function main(): Promise<void> {
@@ -55,20 +57,28 @@ async function main(): Promise<void> {
       reportPath,
       ...(sarifPath ? { sarifPath } : {}),
       ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
+      ...(process.env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
+      ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
       failOnSeverity: (process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
     });
 
     for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
+    // A suppression about to expire is a warning on the run, not a finding.
+    for (const diagnostic of outcome.result.diagnostics) {
+      if (diagnostic.startsWith("Baseline suppression expired")) console.log(`::warning title=Evergreen baseline suppression expired::${commandValue(diagnostic)}`);
+      if (diagnostic.startsWith("Baseline suppression expires")) console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
+    }
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
-    await writeSummary(outcome.result.findings, outcome.failed, outcome.gate, outcome.result.data);
+    await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
     );
+    if (outcome.expiredFailure) console.log("::error title=Evergreen baseline suppression expired::A baseline suppression has expired and on-expired is set to fail.");
     if (outcome.failed) {
-      console.log(`::error title=Evergreen severity gate failed::A finding met the ${outcome.gate} threshold.`);
+      if (outcome.gateFailed) console.log(`::error title=Evergreen severity gate failed::A finding met the ${outcome.gate} threshold.`);
       process.exitCode = 1;
     }
   } catch (error) {

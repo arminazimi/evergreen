@@ -15,6 +15,16 @@ inputs:
     description: Optional baseline path, relative to the scanned repository.
     required: false
     default: ""
+  baseline-warn-days:
+    description: Warn when a suppression in the baseline expires within this many days (0 to 365).
+    required: false
+    default: "14"
+  on-expired:
+    description: >-
+      What a baseline suppression does after its expires date: resurface (its finding is reported again) or
+      fail (also fail the job).
+    required: false
+    default: resurface
   fail-on-severity:
     description: Lowest severity that fails the job (none, info, low, medium, high, or critical).
     required: false
@@ -61,6 +71,8 @@ runs:
       env:
         INPUT_PATH: ${{ inputs.path }}
         INPUT_BASELINE: ${{ inputs.baseline }}
+        INPUT_BASELINE-WARN-DAYS: ${{ inputs.baseline-warn-days }}
+        INPUT_ON-EXPIRED: ${{ inputs.on-expired }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}

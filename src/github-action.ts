@@ -1,13 +1,14 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 
-import { applyBaseline, readBaseline } from "./baseline.js";
+import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./baseline.js";
+import type { ExpiredPolicy } from "./baseline.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
-import type { DataInfo } from "./domain.js";
+import type { DataInfo, SuppressionState } from "./domain.js";
 
 export type SeverityGate = Severity | "none";
 export type AnnotationLevel = "notice" | "warning" | "error";
@@ -25,6 +26,12 @@ export interface GitHubActionOptions {
   /** When set, also write the findings as SARIF 2.1.0 to this path, for upload to code scanning. */
   sarifPath?: string;
   baselinePath?: string;
+  /** The day suppression dates are compared with (YYYY-MM-DD); defaults to today in UTC. */
+  today?: string;
+  /** Days before a suppression's `expires` to warn (default 14). */
+  baselineWarnDays?: number;
+  /** What an expired suppression does: `resurface` (default) or `fail`. */
+  onExpired?: ExpiredPolicy;
   failOnSeverity?: SeverityGate;
 }
 
@@ -33,8 +40,13 @@ export interface GitHubActionOutcome {
   reportPath: string;
   sarifPath?: string;
   annotations: GitHubAnnotation[];
+  /** The job should fail: the severity gate was met, or the `fail` expiry policy applies. */
   failed: boolean;
+  /** A finding met the severity gate. */
+  gateFailed: boolean;
   gate: SeverityGate;
+  /** True when the `fail` policy is set and a baseline suppression had expired. */
+  expiredFailure: boolean;
 }
 
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
@@ -72,8 +84,15 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);
   let result = await scanRepository(root, builtInDetectors);
+  let expiredFailure = false;
   if (options.baselinePath) {
-    result = applyBaseline(result, await readBaseline(resolve(root, options.baselinePath)));
+    const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
+      today: options.today ?? new Date().toISOString().slice(0, 10),
+      ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
+      ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
+    });
+    result = evaluated.result;
+    expiredFailure = expiredSuppressionsFail(options.onExpired, evaluated.expired);
   }
 
   const reportPath = resolve(options.reportPath);
@@ -87,13 +106,16 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   }
 
   const gateRank = gate === "none" ? Number.POSITIVE_INFINITY : severityRank.get(gate)!;
+  const gateFailed = result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank);
   return {
     result,
     reportPath,
     ...(sarifPath ? { sarifPath } : {}),
     annotations: result.findings.map(annotationFor),
-    failed: result.findings.some((finding) => severityRank.get(finding.severity)! >= gateRank),
+    failed: expiredFailure || gateFailed,
+    gateFailed,
     gate,
+    expiredFailure,
   };
 }
 
@@ -107,7 +129,7 @@ const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g
  * The job summary the Action writes: a count per severity, the most severe findings with a link to their
  * evidence, the age of the lifecycle data, and (when `attribution` is on) one small line linking to Evergreen.
  */
-export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean): string {
+export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
   const lines = ["## Evergreen", "", `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`, ""];
 
@@ -130,6 +152,17 @@ export function renderSummary(findings: readonly Finding[], failed: boolean, gat
     }
     if (findings.length > top.length) lines.push("", `…and ${findings.length - top.length} more; the JSON report artifact lists every finding.`);
     lines.push("");
+  }
+
+  if (suppressions) {
+    lines.push(`Baseline: ${suppressions.suppressed} finding${suppressions.suppressed === 1 ? "" : "s"} suppressed, ${suppressions.expiring.length} expiring${suppressions.warnWithinDays === undefined ? "" : ` within ${suppressions.warnWithinDays} days`}, ${suppressions.expired.length} expired.`, "");
+    const rows = [...suppressions.expired.map((ref) => ({ ref, when: `expired ${ref.daysAgo === 0 ? "today" : `${ref.daysAgo} day${ref.daysAgo === 1 ? "" : "s"} ago`}` })), ...suppressions.expiring.map((ref) => ({ ref, when: ref.daysLeft === 0 ? "expires today" : `expires in ${ref.daysLeft} day${ref.daysLeft === 1 ? "" : "s"}` }))];
+    if (rows.length > 0) {
+      lines.push("| Suppression | Location | When | Owner |", "|---|---|---|---|");
+      for (const { ref, when } of rows.slice(0, SUMMARY_FINDINGS)) lines.push(`| ${cell(ref.ruleId)} | \`${cell(ref.path)}\` | ${when} (${ref.expires}) | ${ref.owner ? cell(ref.owner) : "—"} |`);
+      if (rows.length > SUMMARY_FINDINGS) lines.push("", `…and ${rows.length - SUMMARY_FINDINGS} more.`);
+      lines.push("");
+    }
   }
 
   if (data) {

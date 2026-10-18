@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net8.0": {
+      "WindowsAzure.Storage": {
+        "type": "Transitive",
+        "resolved": "9.3.3",
+        "contentHash": "AAAA"
+      },
+      "Contoso.Project": {
+        "type": "Project"
+      }
+    }
+  }
+}

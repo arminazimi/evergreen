@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net6.0": {
+      "WindowsAzure.Storage": {
+        "type": "Direct",
+        "requested": "[9.3.3, )",
+        "resolved": "9.3.3",
+        "contentHash": "AAAA"
+      },
+      "Newtonsoft.Json": {
+        "type": "Transitive",
+        "resolved": "13.0.3",
+        "contentHash": "BBBB"
+      }
+    }
+  }
+}

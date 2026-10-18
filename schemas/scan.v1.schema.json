@@ -3,52 +3,135 @@
   "$id": "https://github.com/arminazimi/evergreen/schemas/scan.v1.schema.json",
   "title": "Evergreen scan result v1",
   "type": "object",
-  "required": ["schemaVersion", "root", "scannedAt", "findings", "diagnostics"],
+  "required": [
+    "schemaVersion",
+    "root",
+    "scannedAt",
+    "findings",
+    "diagnostics"
+  ],
   "additionalProperties": false,
   "properties": {
     "data": {
       "type": "object",
       "description": "Which lifecycle data this result was produced with, and how fresh its evidence is.",
-      "required": ["source", "version", "createdAt", "reviewedThrough", "ageDays", "stale"],
+      "required": [
+        "source",
+        "version",
+        "createdAt",
+        "reviewedThrough",
+        "ageDays",
+        "stale"
+      ],
       "additionalProperties": false,
       "properties": {
-        "source": { "enum": ["bundled", "cache", "pinned"] },
-        "version": { "type": "string", "minLength": 1 },
-        "createdAt": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },
-        "reviewedThrough": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-        "ageDays": { "type": "integer", "minimum": 0 },
-        "stale": { "type": "boolean", "description": "True when the data is older than 30 days." }
+        "source": {
+          "enum": [
+            "bundled",
+            "cache",
+            "pinned"
+          ]
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "createdAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "reviewedThrough": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "ageDays": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale": {
+          "type": "boolean",
+          "description": "True when the data is older than 30 days."
+        }
       }
     },
-    "schemaVersion": { "const": "evergreen.scan.v1" },
-    "root": { "type": "string" },
-    "scannedAt": { "type": "string", "format": "date-time" },
-    "diagnostics": { "type": "array", "items": { "type": "string" } },
+    "schemaVersion": {
+      "const": "evergreen.scan.v1"
+    },
+    "root": {
+      "type": "string"
+    },
+    "scannedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "unclassified": {
       "type": "object",
-      "required": ["count", "references"],
+      "required": [
+        "count",
+        "references"
+      ],
       "additionalProperties": false,
       "properties": {
-        "count": { "type": "integer", "minimum": 0 },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
         "references": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["detector", "component", "reference", "reason", "location"],
+            "required": [
+              "detector",
+              "component",
+              "reference",
+              "reason",
+              "location"
+            ],
             "additionalProperties": false,
             "properties": {
-              "detector": { "type": "string", "minLength": 1 },
-              "component": { "type": "string", "minLength": 1 },
-              "reference": { "type": "string", "minLength": 1 },
-              "reason": { "type": "string", "minLength": 1 },
+              "detector": {
+                "type": "string",
+                "minLength": 1
+              },
+              "component": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
               "location": {
                 "type": "object",
-                "required": ["path"],
+                "required": [
+                  "path"
+                ],
                 "additionalProperties": false,
                 "properties": {
-                  "path": { "type": "string" },
-                  "line": { "type": "integer", "minimum": 1 },
-                  "column": { "type": "integer", "minimum": 1 }
+                  "path": {
+                    "type": "string"
+                  },
+                  "line": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "column": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
                 }
               }
             }
@@ -60,38 +143,91 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "ruleId", "detector", "title", "summary", "severity", "location", "sources"],
+        "required": [
+          "id",
+          "ruleId",
+          "detector",
+          "title",
+          "summary",
+          "severity",
+          "location",
+          "sources"
+        ],
         "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "ruleId": { "type": "string" },
-          "detector": { "type": "string" },
-          "title": { "type": "string" },
-          "summary": { "type": "string" },
-          "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
+          "id": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
+          },
+          "detector": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "info",
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
           "location": {
             "type": "object",
-            "required": ["path"],
+            "required": [
+              "path"
+            ],
             "additionalProperties": false,
             "properties": {
-              "path": { "type": "string" },
-              "line": { "type": "integer", "minimum": 1 },
-              "column": { "type": "integer", "minimum": 1 }
+              "path": {
+                "type": "string"
+              },
+              "line": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "column": {
+                "type": "integer",
+                "minimum": 1
+              }
             }
           },
-          "replacement": { "type": "string" },
-          "deadline": { "type": "string", "format": "date" },
+          "replacement": {
+            "type": "string"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date"
+          },
           "sources": {
             "type": "array",
             "minItems": 1,
             "items": {
               "type": "object",
-              "required": ["title", "url"],
+              "required": [
+                "title",
+                "url"
+              ],
               "additionalProperties": false,
               "properties": {
-                "title": { "type": "string" },
-                "url": { "type": "string", "format": "uri" },
-                "accessedAt": { "type": "string", "format": "date" }
+                "title": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "accessedAt": {
+                  "type": "string",
+                  "format": "date"
+                }
               }
             }
           },
@@ -99,21 +235,57 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["kind", "language", "symbol", "location", "excerpt"],
+              "required": [
+                "kind",
+                "language",
+                "symbol",
+                "location",
+                "excerpt"
+              ],
               "additionalProperties": false,
               "properties": {
-                "kind": { "enum": ["import", "call", "config-key"] },
-                "language": { "enum": ["javascript", "typescript", "python", "json", "yaml", "toml", "ini"] },
-                "symbol": { "type": "string" },
-                "excerpt": { "type": "string" },
+                "kind": {
+                  "enum": [
+                    "import",
+                    "call",
+                    "config-key"
+                  ]
+                },
+                "language": {
+                  "enum": [
+                    "javascript",
+                    "typescript",
+                    "python",
+                    "json",
+                    "yaml",
+                    "toml",
+                    "ini"
+                  ]
+                },
+                "symbol": {
+                  "type": "string"
+                },
+                "excerpt": {
+                  "type": "string"
+                },
                 "location": {
                   "type": "object",
-                  "required": ["path"],
+                  "required": [
+                    "path"
+                  ],
                   "additionalProperties": false,
                   "properties": {
-                    "path": { "type": "string" },
-                    "line": { "type": "integer", "minimum": 1 },
-                    "column": { "type": "integer", "minimum": 1 }
+                    "path": {
+                      "type": "string"
+                    },
+                    "line": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "column": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
                   }
                 }
               }
@@ -121,36 +293,80 @@
           },
           "impact": {
             "type": "object",
-            "required": ["usageCount", "affectedFiles", "level"],
+            "required": [
+              "usageCount",
+              "affectedFiles",
+              "level"
+            ],
             "additionalProperties": false,
             "properties": {
-              "usageCount": { "type": "integer", "minimum": 0 },
-              "affectedFiles": { "type": "integer", "minimum": 0 },
-              "level": { "enum": ["none", "low", "medium", "high"] }
+              "usageCount": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "affectedFiles": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "level": {
+                "enum": [
+                  "none",
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
             }
           },
           "migration": {
             "type": "object",
-            "required": ["constraints", "steps", "verification"],
+            "required": [
+              "constraints",
+              "steps",
+              "verification"
+            ],
             "additionalProperties": false,
             "properties": {
               "constraints": {
                 "type": "array",
                 "minItems": 1,
-                "items": { "type": "string", "minLength": 1 }
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
               },
               "steps": {
                 "type": "array",
                 "minItems": 1,
                 "items": {
                   "type": "object",
-                  "required": ["id", "title", "instructions", "targets"],
+                  "required": [
+                    "id",
+                    "title",
+                    "instructions",
+                    "targets"
+                  ],
                   "additionalProperties": false,
                   "properties": {
-                    "id": { "type": "string", "minLength": 1 },
-                    "title": { "type": "string", "minLength": 1 },
-                    "instructions": { "type": "string", "minLength": 1 },
-                    "targets": { "enum": ["declaration", "usages", "all"] }
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "instructions": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "targets": {
+                      "enum": [
+                        "declaration",
+                        "usages",
+                        "all"
+                      ]
+                    }
                   }
                 }
               },
@@ -159,16 +375,129 @@
                 "minItems": 1,
                 "items": {
                   "type": "object",
-                  "required": ["command", "purpose"],
+                  "required": [
+                    "command",
+                    "purpose"
+                  ],
                   "additionalProperties": false,
                   "properties": {
-                    "command": { "type": "string", "minLength": 1 },
-                    "purpose": { "type": "string", "minLength": 1 }
+                    "command": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "minLength": 1
+                    }
                   }
                 }
               }
             }
           }
+        }
+      }
+    },
+    "suppressions": {
+      "type": "object",
+      "description": "What a baseline did to this scan. Present only when a baseline was applied.",
+      "required": [
+        "suppressed",
+        "expiring",
+        "expired"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "suppressed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Findings the baseline hid."
+        },
+        "today": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "The day suppression dates were compared with, when one was given."
+        },
+        "warnWithinDays": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiring": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "ruleId",
+              "path",
+              "expires"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ruleId": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "expires": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "daysLeft": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "daysAgo": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "description": "Suppressions in force that end within the warning window, soonest first."
+        },
+        "expired": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "ruleId",
+              "path",
+              "expires"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "ruleId": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "expires": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "daysLeft": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "daysAgo": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          "description": "Suppressions that have ended and no longer hide their finding, longest ago first."
         }
       }
     }

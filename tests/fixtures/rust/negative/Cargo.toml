@@ -1,0 +1,19 @@
+# failure = "0.1.8"
+[package]
+name = "negative"
+version = "0.1.0"
+edition = "2021"
+description = "uses failure = \"0.1\" and tempdir = \"0.3\" in prose only"
+
+[features]
+failure = []
+
+[dependencies]
+serde = "1.0"
+local = { path = "../local" }
+fork = { git = "https://example.com/fork.git" }
+inherited = { workspace = true }
+dynamic = "${CRATE_VERSION}"
+
+[package.metadata.docs]
+tempdir = "0.3"

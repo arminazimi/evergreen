@@ -159,6 +159,11 @@ export function renderText(result: ScanResult): string {
     }
   }
 
+  if (result.suppressions) {
+    const state = result.suppressions;
+    lines.push("", `Baseline: ${state.suppressed} finding${state.suppressed === 1 ? "" : "s"} suppressed, ${state.expiring.length} expiring${state.warnWithinDays === undefined ? "" : ` within ${state.warnWithinDays} days`}, ${state.expired.length} expired.`);
+  }
+
   for (const diagnostic of result.diagnostics) {
     lines.push("", `Note: ${diagnostic}`);
   }
