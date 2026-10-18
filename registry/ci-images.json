@@ -3,7 +3,7 @@
   "ecosystem": "ci-images",
   "rules": [
     {
-      "id": "ci-images.azure-pipelines.macos-14.scheduled-end-of-life",
+      "id": "ci-images.azure-pipelines.macos-14",
       "ecosystem": "ci-images",
       "purl": "pkg:generic/azure-pipelines/macos-image",
       "vers": "vers:intdot/14",
@@ -26,7 +26,7 @@
       }
     },
     {
-      "id": "ci-images.azure-pipelines.ubuntu-22.04.scheduled-end-of-life",
+      "id": "ci-images.azure-pipelines.ubuntu-22.04",
       "ecosystem": "ci-images",
       "purl": "pkg:generic/azure-pipelines/ubuntu-image",
       "vers": "vers:intdot/22.04",
