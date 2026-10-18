@@ -46,12 +46,24 @@ interface DashboardApi {
   formatRatio(value: unknown): string;
   formatCount(value: unknown): string;
   isAboveEvidence(level: unknown, earned: unknown): boolean;
+  runAgeDays(run: unknown): number | null;
+  isStale(run: unknown): boolean;
+  visitorAgeDays(run: unknown, now: unknown): number | null;
+  runStatus(data: unknown, now: unknown): {
+    stale: boolean;
+    ageDays: number | null;
+    runDate: string | null;
+    referenceDay: string | null;
+    visitorAgeDays: number | null;
+    staleAfterDays: number;
+  };
+  STALE_AFTER_DAYS: number;
   validateData(data: unknown): string | null;
   runFacts(run: unknown): Array<{ label: string; value: string }>;
   rowModel(detector: unknown, sources: unknown): { id: string; cells: Cell[] };
   buildTable(doc: unknown, data: unknown): ElementNode;
   buildMinimums(doc: unknown, data: unknown): ElementNode;
-  buildRun(doc: unknown, data: unknown): ElementNode;
+  buildRun(doc: unknown, data: unknown, now?: Date): ElementNode;
   buildDefinitions(doc: unknown, data: unknown): ElementNode;
   buildLimitations(doc: unknown, data: unknown): ElementNode[];
   start(doc: unknown, fetchImpl?: (url: string) => Promise<unknown>): Promise<unknown>;
@@ -342,6 +354,84 @@ test("a failed request, or data in another schema, is reported with the reason",
   const wrongSchema = fakePage(ids);
   await api.start(wrongSchema.doc, () => response({ schemaVersion: "old" }));
   assert.match(text(wrongSchema.byId.get("status")!), /schemaVersion/);
+});
+
+test("a run is stale only after 14 days, counting from the recorded age", () => {
+  const at = (days: unknown) => ({ date: "2026-10-18", runAgeDays: days });
+  assert.equal(api.STALE_AFTER_DAYS, 14);
+  assert.equal(api.isStale(at(13)), false);
+  assert.equal(api.isStale(at(14)), false);
+  assert.equal(api.isStale(at(15)), true);
+  assert.equal(api.isStale(at(100)), true);
+  assert.equal(api.runAgeDays(at(0)), 0);
+  assert.equal(api.runAgeDays(at(15)), 15);
+  for (const missing of [null, {}, { runAgeDays: "15" }, { runAgeDays: -1 }, { runAgeDays: 15.5 }, { runAgeDays: null }]) {
+    assert.equal(api.isStale(missing), false, JSON.stringify(missing));
+    assert.equal(api.runAgeDays(missing), null, JSON.stringify(missing));
+  }
+});
+
+test("the stale badge carries the run date and appears only past the limit", () => {
+  const doc = fakeDocument();
+  const withAge = (days: number, referenceDay: string) => ({
+    ...data,
+    referenceDay,
+    run: { ...data.run, date: "2026-10-18", runAgeDays: days },
+  });
+  const now = new Date(2026, 10, 1, 12);
+
+  const fresh = api.buildRun(doc, withAge(14, "2026-11-01"), now);
+  assert.equal(find(fresh, (node) => node.tag === "strong" && node.attributes.get("class") === "badge"), undefined);
+  assert.match(text(fresh), /Computed on 2026-11-01\./);
+  assert.doesNotMatch(text(fresh), /stale/);
+  assert.ok(find(fresh, (node) => node.tag === "a" && node.attributes.get("href") === "#def-runAge"), "run age links its definition");
+  assert.match(text(fresh), /Run age definition14 days/);
+
+  const stale = api.buildRun(doc, withAge(15, "2026-11-02"), now);
+  const badge = find(stale, (node) => node.tag === "strong" && node.attributes.get("class") === "badge");
+  assert.ok(badge, "a 15-day run is badged");
+  assert.equal(text(badge!), "stale");
+  assert.match(text(stale), /Last full run 2026-10-18, 15 days old\./);
+  assert.ok(find(stale, (node) => node.tag === "time" && node.attributes.get("datetime") === "2026-10-18"));
+  assert.match(text(stale), /Computed on 2026-11-02\./);
+});
+
+test("a visitor-clock age is extra text and never decides the badge", () => {
+  const doc = fakeDocument();
+  const aged = (days: number) => ({
+    ...data,
+    referenceDay: "2026-10-20",
+    run: { ...data.run, date: "2026-10-18", runAgeDays: days },
+  });
+
+  const agrees = api.buildRun(doc, aged(14), new Date(2026, 10, 1, 12));
+  assert.equal(find(agrees, (node) => node.attributes.get("class") === "visitor-clock"), undefined, "no note when the clocks agree");
+
+  const differs = api.buildRun(doc, aged(14), new Date(2026, 10, 2, 1));
+  const note = find(differs, (node) => node.attributes.get("class") === "visitor-clock");
+  assert.ok(note, "a different clock is reported");
+  assert.match(text(note!), /Your device's clock reads the run as 15 days old; the data file records 14 days\./);
+  assert.match(text(note!), /not your clock, decides whether the run is marked stale/);
+  assert.equal(
+    find(differs, (node) => node.tag === "strong" && node.attributes.get("class") === "badge"),
+    undefined,
+    "a visitor-clock age above the limit does not make the badge",
+  );
+});
+
+test("run status reads the recorded age and the reference day", () => {
+  assert.deepEqual({ ...api.runStatus({ ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } }, new Date(2026, 10, 3)) }, {
+    stale: true,
+    ageDays: 15,
+    runDate: "2026-10-18",
+    referenceDay: "2026-11-02",
+    visitorAgeDays: 16,
+    staleAfterDays: 14,
+  });
+  assert.equal(api.runStatus({ run: null, referenceDay: "2026-11-02" }, new Date()).stale, false);
+  assert.equal(api.visitorAgeDays({ date: "2026-10-18" }, new Date(2026, 9, 17)), null, "a run in the future has no age");
+  assert.equal(api.visitorAgeDays({ date: "18/10/2026" }, new Date()), null);
+  assert.equal(api.visitorAgeDays({ date: "2026-10-18" }, "not a date"), null);
 });
 
 test("the page loads nothing from elsewhere and is not in the sitemap", async () => {

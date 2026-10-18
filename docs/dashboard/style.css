@@ -12,6 +12,9 @@
   --flag-surface: #fff3d1;
   --flag-text: #4d3400;
   --flag-rule: #b98a00;
+  --badge-surface: #8f3048;
+  --badge-text: #ffffff;
+  --badge-rule: #6f2136;
   --focus: #0a5c3d;
 }
 
@@ -27,6 +30,9 @@
     --flag-surface: #3b2c00;
     --flag-text: #ffe6ad;
     --flag-rule: #b98a00;
+    --badge-surface: #f0a3b4;
+    --badge-text: #2b0710;
+    --badge-rule: #f0a3b4;
     --focus: #8fd8b3;
   }
 }
@@ -142,6 +148,37 @@ h2 {
 .facts dd {
   margin: 0;
   font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--badge-rule);
+  border-radius: 3px;
+  background: var(--badge-surface);
+  color: var(--badge-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.run-badge {
+  margin: 0.9rem 0 0;
+  font-weight: 600;
+}
+
+.computed-on {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.visitor-clock {
+  max-width: 62rem;
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .table-wrap {

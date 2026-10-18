@@ -10,6 +10,7 @@
   const PUBLISHED_URL = "https://arminazimi.github.io/evergreen/dashboard/";
   const NOT_MEASURED = "not measured";
   const LEVEL_RANK = { experimental: 0, beta: 1, stable: 2 };
+  const STALE_AFTER_DAYS = 14;
 
   const COLUMNS = [
     "level",
@@ -57,6 +58,48 @@
   const formatMilliseconds = (value) =>
     typeof value === "number" && Number.isFinite(value) && value >= 0 ? value + " ms" : NOT_MEASURED;
 
+  const daysText = (days) => days + (days === 1 ? " day" : " days");
+
+  /** The run age recorded in data.json, or null when it is missing or not a whole number of days. */
+  function runAgeDays(run) {
+    const age = run && typeof run === "object" ? run.runAgeDays : undefined;
+    return Number.isInteger(age) && age >= 0 ? age : null;
+  }
+
+  /** Whether the recorded age is past the 14-day limit. The data file decides, never the visitor's clock. */
+  function isStale(run) {
+    const age = runAgeDays(run);
+    return age !== null && age > STALE_AFTER_DAYS;
+  }
+
+  /** Days from the run date to the visitor's calendar day, or null when either date cannot be read. */
+  function visitorAgeDays(run, now) {
+    if (!run || typeof run.date !== "string" || !now || typeof now.getTime !== "function" || !Number.isFinite(now.getTime())) {
+      return null;
+    }
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(run.date);
+    if (!match) return null;
+    const runTime = Date.UTC(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    if (new Date(runTime).toISOString().slice(0, 10) !== run.date) return null;
+    const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const days = Math.round((today - runTime) / 86_400_000);
+    return days >= 0 ? days : null;
+  }
+
+  /** Everything the run section says about age: the data file's age, and the visitor's clock as extra text only. */
+  function runStatus(data, now) {
+    const run = data && typeof data.run === "object" ? data.run : null;
+    const ageDays = runAgeDays(run);
+    return {
+      stale: ageDays !== null && ageDays > STALE_AFTER_DAYS,
+      ageDays,
+      runDate: run && typeof run.date === "string" ? run.date : null,
+      referenceDay: data && typeof data.referenceDay === "string" ? data.referenceDay : null,
+      visitorAgeDays: visitorAgeDays(run, now),
+      staleAfterDays: STALE_AFTER_DAYS,
+    };
+  }
+
   /** True when the configured level is higher than the level the counted evidence earns. Unknown levels are never "above". */
   function isAboveEvidence(level, earnedLevel) {
     return (
@@ -87,6 +130,7 @@
       { label: "Commit", value: textOf(run.commit) || NOT_MEASURED },
       { label: "Repositories", value: formatCount(run.repositories) },
       { label: "Findings", value: formatCount(run.findings) },
+      { label: "Run age", value: runAgeDays(run) === null ? NOT_MEASURED : daysText(runAgeDays(run)), definition: "runAge" },
       { label: "Median scan time", value: formatMilliseconds(timing.medianScanMs) },
       { label: "p95 scan time", value: formatMilliseconds(timing.p95ScanMs) },
     ];
@@ -214,18 +258,52 @@
     ]);
   }
 
-  /** The run metadata as a description list. */
-  function buildRun(doc, data) {
+  const timeElement = (doc, day) => element(doc, "time", { datetime: day }, [day]);
+
+  /**
+   * The run metadata, the stale badge when the recorded age is past the limit, the day the data was computed on,
+   * and, when the visitor's clock disagrees, a note saying so. Only data.json decides whether the run is stale.
+   */
+  function buildRun(doc, data, now) {
     const facts = runFacts(data.run);
     if (facts.length === 0) {
       return element(doc, "p", {}, ["No full run is recorded in benchmarks/thresholds.json, so no numbers are shown."]);
     }
-    const children = [];
+    const status = runStatus(data, now || new Date());
+    const items = [];
     for (const fact of facts) {
-      children.push(element(doc, "dt", {}, [fact.label]));
-      children.push(element(doc, "dd", fact.value === NOT_MEASURED ? { class: "not-measured" } : {}, [fact.value]));
+      const label = [fact.label];
+      const anchor = fact.definition ? definitionAnchor(fact.definition) : null;
+      if (anchor) label.push(" ", link(doc, "definition", "#" + anchor, "Definition of " + fact.label));
+      items.push(element(doc, "dt", {}, label));
+      items.push(element(doc, "dd", fact.value === NOT_MEASURED ? { class: "not-measured" } : {}, [fact.value]));
     }
-    return element(doc, "dl", { class: "facts" }, children);
+    const parts = [element(doc, "dl", { class: "facts" }, items)];
+    if (status.stale && status.runDate) {
+      parts.push(
+        element(doc, "p", { class: "run-badge" }, [
+          element(doc, "strong", { class: "badge" }, ["stale"]),
+          " Last full run ",
+          timeElement(doc, status.runDate),
+          ", " + daysText(status.ageDays) + " old.",
+        ]),
+      );
+    }
+    if (status.referenceDay) {
+      parts.push(element(doc, "p", { class: "computed-on" }, ["Computed on ", timeElement(doc, status.referenceDay), "."]));
+    }
+    if (status.visitorAgeDays !== null && status.visitorAgeDays !== status.ageDays) {
+      parts.push(
+        element(doc, "p", { class: "visitor-clock" }, [
+          "Your device's clock reads the run as " +
+            daysText(status.visitorAgeDays) +
+            " old; the data file records " +
+            (status.ageDays === null ? "no age" : daysText(status.ageDays)) +
+            ". The data file, not your clock, decides whether the run is marked stale.",
+        ]),
+      );
+    }
+    return element(doc, "div", { class: "run" }, parts);
   }
 
   /** Every definition, with an id the table links to, how it is computed, and its source file. */
@@ -308,6 +386,11 @@
     formatRatio,
     formatCount,
     isAboveEvidence,
+    runAgeDays,
+    isStale,
+    visitorAgeDays,
+    runStatus,
+    STALE_AFTER_DAYS,
     validateData,
     runFacts,
     rowModel,

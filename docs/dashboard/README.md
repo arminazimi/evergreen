@@ -48,6 +48,10 @@ network. Its reference day is the date of the last full run, so the committed fi
 - Where a configured level is higher than the earned level, the row is marked "above the counted evidence, kept
   by decision 0013".
 - Every metric header links to its definition on the page and to its source file on GitHub.
+- The run age, the day the data file was computed ("Computed on …"), and — once `data.json` records an age above
+  14 days — a "stale" badge with the run date. Only `run.runAgeDays` from `data.json` decides the badge. When the
+  visitor's clock reads a different age, the page says so as extra text and states that the data file is the
+  source of truth.
 - Every limitation in `data.json`, with the first one also written into the HTML so it reads without JavaScript.
 
 There are no trend charts: one run is recorded, so there is no trend to draw.
