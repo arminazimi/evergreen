@@ -20,4 +20,4 @@ Each entry is a rule's `deadline`, with its title, severity, rule id, and first 
 
 ## Limits
 
-The calendar can only show dates the registry holds. Today most rules record events that have already happened (an end-of-life that has passed), so the upcoming list is short or empty. A rule for a future end-of-life, such as a release line that is still supported but has a published end date, appears here as soon as the registry has it.
+The calendar can only show dates the registry holds. Today most rules record events that have already happened (an end-of-life that has passed), so the upcoming list is short or empty. A rule for a future end-of-life, such as a release line that is still supported but has a published end date, appears here as soon as the registry has it. Such a rule uses the `scheduled-end-of-life` event ([decision 0010](decisions/0010-scheduled-end-of-life.md)); the .NET 8 and 9 rules are the first.

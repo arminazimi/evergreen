@@ -18,6 +18,7 @@ It walks the repository up to eight directories deep (at most 500 matching files
 ## What it reports
 
 - An SDK pin or a target framework on a release line that is past its end of support under the [.NET support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core), at **high** severity. An SDK `X.Y.Z` belongs to the line `X.Y`, so `3.1.426` is the 3.1 line. `netcoreapp3.1`, `net5.0`, and `net6.0-windows` are read as the lines 3.1, 5.0, and 6.0. The rules cover 3.1, 5.0, 6.0, and 7.0 today.
+- A line whose end Microsoft has announced but that has not happened yet (.NET 8 and 9, 2026-11-10) as a `scheduled-end-of-life` finding at **low** severity, so a severity gate set to `high` does not fail on a date that is still ahead. When the date has passed, a reviewed change turns the rule into the end-of-support rule with the same id ([decision 0010](../decisions/0010-scheduled-end-of-life.md)).
 - A direct `PackageReference` or `PackageVersion` on a NuGet package whose publisher deprecated every version as legacy, at **medium** severity. The registry has one such rule today, for `WindowsAzure.Storage` (replaced by the `Azure.Storage.*` packages).
 - A `Direct` entry in `packages.lock.json`, only for a rule that names specific versions. A package deprecated at every version is reported once, where it is declared.
 - For the package rule, the `.cs` files that import or call it, with an impact summary.
@@ -34,7 +35,6 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 - A `global.json` without `sdk.version`, a version that is not a number, and a version under `msbuild-sdks` (which belongs to a build SDK package, not to .NET) pin no SDK.
 - Malformed or oversized files (over 1 MiB) produce nothing, not partial results. A `global.json` may contain comments but not a trailing comma.
 - Releases older than 3.1 (1.x, 2.x, 3.0) have no rule yet, so they are not reported. This is a data gap, not a statement that they are supported.
-- .NET 8 and 9 end on 2026-11-10. Their rules are added once that day has passed or the proposal for recording announced end-of-life dates (pull request #686) is settled; until then a `net8.0` target is not reported.
 
 ## Known limits and false-positive boundaries
 
@@ -48,4 +48,4 @@ The rules are in `registry/dotnet.json` and ship in the [data bundle](../DATA.md
 
 ## Validation
 
-Five public repositories at pinned commits are in the corpus: four that targeted a past-support line or depended on a deprecated package until their maintainers moved on (Sloth, Sharp.BlobStorage, sourcelink, machinery) and one with no findings (Humanizer). Their 21 expected findings were reviewed by hand against the files at that commit, and each note links the maintainers' own migration commit. Precision is measured on those five repositories only, which is why the detector is not yet stable.
+Six public repositories at pinned commits are in the corpus: four that targeted a past-support line or depended on a deprecated package until their maintainers moved on (Sloth, Sharp.BlobStorage, sourcelink, machinery), one whose test projects target .NET 8 and so carry the scheduled low-severity finding (xunit.analyzers), and one with no findings (LibreAutomate, which targets `net10.0-windows`). Their 23 expected findings were reviewed by hand against the files at that commit, and each note links the maintainers' own migration commit. Precision is measured on those six repositories only, which is why the detector is not yet stable.

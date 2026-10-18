@@ -86,6 +86,7 @@ test("dotnet passes detector conformance on every fixture", async () => {
           storage("central/Directory.Packages.props", 4, " (central package version)"),
           runtime("3.1", "global.json", 3, "pins .NET SDK 3.1.426"),
           runtime("6.0", "lib/Lib.fsproj", 4, "targets net6.0"),
+          runtime("8.0", "lib/Lib.fsproj", 4, "targets net8.0"),
           runtime("5.0", "lib/Win.vbproj", 4, "targets net5.0-windows"),
         ]),
       },
@@ -131,7 +132,7 @@ test("dynamic and .NET Framework targets are listed as unclassified with their l
 test("an SDK pin that is not a version is unclassified, a supported SDK is not reported, and a missing pin is nothing", async () => {
   const root = await repository({
     "a/global.json": '{ "sdk": { "version": "latest" } }',
-    "b/global.json": '{ "sdk": { "version": "8.0.100" } }',
+    "b/global.json": '{ "sdk": { "version": "10.0.100" } }',
     "c/global.json": '{ "sdk": { "version": "6.0.400" } }',
     "d/global.json": '{ "sdk": {} }',
   });
@@ -235,4 +236,14 @@ test("a migration packet for a deprecated package lists the C# files that use it
   assert.ok(packet.affectedFiles.includes("app/Program.cs"), "the source file that uses the package is listed");
   assert.ok(packet.steps.some((step) => step.id === "replace-windowsazure-storage"));
   assert.ok(packet.verification.some((check) => check.command === "dotnet build && dotnet test"));
+});
+
+test("a line whose end is announced is reported at low severity, not as already over", async () => {
+  const root = await repository({ "global.json": '{ "sdk": { "version": "8.0.404" } }', "A.csproj": "<Project><PropertyGroup><TargetFramework>net9.0</TargetFramework></PropertyGroup></Project>" });
+  const findings = await detector.scan({ root });
+  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.severity, finding.deadline, finding.location.path]), [
+    ["dotnet.runtime.end-of-support-9.0", "low", "2026-11-10", "A.csproj"],
+    ["dotnet.runtime.end-of-support-8.0", "low", "2026-11-10", "global.json"],
+  ]);
+  assert.match(findings[0]!.title, /reaches end of support on 2026-11-10/);
 });

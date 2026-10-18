@@ -48,6 +48,8 @@ export interface SourceReport {
   sources: number;
   ok: number;
   stale: (StaleRule & { registry: string })[];
+  /** Scheduled end-of-life rules whose announced date has passed: a reviewer turns each into its end-of-support or end-of-life rule (decision 0010). */
+  duePromotion: { registry: string; ruleId: string; deadline: string }[];
   unreachable: { url: string; reason: string; ruleIds: string[] }[];
   changed: { url: string; reasons: ChangeReason[]; recorded: LockEntry; current: { finalUrl: string; title: string | null }; ruleIds: string[] }[];
   blocked: { url: string; status: number; ruleIds: string[] }[];
@@ -102,10 +104,13 @@ export async function checkSources(input: CheckInput): Promise<{ report: SourceR
   const rulesByUrl = new Map<string, Set<string>>();
   let ruleCount = 0;
   const stale: SourceReport["stale"] = [];
+  const duePromotion: SourceReport["duePromotion"] = [];
+  const today = input.now.toISOString().slice(0, 10);
   for (const { name, registry } of input.registries) {
     stale.push(...staleRules(registry, input.now).map((entry) => ({ registry: name, ...entry })));
     for (const rule of registry.rules) {
       ruleCount++;
+      if (rule.event === "scheduled-end-of-life" && rule.deadline !== undefined && rule.deadline < today) duePromotion.push({ registry: name, ruleId: rule.id, deadline: rule.deadline });
       for (const source of rule.sources) {
         if (!rulesByUrl.has(source.url)) rulesByUrl.set(source.url, new Set());
         rulesByUrl.get(source.url)!.add(rule.id);
@@ -126,6 +131,7 @@ export async function checkSources(input: CheckInput): Promise<{ report: SourceR
     sources: urls.length,
     ok: 0,
     stale: stale.sort((a, b) => a.registry.localeCompare(b.registry) || a.ruleId.localeCompare(b.ruleId)),
+    duePromotion: duePromotion.sort((a, b) => a.deadline.localeCompare(b.deadline) || a.ruleId.localeCompare(b.ruleId)),
     unreachable: [],
     changed: [],
     blocked: [],
@@ -187,6 +193,7 @@ export function renderSummary(report: SourceReport): string {
     "|---|---|",
     `| Unchanged | ${report.ok} |`,
     `| Stale rules (past their review window) | ${report.stale.length} |`,
+    `| Scheduled rules whose date has passed (due for promotion) | ${report.duePromotion.length} |`,
     `| Changed sources (moved or retitled) | ${report.changed.length} |`,
     `| Unreachable sources | ${report.unreachable.length} |`,
     `| Blocked by a bot challenge (not verifiable) | ${report.blocked.length} |`,
@@ -197,6 +204,7 @@ export function renderSummary(report: SourceReport): string {
     if (items.length > 0) lines.push(`### ${title}`, "", ...items, "");
   };
   section("Stale rules", report.stale.map((entry) => `- \`${entry.ruleId}\` (${entry.registry}): reviewed ${entry.reviewedAt}, ${entry.ageDays} days ago; window is ${entry.maxReviewAgeDays}`));
+  section("Due for promotion", report.duePromotion.map((entry) => `- \`${entry.ruleId}\` (${entry.registry}): announced for ${entry.deadline}; change it to the end-of-support or end-of-life rule, keeping its id`));
   section("Changed sources", report.changed.map((entry) => `- ${entry.url} (${entry.reasons.join(", ")}) → ${entry.current.finalUrl}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));
   section("Unreachable sources", report.unreachable.map((entry) => `- ${entry.url}: ${entry.reason}; rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));
   section("Blocked by a bot challenge", report.blocked.map((entry) => `- ${entry.url} (HTTP ${entry.status}); rules: ${entry.ruleIds.map((id) => `\`${id}\``).join(", ")}`));

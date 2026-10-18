@@ -26,7 +26,7 @@
         "properties": {
           "ruleId": { "type": "string", "minLength": 1 },
           "ecosystem": { "type": "string", "minLength": 1 },
-          "event": { "enum": ["deprecated", "end-of-support", "end-of-life", "removed"] },
+          "event": { "enum": ["deprecated", "end-of-support", "end-of-life", "removed", "scheduled-end-of-life"] },
           "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
           "title": { "type": "string", "minLength": 1 },
           "summary": { "type": "string", "minLength": 1 },

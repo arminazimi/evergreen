@@ -10,7 +10,7 @@ export const REGISTRY_V2_SCHEMA_VERSION = "evergreen.registry.v2" as const;
 /** Review window applied when a registry does not declare `freshness.maxReviewAgeDays`. */
 export const DEFAULT_MAX_REVIEW_AGE_DAYS = 365;
 
-export const lifecycleEvents = ["deprecated", "end-of-support", "end-of-life", "removed"] as const;
+export const lifecycleEvents = ["deprecated", "end-of-support", "end-of-life", "removed", "scheduled-end-of-life"] as const;
 export type LifecycleEvent = (typeof lifecycleEvents)[number];
 
 export interface Provenance {
@@ -125,6 +125,11 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
   if (!lifecycleEvents.includes(rule.event as LifecycleEvent)) problem(`event must be one of ${lifecycleEvents.join(", ")}`);
   if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement)) problem("replacement must be a non-empty string");
   if (rule.deadline !== undefined && !isIsoDate(rule.deadline)) problem("deadline must be a valid date (YYYY-MM-DD)");
+  // An announced end of life that has not happened yet: it needs the announced date, and it must not fail a severity gate (decision 0010).
+  if (rule.event === "scheduled-end-of-life") {
+    if (rule.deadline === undefined) problem("a scheduled-end-of-life rule needs the announced date as its deadline");
+    if (rule.severity !== "low") problem("a scheduled-end-of-life rule must have severity low");
+  }
 
   let purlType: string | undefined;
   if (!isNonEmptyString(rule.purl)) {

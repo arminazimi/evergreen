@@ -23,6 +23,7 @@ const EVENT_LABELS: Record<RegistryV2Rule["event"], string> = {
   "end-of-support": "End of support",
   "end-of-life": "End of life",
   removed: "Removed",
+  "scheduled-end-of-life": "Scheduled end of life",
 };
 
 /** Detector pages that exist; other detectors are described in the detector guide. */

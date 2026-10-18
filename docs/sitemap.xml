@@ -12,6 +12,8 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-7.0.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-8.0.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-9.0.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.action-gh-release.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.bake-action.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.build-push-action.node20.html</loc><lastmod>2026-10-16</lastmod></url>

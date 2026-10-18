@@ -56,12 +56,11 @@ export const dotnetReleasesImporter: Importer = {
       return { rules: [], notes };
     }
 
-    // Only a line that ends soon is worth a note; one that ends in years is simply supported.
-    const horizon = isoDate(new Date(context.now.getTime() + 180 * 24 * 60 * 60 * 1000));
-    const upcoming = all.filter((line) => line.eol !== undefined && line.eol > today && line.eol <= horizon);
-    for (const line of upcoming) notes.push(`${shortName(line)} ends support on ${line.eol}, which is after ${today}, so no rule was drafted.`);
+    // An announced end within a year becomes a scheduled rule (decision 0010); a later one is only noted.
+    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
     const undated = all.filter((line) => line.eol === undefined && line.phase === "eol");
     for (const line of undated) notes.push(`${shortName(line)} is marked end of life but has no end-of-life date, so no rule was drafted.`);
+    for (const line of all.filter((candidate) => candidate.eol !== undefined && candidate.eol > horizon)) notes.push(`${shortName(line)} ends support on ${line.eol}, which is more than twelve months after ${today}, so no rule was drafted.`);
 
     const current = all
       .filter((line) => line.type === "lts" && line.phase !== "eol" && (line.eol === undefined || line.eol > today))
@@ -69,26 +68,30 @@ export const dotnetReleasesImporter: Importer = {
     const replacement = current ? `.NET ${current.major} (LTS), or the newest supported .NET release` : "The newest supported .NET release";
 
     const rules: DraftRule[] = all
-      .filter((line): line is Line & { eol: string } => line.eol !== undefined && line.eol <= today)
+      .filter((line): line is Line & { eol: string } => line.eol !== undefined && line.eol <= horizon)
       .sort((left, right) => right.major - left.major || right.minor - left.minor)
       .map((line) => {
         const label = shortName(line);
         const term = line.type === "lts" ? "Long Term Support" : "Standard Term Support";
+        const scheduled = line.eol > today;
         return {
           id: `dotnet.runtime.end-of-support-${line.major}.${line.minor}`,
           ecosystem: "dotnet",
           purl: "pkg:generic/dotnet",
           vers: `vers:semver/>=${line.major}.${line.minor}.0|<${line.major}.${line.minor + 1}.0`,
-          event: "end-of-support",
-          title: `${label} is no longer supported`,
-          summary: `${label} (${term}) reached the end of its support on ${line.eol}. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK ${line.major}.${line.minor}.x is reported too.`,
-          severity: "high",
+          event: scheduled ? "scheduled-end-of-life" : "end-of-support",
+          title: scheduled ? `${label} reaches end of support on ${line.eol}` : `${label} is no longer supported`,
+          summary: scheduled
+            ? `${label} (${term}) is scheduled to reach the end of its support on ${line.eol}, according to Microsoft's releases index. After that date Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK ${line.major}.${line.minor}.x is reported too.`
+            : `${label} (${term}) reached the end of its support on ${line.eol}. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK ${line.major}.${line.minor}.x is reported too.`,
+          severity: scheduled ? "low" : "high",
           replacement,
           deadline: line.eol,
           sources: SOURCES,
         };
       });
-    notes.unshift(`Lines past end of support on ${today}: ${rules.length}.`);
+    const scheduledCount = rules.filter((rule) => rule.event === "scheduled-end-of-life").length;
+    notes.unshift(`Drafted ${rules.length} rule${rules.length === 1 ? "" : "s"} on ${today}: ${rules.length - scheduledCount} past end of support, ${scheduledCount} scheduled.`);
     return { rules, notes };
   },
 };

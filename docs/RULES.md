@@ -68,7 +68,7 @@ A second, smaller example lives in [`examples/registry.v2.example.json`](../exam
 | `ecosystem` | yes | Matches the registry's `ecosystem`. |
 | `purl` | yes | The affected component as a [Package URL](https://github.com/package-url/purl-spec), canonical and **without a version**: `pkg:npm/request`, `pkg:npm/%40angular/core`, `pkg:pypi/django-nose`, `pkg:github/actions/checkout`. Runtimes with no registry use `pkg:generic/<name>`, for example `pkg:generic/nodejs`. |
 | `vers` | yes | The affected versions as a [VERS](https://github.com/package-url/vers-spec) range, for example `vers:npm/*` (every version), `vers:semver/<5.0.0`, `vers:semver/>=20.0.0\|<21.0.0`, `vers:pypi/<3.10`. Write it in canonical form: no spaces, no explicit `=`, constraints sorted by version. |
-| `event` | yes | What happened: `deprecated`, `end-of-support`, `end-of-life`, or `removed`. Use the word the source uses; see [Choosing an event](#choosing-an-event). |
+| `event` | yes | What happened, or what has been announced: `deprecated`, `end-of-support`, `end-of-life`, `removed`, or `scheduled-end-of-life`. Use the word the source uses; see [Choosing an event](#choosing-an-event). |
 | `title` | yes | One line that names the problem. |
 | `summary` | yes | One or two sentences stating what the source says, without advice. |
 | `severity` | yes | `info`, `low`, `medium`, `high`, or `critical`. |
@@ -101,6 +101,7 @@ Dates are real calendar dates written `YYYY-MM-DD`; timestamps are rejected.
 | `end-of-support` | The release or version no longer receives support, for example because its runtime is gone. |
 | `end-of-life` | The project or release line has reached end of life, is unmaintained, or is archived. |
 | `removed` | The component, release, or service has been retired and no longer works. |
+| `scheduled-end-of-life` | The vendor has announced a future end of life or end of support, with a date. The rule needs that date as its `deadline` and `severity: low`. It names the affected versions exactly as the later end-of-support or end-of-life rule will. When the date has passed, a reviewed change turns it into that rule (same `id`). See [decision 0010](decisions/0010-scheduled-end-of-life.md). |
 
 If the source's wording fits two events, use the earlier one and quote the source in `summary`.
 

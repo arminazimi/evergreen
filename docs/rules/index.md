@@ -23,6 +23,8 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [.NET 5 is no longer supported](dotnet.runtime.end-of-support-5.0.html) — end of support, `dotnet.runtime.end-of-support-5.0`
 - [.NET 6 is no longer supported](dotnet.runtime.end-of-support-6.0.html) — end of support, `dotnet.runtime.end-of-support-6.0`
 - [.NET 7 is no longer supported](dotnet.runtime.end-of-support-7.0.html) — end of support, `dotnet.runtime.end-of-support-7.0`
+- [.NET 8 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-8.0.html) — scheduled end of life, `dotnet.runtime.end-of-support-8.0`
+- [.NET 9 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-9.0.html) — scheduled end of life, `dotnet.runtime.end-of-support-9.0`
 
 ## github-actions
 

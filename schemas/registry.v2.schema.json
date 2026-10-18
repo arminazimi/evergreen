@@ -50,7 +50,7 @@
           "type": "string",
           "pattern": "^vers:[a-z][a-z0-9.+-]*/\\S+$"
         },
-        "event": { "enum": ["deprecated", "end-of-support", "end-of-life", "removed"] },
+        "event": { "enum": ["deprecated", "end-of-support", "end-of-life", "removed", "scheduled-end-of-life"] },
         "title": { "$ref": "#/$defs/nonEmpty" },
         "summary": { "$ref": "#/$defs/nonEmpty" },
         "severity": { "enum": ["info", "low", "medium", "high", "critical"] },

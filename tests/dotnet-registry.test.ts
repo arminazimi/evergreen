@@ -9,9 +9,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/dotnet.json", "utf8"))).rules;
 }
 
-test("the .NET registry has five valid rules, each citing an authoritative source", async () => {
+test("the .NET registry has seven valid rules, each citing an authoritative source", async () => {
   const all = await rules();
-  assert.equal(all.length, 5);
+  assert.equal(all.length, 7);
   for (const rule of all) {
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://")), rule.id);
     assert.ok(
@@ -28,12 +28,19 @@ test("each runtime rule covers its own release line, runtimes and SDKs alike, an
     ["dotnet.runtime.end-of-support-5.0", "2022-05-10"],
     ["dotnet.runtime.end-of-support-6.0", "2024-11-12"],
     ["dotnet.runtime.end-of-support-7.0", "2024-05-14"],
+    ["dotnet.runtime.end-of-support-8.0", "2026-11-10"],
+    ["dotnet.runtime.end-of-support-9.0", "2026-11-10"],
   ]);
   const affected = (version: string) => runtime.filter((rule) => versContains(rule.vers, version)).map((rule) => rule.id.replace("dotnet.runtime.end-of-support-", ""));
-  for (const [version, lines] of [["3.1.0", ["3.1"]], ["3.1.426", ["3.1"]], ["5.0.0", ["5.0"]], ["6.0.400", ["6.0"]], ["7.0.20", ["7.0"]], ["8.0.0", []], ["9.0.100", []], ["10.0.100", []], ["2.1.818", []]] as const) {
+  for (const [version, lines] of [["3.1.0", ["3.1"]], ["3.1.426", ["3.1"]], ["5.0.0", ["5.0"]], ["6.0.400", ["6.0"]], ["7.0.20", ["7.0"]], ["8.0.0", ["8.0"]], ["8.0.404", ["8.0"]], ["9.0.100", ["9.0"]], ["10.0.100", []], ["2.1.818", []]] as const) {
     assert.deepEqual(affected(version), lines, version);
   }
-  for (const rule of runtime) assert.equal(rule.event, "end-of-support");
+  for (const rule of runtime) {
+    // 8.0 and 9.0 are announced, not over (decision 0010): a low-severity warning until their date has passed and a reviewer promotes them.
+    const scheduled = rule.id.endsWith("8.0") || rule.id.endsWith("9.0");
+    assert.equal(rule.event, scheduled ? "scheduled-end-of-life" : "end-of-support", rule.id);
+    assert.equal(rule.severity, scheduled ? "low" : "high", rule.id);
+  }
 });
 
 test("the package rule matches every version of WindowsAzure.Storage, including four-part versions", async () => {

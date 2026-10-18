@@ -2657,6 +2657,31 @@
         }
       ]
     },
-    { "repository": "Humanizr/Humanizer", "commit": "4574b93883bf48e3f0f3bca73297054537317ab2", "ecosystem": "dotnet", "expected": [] }
+    {
+      "repository": "xunit/xunit.analyzers",
+      "commit": "5332ac88e46ad223bc44a0675439e3607be838eb",
+      "ecosystem": "dotnet",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/compat/xunit.analyzers.latest.tests/xunit.analyzers.latest.tests.csproj",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of src/compat/xunit.analyzers.latest.tests/xunit.analyzers.latest.tests.csproj reads `<TargetFrameworks>net8.0;net472</TargetFrameworks>`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity (net472 is .NET Framework and is not judged). There is no maintainer migration yet; the source is the vendor's announced date."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/xunit.analyzers.tests/xunit.analyzers.tests.csproj",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of src/xunit.analyzers.tests/xunit.analyzers.tests.csproj reads `<TargetFrameworks>net8.0;net472</TargetFrameworks>`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity (net472 is .NET Framework and is not judged). There is no maintainer migration yet; the source is the vendor's announced date."
+          }
+        }
+      ]
+    },
+    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "expected": [] }
   ]
 }
