@@ -1,7 +1,7 @@
 // Drafts changelog entries and release notes from conventional commit subjects.
 //
 //   npm run build --silent
-//   node dist/tools/changelog.js                          # notes for commits since the latest tag
+//   node dist/tools/changelog.js                          # notes for commits since the latest release tag (v*, never data-v*)
 //   node dist/tools/changelog.js --from v0.1.0 --to HEAD  # an explicit range
 //   node dist/tools/changelog.js --write 0.2.0 --date 2026-11-15
 //
@@ -89,7 +89,7 @@ function option(name: string): string | undefined {
 
 function main(): void {
   const to = option("--to") ?? "HEAD";
-  const from = option("--from") ?? git("describe", "--tags", "--abbrev=0", to).trim();
+  const from = option("--from") ?? git("describe", "--tags", "--abbrev=0", "--match", "v[0-9]*", to).trim();
   const subjects = git("log", "--no-merges", "--format=%s", `${from}..${to}`).split("\n");
   const { bullets, skipped } = entries(subjects);
   for (const subject of skipped) process.stderr.write(`Not a conventional commit, left out: ${subject}\n`);

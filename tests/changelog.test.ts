@@ -55,3 +55,27 @@ test("moves Unreleased into a dated section, hand-written entries first", () => 
   );
   assert.throws(() => releaseSection("# Changelog\n", "0.2.0", "2026-11-15", []), /Unreleased/);
 });
+
+test("the default start is the latest release tag, not a data release tag", async () => {
+  const { execFileSync, spawnSync } = await import("node:child_process");
+  const { mkdtemp, rm } = await import("node:fs/promises");
+  const { tmpdir } = await import("node:os");
+  const { join, resolve } = await import("node:path");
+  const repo = await mkdtemp(join(tmpdir(), "evergreen-changelog-"));
+  try {
+    const git = (...args: string[]) => execFileSync("git", ["-c", "user.name=t", "-c", "user.email=t@example.com", "-c", "commit.gpgsign=false", "-c", "tag.gpgsign=false", ...args], { cwd: repo, encoding: "utf8" });
+    git("init", "-q");
+    git("commit", "-q", "--allow-empty", "-m", "feat: before the release");
+    git("tag", "v0.1.0");
+    git("commit", "-q", "--allow-empty", "-m", "feat: after the release");
+    git("tag", "data-v2026.01.01");
+    git("commit", "-q", "--allow-empty", "-m", "feat: after the data release");
+    const result = spawnSync(process.execPath, [resolve("dist/tools/changelog.js")], { cwd: repo, encoding: "utf8" });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /after the release/i);
+    assert.match(result.stdout, /after the data release/i);
+    assert.doesNotMatch(result.stdout, /before the release/i);
+  } finally {
+    await rm(repo, { recursive: true, force: true });
+  }
+});
