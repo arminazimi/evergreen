@@ -1,0 +1,289 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "ruby",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "ruby.runtime.eol-3.2",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.2.0|<3.3.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.2 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2026-04-01",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby and reinstall bundled gems."
+        ],
+        "steps": [
+          {
+            "id": "update-ruby-declaration",
+            "title": "Raise the Ruby version",
+            "instructions": "Change the reported declaration from Ruby 3.2 to a supported release (see the replacement), using the project's existing version manager.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-ruby-surfaces",
+            "title": "Align other Ruby version surfaces",
+            "instructions": "Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "ruby --version",
+            "purpose": "Confirm the active runtime is the intended release."
+          },
+          {
+            "command": "bundle install",
+            "purpose": "Re-resolve and install gems on the new Ruby."
+          },
+          {
+            "command": "bundle exec rake test",
+            "purpose": "Run the test suite on the new Ruby."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-3.1",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.1.0|<3.2.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.1 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.1 as eol: normal maintenance ended on 2024-04-01 and the branch reached end-of-life on 2025-03-26.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2025-03-26",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby and reinstall bundled gems."
+        ],
+        "steps": [
+          {
+            "id": "update-ruby-declaration",
+            "title": "Raise the Ruby version",
+            "instructions": "Change the reported declaration from Ruby 3.1 to a supported release (see the replacement), using the project's existing version manager.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-ruby-surfaces",
+            "title": "Align other Ruby version surfaces",
+            "instructions": "Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "ruby --version",
+            "purpose": "Confirm the active runtime is the intended release."
+          },
+          {
+            "command": "bundle install",
+            "purpose": "Re-resolve and install gems on the new Ruby."
+          },
+          {
+            "command": "bundle exec rake test",
+            "purpose": "Run the test suite on the new Ruby."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-3.0",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.0.0|<3.1.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.0 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.0 as eol: normal maintenance ended on 2023-04-01 and the branch reached end-of-life on 2024-04-23.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2024-04-23",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby and reinstall bundled gems."
+        ],
+        "steps": [
+          {
+            "id": "update-ruby-declaration",
+            "title": "Raise the Ruby version",
+            "instructions": "Change the reported declaration from Ruby 3.0 to a supported release (see the replacement), using the project's existing version manager.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-ruby-surfaces",
+            "title": "Align other Ruby version surfaces",
+            "instructions": "Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "ruby --version",
+            "purpose": "Confirm the active runtime is the intended release."
+          },
+          {
+            "command": "bundle install",
+            "purpose": "Re-resolve and install gems on the new Ruby."
+          },
+          {
+            "command": "bundle exec rake test",
+            "purpose": "Run the test suite on the new Ruby."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.7",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.7.0|<3.0.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.7 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.7 as eol: normal maintenance ended on 2022-04-01 and the branch reached end-of-life on 2023-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2023-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby and reinstall bundled gems."
+        ],
+        "steps": [
+          {
+            "id": "update-ruby-declaration",
+            "title": "Raise the Ruby version",
+            "instructions": "Change the reported declaration from Ruby 2.7 to a supported release (see the replacement), using the project's existing version manager.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-ruby-surfaces",
+            "title": "Align other Ruby version surfaces",
+            "instructions": "Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "ruby --version",
+            "purpose": "Confirm the active runtime is the intended release."
+          },
+          {
+            "command": "bundle install",
+            "purpose": "Re-resolve and install gems on the new Ruby."
+          },
+          {
+            "command": "bundle exec rake test",
+            "purpose": "Run the test suite on the new Ruby."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ruby.gem.json.yanked-2.17.1.1",
+      "ecosystem": "ruby",
+      "purl": "pkg:gem/json",
+      "vers": "vers:gem/2.17.1.1",
+      "event": "removed",
+      "title": "json 2.17.1.1 is yanked",
+      "summary": "RubyGems lists json 2.17.1.1 as yanked: the version is not available for download or for other gems that depended on it. The version page also flags two known security vulnerabilities.",
+      "severity": "high",
+      "replacement": "A published json release that is not yanked, for example 2.17.1 or later",
+      "sources": [
+        {
+          "title": "RubyGems: json 2.17.1.1 is yanked",
+          "url": "https://rubygems.org/gems/json/versions/2.17.1.1"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Gemfile requirement, Gemfile.lock resolved version, and gemspec constraint on a published json release.",
+          "Regenerate the lockfile after changing the requirement; do not keep a yanked version in the resolution."
+        ],
+        "steps": [
+          {
+            "id": "replace-json-version",
+            "title": "Move off the yanked version",
+            "instructions": "Change the Gemfile or gemspec constraint to a published json release and run `bundle update json` so Gemfile.lock resolves a version that is not yanked.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-json-surfaces",
+            "title": "Align the lockfile and gemspec",
+            "instructions": "Check every Gemfile.lock in the repository and the gemspec constraint so none resolves json 2.17.1.1.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "bundle exec ruby -e 'require \"json\"; puts JSON::VERSION'",
+            "purpose": "Confirm the resolved json version."
+          },
+          {
+            "command": "bundle exec rake test",
+            "purpose": "Run the test suite with the replacement version."
+          }
+        ]
+      }
+    }
+  ]
+}

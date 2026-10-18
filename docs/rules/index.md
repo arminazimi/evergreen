@@ -183,6 +183,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Python 3.10 and older are end-of-life](python.runtime.eol-3.10-and-older.html) — end of life, `python.runtime.eol-3.10-and-older`
 - [Python 3.9 and older are end-of-life](python.runtime.eol-3.9-and-older.html) — end of life, `python.runtime.eol-3.9-and-older`
 
+## ruby
+
+- [json 2.17.1.1 is yanked](ruby.gem.json.yanked-2.17.1.1.html) — removed, `ruby.gem.json.yanked-2.17.1.1`
+- [Ruby 2.7 is end-of-life](ruby.runtime.eol-2.7.html) — end of life, `ruby.runtime.eol-2.7`
+- [Ruby 3.0 is end-of-life](ruby.runtime.eol-3.0.html) — end of life, `ruby.runtime.eol-3.0`
+- [Ruby 3.1 is end-of-life](ruby.runtime.eol-3.1.html) — end of life, `ruby.runtime.eol-3.1`
+- [Ruby 3.2 is end-of-life](ruby.runtime.eol-3.2.html) — end of life, `ruby.runtime.eol-3.2`
+
 ## rust
 
 - [ansi_term is no longer maintained](rust.crate.ansi-term.unmaintained.html) — deprecated, `rust.crate.ansi-term.unmaintained`

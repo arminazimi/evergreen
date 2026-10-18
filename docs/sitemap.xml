@@ -147,6 +147,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.7.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.0.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.2.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html</loc><lastmod>2026-10-17</lastmod></url>
