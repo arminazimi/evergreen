@@ -1,6 +1,6 @@
 # 0010 — Record announced end-of-life dates that have not happened yet
 
-Status: proposed
+Status: accepted
 
 ## Problem
 
