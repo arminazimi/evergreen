@@ -10,14 +10,16 @@ jobs:
   - job: Dynamic
     pool:
       vmImage: $(vmImage)
+    steps:
+      - script: echo ubuntu-18.04
+      - displayName: windows-2019
+      - resource_class: macos.medium
   - job: Template
     pool:
       vmImage: ${{ variables.image }}
-steps:
-  - script: echo ubuntu-18.04
-  - displayName: windows-2019
-  - resource_class: macos.medium
-  - pool:
+  - job: FloatingUbuntu
+    pool:
       vmImage: ubuntu-latest
-  - pool:
+  - job: FloatingWindows
+    pool:
       vmImage: windows-latest
