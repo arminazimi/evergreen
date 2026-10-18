@@ -9,6 +9,10 @@ on:
       from:
         description: Tag or commit to start from (default is the latest tag)
         required: false
+      release_tag:
+        description: Dry run of the major Action tag for this release tag (for example v1.4.2). Pushes nothing.
+        required: false
+        default: ""
   workflow_run:
     workflows: [Publish to npm]
     types: [completed]
@@ -49,7 +53,10 @@ jobs:
   major-tag:
     # The publish workflow includes the package smoke test, so a successful completion means every
     # release gate has passed. Pre-releases and pre-1.0 releases intentionally leave major tags alone.
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+    # A manual run with `release_tag` is a dry run: it makes every decision and pushes nothing.
+    if: >-
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'workflow_dispatch' && inputs.release_tag != '')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -57,60 +64,60 @@ jobs:
     concurrency:
       group: action-major-tag
       cancel-in-progress: false
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || format('refs/tags/{0}', inputs.release_tag) }}
           fetch-depth: 0
       - name: Select the stable release tag
         id: release
-        env:
-          RELEASE_SHA: ${{ github.event.workflow_run.head_sha }}
         shell: bash
         run: |
-          release_tag=""
-          while IFS= read -r candidate; do
-            if [[ "$candidate" =~ ^v([1-9][0-9]*)\.([0-9]+)\.([0-9]+)$ ]]; then
-              if [ -n "$release_tag" ]; then
-                echo "More than one stable release tag points at $RELEASE_SHA." >&2
-                exit 1
-              fi
-              release_tag="$candidate"
-            fi
-          done < <(git tag --points-at "$RELEASE_SHA")
-
-          if [ -z "$release_tag" ]; then
-            echo "No stable post-1.0 release tag points at $RELEASE_SHA; leaving major tags unchanged."
-            echo "move=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          expected="v$(node -p "require('./package.json').version")"
-          if [ "$release_tag" != "$expected" ]; then
-            echo "Release tag $release_tag does not match package.json version $expected." >&2
-            exit 1
-          fi
-
-          echo "move=true" >> "$GITHUB_OUTPUT"
-          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
-          echo "major-tag=${release_tag%%.*}" >> "$GITHUB_OUTPUT"
-      - name: Move the major Action tag
+          # The decision lives in .github/scripts/major-tag.mjs, which has unit tests (tests/major-tag.test.ts).
+          release_sha="$(git rev-parse HEAD)"
+          tags="$(git tag --points-at "$release_sha")"
+          version="$(node -p "require('./package.json').version")"
+          echo "release-sha=$release_sha" >> "$GITHUB_OUTPUT"
+          node .github/scripts/major-tag.mjs select --tags "$tags" --package-version "$version" >> "$GITHUB_OUTPUT"
+      - name: Check the major tag only moves forward
+        id: direction
         if: steps.release.outputs.move == 'true'
         env:
-          RELEASE_SHA: ${{ github.event.workflow_run.head_sha }}
-          RELEASE_TAG: ${{ steps.release.outputs.release-tag }}
           MAJOR_TAG: ${{ steps.release.outputs.major-tag }}
+          RELEASE_TAG: ${{ steps.release.outputs.release-tag }}
         shell: bash
         run: |
           old_target="$(git ls-remote --refs origin "refs/tags/$MAJOR_TAG" | cut -f1)"
-          if [ -n "$old_target" ]; then
-            current_release="$(git tag --points-at "$old_target" | grep -E "^${MAJOR_TAG}\\.[0-9]+\\.[0-9]+$" | sort -V | tail -n 1 || true)"
-            newest="$(printf '%s\n' "$current_release" "$RELEASE_TAG" | sort -V | tail -n 1)"
-            if [ -n "$current_release" ] && [ "$newest" != "$RELEASE_TAG" ]; then
-              echo "Refusing to move $MAJOR_TAG backward from $current_release to $RELEASE_TAG." >&2
-              exit 1
-            fi
+          current_tags=""
+          if [ -n "$old_target" ]; then current_tags="$(git tag --points-at "$old_target")"; fi
+          echo "old-target=$old_target" >> "$GITHUB_OUTPUT"
+          node .github/scripts/major-tag.mjs direction --major "$MAJOR_TAG" --release "$RELEASE_TAG" --current-tags "$current_tags" >> "$GITHUB_OUTPUT"
+      - name: Say what would happen (dry run)
+        if: env.DRY_RUN == 'true'
+        env:
+          MOVE: ${{ steps.release.outputs.move }}
+          MAJOR_TAG: ${{ steps.release.outputs.major-tag }}
+          RELEASE_TAG: ${{ steps.release.outputs.release-tag }}
+          RELEASE_SHA: ${{ steps.release.outputs.release-sha }}
+          OLD_TARGET: ${{ steps.direction.outputs.old-target }}
+        shell: bash
+        run: |
+          if [ "$MOVE" = "true" ]; then
+            echo "Dry run: $MAJOR_TAG would move from ${OLD_TARGET:-nothing (new tag)} to $RELEASE_TAG ($RELEASE_SHA). Nothing was pushed." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Dry run: no major tag would move. Nothing was pushed." | tee -a "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Move the major Action tag
+        if: env.DRY_RUN != 'true' && steps.release.outputs.move == 'true'
+        env:
+          RELEASE_SHA: ${{ steps.release.outputs.release-sha }}
+          RELEASE_TAG: ${{ steps.release.outputs.release-tag }}
+          MAJOR_TAG: ${{ steps.release.outputs.major-tag }}
+          OLD_TARGET: ${{ steps.direction.outputs.old-target }}
+        shell: bash
+        run: |
           git tag --force "$MAJOR_TAG" "$RELEASE_SHA"
-          git push origin "refs/tags/$MAJOR_TAG" --force-with-lease="refs/tags/$MAJOR_TAG:$old_target"
+          git push origin "refs/tags/$MAJOR_TAG" --force-with-lease="refs/tags/$MAJOR_TAG:$OLD_TARGET"
           echo "$MAJOR_TAG now points to $RELEASE_TAG ($RELEASE_SHA)." >> "$GITHUB_STEP_SUMMARY"
