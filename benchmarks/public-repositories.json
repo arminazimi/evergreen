@@ -2439,6 +2439,224 @@
           }
         }
       ]
-    }
+    },
+    {
+      "repository": "ucdavis/Sloth",
+      "commit": "442c022d0d87b872209b3b810154987598c54a32",
+      "ecosystem": "dotnet",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "Sloth.Api/Sloth.Api.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of Sloth.Api/Sloth.Api.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages')."
+          }
+        },
+        {
+          "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+          "path": "Sloth.Core/Sloth.Core.csproj",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of Sloth.Core/Sloth.Core.csproj reads `<PackageReference Include=\"WindowsAzure.Storage\" Version=\"9.3.1\" />`; NuGet marks every version of WindowsAzure.Storage deprecated (Legacy, obsolete as of 2023-03-31, replacement Azure.Storage.Common). The maintainers replaced it in https://github.com/ucdavis/Sloth/commit/6d26d8237f845a32683a53eda0f25e26d2331fbe ('Replace WindowsAzure.Storage with Azure.Storage.Blobs')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "Sloth.Jobs.CyberSource.BankReconcile/Sloth.Jobs.CyberSource.BankReconcile.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of Sloth.Jobs.CyberSource.BankReconcile/Sloth.Jobs.CyberSource.BankReconcile.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "Sloth.Jobs.Kfs.ScrubberUpload/Sloth.Jobs.Kfs.ScrubberUpload.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of Sloth.Jobs.Kfs.ScrubberUpload/Sloth.Jobs.Kfs.ScrubberUpload.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "Sloth.Test/Sloth.Test.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of Sloth.Test/Sloth.Test.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "Sloth.Web/Sloth.Web.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of Sloth.Web/Sloth.Web.csproj declares `netcoreapp3.1`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved the project to net6 in https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5 ('update projects to net6 and update nuget packages')."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "sharpjs/Sharp.BlobStorage",
+      "commit": "b0c237c81b0b7a85f4e092f774d92760c04d1793",
+      "ecosystem": "dotnet",
+      "expected": [
+        {
+          "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+          "path": "Sharp.BlobStorage.Azure.Tests/Sharp.BlobStorage.Azure.Tests.csproj",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of Sharp.BlobStorage.Azure.Tests/Sharp.BlobStorage.Azure.Tests.csproj reads `<PackageReference Include=\"WindowsAzure.Storage\" Version=\"9.3.1\" />`; NuGet marks every version of WindowsAzure.Storage deprecated (Legacy, obsolete as of 2023-03-31, replacement Azure.Storage.Common). The maintainers replaced it in https://github.com/sharpjs/Sharp.BlobStorage/commit/26833317d776b12bd1db04adb21e72cd746adf2c ('Replace WindowsAzure.Storage with Azure.Storage.Blobs')."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "dotnet/sourcelink",
+      "commit": "40a5327a26ef250235be54143138325aedd35b79",
+      "ecosystem": "dotnet",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/Microsoft.Build.Tasks.Git/Microsoft.Build.Tasks.Git.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/Microsoft.Build.Tasks.Git/Microsoft.Build.Tasks.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.AzureDevOpsServer.Git/Microsoft.SourceLink.AzureDevOpsServer.Git.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.AzureDevOpsServer.Git/Microsoft.SourceLink.AzureDevOpsServer.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.AzureRepos.Git/Microsoft.SourceLink.AzureRepos.Git.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.AzureRepos.Git/Microsoft.SourceLink.AzureRepos.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.Bitbucket.Git/Microsoft.SourceLink.Bitbucket.Git.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.Bitbucket.Git/Microsoft.SourceLink.Bitbucket.Git.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.Common/Microsoft.SourceLink.Common.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.Common/Microsoft.SourceLink.Common.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.Gitea/Microsoft.SourceLink.Gitea.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.Gitea/Microsoft.SourceLink.Gitea.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.Gitee/Microsoft.SourceLink.Gitee.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.Gitee/Microsoft.SourceLink.Gitee.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.GitHub/Microsoft.SourceLink.GitHub.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.GitHub/Microsoft.SourceLink.GitHub.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.GitLab/Microsoft.SourceLink.GitLab.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.GitLab/Microsoft.SourceLink.GitLab.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "src/SourceLink.GitWeb/Microsoft.SourceLink.GitWeb.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of src/SourceLink.GitWeb/Microsoft.SourceLink.GitWeb.csproj reads `<TargetFrameworks>net472;netcoreapp3.1;$(NetCurrent)</TargetFrameworks>`; netcoreapp3.1 is a release line whose support ended on 2022-12-13 according to Microsoft's releases index (net472 and the $(NetCurrent) property are not judged). The maintainers removed it in https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894 ('Upgrade to net6.0 and remove unused dependencies')."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "qbit86/machinery",
+      "commit": "1215446db597a3930c9ebf86aee260683ebf2ad7",
+      "ecosystem": "dotnet",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "samples/Machinery.ContextDemo/Machinery.ContextDemo.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of samples/Machinery.ContextDemo/Machinery.ContextDemo.csproj reads `<TargetFramework>netcoreapp3.1</TargetFramework>`, a release line whose support ended on 2022-12-13 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "samples/Machinery.PolymorphicReferenceStateDemo/Machinery.PolymorphicReferenceStateDemo.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of samples/Machinery.PolymorphicReferenceStateDemo/Machinery.PolymorphicReferenceStateDemo.csproj reads `<TargetFramework>net5.0</TargetFramework>`, a release line whose support ended on 2022-05-10 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "samples/Machinery.PolymorphicValueStateDemo/Machinery.PolymorphicValueStateDemo.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of samples/Machinery.PolymorphicValueStateDemo/Machinery.PolymorphicValueStateDemo.csproj reads `<TargetFramework>net5.0</TargetFramework>`, a release line whose support ended on 2022-05-10 according to Microsoft's releases index. The maintainers moved it in https://github.com/qbit86/machinery/commit/305a8367eec4c20f99ceef1055d0261bbefc1762 ('Update target framework from net5.0 to net6.0 in demo projects')."
+          }
+        }
+      ]
+    },
+    { "repository": "Humanizr/Humanizer", "commit": "4574b93883bf48e3f0f3bca73297054537317ab2", "ecosystem": "dotnet", "expected": [] }
   ]
 }
