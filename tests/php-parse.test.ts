@@ -5,6 +5,12 @@ import { test } from "node:test";
 
 import { MAXIMUM_INPUT_BYTES, parseComposerJson } from "../src/detectors/php/parse-composer-json.js";
 import { parseComposerLock } from "../src/detectors/php/parse-composer-lock.js";
+import {
+  MAXIMUM_INPUT_BYTES as RUNTIME_MAXIMUM_INPUT_BYTES,
+  MAXIMUM_LINE_LENGTH,
+  parsePhpVersion,
+  parseToolVersions,
+} from "../src/detectors/php/parse-php-runtime.js";
 
 const fixtures = resolve("tests/fixtures/php");
 
@@ -239,4 +245,66 @@ test("composer.lock bounds untrusted input and stays deterministic", () => {
 test("rejects // and block comments in composer.lock", () => {
   assert.deepEqual(parseComposerLock('{ // c\n "packages": [{"name":"a/b","version":"1.0.0"}] }'), []);
   assert.deepEqual(parseComposerLock('{ /* c */ "packages": [{"name":"a/b","version":"1.0.0"}] }'), []);
+});
+
+test("parses the pinned runtime from .php-version and .tool-versions with exact lines", async () => {
+  assert.deepEqual(parsePhpVersion(await fixture("positive/.php-version")), [{ value: "7.4.33", line: 1 }]);
+  assert.deepEqual(parseToolVersions(await fixture("positive/.tool-versions")), [{ value: "7.4.33", line: 2 }]);
+  assert.deepEqual(parsePhpVersion(await fixture("zero/.php-version")), [{ value: "8.3.12", line: 1 }]);
+  assert.deepEqual(parseToolVersions(await fixture("zero/.tool-versions")), [{ value: "8.3.12", line: 2 }]);
+});
+
+test("ignores comments, unrelated tools, and moving or dynamic PHP runtime values", async () => {
+  assert.deepEqual(parsePhpVersion(await fixture("negative/.php-version")), []);
+  assert.deepEqual(parseToolVersions(await fixture("negative/.tool-versions")), []);
+});
+
+test("malformed PHP runtime pins return nothing and never throw", async () => {
+  assert.deepEqual(parsePhpVersion(await fixture("malformed/.php-version")), []);
+  assert.deepEqual(parseToolVersions(await fixture("malformed/.tool-versions")), []);
+  for (const parser of [parsePhpVersion, parseToolVersions]) {
+    for (const junk of ["\u0000\u0001", "\uFEFF", "}}}", "\r\n\r\n", "x".repeat(MAXIMUM_LINE_LENGTH + 1)]) {
+      assert.doesNotThrow(() => parser(junk));
+      assert.deepEqual(parser(junk), []);
+    }
+  }
+});
+
+test("bounds untrusted PHP runtime input without losing later lines", () => {
+  assert.deepEqual(parsePhpVersion("x".repeat(RUNTIME_MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseToolVersions("x".repeat(RUNTIME_MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parsePhpVersion(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n8.3.12\n`), [{ value: "8.3.12", line: 2 }]);
+  assert.deepEqual(parseToolVersions(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\nphp 8.3.12\n`), [{ value: "8.3.12", line: 2 }]);
+});
+
+test("PHP runtime parsers handle CRLF, blank lines, comments, and 1-based lines", () => {
+  assert.deepEqual(parsePhpVersion("8.3.12\r\n"), [{ value: "8.3.12", line: 1 }]);
+  assert.deepEqual(parsePhpVersion("\n# pinned\n  8.3.12  \n"), [{ value: "8.3.12", line: 3 }]);
+  assert.deepEqual(parseToolVersions("nodejs 20.11.0\r\nphp 8.3.12\r\n"), [{ value: "8.3.12", line: 2 }]);
+  assert.deepEqual(parseToolVersions("# php 8.3.12\n  php\t8.3.12 # pinned\n"), [{ value: "8.3.12", line: 2 }]);
+});
+
+test("a .php-version with more than one version is ambiguous and returns nothing", () => {
+  assert.deepEqual(parsePhpVersion("8.3.12\n8.2.0\n"), []);
+  assert.deepEqual(parsePhpVersion("8.3.12\nsystem\n"), []);
+});
+
+test(".tool-versions reads every pinned PHP fallback version and rejects a mixed line", () => {
+  assert.deepEqual(parseToolVersions("php 8.3.12 8.2.0\n"), [
+    { value: "8.3.12", line: 1 },
+    { value: "8.2.0", line: 1 },
+  ]);
+  assert.deepEqual(parseToolVersions("php 8.3.12 ${PHP_VERSION}\n"), []);
+  assert.deepEqual(parseToolVersions("php\n"), []);
+  assert.deepEqual(parseToolVersions("php latest\n"), []);
+  assert.deepEqual(parseToolVersions("php system\n"), []);
+});
+
+test("accepts a phpenv prefix and release lines, and ignores other tools", () => {
+  assert.deepEqual(parsePhpVersion("8.3\n"), [{ value: "8.3", line: 1 }]);
+  assert.deepEqual(parsePhpVersion("php-8.3.12\n"), [{ value: "php-8.3.12", line: 1 }]);
+  assert.deepEqual(parseToolVersions("php 8.3\n"), [{ value: "8.3", line: 1 }]);
+  assert.deepEqual(parseToolVersions("php php-8.3.12\n"), [{ value: "php-8.3.12", line: 1 }]);
+  assert.deepEqual(parsePhpVersion("8.3.12RC1\n"), []);
+  assert.deepEqual(parseToolVersions("nodejs 20.11.0\nphp 8.3.12\n"), [{ value: "8.3.12", line: 2 }]);
 });
