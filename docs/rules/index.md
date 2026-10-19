@@ -222,3 +222,11 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [failure is no longer maintained](rust.crate.failure.unmaintained.html) — deprecated, `rust.crate.failure.unmaintained`
 - [tempdir is no longer maintained](rust.crate.tempdir.unmaintained.html) — deprecated, `rust.crate.tempdir.unmaintained`
 - [Rust 1.98 and older are no longer supported](rust.toolchain.end-of-support-1.98-and-older.html) — end of support, `rust.toolchain.end-of-support-1.98-and-older`
+
+## swift
+
+- [iOS deployment targets older than 13 are not accepted for App Store uploads](swift.ios.deployment-target-below-13.html) — end of support, `swift.ios.deployment-target-below-13`
+- [iPadOS deployment targets older than 13 are not accepted for App Store uploads](swift.ipados.deployment-target-below-13.html) — end of support, `swift.ipados.deployment-target-below-13`
+- [Xcode 15 is not accepted for App Store uploads](swift.xcode.app-store-15.html) — end of support, `swift.xcode.app-store-15`
+- [Xcode 16 through 25 are not accepted for App Store uploads](swift.xcode.app-store-16-through-25.html) — end of support, `swift.xcode.app-store-16-through-25`
+- [Xcode older than 15 is not accepted for App Store uploads](swift.xcode.app-store-below-15.html) — end of support, `swift.xcode.app-store-below-15`
