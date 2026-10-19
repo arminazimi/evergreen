@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { MAXIMUM_INPUT_BYTES, parseComposerJson } from "../src/detectors/php/parse-composer-json.js";
+import { parseComposerLock } from "../src/detectors/php/parse-composer-lock.js";
 
 const fixtures = resolve("tests/fixtures/php");
 
@@ -130,4 +131,112 @@ test("rejects // and block comments in composer.json", () => {
   assert.deepEqual(parseComposerJson('{ // c\n "require": {"php": "^8.1"} }'), []);
   assert.deepEqual(parseComposerJson('{ /* c */ "require": {"php": "^8.1"} }'), []);
   assert.deepEqual(parseComposerJson('{\n  "require": {\n    // no\n    "php": "^8.1"\n  }\n}\n'), []);
+});
+
+test("parses resolved packages, abandoned flags, and platform.php from composer.lock with exact lines", async () => {
+  assert.deepEqual(parseComposerLock(await fixture("positive/composer.lock")), [
+    {
+      kind: "locked-package",
+      name: "monolog/monolog",
+      value: "2.9.1",
+      line: 5,
+      dev: false,
+      abandoned: false,
+      abandonedLine: 6,
+    },
+    {
+      kind: "locked-package",
+      name: "old/abandoned",
+      value: "1.0.0",
+      line: 10,
+      dev: false,
+      abandoned: "new/replacement",
+      abandonedLine: 11,
+    },
+    { kind: "locked-package", name: "symfony/http-foundation", value: "5.4.0", line: 15, dev: false, abandoned: false },
+    { kind: "locked-package", name: "phpunit/phpunit", value: "9.6.0", line: 21, dev: true, abandoned: false },
+    { kind: "platform-php", value: "7.4.33", line: 25 },
+  ]);
+});
+
+test("a valid composer.lock with no lifecycle findings still parses its declarations", async () => {
+  assert.deepEqual(parseComposerLock(await fixture("zero/composer.lock")), [
+    {
+      kind: "locked-package",
+      name: "monolog/monolog",
+      value: "3.8.0",
+      line: 5,
+      dev: false,
+      abandoned: false,
+      abandonedLine: 6,
+    },
+    { kind: "platform-php", value: "8.3.12", line: 11 },
+  ]);
+});
+
+test("ignores empty lock sections, lookalike platform keys, and dynamic values", async () => {
+  assert.deepEqual(parseComposerLock(await fixture("negative/composer.lock")), []);
+  for (const contents of [
+    '{"packages":[{"name":"a/b","version":""}]}\n',
+    '{"packages":[{"name":"a/b","version":"*"}]}\n',
+    '{"packages":[{"name":"a/b","version":"${V}"}]}\n',
+    '{"packages":[{"name":"a/b","version":1}]}\n',
+    '{"packages":[{"name":"not-a-package","version":"1.0.0"}]}\n',
+    '{"packages":[{"name":"ext-json","version":"1.0.0"}]}\n',
+    '{"packages":[{"version":"1.0.0"}]}\n',
+    '{"packages":[{"name":"a/b"}]}\n',
+    '{"platform":{"ext-json":"*"}}\n',
+    '{"platform":{"php":"*"}}\n',
+    '{"platform":{"php":"${PHP_VERSION}"}}\n',
+    '{"platform-dev":{"php":"8.3.12"}}\n',
+    '{"plugin-api-version":"2.3.0"}\n',
+  ]) {
+    assert.deepEqual(parseComposerLock(contents), [], contents);
+  }
+});
+
+test("a malformed composer.lock returns nothing and never throws", async () => {
+  const contents = await fixture("malformed/composer.lock");
+  assert.doesNotThrow(() => parseComposerLock(contents));
+  assert.deepEqual(parseComposerLock(contents), []);
+  for (const junk of [
+    '{"packages":[{"name":"a/b","version":"1.0.0",}]}\n',
+    '{"packages":[{"name":"a/b","version":"1.0.0"',
+    "{",
+    "}",
+    "\u0000\u0001",
+    "}}}\n",
+    "\r\n\r\n",
+  ]) {
+    assert.doesNotThrow(() => parseComposerLock(junk));
+    assert.deepEqual(parseComposerLock(junk), [], junk);
+  }
+});
+
+test("composer.lock handles CRLF, abandoned true, and 1-based lines", () => {
+  const contents =
+    '{\r\n  "packages": [\r\n    {\r\n      "name": "old/pkg",\r\n      "version": "1.0.0",\r\n      "abandoned": true\r\n    }\r\n  ],\r\n  "platform": {\r\n    "php": "8.2.0"\r\n  }\r\n}\r\n';
+  assert.deepEqual(parseComposerLock(contents), [
+    {
+      kind: "locked-package",
+      name: "old/pkg",
+      value: "1.0.0",
+      line: 5,
+      dev: false,
+      abandoned: true,
+      abandonedLine: 6,
+    },
+    { kind: "platform-php", value: "8.2.0", line: 10 },
+  ]);
+});
+
+test("composer.lock bounds untrusted input and stays deterministic", () => {
+  assert.deepEqual(parseComposerLock("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
+  const sample = '{"packages":[{"name":"a/b","version":"1.0.0","abandoned":false}],"platform":{"php":"8.3.0"}}\n';
+  assert.deepEqual(parseComposerLock(sample), parseComposerLock(sample));
+});
+
+test("rejects // and block comments in composer.lock", () => {
+  assert.deepEqual(parseComposerLock('{ // c\n "packages": [{"name":"a/b","version":"1.0.0"}] }'), []);
+  assert.deepEqual(parseComposerLock('{ /* c */ "packages": [{"name":"a/b","version":"1.0.0"}] }'), []);
 });

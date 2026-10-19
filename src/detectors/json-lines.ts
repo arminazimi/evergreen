@@ -13,6 +13,7 @@ export type JsonNode =
   | { kind: "object"; line: number; members: JsonMember[] }
   | { kind: "array"; line: number; items: JsonNode[] }
   | { kind: "string"; line: number; value: string }
+  | { kind: "boolean"; line: number; value: boolean }
   | { kind: "other"; line: number };
 
 export interface JsonMember {
@@ -143,6 +144,8 @@ export function readJsonLines(contents: string, options: ReadJsonLinesOptions): 
     const literal = /^(?:true|false|null|-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/.exec(text.slice(position, position + 64));
     if (!literal) return fail();
     position += literal[0].length;
+    if (literal[0] === "true") return { kind: "boolean", line: start, value: true };
+    if (literal[0] === "false") return { kind: "boolean", line: start, value: false };
     return { kind: "other", line: start };
   };
 

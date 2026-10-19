@@ -36,6 +36,19 @@ test("UTF-8 BOM is accepted", () => {
   assert.equal(member(node, "a")?.value.line, 2);
 });
 
+test("booleans keep their value and line; numbers stay other", () => {
+  const node = readJsonLines('{"a": true, "b": false, "c": 1, "d": null}\n', { comments: false });
+  assert.equal(node?.kind, "object");
+  const a = member(node, "a")?.value;
+  const b = member(node, "b")?.value;
+  assert.equal(a?.kind, "boolean");
+  assert.equal(b?.kind, "boolean");
+  if (a?.kind === "boolean") assert.equal(a.value, true);
+  if (b?.kind === "boolean") assert.equal(b.value, false);
+  assert.equal(member(node, "c")?.value.kind, "other");
+  assert.equal(member(node, "d")?.value.kind, "other");
+});
+
 test("bounds input size and nesting depth", () => {
   assert.equal(readJsonLines("x".repeat(MAXIMUM_INPUT_BYTES + 1), { comments: false }), undefined);
   let nested = '"x"';
