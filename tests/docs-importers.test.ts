@@ -42,7 +42,15 @@ test("other docs point to the importer guide", async () => {
   assert.match(await read("CONTRIBUTING.md"), /docs\/IMPORTERS\.md/);
 });
 
-test("the weekly workflow runs every importer whose registry file exists, and nothing else", async () => {
+/**
+ * Registered importers whose sources reject automated fetches, so they stay out of
+ * `.github/workflows/importers.yml` even when their registry file exists. Keep them
+ * in `tools/importers/index.ts` for local `--replay` / hand runs. Document each row
+ * in docs/IMPORTERS.md.
+ */
+const UNSCHEDULED_IMPORTERS = new Set(["android-1"]);
+
+test("the weekly workflow runs every schedulable importer whose registry file exists, and nothing else", async () => {
   const { existsSync } = await import("node:fs");
   const { parse } = await import("yaml");
   const workflow = parse(await read(".github/workflows/importers.yml")) as {
@@ -52,10 +60,19 @@ test("the weekly workflow runs every importer whose registry file exists, and no
       propose: { permissions: Record<string, string>; strategy: { matrix: { importer: string[] } } };
     };
   };
-  const expected = importers.filter((importer) => existsSync(resolve(`registry/${importer.ecosystem}.json`))).map((importer) => [importer.id, importer.ecosystem]).sort();
+  for (const id of UNSCHEDULED_IMPORTERS) {
+    assert.ok(importers.some((importer) => importer.id === id), `${id} must stay registered for local runs`);
+  }
+  const expected = importers
+    .filter((importer) => existsSync(resolve(`registry/${importer.ecosystem}.json`)) && !UNSCHEDULED_IMPORTERS.has(importer.id))
+    .map((importer) => [importer.id, importer.ecosystem])
+    .sort();
   const drafted = workflow.jobs.draft.strategy.matrix.include.map((entry) => [entry.importer, entry.ecosystem]).sort();
   assert.deepEqual(drafted, expected);
   assert.deepEqual([...workflow.jobs.propose.strategy.matrix.importer].sort(), expected.map(([id]) => id));
+  for (const id of UNSCHEDULED_IMPORTERS) {
+    assert.ok(!drafted.some(([importerId]) => importerId === id), `${id} must not be in the draft matrix`);
+  }
   // Least privilege: nothing by default, read-only drafting, and write access only where the pull request is opened.
   assert.deepEqual(workflow.permissions, {});
   assert.deepEqual(workflow.jobs.draft.permissions, { contents: "read" });

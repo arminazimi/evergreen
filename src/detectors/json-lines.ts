@@ -1,7 +1,9 @@
 /**
  * A small, bounded, strict JSON reader that remembers the 1-based line of every key and value, which
- * `JSON.parse` cannot tell us. It accepts `//` and block comments (the .NET tools do) and a leading byte order
- * mark, and rejects everything else that is not JSON, trailing commas included. Nothing is evaluated.
+ * `JSON.parse` cannot tell us. It accepts a leading byte order mark. Line and block comments are accepted
+ * only when `options.comments` is true (for formats such as .NET `global.json` that tolerate them).
+ * Callers that parse strict JSON (`vcpkg.json`, `Package.resolved`, `composer.json`) pass
+ * `{ comments: false }`. Trailing commas and other non-JSON are always rejected. Nothing is evaluated.
  */
 
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
@@ -21,12 +23,18 @@ export interface JsonMember {
 
 class Malformed extends Error {}
 
+export interface ReadJsonLinesOptions {
+  /** When true, line and block comments are skipped like whitespace. */
+  comments: boolean;
+}
+
 /** Returns the root node, or `undefined` for anything that is not valid, bounded JSON. */
-export function readJsonLines(contents: string): JsonNode | undefined {
+export function readJsonLines(contents: string, options: ReadJsonLinesOptions): JsonNode | undefined {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return undefined;
   const text = contents.charCodeAt(0) === 0xfeff ? contents.slice(1) : contents;
   let position = 0;
   let line = 1;
+  const allowComments = options.comments;
 
   const fail = (): never => {
     throw new Malformed();
@@ -39,9 +47,9 @@ export function readJsonLines(contents: string): JsonNode | undefined {
         position += 1;
       } else if (char === " " || char === "\t" || char === "\r") {
         position += 1;
-      } else if (char === "/" && text[position + 1] === "/") {
+      } else if (allowComments && char === "/" && text[position + 1] === "/") {
         while (position < text.length && text[position] !== "\n") position += 1;
-      } else if (char === "/" && text[position + 1] === "*") {
+      } else if (allowComments && char === "/" && text[position + 1] === "*") {
         const end = text.indexOf("*/", position + 2);
         if (end === -1) fail();
         for (const part of text.slice(position, end)) if (part === "\n") line += 1;

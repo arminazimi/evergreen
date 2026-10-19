@@ -1,4 +1,4 @@
-import { member, readJsonLines } from "./json-lines.js";
+import { member, readJsonLines } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for the SDK a repository pins in `global.json`: `sdk.version`.
@@ -17,6 +17,6 @@ export interface SdkDeclaration {
 }
 
 export function parseGlobalJson(contents: string): SdkDeclaration[] {
-  const version = member(member(readJsonLines(contents), "sdk")?.value, "version")?.value;
+  const version = member(member(readJsonLines(contents, { comments: true }), "sdk")?.value, "version")?.value;
   return version?.kind === "string" && version.value.trim() !== "" ? [{ value: version.value.trim(), line: version.line }] : [];
 }
