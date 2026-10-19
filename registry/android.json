@@ -6,63 +6,15 @@
   },
   "rules": [
     {
-      "id": "android.target-sdk.below-35",
-      "ecosystem": "android",
-      "purl": "pkg:generic/android/targetSdk",
-      "vers": "vers:intdot/<35",
-      "event": "end-of-support",
-      "title": "Google Play requires existing apps to target API 35 or higher",
-      "summary": "Starting August 31 2026, existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than the app's target API level; apps that target Android 14 (API level 34) or lower will only be available on devices running Android OS that are the same or lower than the app's target API level. Wear OS, Android TV, Android Automotive OS, and Android XR have different floors on that page; this rule reports declared targetSdk values regardless of form factor.",
-      "severity": "high",
-      "replacement": "targetSdk 35 or higher (API 36 for new apps and updates on phones/tablets)",
-      "deadline": "2026-08-31",
-      "sources": [
-        {
-          "title": "Meet Google Play's target API level requirement",
-          "url": "https://developer.android.com/google/play/requirements/target-sdk",
-          "accessedAt": "2026-10-19"
-        }
-      ],
-      "provenance": {
-        "observedAt": "2026-10-19",
-        "reviewedAt": "2026-10-19",
-        "reviewer": "arminazimi"
-      }
-    },
-    {
-      "id": "android.target-sdk.below-36-for-submissions",
-      "ecosystem": "android",
-      "purl": "pkg:generic/android/targetSdk",
-      "vers": "vers:intdot/>=35|<36",
-      "event": "end-of-support",
-      "title": "Google Play requires new apps and updates to target API 36 or higher",
-      "summary": "Starting August 31 2026, new apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target Android 15 (API level 35) or higher, and Android TV and Android XR apps, which must target Android 14 (API level 34) or higher. This rule reports declared targetSdk values regardless of form factor, so Wear OS, Android TV, Android Automotive OS, and Android XR apps may need different floors than the phone/tablet submission requirement stated here.",
-      "severity": "high",
-      "replacement": "targetSdk 36 or higher for phone and tablet submissions",
-      "deadline": "2026-08-31",
-      "sources": [
-        {
-          "title": "Meet Google Play's target API level requirement",
-          "url": "https://developer.android.com/google/play/requirements/target-sdk",
-          "accessedAt": "2026-10-19"
-        }
-      ],
-      "provenance": {
-        "observedAt": "2026-10-19",
-        "reviewedAt": "2026-10-19",
-        "reviewer": "arminazimi"
-      }
-    },
-    {
       "id": "android.play-billing.version-5",
       "ecosystem": "android",
       "purl": "pkg:maven/com.android.billingclient/billing",
       "vers": "vers:maven/>=5.0.0|<6.0.0",
-      "event": "end-of-support",
-      "title": "Google Play Billing Library 5 is past its new-app and update deadline",
-      "summary": "The Google Play Billing Library support timeline lists version 5 with a new app and update deadline of August 31, 2024 (extension deadline November 1, 2024). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
+      "event": "deprecated",
+      "title": "Google Play Billing Library 5 is past its deprecation deadline",
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 5 with a new app and update deadline of August 31, 2024 and an extension deadline of November 1, 2024.",
       "severity": "high",
-      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
       "deadline": "2024-08-31",
       "sources": [
         {
@@ -82,11 +34,11 @@
       "ecosystem": "android",
       "purl": "pkg:maven/com.android.billingclient/billing",
       "vers": "vers:maven/>=6.0.0|<7.0.0",
-      "event": "end-of-support",
-      "title": "Google Play Billing Library 6 is past its new-app and update deadline",
-      "summary": "The Google Play Billing Library support timeline lists version 6 with a new app and update deadline of August 31, 2025 (extension deadline November 1, 2025). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
+      "event": "deprecated",
+      "title": "Google Play Billing Library 6 is past its deprecation deadline",
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 6 with a new app and update deadline of August 31, 2025 and an extension deadline of November 1, 2025.",
       "severity": "high",
-      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
       "deadline": "2025-08-31",
       "sources": [
         {
@@ -106,12 +58,60 @@
       "ecosystem": "android",
       "purl": "pkg:maven/com.android.billingclient/billing",
       "vers": "vers:maven/>=7.0.0|<8.0.0",
-      "event": "end-of-support",
-      "title": "Google Play Billing Library 7 is past its new-app and update deadline",
-      "summary": "The Google Play Billing Library support timeline lists version 7 with a new app and update deadline of August 31, 2026 (extension deadline November 1, 2026). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
+      "event": "deprecated",
+      "title": "Google Play Billing Library 7 is past its deprecation deadline",
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 7 with a new app and update deadline of August 31, 2026 and an extension deadline of November 1, 2026.",
       "severity": "high",
-      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
       "deadline": "2026-08-31",
+      "sources": [
+        {
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.play-billing.version-8",
+      "ecosystem": "android",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "vers": "vers:maven/>=8.0.0|<9.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31",
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 8 with a new app and update deadline of August 31, 2027 and an extension deadline of November 1, 2027.",
+      "severity": "low",
+      "replacement": "Google Play Billing Library 9.x or later",
+      "deadline": "2027-08-31",
+      "sources": [
+        {
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.play-billing.version-9",
+      "ecosystem": "android",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "vers": "vers:maven/>=9.0.0|<10.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31",
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 9 with a new app and update deadline of August 31, 2028 and an extension deadline of November 1, 2028.",
+      "severity": "low",
+      "replacement": "A later supported Google Play Billing Library major from the deprecation timeline",
+      "deadline": "2028-08-31",
       "sources": [
         {
           "title": "Google Play Billing Library version deprecation — support timeline",

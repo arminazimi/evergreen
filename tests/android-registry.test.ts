@@ -9,62 +9,41 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/android.json", "utf8"))).rules;
 }
 
-test("every Android rule validates and carries deadline, replacement, and an https source", async () => {
+test("every Android rule is a dated Play Billing rule with https evidence", async () => {
   const all = await rules();
   assert.equal(all.length, 5);
   for (const rule of all) {
+    assert.equal(rule.purl, "pkg:maven/com.android.billingclient/billing", rule.id);
     assert.ok(rule.deadline, `${rule.id} needs deadline`);
     assert.ok(rule.replacement, `${rule.id} needs replacement`);
-    assert.ok(rule.severity, `${rule.id} needs severity`);
-    assert.ok(rule.sources.every((source) => source.url.startsWith("https://")), rule.id);
-    assert.ok(rule.provenance.observedAt && rule.provenance.reviewedAt && rule.provenance.reviewer, rule.id);
-    assert.ok(
-      rule.sources.some((source) =>
-        /^https:\/\/developer\.android\.com\/(?:google\/play\/requirements\/target-sdk|google\/play\/billing\/deprecation-faq)$/.test(
-          source.url,
-        ),
-      ),
-      `${rule.id} cites Play target API or Billing deprecation FAQ`,
-    );
+    assert.ok(rule.sources.every((source) => source.url === "https://developer.android.com/google/play/billing/deprecation-faq"), rule.id);
+    assert.match(rule.summary, /extension deadline of November 1/, rule.id);
+    assert.match(rule.summary, /two-year deprecation cycle/, rule.id);
   }
 });
 
-test("targetSdk rules match just below, at, and just above each Play floor", async () => {
-  const target = (await rules()).filter((rule) => rule.purl === "pkg:generic/android/targetSdk");
+test("Billing majors match exact deadlines and vers boundaries", async () => {
+  const billing = await rules();
   assert.deepEqual(
-    target.map((rule) => [rule.id, rule.deadline, rule.severity]).sort(),
+    billing.map((rule) => [rule.id, rule.deadline, rule.event, rule.severity]).sort(),
     [
-      ["android.target-sdk.below-35", "2026-08-31", "high"],
-      ["android.target-sdk.below-36-for-submissions", "2026-08-31", "high"],
+      ["android.play-billing.version-5", "2024-08-31", "deprecated", "high"],
+      ["android.play-billing.version-6", "2025-08-31", "deprecated", "high"],
+      ["android.play-billing.version-7", "2026-08-31", "deprecated", "high"],
+      ["android.play-billing.version-8", "2027-08-31", "scheduled-end-of-life", "low"],
+      ["android.play-billing.version-9", "2028-08-31", "scheduled-end-of-life", "low"],
     ],
   );
-  const affected = (version: string) => target.filter((rule) => versContains(rule.vers, version)).map((rule) => rule.id);
-  assert.deepEqual(affected("34"), ["android.target-sdk.below-35"]);
-  assert.deepEqual(affected("35"), ["android.target-sdk.below-36-for-submissions"]);
-  assert.deepEqual(affected("36"), []);
-  for (const rule of target) {
-    assert.match(rule.summary, /Wear OS/, rule.id);
-    assert.match(rule.summary, /form factor/, rule.id);
-  }
-});
 
-test("Play Billing major lines match just below, at, and just above each table cutoff", async () => {
-  const billing = (await rules()).filter((rule) => rule.purl === "pkg:maven/com.android.billingclient/billing");
-  assert.deepEqual(
-    billing.map((rule) => [rule.id, rule.deadline]).sort(),
-    [
-      ["android.play-billing.version-5", "2024-08-31"],
-      ["android.play-billing.version-6", "2025-08-31"],
-      ["android.play-billing.version-7", "2026-08-31"],
-    ],
-  );
   const affected = (version: string) => billing.filter((rule) => versContains(rule.vers, version)).map((rule) => rule.id);
   assert.deepEqual(affected("4.1.0"), []);
   assert.deepEqual(affected("5.0.0"), ["android.play-billing.version-5"]);
   assert.deepEqual(affected("5.2.1"), ["android.play-billing.version-5"]);
   assert.deepEqual(affected("6.0.0"), ["android.play-billing.version-6"]);
-  assert.deepEqual(affected("6.2.1"), ["android.play-billing.version-6"]);
   assert.deepEqual(affected("7.0.0"), ["android.play-billing.version-7"]);
   assert.deepEqual(affected("7.1.1"), ["android.play-billing.version-7"]);
-  assert.deepEqual(affected("8.0.0"), []);
+  assert.deepEqual(affected("8.0.0"), ["android.play-billing.version-8"]);
+  assert.deepEqual(affected("8.9.9"), ["android.play-billing.version-8"]);
+  assert.deepEqual(affected("9.0.0"), ["android.play-billing.version-9"]);
+  assert.deepEqual(affected("10.0.0"), []);
 });

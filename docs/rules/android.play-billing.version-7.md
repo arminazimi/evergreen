@@ -1,22 +1,22 @@
 ---
-title: "Google Play Billing Library 7 is past its new-app and update deadline — dates, impact, migration"
-description: "The Google Play Billing Library support timeline lists version 7 with a new app and update deadline of August 31, 2026 (extension deadline November 1, 2026)."
+title: "Google Play Billing Library 7 is past its deprecation deadline — dates, impact, migration"
+description: "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html"
 ---
 
-# Google Play Billing Library 7 is past its new-app and update deadline
+# Google Play Billing Library 7 is past its deprecation deadline
 
-The Google Play Billing Library support timeline lists version 7 with a new app and update deadline of August 31, 2026 (extension deadline November 1, 2026). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.
+The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 7 with a new app and update deadline of August 31, 2026 and an extension deadline of November 1, 2026.
 
 | | |
 | --- | --- |
-| Status | End of support |
+| Status | Deprecated |
 | Severity | high |
 | Ecosystem | `android` |
 | Component | `pkg:maven/com.android.billingclient/billing` |
 | Affected versions | `vers:maven/>=7.0.0\|<8.0.0` |
 | Date from the source | 2026-08-31 |
-| Replacement | Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table) |
+| Replacement | Google Play Billing Library 8.x or 9.x |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-01-17 (90 days after the last review) |
@@ -41,18 +41,18 @@ This page is generated from [`registry/android.json`](https://github.com/arminaz
   "@id": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
   "url": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
-  "headline": "Google Play Billing Library 7 is past its new-app and update deadline — dates, impact, migration",
-  "description": "The Google Play Billing Library support timeline lists version 7 with a new app and update deadline of August 31, 2026 (extension deadline November 1, 2026).",
+  "headline": "Google Play Billing Library 7 is past its deprecation deadline — dates, impact, migration",
+  "description": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle.",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [
-    "end-of-support",
+    "deprecated",
     "android",
     "high"
   ],
   "about": {
     "@type": "Thing",
-    "name": "Google Play Billing Library 7 is past its new-app and update deadline",
+    "name": "Google Play Billing Library 7 is past its deprecation deadline",
     "identifier": "pkg:maven/com.android.billingclient/billing"
   },
   "citation": [
