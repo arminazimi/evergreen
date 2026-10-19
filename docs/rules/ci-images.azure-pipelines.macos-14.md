@@ -1,7 +1,7 @@
 ---
 title: "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal — dates, impact, migration"
 description: "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html"
+canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html"
 ---
 
 # Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal
@@ -20,7 +20,7 @@ The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its schedu
 | Evidence last seen | 2026-10-18 |
 | Reviewed | 2026-10-18 by arminazimi |
 | Review due | 2027-10-18 (365 days after the last review) |
-| Rule ID | `ci-images.azure-pipelines.macos-14.scheduled-end-of-life` |
+| Rule ID | `ci-images.azure-pipelines.macos-14` |
 
 ## Sources
 
@@ -32,15 +32,15 @@ The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](.
 
 ## Data
 
-This page is generated from [`registry/ci-images.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json), rule `ci-images.azure-pipelines.macos-14.scheduled-end-of-life`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/ci-images.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json), rule `ci-images.azure-pipelines.macos-14`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.scheduled-end-of-life.html",
+  "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html",
   "headline": "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal — dates, impact, migration",
   "description": "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.",
   "inLanguage": "en",
