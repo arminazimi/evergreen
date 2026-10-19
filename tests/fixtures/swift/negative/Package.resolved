@@ -1,0 +1,28 @@
+{
+  "pins" : [
+    {
+      "identity" : "library",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/example/library",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4b9a1c0f2e7d3a58c61b9e0d2f4a7c8e1b3d5f60"
+      }
+    },
+    {
+      "identity" : "swift-nio-2.0",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/example/swift-nio-2.0",
+      "state" : {
+        "revision" : "7d2e91a4c0b8f3e65a1d9c27b40f8e6a3c5d1b09"
+      }
+    },
+    {
+      "identity" : "localkit",
+      "kind" : "fileSystem",
+      "location" : "../LocalKit",
+      "state" : {}
+    }
+  ],
+  "version" : 2
+}
