@@ -9,6 +9,48 @@
   packages `Microsoft.Azure.DocumentDB`, `Microsoft.Azure.ServiceBus`, and `Microsoft.Azure.Storage.Blob`.
   Repositories that target these lines now get findings where they had none.
 
+## 0.4.0 - 2026-10-19
+
+- Honor per-version npm deprecation notices and resolved dependency versions; remove nine false alarms and independently review twelve additional public-corpus findings. (#825)
+
+- Publish signed Evergreen container images to GHCR. (#820)
+- Import end-of-life drafts from PHP release branches (#447). (#819)
+- Seed registry with five evidence-backed lifecycle rules. (#817)
+- Parse .php-version and .tool-versions with exact lines. (#814)
+- Parse composer.lock with exact line locations. (#813)
+- Map affected imports and usages to files. (#810)
+- Import App Store Xcode upload requirements. (#811)
+- Parse composer.json with exact line locations (#443). (#807)
+- Import CMake policy compatibility removals. (#809)
+- Seed registry/swift.json with five curated rules. (#805)
+- Seed registry with five CMake lifecycle rules. (#806)
+- Parse vcpkg.json baseline and direct dependencies. (#803)
+- Parse .swift-version and .xcode-version pins. (#802)
+- Parse Package.resolved pin versions with exact lines. (#800)
+- Parse Package.swift with exact line locations. (#797)
+- JavaScript and TypeScript usage queries on tree-sitter (#227). (#794)
+- Define symbol-level API deprecation rules (#231). (#790)
+- Parse conanfile.txt and conanfile.py with exact lines. (#789)
+- Load tree-sitter grammars via WASM, offline (#226). (#788)
+- Parse CMakeLists.txt with exact line locations. (#787)
+- Wire the detector and pass conformance (#461). (#781)
+- Add the deprecations the Renovate comparison found. (#782)
+- Wire the detector and pass conformance. (#779)
+- Import lifecycle signals from maintenance branches (#460). (#778)
+- Add lifecycle registry and five curated rules (#459). (#774)
+- Import Azure hosted image retirements from runner-images (#500). (#775)
+- Seed registry with curated rules (#499). (#772)
+- Parse required_ruby_version from gemspec with exact lines (#458). (#771)
+- Parse Gemfile.lock with exact line locations (#457). (#770)
+- Parse Gemfile with exact line locations (#456). (#769)
+- Mark stale benchmark runs on the dashboard (#303). (#767)
+- Parse azure-pipelines.yml with exact line locations (#498). (#768)
+- Parse .ruby-version and .tool-versions with exact lines (#455). (#766)
+- Parse .circleci/config.yml with exact line locations (#497). (#761)
+- Build the public accuracy dashboard page (#302). (#762)
+- Match Azure vmImage labels case-insensitively (#87). (#783)
+- Use event-free rule ids (#776). (#777)
+
 ## 0.3.0 - 2026-10-18
 
 - Add four detectors, all experimental (decision 0013): Java and Kotlin (out-of-support JDK pins and moved Maven
