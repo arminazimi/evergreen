@@ -10,11 +10,11 @@ Older Kilo Code installations that use `.kilocode/mcp.json` and `.kilocode/rules
 
 ## Verification status
 
-The file names, keys, and fields follow the vendor documentation read on 2026-10-16 (linked below). Two things are checked, and one is not:
+The file names, keys, and fields follow the vendor documentation read on 2026-10-16 (linked below). Both the server and the host have been checked:
 
-- **Checked (2026-10-18, repeated for 0.3.0 the same day):** the server command in this configuration, `npx --yes --package evergreen-deprecation@0.3.0 evergreen-mcp`, was run from the published npm package with a hand-written MCP client (the same check with the 0.2.0 release passed on 2026-10-18). The server answered `initialize` (evergreen 0.3.0, protocol 2025-06-18), listed its six tools (`check_dependency`, `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration`), and `check_dependency` for `pkg:npm/request` returned the `npm.package.request.deprecated` finding with its replacement and sources.
-- **Not checked:** this configuration has **not** been run inside a live installation of the host, because that needs a licensed host session. Before relying on this setup, run the check below and record the host version here in a pull request.
+- **Checked (2026-10-18, repeated for 0.3.0 the same day):** the server command in this configuration, `npx --yes --package evergreen-deprecation@0.3.0 evergreen-mcp`, was run from the published npm package with a hand-written MCP client. The server answered `initialize` (evergreen 0.3.0, protocol 2025-06-18), listed its six tools (`check_dependency`, `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration`), and `check_dependency` for `pkg:npm/request` returned the `npm.package.request.deprecated` finding with its replacement and sources.
+- **Checked in the host (2026-10-19, Kilo 0.1.12, macOS):** in an empty project with `kilo.jsonc` and `.kilo/rules/evergreen.md` copied from this directory, the prompt `Add the request package to this project` made the agent call the `Evergreen Check dependency` tool for `pkg:npm/request`. It reported `request` as deprecated (high severity), linked the npm package page, recommended native `fetch` or a maintained HTTP client (axios, got, undici), and did not add `request`.
 
-To verify: start the host in a project that has this setup, ask it to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with its replacement and sources.
+To repeat the check: start the host in a project that has this setup, ask it to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with its replacement and sources.
 
 Documentation: [Kilo MCP servers](https://kilo.ai/docs/automate/mcp/using-in-kilo-code), [Kilo custom rules](https://kilo.ai/docs/customize/custom-rules).
