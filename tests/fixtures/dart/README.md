@@ -1,6 +1,6 @@
 # Dart and Flutter fixtures
 
-These fixtures define the parser boundary for Dart and Flutter declarations in [epic #44](https://github.com/arminazimi/evergreen/issues/44). The scope is the `environment` SDK constraints and direct dependencies in `pubspec.yaml`; the resolved packages and SDK constraints in `pubspec.lock`; and the Flutter version pinned by FVM in `.fvmrc` or `.fvm/fvm_config.json`. Line numbers below are 1-based. The versions are parser examples only: **they do not claim that any Dart SDK, Flutter release, or package is end of life or deprecated.** A lifecycle finding needs a reviewed rule with an authoritative source ([epic #44](https://github.com/arminazimi/evergreen/issues/44), “Scope” and “Non-goals”).
+These fixtures define the parser boundary for Dart and Flutter declarations in [epic #53](https://github.com/arminazimi/evergreen/issues/53). The scope is the `environment` SDK constraints and direct dependencies in `pubspec.yaml`; the resolved packages and SDK constraints in `pubspec.lock`; and the Flutter version pinned by FVM in `.fvmrc` or `.fvm/fvm_config.json`. Line numbers below are 1-based. The versions are parser examples only: **they do not claim that any Dart SDK, Flutter release, or package is end of life or deprecated.** A lifecycle finding needs a reviewed rule with an authoritative source ([epic #53](https://github.com/arminazimi/evergreen/issues/53), “Scope” and “Non-goals”).
 
 | Fixture file | Expected case |
 | --- | --- |
@@ -12,13 +12,13 @@ These fixtures define the parser boundary for Dart and Flutter declarations in [
 | `negative/pubspec.lock` | A git-sourced direct dependency (lines 4–11), a path-sourced direct dependency (lines 12–18), and a commented-out `sdks` block (lines 19–20) produce no hosted declaration and no SDK constraint. |
 | `negative/.fvmrc` | A release channel instead of a version (line 3), a flavor pin (line 5), and the unrelated `$comment` key (line 2) produce no pin. |
 | `negative/.fvm/fvm_config.json` | A release channel in `flutterSdkVersion` (line 3), a `cachePath` that contains a version (line 4), a flavor pin (line 6), and the unrelated `$comment` key (line 2) produce no pin. |
-| `zero/pubspec.yaml` | The constraints `>=3.13.0 <4.0.0` (line 8) and `>=3.47.0` (line 9) and the dependencies `http` `^1.6.0` (line 13), `intl` `^0.20.3` (line 14), `provider` `^6.1.5` (line 15), and `shared_preferences` `^2.5.6` (line 16): valid declarations, no lifecycle finding. |
+| `zero/pubspec.yaml` | The constraints `>=3.13.0 <4.0.0` (line 7) and `>=3.47.0` (line 8) and the dependencies `http` `^1.6.0` (line 13), `intl` `^0.20.3` (line 14), `provider` `^6.1.5` (line 15), and `shared_preferences` `^2.5.6` (line 16): valid declarations, no lifecycle finding. |
 | `zero/pubspec.lock` | Current resolved packages with their SDK constraints (lines 61–62): valid declarations, no lifecycle findings. |
 | `zero/.fvmrc` | The pinned Flutter version `3.47.7` (line 2): valid declaration, no lifecycle finding. |
 | `zero/.fvm/fvm_config.json` | The pinned Flutter version `3.47.7` (line 2): valid declaration, no lifecycle finding. |
 | `malformed/pubspec.yaml` | An unterminated quoted scalar (line 4): no partial declarations, no error. |
-| `malformed/pubspec.lock` | An unclosed flow sequence (line 9): no partial declarations, no error. |
-| `malformed/.fvmrc` | A trailing comma (line 3) makes the document invalid JSON: no declaration, no error. |
+| `malformed/pubspec.lock` | An unclosed flow sequence (line 10): no partial declarations, no error. |
+| `malformed/.fvmrc` | A trailing comma after the last member (line 2) makes the document invalid JSON: no declaration, no error. |
 | `malformed/.fvm/fvm_config.json` | A missing value (line 2) makes the document invalid JSON: no declaration, no error. |
 
 The `positive` fixtures are one realistic minimal project per declaration type. The zero fixtures are valid projects whose declarations are all supported, so they yield no lifecycle findings. Unclassified or lookalike values in the negative fixtures are not findings. Malformed fixtures are handled without an error or partial declarations.
