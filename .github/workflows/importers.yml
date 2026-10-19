@@ -49,6 +49,7 @@ jobs:
           - { importer: ruby-1, ecosystem: ruby }
           - { importer: rust-1, ecosystem: rust }
           - { importer: rust-2, ecosystem: rust }
+          - { importer: swift-1, ecosystem: swift }
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -117,6 +118,7 @@ jobs:
           - ruby-1
           - rust-1
           - rust-2
+          - swift-1
     steps:
       - uses: actions/checkout@v7
       - name: Fetch the drafts, if this importer found a difference

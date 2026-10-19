@@ -67,6 +67,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `ruby-1` | `ruby` | The Ruby maintenance branches page: one `end-of-life` rule per release line the page marks eol, with its published end-of-life date. | none |
 | `rust-1` | `rust` | `RELEASES.md` in the Rust repository: the one 'Rust 1.N and older are no longer supported' rule, from the policy that only the most recent stable release is supported. It moves every six weeks; headings dated in the future are ignored. | none |
 | `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. | `tools/importers/rust-candidates.ts` |
+| `swift-1` | `swift` | Apple's App Store upcoming-requirements listing: one `end-of-support` rule per Xcode upload floor band (versions below each dated "built with Xcode N" minimum). iOS/iPadOS deployment-target, notary, and tvOS-only entries are noted and skipped. | none |
 | `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
 
 Some registries have no list of what is deprecated (npm and PyPI expose a flag per package), so those importers check a **candidate list**. To widen coverage, add a name to the list in a pull request: one line, in sorted order. A candidate that is not deprecated produces no rule, and the importer names it in its notes so it can be removed.
