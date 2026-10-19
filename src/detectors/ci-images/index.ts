@@ -60,9 +60,9 @@ async function ciImageFiles(root: string): Promise<CiImageFile[]> {
 
 /** `ubuntu-22.04` → `pkg:generic/azure-pipelines/ubuntu-image` + `22.04`; undefined for labels with no family. */
 function azureNormalize(label: string): { purl: string; version: string } | undefined {
-  const match = /^(ubuntu|macos|windows)-([\d.]+)$/.exec(label);
+  const match = /^(ubuntu|macos|windows)-([\d.]+)$/i.exec(label);
   if (!match) return undefined;
-  return { purl: `pkg:generic/azure-pipelines/${match[1]!}-image`, version: match[2]! };
+  return { purl: `pkg:generic/azure-pipelines/${match[1]!.toLowerCase()}-image`, version: match[2]! };
 }
 
 export class CiImagesDetector implements Detector {
