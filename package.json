@@ -68,7 +68,7 @@
     "!schemas/vendor"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node -e \"require('fs').cpSync('src/usage/queries','dist/src/usage/queries',{recursive:true})\"",
     "build:action": "ncc build src/action.ts -o dist/action --minify --transpile-only",
     "build:plugins": "npm run build --silent && node dist/tools/plugin-packages.js",
     "package:codex-plugin": "npm run build:plugins --silent && node dist/tools/codex-plugin-release.js",

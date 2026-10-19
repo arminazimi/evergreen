@@ -1,7 +1,8 @@
+import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 
-import type { Language, Parser, Tree } from "@vscode/tree-sitter-wasm";
+import type { Language, Parser, Query, Tree } from "@vscode/tree-sitter-wasm";
 
 import type { SourceLanguage } from "../domain.js";
 
@@ -46,6 +47,25 @@ function loadLanguage(grammar: TreeSitterGrammar): Promise<Language> {
     language.catch(() => languages.delete(grammar));
   }
   return language;
+}
+
+const queries = new Map<string, Promise<Query>>();
+
+/**
+ * Compiles `queries/<name>.scm` files (shipped next to this module, concatenated in order) against a grammar, once. Queries are
+ * checked into the repository as text so contributors can read and extend them without touching TypeScript.
+ */
+export function loadQuery(grammar: TreeSitterGrammar, ...names: string[]): Promise<Query> {
+  const key = `${grammar}:${names.join("+")}`;
+  let query = queries.get(key);
+  if (!query) {
+    query = Promise.all([loadRuntime(), loadLanguage(grammar), Promise.all(names.map((name) => readFile(new URL(`./queries/${name}.scm`, import.meta.url), "utf8")))]).then(
+      ([{ module }, language, sources]) => new module.Query(language, sources.join("\n")),
+    );
+    queries.set(key, query);
+    query.catch(() => queries.delete(key));
+  }
+  return query;
 }
 
 /** Picks the grammar for a source file, or undefined when no tree-sitter grammar covers it. */
