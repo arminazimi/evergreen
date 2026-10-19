@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "android",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "android.target-sdk.below-35",
+      "ecosystem": "android",
+      "purl": "pkg:generic/android/targetSdk",
+      "vers": "vers:intdot/<35",
+      "event": "end-of-support",
+      "title": "Google Play requires existing apps to target API 35 or higher",
+      "summary": "Starting 2026-08-31, Google Play requires existing apps to target Android 15 (API level 35) or higher to remain available to new users on devices running a newer Android OS than the app's target API level. Apps that target API 34 or lower are limited to devices running the same or a lower Android OS version.",
+      "severity": "high",
+      "replacement": "targetSdk 35 or higher (API 36 for new apps and updates)",
+      "deadline": "2026-08-31",
+      "sources": [
+        {
+          "title": "Meet Google Play's target API level requirement",
+          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.target-sdk.below-36-for-submissions",
+      "ecosystem": "android",
+      "purl": "pkg:generic/android/targetSdk",
+      "vers": "vers:intdot/>=35|<36",
+      "event": "end-of-support",
+      "title": "Google Play requires new apps and updates to target API 36 or higher",
+      "summary": "Starting 2026-08-31, Google Play requires new apps and app updates to target Android 16 (API level 36) or higher. Targeting API 35 meets the existing-app availability floor but does not meet the submission requirement for new apps and updates (Wear OS, Android Automotive OS, Android TV, and Android XR have separate floors on that page).",
+      "severity": "high",
+      "replacement": "targetSdk 36 or higher",
+      "deadline": "2026-08-31",
+      "sources": [
+        {
+          "title": "Meet Google Play's target API level requirement",
+          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.agp.below-7.1",
+      "ecosystem": "android",
+      "purl": "pkg:maven/com.android.tools.build/gradle",
+      "vers": "vers:maven/<7.1.0",
+      "event": "end-of-support",
+      "title": "Android Gradle Plugin below 7.1 is outside current Android Studio support",
+      "summary": "Google's Android Gradle Plugin and Android Studio compatibility table lists current Android Studio releases (including Rabbit 1 and Quail 4) as supporting AGP 7.1 through 9.4. AGP versions older than 7.1.0 are outside that supported range. The same page states Android Studio supports AGP versions released within the previous three years and that incompatible AGP versions must be updated.",
+      "severity": "high",
+      "replacement": "Android Gradle Plugin 8.x or 9.x within the Studio support range for your IDE",
+      "sources": [
+        {
+          "title": "About Android Gradle plugin — Android Studio compatibility",
+          "url": "https://developer.android.com/build/releases/about-agp",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.agp.below-8.6-for-api-35",
+      "ecosystem": "android",
+      "purl": "pkg:maven/com.android.tools.build/gradle",
+      "vers": "vers:maven/>=7.1.0|<8.6.0",
+      "event": "end-of-support",
+      "title": "Android Gradle Plugin below 8.6.0 is below Google's minimum for API 35",
+      "summary": "Google's table of minimum tool versions for Android API levels lists API level 35 as requiring Android Gradle Plugin 8.6.0 or higher. AGP versions from 7.1.0 up to but not including 8.6.0 are below that documented minimum for API 35, which is also the Google Play existing-app target API floor as of 2026-08-31.",
+      "severity": "medium",
+      "replacement": "Android Gradle Plugin 8.6.0 or higher",
+      "sources": [
+        {
+          "title": "About Android Gradle plugin — Minimum versions of tools for Android API level",
+          "url": "https://developer.android.com/build/releases/about-agp",
+          "accessedAt": "2026-10-19"
+        },
+        {
+          "title": "Meet Google Play's target API level requirement",
+          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "android.agp.below-8.9.1-for-api-36",
+      "ecosystem": "android",
+      "purl": "pkg:maven/com.android.tools.build/gradle",
+      "vers": "vers:maven/>=8.6.0|<8.9.1",
+      "event": "end-of-support",
+      "title": "Android Gradle Plugin below 8.9.1 is below Google's minimum for API 36",
+      "summary": "Google's table of minimum tool versions for Android API levels lists API level 36 as requiring Android Gradle Plugin 8.9.1 or higher. AGP versions from 8.6.0 up to but not including 8.9.1 meet the API 35 tool minimum but are below the documented minimum for API 36, which Google Play requires for new apps and app updates as of 2026-08-31.",
+      "severity": "medium",
+      "replacement": "Android Gradle Plugin 8.9.1 or higher (9.x is current stable)",
+      "sources": [
+        {
+          "title": "About Android Gradle plugin — Minimum versions of tools for Android API level",
+          "url": "https://developer.android.com/build/releases/about-agp",
+          "accessedAt": "2026-10-19"
+        },
+        {
+          "title": "Meet Google Play's target API level requirement",
+          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "accessedAt": "2026-10-19"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}

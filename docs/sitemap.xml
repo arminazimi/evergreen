@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://arminazimi.github.io/evergreen/</loc></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/</loc></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.agp.below-7.1.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.agp.below-8.6-for-api-35.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.agp.below-8.9.1-for-api-36.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-35.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-36-for-submissions.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html</loc><lastmod>2026-10-16</lastmod></url>

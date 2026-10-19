@@ -8,6 +8,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/"
 
 Every lifecycle claim Evergreen makes comes from a reviewed rule with an authoritative source. Each rule has a page with its status, affected versions, dates, sources, and migration steps. These pages are generated from the registry; see [Lifecycle rules](../RULES.md).
 
+## android
+
+- [Android Gradle Plugin below 7.1 is outside current Android Studio support](android.agp.below-7.1.html) — end of support, `android.agp.below-7.1`
+- [Android Gradle Plugin below 8.6.0 is below Google's minimum for API 35](android.agp.below-8.6-for-api-35.html) — end of support, `android.agp.below-8.6-for-api-35`
+- [Android Gradle Plugin below 8.9.1 is below Google's minimum for API 36](android.agp.below-8.9.1-for-api-36.html) — end of support, `android.agp.below-8.9.1-for-api-36`
+- [Google Play requires existing apps to target API 35 or higher](android.target-sdk.below-35.html) — end of support, `android.target-sdk.below-35`
+- [Google Play requires new apps and updates to target API 36 or higher](android.target-sdk.below-36-for-submissions.html) — end of support, `android.target-sdk.below-36-for-submissions`
+
 ## ci-images
 
 - [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html) — scheduled end of life, `ci-images.azure-pipelines.macos-14`
