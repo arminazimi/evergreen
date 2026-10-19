@@ -46,6 +46,7 @@ jobs:
           - { importer: npm-deprecated, ecosystem: npm }
           - { importer: pypi-status, ecosystem: python }
           - { importer: python-release-cycle, ecosystem: python }
+          - { importer: ruby-1, ecosystem: ruby }
           - { importer: rust-1, ecosystem: rust }
           - { importer: rust-2, ecosystem: rust }
     steps:
@@ -113,6 +114,7 @@ jobs:
           - npm-deprecated
           - pypi-status
           - python-release-cycle
+          - ruby-1
           - rust-1
           - rust-2
     steps:
