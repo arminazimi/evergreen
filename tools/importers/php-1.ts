@@ -7,6 +7,12 @@ import type { DraftRule, Importer } from "./types.js";
 export const PHP_BRANCHES_URL = "https://www.php.net/releases/branches.php";
 export const PHP_SUPPORTED_VERSIONS_URL = "https://www.php.net/supported-versions.php";
 
+/**
+ * Release lines older than this are skipped so weekly drafts stay aligned with the curated PHP
+ * runtime rules and detectors (7.x and later). Raise this if the registry starts covering older lines.
+ */
+export const FIRST_DRAFTED_BRANCH = "7.0";
+
 const SOURCES = [
   { title: "PHP release branches", url: PHP_BRANCHES_URL },
   { title: "PHP supported versions", url: PHP_SUPPORTED_VERSIONS_URL },
@@ -111,14 +117,20 @@ export const phpSupportedVersionsImporter: Importer = {
 
     const names = [...new Set(branches.map((branch) => branch.name))].sort(compareNames);
     const today = isoDate(context.now);
-    const supported = branches
-      .filter((branch) => (branch.state === "stable" || branch.state === "security") && branch.eol > today)
+    // Like ruby-1's "normal maintenance" line: only active-support (state "stable") branches, not
+    // security-only ones. That yields "PHP 8.4 or later" today; the curated registry still says
+    // "PHP 8.3 or later" (a security-supported floor). Reviewers can keep the curated wording.
+    const replacement = branches
+      .filter((branch) => branch.state === "stable" && branch.active !== undefined && branch.active > today)
       .map((branch) => branch.name)
-      .sort(compareNames);
-    const replacement = supported[0];
+      .sort(compareNames)[0];
 
     const rules: DraftRule[] = [];
     for (const branch of branches) {
+      if (compareNames(branch.name, FIRST_DRAFTED_BRANCH) < 0) {
+        notes.push(`Skipped PHP ${branch.name}: older than the first drafted line ${FIRST_DRAFTED_BRANCH}.`);
+        continue;
+      }
       if (branch.state === "future") {
         notes.push(`Skipped PHP ${branch.name}: status "future".`);
         continue;
@@ -135,7 +147,7 @@ export const phpSupportedVersionsImporter: Importer = {
       rules.push(draft(branch, next, replacement));
     }
 
-    if (replacement === undefined) notes.push("No supported release line was found, so drafts have no replacement.");
+    if (replacement === undefined) notes.push("No release line in active support was found, so drafts have no replacement.");
     return { rules, notes };
   },
 };
