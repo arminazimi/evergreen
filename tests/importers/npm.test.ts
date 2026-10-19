@@ -76,8 +76,10 @@ test("a package whose latest version is not deprecated produces no rule and is l
   const result = await runImporter(npmDeprecatedImporter, registry({ ...names, [registryUrl("request")]: { name: "request", version: "3.0.0", deprecated: "gone" }, [registryUrl("tslint")]: { name: "tslint", deprecated: "" } }));
   assert.deepEqual(result.rules.map((rule) => rule.id), ["npm.package.request.deprecated"]);
   assert.equal(result.notes.length, 1);
-  assert.match(result.notes[0]!, /^Not deprecated at their latest version, so no rule .*: @hapi\/joi, babel-eslint,.*tslint,.*uglify-es\.$/);
-  assert.ok(result.notes[0]!.includes("tslint"), "an empty notice is not a deprecation");
+  const note = result.notes[0]!;
+  assert.match(note, /^Not deprecated at their latest version, so no rule .*: .+\.$/);
+  for (const name of ["@hapi/joi", "babel-eslint", "uglify-es"]) assert.ok(note.includes(name), name);
+  assert.ok(note.includes("tslint"), "an empty notice is not a deprecation");
 });
 
 test("a package that was removed from npm is noted, but any other failure stops the run", async () => {

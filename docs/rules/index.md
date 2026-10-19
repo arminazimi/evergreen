@@ -104,7 +104,9 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [babel-preset-es2015 is deprecated](npm.package.babel-preset-es2015.deprecated.html) — deprecated, `npm.package.babel-preset-es2015.deprecated`
 - [boom is deprecated](npm.package.boom.deprecated.html) — deprecated, `npm.package.boom.deprecated`
 - [cryptiles is deprecated](npm.package.cryptiles.deprecated.html) — deprecated, `npm.package.cryptiles.deprecated`
+- [crypto-js is deprecated](npm.package.crypto-js.deprecated.html) — deprecated, `npm.package.crypto-js.deprecated`
 - [domexception is deprecated](npm.package.domexception.deprecated.html) — deprecated, `npm.package.domexception.deprecated`
+- [eslint-plugin-nuxt is deprecated](npm.package.eslint-plugin-nuxt.deprecated.html) — deprecated, `npm.package.eslint-plugin-nuxt.deprecated`
 - [figgy-pudding is no longer supported](npm.package.figgy-pudding.eol.html) — end of life, `npm.package.figgy-pudding.eol`
 - [fstream is no longer supported](npm.package.fstream.eol.html) — end of life, `npm.package.fstream.eol`
 - [gauge is no longer supported](npm.package.gauge.eol.html) — end of life, `npm.package.gauge.eol`
@@ -113,10 +115,12 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [har-validator is deprecated](npm.package.har-validator.deprecated.html) — deprecated, `npm.package.har-validator.deprecated`
 - [@humanwhocodes/config-array is deprecated](npm.package.humanwhocodes-config-array.deprecated.html) — deprecated, `npm.package.humanwhocodes-config-array.deprecated`
 - [@humanwhocodes/object-schema is deprecated](npm.package.humanwhocodes-object-schema.deprecated.html) — deprecated, `npm.package.humanwhocodes-object-schema.deprecated`
+- [i18next-parser is deprecated](npm.package.i18next-parser.deprecated.html) — deprecated, `npm.package.i18next-parser.deprecated`
 - [inflight is deprecated](npm.package.inflight.deprecated.html) — deprecated, `npm.package.inflight.deprecated`
 - [istanbul is deprecated](npm.package.istanbul.deprecated.html) — deprecated, `npm.package.istanbul.deprecated`
 - [jade is deprecated](npm.package.jade.deprecated.html) — deprecated, `npm.package.jade.deprecated`
 - [karma-phantomjs-launcher is deprecated](npm.package.karma-phantomjs-launcher.deprecated.html) — deprecated, `npm.package.karma-phantomjs-launcher.deprecated`
+- [koa-router is deprecated](npm.package.koa-router.deprecated.html) — deprecated, `npm.package.koa-router.deprecated`
 - [left-pad is deprecated](npm.package.left-pad.deprecated.html) — deprecated, `npm.package.left-pad.deprecated`
 - [lodash.get is deprecated](npm.package.lodash-get.deprecated.html) — deprecated, `npm.package.lodash-get.deprecated`
 - [lodash.isequal is deprecated](npm.package.lodash-isequal.deprecated.html) — deprecated, `npm.package.lodash-isequal.deprecated`
@@ -126,23 +130,43 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [nomnom is deprecated](npm.package.nomnom.deprecated.html) — deprecated, `npm.package.nomnom.deprecated`
 - [@npmcli/move-file is deprecated](npm.package.npmcli-move-file.deprecated.html) — deprecated, `npm.package.npmcli-move-file.deprecated`
 - [npmlog is no longer supported](npm.package.npmlog.eol.html) — end of life, `npm.package.npmlog.eol`
+- [@nuxt/types is deprecated](npm.package.nuxt.types.deprecated.html) — deprecated, `npm.package.nuxt.types.deprecated`
+- [@nuxt/typescript-build is deprecated](npm.package.nuxt.typescript-build.deprecated.html) — deprecated, `npm.package.nuxt.typescript-build.deprecated`
 - [osenv is no longer supported](npm.package.osenv.eol.html) — end of life, `npm.package.osenv.eol`
 - [popper.js is deprecated](npm.package.popper.js.deprecated.html) — deprecated, `npm.package.popper.js.deprecated`
 - [Protractor is deprecated](npm.package.protractor.deprecated.html) — deprecated, `npm.package.protractor.deprecated`
 - [q is deprecated](npm.package.q.deprecated.html) — deprecated, `npm.package.q.deprecated`
 - [querystring is deprecated](npm.package.querystring.deprecated.html) — deprecated, `npm.package.querystring.deprecated`
+- [react-beautiful-dnd is deprecated](npm.package.react-beautiful-dnd.deprecated.html) — deprecated, `npm.package.react-beautiful-dnd.deprecated`
 - [read-package-json is no longer supported](npm.package.read-package-json.eol.html) — end of life, `npm.package.read-package-json.eol`
 - [request-promise-native is deprecated](npm.package.request-promise-native.deprecated.html) — deprecated, `npm.package.request-promise-native.deprecated`
 - [request-promise is deprecated](npm.package.request-promise.deprecated.html) — deprecated, `npm.package.request-promise.deprecated`
 - [request is deprecated](npm.package.request.deprecated.html) — deprecated, `npm.package.request.deprecated`
 - [resolve-url is deprecated](npm.package.resolve-url.deprecated.html) — deprecated, `npm.package.resolve-url.deprecated`
 - [rollup-plugin-babel is deprecated](npm.package.rollup-plugin-babel.deprecated.html) — deprecated, `npm.package.rollup-plugin-babel.deprecated`
+- [rollup-plugin-terser is deprecated](npm.package.rollup-plugin-terser.deprecated.html) — deprecated, `npm.package.rollup-plugin-terser.deprecated`
 - [sntp is deprecated](npm.package.sntp.deprecated.html) — deprecated, `npm.package.sntp.deprecated`
+- [socket.io-redis is deprecated](npm.package.socket.io-redis.deprecated.html) — deprecated, `npm.package.socket.io-redis.deprecated`
 - [source-map-url is deprecated](npm.package.source-map-url.deprecated.html) — deprecated, `npm.package.source-map-url.deprecated`
 - [sourcemap-codec is deprecated](npm.package.sourcemap-codec.deprecated.html) — deprecated, `npm.package.sourcemap-codec.deprecated`
 - [stable is deprecated](npm.package.stable.deprecated.html) — deprecated, `npm.package.stable.deprecated`
 - [tslint is deprecated](npm.package.tslint.deprecated.html) — deprecated, `npm.package.tslint.deprecated`
+- [@types/diff is deprecated](npm.package.types.diff.deprecated.html) — deprecated, `npm.package.types.diff.deprecated`
+- [@types/dotenv is deprecated](npm.package.types.dotenv.deprecated.html) — deprecated, `npm.package.types.dotenv.deprecated`
+- [@types/emoji-regex is deprecated](npm.package.types.emoji-regex.deprecated.html) — deprecated, `npm.package.types.emoji-regex.deprecated`
+- [@types/form-data is deprecated](npm.package.types.form-data.deprecated.html) — deprecated, `npm.package.types.form-data.deprecated`
+- [@types/glob is deprecated](npm.package.types.glob.deprecated.html) — deprecated, `npm.package.types.glob.deprecated`
+- [@types/koa-helmet is deprecated](npm.package.types.koa-helmet.deprecated.html) — deprecated, `npm.package.types.koa-helmet.deprecated`
+- [@types/koa-useragent is deprecated](npm.package.types.koa-useragent.deprecated.html) — deprecated, `npm.package.types.koa-useragent.deprecated`
+- [@types/pako is deprecated](npm.package.types.pako.deprecated.html) — deprecated, `npm.package.types.pako.deprecated`
+- [@types/react-virtualized-auto-sizer is deprecated](npm.package.types.react-virtualized-auto-sizer.deprecated.html) — deprecated, `npm.package.types.react-virtualized-auto-sizer.deprecated`
+- [@types/react-window is deprecated](npm.package.types.react-window.deprecated.html) — deprecated, `npm.package.types.react-window.deprecated`
+- [@types/refractor is deprecated](npm.package.types.refractor.deprecated.html) — deprecated, `npm.package.types.refractor.deprecated`
+- [@types/sanitize-filename is deprecated](npm.package.types.sanitize-filename.deprecated.html) — deprecated, `npm.package.types.sanitize-filename.deprecated`
+- [@types/sequelize is deprecated](npm.package.types.sequelize.deprecated.html) — deprecated, `npm.package.types.sequelize.deprecated`
+- [@types/socket.io-client is deprecated](npm.package.types.socket.io-client.deprecated.html) — deprecated, `npm.package.types.socket.io-client.deprecated`
 - [uglify-es is deprecated](npm.package.uglify-es.deprecated.html) — deprecated, `npm.package.uglify-es.deprecated`
+- [vue2-script-setup-transform is deprecated](npm.package.vue2-script-setup-transform.deprecated.html) — deprecated, `npm.package.vue2-script-setup-transform.deprecated`
 - [w3c-hr-time is deprecated](npm.package.w3c-hr-time.deprecated.html) — deprecated, `npm.package.w3c-hr-time.deprecated`
 
 ## python

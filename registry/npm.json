@@ -3051,6 +3051,1596 @@
       "x-npm": {
         "package": "uglify-es"
       }
+    },
+    {
+      "id": "npm.package.crypto-js.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/crypto-js",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "crypto-js is deprecated",
+      "summary": "npm marks crypto-js as deprecated: \"Active development of CryptoJS has been discontinued. This library is no longer maintained.\"",
+      "severity": "high",
+      "replacement": "Web Crypto API (globalThis.crypto.subtle) or a maintained cryptography library",
+      "sources": [
+        {
+          "title": "crypto-js on npm",
+          "url": "https://www.npmjs.com/package/crypto-js"
+        },
+        {
+          "title": "crypto-js registry metadata",
+          "url": "https://registry.npmjs.org/crypto-js/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the algorithms, modes, padding, key derivation, and output encodings each call site relies on, so data encrypted before the change still decrypts afterwards."
+        ],
+        "steps": [
+          {
+            "id": "audit-crypto-js-usages",
+            "title": "Audit every cryptographic call",
+            "instructions": "List each hash, cipher, KDF, HMAC, and encoding call with its algorithm, mode, padding, IV, and key size.",
+            "targets": "usages"
+          },
+          {
+            "id": "reimplement-with-maintained-crypto",
+            "title": "Reimplement with a maintained implementation",
+            "instructions": "Replace each call with the Web Crypto API or a maintained library that supports the same algorithms and parameters.",
+            "targets": "usages"
+          },
+          {
+            "id": "remove-crypto-js",
+            "title": "Remove crypto-js",
+            "instructions": "Remove crypto-js from dependencies and the lockfile once no call sites remain.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Round-trip existing ciphertext and compare known-answer vectors in the repository tests."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build every affected entry point."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "crypto-js"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "crypto-js"
+        }
+      ],
+      "x-npm": {
+        "package": "crypto-js"
+      }
+    },
+    {
+      "id": "npm.package.eslint-plugin-nuxt.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/eslint-plugin-nuxt",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "eslint-plugin-nuxt is deprecated",
+      "summary": "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\"",
+      "severity": "medium",
+      "replacement": "@nuxt/eslint-plugin",
+      "sources": [
+        {
+          "title": "eslint-plugin-nuxt on npm",
+          "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+        },
+        {
+          "title": "eslint-plugin-nuxt registry metadata",
+          "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Nuxt-specific lint rules and options the project currently enables."
+        ],
+        "steps": [
+          {
+            "id": "replace-eslint-plugin-nuxt",
+            "title": "Replace the plugin package",
+            "instructions": "Replace eslint-plugin-nuxt with @nuxt/eslint-plugin in devDependencies and in the ESLint configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "port-nuxt-lint-rules",
+            "title": "Port the enabled rules",
+            "instructions": "Move the enabled Nuxt rules and their options into the configuration shape the new plugin expects.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Run the linter with the new plugin and compare the findings."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "eslint-plugin-nuxt"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "eslint-plugin-nuxt"
+        },
+        {
+          "kind": "config-key",
+          "language": "json",
+          "key": "extends",
+          "valueIncludes": "nuxt"
+        }
+      ],
+      "x-npm": {
+        "package": "eslint-plugin-nuxt"
+      }
+    },
+    {
+      "id": "npm.package.i18next-parser.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/i18next-parser",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "i18next-parser is deprecated",
+      "summary": "npm marks i18next-parser as deprecated: \"Project is deprecated, use i18next-cli instead\"",
+      "severity": "medium",
+      "replacement": "i18next-cli",
+      "sources": [
+        {
+          "title": "i18next-parser on npm",
+          "url": "https://www.npmjs.com/package/i18next-parser"
+        },
+        {
+          "title": "i18next-parser registry metadata",
+          "url": "https://registry.npmjs.org/i18next-parser/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the extracted keys, namespaces, default values, plural forms, and catalog layout the project already uses."
+        ],
+        "steps": [
+          {
+            "id": "replace-i18next-parser",
+            "title": "Replace the extraction tool",
+            "instructions": "Replace i18next-parser with i18next-cli in devDependencies and update the extraction script that runs it.",
+            "targets": "all"
+          },
+          {
+            "id": "compare-extracted-catalogs",
+            "title": "Compare the extracted catalogs",
+            "instructions": "Run the new extractor and review the diff against the existing catalogs, keeping keys, ordering, and metadata stable.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the translations with the new extractor."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "i18next-parser"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "i18next-parser"
+        },
+        {
+          "kind": "config-key",
+          "language": "json",
+          "key": "i18next",
+          "valueIncludes": "i18next-parser"
+        }
+      ],
+      "x-npm": {
+        "package": "i18next-parser"
+      }
+    },
+    {
+      "id": "npm.package.koa-router.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/koa-router",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "koa-router is deprecated",
+      "summary": "npm marks koa-router as deprecated: \"Please use @koa/router instead, starting from v9!\"",
+      "severity": "medium",
+      "replacement": "@koa/router",
+      "sources": [
+        {
+          "title": "koa-router on npm",
+          "url": "https://www.npmjs.com/package/koa-router"
+        },
+        {
+          "title": "koa-router registry metadata",
+          "url": "https://registry.npmjs.org/koa-router/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve route paths, parameter names, middleware order, allowed methods, and error handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-koa-router",
+            "title": "Replace koa-router",
+            "instructions": "Move the dependency and imports from koa-router to @koa/router and keep the current constructor and middleware usage.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-routes",
+            "title": "Verify routing behavior",
+            "instructions": "Exercise every route, parameter pattern, and allowed method to confirm dispatch and error handling are unchanged.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the routing and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "koa-router"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "koa-router"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "koa-router",
+          "targets": [
+            "default"
+          ]
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "koa-router",
+          "targets": [
+            "default"
+          ]
+        }
+      ],
+      "x-npm": {
+        "package": "koa-router"
+      }
+    },
+    {
+      "id": "npm.package.nuxt.types.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40nuxt/types",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@nuxt/types is deprecated",
+      "summary": "npm marks @nuxt/types as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "severity": "medium",
+      "replacement": "Nuxt 3",
+      "sources": [
+        {
+          "title": "@nuxt/types on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/types"
+        },
+        {
+          "title": "@nuxt/types registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Nuxt 2 is end of life; preserve routing, data fetching, build modules, and the TypeScript coverage the project relies on while moving to Nuxt 3."
+        ],
+        "steps": [
+          {
+            "id": "plan-nuxt3-upgrade",
+            "title": "Plan the Nuxt 3 upgrade",
+            "instructions": "Follow the Nuxt 3 migration guidance for pages, plugins, modules, and the build configuration before removing the Nuxt 2 type packages.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-nuxt-types",
+            "title": "Remove the Nuxt 2 type package",
+            "instructions": "Remove @nuxt/types once the project runs on Nuxt 3, which ships its own types.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on Nuxt 3 with its bundled types."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the application and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@nuxt/types"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@nuxt/types"
+        },
+        {
+          "kind": "config-key",
+          "language": "json",
+          "key": "types",
+          "valueIncludes": "@nuxt/types"
+        }
+      ],
+      "x-npm": {
+        "package": "@nuxt/types"
+      }
+    },
+    {
+      "id": "npm.package.nuxt.typescript-build.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40nuxt/typescript-build",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@nuxt/typescript-build is deprecated",
+      "summary": "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "severity": "medium",
+      "replacement": "Nuxt 3 (no TypeScript build module needed)",
+      "sources": [
+        {
+          "title": "@nuxt/typescript-build on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+        },
+        {
+          "title": "@nuxt/typescript-build registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve TypeScript compilation, type checking, and the build-module behavior the project depends on."
+        ],
+        "steps": [
+          {
+            "id": "plan-nuxt3-upgrade",
+            "title": "Plan the Nuxt 3 upgrade",
+            "instructions": "Follow the Nuxt 3 migration guidance for build modules and TypeScript configuration before removing the module.",
+            "targets": "all"
+          },
+          {
+            "id": "drop-typescript-build-module",
+            "title": "Drop the TypeScript build module",
+            "instructions": "Remove @nuxt/typescript-build from buildModules and the project dependencies; Nuxt 3 compiles and type-checks TypeScript without a build module.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the Nuxt 3 application with its built-in TypeScript support."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the application and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@nuxt/typescript-build"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@nuxt/typescript-build"
+        }
+      ],
+      "x-npm": {
+        "package": "@nuxt/typescript-build"
+      }
+    },
+    {
+      "id": "npm.package.react-beautiful-dnd.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/react-beautiful-dnd",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "react-beautiful-dnd is deprecated",
+      "summary": "npm marks react-beautiful-dnd as deprecated: \"react-beautiful-dnd is now deprecated. Context and options: https://github.com/atlassian/react-beautiful-dnd/issues/2672\"",
+      "severity": "medium",
+      "replacement": "Pragmatic drag and drop, dnd-kit, or a maintained fork",
+      "sources": [
+        {
+          "title": "react-beautiful-dnd on npm",
+          "url": "https://www.npmjs.com/package/react-beautiful-dnd"
+        },
+        {
+          "title": "react-beautiful-dnd registry metadata",
+          "url": "https://registry.npmjs.org/react-beautiful-dnd/latest"
+        },
+        {
+          "title": "react-beautiful-dnd deprecation announcement",
+          "url": "https://github.com/atlassian/react-beautiful-dnd/issues/2672"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve drag behavior, keyboard and screen-reader support, droppable ids, and the rendered structure each screen depends on."
+        ],
+        "steps": [
+          {
+            "id": "choose-drag-and-drop-target",
+            "title": "Choose the replacement",
+            "instructions": "Pick Pragmatic drag and drop, its react-beautiful-dnd migration package, dnd-kit, or a maintained fork based on the behaviors each screen uses.",
+            "targets": "all"
+          },
+          {
+            "id": "migrate-draggable-components",
+            "title": "Migrate the drag-and-drop components",
+            "instructions": "Rewrite DragDropContext, Droppable, and Draggable usages for the replacement, keeping droppable ids stable where persisted state refers to them.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run drag-and-drop interaction and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "react-beautiful-dnd"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "react-beautiful-dnd"
+        }
+      ],
+      "x-npm": {
+        "package": "react-beautiful-dnd"
+      }
+    },
+    {
+      "id": "npm.package.rollup-plugin-terser.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/rollup-plugin-terser",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "rollup-plugin-terser is deprecated",
+      "summary": "npm marks rollup-plugin-terser as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\"",
+      "severity": "medium",
+      "replacement": "@rollup/plugin-terser",
+      "sources": [
+        {
+          "title": "rollup-plugin-terser on npm",
+          "url": "https://www.npmjs.com/package/rollup-plugin-terser"
+        },
+        {
+          "title": "rollup-plugin-terser registry metadata",
+          "url": "https://registry.npmjs.org/rollup-plugin-terser/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve minification options, source maps, and the assets each Rollup build emits."
+        ],
+        "steps": [
+          {
+            "id": "replace-rollup-terser",
+            "title": "Replace the Rollup Terser plugin",
+            "instructions": "Replace rollup-plugin-terser with @rollup/plugin-terser in dependencies and the Rollup configuration, and keep the current terser options.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-bundle-output",
+            "title": "Verify bundle output",
+            "instructions": "Compare size, source maps, and runtime behavior of every minified output with the previous build.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build every Rollup output with the maintained Terser plugin."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "rollup-plugin-terser"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "rollup-plugin-terser"
+        }
+      ],
+      "x-npm": {
+        "package": "rollup-plugin-terser"
+      }
+    },
+    {
+      "id": "npm.package.socket.io-redis.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/socket.io-redis",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "socket.io-redis is deprecated",
+      "summary": "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here: https://socket.io/docs/v4/redis-adapter/#migrating-from-socketio-redis\"",
+      "severity": "medium",
+      "replacement": "@socket.io/redis-adapter",
+      "sources": [
+        {
+          "title": "socket.io-redis on npm",
+          "url": "https://www.npmjs.com/package/socket.io-redis"
+        },
+        {
+          "title": "socket.io-redis registry metadata",
+          "url": "https://registry.npmjs.org/socket.io-redis/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve adapter behavior: pub/sub and request/response channels, key prefixes, and multi-node session routing."
+        ],
+        "steps": [
+          {
+            "id": "replace-socket-io-redis",
+            "title": "Replace the adapter package",
+            "instructions": "Replace socket.io-redis with @socket.io/redis-adapter and follow the published migration guide for the adapter options.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-multi-node-connections",
+            "title": "Verify multi-node behavior",
+            "instructions": "Connect clients through more than one server instance and confirm broadcasts, rooms, and acknowledgements still work.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the realtime and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "socket.io-redis"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "socket.io-redis"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "socket.io-redis",
+          "targets": [
+            "default"
+          ]
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "socket.io-redis",
+          "targets": [
+            "default"
+          ]
+        }
+      ],
+      "x-npm": {
+        "package": "socket.io-redis"
+      }
+    },
+    {
+      "id": "npm.package.types.diff.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/diff",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/diff is deprecated",
+      "summary": "npm marks @types/diff as deprecated: \"This is a stub types definition. diff provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "diff",
+      "sources": [
+        {
+          "title": "@types/diff on npm",
+          "url": "https://www.npmjs.com/package/@types/diff"
+        },
+        {
+          "title": "@types/diff registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fdiff/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/diff only declares types; diff now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/diff from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep diff on a version that ships its own type definitions and import its types from diff.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with diff's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/diff"
+      }
+    },
+    {
+      "id": "npm.package.types.dotenv.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/dotenv",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/dotenv is deprecated",
+      "summary": "npm marks @types/dotenv as deprecated: \"This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "dotenv",
+      "sources": [
+        {
+          "title": "@types/dotenv on npm",
+          "url": "https://www.npmjs.com/package/@types/dotenv"
+        },
+        {
+          "title": "@types/dotenv registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fdotenv/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/dotenv only declares types; dotenv now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/dotenv from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep dotenv on a version that ships its own type definitions and import its types from dotenv.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with dotenv's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/dotenv"
+      }
+    },
+    {
+      "id": "npm.package.types.emoji-regex.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/emoji-regex",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/emoji-regex is deprecated",
+      "summary": "npm marks @types/emoji-regex as deprecated: \"This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "emoji-regex",
+      "sources": [
+        {
+          "title": "@types/emoji-regex on npm",
+          "url": "https://www.npmjs.com/package/@types/emoji-regex"
+        },
+        {
+          "title": "@types/emoji-regex registry metadata",
+          "url": "https://registry.npmjs.org/@types%2femoji-regex/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/emoji-regex only declares types; emoji-regex now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/emoji-regex from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep emoji-regex on a version that ships its own type definitions and import its types from emoji-regex.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with emoji-regex's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/emoji-regex"
+      }
+    },
+    {
+      "id": "npm.package.types.form-data.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/form-data",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/form-data is deprecated",
+      "summary": "npm marks @types/form-data as deprecated: \"This is a stub types definition. form-data provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "form-data",
+      "sources": [
+        {
+          "title": "@types/form-data on npm",
+          "url": "https://www.npmjs.com/package/@types/form-data"
+        },
+        {
+          "title": "@types/form-data registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fform-data/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/form-data only declares types; form-data now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/form-data from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep form-data on a version that ships its own type definitions and import its types from form-data.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with form-data's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/form-data"
+      }
+    },
+    {
+      "id": "npm.package.types.glob.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/glob",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/glob is deprecated",
+      "summary": "npm marks @types/glob as deprecated: \"This is a stub types definition. glob provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "glob",
+      "sources": [
+        {
+          "title": "@types/glob on npm",
+          "url": "https://www.npmjs.com/package/@types/glob"
+        },
+        {
+          "title": "@types/glob registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fglob/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/glob only declares types; glob now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/glob from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep glob on a version that ships its own type definitions and import its types from glob.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with glob's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/glob"
+      }
+    },
+    {
+      "id": "npm.package.types.koa-helmet.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/koa-helmet",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/koa-helmet is deprecated",
+      "summary": "npm marks @types/koa-helmet as deprecated: \"This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "koa-helmet",
+      "sources": [
+        {
+          "title": "@types/koa-helmet on npm",
+          "url": "https://www.npmjs.com/package/@types/koa-helmet"
+        },
+        {
+          "title": "@types/koa-helmet registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fkoa-helmet/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/koa-helmet only declares types; koa-helmet now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/koa-helmet from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep koa-helmet on a version that ships its own type definitions and import its types from koa-helmet.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with koa-helmet's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/koa-helmet"
+      }
+    },
+    {
+      "id": "npm.package.types.koa-useragent.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/koa-useragent",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/koa-useragent is deprecated",
+      "summary": "npm marks @types/koa-useragent as deprecated: \"This is a stub types definition. koa-useragent provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "koa-useragent",
+      "sources": [
+        {
+          "title": "@types/koa-useragent on npm",
+          "url": "https://www.npmjs.com/package/@types/koa-useragent"
+        },
+        {
+          "title": "@types/koa-useragent registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fkoa-useragent/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/koa-useragent only declares types; koa-useragent now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/koa-useragent from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep koa-useragent on a version that ships its own type definitions and import its types from koa-useragent.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with koa-useragent's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/koa-useragent"
+      }
+    },
+    {
+      "id": "npm.package.types.pako.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/pako",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/pako is deprecated",
+      "summary": "npm marks @types/pako as deprecated: \"This is a stub types definition. pako provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "pako",
+      "sources": [
+        {
+          "title": "@types/pako on npm",
+          "url": "https://www.npmjs.com/package/@types/pako"
+        },
+        {
+          "title": "@types/pako registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fpako/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/pako only declares types; pako now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/pako from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep pako on a version that ships its own type definitions and import its types from pako.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with pako's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/pako"
+      }
+    },
+    {
+      "id": "npm.package.types.react-virtualized-auto-sizer.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/react-virtualized-auto-sizer",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/react-virtualized-auto-sizer is deprecated",
+      "summary": "npm marks @types/react-virtualized-auto-sizer as deprecated: \"This is a stub types definition. react-virtualized-auto-sizer provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "react-virtualized-auto-sizer",
+      "sources": [
+        {
+          "title": "@types/react-virtualized-auto-sizer on npm",
+          "url": "https://www.npmjs.com/package/@types/react-virtualized-auto-sizer"
+        },
+        {
+          "title": "@types/react-virtualized-auto-sizer registry metadata",
+          "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/react-virtualized-auto-sizer only declares types; react-virtualized-auto-sizer now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/react-virtualized-auto-sizer from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep react-virtualized-auto-sizer on a version that ships its own type definitions and import its types from react-virtualized-auto-sizer.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with react-virtualized-auto-sizer's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/react-virtualized-auto-sizer"
+      }
+    },
+    {
+      "id": "npm.package.types.react-window.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/react-window",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/react-window is deprecated",
+      "summary": "npm marks @types/react-window as deprecated: \"This is a stub types definition. react-window provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "react-window",
+      "sources": [
+        {
+          "title": "@types/react-window on npm",
+          "url": "https://www.npmjs.com/package/@types/react-window"
+        },
+        {
+          "title": "@types/react-window registry metadata",
+          "url": "https://registry.npmjs.org/@types%2freact-window/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/react-window only declares types; react-window now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/react-window from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep react-window on a version that ships its own type definitions and import its types from react-window.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with react-window's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/react-window"
+      }
+    },
+    {
+      "id": "npm.package.types.refractor.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/refractor",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/refractor is deprecated",
+      "summary": "npm marks @types/refractor as deprecated: \"This is a stub types definition. refractor provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "refractor",
+      "sources": [
+        {
+          "title": "@types/refractor on npm",
+          "url": "https://www.npmjs.com/package/@types/refractor"
+        },
+        {
+          "title": "@types/refractor registry metadata",
+          "url": "https://registry.npmjs.org/@types%2frefractor/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/refractor only declares types; refractor now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/refractor from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep refractor on a version that ships its own type definitions and import its types from refractor.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with refractor's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/refractor"
+      }
+    },
+    {
+      "id": "npm.package.types.sanitize-filename.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/sanitize-filename",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/sanitize-filename is deprecated",
+      "summary": "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "sanitize-filename",
+      "sources": [
+        {
+          "title": "@types/sanitize-filename on npm",
+          "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+        },
+        {
+          "title": "@types/sanitize-filename registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fsanitize-filename/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/sanitize-filename only declares types; sanitize-filename now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/sanitize-filename from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep sanitize-filename on a version that ships its own type definitions and import its types from sanitize-filename.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with sanitize-filename's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/sanitize-filename"
+      }
+    },
+    {
+      "id": "npm.package.types.sequelize.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/sequelize",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/sequelize is deprecated",
+      "summary": "npm marks @types/sequelize as deprecated: \"This is a stub types definition. sequelize provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "sequelize",
+      "sources": [
+        {
+          "title": "@types/sequelize on npm",
+          "url": "https://www.npmjs.com/package/@types/sequelize"
+        },
+        {
+          "title": "@types/sequelize registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fsequelize/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/sequelize only declares types; sequelize now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/sequelize from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep sequelize on a version that ships its own type definitions and import its types from sequelize.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with sequelize's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/sequelize"
+      }
+    },
+    {
+      "id": "npm.package.types.socket.io-client.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40types/socket.io-client",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "@types/socket.io-client is deprecated",
+      "summary": "npm marks @types/socket.io-client as deprecated: \"This is a stub types definition. socket.io-client provides its own type definitions, so you do not need this installed.\"",
+      "severity": "low",
+      "replacement": "socket.io-client",
+      "sources": [
+        {
+          "title": "@types/socket.io-client on npm",
+          "url": "https://www.npmjs.com/package/@types/socket.io-client"
+        },
+        {
+          "title": "@types/socket.io-client registry metadata",
+          "url": "https://registry.npmjs.org/@types%2fsocket.io-client/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "@types/socket.io-client only declares types; socket.io-client now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "title": "Remove the stub types package",
+            "instructions": "Remove @types/socket.io-client from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration"
+          },
+          {
+            "id": "use-bundled-types",
+            "title": "Use the bundled declarations",
+            "instructions": "Keep socket.io-client on a version that ships its own type definitions and import its types from socket.io-client.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with socket.io-client's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [],
+      "x-npm": {
+        "package": "@types/socket.io-client"
+      }
+    },
+    {
+      "id": "npm.package.vue2-script-setup-transform.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/vue2-script-setup-transform",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "vue2-script-setup-transform is deprecated",
+      "summary": "npm marks vue2-script-setup-transform as deprecated: \"renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0\"",
+      "severity": "medium",
+      "replacement": "unplugin-vue2-script-setup",
+      "sources": [
+        {
+          "title": "vue2-script-setup-transform on npm",
+          "url": "https://www.npmjs.com/package/vue2-script-setup-transform"
+        },
+        {
+          "title": "vue2-script-setup-transform registry metadata",
+          "url": "https://registry.npmjs.org/vue2-script-setup-transform/latest"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi",
+        "importer": "npm-deprecated"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the compiled `<script setup>` output and the order of Vue 2 build plugins."
+        ],
+        "steps": [
+          {
+            "id": "replace-script-setup-transform",
+            "title": "Replace the transform plugin",
+            "instructions": "Replace vue2-script-setup-transform with unplugin-vue2-script-setup in dependencies and the build configuration.",
+            "targets": "all"
+          },
+          {
+            "id": "verify-sfc-output",
+            "title": "Verify compiled components",
+            "instructions": "Compare the compiled single-file components and their runtime behavior with the previous build.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the Vue 2 application with the maintained plugin."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the component and repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "vue2-script-setup-transform"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "vue2-script-setup-transform"
+        }
+      ],
+      "x-npm": {
+        "package": "vue2-script-setup-transform"
+      }
     }
   ]
 }
