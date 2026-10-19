@@ -145,3 +145,31 @@ test("tools-version inside a block comment does not count", () => {
   assert.deepEqual(parsePackageSwift("/* // swift-tools-version:5.9 */\n"), []);
   assert.deepEqual(parsePackageSwift("/*\n// swift-tools-version:5.9\n*/\n"), []);
 });
+
+test("a /* inside a // line comment does not open a block comment", () => {
+  assert.deepEqual(
+    parsePackageSwift(['// exclude Sources/*', '.package(url: "https://x/a", from: "1.0.0")'].join("\n")),
+    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 2 }],
+  );
+});
+
+test("an unbalanced quote inside a // comment does not poison later stripping", () => {
+  assert.deepEqual(
+    parsePackageSwift(['// the "foo', '/* .package(url: "https://x/a", from: "1.0.0") */', '.package(url: "https://x/b", exact: "2.0.0")'].join("\n")),
+    [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 3 }],
+  );
+});
+
+test("a multiline string containing /* and .package is ignored", () => {
+  assert.deepEqual(
+    parsePackageSwift(['let s = """', '/* .package(url: "https://x/a", from: "1.0.0") */', '"""', '.package(url: "https://x/b", from: "2.0.0")'].join("\n")),
+    [{ kind: "package", url: "https://x/b", requirement: "from", value: "2.0.0", line: 4 }],
+  );
+});
+
+test("nested block comments blank the whole nest", () => {
+  assert.deepEqual(
+    parsePackageSwift('/* outer /* inner .package(url: "https://x/a", from: "1.0.0") */ still */\n.package(url: "https://x/b", exact: "2.0.0")\n'),
+    [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 2 }],
+  );
+});
