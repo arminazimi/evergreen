@@ -51,7 +51,31 @@ export interface ConfigUsageMatcher {
   valueIncludes?: string;
 }
 
-export type UsageMatcher = ImportUsageMatcher | CallUsageMatcher | ConfigUsageMatcher;
+export const symbolShapeValues = ["call", "construct", "reference", "option"] as const;
+export type SymbolShape = (typeof symbolShapeValues)[number];
+
+/**
+ * A deprecated function, method, class, or option inside a module. Evaluated by parser-backed usage
+ * analysis only; the regex scanner ignores it.
+ */
+export interface SymbolUsageMatcher {
+  kind: "symbol";
+  language: "javascript" | "typescript" | "python";
+  /** Module that exports the symbol. Omit for globals and builtins such as `Buffer` or `open`. */
+  module?: string;
+  /** Dotted path from the module, for example `parse`, `Buffer.alloc`, or `datetime.utcnow`. */
+  symbol: string;
+  /** How the symbol is used: called, constructed with `new`, referenced, or passed an option. */
+  shape: SymbolShape;
+  /** For `option`: the property name the deprecated option uses in the call's options object. */
+  option?: string;
+  /** For `option`: zero-based position of the options argument. Defaults to the last argument. */
+  argument?: number;
+  /** What to use instead of this symbol; overrides the rule's `replacement` in reports. */
+  replacement?: string;
+}
+
+export type UsageMatcher = ImportUsageMatcher | CallUsageMatcher | ConfigUsageMatcher | SymbolUsageMatcher;
 
 export interface SourceUsageContract {
   id: string;

@@ -15,6 +15,13 @@ test("the complete rule in docs/RULES.md is a valid v2 registry", async () => {
   assert.deepEqual(registryV2Issues(example), []);
 });
 
+test("the symbol rule in docs/RULES.md matches the shipped example and is valid", async () => {
+  const blocks = await jsonBlocks("docs/RULES.md");
+  const example = JSON.parse(await readFile(resolve("examples/registry.v2.symbol.example.json"), "utf8"));
+  assert.deepEqual(blocks[1], example);
+  assert.deepEqual(registryV2Issues(example), []);
+});
+
 test("the validation error shown in docs/RULES.md matches what validation reports", async () => {
   const [registry] = (await jsonBlocks("docs/RULES.md")) as { rules: Record<string, unknown>[] }[];
   const broken = structuredClone(registry!);

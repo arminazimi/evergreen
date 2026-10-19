@@ -803,8 +803,108 @@ A second, smaller example lives in [`examples/registry.v2.example.json`](../exam
 | `sources` | yes | At least one authoritative source, each with a `title` and an `https` `url` (and optionally `accessedAt`). |
 | `provenance` | yes | See below. |
 | `migration` | no | Constraints, ordered steps, and verification commands. Used by `evergreen context`. Step `targets` are `declaration`, `usages`, or `all`; step ids are unique within the rule. |
-| `usage` | no | Imports, calls, and configuration keys that show where a repository depends on the component. |
+| `usage` | no | Imports, calls, configuration keys, and deprecated symbols that show where a repository depends on the component. See [Symbol-level usage](#symbol-level-usage). |
 | `x-<ecosystem>` | no | Matching hints the ecosystem's detector reads, such as `x-npm.package`, `x-nodejs.major`, `x-python.kind`, or `x-github-actions.supportedFromMajor`. See [Detector hints](#detector-hints). |
+
+### Symbol-level usage
+
+A `usage` entry of kind `symbol` marks one deprecated function, method, class, or option inside a module, so a rule can say `ReactDOM.render` is deprecated without flagging all of `react-dom`. `purl` and `vers` still say which package versions are affected; the entry says which symbol.
+
+| Field | Required | Meaning |
+|---|---|---|
+| `kind` | yes | `symbol`. |
+| `language` | yes | `javascript`, `typescript`, or `python`. Write one entry per language. |
+| `module` | no | The module that exports the symbol, as it is imported: `react-dom`, `datetime`. Omit it for globals and builtins such as `Buffer` or `open`. |
+| `symbol` | yes | Dotted path from the module: `render`, `Buffer.alloc`, `datetime.utcnow`. Identifier segments only. |
+| `shape` | yes | How the symbol is used: `call`, `construct` (`new X()`, JavaScript and TypeScript only), `reference` (any other use, such as passing it as a value), or `option` (a deprecated property in the call's options object). |
+| `option` | when `shape` is `option` | The deprecated property name. Not allowed for other shapes. |
+| `argument` | no | For `option`: zero-based position of the options argument. Defaults to the last argument. |
+| `replacement` | no | What to use instead of this symbol. It overrides the rule's `replacement` in reports. |
+
+Symbol entries are read by parser-backed usage analysis. Regex-based analysis ignores them, so a rule that has only symbol entries reports the declaration but no usages until that analysis runs. Add an `import` entry for the module as well when you want the regex scanner to find it. Each symbol entry needs its own evidence: the rule's `sources` must name the symbol, not only the package.
+
+A complete rule, also in [`examples/registry.v2.symbol.example.json`](../examples/registry.v2.symbol.example.json):
+
+```json
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "npm",
+  "freshness": {
+    "maxReviewAgeDays": 365
+  },
+  "rules": [
+    {
+      "id": "npm.symbol.react-dom.render.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/react-dom",
+      "vers": "vers:npm/>=18.0.0",
+      "event": "deprecated",
+      "title": "ReactDOM.render is deprecated",
+      "summary": "React 18 deprecates ReactDOM.render; it runs the app in React 17 mode and logs a warning.",
+      "severity": "medium",
+      "replacement": "createRoot from react-dom/client",
+      "sources": [
+        {
+          "title": "React 18 upgrade guide: react-dom render",
+          "url": "https://react.dev/blog/2022/03/08/react-18-upgrade-guide"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the application's root container and rendered tree unchanged."
+        ],
+        "steps": [
+          {
+            "id": "use-create-root",
+            "title": "Switch to createRoot",
+            "instructions": "Replace each reported render call with createRoot(container).render(element).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "react-dom"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "react-dom",
+          "symbol": "render",
+          "shape": "call",
+          "replacement": "createRoot(container).render(element)"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "react-dom",
+          "symbol": "render",
+          "shape": "call",
+          "replacement": "createRoot(container).render(element)"
+        }
+      ],
+      "x-npm": {
+        "package": "react-dom"
+      }
+    }
+  ]
+}
+```
+
+To add one: find the official deprecation notice for the symbol, copy the rule above, set `purl` and `vers` to the package versions the notice covers, write one `symbol` entry per language, and run `npm run check`.
 
 ### Provenance
 

@@ -617,7 +617,7 @@ export async function analyzeSourceUsage(
               }
             }
           }
-        } else {
+        } else if (matcher.kind === "config-key") {
           for (const [index, line] of lines.entries()) {
             const column = configKeyMatch(line, matcher);
             if (column === undefined) continue;

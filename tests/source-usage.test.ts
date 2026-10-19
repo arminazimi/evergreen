@@ -135,3 +135,14 @@ export function requestFactory() {}
   assert.deepEqual(analysis?.usages, []);
   assert.deepEqual(analysis?.impact, { usageCount: 0, affectedFiles: 0, level: "none" });
 });
+
+test("ignores symbol matchers until parser-backed analysis evaluates them", async () => {
+  const root = await repository({ "src/app.js": "import { render } from 'react-dom';\nrender(app, root);\n" });
+  const [analysis] = await analyzeSourceUsage(root, [
+    {
+      id: "react-dom-render",
+      matchers: [{ kind: "symbol", language: "javascript", module: "react-dom", symbol: "render", shape: "call" }],
+    },
+  ]);
+  assert.deepEqual(analysis?.usages, []);
+});

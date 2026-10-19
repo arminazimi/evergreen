@@ -148,6 +148,37 @@
           }
         },
         {
+          "description": "A deprecated function, method, class, or option inside a module. Used by parser-backed usage analysis.",
+          "type": "object",
+          "required": ["kind", "language", "symbol", "shape"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "symbol" },
+            "language": { "enum": ["javascript", "typescript", "python"] },
+            "module": { "description": "Module that exports the symbol. Omit for globals and builtins.", "$ref": "#/$defs/nonEmpty" },
+            "symbol": {
+              "description": "Dotted path from the module, for example parse, Buffer.alloc, or datetime.utcnow.",
+              "type": "string",
+              "pattern": "^[A-Za-z_$][\\w$]*(?:\\.[A-Za-z_$][\\w$]*)*$"
+            },
+            "shape": { "enum": ["call", "construct", "reference", "option"] },
+            "option": { "description": "For shape option: the deprecated property name in the options object.", "$ref": "#/$defs/nonEmpty" },
+            "argument": { "description": "For shape option: zero-based position of the options argument.", "type": "integer", "minimum": 0 },
+            "replacement": { "$ref": "#/$defs/nonEmpty" }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "shape": { "const": "option" } }, "required": ["shape"] },
+              "then": { "required": ["option"] },
+              "else": { "not": { "anyOf": [{ "required": ["option"] }, { "required": ["argument"] }] } }
+            },
+            {
+              "if": { "properties": { "language": { "const": "python" } }, "required": ["language"] },
+              "then": { "properties": { "shape": { "enum": ["call", "reference", "option"] } } }
+            }
+          ]
+        },
+        {
           "type": "object",
           "required": ["kind", "language", "key"],
           "additionalProperties": false,

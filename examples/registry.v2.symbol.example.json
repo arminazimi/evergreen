@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "npm",
+  "freshness": {
+    "maxReviewAgeDays": 365
+  },
+  "rules": [
+    {
+      "id": "npm.symbol.react-dom.render.deprecated",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/react-dom",
+      "vers": "vers:npm/>=18.0.0",
+      "event": "deprecated",
+      "title": "ReactDOM.render is deprecated",
+      "summary": "React 18 deprecates ReactDOM.render; it runs the app in React 17 mode and logs a warning.",
+      "severity": "medium",
+      "replacement": "createRoot from react-dom/client",
+      "sources": [
+        {
+          "title": "React 18 upgrade guide: react-dom render",
+          "url": "https://react.dev/blog/2022/03/08/react-18-upgrade-guide"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the application's root container and rendered tree unchanged."
+        ],
+        "steps": [
+          {
+            "id": "use-create-root",
+            "title": "Switch to createRoot",
+            "instructions": "Replace each reported render call with createRoot(container).render(element).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "react-dom"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "react-dom",
+          "symbol": "render",
+          "shape": "call",
+          "replacement": "createRoot(container).render(element)"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "react-dom",
+          "symbol": "render",
+          "shape": "call",
+          "replacement": "createRoot(container).render(element)"
+        }
+      ],
+      "x-npm": {
+        "package": "react-dom"
+      }
+    }
+  ]
+}

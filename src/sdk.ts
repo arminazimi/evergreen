@@ -1,4 +1,4 @@
-import { severityValues, sourceLanguageValues } from "./domain.js";
+import { severityValues, sourceLanguageValues, symbolShapeValues } from "./domain.js";
 import type {
   DeprecationRule,
   Finding,
@@ -128,6 +128,9 @@ export function isMigrationGuidance(value: unknown): value is MigrationGuidance 
   );
 }
 
+const SYMBOL_FIELDS = ["kind", "language", "module", "symbol", "shape", "option", "argument", "replacement"];
+const SYMBOL_PATH = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*$/;
+
 export function isUsageMatcher(value: unknown): value is UsageMatcher {
   if (!isRecord(value) || !sourceLanguageValues.includes(value.language as never)) return false;
   if (value.kind === "import") {
@@ -143,6 +146,21 @@ export function isUsageMatcher(value: unknown): value is UsageMatcher {
       Array.isArray(value.targets) &&
       value.targets.length > 0 &&
       value.targets.every(isNonEmptyString)
+    );
+  }
+  if (value.kind === "symbol") {
+    const hasOption = value.shape === "option";
+    return (
+      Object.keys(value).every((key) => SYMBOL_FIELDS.includes(key)) &&
+      ["javascript", "typescript", "python"].includes(value.language as string) &&
+      (value.module === undefined || isNonEmptyString(value.module)) &&
+      typeof value.symbol === "string" &&
+      SYMBOL_PATH.test(value.symbol) &&
+      symbolShapeValues.includes(value.shape as never) &&
+      (value.shape !== "construct" || value.language !== "python") &&
+      (hasOption ? isNonEmptyString(value.option) : value.option === undefined && value.argument === undefined) &&
+      (value.argument === undefined || (Number.isInteger(value.argument) && (value.argument as number) >= 0)) &&
+      (value.replacement === undefined || isNonEmptyString(value.replacement))
     );
   }
   if (value.kind === "config-key") {
