@@ -1,0 +1,15 @@
+{
+  "packages": [
+    {
+      "name": "monolog/monolog",
+      "version": "3.8.0",
+      "abandoned": false
+    }
+  ],
+  "packages-dev": [],
+  "platform": {
+    "php": "8.3.12"
+  },
+  "platform-dev": [],
+  "plugin-api-version": "2.6.0"
+}

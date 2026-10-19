@@ -1,0 +1,18 @@
+{
+  "name": "evergreen/php-negative",
+  "description": "Mentions php 7.4.33 in prose only",
+  "require": {
+    "ext-json": "*",
+    "monolog/monolog": "${MONOLOG_VERSION}",
+    "symfony/http-foundation": "*"
+  },
+  "extra": {
+    "php": "7.4.33"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "ext-gd": "1"
+    }
+  }
+}

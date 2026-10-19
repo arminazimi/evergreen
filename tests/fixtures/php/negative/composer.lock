@@ -1,0 +1,11 @@
+{
+  "packages": [],
+  "packages-dev": [],
+  "platform": {
+    "ext-json": "*"
+  },
+  "platform-dev": {
+    "php": "${PHP_VERSION}"
+  },
+  "plugin-api-version": "2.3.0"
+}

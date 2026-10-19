@@ -1,0 +1,6 @@
+{
+  "name": "evergreen/php-malformed",
+  "require": {
+    "php": ">=7.4",
+    "monolog/monolog": "2.9.1
+}
