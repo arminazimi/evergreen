@@ -322,7 +322,7 @@ test("a page served over HTTP fills every section and hides the status", async (
     return response(data);
   });
   assert.equal(requested, "data.json");
-  assert.match(text(byId.get("run")!), /f76b261/);
+  assert.match(text(byId.get("run")!), /7c4c57c/);
   assert.match(text(byId.get("run")!), /not measured/);
   assert.ok(find(byId.get("detectors-table")!, (node) => node.tag === "table"));
   assert.ok(find(byId.get("minimums-table")!, (node) => node.tag === "table"));

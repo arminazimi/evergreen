@@ -10,6 +10,7 @@ import type {
   UsageMatcher,
 } from "../domain.js";
 import { relativePosix } from "../paths.js";
+import { parseVers, versContains } from "../vers/index.js";
 import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
 import { discoverNpmWorkspaces, usagesOwnedBy } from "../workspaces.js";
@@ -27,6 +28,7 @@ import type {
 } from "../sdk.js";
 
 interface PackageRule extends DeprecationRule {
+  vers?: string;
   package: string;
   usage?: UsageMatcher[];
 }
@@ -76,7 +78,33 @@ async function loadRegistry<Rule>(
   path: string,
   definition: RegistryDefinition<Rule>,
 ): Promise<readonly Rule[]> {
-  return loadRegistryRules(await loadDataFile(path), definition).rules;
+  const data = await loadDataFile(path);
+  const loaded = loadRegistryRules(data, definition).rules;
+  if (path !== "registry/npm.json" || typeof data !== "object" || data === null || !("rules" in data)) return loaded;
+  const versions = new Map((data.rules as Array<{ id: string; vers?: string }>).map((rule) => [rule.id, rule.vers]));
+  return loaded.map((rule) => ({ ...rule, vers: versions.get((rule as PackageRule).id) }));
+}
+
+function declaredVersionsAffected(vers: string, declared: string): boolean {
+  const parsed = parseVers(vers);
+  if (parsed.all) return true;
+  const alternatives = parsed.constraints.filter((item) => item.comparator === "=").map((item) => item.version);
+  const bounds = parsed.constraints.filter((item) => item.comparator !== "=" && item.comparator !== "!=");
+  for (let index = 0; index < bounds.length; index++) {
+    const bound = bounds[index]!;
+    if (bound.comparator.startsWith("<")) {
+      alternatives.push(`${bound.comparator}${bound.version}`);
+    } else {
+      const next = bounds[index + 1];
+      alternatives.push(`${bound.comparator}${bound.version}${next ? ` ${next.comparator}${next.version}` : ""}`);
+      if (next) index++;
+    }
+  }
+  let ranges = alternatives.length === 0 && bounds.length === 0 ? ["*"] : alternatives;
+  for (const excluded of parsed.constraints.filter((item) => item.comparator === "!=")) {
+    ranges = ranges.flatMap((range) => [`${range} <${excluded.version}`, `${range} >${excluded.version}`]);
+  }
+  return ranges.some((range) => semver.intersects(declared, range));
 }
 
 function addResolved(target: ResolvedVersions, name: string, version: unknown): void {
@@ -354,7 +382,17 @@ export class NpmDetector implements Detector {
       }
       for (const rule of packageRules) {
         const dependency = declared.get(rule.package);
-        if (dependency) matched.push({ rule, project, range: dependency.range, section: dependency.section });
+        if (!dependency) continue;
+        if (rule.vers && !parseVers(rule.vers).all) {
+          const declaredRange = semver.validRange(dependency.range);
+          if (!declaredRange) continue;
+          const resolved = [...(project.resolved.get(rule.package) ?? [])].filter((version) => semver.satisfies(version, declaredRange));
+          const affected = resolved.length > 0
+            ? resolved.some((version) => versContains(rule.vers!, version))
+            : declaredVersionsAffected(rule.vers, declaredRange);
+          if (!affected) continue;
+        }
+        matched.push({ rule, project, range: dependency.range, section: dependency.section });
       }
     }
 

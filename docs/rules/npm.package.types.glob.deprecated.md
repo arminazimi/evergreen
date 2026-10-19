@@ -14,7 +14,7 @@ npm marks @types/glob as deprecated: "This is a stub types definition. glob prov
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/glob` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/9.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | glob |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/glob as deprecated: "This is a stub types definition. glob prov
 ## Sources
 
 - [@types/glob on npm](https://www.npmjs.com/package/@types/glob)
-- [@types/glob registry metadata](https://registry.npmjs.org/@types%2fglob/latest)
+- [@types/glob version metadata](https://registry.npmjs.org/@types%2fglob)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/glob registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fglob/latest"
+      "name": "@types/glob version metadata",
+      "url": "https://registry.npmjs.org/@types%2fglob"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

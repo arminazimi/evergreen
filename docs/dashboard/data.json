@@ -12,11 +12,11 @@
   },
   "run": {
     "date": "2026-10-19",
-    "commit": "f76b261",
+    "commit": "7c4c57c",
     "repositories": 102,
-    "findings": 432,
+    "findings": 423,
     "runAgeDays": 0,
-    "recordedPrecision": 0.9514,
+    "recordedPrecision": 1,
     "recordedRecall": 1,
     "timing": {
       "medianScanMs": null,
@@ -218,15 +218,15 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 10,
-        "falsePositives": 21,
+        "truePositives": 22,
+        "falsePositives": 0,
         "falseNegatives": 0,
-        "precision": 0.3226,
+        "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 8,
-        "expectedFindings": 10,
+        "repositoriesWithFindings": 10,
+        "expectedFindings": 22,
         "zeroFindingRepositories": 8,
         "repositories": 26,
         "blindRepositories": 0

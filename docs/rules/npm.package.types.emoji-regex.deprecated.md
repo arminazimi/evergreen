@@ -14,7 +14,7 @@ npm marks @types/emoji-regex as deprecated: "This is a stub types definition. em
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/emoji-regex` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/9.2.0\|9.2.1\|9.2.2` |
 | Date from the source | The source gives no day |
 | Replacement | emoji-regex |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/emoji-regex as deprecated: "This is a stub types definition. em
 ## Sources
 
 - [@types/emoji-regex on npm](https://www.npmjs.com/package/@types/emoji-regex)
-- [@types/emoji-regex registry metadata](https://registry.npmjs.org/@types%2femoji-regex/latest)
+- [@types/emoji-regex version metadata](https://registry.npmjs.org/@types%2femoji-regex)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/emoji-regex registry metadata",
-      "url": "https://registry.npmjs.org/@types%2femoji-regex/latest"
+      "name": "@types/emoji-regex version metadata",
+      "url": "https://registry.npmjs.org/@types%2femoji-regex"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

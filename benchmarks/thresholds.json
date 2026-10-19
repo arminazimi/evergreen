@@ -64,10 +64,10 @@
   },
   "lastFullRun": {
     "date": "2026-10-19",
-    "commit": "f76b261",
+    "commit": "7c4c57c",
     "repositories": 102,
-    "findings": 432,
-    "precision": 0.9514,
+    "findings": 423,
+    "precision": 1,
     "recall": 1,
     "perDetector": {
       "ci-images": {
@@ -111,8 +111,8 @@
         "falseNegatives": 0
       },
       "npm": {
-        "truePositives": 10,
-        "falsePositives": 21,
+        "truePositives": 22,
+        "falsePositives": 0,
         "falseNegatives": 0
       },
       "python": {

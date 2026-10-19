@@ -63,12 +63,12 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
   assert.ok(data.corpus.repositories >= last.repositories);
 });
 
-test("the evidence counts agree with the table in ADR 0013", () => {
+test("the evidence counts agree with the reviewed corpus", () => {
   const evidence = Object.fromEntries(build().detectors.map((detector) => [detector.id, detector.evidence]));
   const counts = ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories }: { repositoriesWithFindings: number; expectedFindings: number; zeroFindingRepositories: number }) => ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories });
-  // The table is the 90-repository snapshot; the two .NET repositories with workflow findings added 2 and 6 to GitHub Actions in its 2026-10-19 update.
+  // ADR 0013's table is the 90-repository snapshot; the two .NET repositories with workflow findings added 2 and 6 to GitHub Actions in its 2026-10-19 update.
   assert.deepEqual(counts(evidence["github-actions"]!), { repositoriesWithFindings: 35, expectedFindings: 211, zeroFindingRepositories: 2 });
-  assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 8, expectedFindings: 10, zeroFindingRepositories: 8 });
+  assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 10, expectedFindings: 22, zeroFindingRepositories: 8 });
   assert.deepEqual(counts(evidence["dotnet"]!), { repositoriesWithFindings: 9, expectedFindings: 84, zeroFindingRepositories: 9 });
 });
 
