@@ -74,3 +74,54 @@ test("bounds untrusted input and stays deterministic", () => {
   const sample = '{"require":{"php":">=8.3","monolog/monolog":"3.8.0"}}\n';
   assert.deepEqual(parseComposerJson(sample), parseComposerJson(sample));
 });
+
+test("package name validation is linear-time and rejects oversize keys", () => {
+  const cases = [
+    '{"require":{"' + "a".repeat(100_000) + '!":"1.0"}}',
+    '{"require":{"a/' + "a".repeat(100_000) + '!":"1.0"}}',
+    '{"require":{"' + "a-".repeat(50_000) + '!":"1.0"}}',
+    '{"require":{"a/' + "a-".repeat(50_000) + '!":"1.0"}}',
+  ];
+  for (const contents of cases) {
+    const started = performance.now();
+    assert.deepEqual(parseComposerJson(contents), []);
+    assert.ok(performance.now() - started < 500, `slow parse for length ${contents.length}`);
+  }
+
+  const underLimit = "a".repeat(127) + "/" + "b".repeat(128);
+  assert.equal(underLimit.length, 256);
+  assert.deepEqual(parseComposerJson(`{"require":{"${underLimit}":"1.0.0"}}\n`), [
+    { kind: "package", name: underLimit, value: "1.0.0", dev: false, line: 1 },
+  ]);
+  const overLimit = "a".repeat(128) + "/" + "b".repeat(128);
+  assert.equal(overLimit.length, 257);
+  assert.deepEqual(parseComposerJson(`{"require":{"${overLimit}":"1.0.0"}}\n`), []);
+});
+
+test("accepts the same valid package names as before and rejects malformed shapes", () => {
+  for (const name of ["monolog/monolog", "symfony/http-foundation", "a_b/c.d", "a/b--c", "UPPER/case"]) {
+    assert.deepEqual(parseComposerJson(`{"require":{"${name}":"1.0.0"}}\n`), [
+      { kind: "package", name, value: "1.0.0", dev: false, line: 1 },
+    ]);
+  }
+  for (const name of ["vendor/", "/name", "a/b/c", "ext-json/x"]) {
+    assert.deepEqual(parseComposerJson(`{"require":{"${name}":"1.0.0"}}\n`), [], name);
+  }
+});
+
+test("duplicate package keys in one section keep only the last occurrence", () => {
+  assert.deepEqual(parseComposerJson('{"require":{"a/b":"1.0.0",\n"a/b":"2.0.0"}}\n'), [
+    { kind: "package", name: "a/b", value: "2.0.0", dev: false, line: 2 },
+  ]);
+  assert.deepEqual(parseComposerJson('{"require-dev":{"a/b":"1.0.0",\n"a/b":"2.0.0"}}\n'), [
+    { kind: "package", name: "a/b", value: "2.0.0", dev: true, line: 2 },
+  ]);
+  assert.deepEqual(parseComposerJson('{"require":{"a/b":"1.0.0"},"require-dev":{"a/b":"2.0.0"}}\n'), [
+    { kind: "package", name: "a/b", value: "1.0.0", dev: false, line: 1 },
+    { kind: "package", name: "a/b", value: "2.0.0", dev: true, line: 1 },
+  ]);
+  assert.deepEqual(parseComposerJson('{"require":{"a/b":"1.0.0","c/d":"2.0.0","a/b":"3.0.0"}}\n'), [
+    { kind: "package", name: "a/b", value: "3.0.0", dev: false, line: 1 },
+    { kind: "package", name: "c/d", value: "2.0.0", dev: false, line: 1 },
+  ]);
+});
