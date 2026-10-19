@@ -1,0 +1,9 @@
+# agp = "7.0.0"
+[versions]
+note = "agp 7.0.0 was used before"
+
+[libraries]
+core = { group = "androidx.core", name = "core-ktx", version.ref = "missing-version" }
+
+[plugins]
+android-application = { id = "com.android.application", version = "{{agp}}" }
