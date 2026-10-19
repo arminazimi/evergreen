@@ -1,12 +1,12 @@
 ---
 title: "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration"
-description: "Since April 29, 2024, apps uploaded to App Store Connect must be built with Xcode 15 or later (for iOS 17, iPadOS 17, tvOS 17, or watchOS 10)."
+description: "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html"
 ---
 
 # Xcode older than 15 is not accepted for App Store uploads
 
-Since April 29, 2024, apps uploaded to App Store Connect must be built with Xcode 15 or later (for iOS 17, iPadOS 17, tvOS 17, or watchOS 10). A pin below Xcode 15 no longer meets that App Store Connect requirement.
+Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.
 
 | | |
 | --- | --- |
@@ -59,7 +59,7 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
   "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
   "headline": "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration",
-  "description": "Since April 29, 2024, apps uploaded to App Store Connect must be built with Xcode 15 or later (for iOS 17, iPadOS 17, tvOS 17, or watchOS 10).",
+  "description": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [

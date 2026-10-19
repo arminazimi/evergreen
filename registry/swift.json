@@ -12,7 +12,7 @@
       "vers": "vers:semver/<15.0.0",
       "event": "end-of-support",
       "title": "Xcode older than 15 is not accepted for App Store uploads",
-      "summary": "Since April 29, 2024, apps uploaded to App Store Connect must be built with Xcode 15 or later (for iOS 17, iPadOS 17, tvOS 17, or watchOS 10). A pin below Xcode 15 no longer meets that App Store Connect requirement.",
+      "summary": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
       "severity": "high",
       "replacement": "Xcode 26 or later",
       "deadline": "2024-04-29",
@@ -59,66 +59,13 @@
       }
     },
     {
-      "id": "swift.xcode.app-store-15",
+      "id": "swift.xcode.app-store-15-through-25",
       "ecosystem": "swift",
       "purl": "pkg:generic/xcode",
-      "vers": "vers:semver/>=15.0.0|<16.0.0",
+      "vers": "vers:semver/>=15.0.0|<26.0.0",
       "event": "end-of-support",
-      "title": "Xcode 15 is not accepted for App Store uploads",
-      "summary": "Since April 24, 2025, apps uploaded to App Store Connect must be built with Xcode 16 or later using an SDK for iOS 18, iPadOS 18, tvOS 18, visionOS 2, or watchOS 11. Xcode 15 no longer meets that requirement.",
-      "severity": "high",
-      "replacement": "Xcode 26 or later",
-      "deadline": "2025-04-24",
-      "sources": [
-        {
-          "title": "SDK minimum requirements — App Store upcoming requirements (Xcode 16)",
-          "url": "https://developer.apple.com/news/upcoming-requirements/?id=02212025a"
-        }
-      ],
-      "provenance": {
-        "observedAt": "2026-10-19",
-        "reviewedAt": "2026-10-19",
-        "reviewer": "arminazimi"
-      },
-      "migration": {
-        "constraints": [
-          "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts.",
-          "Later App Store SDK minimums also require newer Xcode lines; plan to land on the current minimum (see the replacement)."
-        ],
-        "steps": [
-          {
-            "id": "raise-xcode-pin",
-            "title": "Raise the Xcode pin",
-            "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from Xcode 15 to a release App Store Connect accepts (see the replacement).",
-            "targets": "declaration"
-          },
-          {
-            "id": "align-xcode-surfaces",
-            "title": "Align other Xcode surfaces",
-            "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
-            "targets": "all"
-          }
-        ],
-        "verification": [
-          {
-            "command": "xcodebuild -version",
-            "purpose": "Confirm the active Xcode is the intended release."
-          },
-          {
-            "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
-            "purpose": "Build with the new Xcode before uploading to App Store Connect."
-          }
-        ]
-      }
-    },
-    {
-      "id": "swift.xcode.app-store-16-through-25",
-      "ecosystem": "swift",
-      "purl": "pkg:generic/xcode",
-      "vers": "vers:semver/>=16.0.0|<26.0.0",
-      "event": "end-of-support",
-      "title": "Xcode 16 through 25 are not accepted for App Store uploads",
-      "summary": "Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26. Xcode 16 through 25 no longer meet that requirement.",
+      "title": "Xcode 15 through 25 are not accepted for App Store uploads",
+      "summary": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
       "severity": "high",
       "replacement": "Xcode 26 or later",
       "deadline": "2026-04-28",
@@ -141,7 +88,7 @@
           {
             "id": "raise-xcode-pin",
             "title": "Raise the Xcode pin",
-            "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the 16–25 line to Xcode 26 or later.",
+            "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the 15–25 line to Xcode 26 or later.",
             "targets": "declaration"
           },
           {
@@ -159,90 +106,6 @@
           {
             "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
             "purpose": "Build with the new Xcode before uploading to App Store Connect."
-          }
-        ]
-      }
-    },
-    {
-      "id": "swift.ios.deployment-target-below-13",
-      "ecosystem": "swift",
-      "purl": "pkg:generic/ios",
-      "vers": "vers:semver/<13.0.0",
-      "event": "end-of-support",
-      "title": "iOS deployment targets older than 13 are not accepted for App Store uploads",
-      "summary": "Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later. A minimum deployment target below iOS 13 no longer meets that requirement.",
-      "severity": "high",
-      "replacement": "iOS 13 or later",
-      "deadline": "2026-09-09",
-      "sources": [
-        {
-          "title": "iOS and iPadOS minimum system requirements — App Store upcoming requirements",
-          "url": "https://developer.apple.com/news/upcoming-requirements/?id=0992026a"
-        }
-      ],
-      "provenance": {
-        "observedAt": "2026-10-19",
-        "reviewedAt": "2026-10-19",
-        "reviewer": "arminazimi"
-      },
-      "migration": {
-        "constraints": [
-          "Raise the iOS deployment target in the Xcode project, Package.swift platforms, or shared xcconfig so every target agrees."
-        ],
-        "steps": [
-          {
-            "id": "raise-ios-deployment-target",
-            "title": "Raise the iOS deployment target",
-            "instructions": "Change the reported iOS (or iPadOS) minimum from below 13 to iOS 13 or later, matching the App Store Connect requirement.",
-            "targets": "declaration"
-          }
-        ],
-        "verification": [
-          {
-            "command": "xcodebuild -showBuildSettings | grep IPHONEOS_DEPLOYMENT_TARGET",
-            "purpose": "Confirm the deployment target is iOS 13 or later."
-          }
-        ]
-      }
-    },
-    {
-      "id": "swift.ipados.deployment-target-below-13",
-      "ecosystem": "swift",
-      "purl": "pkg:generic/ipados",
-      "vers": "vers:semver/<13.0.0",
-      "event": "end-of-support",
-      "title": "iPadOS deployment targets older than 13 are not accepted for App Store uploads",
-      "summary": "Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later. A minimum deployment target below iPadOS 13 no longer meets that requirement.",
-      "severity": "high",
-      "replacement": "iPadOS 13 or later",
-      "deadline": "2026-09-09",
-      "sources": [
-        {
-          "title": "iOS and iPadOS minimum system requirements — App Store upcoming requirements",
-          "url": "https://developer.apple.com/news/upcoming-requirements/?id=0992026a"
-        }
-      ],
-      "provenance": {
-        "observedAt": "2026-10-19",
-        "reviewedAt": "2026-10-19",
-        "reviewer": "arminazimi"
-      },
-      "migration": {
-        "constraints": [
-          "Raise the iPadOS deployment target in the Xcode project, Package.swift platforms, or shared xcconfig so every target agrees."
-        ],
-        "steps": [
-          {
-            "id": "raise-ipados-deployment-target",
-            "title": "Raise the iPadOS deployment target",
-            "instructions": "Change the reported iPadOS minimum from below 13 to iPadOS 13 or later, matching the App Store Connect requirement.",
-            "targets": "declaration"
-          }
-        ],
-        "verification": [
-          {
-            "command": "xcodebuild -showBuildSettings | grep IPHONEOS_DEPLOYMENT_TARGET",
-            "purpose": "Confirm the deployment target is iPadOS 13 or later (shared with iOS settings in many projects)."
           }
         ]
       }

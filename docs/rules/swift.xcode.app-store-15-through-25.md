@@ -1,12 +1,12 @@
 ---
-title: "Xcode 16 through 25 are not accepted for App Store uploads — dates, impact, migration"
-description: "Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-16-through-25.html"
+title: "Xcode 15 through 25 are not accepted for App Store uploads — dates, impact, migration"
+description: "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html"
 ---
 
-# Xcode 16 through 25 are not accepted for App Store uploads
+# Xcode 15 through 25 are not accepted for App Store uploads
 
-Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26. Xcode 16 through 25 no longer meet that requirement.
+Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.
 
 | | |
 | --- | --- |
@@ -14,13 +14,13 @@ Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcod
 | Severity | high |
 | Ecosystem | `swift` |
 | Component | `pkg:generic/xcode` |
-| Affected versions | `vers:semver/>=16.0.0\|<26.0.0` |
+| Affected versions | `vers:semver/>=15.0.0\|<26.0.0` |
 | Date from the source | 2026-04-28 |
 | Replacement | Xcode 26 or later |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-01-17 (90 days after the last review) |
-| Rule ID | `swift.xcode.app-store-16-through-25` |
+| Rule ID | `swift.xcode.app-store-15-through-25` |
 
 ## Sources
 
@@ -34,7 +34,7 @@ Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcod
 
 **Steps**
 
-1. **Raise the Xcode pin.** Change the reported .xcode-version (or equivalent CI Xcode version) from the 16–25 line to Xcode 26 or later.
+1. **Raise the Xcode pin.** Change the reported .xcode-version (or equivalent CI Xcode version) from the 15–25 line to Xcode 26 or later.
 2. **Align other Xcode surfaces.** Update CI macOS/Xcode images and documented install steps so they match the new pin.
 
 **Verification**
@@ -48,17 +48,17 @@ No built-in detector reads `swift` declarations yet; the rule is data in the [li
 
 ## Data
 
-This page is generated from [`registry/swift.json`](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json), rule `swift.xcode.app-store-16-through-25`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/swift.json`](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json), rule `swift.xcode.app-store-15-through-25`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-16-through-25.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-16-through-25.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-16-through-25.html",
-  "headline": "Xcode 16 through 25 are not accepted for App Store uploads — dates, impact, migration",
-  "description": "Since April 28, 2026, apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+  "headline": "Xcode 15 through 25 are not accepted for App Store uploads — dates, impact, migration",
+  "description": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [
@@ -68,7 +68,7 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
   ],
   "about": {
     "@type": "Thing",
-    "name": "Xcode 16 through 25 are not accepted for App Store uploads",
+    "name": "Xcode 15 through 25 are not accepted for App Store uploads",
     "identifier": "pkg:generic/xcode"
   },
   "citation": [
