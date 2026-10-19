@@ -2682,6 +2682,112 @@
         }
       ]
     },
-    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "expected": [] }
+    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "expected": [] },
+    {
+      "repository": "rack/rack",
+      "commit": "a9833c8f3bd6b6d1e0ab35de00a1f1a16b5095f5",
+      "ecosystem": "ruby",
+      "expected": []
+    },
+    {
+      "repository": "Shopify/packwerk",
+      "commit": "75ce7c728fcba075eb939a7af194fc4287513a75",
+      "ecosystem": "ruby",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 34 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 46,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 46 of .github/workflows/ci.yml reads `- uses: actions/checkout@v2`, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "ruby.runtime.eol-3.0",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.0.4`, a Ruby 3.0 pin. The Ruby maintenance branches page marks Ruby 3.0 as end of life (security maintenance ended 2024-04-23). Maintainers later raised the pin in https://github.com/Shopify/packwerk/commit/3a988a04c99a1723c5eb133c31083bc736332d02."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "thoughtbot/suspenders",
+      "commit": "484729486cc986af84ab43b1ffd20793ded7537a",
+      "ecosystem": "ruby",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/main.yml reads `- uses: actions/checkout@v4`, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "ruby.runtime.eol-3.2",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.2`, a Ruby 3.2 pin. The Ruby maintenance branches page marks Ruby 3.2 as end of life (security maintenance ended 2026-04-01). Maintainers later raised the pin in https://github.com/thoughtbot/suspenders/commit/6df98d3e7dac5fa95612424f75039d6e35e1f0cb."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "github/view_component",
+      "commit": "98f060fa7429b7dbb3f6f16a65cd92d02717cfd2",
+      "ecosystem": "ruby",
+      "expected": [
+        {
+          "ruleId": "ruby.runtime.eol-2.7",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `2.7.1`, a Ruby 2.7 pin. The Ruby maintenance branches page marks Ruby 2.7 as end of life (security maintenance ended 2023-03-31)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "puma/puma",
+      "commit": "d53529399bc250915374eebe3ae54dd9fd9a6cb0",
+      "ecosystem": "ruby",
+      "expected": [
+        {
+          "ruleId": "ruby.runtime.eol-3.2",
+          "path": "benchmarks/local/sinatra/Gemfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of benchmarks/local/sinatra/Gemfile reads `ruby \"3.2.0\"`, a Gemfile ruby directive for Ruby 3.2. The Ruby maintenance branches page marks Ruby 3.2 as end of life (security maintenance ended 2026-04-01)."
+          }
+        }
+      ]
+    }
   ]
 }

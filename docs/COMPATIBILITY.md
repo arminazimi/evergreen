@@ -67,7 +67,7 @@ combination works.
 
 ## Ruby detector
 
-The `ruby` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`, and [Validation](VALIDATION.md) has no public-corpus results for Ruby yet. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](DATA.md).
+The `ruby` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#ruby-corpus) cover it. Its lifecycle rules are in `registry/ruby.json` and ship in the [data bundle](DATA.md).
 
 ### Supported files and declarations
 
