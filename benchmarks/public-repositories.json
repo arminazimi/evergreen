@@ -2743,7 +2743,7 @@
           "line": 21,
           "groundTruthSource": {
             "kind": "maintainer-review",
-            "note": "Reviewed at this commit: line 21 of .github/workflows/main.yml reads `- uses: actions/checkout@v4`, a release below the supported major."
+            "note": "Reviewed at this commit: line 21 of .github/workflows/main.yml reads `- uses: actions/checkout@v4`"
           }
         },
         {

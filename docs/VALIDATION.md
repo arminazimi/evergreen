@@ -68,7 +68,6 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 ## Precision thresholds
 
-
 [`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
 
 ```text
