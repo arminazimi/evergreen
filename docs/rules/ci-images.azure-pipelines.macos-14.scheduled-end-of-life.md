@@ -28,7 +28,7 @@ The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its schedu
 
 ## Detected by
 
-No built-in detector reads `ci-images` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json).
+The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

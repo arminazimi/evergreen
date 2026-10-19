@@ -2,6 +2,11 @@
   "schemaVersion": "evergreen.coverage-descriptions.v1",
   "rows": [
     {
+      "ecosystems": ["ci-images"],
+      "name": "CI runner images",
+      "coverage": "`pool.vmImage` in Azure Pipelines, local `machine.image` and `docker.image` in CircleCI, and GitLab `image`/`services` references, for images with an official retirement notice."
+    },
+    {
       "ecosystems": ["container"],
       "name": "Container base images",
       "coverage": "`FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md)."

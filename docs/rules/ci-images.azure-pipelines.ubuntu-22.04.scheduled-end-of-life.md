@@ -28,7 +28,7 @@ The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled
 
 ## Detected by
 
-No built-in detector reads `ci-images` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json).
+The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

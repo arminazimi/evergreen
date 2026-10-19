@@ -26,6 +26,27 @@
   },
   "detectors": [
     {
+      "id": "ci-images",
+      "level": "experimental",
+      "earnedLevel": "experimental",
+      "precisionFloor": {
+        "value": 0.95,
+        "enforced": false
+      },
+      "run": {
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": null,
+        "recall": null
+      },
+      "evidence": {
+        "repositoriesWithFindings": 0,
+        "expectedFindings": 0,
+        "zeroFindingRepositories": 0
+      }
+    },
+    {
       "id": "container",
       "level": "experimental",
       "earnedLevel": "experimental",

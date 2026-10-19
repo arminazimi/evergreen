@@ -43,6 +43,7 @@ Matrix version: **2026-10-15 / v1**
 <!-- coverage-matrix:start -->
 | Detector ecosystem | Status | Coverage |
 | --- | --- | --- |
+| CI runner images | Experimental | `pool.vmImage` in Azure Pipelines, local `machine.image` and `docker.image` in CircleCI, and GitLab `image`/`services` references, for images with an official retirement notice. |
 | Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
 | .NET | Experimental | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md). |
 | Go | Experimental | `go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md). |

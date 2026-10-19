@@ -1,6 +1,11 @@
 {
   "schemaVersion": "evergreen.corpus-thresholds.v1",
   "detectors": {
+    "ci-images": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
     "container": {
       "level": "experimental",
       "stable": false,
@@ -60,6 +65,11 @@
     "precision": 1,
     "recall": 1,
     "perDetector": {
+      "ci-images": {
+        "truePositives": 0,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
       "container": {
         "truePositives": 16,
         "falsePositives": 0,
