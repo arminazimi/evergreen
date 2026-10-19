@@ -192,16 +192,27 @@ function slugVersion(version: string): string {
   return version.replace(/\./g, "-");
 }
 
+/** Whole major floors (`15`, `26`) keep the `N-through-M` id/title; dotted floors (`14.1`) use `up-to`. */
+function isWholeMajor(version: string): boolean {
+  return /^\d+$/.test(version);
+}
+
 function draftId(lower: string | undefined, upper: string): string {
   if (lower === undefined) return `swift.xcode.app-store-below-${slugVersion(upper)}`;
-  const upperMajor = Number(upper.split(".")[0]!);
-  return `swift.xcode.app-store-${slugVersion(lower)}-through-${upperMajor - 1}`;
+  if (isWholeMajor(upper)) {
+    const upperMajor = Number(upper);
+    return `swift.xcode.app-store-${slugVersion(lower)}-through-${upperMajor - 1}`;
+  }
+  return `swift.xcode.app-store-${slugVersion(lower)}-up-to-${slugVersion(upper)}`;
 }
 
 function draftTitle(lower: string | undefined, upper: string): string {
   if (lower === undefined) return `Xcode older than ${upper} is not accepted for App Store uploads`;
-  const upperMajor = Number(upper.split(".")[0]!);
-  return `Xcode ${lower} through ${upperMajor - 1} are not accepted for App Store uploads`;
+  if (isWholeMajor(upper)) {
+    const upperMajor = Number(upper);
+    return `Xcode ${lower} through ${upperMajor - 1} are not accepted for App Store uploads`;
+  }
+  return `Xcode ${lower} up to ${upper} are not accepted for App Store uploads`;
 }
 
 function draftVers(lower: string | undefined, upper: string): string {

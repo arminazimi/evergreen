@@ -241,5 +241,6 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## swift
 
+- [Xcode 14.1 through 14 are not accepted for App Store uploads](swift.xcode.app-store-14-1-through-14.html) — end of support, `swift.xcode.app-store-14-1-through-14`
 - [Xcode 15 through 25 are not accepted for App Store uploads](swift.xcode.app-store-15-through-25.html) — end of support, `swift.xcode.app-store-15-through-25`
-- [Xcode older than 15 is not accepted for App Store uploads](swift.xcode.app-store-below-15.html) — end of support, `swift.xcode.app-store-below-15`
+- [Xcode older than 14.1 is not accepted for App Store uploads](swift.xcode.app-store-below-14-1.html) — end of support, `swift.xcode.app-store-below-14-1`
