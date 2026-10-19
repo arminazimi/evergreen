@@ -1,4 +1,4 @@
-import { MAXIMUM_INPUT_BYTES, member, readJsonLines, type JsonNode } from "./json-lines.js";
+import { MAXIMUM_INPUT_BYTES, member, readJsonLines, type JsonNode } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for the declarations Evergreen reads from `composer.json`: `require.php`,
@@ -11,7 +11,7 @@ import { MAXIMUM_INPUT_BYTES, member, readJsonLines, type JsonNode } from "./jso
  * dynamic `${…}` values, non-string constraints, `extra.php`, and other `config.platform.*` keys
  * return nothing. Duplicate package keys in the same `require` or `require-dev` object keep only the
  * last occurrence (Composer / `JSON.parse` semantics), in first-seen order among distinct names. A
- * malformed file returns nothing. Nothing is evaluated and Composer is never run.
+ * malformed file returns nothing. Comments are not accepted (strict JSON only). Nothing is evaluated and Composer is never run.
  */
 
 export { MAXIMUM_INPUT_BYTES };
@@ -93,7 +93,7 @@ function packagesFrom(section: JsonNode | undefined, dev: boolean): ComposerPack
  * Unsupported and malformed forms return nothing for those parts (or everything, when the file is invalid).
  */
 export function parseComposerJson(contents: string): ComposerJsonDeclaration[] {
-  const root = readJsonLines(contents);
+  const root = readJsonLines(contents, { comments: false });
   if (root?.kind !== "object") return [];
 
   const declarations: ComposerJsonDeclaration[] = [];

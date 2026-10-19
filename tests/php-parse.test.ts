@@ -125,3 +125,9 @@ test("duplicate package keys in one section keep only the last occurrence", () =
     { kind: "package", name: "c/d", value: "2.0.0", dev: false, line: 1 },
   ]);
 });
+
+test("rejects // and block comments in composer.json", () => {
+  assert.deepEqual(parseComposerJson('{ // c\n "require": {"php": "^8.1"} }'), []);
+  assert.deepEqual(parseComposerJson('{ /* c */ "require": {"php": "^8.1"} }'), []);
+  assert.deepEqual(parseComposerJson('{\n  "require": {\n    // no\n    "php": "^8.1"\n  }\n}\n'), []);
+});
