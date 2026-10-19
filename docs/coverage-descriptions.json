@@ -49,7 +49,7 @@
     {
       "ecosystems": ["ruby"],
       "name": "Ruby",
-      "coverage": "Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems."
+      "coverage": "Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files."
     },
     {
       "ecosystems": ["rust"],

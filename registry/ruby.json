@@ -283,7 +283,26 @@
             "purpose": "Run the test suite with the replacement version."
           }
         ]
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "ruby",
+          "module": "json"
+        },
+        {
+          "kind": "call",
+          "language": "ruby",
+          "module": "json",
+          "targets": [
+            "JSON.parse",
+            "JSON.generate",
+            "JSON.load",
+            "JSON.dump",
+            "JSON.pretty_generate"
+          ]
+        }
+      ]
     }
   ]
 }

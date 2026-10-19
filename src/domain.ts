@@ -23,6 +23,7 @@ export const sourceLanguageValues = [
   "csharp",
   "java",
   "kotlin",
+  "ruby",
   "json",
   "yaml",
   "toml",
@@ -33,13 +34,13 @@ export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp";
+  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby";
   module: string;
 }
 
 export interface CallUsageMatcher {
   kind: "call";
-  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp";
+  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp" | "ruby";
   module: string;
   targets: string[];
 }

@@ -48,7 +48,7 @@ The Ruby detector is a useful example of the layout a built-in detector follows.
 - Rules come from `registry/ruby.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
 - A runtime pin uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
 - A `Gemfile` gem is matched only against rules that cover every version, while a `Gemfile.lock` gem is matched against any rule for that gem name.
-- The detector does not use `analyzeSourceUsage`, so its findings carry no source usages.
+- Gem rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the Ruby files that import or call the gem. A `require`, `load`, `gem`, `autoload`, or `require_relative` whose argument is not a string literal is unclassified.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ruby-detector).
 
@@ -173,7 +173,7 @@ const contracts: SourceUsageContract[] = [{
 const analyses = await analyzeSourceUsage(root, contracts);
 ```
 
-Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
+Import and call matchers resolve common aliases in JavaScript, TypeScript, and Python. Go supports import and call matchers by import path. Java and Kotlin support import matchers only (`language: "java"` for `.java` files and `"kotlin"` for `.kt` files): `module` is a package or class name, an import of it or of anything below it matches (`import static` and wildcard imports included), and calls through the imported names are not mapped. Ruby supports import and call matchers (`language: "ruby"` for `.rb`, `.rake`, and `.ru` files): `module` is a require path, a literal `require`, `load`, `gem`, or `autoload` of that path (or a path under it) is an import, and a call target is a qualified call such as `JSON.parse`. An assignment `Parser = JSON` makes `Parser.parse(` the same call. A dynamic argument is reported as unclassified instead of being guessed. Configuration-key matchers support Python settings plus JSON, YAML, TOML, and INI-style files, and can optionally require a value fragment. Results include exact locations, excerpts, and a deterministic `none`, `low`, `medium`, or `high` migration-impact estimate. Keep matchers narrow: a lifecycle finding may safely have zero source usages, but an ambiguous match should not be reported as evidence.
 
 ## Compatibility policy
 

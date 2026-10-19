@@ -64,6 +64,7 @@ function languageFor(path: string): SourceLanguage | undefined {
   if (extension === ".cs") return "csharp";
   if (extension === ".java") return "java";
   if (extension === ".kt") return "kotlin";
+  if (extension === ".rb" || extension === ".rake" || extension === ".ru") return "ruby";
   if (extension === ".json") return "json";
   if ([".yaml", ".yml"].includes(extension)) return "yaml";
   if (extension === ".toml") return "toml";
@@ -214,6 +215,11 @@ function moduleMatches(actual: string, expected: string, language: SourceLanguag
   if (language === "java" || language === "kotlin") return actual === expected || actual.startsWith(`${expected}.`);
   if (language === "rust") return actual === expected || actual.startsWith(`${expected}::`);
   if (language === "csharp") return actual === expected || actual.startsWith(`${expected}.`);
+  if (language === "ruby") {
+    const actualName = actual.replace(/\.rb$/, "");
+    const expectedName = expected.replace(/\.rb$/, "");
+    return actualName === expectedName || actualName.startsWith(`${expectedName}/`);
+  }
   return actual === expected;
 }
 
@@ -408,11 +414,242 @@ function jvmImports(lines: readonly string[], maskedLines: readonly string[]): I
   return references;
 }
 
-function maskCodeLine(
-  line: string,
-  language: SourceLanguage,
-  state: { blockComment: boolean },
-): string {
+const rubyIgnoredSegments = new Set(["vendor", "fixtures", "__fixtures__", "testdata"]);
+
+/** Ruby dependency checkouts and fixture trees are not the project's own source. */
+function rubySourceIgnored(path: string): boolean {
+  return path.split("/").some((segment) => rubyIgnoredSegments.has(segment));
+}
+
+interface RubyLiteral {
+  value: string;
+  end: number;
+  column: number;
+  interpolated: boolean;
+}
+
+/** A single-line string literal starting at `start`, or undefined when the text is not a quoted or percent string. */
+function readRubyLiteral(line: string, start: number): RubyLiteral | undefined {
+  const quoted = line[start];
+  if (quoted === "'" || quoted === '"') {
+    let value = "";
+    let escaped = false;
+    for (let index = start + 1; index < line.length; index += 1) {
+      const character = line[index]!;
+      if (escaped) {
+        value += character;
+        escaped = false;
+        continue;
+      }
+      if (character === "\\") {
+        escaped = true;
+        continue;
+      }
+      if (quoted === '"' && character === "#" && line[index + 1] === "{") {
+        return { value, end: line.length, column: start + 2, interpolated: true };
+      }
+      if (character === quoted) return { value, end: index + 1, column: start + 2, interpolated: false };
+      value += character;
+    }
+    return undefined;
+  }
+  if (quoted !== "%") return undefined;
+  let cursor = start + 1;
+  const marker = line[cursor];
+  let type = "";
+  if (marker && /[qQwWrsxiI]/.test(marker)) {
+    type = marker;
+    cursor += 1;
+  }
+  const delimiter = line[cursor];
+  if (!delimiter) return undefined;
+  const closer = delimiter === "(" ? ")" : delimiter === "[" ? "]" : delimiter === "{" ? "}" : delimiter === "<" ? ">" : /[^A-Za-z0-9_\s]/.test(delimiter) ? delimiter : undefined;
+  if (!closer || (type !== "" && type !== "q" && type !== "Q" && type !== "s")) return undefined;
+  const interpolating = type === "" || type === "Q";
+  const paired = closer !== delimiter;
+  let depth = 1;
+  let value = "";
+  for (let index = cursor + 1; index < line.length; index += 1) {
+    const character = line[index]!;
+    if (character === "\\" && index + 1 < line.length) {
+      value += line[index + 1];
+      index += 1;
+      continue;
+    }
+    if (interpolating && character === "#" && line[index + 1] === "{") {
+      return { value, end: line.length, column: cursor + 2, interpolated: true };
+    }
+    if (paired && character === delimiter) {
+      depth += 1;
+      value += character;
+      continue;
+    }
+    if (character === closer) {
+      depth -= 1;
+      if (depth === 0) return { value, end: index + 1, column: cursor + 2, interpolated: false };
+    }
+    value += character;
+  }
+  return undefined;
+}
+
+interface RubyInvocation {
+  kind: "require" | "load" | "gem" | "autoload" | "require_relative";
+  line: number;
+  keywordColumn: number;
+  reference: string;
+  argument: { kind: "literal"; value: string; column: number } | { kind: "dynamic" };
+}
+
+/**
+ * `require`, `load`, `gem`, `autoload`, and `require_relative` on one line. A string literal is a path; a
+ * variable, interpolation, concatenation, or method call on the string is dynamic. `JSON.load` and
+ * `require_relative` are not `load` or `require`.
+ */
+function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocation[] {
+  const keyword = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
+  const invocations: RubyInvocation[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index]!;
+    keyword.lastIndex = 0;
+    for (const match of masked.matchAll(keyword)) {
+      if (match.index === undefined || !match[1]) continue;
+      const kind = match[1] as RubyInvocation["kind"];
+      if (/(?:^|\s)def\s+(?:self\s*\.\s*|(?:::)?Kernel\s*\.\s*)?$/.test(masked.slice(0, match.index))) continue;
+      let cursor = match.index + match[0].length;
+      while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      if (line[cursor] === "(") {
+        cursor += 1;
+        while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      }
+      if (kind === "autoload") {
+        const symbol = /^:([A-Za-z_]\w*)/.exec(line.slice(cursor));
+        if (!symbol) {
+          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference: line.slice(match.index).trim(), argument: { kind: "dynamic" } });
+          continue;
+        }
+        cursor += symbol[0].length;
+        while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+        if (line[cursor] !== ",") {
+          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference: line.slice(match.index).trim(), argument: { kind: "dynamic" } });
+          continue;
+        }
+        cursor += 1;
+        while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      }
+      const literal = readRubyLiteral(line, cursor);
+      let after = literal?.end ?? cursor;
+      while (line[after] === " " || line[after] === "\t") after += 1;
+      const transformed = literal !== undefined && (literal.interpolated || line[after] === "+" || line[after] === "\\" || line[after] === ".");
+      invocations.push({
+        kind,
+        line: index + 1,
+        keywordColumn: match.index + 1,
+        reference: line.slice(match.index).trim(),
+        argument: literal && !transformed ? { kind: "literal", value: literal.value, column: literal.column } : { kind: "dynamic" },
+      });
+    }
+  }
+  return invocations;
+}
+
+/** `require`/`load`/`gem`/`autoload` of a string. `require_relative` is a local file, not a gem. Bindings stay empty; calls use the rule's qualified target. */
+function rubyImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  for (const invocation of rubyInvocations(lines, maskedLines)) {
+    if (invocation.argument.kind !== "literal" || invocation.kind === "require_relative") continue;
+    const module = invocation.argument.value.replace(/\.rb$/, "");
+    if (module.length === 0) continue;
+    references.push({ module, line: invocation.line, column: invocation.argument.column, bindings: [] });
+  }
+  return references;
+}
+
+interface RubyAlias {
+  local: string;
+  target: string;
+}
+
+/** `Parser = JSON` and `parser = ::JSON::Parser`, including an alias of an alias in the same file. */
+function rubyAliases(maskedLines: readonly string[]): RubyAlias[] {
+  const assigned = new Map<string, string>();
+  const pattern = /^\s*([$@]{0,2}[A-Za-z_]\w*)\s*(?:\|\|)?=\s*(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\s*$/;
+  for (const line of maskedLines) {
+    const match = pattern.exec(line);
+    if (!match?.[1] || !match[2]) continue;
+    assigned.set(match[1], match[2]);
+  }
+  const resolve = (name: string, seen: Set<string>): string => {
+    const next = assigned.get(name);
+    if (!next || seen.has(name)) return name;
+    seen.add(name);
+    const parts = next.split("::");
+    const head = resolve(parts[0]!, seen);
+    return parts.length === 1 ? head : `${head}::${parts.slice(1).join("::")}`;
+  };
+  return [...assigned.keys()].map((local) => ({ local, target: resolve(local, new Set()) }));
+}
+
+/** Qualified call forms for a target such as `JSON.parse`, plus receivers assigned from that constant. */
+function rubyReceivers(target: string, aliases: readonly RubyAlias[]): string[][] {
+  const parts = target.split(/::|\./).filter((part) => part.length > 0);
+  if (parts.length < 2) return [];
+  const forms = [parts];
+  for (const alias of aliases) {
+    const aliasParts = alias.target.split("::");
+    if (aliasParts.length === 0 || aliasParts.length >= parts.length) continue;
+    if (aliasParts.every((part, index) => part === parts[index])) forms.push([alias.local, ...parts.slice(aliasParts.length)]);
+  }
+  return forms;
+}
+
+/** The end index of a Ruby percent literal starting at `index`, so its body cannot look like code. */
+function rubyPercentEnd(line: string, index: number): number | undefined {
+  if (line[index] !== "%") return undefined;
+  let cursor = index + 1;
+  const marker = line[cursor];
+  if (marker && /[qQwWrsxiI]/.test(marker)) cursor += 1;
+  const delimiter = line[cursor];
+  if (!delimiter) return undefined;
+  const closer = delimiter === "(" ? ")" : delimiter === "[" ? "]" : delimiter === "{" ? "}" : delimiter === "<" ? ">" : /[^A-Za-z0-9_\s]/.test(delimiter) ? delimiter : undefined;
+  if (!closer) return undefined;
+  const paired = closer !== delimiter;
+  let depth = 1;
+  for (let position = cursor + 1; position < line.length; position += 1) {
+    const character = line[position]!;
+    if (character === "\\" && position + 1 < line.length) {
+      position += 1;
+      continue;
+    }
+    if (paired && character === delimiter) depth += 1;
+    else if (character === closer) {
+      depth -= 1;
+      if (depth === 0) return position;
+    }
+  }
+  return line.length - 1;
+}
+
+interface MaskState {
+  blockComment: boolean;
+  rubyBlock?: boolean;
+  heredoc?: string;
+}
+
+function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
+  if (language === "ruby" && state.heredoc) {
+    if (line.trim() === state.heredoc) delete state.heredoc;
+    return " ".repeat(line.length);
+  }
+  if (language === "ruby" && state.rubyBlock) {
+    if (/^=end\b/.test(line)) state.rubyBlock = false;
+    return " ".repeat(line.length);
+  }
+  if (language === "ruby" && /^=begin\b/.test(line)) {
+    state.rubyBlock = true;
+    return " ".repeat(line.length);
+  }
+
   const output = [...line];
   let quote: string | undefined;
   let escaped = false;
@@ -435,12 +672,30 @@ function maskCodeLine(
       if (character !== "\\") escaped = false;
       continue;
     }
+    if (language === "ruby" && character === "%") {
+      const end = rubyPercentEnd(line, index);
+      if (end !== undefined) {
+        for (let cursor = index; cursor <= end; cursor += 1) output[cursor] = " ";
+        index = end;
+        continue;
+      }
+    }
+    if (language === "ruby" && character === "<" && next === "<" && (index === 0 || !/[\w)\]]/.test(line[index - 1]!))) {
+      const heredoc = /^<<[-~]?(?:'([^'\n]+)'|"([^"\n]+)"|([A-Za-z_]\w*))/.exec(line.slice(index));
+      const terminator = heredoc?.[1] ?? heredoc?.[2] ?? heredoc?.[3];
+      if (heredoc && terminator) {
+        state.heredoc = terminator;
+        for (let cursor = index; cursor < index + heredoc[0].length; cursor += 1) output[cursor] = " ";
+        index += heredoc[0].length - 1;
+        continue;
+      }
+    }
     if (character === '"' || (character === "'" && language !== "rust") || (character === "`" && language !== "python" && language !== "rust")) {
       quote = character;
       output[index] = " ";
       continue;
     }
-    if (language !== "python" && character === "/" && next === "*") {
+    if (language !== "python" && language !== "ruby" && character === "/" && next === "*") {
       output[index] = " ";
       output[index + 1] = " ";
       state.blockComment = true;
@@ -448,8 +703,8 @@ function maskCodeLine(
       continue;
     }
     if (
-      (language === "python" && character === "#") ||
-      (language !== "python" && character === "/" && next === "/")
+      ((language === "python" || language === "ruby") && character === "#") ||
+      (language !== "python" && language !== "ruby" && character === "/" && next === "/")
     ) {
       for (let rest = index; rest < output.length; rest += 1) output[rest] = " ";
       break;
@@ -501,12 +756,13 @@ export async function analyzeSourceUsage(
 
   for (const file of await sourceFiles(resolvedRoot)) {
     if (!relevantLanguages.has(file.language)) continue;
+    if (file.language === "ruby" && rubySourceIgnored(file.path)) continue;
     const contents = await readFile(file.absolutePath, "utf8");
     const lines = contents.split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
-    const imports = file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
+    const imports = file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
@@ -564,6 +820,27 @@ export async function analyzeSourceUsage(
               const forms = [{ source: path(`${matcher.module}.${target}`) }, ...(imported ? [{ source: path(target) }] : [])];
               for (const form of forms) {
                 const pattern = new RegExp(`(?<![\\w$.])${form.source}\\s*\\(`, "g");
+                for (const [index, line] of maskedLines.entries()) {
+                  for (const match of line.matchAll(pattern)) {
+                    if (match.index === undefined) continue;
+                    push(contract.id, {
+                      kind: "call",
+                      language: file.language,
+                      symbol: `${matcher.module}.${target}`,
+                      location: { path: file.path, line: index + 1, column: match.index + 1 },
+                      excerpt: lines[index]!.trim(),
+                    });
+                  }
+                }
+              }
+            }
+          }
+          // A Ruby call is qualified (`JSON.parse(` or `JSON::parse(`). `Parser = JSON` then `Parser.parse(` is the same call.
+          if (file.language === "ruby") {
+            const aliases = rubyAliases(maskedLines);
+            for (const target of matcher.targets) {
+              for (const parts of rubyReceivers(target, aliases)) {
+                const pattern = new RegExp(`(?<![\\w$:])(?:::)?${parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*")}\\s*\\(`, "g");
                 for (const [index, line] of maskedLines.entries()) {
                   for (const match of line.matchAll(pattern)) {
                     if (match.index === undefined) continue;
@@ -645,6 +922,30 @@ export async function analyzeSourceUsage(
     });
     return { contractId: contract.id, usages, impact: impactFor(usages) };
   });
+}
+
+export interface RubyDynamicReference {
+  path: string;
+  line: number;
+  column: number;
+  reference: string;
+}
+
+/** `require`, `load`, `gem`, `autoload`, and `require_relative` whose argument is not a string literal. */
+export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
+  const found: RubyDynamicReference[] = [];
+  for (const file of await sourceFiles(resolve(root))) {
+    if (file.language !== "ruby" || rubySourceIgnored(file.path)) continue;
+    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const maskedLines: string[] = [];
+    const maskState: MaskState = { blockComment: false };
+    for (const line of lines) maskedLines.push(maskCodeLine(line, "ruby", maskState));
+    for (const invocation of rubyInvocations(lines, maskedLines)) {
+      if (invocation.argument.kind !== "dynamic") continue;
+      found.push({ path: file.path, line: invocation.line, column: invocation.keywordColumn, reference: invocation.reference });
+    }
+  }
+  return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
 }
 
 export type { SourceUsageAnalysis, SourceUsageContract } from "./domain.js";

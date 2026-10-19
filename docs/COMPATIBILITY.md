@@ -52,7 +52,7 @@ Matrix version: **2026-10-15 / v1**
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
-| Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. |
+| Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files. |
 | Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 <!-- coverage-matrix:end -->
@@ -86,7 +86,7 @@ Files are found by walking the repository up to eight directories deep, to at mo
 - A resolved gem in `Gemfile.lock` that a rule covers. The bundled gem rule covers `json` 2.17.1.1 (yanked), citing its [RubyGems version page](https://rubygems.org/gems/json/versions/2.17.1.1).
 - A `Gemfile` gem line is reported only by a rule that covers every version of the gem. The bundled gem rule covers one version, so a `Gemfile` gem line alone produces no finding today.
 
-Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. Ruby findings do not list source usages (where the code imports or calls a gem); they point at the manifest or lock line only.
+Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. A gem finding whose rule lists usage matchers also lists the `.rb`, `.rake`, and `.ru` files that `require`, `load`, `gem`, or `autoload` that gem, and the qualified calls those matchers name (including a constant or variable assigned from that constant). The finding's impact counts those usages, and a migration packet lists the files. A runtime finding points at the pin only.
 
 ### What it intentionally does not judge
 
@@ -105,6 +105,9 @@ Each finding names the file and line, and carries its rule's source, replacement
 - A Bundler platform suffix in a lock version (such as `1.15.4-x86_64-linux`) is kept as written and compared as written.
 - Malformed input produces no declarations from the affected unit, never a partial result, and no error is raised. For `.ruby-version`, `Gemfile`, and `Gemfile.lock` that unit is the whole file: an unterminated string in a `Gemfile`, a truncated spec in `Gemfile.lock`, or an unsupported line in `.ruby-version` yields nothing from that file. For `.tool-versions` it is the one malformed line. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped.
 - The eight-level and 500-file limits are silent. Files beyond them, and any under `vendor` or a skipped directory, are not scanned.
+- Source usage reads `.rb`, `.rake`, and `.ru` files. `require "json"`, `require "json/ext"`, `load "json.rb"`, `gem "json"`, `autoload :JSON, "json"`, and `Kernel.require "json"` match a rule whose module is `json`. `require_relative` of a literal is a local file and is not a gem import. A call matches when the rule names the qualified form, such as `JSON.parse`, and the source calls it with parentheses (`JSON.parse(` or `JSON::parse(`). `Parser = JSON` or `parser = ::JSON`, and an alias of that alias, counts as the same call. A call without parentheses is not matched.
+- A `require`, `load`, `gem`, `autoload`, or `require_relative` whose argument is not a string literal (a variable, interpolation, concatenation, or a method call on the string) is listed as unclassified, with its file and line. Evergreen does not guess which gem it loads.
+- Usage is not read under `vendor`, `fixtures`, `__fixtures__`, or `testdata`. Comments, ordinary strings, percent literals, heredocs, and `=begin`/`=end` blocks are not usages. A method receiver such as `JSON.load` is a call only when a matcher names it, not a file `load`.
 
 ## Monorepos
 

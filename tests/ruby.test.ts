@@ -102,6 +102,8 @@ test("reports a yanked resolved gem from Gemfile.lock", async () => {
       replacement: rule.replacement!,
       migration: rule.migration!,
       sources: rule.sources,
+      usages: [],
+      impact: { usageCount: 0, affectedFiles: 0, level: "none" },
     },
   ]);
 });
