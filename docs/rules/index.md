@@ -8,6 +8,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/"
 
 Every lifecycle claim Evergreen makes comes from a reviewed rule with an authoritative source. Each rule has a page with its status, affected versions, dates, sources, and migration steps. These pages are generated from the registry; see [Lifecycle rules](../RULES.md).
 
+## android
+
+- [Google Play Billing Library 5 is past its deprecation deadline](android.play-billing.version-5.html) — deprecated, `android.play-billing.version-5`
+- [Google Play Billing Library 6 is past its deprecation deadline](android.play-billing.version-6.html) — deprecated, `android.play-billing.version-6`
+- [Google Play Billing Library 7 is past its deprecation deadline](android.play-billing.version-7.html) — deprecated, `android.play-billing.version-7`
+- [Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31](android.play-billing.version-8.html) — scheduled end of life, `android.play-billing.version-8`
+- [Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31](android.play-billing.version-9.html) — scheduled end of life, `android.play-billing.version-9`
+
 ## ci-images
 
 - [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html) — scheduled end of life, `ci-images.azure-pipelines.macos-14`
@@ -20,6 +28,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL image major versions 13 and older are end-of-life](container.postgres.eol-13-and-older.html) — end of life, `container.postgres.eol-13-and-older`
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
+
+## cpp
+
+- [The Visual Studio 12 2013 generator is removed](cpp.cmake.generator.visual-studio-12-2013.removed.html) — removed, `cpp.cmake.generator.visual-studio-12-2013.removed`
+- [The CMakeFindFrameworks module is deprecated](cpp.cmake.module.cmake-find-frameworks.deprecated.html) — deprecated, `cpp.cmake.module.cmake-find-frameworks.deprecated`
+- [The FindGDAL module is deprecated](cpp.cmake.module.find-gdal.deprecated.html) — deprecated, `cpp.cmake.module.find-gdal.deprecated`
+- [CMake policy versions older than 3.10 are deprecated](cpp.cmake.policy-below-3.10.deprecated.html) — deprecated, `cpp.cmake.policy-below-3.10.deprecated`
+- [CMake policy versions older than 3.5 are removed](cpp.cmake.policy-below-3.5.removed.html) — removed, `cpp.cmake.policy-below-3.5.removed`
 
 ## dotnet
 
@@ -222,3 +238,8 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [failure is no longer maintained](rust.crate.failure.unmaintained.html) — deprecated, `rust.crate.failure.unmaintained`
 - [tempdir is no longer maintained](rust.crate.tempdir.unmaintained.html) — deprecated, `rust.crate.tempdir.unmaintained`
 - [Rust 1.98 and older are no longer supported](rust.toolchain.end-of-support-1.98-and-older.html) — end of support, `rust.toolchain.end-of-support-1.98-and-older`
+
+## swift
+
+- [Xcode 15 through 25 are not accepted for App Store uploads](swift.xcode.app-store-15-through-25.html) — end of support, `swift.xcode.app-store-15-through-25`
+- [Xcode older than 15 is not accepted for App Store uploads](swift.xcode.app-store-below-15.html) — end of support, `swift.xcode.app-store-below-15`

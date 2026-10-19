@@ -32,6 +32,7 @@ jobs:
         include:
           - { importer: ci-images-1, ecosystem: ci-images }
           - { importer: container-official-images, ecosystem: container }
+          - { importer: cpp-1, ecosystem: cpp }
           - { importer: dotnet-1, ecosystem: dotnet }
           - { importer: dotnet-2, ecosystem: dotnet }
           - { importer: endoflife-date, ecosystem: container }
@@ -100,6 +101,7 @@ jobs:
         importer:
           - ci-images-1
           - container-official-images
+          - cpp-1
           - dotnet-1
           - dotnet-2
           - endoflife-date

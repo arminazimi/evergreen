@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "swift",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "swift.xcode.app-store-below-15",
+      "ecosystem": "swift",
+      "purl": "pkg:generic/xcode",
+      "vers": "vers:semver/<15.0.0",
+      "event": "end-of-support",
+      "title": "Xcode older than 15 is not accepted for App Store uploads",
+      "summary": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
+      "severity": "high",
+      "replacement": "Xcode 26 or later",
+      "deadline": "2024-04-29",
+      "sources": [
+        {
+          "title": "Xcode 15 — App Store upcoming requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts.",
+          "Later App Store SDK minimums also require newer Xcode lines; plan to land on the current minimum (see the replacement)."
+        ],
+        "steps": [
+          {
+            "id": "raise-xcode-pin",
+            "title": "Raise the Xcode pin",
+            "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the rejected line to a release App Store Connect accepts (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-xcode-surfaces",
+            "title": "Align other Xcode surfaces",
+            "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "xcodebuild -version",
+            "purpose": "Confirm the active Xcode is the intended release."
+          },
+          {
+            "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
+            "purpose": "Build with the new Xcode before uploading to App Store Connect."
+          }
+        ]
+      }
+    },
+    {
+      "id": "swift.xcode.app-store-15-through-25",
+      "ecosystem": "swift",
+      "purl": "pkg:generic/xcode",
+      "vers": "vers:semver/>=15.0.0|<26.0.0",
+      "event": "end-of-support",
+      "title": "Xcode 15 through 25 are not accepted for App Store uploads",
+      "summary": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+      "severity": "high",
+      "replacement": "Xcode 26 or later",
+      "deadline": "2026-04-28",
+      "sources": [
+        {
+          "title": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts."
+        ],
+        "steps": [
+          {
+            "id": "raise-xcode-pin",
+            "title": "Raise the Xcode pin",
+            "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the 15–25 line to Xcode 26 or later.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-xcode-surfaces",
+            "title": "Align other Xcode surfaces",
+            "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "xcodebuild -version",
+            "purpose": "Confirm the active Xcode is the intended release."
+          },
+          {
+            "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
+            "purpose": "Build with the new Xcode before uploading to App Store Connect."
+          }
+        ]
+      }
+    }
+  ]
+}

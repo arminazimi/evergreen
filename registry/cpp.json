@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "cpp",
+  "freshness": {
+    "maxReviewAgeDays": 180
+  },
+  "rules": [
+    {
+      "id": "cpp.cmake.policy-below-3.5.removed",
+      "ecosystem": "cpp",
+      "purl": "pkg:generic/cmake",
+      "vers": "vers:semver/<3.5.0",
+      "event": "removed",
+      "title": "CMake policy versions older than 3.5 are removed",
+      "summary": "CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.5 (optionally via ...<policy_max>) produces an error on CMake 4.0 and newer. CMake 4.0.0 was published on 2025-03-27.",
+      "severity": "high",
+      "replacement": "cmake_minimum_required(VERSION 3.5) or newer, or VERSION <min>...<max> with <max> at least 3.5",
+      "deadline": "2025-03-27",
+      "sources": [
+        {
+          "title": "CMake 4.0 release notes (compatibility older than 3.5 removed)",
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+        },
+        {
+          "title": "cmake_minimum_required (Changed in 4.0)",
+          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+        },
+        {
+          "title": "CMake 4.0.0 GitHub release",
+          "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Raising the policy version can change NEW policy behavior; read the policies introduced between the old and new floor before committing.",
+          "Projects that must still configure on older CMake can use VERSION <min>...<max> so the minimum stays low while the policy max is at least 3.5 on newer CMake."
+        ],
+        "steps": [
+          {
+            "id": "raise-cmake-policy-floor",
+            "title": "Raise the reported cmake_minimum_required policy version",
+            "instructions": "Change the reported cmake_minimum_required(VERSION …) so the effective policy version is at least 3.5 (for example VERSION 3.16, or VERSION 2.8.12...3.16).",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -S . -B build",
+            "purpose": "Configure the project with a CMake 4.x toolchain and confirm the policy floor is accepted."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpp.cmake.policy-below-3.10.deprecated",
+      "ecosystem": "cpp",
+      "purl": "pkg:generic/cmake",
+      "vers": "vers:semver/>=3.5.0|<3.10.0",
+      "event": "deprecated",
+      "title": "CMake policy versions older than 3.10 are deprecated",
+      "summary": "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions older than 3.5 are covered by the removal rule instead.",
+      "severity": "medium",
+      "replacement": "cmake_minimum_required(VERSION 3.10) or newer, or VERSION <min>...<max> with <max> at least 3.10",
+      "deadline": "2024-11-06",
+      "sources": [
+        {
+          "title": "CMake 3.31 release notes (compatibility older than 3.10 deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+        },
+        {
+          "title": "cmake_minimum_required (Changed in 3.31)",
+          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+        },
+        {
+          "title": "CMake 3.31.0 GitHub release",
+          "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Raising the policy version can change NEW policy behavior; read the policies introduced between the old and new floor before committing."
+        ],
+        "steps": [
+          {
+            "id": "raise-cmake-policy-floor",
+            "title": "Raise the reported cmake_minimum_required policy version",
+            "instructions": "Change the reported cmake_minimum_required(VERSION …) so the effective policy version is at least 3.10 (for example VERSION 3.16, or VERSION 3.5...3.16).",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -S . -B build -Wdev",
+            "purpose": "Configure with developer warnings enabled and confirm the policy-floor deprecation is gone."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpp.cmake.generator.visual-studio-12-2013.removed",
+      "ecosystem": "cpp",
+      "purl": "pkg:generic/cmake-generator/visual-studio-12-2013",
+      "vers": "vers:semver/*",
+      "event": "removed",
+      "title": "The Visual Studio 12 2013 generator is removed",
+      "summary": "CMake 3.31 removed the Visual Studio 12 2013 generator. Projects and presets that still name that generator cannot configure on CMake 3.31 or newer. CMake 3.31.0 was published on 2024-11-06.",
+      "severity": "high",
+      "replacement": "A still-supported Visual Studio generator, such as Visual Studio 17 2022",
+      "deadline": "2024-11-06",
+      "sources": [
+        {
+          "title": "CMake 3.31 release notes (Visual Studio 12 2013 generator removed)",
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+        },
+        {
+          "title": "Visual Studio 12 2013 generator documentation",
+          "url": "https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2012%202013.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Update CMake presets, CI matrix generator names, and documented configure commands together so every surface names the same supported generator."
+        ],
+        "steps": [
+          {
+            "id": "replace-vs-2013-generator",
+            "title": "Replace the Visual Studio 12 2013 generator",
+            "instructions": "Change every reported generator name from Visual Studio 12 2013 to a supported Visual Studio generator installed on the build hosts.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -G \"Visual Studio 17 2022\" -S . -B build",
+            "purpose": "Configure with a supported Visual Studio generator."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpp.cmake.module.find-gdal.deprecated",
+      "ecosystem": "cpp",
+      "purl": "pkg:generic/cmake-module/find-gdal",
+      "vers": "vers:semver/*",
+      "event": "deprecated",
+      "title": "The FindGDAL module is deprecated",
+      "summary": "CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead. CMake 4.0.0 was published on 2025-03-27.",
+      "severity": "medium",
+      "replacement": "find_package(GDAL CONFIG) using GDAL's upstream CMake package",
+      "deadline": "2025-03-27",
+      "sources": [
+        {
+          "title": "CMake 4.0 release notes (FindGDAL deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+        },
+        {
+          "title": "FindGDAL module documentation",
+          "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Confirm the GDAL install that the project uses ships a CONFIG package before dropping FindGDAL.",
+          "Target and variable names may differ between FindGDAL and the upstream CONFIG package; update link lines to match."
+        ],
+        "steps": [
+          {
+            "id": "switch-to-gdal-config",
+            "title": "Switch to find_package(GDAL CONFIG)",
+            "instructions": "Replace find_package(GDAL) / include(FindGDAL) with find_package(GDAL CONFIG) and link the imported targets the upstream package exports.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -S . -B build && cmake --build build",
+            "purpose": "Configure and build after the GDAL find_package change."
+          }
+        ]
+      }
+    },
+    {
+      "id": "cpp.cmake.module.cmake-find-frameworks.deprecated",
+      "ecosystem": "cpp",
+      "purl": "pkg:generic/cmake-module/cmake-find-frameworks",
+      "vers": "vers:semver/*",
+      "event": "deprecated",
+      "title": "The CMakeFindFrameworks module is deprecated",
+      "summary": "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.",
+      "severity": "medium",
+      "replacement": "find_library()",
+      "deadline": "2024-11-06",
+      "sources": [
+        {
+          "title": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+        },
+        {
+          "title": "CMakeFindFrameworks module documentation",
+          "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the framework search paths and the library names the project already expects when rewriting calls to find_library()."
+        ],
+        "steps": [
+          {
+            "id": "replace-cmake-find-frameworks",
+            "title": "Replace CMakeFindFrameworks with find_library",
+            "instructions": "Remove include(CMakeFindFrameworks) / cmake_find_frameworks() and locate the same frameworks with find_library().",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -S . -B build -Wdev",
+            "purpose": "Configure with developer warnings and confirm the CMP0173 deprecation is gone."
+          }
+        ]
+      }
+    }
+  ]
+}

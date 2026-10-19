@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://arminazimi.github.io/evergreen/</loc></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/</loc></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-5.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-6.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-8.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-9.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -9,6 +14,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator.visual-studio-12-2013.removed.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.5.removed.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html</loc><lastmod>2026-10-17</lastmod></url>
@@ -181,4 +191,6 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-of-support-1.98-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html</loc><lastmod>2026-10-19</lastmod></url>
 </urlset>
