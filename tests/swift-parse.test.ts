@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
+import { MAXIMUM_INPUT_BYTES as RESOLVED_MAXIMUM_INPUT_BYTES, parsePackageResolved } from "../src/detectors/swift/parse-package-resolved.js";
 import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
@@ -171,5 +172,48 @@ test("nested block comments blank the whole nest", () => {
   assert.deepEqual(
     parsePackageSwift('/* outer /* inner .package(url: "https://x/a", from: "1.0.0") */ still */\n.package(url: "https://x/b", exact: "2.0.0")\n'),
     [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 2 }],
+  );
+});
+
+test("Package.resolved: reads pin versions with the line of state.version", async () => {
+  assert.deepEqual(parsePackageResolved(await fixture("positive/Package.resolved")), [
+    { identity: "swift-argument-parser", value: "1.2.3", line: 9 },
+    { identity: "swift-log", value: "1.5.3", line: 18 },
+  ]);
+  assert.deepEqual(parsePackageResolved(await fixture("zero/Package.resolved")), [
+    { identity: "swift-argument-parser", value: "1.3.0", line: 9 },
+  ]);
+});
+
+test("Package.resolved: ignores branch-only, revision-only, and fileSystem pins", async () => {
+  assert.deepEqual(parsePackageResolved(await fixture("negative/Package.resolved")), []);
+});
+
+test("Package.resolved: malformed and truncated JSON returns nothing", async () => {
+  const malformed = await fixture("malformed/Package.resolved");
+  assert.doesNotThrow(() => parsePackageResolved(malformed));
+  assert.deepEqual(parsePackageResolved(malformed), []);
+  for (const junk of ["", "{", '{"pins":', "\u0000", '{"version":2}']) {
+    assert.doesNotThrow(() => parsePackageResolved(junk));
+    assert.deepEqual(parsePackageResolved(junk), []);
+  }
+  assert.deepEqual(parsePackageResolved("x".repeat(RESOLVED_MAXIMUM_INPUT_BYTES + 1)), []);
+});
+
+test("Package.resolved: ignores the file format version and legacy v1 object.pins", () => {
+  assert.deepEqual(
+    parsePackageResolved('{"pins":[],"version":2}\n'),
+    [],
+  );
+  assert.deepEqual(
+    parsePackageResolved(
+      JSON.stringify({
+        object: {
+          pins: [{ package: "legacy", repositoryURL: "https://example.com/a", state: { version: "1.0.0" } }],
+        },
+        version: 1,
+      }),
+    ),
+    [],
   );
 });
