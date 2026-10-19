@@ -1,0 +1,21 @@
+name: evergreen_dart_zero
+description: A current Flutter application used as a parser fixture.
+publish_to: none
+version: 2.0.0+3
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.6.0
+  intl: ^0.20.3
+  provider: ^6.1.5
+  shared_preferences: ^2.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

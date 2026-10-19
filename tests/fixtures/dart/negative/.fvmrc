@@ -1,0 +1,7 @@
+{
+  "$comment": "flutter is a release channel, and a flavor pin is not the project pin",
+  "flutter": "stable",
+  "flavors": {
+    "dev": "3.7.12"
+  }
+}

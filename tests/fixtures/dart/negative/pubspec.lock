@@ -1,0 +1,20 @@
+# Resolved versions below are lookalikes: the direct dependencies use path and
+# git sources, so no hosted package is resolved.
+packages:
+  git_tool:
+    dependency: "direct dev"
+    description:
+      name: git_tool
+      url: "https://example.com/git_tool.git"
+      resolved-ref: "6f1c2a4e9b7d3c5a8e0f2b4d6c8a0e2f4b6d8c0a"
+    source: git
+    version: "0.0.1"
+  local_ui:
+    dependency: "direct main"
+    description:
+      path: "../local_ui"
+      relative: true
+    source: path
+    version: "1.0.0"
+# sdks:
+#   dart: ">=2.19.0 <3.0.0"

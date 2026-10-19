@@ -1,0 +1,34 @@
+# environment:
+#   sdk: ">=2.19.0 <3.0.0"
+#   flutter: ">=3.7.0"
+name: evergreen_dart_negative
+description: "Mentions sdk >=2.19.0 and http ^0.13.5 in prose only."
+publish_to: none
+version: 0.0.1
+
+environment:
+  sdk: any
+  flutter: any
+
+dependencies:
+  flutter:
+    sdk: flutter
+  local_ui:
+    path: ../local_ui
+  git_tool:
+    git:
+      url: https://example.com/git_tool.git
+      ref: main
+  hosted_without_version:
+    hosted: https://pub.example.com
+  template_version:
+    hosted: https://pub.example.com
+    version: ${PUB_VERSION}
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: any
+
+dependency_overrides:
+  http: any

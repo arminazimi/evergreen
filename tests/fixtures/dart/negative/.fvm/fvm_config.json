@@ -1,0 +1,8 @@
+{
+  "$comment": "flutterSdkVersion is a release channel; the other keys only look like pins",
+  "flutterSdkVersion": "stable",
+  "cachePath": "/Users/example/fvm/versions/3.7.12",
+  "flavors": {
+    "dev": "3.7.12"
+  }
+}
