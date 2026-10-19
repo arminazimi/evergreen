@@ -3,9 +3,9 @@ import { fetchJson } from "./types.js";
 import type { DraftRule, Importer, ImporterContext } from "./types.js";
 
 export const CMAKE_MINIMUM_REQUIRED_URL = "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html";
+export const RELEASE_TAG = (cmake: string) => `https://api.github.com/repos/Kitware/CMake/releases/tags/v${cmake}.0`;
 const PAGE_TITLE = "cmake_minimum_required";
 const GITHUB_JSON = "application/vnd.github+json";
-const RELEASE_TAG = (cmake: string) => `https://api.github.com/repos/Kitware/CMake/releases/tags/v${cmake}.0`;
 const RELEASE_NOTES = (cmake: string) => `https://cmake.org/cmake/help/latest/release/${cmake}.html`;
 
 /** One compatibility signal from the cmake_minimum_required "Changed in version" notes. */
@@ -15,6 +15,16 @@ export interface CompatibilitySignal {
   /** Policy floor named in the note, for example `3.5`. */
   floor: string;
   kind: "removed" | "deprecated";
+}
+
+export interface PolicyDraft {
+  floor: string;
+  kind: "removed" | "deprecated";
+  cmake: string;
+  /** Exclusive lower bound of a deprecation band, when the range is clipped. */
+  lower?: string;
+  /** Whether `lower` came from a removal floor or the previous deprecation floor. */
+  lowerKind?: "removed" | "deprecated";
 }
 
 const SIGNAL =
@@ -77,12 +87,11 @@ async function releaseDate(context: ImporterContext, cmake: string): Promise<{ d
 }
 
 /**
- * Collapse overlapping signals: a removal wins on its floor, and a deprecation whose whole range is
- * already covered by a lower or equal removal is dropped. Remaining deprecations become a band above
- * the highest removal below them.
+ * Collapse overlapping signals: a removal wins on its floor, same-kind duplicates keep the earliest
+ * CMake release, and deprecation bands partition above removals and each other.
  */
 export function draftSignals(signals: readonly CompatibilitySignal[]): {
-  drafts: Array<{ floor: string; kind: "removed" | "deprecated"; cmake: string; lower?: string }>;
+  drafts: PolicyDraft[];
   notes: string[];
 } {
   const notes: string[] = [];
@@ -106,17 +115,28 @@ export function draftSignals(signals: readonly CompatibilitySignal[]): {
       byFloor.set(signal.floor, signal);
       continue;
     }
-    if (compareVersions(signal.cmake, previous.cmake) > 0) byFloor.set(signal.floor, signal);
+    // Same kind on the same floor: the change started in the earliest announcing release.
+    if (compareVersions(signal.cmake, previous.cmake) < 0) {
+      notes.push(
+        `Skipped later ${previous.kind} of policy versions older than ${previous.floor} in CMake ${previous.cmake}: keeping the earlier announcement in CMake ${signal.cmake}.`,
+      );
+      byFloor.set(signal.floor, signal);
+    } else if (compareVersions(signal.cmake, previous.cmake) > 0) {
+      notes.push(
+        `Skipped later ${signal.kind} of policy versions older than ${signal.floor} in CMake ${signal.cmake}: keeping the earlier announcement in CMake ${previous.cmake}.`,
+      );
+    }
   }
 
   const removals = [...byFloor.values()].filter((signal) => signal.kind === "removed").sort((left, right) => compareVersions(left.floor, right.floor));
   const deprecations = [...byFloor.values()].filter((signal) => signal.kind === "deprecated").sort((left, right) => compareVersions(left.floor, right.floor));
-  const drafts: Array<{ floor: string; kind: "removed" | "deprecated"; cmake: string; lower?: string }> = [];
+  const drafts: PolicyDraft[] = [];
 
   for (const signal of removals) {
     drafts.push({ floor: signal.floor, kind: "removed", cmake: signal.cmake });
   }
 
+  let previousDeprecationFloor: string | undefined;
   for (const signal of deprecations) {
     const covering = removals.filter((removal) => compareVersions(removal.floor, signal.floor) >= 0).at(-1);
     if (covering) {
@@ -125,29 +145,51 @@ export function draftSignals(signals: readonly CompatibilitySignal[]): {
       );
       continue;
     }
-    const lower = removals.filter((removal) => compareVersions(removal.floor, signal.floor) < 0).at(-1);
-    if (lower) {
-      drafts.push({ floor: signal.floor, kind: "deprecated", cmake: signal.cmake, lower: lower.floor });
-      continue;
+    const removalLower = removals.filter((removal) => compareVersions(removal.floor, signal.floor) < 0).at(-1)?.floor;
+    let lower: string | undefined;
+    let lowerKind: "removed" | "deprecated" | undefined;
+    if (removalLower !== undefined && previousDeprecationFloor !== undefined) {
+      if (compareVersions(previousDeprecationFloor, removalLower) >= 0) {
+        lower = previousDeprecationFloor;
+        lowerKind = "deprecated";
+      } else {
+        lower = removalLower;
+        lowerKind = "removed";
+      }
+    } else if (previousDeprecationFloor !== undefined) {
+      lower = previousDeprecationFloor;
+      lowerKind = "deprecated";
+    } else if (removalLower !== undefined) {
+      lower = removalLower;
+      lowerKind = "removed";
     }
-    drafts.push({ floor: signal.floor, kind: "deprecated", cmake: signal.cmake });
+    if (lower !== undefined && lowerKind !== undefined) {
+      drafts.push({ floor: signal.floor, kind: "deprecated", cmake: signal.cmake, lower, lowerKind });
+    } else {
+      drafts.push({ floor: signal.floor, kind: "deprecated", cmake: signal.cmake });
+    }
+    previousDeprecationFloor = signal.floor;
   }
 
   drafts.sort((left, right) => compareVersions(left.floor, right.floor) || left.kind.localeCompare(right.kind));
   return { drafts, notes };
 }
 
-function ruleFor(
-  draft: { floor: string; kind: "removed" | "deprecated"; cmake: string; lower?: string },
-  release: { date: string; url: string },
-): DraftRule {
+function coverageTail(draft: PolicyDraft): string {
+  if (!draft.lower || !draft.lowerKind) return "";
+  if (draft.lowerKind === "removed") {
+    return ` Versions older than ${draft.lower} are covered by the removal rule instead.`;
+  }
+  return ` Versions older than ${draft.lower} are covered by the deprecation rule for versions older than ${draft.lower} instead.`;
+}
+
+function ruleFor(draft: PolicyDraft, release: { date: string; url: string }): DraftRule {
   const bound = semverBound(draft.floor);
   const lowerBound = draft.lower ? semverBound(draft.lower) : undefined;
   const vers = draft.kind === "deprecated" && lowerBound
     ? `vers:semver/>=${lowerBound}|<${bound}`
     : `vers:semver/<${bound}`;
   const removed = draft.kind === "removed";
-  const band = draft.lower ? `${draft.lower} up to ${draft.floor}` : `older than ${draft.floor}`;
   return {
     id: `cpp.cmake.policy-below-${floorSlug(draft.floor)}.${draft.kind}`,
     ecosystem: "cpp",
@@ -159,7 +201,7 @@ function ruleFor(
       : `CMake policy versions older than ${draft.floor} are deprecated`,
     summary: removed
       ? `CMake ${draft.cmake} removed compatibility with policy versions older than ${draft.floor}. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least ${draft.floor} (optionally via ...<policy_max>) produces an error on CMake ${draft.cmake} and newer. CMake ${draft.cmake}.0 was published on ${release.date}.`
-      : `CMake ${draft.cmake} deprecated compatibility with policy versions older than ${draft.floor}. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least ${draft.floor} (optionally via ...<policy_max>) produces a deprecation warning on CMake ${draft.cmake} and newer. CMake ${draft.cmake}.0 was published on ${release.date}.${draft.lower ? ` Versions older than ${draft.lower} are covered by the removal rule instead (${band}).` : ""}`,
+      : `CMake ${draft.cmake} deprecated compatibility with policy versions older than ${draft.floor}. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least ${draft.floor} (optionally via ...<policy_max>) produces a deprecation warning on CMake ${draft.cmake} and newer. CMake ${draft.cmake}.0 was published on ${release.date}.${coverageTail(draft)}`,
     severity: removed ? "high" : "medium",
     replacement: `cmake_minimum_required(VERSION ${draft.floor}) or newer, or VERSION <min>...<max> with <max> at least ${draft.floor}`,
     deadline: release.date,

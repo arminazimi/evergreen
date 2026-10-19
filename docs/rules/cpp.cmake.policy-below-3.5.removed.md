@@ -26,6 +26,7 @@ CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_min
 
 - [CMake 4.0 release notes (compatibility older than 3.5 removed)](https://cmake.org/cmake/help/latest/release/4.0.html)
 - [cmake_minimum_required (Changed in 4.0)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
+- [CMake 4.0.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v4.0.0)
 
 ## Migration
 
@@ -81,6 +82,11 @@ This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/
       "@type": "CreativeWork",
       "name": "cmake_minimum_required (Changed in 4.0)",
       "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "CMake 4.0.0 GitHub release",
+      "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
