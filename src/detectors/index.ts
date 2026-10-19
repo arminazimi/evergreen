@@ -1,4 +1,5 @@
 import type { Detector } from "../sdk.js";
+import { ciImagesDetector } from "./ci-images/index.js";
 import { containerDetector } from "./container/index.js";
 import { dotnetDetector } from "./dotnet/index.js";
 import { goDetector } from "./go/index.js";
@@ -19,4 +20,5 @@ export const builtInDetectors: readonly Detector[] = [
   javaDetector,
   kubernetesDetector,
   rustDetector,
+  ciImagesDetector,
 ];
