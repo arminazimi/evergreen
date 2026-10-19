@@ -22,9 +22,16 @@
  * An unterminated comment or string makes the file unreadable: the parser returns `[]`.
  */
 
-export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
-export const MAXIMUM_LINE_LENGTH = 4096;
-export const MAXIMUM_DECLARATIONS = 5000;
+import {
+  MAXIMUM_DECLARATIONS,
+  MAXIMUM_INPUT_BYTES,
+  MAXIMUM_LINE_LENGTH,
+  blankOverlongLines,
+  lineIndex,
+  maskGradleSource,
+} from "./gradle-scan.js";
+
+export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
 export type AndroidSdkKind = "compileSdk" | "minSdk" | "targetSdk" | "buildToolsVersion";
 
@@ -32,78 +39,6 @@ export interface AndroidSdkDeclaration {
   kind: AndroidSdkKind;
   value: string;
   line: number;
-}
-
-const blankNonNewlines = (text: string): string => text.replace(/[^\n]/g, " ");
-
-/**
- * One linear scan: comments and string literal text (including quotes) become spaces;
- * newlines and offsets stay unchanged. Returns undefined when a comment or string is unterminated.
- */
-function mask(source: string): string | undefined {
-  const chunks: string[] = [];
-  let index = 0;
-
-  while (index < source.length) {
-    if (source.startsWith("//", index)) {
-      const end = source.indexOf("\n", index);
-      const stop = end < 0 ? source.length : end;
-      chunks.push(blankNonNewlines(source.slice(index, stop)));
-      index = stop;
-      continue;
-    }
-    if (source.startsWith("/*", index)) {
-      const end = source.indexOf("*/", index + 2);
-      if (end < 0) return undefined;
-      chunks.push(blankNonNewlines(source.slice(index, end + 2)));
-      index = end + 2;
-      continue;
-    }
-    if (source.startsWith('"""', index) || source.startsWith("'''", index)) {
-      const quote = source.slice(index, index + 3);
-      const end = source.indexOf(quote, index + 3);
-      if (end < 0) return undefined;
-      chunks.push(blankNonNewlines(source.slice(index, end + 3)));
-      index = end + 3;
-      continue;
-    }
-
-    const quoteCode = source.charCodeAt(index);
-    if (quoteCode === 0x22 || quoteCode === 0x27) {
-      let position = index + 1;
-      while (position < source.length) {
-        const code = source.charCodeAt(position);
-        if (code === 0x0a) break;
-        if (code === 0x5c) {
-          position += 2;
-          continue;
-        }
-        if (code === quoteCode) {
-          chunks.push(blankNonNewlines(source.slice(index, position + 1)));
-          index = position + 1;
-          break;
-        }
-        position++;
-      }
-      if (position >= source.length || source.charCodeAt(position) === 0x0a) return undefined;
-      continue;
-    }
-
-    const plainStart = index;
-    while (index < source.length) {
-      const code = source.charCodeAt(index);
-      if (code === 0x2f) {
-        const next = source.charCodeAt(index + 1);
-        if (next === 0x2f || next === 0x2a) break;
-      } else if (code === 0x22 || code === 0x27) {
-        break;
-      }
-      index++;
-    }
-    if (index > plainStart) chunks.push(source.slice(plainStart, index));
-  }
-
-  return chunks.join("");
 }
 
 /** Half-open `[start, end)` spans of each `android { ... }` block (outer braces included). */
@@ -228,33 +163,11 @@ function readLiteral(source: string, offset: number, kind: AndroidSdkKind): stri
 export function parseAndroidBuildGradle(contents: string): AndroidSdkDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES || contents.includes("\0")) return [];
 
-  const maskedRaw = mask(contents);
+  const maskedRaw = maskGradleSource(contents);
   if (maskedRaw === undefined) return [];
 
-  // Overlong lines are not read (blanked in the masked view; values on those lines are skipped).
-  const masked = maskedRaw
-    .split("\n")
-    .map((line) => (line.length > MAXIMUM_LINE_LENGTH ? " ".repeat(line.length) : line))
-    .join("\n");
-
-  const lineStarts = [0];
-  for (let index = masked.indexOf("\n"); index >= 0; index = masked.indexOf("\n", index + 1)) lineStarts.push(index + 1);
-  const lineAt = (offset: number): number => {
-    let low = 0;
-    let high = lineStarts.length - 1;
-    while (low < high) {
-      const mid = (low + high + 1) >> 1;
-      if (lineStarts[mid]! <= offset) low = mid;
-      else high = mid - 1;
-    }
-    return low + 1;
-  };
-  const lineLengthAt = (offset: number): number => {
-    const line = lineAt(offset) - 1;
-    const start = lineStarts[line]!;
-    const end = line + 1 < lineStarts.length ? lineStarts[line + 1]! - 1 : masked.length;
-    return end - start;
-  };
+  const masked = blankOverlongLines(maskedRaw);
+  const { lineAt, lineLengthAt } = lineIndex(masked);
 
   const found: AndroidSdkDeclaration[] = [];
   const add = (declaration: AndroidSdkDeclaration) => {

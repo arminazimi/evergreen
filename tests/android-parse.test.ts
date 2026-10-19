@@ -3,22 +3,10 @@ import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import {
-  MAXIMUM_DECLARATIONS,
-  MAXIMUM_INPUT_BYTES,
-  MAXIMUM_LINE_LENGTH,
-  parseAndroidBuildGradle,
-} from "../src/detectors/android/parse-build-gradle.js";
-import {
-  MAXIMUM_DECLARATIONS as MAXIMUM_TOML_DECLARATIONS,
-  MAXIMUM_INPUT_BYTES as MAXIMUM_TOML_BYTES,
-  parseAndroidLibsVersionsToml,
-} from "../src/detectors/android/parse-libs-versions-toml.js";
-import {
-  MAXIMUM_DECLARATIONS as MAXIMUM_SETTINGS_DECLARATIONS,
-  MAXIMUM_INPUT_BYTES as MAXIMUM_SETTINGS_BYTES,
-  parseAndroidSettingsGradle,
-} from "../src/detectors/android/parse-settings-gradle.js";
+import { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH } from "../src/detectors/android/gradle-scan.js";
+import { parseAndroidBuildGradle } from "../src/detectors/android/parse-build-gradle.js";
+import { parseAndroidLibsVersionsToml } from "../src/detectors/android/parse-libs-versions-toml.js";
+import { parseAndroidSettingsGradle } from "../src/detectors/android/parse-settings-gradle.js";
 
 async function fixture(caseName: string, file: string): Promise<string> {
   return readFile(resolve("tests/fixtures/android", caseName, file), "utf8");
@@ -192,16 +180,67 @@ test("reads Groovy settings plugin pins and library plugin ids", () => {
   );
 });
 
+test("one-line Groovy plugins block", () => {
+  assert.deepEqual(parseAndroidSettingsGradle("plugins { id 'com.android.application' version '8.5.2' }"), [
+    { kind: "agp", value: "8.5.2", line: 1 },
+  ]);
+});
+
+test("CRLF settings line numbers", () => {
+  assert.deepEqual(
+    parseAndroidSettingsGradle('plugins {\r\n  id("com.android.application") version "8.5.2"\r\n}'),
+    [{ kind: "agp", value: "8.5.2", line: 2 }],
+  );
+});
+
+test("block comment containing a plugin line is ignored", () => {
+  assert.deepEqual(
+    parseAndroidSettingsGradle("plugins {\n  /* id 'com.android.application' version '9.9.9' */\n  id 'com.android.application' version '8.5.2'\n}"),
+    [{ kind: "agp", value: "8.5.2", line: 3 }],
+  );
+});
+
+test("string lookalike plugin pins are not reported", () => {
+  assert.deepEqual(
+    parseAndroidSettingsGradle('plugins {\n  println("id \'com.android.application\' version \'9.9.9\'")\n  id("com.android.application") version "8.5.2"\n}'),
+    [{ kind: "agp", value: "8.5.2", line: 3 }],
+  );
+});
+
+test("rejects dynamic and ranged plugin versions", () => {
+  for (const version of ["8.+", "latest.release", "[8.0,9.0)"]) {
+    assert.deepEqual(
+      parseAndroidSettingsGradle(`plugins { id("com.android.application") version "${version}" }`),
+      [],
+      version,
+    );
+  }
+});
+
+test("skips kotlin() shorthand and chained .version forms", () => {
+  assert.deepEqual(parseAndroidSettingsGradle('plugins {\n  kotlin("android") version "1.9.24"\n  id("com.android.application").version("8.5.2")\n}'), []);
+});
+
+test("incomplete id plus huge blank run stays linear and returns nothing", () => {
+  const source = `id 'com.android.application'${"\n".repeat(100_000)}`;
+  assert.ok(Buffer.byteLength(source, "utf8") < MAXIMUM_INPUT_BYTES);
+  const started = performance.now();
+  const result = parseAndroidSettingsGradle(source);
+  const elapsed = performance.now() - started;
+  assert.deepEqual(result, []);
+  assert.ok(elapsed < 2000, `expected under 2000ms, took ${elapsed}ms`);
+});
+
 test("settings junk and oversize inputs yield nothing", () => {
   for (const junk of ["", "\0", "plugins {\n  id(\"com.android.application\") version agpVersion\n}"]) {
     assert.deepEqual(parseAndroidSettingsGradle(junk), [], JSON.stringify(junk));
   }
-  assert.deepEqual(parseAndroidSettingsGradle("x".repeat(MAXIMUM_SETTINGS_BYTES + 1)), []);
+  assert.deepEqual(parseAndroidSettingsGradle("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
   const many = Array.from(
-    { length: MAXIMUM_SETTINGS_DECLARATIONS + 5 },
+    { length: MAXIMUM_DECLARATIONS + 5 },
     (_, i) => `id("com.android.application") version "${i}.0.0"`,
   ).join("\n");
-  assert.equal(parseAndroidSettingsGradle(many).length, MAXIMUM_SETTINGS_DECLARATIONS);
+  assert.equal(parseAndroidSettingsGradle(many).length, MAXIMUM_DECLARATIONS);
 });
 
 // libs.versions.toml
@@ -227,11 +266,37 @@ test("malformed unterminated TOML string yields nothing", async () => {
   assert.deepEqual(parseAndroidLibsVersionsToml(malformed), []);
 });
 
+test("literal single-quoted strings in [libraries] do not drop [versions] agp", () => {
+  const source = ["[versions]", 'agp = "8.5.2"', "[libraries]", "note = 'has agp text'", ""].join("\n");
+  assert.deepEqual(parseAndroidLibsVersionsToml(source), [{ kind: "agp", value: "8.5.2", line: 2 }]);
+});
+
+test("array-of-tables headers leave the versions section", () => {
+  const source = ["[versions]", 'agp = "8.5.2"', "[[bundles]]", 'kotlin = "1.9.24"', ""].join("\n");
+  assert.deepEqual(parseAndroidLibsVersionsToml(source), [{ kind: "agp", value: "8.5.2", line: 2 }]);
+});
+
+test("TOML trailing comments and CRLF keep exact lines", () => {
+  assert.deepEqual(parseAndroidLibsVersionsToml('[versions]\nagp = "8.5.2" # pin\n'), [
+    { kind: "agp", value: "8.5.2", line: 2 },
+  ]);
+  assert.deepEqual(parseAndroidLibsVersionsToml('[versions]\r\nagp = "8.5.2"\r\nkotlin = \'1.9.24\'\r\n'), [
+    { kind: "agp", value: "8.5.2", line: 2 },
+    { kind: "kotlin", value: "1.9.24", line: 3 },
+  ]);
+});
+
+test("rejects dynamic catalog versions", () => {
+  for (const version of ["8.+", "latest.release", "[8.0,9.0)", "{{agp}}"]) {
+    assert.deepEqual(parseAndroidLibsVersionsToml(`[versions]\nagp = "${version}"\n`), [], version);
+  }
+});
+
 test("TOML junk and oversize inputs yield nothing", () => {
   for (const junk of ["", "\0", "[plugins]\nagp = \"8.5.2\"\n", "[versions]\nnote = \"agp 1\"\n"]) {
     assert.deepEqual(parseAndroidLibsVersionsToml(junk), [], JSON.stringify(junk));
   }
-  assert.deepEqual(parseAndroidLibsVersionsToml("x".repeat(MAXIMUM_TOML_BYTES + 1)), []);
-  const many = `[versions]\n${Array.from({ length: MAXIMUM_TOML_DECLARATIONS + 5 }, (_, i) => `agp = "${i}.0.0"`).join("\n")}\n`;
-  assert.equal(parseAndroidLibsVersionsToml(many).length, MAXIMUM_TOML_DECLARATIONS);
+  assert.deepEqual(parseAndroidLibsVersionsToml("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
+  const many = `[versions]\n${Array.from({ length: MAXIMUM_DECLARATIONS + 5 }, (_, i) => `agp = "${i}.0.0"`).join("\n")}\n`;
+  assert.equal(parseAndroidLibsVersionsToml(many).length, MAXIMUM_DECLARATIONS);
 });

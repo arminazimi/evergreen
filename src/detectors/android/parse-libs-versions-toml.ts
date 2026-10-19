@@ -3,22 +3,31 @@
  *
  * Reads only literal `[versions]` entries:
  *
- * - `agp = "…"` → kind `agp`;
- * - `kotlin = "…"` → kind `kotlin`.
+ * - `agp = "…"` / `agp = '…'` → kind `agp`;
+ * - `kotlin = "…"` / `kotlin = '…'` → kind `kotlin`.
  *
  * Unsupported / skipped (returns nothing for that site, not an error):
  * - keys other than `agp` / `kotlin`;
  * - values outside `[versions]` (including `[plugins]` `version.ref` / inline `version`);
- * - template or interpolated values (`{{…}}`, `$`);
+ * - dynamic / ranged / named versions (`8.+`, `latest.release`, `[8.0,9.0)`);
  * - lookalike text inside comments or other string values.
  *
- * An unterminated basic string makes the file unreadable: the parser returns `[]`.
- * Multi-line / literal TOML strings are not supported and yield `[]` for the file.
+ * String rules for this scanner:
+ * - one-line basic (`"…"`) and literal (`'…'`) strings are supported;
+ * - unterminated strings make the file unreadable (`[]`);
+ * - multi-line strings (`"""` / `'''`) are unsupported and yield `[]` for the file.
+ *
+ * Array-of-tables headers (`[[…]]`) end the `[versions]` section like any other table.
  */
 
-export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
-export const MAXIMUM_LINE_LENGTH = 4096;
-export const MAXIMUM_DECLARATIONS = 5000;
+import {
+  MAXIMUM_DECLARATIONS,
+  MAXIMUM_INPUT_BYTES,
+  MAXIMUM_LINE_LENGTH,
+  isLiteralVersion,
+} from "./gradle-scan.js";
+
+export { MAXIMUM_DECLARATIONS, MAXIMUM_INPUT_BYTES, MAXIMUM_LINE_LENGTH };
 
 export type AndroidVersionCatalogKind = "agp" | "kotlin";
 
@@ -28,31 +37,32 @@ export interface AndroidVersionCatalogDeclaration {
   line: number;
 }
 
-const VERSION_KEYS = new Set(["agp", "kotlin"]);
-
-/** Validate basic strings are terminated; `#` comments outside strings are ignored for this check. */
-function stringsTerminated(source: string): boolean {
+/**
+ * Walk the file once: reject multi-line strings and unterminated one-line strings.
+ * One-line `'…'` / `"…"` are allowed (including inside `[libraries]`).
+ */
+function stringsReadable(source: string): boolean {
   let index = 0;
   while (index < source.length) {
     const code = source.charCodeAt(index);
     if (code === 0x23) {
-      // comment to end of line
       const end = source.indexOf("\n", index);
       index = end < 0 ? source.length : end + 1;
       continue;
     }
-    if (code === 0x27) return false; // literal strings unsupported
     if (source.startsWith('"""', index) || source.startsWith("'''", index)) return false;
-    if (code === 0x22) {
+    if (code === 0x22 || code === 0x27) {
+      const quote = code;
       let position = index + 1;
       while (position < source.length) {
         const inner = source.charCodeAt(position);
         if (inner === 0x0a) return false;
-        if (inner === 0x5c) {
+        // Basic strings allow escapes; literal strings do not (TOML).
+        if (quote === 0x22 && inner === 0x5c) {
           position += 2;
           continue;
         }
-        if (inner === 0x22) {
+        if (inner === quote) {
           index = position + 1;
           break;
         }
@@ -66,21 +76,22 @@ function stringsTerminated(source: string): boolean {
   return true;
 }
 
-/** Strip a `#` comment that is not inside a basic string on this single line. */
+/** Strip a `#` comment that is not inside a one-line string on this line. */
 function stripComment(line: string): string | undefined {
   let index = 0;
   while (index < line.length) {
     const code = line.charCodeAt(index);
     if (code === 0x23) return line.slice(0, index);
-    if (code === 0x22) {
+    if (code === 0x22 || code === 0x27) {
+      const quote = code;
       let position = index + 1;
       while (position < line.length) {
         const inner = line.charCodeAt(position);
-        if (inner === 0x5c) {
+        if (quote === 0x22 && inner === 0x5c) {
           position += 2;
           continue;
         }
-        if (inner === 0x22) {
+        if (inner === quote) {
           index = position + 1;
           break;
         }
@@ -94,13 +105,14 @@ function stripComment(line: string): string | undefined {
   return line;
 }
 
-const SECTION = /^\s*\[([^\]]+)\]\s*$/;
-const ASSIGNMENT = /^\s*(agp|kotlin)\s*=\s*"([^"$]*)"\s*$/;
+/** `[versions]` / `[[bundles]]` — name without surrounding brackets. */
+const SECTION = /^\s*\[\[?([^\]]+)\]\]?\s*$/;
+const ASSIGNMENT = /^\s*(agp|kotlin)\s*=\s*(?:"([^"]*)"|'([^']*)')\s*$/;
 
 /** Parse `libs.versions.toml` without file, network, or process I/O. */
 export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCatalogDeclaration[] {
   if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES || contents.includes("\0")) return [];
-  if (!stringsTerminated(contents)) return [];
+  if (!stringsReadable(contents)) return [];
 
   const found: AndroidVersionCatalogDeclaration[] = [];
   let section = "";
@@ -123,11 +135,11 @@ export function parseAndroidLibsVersionsToml(contents: string): AndroidVersionCa
 
     const match = ASSIGNMENT.exec(line);
     if (!match) continue;
-    const key = match[1]!;
-    const value = match[2]!;
-    if (!VERSION_KEYS.has(key) || !value || value.includes("{{")) continue;
+    const key = match[1] as AndroidVersionCatalogKind;
+    const value = match[2] ?? match[3]!;
+    if (!value || value.includes("$") || !isLiteralVersion(value)) continue;
     if (found.length >= MAXIMUM_DECLARATIONS) break;
-    found.push({ kind: key as AndroidVersionCatalogKind, value, line: lineIndex + 1 });
+    found.push({ kind: key, value, line: lineIndex + 1 });
   }
 
   return found.sort((left, right) => left.line - right.line || left.kind.localeCompare(right.kind));
