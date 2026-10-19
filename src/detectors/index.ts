@@ -7,6 +7,7 @@ import { githubActionsDetector } from "./github-actions.js";
 import { kubernetesDetector } from "./kubernetes/index.js";
 import { npmDetector } from "./npm.js";
 import { pythonDetector } from "./python.js";
+import { rubyDetector } from "./ruby/index.js";
 import { rustDetector } from "./rust/index.js";
 
 export const builtInDetectors: readonly Detector[] = [
@@ -19,4 +20,5 @@ export const builtInDetectors: readonly Detector[] = [
   javaDetector,
   kubernetesDetector,
   rustDetector,
+  rubyDetector,
 ];

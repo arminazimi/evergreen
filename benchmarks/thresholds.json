@@ -46,6 +46,11 @@
       "stable": true,
       "minPrecision": 0.95
     },
+    "ruby": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
     "rust": {
       "level": "experimental",
       "stable": false,

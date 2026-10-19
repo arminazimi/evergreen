@@ -26,6 +26,7 @@ const ROW_NAMES = [
   "GitHub Actions",
   "Node.js and npm",
   "Python",
+  "Ruby",
   "Rust",
   "Other language and platform ecosystems",
 ];

@@ -45,7 +45,7 @@ RubyGems lists json 2.17.1.1 as yanked: the version is not available for downloa
 
 ## Detected by
 
-No built-in detector reads `ruby` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json).
+The `ruby` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

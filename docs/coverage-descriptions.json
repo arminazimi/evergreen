@@ -42,6 +42,11 @@
       "coverage": "Runtime declarations, direct dependencies, common lockfiles, and supported source usages."
     },
     {
+      "ecosystems": ["ruby"],
+      "name": "Ruby",
+      "coverage": "Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems and gemspec `required_ruby_version`, for Ruby release lines past end of support and yanked gems."
+    },
+    {
       "ecosystems": ["rust"],
       "name": "Rust",
       "coverage": "The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md)."

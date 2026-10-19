@@ -53,9 +53,11 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
     timing: { medianScanMs: null, p95ScanMs: null, note: "not measured" },
   });
   for (const detector of data.detectors) {
-    assert.deepEqual(detector.run, detectorCounts(last.perDetector[detector.id]!));
+    const counts = last.perDetector[detector.id];
+    assert.deepEqual(detector.run, counts ? detectorCounts(counts) : null);
   }
-  const total = data.detectors.reduce((sum, detector) => sum + detector.run!.truePositives + detector.run!.falsePositives, 0);
+  assert.equal(data.detectors.find((detector) => detector.id === "ruby")!.run, null);
+  const total = data.detectors.reduce((sum, detector) => sum + (detector.run?.truePositives ?? 0) + (detector.run?.falsePositives ?? 0), 0);
   assert.equal(total, last.findings);
   assert.equal(data.corpus.repositories, corpus.length);
   assert.equal(data.corpus.repositories, last.repositories);

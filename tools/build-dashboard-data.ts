@@ -34,6 +34,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   nodejs: ["node"],
   npm: ["node"],
   python: ["python"],
+  ruby: ["ruby"],
   rust: ["rust"],
 };
 

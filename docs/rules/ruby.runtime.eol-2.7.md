@@ -46,7 +46,7 @@ The Ruby maintenance branches page marks Ruby 2.7 as eol: normal maintenance end
 
 ## Detected by
 
-No built-in detector reads `ruby` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json).
+The `ruby` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 
