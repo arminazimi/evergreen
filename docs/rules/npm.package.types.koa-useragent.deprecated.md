@@ -14,7 +14,7 @@ npm marks @types/koa-useragent as deprecated: "This is a stub types definition. 
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/koa-useragent` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/2.1.2` |
 | Date from the source | The source gives no day |
 | Replacement | koa-useragent |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/koa-useragent as deprecated: "This is a stub types definition. 
 ## Sources
 
 - [@types/koa-useragent on npm](https://www.npmjs.com/package/@types/koa-useragent)
-- [@types/koa-useragent registry metadata](https://registry.npmjs.org/@types%2fkoa-useragent/latest)
+- [@types/koa-useragent version metadata](https://registry.npmjs.org/@types%2fkoa-useragent)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/koa-useragent registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fkoa-useragent/latest"
+      "name": "@types/koa-useragent version metadata",
+      "url": "https://registry.npmjs.org/@types%2fkoa-useragent"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

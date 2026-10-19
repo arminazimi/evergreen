@@ -106,3 +106,32 @@ test("does not report supported Node.js ranges or transitive-only deprecated pac
 
   assert.deepEqual(findings, []);
 });
+
+test("stub-type deprecations exclude older typed releases and respect resolved versions", async () => {
+  for (const [version, affected] of [["8.1.0", false], ["9.0.0", true]] as const) {
+    const root = await repository({
+      "package.json": JSON.stringify({ dependencies: { "@types/glob": `^${version}` } }),
+      "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/@types/glob": { version } } }),
+    });
+    const result = await new NpmDetector().scan({ root });
+    assert.equal(result.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), affected);
+  }
+});
+
+
+test("version-specific npm rules match declared ranges when no lockfile is available", async () => {
+  for (const [range, affected] of [["^8.1.0", false], ["^9.0.0", true], ["*", true], ["workspace:*", false]] as const) {
+    const root = await repository({ "package.json": JSON.stringify({ dependencies: { "@types/glob": range } }) });
+    const findings = await new NpmDetector().scan({ root });
+    assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), affected, range);
+  }
+});
+
+test("a supported resolved release takes precedence over a broad manifest range", async () => {
+  const root = await repository({
+    "package.json": JSON.stringify({ dependencies: { "@types/glob": "*" } }),
+    "package-lock.json": JSON.stringify({ lockfileVersion: 3, packages: { "node_modules/@types/glob": { version: "8.1.0" } } }),
+  });
+  const findings = await new NpmDetector().scan({ root });
+  assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), false);
+});

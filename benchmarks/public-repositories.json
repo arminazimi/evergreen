@@ -1202,6 +1202,87 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 341 of package.json declares `\"babel-eslint\": \"^10.1.0\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
           }
+        },
+        {
+          "ruleId": "npm.package.crypto-js.deprecated",
+          "path": "package.json",
+          "line": 119,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: crypto-js is declared as ^4.2.0; npm explicitly deprecates matching version 4.2.0 (https://registry.npmjs.org/crypto-js/4.2.0)."
+          }
+        },
+        {
+          "ruleId": "npm.package.i18next-parser.deprecated",
+          "path": "package.json",
+          "line": 361,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: i18next-parser is declared as ^8.13.0; npm explicitly deprecates matching version 8.13.0 (https://registry.npmjs.org/i18next-parser/8.13.0)."
+          }
+        },
+        {
+          "ruleId": "npm.package.koa-router.deprecated",
+          "path": "package.json",
+          "line": 157,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: koa-router is declared as 7.4.0; npm explicitly deprecates matching version 7.4.0 (https://registry.npmjs.org/koa-router/7.4.0)."
+          }
+        },
+        {
+          "ruleId": "npm.package.socket.io-redis.deprecated",
+          "path": "package.json",
+          "line": 242,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: socket.io-redis is declared as ^6.1.1; npm explicitly deprecates matching version 6.1.1 (https://registry.npmjs.org/socket.io-redis/6.1.1)."
+          }
+        },
+        {
+          "ruleId": "npm.package.types.dotenv.deprecated",
+          "path": "package.json",
+          "line": 280,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/dotenv is declared as ^8.2.3; npm explicitly deprecates matching version 8.2.3 (https://registry.npmjs.org/@types%2fdotenv/8.2.3)."
+          }
+        },
+        {
+          "ruleId": "npm.package.types.emoji-regex.deprecated",
+          "path": "package.json",
+          "line": 281,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/emoji-regex is declared as ^9.2.2; npm explicitly deprecates matching version 9.2.2 (https://registry.npmjs.org/@types%2femoji-regex/9.2.2)."
+          }
+        },
+        {
+          "ruleId": "npm.package.types.form-data.deprecated",
+          "path": "package.json",
+          "line": 101,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/form-data is declared as ^2.5.2; npm explicitly deprecates matching version 2.5.2 (https://registry.npmjs.org/@types%2fform-data/2.5.2)."
+          }
+        },
+        {
+          "ruleId": "npm.package.types.koa-useragent.deprecated",
+          "path": "package.json",
+          "line": 301,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/koa-useragent is declared as ^2.1.2; npm explicitly deprecates matching version 2.1.2 (https://registry.npmjs.org/@types%2fkoa-useragent/2.1.2)."
+          }
+        },
+        {
+          "ruleId": "npm.package.types.sanitize-filename.deprecated",
+          "path": "package.json",
+          "line": 103,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/sanitize-filename is declared as ^1.6.3; npm explicitly deprecates matching version 1.6.3 (https://registry.npmjs.org/@types%2fsanitize-filename/1.6.3)."
+          }
         }
       ]
     },
@@ -1470,6 +1551,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 26 of excalidraw-app/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
+        },
+        {
+          "ruleId": "npm.package.types.socket.io-client.deprecated",
+          "path": "package.json",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: @types/socket.io-client is declared as 3.0.0; npm explicitly deprecates matching version 3.0.0 (https://registry.npmjs.org/@types%2fsocket.io-client/3.0.0)."
+          }
         }
       ]
     },
@@ -1735,6 +1825,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "npm.package.react-beautiful-dnd.deprecated",
+          "path": "package.json",
+          "line": 98,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: react-beautiful-dnd is declared as ^13.1.0; npm explicitly deprecates matching version 13.1.1 (https://registry.npmjs.org/react-beautiful-dnd/13.1.1)."
+          }
+        },
+        {
+          "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+          "path": "package.json",
+          "line": 140,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed 2026-10-19 at this pinned commit: rollup-plugin-terser is declared as ^7.0.2; npm explicitly deprecates matching version 7.0.2 (https://registry.npmjs.org/rollup-plugin-terser/7.0.2)."
           }
         }
       ]

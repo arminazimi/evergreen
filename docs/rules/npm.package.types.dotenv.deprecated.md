@@ -14,7 +14,7 @@ npm marks @types/dotenv as deprecated: "This is a stub types definition. dotenv 
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/dotenv` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/8.2.0\|8.2.1\|8.2.2\|8.2.3` |
 | Date from the source | The source gives no day |
 | Replacement | dotenv |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/dotenv as deprecated: "This is a stub types definition. dotenv 
 ## Sources
 
 - [@types/dotenv on npm](https://www.npmjs.com/package/@types/dotenv)
-- [@types/dotenv registry metadata](https://registry.npmjs.org/@types%2fdotenv/latest)
+- [@types/dotenv version metadata](https://registry.npmjs.org/@types%2fdotenv)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/dotenv registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fdotenv/latest"
+      "name": "@types/dotenv version metadata",
+      "url": "https://registry.npmjs.org/@types%2fdotenv"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

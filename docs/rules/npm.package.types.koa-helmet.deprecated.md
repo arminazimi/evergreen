@@ -14,7 +14,7 @@ npm marks @types/koa-helmet as deprecated: "This is a stub types definition. koa
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/koa-helmet` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/6.1.0` |
 | Date from the source | The source gives no day |
 | Replacement | koa-helmet |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/koa-helmet as deprecated: "This is a stub types definition. koa
 ## Sources
 
 - [@types/koa-helmet on npm](https://www.npmjs.com/package/@types/koa-helmet)
-- [@types/koa-helmet registry metadata](https://registry.npmjs.org/@types%2fkoa-helmet/latest)
+- [@types/koa-helmet version metadata](https://registry.npmjs.org/@types%2fkoa-helmet)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/koa-helmet registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fkoa-helmet/latest"
+      "name": "@types/koa-helmet version metadata",
+      "url": "https://registry.npmjs.org/@types%2fkoa-helmet"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

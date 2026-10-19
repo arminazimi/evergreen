@@ -14,7 +14,7 @@ npm marks tslint as deprecated: "TSLint has been deprecated in favor of ESLint. 
 | Severity | medium |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/tslint` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/6.0.0\|6.1.0\|6.1.1\|6.1.2\|6.1.3` |
 | Date from the source | The source gives no day |
 | Replacement | ESLint with typescript-eslint |
 | Evidence last seen | 2026-10-17 |
@@ -25,7 +25,7 @@ npm marks tslint as deprecated: "TSLint has been deprecated in favor of ESLint. 
 ## Sources
 
 - [tslint on npm](https://www.npmjs.com/package/tslint)
-- [tslint registry metadata](https://registry.npmjs.org/tslint/latest)
+- [tslint version metadata](https://registry.npmjs.org/tslint)
 
 ## Migration
 
@@ -79,8 +79,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "tslint registry metadata",
-      "url": "https://registry.npmjs.org/tslint/latest"
+      "name": "tslint version metadata",
+      "url": "https://registry.npmjs.org/tslint"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

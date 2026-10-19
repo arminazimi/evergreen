@@ -14,7 +14,7 @@ npm marks socket.io-redis as deprecated: "This package has been renamed to '@soc
 | Severity | medium |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/socket.io-redis` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/6.0.0\|6.0.1\|6.1.0\|6.1.1` |
 | Date from the source | The source gives no day |
 | Replacement | @socket.io/redis-adapter |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks socket.io-redis as deprecated: "This package has been renamed to '@soc
 ## Sources
 
 - [socket.io-redis on npm](https://www.npmjs.com/package/socket.io-redis)
-- [socket.io-redis registry metadata](https://registry.npmjs.org/socket.io-redis/latest)
+- [socket.io-redis version metadata](https://registry.npmjs.org/socket.io-redis)
 
 ## Migration
 
@@ -79,8 +79,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "socket.io-redis registry metadata",
-      "url": "https://registry.npmjs.org/socket.io-redis/latest"
+      "name": "socket.io-redis version metadata",
+      "url": "https://registry.npmjs.org/socket.io-redis"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

@@ -17,7 +17,8 @@ function registry(responses: Record<string, unknown>): ImporterContext {
   return {
     now: new Date("2026-10-15T12:00:00Z"),
     async fetchText(url) {
-      const response = responses[url];
+      const response = responses[url] ?? (!url.endsWith("/latest") && responses[`${url}/latest`] && !(responses[`${url}/latest`] instanceof Error)
+        ? { versions: { "1.0.0": responses[`${url}/latest`] } } : undefined);
       if (response === undefined) throw new ImporterError(`GET ${url} failed: HTTP 404`);
       if (response instanceof Error) throw response;
       return JSON.stringify(response);
@@ -30,14 +31,15 @@ test("drafts a deprecated rule for every candidate whose latest version carries 
   assert.equal(drafts.rules.length, NPM_CANDIDATES.length);
   const request = drafts.rules.find((rule) => rule.id === "npm.package.request.deprecated")!;
   assert.equal(request.purl, "pkg:npm/request");
-  assert.equal(request.vers, "vers:npm/*");
+  assert.ok(request.vers.startsWith("vers:npm/"));
+  assert.ok(!request.vers.includes("*"));
   assert.equal(request.event, "deprecated");
   assert.equal(request.title, "request is deprecated");
   assert.equal(request.summary, 'npm marks request as deprecated: "request has been deprecated, see https://github.com/request/request/issues/3142"');
   assert.deepEqual(request["x-npm"], { package: "request" });
   assert.deepEqual(request.sources, [
     { title: "request on npm", url: "https://www.npmjs.com/package/request" },
-    { title: "request registry metadata", url: "https://registry.npmjs.org/request/latest" },
+    { title: "request registry metadata", url: "https://registry.npmjs.org/request" },
   ]);
   assert.equal(request.deadline, undefined, "npm records no deprecation date");
   assert.deepEqual(drafts.notes, []);
@@ -48,7 +50,7 @@ test("scoped packages get a scoped PURL, an encoded registry URL, and a dotted r
   const joi = drafts.rules.find((rule) => rule["x-npm"]?.package === "@hapi/joi")!;
   assert.equal(joi.id, "npm.package.hapi.joi.deprecated");
   assert.equal(joi.purl, "pkg:npm/%40hapi/joi");
-  assert.equal(joi.sources[1]!.url, "https://registry.npmjs.org/@hapi%2fjoi/latest");
+  assert.equal(joi.sources[1]!.url, "https://registry.npmjs.org/@hapi%2fjoi");
   assert.equal(registryUrl("@hapi/joi"), "https://registry.npmjs.org/@hapi%2fjoi/latest");
 });
 
@@ -114,15 +116,30 @@ test("against the registry it updates the rules that exist and flags the one it 
     .filter((id) => existingIds.has(id))
     .sort();
   // Every drafted rule the registry already has is either updated (hand-written wording differs) or unchanged
-  // (reviewed rules accepted straight from a draft, such as babel-eslint, tslint, and uglify-es).
+  // (reviewed rules accepted straight from a draft).
   assert.deepEqual([...diff.changed.map((change) => change.id), ...diff.unchanged].sort(), overlap);
   for (const id of ["npm.package.babel-eslint.deprecated", "npm.package.tslint.deprecated", "npm.package.uglify-es.deprecated"]) {
-    assert.ok(diff.unchanged.includes(id), `${id} was accepted from its draft`);
+    assert.ok(overlap.includes(id), `${id} is reviewed against its version-specific draft`);
   }
-  assert.deepEqual(diff.duplicates, [{ draft: "npm.package.node-sass.deprecated", existing: "npm.package.node-sass.eol" }]);
+  assert.deepEqual(diff.duplicates, [], "version-specific drafts do not duplicate a wildcard lifecycle rule");
   assert.equal(diff.added.length, drafts.rules.length - overlap.length);
 });
 
 test("a response that is not JSON is reported with its URL", async () => {
   await assert.rejects(runImporter(npmDeprecatedImporter, { now: new Date("2026-10-15T12:00:00Z"), fetchText: async () => "<html>" }), /not valid JSON/);
+});
+
+test("a latest-version notice never marks older unflagged releases deprecated", async () => {
+  const result = await runImporter(npmDeprecatedImporter, {
+    now: new Date("2026-10-19T12:00:00Z"),
+    async fetchText(url) {
+      if (url === registryUrl("@types/glob")) return JSON.stringify({ name: "@types/glob", version: "9.0.0", deprecated: "stub" });
+      if (url === registryUrl("@types/glob").replace(/\/latest$/, "")) return JSON.stringify({ versions: {
+        "8.1.0": { version: "8.1.0" },
+        "9.0.0": { version: "9.0.0", deprecated: "stub" },
+      } });
+      throw new ImporterError(`GET ${url} failed: HTTP 404`);
+    },
+  });
+  assert.equal(result.rules[0]?.vers, "vers:npm/9.0.0");
 });

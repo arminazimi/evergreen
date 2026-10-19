@@ -14,7 +14,7 @@ npm marks @types/sanitize-filename as deprecated: "This is a stub types definiti
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/sanitize-filename` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/1.6.3` |
 | Date from the source | The source gives no day |
 | Replacement | sanitize-filename |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/sanitize-filename as deprecated: "This is a stub types definiti
 ## Sources
 
 - [@types/sanitize-filename on npm](https://www.npmjs.com/package/@types/sanitize-filename)
-- [@types/sanitize-filename registry metadata](https://registry.npmjs.org/@types%2fsanitize-filename/latest)
+- [@types/sanitize-filename version metadata](https://registry.npmjs.org/@types%2fsanitize-filename)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/sanitize-filename registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fsanitize-filename/latest"
+      "name": "@types/sanitize-filename version metadata",
+      "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

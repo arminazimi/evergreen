@@ -14,7 +14,7 @@ npm marks @types/sequelize as deprecated: "This is a stub types definition. sequ
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/sequelize` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/6.12.0` |
 | Date from the source | The source gives no day |
 | Replacement | sequelize |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/sequelize as deprecated: "This is a stub types definition. sequ
 ## Sources
 
 - [@types/sequelize on npm](https://www.npmjs.com/package/@types/sequelize)
-- [@types/sequelize registry metadata](https://registry.npmjs.org/@types%2fsequelize/latest)
+- [@types/sequelize version metadata](https://registry.npmjs.org/@types%2fsequelize)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/sequelize registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fsequelize/latest"
+      "name": "@types/sequelize version metadata",
+      "url": "https://registry.npmjs.org/@types%2fsequelize"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
