@@ -52,10 +52,14 @@ async function main(): Promise<void> {
     const sarifPath = process.env["INPUT_UPLOAD-SARIF"] === "true"
       ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-results.sarif")
       : undefined;
+    const badgePath = process.env["INPUT_UPLOAD-BADGE"] === "true"
+      ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-badge.json")
+      : undefined;
     const outcome = await runGitHubAction({
       root,
       reportPath,
       ...(sarifPath ? { sarifPath } : {}),
+      ...(badgePath ? { badgePath } : {}),
       ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
       ...(process.env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
       ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
@@ -70,6 +74,7 @@ async function main(): Promise<void> {
     }
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
+    if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
     await setOutput("finding-count", String(outcome.result.findings.length));
     await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);

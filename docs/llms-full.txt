@@ -292,12 +292,14 @@ does not provide a `with` entry.
 | `report-name` | `evergreen-report` | Artifact name for the JSON report when `upload-report` is `true`. |
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
+| `upload-badge` | `false` | Generate a Shields.io endpoint JSON and upload it as the `evergreen-badge` artifact (14 days). |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
 | --- | --- | --- |
 | `report-path` | Always | Absolute runner path to the generated JSON report, whether or not `upload-report` is enabled. |
 | `finding-count` | Always | Number of findings remaining after baseline comparison, encoded as a decimal string. |
+| `badge-path` | When `upload-badge` is `true` | Absolute runner path to `evergreen-badge.json`; otherwise empty. |
 | `sarif-path` | When `upload-sarif` is `true` | Absolute runner path to the generated SARIF file; otherwise empty. |
 
 The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
@@ -311,6 +313,92 @@ Only `contents: read` is required. Evergreen does not need `pull-requests: write
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 
 Forked pull requests receive the same read-only scan behavior; no repository secrets are required.
+
+## README badge
+
+Set `upload-badge: true` to generate `evergreen-badge.json` and upload the
+`evergreen-badge` artifact, even when the severity gate fails. The `badge-path`
+output lets a later step publish the same file. This is opt-in and does not grant
+the Action write access or make network requests during the scan.
+
+The [Shields.io endpoint format](https://shields.io/badges/endpoint-badge) contains
+only `schemaVersion`, `label`, `message`, and `color`. The message counts findings
+**after baseline comparison** and names the highest remaining severity. It does
+not say a repository is risk-free: suppressed findings are excluded, and the
+severity gate can pass while lower-severity findings remain. High/critical are
+red, medium orange, low yellow, info blue, and zero findings bright green. An
+expired baseline under `on-expired: fail` makes the badge red. Stale lifecycle data
+is named in the message and prevents a zero-findings badge from being green.
+
+Actions artifacts require authentication, so their download URLs cannot be used
+as public Shields endpoints. For a public README, publish the JSON to a public
+URL, such as a dedicated branch in a public repository. This example reserves
+the `evergreen-badge` branch for the generated file; only trusted pushes to `main`
+and manual runs on `main` may publish. No pull-request code gets a write token.
+Use the default branch name of your repository if it is different.
+
+```yaml
+name: Evergreen badge
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: evergreen-badge
+  cancel-in-progress: false
+jobs:
+  badge:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Until the next release, pin a reviewed commit containing upload-badge.
+      - uses: arminazimi/evergreen@main
+        id: scan
+        with:
+          upload-badge: true
+      - name: Publish aggregate badge data
+        if: always() && steps.scan.outputs.badge-path != ''
+        env:
+          BADGE_PATH: ${{ steps.scan.outputs.badge-path }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          publish=$(mktemp -d)
+          git init "$publish"
+          git -C "$publish" remote add origin "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git"
+          # GitHub CLI is preinstalled on ubuntu-latest.
+          gh auth setup-git
+          if git -C "$publish" ls-remote --exit-code --heads origin evergreen-badge; then
+            git -C "$publish" fetch --depth=1 origin evergreen-badge
+            git -C "$publish" checkout -b evergreen-badge FETCH_HEAD
+          else
+            git -C "$publish" checkout --orphan evergreen-badge
+          fi
+          cp "$BADGE_PATH" "$publish/evergreen-badge.json"
+          git -C "$publish" config user.name github-actions[bot]
+          git -C "$publish" config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git -C "$publish" add evergreen-badge.json
+          if ! git -C "$publish" diff --cached --quiet; then
+            git -C "$publish" commit -m "chore: update Evergreen badge"
+            git -C "$publish" push origin HEAD:evergreen-badge
+          fi
+```
+
+Then add this to the README, replacing `OWNER` and `REPO`:
+
+```markdown
+[![Evergreen lifecycle findings](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FOWNER%2FREPO%2Fevergreen-badge%2Fevergreen-badge.json)](https://github.com/OWNER/REPO/actions)
+```
+
+Shields and GitHub cache badge images, so updates can take time to appear. The
+badge describes the last published scan, not the latest commit or a guarantee of
+freshness. A scan that cannot complete emits no new badge; its workflow failure
+remains the authoritative status. Schedule trusted scans if you need regular
+refreshes. Publishing aggregate counts makes them public; private repositories
+can keep the artifact private or deliberately publish only this aggregate file.
 
 ## Code scanning
 

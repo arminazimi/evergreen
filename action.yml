@@ -43,6 +43,10 @@ inputs:
       on the job; leave it off for pull requests from forks, whose token is read-only.
     required: false
     default: "false"
+  upload-badge:
+    description: Generate and upload aggregate lifecycle counts as a Shields.io endpoint JSON artifact.
+    required: false
+    default: "false"
   attribution:
     description: >-
       Add one line to the job summary that says the scan was done by Evergreen and links to it.
@@ -57,6 +61,9 @@ outputs:
   finding-count:
     description: Number of findings remaining after baseline comparison, as a decimal string.
     value: ${{ steps.scan.outputs.finding-count }}
+  badge-path:
+    description: Absolute runner path to the Shields.io endpoint JSON, or empty when upload-badge is false.
+    value: ${{ steps.scan.outputs.badge-path }}
   sarif-path:
     description: Absolute runner path to the generated SARIF file, or empty when upload-sarif is false.
     value: ${{ steps.scan.outputs.sarif-path }}
@@ -75,6 +82,7 @@ runs:
         INPUT_ON-EXPIRED: ${{ inputs.on-expired }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
+        INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
       if: always() && inputs.upload-report == 'true'
@@ -82,6 +90,14 @@ runs:
       with:
         name: ${{ inputs.report-name }}
         path: ${{ steps.scan.outputs.report-path }}
+        if-no-files-found: error
+        retention-days: 14
+    - name: Upload README badge endpoint
+      if: always() && inputs.upload-badge == 'true' && steps.scan.outputs.badge-path != ''
+      uses: actions/upload-artifact@v7
+      with:
+        name: evergreen-badge
+        path: ${{ steps.scan.outputs.badge-path }}
         if-no-files-found: error
         retention-days: 14
     - name: Upload findings to code scanning
