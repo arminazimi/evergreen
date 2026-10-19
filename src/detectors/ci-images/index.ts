@@ -26,8 +26,14 @@ const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
 const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "bin", "obj", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
 
-async function ciImageFiles(root: string): Promise<Array<{ path: string; name: "gitlab" | "circleci" | "azure" }>> {
-  const files: Array<{ path: string; name: "gitlab" | "circleci" | "azure" }> = [];
+type CiImageFileKind = "gitlab" | "circleci" | "azure";
+interface CiImageFile {
+  path: string;
+  name: CiImageFileKind;
+}
+
+async function ciImageFiles(root: string): Promise<CiImageFile[]> {
+  const files: CiImageFile[] = [];
   async function walk(directory: string, depth: number): Promise<void> {
     if (depth > MAXIMUM_DEPTH || files.length >= MAXIMUM_FILES) return;
     let entries;
@@ -75,7 +81,11 @@ export class CiImagesDetector implements Detector {
 
     const rules = await this.loadRules();
     const rulesByPurl = new Map<string, RegistryV2Rule[]>();
-    for (const rule of rules) rulesByPurl.set(rule.purl, [...(rulesByPurl.get(rule.purl) ?? []), rule]);
+    for (const rule of rules) {
+      const existing = rulesByPurl.get(rule.purl);
+      if (existing) existing.push(rule);
+      else rulesByPurl.set(rule.purl, [rule]);
+    }
 
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
@@ -113,7 +123,8 @@ export class CiImagesDetector implements Detector {
           unclassified.push({ component: "circleci-image", reference: item.value, reason: item.reason, location: { path, line: item.line } });
         }
       } else {
-        for (const declaration of parseAzurePipelines(contents).declarations) {
+        const azure = parseAzurePipelines(contents);
+        for (const declaration of azure.declarations) {
           const normalized = azureNormalize(declaration.value);
           if (!normalized) continue;
           for (const rule of rulesByPurl.get(normalized.purl) ?? []) {
@@ -122,7 +133,7 @@ export class CiImagesDetector implements Detector {
             }
           }
         }
-        for (const item of parseAzurePipelines(contents).unclassified) {
+        for (const item of azure.unclassified) {
           unclassified.push({ component: "azure-pipelines-image", reference: item.value, reason: item.reason, location: { path, line: item.line } });
         }
       }

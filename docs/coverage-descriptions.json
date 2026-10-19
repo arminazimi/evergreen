@@ -4,7 +4,7 @@
     {
       "ecosystems": ["ci-images"],
       "name": "CI runner images",
-      "coverage": "`pool.vmImage` in Azure Pipelines, local `machine.image` and `docker.image` in CircleCI, and GitLab `image`/`services` references, for images with an official retirement notice."
+      "coverage": "`pool.vmImage` in Azure Pipelines is matched against retirement rules; GitLab `image`/`services` and CircleCI images are listed as unclassified references, not judged."
     },
     {
       "ecosystems": ["container"],
