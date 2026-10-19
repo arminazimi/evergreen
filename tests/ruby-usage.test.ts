@@ -9,7 +9,7 @@ import { scanRepository } from "../src/engine.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { renderText } from "../src/reporters.js";
 import { isUsageMatcher } from "../src/sdk.js";
-import { analyzeSourceUsage } from "../src/source-usage.js";
+import { analyzeSourceUsage, findRubyDynamicReferences } from "../src/source-usage.js";
 
 const temporaryRoots: string[] = [];
 
@@ -162,7 +162,7 @@ test("ruby matchers are valid, and a yanked gem finding lists source files in th
   assert.deepEqual([...packet.affectedFiles].sort(), ["Gemfile.lock", "lib/alias.rb", "lib/app.rb"]);
 });
 
-test("dynamic require, load, gem, autoload, and require_relative are unclassified, and literals are not", async () => {
+test("dynamic require, load, gem, and autoload are unclassified; literals and require_relative are not", async () => {
   const root = await repository({
     Gemfile: 'source "https://rubygems.org"\n',
     "lib/app.rb": [
@@ -190,8 +190,66 @@ test("dynamic require, load, gem, autoload, and require_relative are unclassifie
       "load path",
       "gem gem_name",
       "autoload :JSON, file",
-      "require_relative path",
       "Kernel.require name",
+    ],
+  );
+});
+
+test("large alias files and cyclic chains finish quickly without throwing", async () => {
+  const manyAliases = Array.from({ length: 30_000 }, (_, index) => `A${index} = JSON`).join("\n") + "\nA1.parse(x)\n";
+  const startedAliases = performance.now();
+  const aliasUsages = await analyzeSourceUsage(await repository({ "lib/aliases.rb": manyAliases }), contract("json", ["JSON.parse"]));
+  const aliasMs = performance.now() - startedAliases;
+  assert.ok(aliasMs < 1000, `alias scan took ${aliasMs}ms`);
+  assert.ok(aliasUsages[0]!.usages.some((usage) => usage.kind === "call" && usage.location.line === 30_001));
+
+  const chain = Array.from({ length: 20_000 }, (_, index) => (index === 0 ? "A0 = JSON" : `A${index} = A${index - 1}`)).join("\n");
+  const cycle = "A = B\nB = A\n";
+  const startedChain = performance.now();
+  await analyzeSourceUsage(await repository({ "lib/chain.rb": chain, "lib/cycle.rb": cycle }), contract("json", ["JSON.parse"]));
+  const chainMs = performance.now() - startedChain;
+  assert.ok(chainMs < 1000, `chain/cycle scan took ${chainMs}ms`);
+});
+
+test("very long require lines are skipped quickly; a normal line still matches", async () => {
+  const longJson = ("require 'json'; ".repeat(40_000));
+  assert.ok(longJson.length > 600_000);
+  const longDynamic = ("require x; ".repeat(20_000));
+  const started = performance.now();
+  const root = await repository({
+    "lib/long.rb": longJson,
+    "lib/long-dynamic.rb": longDynamic,
+    "lib/normal.rb": "require 'json'\n",
+  });
+  const [analysis] = await analyzeSourceUsage(root, contract("json", []));
+  const dynamic = await findRubyDynamicReferences(root);
+  const ms = performance.now() - started;
+  assert.ok(ms < 1000, `long-line scan took ${ms}ms`);
+  assert.deepEqual(
+    analysis!.usages.map((usage) => [usage.location.path, usage.location.line, usage.location.column]),
+    [["lib/normal.rb", 1, at("require 'json'", "json")]],
+  );
+  assert.equal(dynamic.length, 0);
+});
+
+test("false require/load/gem lookalikes are not unclassified; real dynamic forms still are", async () => {
+  const root = await repository({
+    "lib/noise.rb": [
+      "gem = Gem::Specification.load(x)",
+      "puts gem.name",
+      "opts = { load: true, require: false }",
+      "x = load",
+      "require_relative File.expand_path('x', __dir__)",
+    ].join("\n"),
+    "lib/real.rb": ["require name", "require File.join(a, b)", "autoload(:Bar, bar_path)"].join("\n"),
+  });
+  const found = await findRubyDynamicReferences(root);
+  assert.deepEqual(
+    found.map((item) => [item.path, item.line, item.column, item.reference]),
+    [
+      ["lib/real.rb", 1, 1, "require name"],
+      ["lib/real.rb", 2, 1, "require File.join(a, b)"],
+      ["lib/real.rb", 3, 1, "autoload(:Bar, bar_path)"],
     ],
   );
 });

@@ -501,37 +501,75 @@ interface RubyInvocation {
   argument: { kind: "literal"; value: string; column: number } | { kind: "dynamic" };
 }
 
+const RUBY_MAX_LINE = 4096;
+const RUBY_MAX_INVOCATIONS = 10_000;
+const RUBY_MAX_REFERENCE = 200;
+const RUBY_DEF_LOOKBEHIND = 32;
+
+/**
+ * True when the keyword at `index` is a real call site, not a hash key, method receiver, or bare assignment.
+ * Argument-start checks use the original `line` because string literals are blanked in `masked`.
+ */
+function rubyKeywordIsCall(line: string, masked: string, index: number, keywordLength: number): boolean {
+  const before = index > 0 ? masked[index - 1] : "";
+  if (before === ":" || before === "@" || before === "$") return false;
+  let cursor = index + keywordLength;
+  const hadSpace = line[cursor] === " " || line[cursor] === "\t";
+  while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+  const next = line[cursor];
+  // Hash key `load:` has no space before `:`; `autoload :Foo` has whitespace then a symbol.
+  if (next === ":") return hadSpace;
+  if (next === undefined || next === "." || next === "," || next === "}" || next === ")" || next === ";") return false;
+  // Assignment (`gem = …`), but not `==`.
+  if (next === "=" && line[cursor + 1] !== "=") return false;
+  if (next === "(") return true;
+  return next === "'" || next === '"' || next === "%" || next === "/" || /[A-Za-z_$@]/.test(next);
+}
+
+/** True when `def` appears immediately before the match within a short look-behind window. */
+function rubyKeywordIsMethodDefinition(masked: string, index: number): boolean {
+  const start = Math.max(0, index - RUBY_DEF_LOOKBEHIND);
+  const window = masked.slice(start, index);
+  return /(?:^|\s)def\s+(?:self\s*\.\s*|(?:::)?Kernel\s*\.\s*)?$/.test(window);
+}
+
 /**
  * `require`, `load`, `gem`, `autoload`, and `require_relative` on one line. A string literal is a path; a
  * variable, interpolation, concatenation, or method call on the string is dynamic. `JSON.load` and
- * `require_relative` are not `load` or `require`.
+ * `require_relative` are not `load` or `require`. Lines over 4,096 characters are skipped.
  */
 function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocation[] {
   const keyword = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
   const invocations: RubyInvocation[] = [];
   for (const [index, masked] of maskedLines.entries()) {
+    if (invocations.length >= RUBY_MAX_INVOCATIONS) break;
     const line = lines[index]!;
+    if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) continue;
     keyword.lastIndex = 0;
     for (const match of masked.matchAll(keyword)) {
+      if (invocations.length >= RUBY_MAX_INVOCATIONS) break;
       if (match.index === undefined || !match[1]) continue;
       const kind = match[1] as RubyInvocation["kind"];
-      if (/(?:^|\s)def\s+(?:self\s*\.\s*|(?:::)?Kernel\s*\.\s*)?$/.test(masked.slice(0, match.index))) continue;
-      let cursor = match.index + match[0].length;
+      const keywordLength = match[0].length;
+      if (rubyKeywordIsMethodDefinition(masked, match.index)) continue;
+      if (!rubyKeywordIsCall(line, masked, match.index, keywordLength)) continue;
+      let cursor = match.index + keywordLength;
       while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
       if (line[cursor] === "(") {
         cursor += 1;
         while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
       }
+      const reference = line.slice(match.index, match.index + RUBY_MAX_REFERENCE).trim();
       if (kind === "autoload") {
         const symbol = /^:([A-Za-z_]\w*)/.exec(line.slice(cursor));
         if (!symbol) {
-          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference: line.slice(match.index).trim(), argument: { kind: "dynamic" } });
+          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference, argument: { kind: "dynamic" } });
           continue;
         }
         cursor += symbol[0].length;
         while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
         if (line[cursor] !== ",") {
-          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference: line.slice(match.index).trim(), argument: { kind: "dynamic" } });
+          invocations.push({ kind, line: index + 1, keywordColumn: match.index + 1, reference, argument: { kind: "dynamic" } });
           continue;
         }
         cursor += 1;
@@ -545,7 +583,7 @@ function rubyInvocations(lines: readonly string[], maskedLines: readonly string[
         kind,
         line: index + 1,
         keywordColumn: match.index + 1,
-        reference: line.slice(match.index).trim(),
+        reference,
         argument: literal && !transformed ? { kind: "literal", value: literal.value, column: literal.column } : { kind: "dynamic" },
       });
     }
@@ -570,35 +608,76 @@ interface RubyAlias {
   target: string;
 }
 
+const RUBY_MAX_ALIASES = 256;
+const RUBY_MAX_ALIAS_DEPTH = 8;
+const RUBY_MAX_RECEIVER_FORMS = 64;
+
+/**
+ * Resolve `name` through constant assignments iteratively. Cycles and chains deeper than
+ * {@link RUBY_MAX_ALIAS_DEPTH} resolve to nothing (undefined), never throw.
+ */
+function resolveRubyAlias(name: string, assigned: ReadonlyMap<string, string>, memo: Map<string, string | undefined>): string | undefined {
+  if (memo.has(name)) return memo.get(name);
+
+  let current = name;
+  let suffix = "";
+  const seen = new Set<string>();
+  for (let depth = 0; depth < RUBY_MAX_ALIAS_DEPTH; depth += 1) {
+    if (seen.has(current)) {
+      memo.set(name, undefined);
+      return undefined;
+    }
+    seen.add(current);
+    const next = assigned.get(current);
+    if (!next) {
+      const resolved = `${current}${suffix}`;
+      memo.set(name, resolved);
+      return resolved;
+    }
+    const parts = next.split("::");
+    if (parts.length > 1) suffix = `::${parts.slice(1).join("::")}${suffix}`;
+    current = parts[0]!;
+  }
+  memo.set(name, undefined);
+  return undefined;
+}
+
 /** `Parser = JSON` and `parser = ::JSON::Parser`, including an alias of an alias in the same file. */
 function rubyAliases(maskedLines: readonly string[]): RubyAlias[] {
   const assigned = new Map<string, string>();
   const pattern = /^\s*([$@]{0,2}[A-Za-z_]\w*)\s*(?:\|\|)?=\s*(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\s*$/;
   for (const line of maskedLines) {
+    if (assigned.size >= RUBY_MAX_ALIASES) break;
     const match = pattern.exec(line);
     if (!match?.[1] || !match[2]) continue;
     assigned.set(match[1], match[2]);
   }
-  const resolve = (name: string, seen: Set<string>): string => {
-    const next = assigned.get(name);
-    if (!next || seen.has(name)) return name;
-    seen.add(name);
-    const parts = next.split("::");
-    const head = resolve(parts[0]!, seen);
-    return parts.length === 1 ? head : `${head}::${parts.slice(1).join("::")}`;
-  };
-  return [...assigned.keys()].map((local) => ({ local, target: resolve(local, new Set()) }));
+  const memo = new Map<string, string | undefined>();
+  const aliases: RubyAlias[] = [];
+  for (const local of assigned.keys()) {
+    const target = resolveRubyAlias(local, assigned, memo);
+    if (target === undefined || target === local) continue;
+    aliases.push({ local, target });
+  }
+  return aliases;
 }
 
 /** Qualified call forms for a target such as `JSON.parse`, plus receivers assigned from that constant. */
 function rubyReceivers(target: string, aliases: readonly RubyAlias[]): string[][] {
   const parts = target.split(/::|\./).filter((part) => part.length > 0);
   if (parts.length < 2) return [];
-  const forms = [parts];
+  const forms: string[][] = [parts];
+  const seen = new Set<string>([parts.join("\0")]);
   for (const alias of aliases) {
+    if (forms.length >= RUBY_MAX_RECEIVER_FORMS) break;
     const aliasParts = alias.target.split("::");
     if (aliasParts.length === 0 || aliasParts.length >= parts.length) continue;
-    if (aliasParts.every((part, index) => part === parts[index])) forms.push([alias.local, ...parts.slice(aliasParts.length)]);
+    if (!aliasParts.every((part, index) => part === parts[index])) continue;
+    const form = [alias.local, ...parts.slice(aliasParts.length)];
+    const key = form.join("\0");
+    if (seen.has(key)) continue;
+    seen.add(key);
+    forms.push(form);
   }
   return forms;
 }
@@ -775,6 +854,9 @@ export async function analyzeSourceUsage(
       return [];
     });
     const bindings = imports.flatMap((reference) => reference.bindings);
+    // Alias resolution is per file, not per matcher or target.
+    const rubyFileAliases = file.language === "ruby" ? rubyAliases(maskedLines) : [];
+    const rubyReceiverPatterns = new Map<string, RegExp>();
 
     for (const contract of contracts) {
       const matchers = contract.matchers.filter((matcher) => matcher.language === file.language);
@@ -837,11 +919,18 @@ export async function analyzeSourceUsage(
           }
           // A Ruby call is qualified (`JSON.parse(` or `JSON::parse(`). `Parser = JSON` then `Parser.parse(` is the same call.
           if (file.language === "ruby") {
-            const aliases = rubyAliases(maskedLines);
             for (const target of matcher.targets) {
-              for (const parts of rubyReceivers(target, aliases)) {
-                const pattern = new RegExp(`(?<![\\w$:])(?:::)?${parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*")}\\s*\\(`, "g");
+              for (const parts of rubyReceivers(target, rubyFileAliases)) {
+                const formKey = parts.join("\0");
+                let pattern = rubyReceiverPatterns.get(formKey);
+                if (!pattern) {
+                  pattern = new RegExp(`(?<![\\w$:])(?:::)?${parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*")}\\s*\\(`, "g");
+                  rubyReceiverPatterns.set(formKey, pattern);
+                }
+                pattern.lastIndex = 0;
                 for (const [index, line] of maskedLines.entries()) {
+                  if (line.length > RUBY_MAX_LINE) continue;
+                  pattern.lastIndex = 0;
                   for (const match of line.matchAll(pattern)) {
                     if (match.index === undefined) continue;
                     push(contract.id, {
@@ -931,7 +1020,10 @@ export interface RubyDynamicReference {
   reference: string;
 }
 
-/** `require`, `load`, `gem`, `autoload`, and `require_relative` whose argument is not a string literal. */
+/**
+ * `require`, `load`, `gem`, and `autoload` whose argument is not a string literal.
+ * `require_relative` is never unclassified: it names a local file, not a gem.
+ */
 export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
   const found: RubyDynamicReference[] = [];
   for (const file of await sourceFiles(resolve(root))) {
@@ -941,7 +1033,7 @@ export async function findRubyDynamicReferences(root: string): Promise<RubyDynam
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "ruby", maskState));
     for (const invocation of rubyInvocations(lines, maskedLines)) {
-      if (invocation.argument.kind !== "dynamic") continue;
+      if (invocation.kind === "require_relative" || invocation.argument.kind !== "dynamic") continue;
       found.push({ path: file.path, line: invocation.line, column: invocation.keywordColumn, reference: invocation.reference });
     }
   }
