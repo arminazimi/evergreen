@@ -9,6 +9,12 @@ import {
   MAXIMUM_LINE_LENGTH,
   parsePackageSwift,
 } from "../src/detectors/swift/parse-package-swift.js";
+import {
+  MAXIMUM_INPUT_BYTES as TOOLCHAIN_MAXIMUM_INPUT_BYTES,
+  MAXIMUM_LINE_LENGTH as TOOLCHAIN_MAXIMUM_LINE_LENGTH,
+  parseSwiftVersion,
+  parseXcodeVersion,
+} from "../src/detectors/swift/parse-swift-toolchain.js";
 
 const fixtures = resolve("tests/fixtures/swift");
 
@@ -216,4 +222,42 @@ test("Package.resolved: ignores the file format version and legacy v1 object.pin
     ),
     [],
   );
+});
+
+test("parses .swift-version and .xcode-version pins with exact lines", async () => {
+  assert.deepEqual(parseSwiftVersion(await fixture("positive/.swift-version")), [{ value: "5.9", line: 1 }]);
+  assert.deepEqual(parseXcodeVersion(await fixture("positive/.xcode-version")), [{ value: "15.4", line: 1 }]);
+  assert.deepEqual(parseSwiftVersion(await fixture("zero/.swift-version")), [{ value: "6.0", line: 1 }]);
+  assert.deepEqual(parseXcodeVersion(await fixture("zero/.xcode-version")), [{ value: "16.2", line: 1 }]);
+});
+
+test("ignores moving names, comments, and non-version tokens in toolchain pins", async () => {
+  assert.deepEqual(parseSwiftVersion(await fixture("negative/.swift-version")), []);
+  assert.deepEqual(parseXcodeVersion(await fixture("negative/.xcode-version")), []);
+});
+
+test("malformed and empty toolchain pins return nothing and never throw", async () => {
+  assert.deepEqual(parseSwiftVersion(await fixture("malformed/.swift-version")), []);
+  assert.deepEqual(parseXcodeVersion(await fixture("malformed/.xcode-version")), []);
+  for (const parser of [parseSwiftVersion, parseXcodeVersion]) {
+    for (const junk of ["\u0000\u0001", "\uFEFF", "latest", "stable", "\r\n\r\n", "x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)]) {
+      assert.doesNotThrow(() => parser(junk));
+      assert.deepEqual(parser(junk), []);
+    }
+  }
+});
+
+test("toolchain pins bound untrusted input and keep a later valid line", () => {
+  assert.deepEqual(parseSwiftVersion("x".repeat(TOOLCHAIN_MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseXcodeVersion("x".repeat(TOOLCHAIN_MAXIMUM_INPUT_BYTES + 1)), []);
+  assert.deepEqual(parseSwiftVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n5.9\n`), [{ value: "5.9", line: 2 }]);
+  assert.deepEqual(parseXcodeVersion(`${"x".repeat(TOOLCHAIN_MAXIMUM_LINE_LENGTH + 1)}\n15.4\n`), [{ value: "15.4", line: 2 }]);
+});
+
+test("toolchain pins handle CRLF, blank lines, comments, and reject multiple pins", () => {
+  assert.deepEqual(parseSwiftVersion("5.9\r\n"), [{ value: "5.9", line: 1 }]);
+  assert.deepEqual(parseSwiftVersion("\n# pinned\n  5.9  \n"), [{ value: "5.9", line: 3 }]);
+  assert.deepEqual(parseXcodeVersion("# 15.4 was old\n15.4\n"), [{ value: "15.4", line: 2 }]);
+  assert.deepEqual(parseSwiftVersion("5.9\n6.0\n"), []);
+  assert.deepEqual(parseXcodeVersion("15.4\n16.2\n"), []);
 });
