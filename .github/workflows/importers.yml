@@ -45,6 +45,7 @@ jobs:
           - { importer: kubernetes-2, ecosystem: kubernetes }
           - { importer: nodejs-schedule, ecosystem: nodejs }
           - { importer: npm-deprecated, ecosystem: npm }
+          - { importer: php-1, ecosystem: php }
           - { importer: pypi-status, ecosystem: python }
           - { importer: python-release-cycle, ecosystem: python }
           - { importer: ruby-1, ecosystem: ruby }
@@ -115,6 +116,7 @@ jobs:
           - kubernetes-2
           - nodejs-schedule
           - npm-deprecated
+          - php-1
           - pypi-status
           - python-release-cycle
           - ruby-1
