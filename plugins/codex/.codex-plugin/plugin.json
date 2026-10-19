@@ -1,6 +1,6 @@
 {
   "name": "evergreen",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Find, explain, migrate, and verify evidence-backed software lifecycle risks.",
   "author": {
     "name": "Evergreen",
