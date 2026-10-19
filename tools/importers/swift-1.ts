@@ -2,12 +2,16 @@ import { isoDate } from "./canonical.js";
 import type { DraftRule, Importer } from "./types.js";
 
 export const APP_STORE_REQUIREMENTS_URL = "https://developer.apple.com/news/upcoming-requirements/";
+/** Refuse a page larger than this so a runaway response cannot hang the importer. */
+export const MAXIMUM_BODY_BYTES = 2 * 1024 * 1024;
+/** Stop after this many `<article>` blocks so a pathological listing stays bounded. */
+export const MAXIMUM_ARTICLES = 2000;
 
 const SOURCE_TITLE = "App Store upcoming requirements";
-const ARTICLE =
-  /<article\b[^>]*\bid="article-([^"]+)"[\s\S]*?<a class="article-title" href="([^"]+)"[^>]*>\s*<h2>([\s\S]*?)<\/h2>[\s\S]*?<p class="lighter\s+article-date">([^<]*)<\/p>[\s\S]*?<span class="article-text">([\s\S]*?)<\/span>/gi;
 const SINCE = /^Since ([A-Za-z]+) (\d{1,2}), (\d{4})$/;
 const XCODE_BUILT = /\bbuilt with\s+Xcode\s+(\d+(?:\.\d+)*)(\s+or later)?/i;
+const ARTICLE_ID = /\bid="article-([^"]{1,64})"/i;
+const TITLE_HREF = /href="([^"]{1,500})"/i;
 const MONTHS: Record<string, string> = {
   January: "01",
   February: "02",
@@ -38,6 +42,11 @@ interface XcodeFloor {
   url: string;
   quote: string;
   sinceLabel: string;
+}
+
+export interface ParseArticlesResult {
+  articles: Article[];
+  notes: string[];
 }
 
 function decodeEntities(value: string): string {
@@ -71,20 +80,95 @@ function absoluteUrl(href: string): string {
   return new URL(href, APP_STORE_REQUIREMENTS_URL).href;
 }
 
-/** Exported for tests: every article block the importer can read from the listing page. */
-export function parseArticles(body: string): Article[] {
-  const articles: Article[] = [];
-  for (const match of body.matchAll(ARTICLE)) {
-    const [, id, href, titleHtml, since, html] = match;
-    articles.push({
-      id: id!,
-      href: absoluteUrl(href!),
-      title: plainText(titleHtml!),
-      since: since!.trim(),
-      text: plainText(html!),
-    });
+/** Slice one `<article…</article>` block starting at `from`, or undefined if it never closes. */
+function articleBlock(body: string, from: number): { block: string; next: number } | undefined {
+  const open = body.indexOf("<article", from);
+  if (open < 0) return undefined;
+  const close = body.indexOf("</article>", open);
+  if (close < 0) return { block: body.slice(open), next: body.length };
+  return { block: body.slice(open, close + "</article>".length), next: close + "</article>".length };
+}
+
+/**
+ * Read id, title, date, and article-text from one article block with indexOf and small anchored
+ * matches. Missing parts return a skip note instead of backtracking across the page.
+ */
+function parseArticleBlock(block: string): { article?: Article; note?: string } {
+  const idMatch = ARTICLE_ID.exec(block.slice(0, 400));
+  if (!idMatch) return {};
+  const id = idMatch[1]!;
+
+  const titleMarker = block.indexOf('class="article-title"');
+  if (titleMarker < 0) return { note: `Skipped article block id=${id}: missing article-title.` };
+  const titleChunk = block.slice(titleMarker, titleMarker + 800);
+  const hrefMatch = TITLE_HREF.exec(titleChunk);
+  const h2Open = titleChunk.indexOf("<h2>");
+  const h2Close = h2Open < 0 ? -1 : titleChunk.indexOf("</h2>", h2Open);
+  if (!hrefMatch || h2Open < 0 || h2Close < 0) {
+    return { note: `Skipped article block id=${id}: missing article-title href or h2.` };
   }
-  return articles;
+  const title = plainText(titleChunk.slice(h2Open + 4, h2Close));
+  if (title === "") return { note: `Skipped article block id=${id}: empty article title.` };
+
+  const dateMarker = block.indexOf('class="lighter');
+  if (dateMarker < 0 || !block.slice(dateMarker, dateMarker + 80).includes("article-date")) {
+    return { note: `Skipped article "${title}" (id=${id}): missing article-date.` };
+  }
+  const dateOpen = block.indexOf(">", dateMarker);
+  const dateClose = dateOpen < 0 ? -1 : block.indexOf("</p>", dateOpen);
+  if (dateOpen < 0 || dateClose < 0) {
+    return { note: `Skipped article "${title}" (id=${id}): missing article-date.` };
+  }
+  const since = plainText(block.slice(dateOpen + 1, dateClose));
+
+  const textMarker = block.indexOf('class="article-text"');
+  if (textMarker < 0) {
+    return { note: `Skipped article "${title}" (id=${id}): missing article-text.` };
+  }
+  const textOpen = block.indexOf(">", textMarker);
+  const textClose = textOpen < 0 ? -1 : block.indexOf("</span>", textOpen);
+  if (textOpen < 0 || textClose < 0) {
+    return { note: `Skipped article "${title}" (id=${id}): missing article-text.` };
+  }
+
+  return {
+    article: {
+      id,
+      href: absoluteUrl(hrefMatch[1]!),
+      title,
+      since,
+      text: plainText(block.slice(textOpen + 1, textClose)),
+    },
+  };
+}
+
+/**
+ * Split the listing into `<article>` blocks in linear time, then parse each block. Caps body size
+ * and article count so a changed or malformed page cannot hang the weekly importer job.
+ */
+export function parseArticles(body: string): ParseArticlesResult {
+  const notes: string[] = [];
+  if (Buffer.byteLength(body, "utf8") > MAXIMUM_BODY_BYTES) {
+    notes.push(`Skipped page body over ${MAXIMUM_BODY_BYTES} bytes.`);
+    return { articles: [], notes };
+  }
+
+  const articles: Article[] = [];
+  let cursor = 0;
+  let seen = 0;
+  while (seen < MAXIMUM_ARTICLES) {
+    const next = articleBlock(body, cursor);
+    if (!next) break;
+    seen += 1;
+    cursor = next.next;
+    const parsed = parseArticleBlock(next.block);
+    if (parsed.note) notes.push(parsed.note);
+    if (parsed.article) articles.push(parsed.article);
+  }
+  if (seen >= MAXIMUM_ARTICLES && body.indexOf("<article", cursor) >= 0) {
+    notes.push(`Stopped after ${MAXIMUM_ARTICLES} article blocks.`);
+  }
+  return { articles, notes };
 }
 
 function compareVersions(left: string, right: string): number {
@@ -217,12 +301,19 @@ export const swiftAppStoreImporter: Importer = {
 
   async import(context) {
     const body = await context.fetchText(APP_STORE_REQUIREMENTS_URL, { accept: "text/html" });
-    const articles = parseArticles(body);
-    if (articles.length === 0) {
-      return { rules: [], notes: ["No usable upcoming-requirements articles were found in the page."] };
+    const parsed = parseArticles(body);
+    if (parsed.articles.length === 0) {
+      return {
+        rules: [],
+        notes:
+          parsed.notes.length > 0
+            ? parsed.notes
+            : ["No usable upcoming-requirements articles were found in the page."],
+      };
     }
 
-    const { floors, notes } = xcodeFloors(articles);
+    const { floors, notes } = xcodeFloors(parsed.articles);
+    notes.unshift(...parsed.notes);
     if (floors.length === 0) return { rules: [], notes };
 
     const today = isoDate(context.now);
