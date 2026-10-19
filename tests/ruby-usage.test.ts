@@ -165,6 +165,7 @@ test("ruby matchers are valid, and a yanked gem finding lists source files in th
 test("dynamic require, load, gem, and autoload are unclassified; literals and require_relative are not", async () => {
   const root = await repository({
     Gemfile: 'source "https://rubygems.org"\n',
+    "Gemfile.lock": "GEM\n  remote: https://rubygems.org/\n  specs:\n    json (2.17.1.1)\n",
     "lib/app.rb": [
       "def run(name, path, gem_name, file)",
       "  require name",
@@ -181,7 +182,7 @@ test("dynamic require, load, gem, and autoload are unclassified; literals and re
     ].join("\n"),
   });
   const result = await scanRepository(root, [new RubyDetector()]);
-  assert.deepEqual(result.findings, []);
+  assert.ok(result.findings.some((item) => item.ruleId === "ruby.gem.json.yanked-2.17.1.1"));
   assert.deepEqual(
     result.unclassified?.references.map((reference) => reference.reference),
     [
@@ -231,7 +232,13 @@ test("very long require lines are skipped quickly; a normal line still matches",
     analysis!.usages.map((usage) => [usage.location.path, usage.location.line, usage.location.column]),
     [["lib/normal.rb", 1, at("require 'json'", "json")]],
   );
-  assert.equal(dynamic.length, 0);
+  assert.deepEqual(
+    dynamic.map((item) => [item.path, item.line, item.column, item.reason]),
+    [
+      ["lib/long-dynamic.rb", 1, 1, "line longer than 4096 characters"],
+      ["lib/long.rb", 1, 1, "line longer than 4096 characters"],
+    ],
+  );
 });
 
 test("false require/load/gem lookalikes are not unclassified; real dynamic forms still are", async () => {
@@ -254,4 +261,43 @@ test("false require/load/gem lookalikes are not unclassified; real dynamic forms
       ["lib/real.rb", 3, 1, "autoload(:Bar, bar_path)"],
     ],
   );
+});
+
+test("oversized require lines and data after __END__ are not silent", async () => {
+  const long = " ".repeat(4100) + 'require "json"';
+  const [longAnalysis] = await analyzeSourceUsage(await repository({ "lib/app.rb": long }), contract("json", ["JSON.parse"]));
+  const longSkips = await findRubyDynamicReferences(await repository({ "lib/app.rb": long }));
+  assert.deepEqual(longAnalysis!.usages, []);
+  assert.equal(longSkips.length, 1);
+  assert.equal(longSkips[0]!.line, 1);
+  assert.equal(longSkips[0]!.column, 1);
+  assert.match(longSkips[0]!.reason, /line longer than 4096 characters/);
+
+  const afterEnd = await usages({ "lib/app.rb": 'puts 1\n__END__\nrequire "json"' }, "json", ["JSON.parse"]);
+  assert.deepEqual(afterEnd, []);
+  assert.deepEqual(await findRubyDynamicReferences(await repository({ "lib/app.rb": 'puts 1\n__END__\nrequire "json"' })), []);
+});
+
+test("multi-line string literals are not scanned as code", async () => {
+  const found = await usages({ "lib/app.rb": "s = 'a\nrequire \"json\"\nb'" }, "json", ["JSON.parse"]);
+  assert.deepEqual(found, []);
+  assert.deepEqual(await findRubyDynamicReferences(await repository({ "lib/app.rb": "s = 'a\nrequire \"json\"\nb'" })), []);
+});
+
+test("character literals and regexp literals do not hide requires on the same line", async () => {
+  const charLine = 'c = ?"; require "json"';
+  const regexLine = 'x = /"/; require "json"';
+  const charFound = await usages({ "lib/app.rb": charLine }, "json", []);
+  const regexFound = await usages({ "lib/app.rb": regexLine }, "json", []);
+  assert.deepEqual(charFound, [["import", "lib/app.rb", 1, at(charLine, "json"), "json"]]);
+  assert.deepEqual(regexFound, [["import", "lib/app.rb", 1, at(regexLine, "json"), "json"]]);
+});
+
+test("dynamic references are omitted when no usage-matched finding exists", async () => {
+  const root = await repository({
+    Gemfile: 'source "https://rubygems.org"\ngem "rails", "7.1.0"\n',
+    "lib/app.rb": 'require File.expand_path("x", __dir__)\n',
+  });
+  const result = await scanRepository(root, [new RubyDetector()]);
+  assert.deepEqual(result.unclassified?.references ?? [], []);
 });

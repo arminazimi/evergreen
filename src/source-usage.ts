@@ -533,33 +533,68 @@ function rubyKeywordIsMethodDefinition(masked: string, index: number): boolean {
   return /(?:^|\s)def\s+(?:self\s*\.\s*|(?:::)?Kernel\s*\.\s*)?$/.test(window);
 }
 
+interface RubyScanSkip {
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
+interface RubyInvocationScan {
+  invocations: RubyInvocation[];
+  skips: RubyScanSkip[];
+}
+
+const RUBY_INVOCATION_HINT = /(?:^|[^\w.:])(?:(?:::)?Kernel\s*\.\s*)?(?:require_relative|require|load|gem|autoload)\b/;
+
 /**
  * `require`, `load`, `gem`, `autoload`, and `require_relative` on one line. A string literal is a path; a
  * variable, interpolation, concatenation, or method call on the string is dynamic. `JSON.load` and
- * `require_relative` are not `load` or `require`. Lines over 4,096 characters are skipped.
+ * `require_relative` are not `load` or `require`. Lines over 4,096 characters and matches past
+ * {@link RUBY_MAX_INVOCATIONS} are not scanned; each is reported in `skips` instead of being dropped.
  */
-function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocation[] {
+function rubyInvocations(lines: readonly string[], maskedLines: readonly string[]): RubyInvocationScan {
   const keyword = /(?<![\w.:])(?:(?:::)?Kernel\s*\.\s*)?(require_relative|require|load|gem|autoload)\b/g;
   const invocations: RubyInvocation[] = [];
+  const skips: RubyScanSkip[] = [];
+  let invocationCapReached = false;
   for (const [index, masked] of maskedLines.entries()) {
-    if (invocations.length >= RUBY_MAX_INVOCATIONS) break;
     const line = lines[index]!;
-    if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) continue;
+    if (line.length > RUBY_MAX_LINE || masked.length > RUBY_MAX_LINE) {
+      if (RUBY_INVOCATION_HINT.test(line)) {
+        skips.push({
+          line: index + 1,
+          column: 1,
+          reference: line.slice(0, RUBY_MAX_REFERENCE).trim(),
+          reason: `line longer than ${RUBY_MAX_LINE} characters`,
+        });
+      }
+      continue;
+    }
     keyword.lastIndex = 0;
     for (const match of masked.matchAll(keyword)) {
-      if (invocations.length >= RUBY_MAX_INVOCATIONS) break;
       if (match.index === undefined || !match[1]) continue;
       const kind = match[1] as RubyInvocation["kind"];
       const keywordLength = match[0].length;
       if (rubyKeywordIsMethodDefinition(masked, match.index)) continue;
       if (!rubyKeywordIsCall(line, masked, match.index, keywordLength)) continue;
+      const reference = line.slice(match.index, match.index + RUBY_MAX_REFERENCE).trim();
+      if (invocationCapReached || invocations.length >= RUBY_MAX_INVOCATIONS) {
+        invocationCapReached = true;
+        skips.push({
+          line: index + 1,
+          column: match.index + 1,
+          reference,
+          reason: `more than ${RUBY_MAX_INVOCATIONS} invocations in this repository`,
+        });
+        continue;
+      }
       let cursor = match.index + keywordLength;
       while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
       if (line[cursor] === "(") {
         cursor += 1;
         while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
       }
-      const reference = line.slice(match.index, match.index + RUBY_MAX_REFERENCE).trim();
       if (kind === "autoload") {
         const symbol = /^:([A-Za-z_]\w*)/.exec(line.slice(cursor));
         if (!symbol) {
@@ -588,13 +623,13 @@ function rubyInvocations(lines: readonly string[], maskedLines: readonly string[
       });
     }
   }
-  return invocations;
+  return { invocations, skips };
 }
 
 /** `require`/`load`/`gem`/`autoload` of a string. `require_relative` is a local file, not a gem. Bindings stay empty; calls use the rule's qualified target. */
 function rubyImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
   const references: ImportReference[] = [];
-  for (const invocation of rubyInvocations(lines, maskedLines)) {
+  for (const invocation of rubyInvocations(lines, maskedLines).invocations) {
     if (invocation.argument.kind !== "literal" || invocation.kind === "require_relative") continue;
     const module = invocation.argument.value.replace(/\.rb$/, "");
     if (module.length === 0) continue;
@@ -682,8 +717,24 @@ function rubyReceivers(target: string, aliases: readonly RubyAlias[]): string[][
   return forms;
 }
 
-/** The end index of a Ruby percent literal starting at `index`, so its body cannot look like code. */
-function rubyPercentEnd(line: string, index: number): number | undefined {
+interface RubyPercentState {
+  kind: "percent";
+  delimiter: string;
+  closer: string;
+  paired: boolean;
+  depth: number;
+}
+
+interface RubyQuoteState {
+  kind: "quote";
+  quote: string;
+  escaped: boolean;
+}
+
+type RubyOpenString = RubyPercentState | RubyQuoteState;
+
+/** Open a Ruby percent literal at `index`, or undefined when the text is not one. */
+function rubyPercentOpen(line: string, index: number): RubyPercentState | undefined {
   if (line[index] !== "%") return undefined;
   let cursor = index + 1;
   const marker = line[cursor];
@@ -692,30 +743,77 @@ function rubyPercentEnd(line: string, index: number): number | undefined {
   if (!delimiter) return undefined;
   const closer = delimiter === "(" ? ")" : delimiter === "[" ? "]" : delimiter === "{" ? "}" : delimiter === "<" ? ">" : /[^A-Za-z0-9_\s]/.test(delimiter) ? delimiter : undefined;
   if (!closer) return undefined;
-  const paired = closer !== delimiter;
-  let depth = 1;
-  for (let position = cursor + 1; position < line.length; position += 1) {
+  return { kind: "percent", delimiter, closer, paired: closer !== delimiter, depth: 1 };
+}
+
+/**
+ * Advance through a percent literal body starting at `from`. Returns the index of the closer when it
+ * closes on this line, or undefined when it stays open (caller should keep `state` for the next line).
+ */
+function rubyPercentClose(line: string, from: number, state: RubyPercentState): number | undefined {
+  for (let position = from; position < line.length; position += 1) {
     const character = line[position]!;
     if (character === "\\" && position + 1 < line.length) {
       position += 1;
       continue;
     }
-    if (paired && character === delimiter) depth += 1;
-    else if (character === closer) {
-      depth -= 1;
-      if (depth === 0) return position;
+    if (state.paired && character === state.delimiter) state.depth += 1;
+    else if (character === state.closer) {
+      state.depth -= 1;
+      if (state.depth === 0) return position;
     }
   }
-  return line.length - 1;
+  return undefined;
+}
+
+/** True when `/` at `index` can start a regexp rather than division. */
+function rubyRegexMayStart(line: string, index: number): boolean {
+  let prev = index - 1;
+  while (prev >= 0 && (line[prev] === " " || line[prev] === "\t")) prev -= 1;
+  if (prev < 0) return true;
+  const character = line[prev]!;
+  if (/[\w$)\]]/.test(character)) return false;
+  return true;
+}
+
+/** End index of a `/.../` regexp starting at `start`, including trailing flags; undefined if unclosed. */
+function rubyRegexEnd(line: string, start: number): number | undefined {
+  let escaped = false;
+  for (let index = start + 1; index < line.length; index += 1) {
+    const character = line[index]!;
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+    if (character === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (character === "/") {
+      let end = index;
+      while (end + 1 < line.length && /[a-z]/.test(line[end + 1]!)) end += 1;
+      return end;
+    }
+  }
+  return undefined;
 }
 
 interface MaskState {
   blockComment: boolean;
   rubyBlock?: boolean;
   heredoc?: string;
+  /** Set when a line that is exactly `__END__` has been seen; the rest of the file is data. */
+  afterEnd?: boolean;
+  /** Unclosed single-quoted, double-quoted, or percent string carried across lines. */
+  openString?: RubyOpenString;
 }
 
 function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
+  if (language === "ruby" && state.afterEnd) return " ".repeat(line.length);
+  if (language === "ruby" && line === "__END__") {
+    state.afterEnd = true;
+    return " ".repeat(line.length);
+  }
   if (language === "ruby" && state.heredoc) {
     if (line.trim() === state.heredoc) delete state.heredoc;
     return " ".repeat(line.length);
@@ -728,13 +826,29 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     state.rubyBlock = true;
     return " ".repeat(line.length);
   }
-  // Fast path: no quotes, comments, percent literals, or heredocs to mask.
-  if (language === "ruby" && !state.blockComment && !/[#"'%`<]/.test(line)) return line;
+  // Fast path: no quotes, comments, percent literals, heredocs, character literals, or regexps to mask.
+  if (language === "ruby" && !state.blockComment && !state.openString && !/[#"'%`<\/?]/.test(line)) return line;
 
   const output = [...line];
-  let quote: string | undefined;
-  let escaped = false;
-  for (let index = 0; index < output.length; index += 1) {
+  let quote: string | undefined = state.openString?.kind === "quote" ? state.openString.quote : undefined;
+  let escaped = state.openString?.kind === "quote" ? state.openString.escaped : false;
+  let percent = state.openString?.kind === "percent" ? { ...state.openString } : undefined;
+  if (language === "ruby") delete state.openString;
+
+  let index = 0;
+  if (percent) {
+    const closed = rubyPercentClose(line, 0, percent);
+    const end = closed === undefined ? line.length - 1 : closed;
+    for (let cursor = 0; cursor <= end; cursor += 1) output[cursor] = " ";
+    if (closed === undefined) {
+      state.openString = percent;
+      return output.join("");
+    }
+    index = end + 1;
+    percent = undefined;
+  }
+
+  for (; index < output.length; index += 1) {
     const character = output[index]!;
     const next = output[index + 1];
     if (state.blockComment) {
@@ -749,14 +863,48 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     if (quote) {
       output[index] = " ";
       if (!escaped && character === quote) quote = undefined;
-      escaped = !escaped && character === "\\";
-      if (character !== "\\") escaped = false;
+      escaped = character === "\\" && !escaped;
       continue;
     }
-    if (language === "ruby" && character === "%") {
-      const end = rubyPercentEnd(line, index);
+    if (language === "ruby" && character === "?" && next !== undefined && next !== " " && next !== "\t") {
+      // Character literal `?x` / `?\n` — a quote here must not open a string.
+      output[index] = " ";
+      if (next === "\\") {
+        output[index + 1] = " ";
+        if (index + 2 < output.length) {
+          output[index + 2] = " ";
+          index += 2;
+        } else {
+          index += 1;
+        }
+      } else {
+        output[index + 1] = " ";
+        index += 1;
+      }
+      continue;
+    }
+    if (language === "ruby" && character === "/" && next !== "=" && rubyRegexMayStart(line, index)) {
+      const end = rubyRegexEnd(line, index);
       if (end !== undefined) {
         for (let cursor = index; cursor <= end; cursor += 1) output[cursor] = " ";
+        index = end;
+        continue;
+      }
+      // Unclosed regexp: mask the rest so a quote inside cannot hide later code.
+      for (let rest = index; rest < output.length; rest += 1) output[rest] = " ";
+      break;
+    }
+    if (language === "ruby" && character === "%") {
+      const opened = rubyPercentOpen(line, index);
+      if (opened) {
+        const bodyStart = line[index + 1] && /[qQwWrsxiI]/.test(line[index + 1]!) ? index + 3 : index + 2;
+        const closed = rubyPercentClose(line, bodyStart, opened);
+        const end = closed === undefined ? line.length - 1 : closed;
+        for (let cursor = index; cursor <= end; cursor += 1) output[cursor] = " ";
+        if (closed === undefined) {
+          state.openString = opened;
+          return output.join("");
+        }
         index = end;
         continue;
       }
@@ -774,6 +922,7 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     if (character === '"' || (character === "'" && language !== "rust") || (character === "`" && language !== "python" && language !== "rust")) {
       quote = character;
       output[index] = " ";
+      escaped = false;
       continue;
     }
     if (language !== "python" && language !== "ruby" && character === "/" && next === "*") {
@@ -791,6 +940,7 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
       break;
     }
   }
+  if (language === "ruby" && quote) state.openString = { kind: "quote", quote, escaped };
   return output.join("");
 }
 
@@ -1023,10 +1173,14 @@ export interface RubyDynamicReference {
   line: number;
   column: number;
   reference: string;
+  reason: string;
 }
 
+const RUBY_DYNAMIC_REASON = "the argument is not a string literal, so Evergreen does not attribute it to a gem";
+
 /**
- * `require`, `load`, `gem`, and `autoload` whose argument is not a string literal.
+ * `require`, `load`, `gem`, and `autoload` whose argument is not a string literal, plus invocations
+ * that were not scanned because a line or repository bound was hit.
  * `require_relative` is never unclassified: it names a local file, not a gem.
  */
 export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
@@ -1037,9 +1191,19 @@ export async function findRubyDynamicReferences(root: string): Promise<RubyDynam
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, "ruby", maskState));
-    for (const invocation of rubyInvocations(lines, maskedLines)) {
+    const { invocations, skips } = rubyInvocations(lines, maskedLines);
+    for (const skip of skips) {
+      found.push({ path: file.path, line: skip.line, column: skip.column, reference: skip.reference, reason: skip.reason });
+    }
+    for (const invocation of invocations) {
       if (invocation.kind === "require_relative" || invocation.argument.kind !== "dynamic") continue;
-      found.push({ path: file.path, line: invocation.line, column: invocation.keywordColumn, reference: invocation.reference });
+      found.push({
+        path: file.path,
+        line: invocation.line,
+        column: invocation.keywordColumn,
+        reference: invocation.reference,
+        reason: RUBY_DYNAMIC_REASON,
+      });
     }
   }
   return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));

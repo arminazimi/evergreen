@@ -19,9 +19,9 @@ import { parseRubyVersion, parseToolVersions } from "./parse-ruby-runtime.js";
  * It reads the runtime pins in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and
  * Gemfile.lock `RUBY VERSION`; direct gems in a Gemfile for rules that cover every version; and resolved
  * gems in Gemfile.lock. A gem rule with usage matchers also lists `require`, `load`, `gem`, and
- * `autoload` of that gem, and the qualified calls and aliases those matchers name. A require, load, or
- * gem whose argument is not a string literal is unclassified. Ruby, rbenv, asdf, and Bundler are never
- * run and nothing is fetched.
+ * `autoload` of that gem, and the qualified calls and aliases those matchers name. When such a finding
+ * exists, a require, load, or gem whose argument is not a string literal is unclassified, as is an
+ * invocation skipped by a scan bound. Ruby, rbenv, asdf, and Bundler are never run and nothing is fetched.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -164,20 +164,28 @@ export class RubyDetector implements Detector {
       }
     }
 
+    const unclassified: Array<{
+      component: string;
+      reference: string;
+      reason: string;
+      location: { path: string; line: number; column: number };
+    }> = [];
+
     if (withUsage.length > 0) {
       const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
       for (const finding of findings) {
         const analysis = analyses.get(finding.id);
         if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
       }
+      for (const reference of await findRubyDynamicReferences(context.root)) {
+        unclassified.push({
+          component: "ruby",
+          reference: reference.reference,
+          reason: reference.reason,
+          location: { path: reference.path, line: reference.line, column: reference.column },
+        });
+      }
     }
-
-    const unclassified = (await findRubyDynamicReferences(context.root)).map((reference) => ({
-      component: "ruby",
-      reference: reference.reference,
-      reason: "the argument is not a string literal, so Evergreen does not attribute it to a gem",
-      location: { path: reference.path, line: reference.line, column: reference.column },
-    }));
 
     findings.sort((left, right) => {
       if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
