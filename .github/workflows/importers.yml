@@ -30,6 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - { importer: android-1, ecosystem: android }
           - { importer: ci-images-1, ecosystem: ci-images }
           - { importer: container-official-images, ecosystem: container }
           - { importer: dotnet-1, ecosystem: dotnet }
@@ -98,6 +99,7 @@ jobs:
       fail-fast: false
       matrix:
         importer:
+          - android-1
           - ci-images-1
           - container-official-images
           - dotnet-1

@@ -48,6 +48,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 
 | Importer | Registry | Reads | Candidate list |
 |---|---|---|---|
+| `android-1` | `android` | The Google Play target API level requirement page: one draft per form-factor floor for new apps/updates and for existing-app availability, with `x-android.formFactors` so a detector can avoid Wear / Automotive / TV / XR false positives. Before the stated starting date the drafts are `scheduled-end-of-life`; on or after it they are `end-of-support`. | none |
 | `ci-images-1` | `ci-images` | The runner-images README and the announcement issues it links, filtered to Azure DevOps: Azure Pipelines hosted images that are scheduled for removal or have been retired. | none |
 | `container-official-images` | `container` | The vendors' own Node.js and Python schedules: one "and older" `end-of-life` rule per image. The Docker Official Images files are read only to note which end-of-life lines still have published tags; they carry no lifecycle data. PostgreSQL, MySQL, and Ruby image rules stay hand-written. | none |
 | `dotnet-1` | `dotnet` | The official .NET releases index: one `end-of-support` rule per release line whose end-of-life date has passed, each with its date. Lines that end in the future are noted, not drafted. | none |

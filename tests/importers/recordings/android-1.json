@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "evergreen.importer-recording.v1",
+  "importer": "android-1",
+  "recordedAt": "2026-10-19",
+  "responses": [
+    {
+      "url": "https://developer.android.com/google/play/requirements/target-sdk",
+      "accept": "text/html",
+      "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head><title>Meet Google Play's target API level requirement</title></head>\n<body>\n<article>\n<p>When you upload an APK, it must meet Google Play's target API level requirements.</p>\n\n<p>Starting August 31 2026:</p>\n\n<ul>\n<li>New apps and app updates must target Android 16 (API level 36) or higher to be\nsubmitted to Google Play; except for Wear OS and Android Automotive OS apps,\nwhich must target Android 15 (API level 35) or higher, and Android TV and\nAndroid XR apps, which must target Android 14 (API level 34) or higher.</li>\n<li>Existing apps must target Android 15 (API level 35) or higher to remain\navailable to new users on devices running Android OS higher than your app's\ntarget API level. Apps that target Android 14 (API level 34) or lower,\nincluding Android 13 (API level 33) or lower for Wear OS, Android TV, and\nAndroid XR, and Android 12 (API level 31) or lower for Android\nAutomotive OS, will only be available on devices running Android OS that\nare the same or lower than your app's target API level.</li>\n</ul>\n\n<p>If you need more time to update your app, you'll be able to request an\nextension to November 1, 2026. You'll be able to access your app's extension\nforms in Play Console later this year.</p>\n\n<p>Exceptions to these requirements include:</p>\n\n<ul>\n<li>Permanently private apps that are restricted to users in a specific\norganization and intended for internal distribution only.</li>\n</ul>\n</article>\n</body>\n</html>\n"
+    }
+  ],
+  "synthetic": true
+}
