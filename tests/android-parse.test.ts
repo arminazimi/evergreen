@@ -54,18 +54,97 @@ test("malformed unterminated string yields nothing without throwing", async () =
   assert.deepEqual(parseAndroidBuildGradle(malformed), []);
 });
 
-test("reads quoted buildToolsVersion and ignores values outside android blocks", () => {
-  const source = [
-    'buildToolsVersion "28.0.0"',
-    "android {",
-    '  buildToolsVersion "34.0.0"',
-    "  compileSdk = 34",
-    "}",
-  ].join("\n");
-  assert.deepEqual(parseAndroidBuildGradle(source), [
+test("one-line android and defaultConfig blocks in Groovy and Kotlin", () => {
+  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk 34 }"), [{ kind: "compileSdk", value: "34", line: 1 }]);
+  assert.deepEqual(parseAndroidBuildGradle("android { compileSdk = 34 }"), [{ kind: "compileSdk", value: "34", line: 1 }]);
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk 21 }\n}"), [{ kind: "minSdk", value: "21", line: 2 }]);
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  defaultConfig { minSdk = 21 }\n}"), [{ kind: "minSdk", value: "21", line: 2 }]);
+});
+
+test("ignores receiver and ext properties that look like SDK keys", () => {
+  assert.deepEqual(
+    parseAndroidBuildGradle("android {\n  ext.minSdk = 21\n  foo.compileSdk = 34\n  bar.targetSdk 33\n  baz.buildToolsVersion \"34.0.0\"\n}"),
+    [],
+  );
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  ext.minSdk = 21\n  minSdk = 22\n}"), [{ kind: "minSdk", value: "22", line: 3 }]);
+});
+
+test("skips method-call forms and legacy *Version names", () => {
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  compileSdk(34)\n  minSdk(21)\n  targetSdkVersion 33\n  compileSdkVersion = 34\n}"), []);
+});
+
+test("reads buildToolsVersion in Groovy and Kotlin equals form", () => {
+  assert.deepEqual(parseAndroidBuildGradle('buildToolsVersion "28.0.0"\nandroid {\n  buildToolsVersion "34.0.0"\n  compileSdk = 34\n}'), [
     { kind: "buildToolsVersion", value: "34.0.0", line: 3 },
     { kind: "compileSdk", value: "34", line: 4 },
   ]);
+  assert.deepEqual(parseAndroidBuildGradle('android {\n  buildToolsVersion = "35.0.0"\n}'), [
+    { kind: "buildToolsVersion", value: "35.0.0", line: 2 },
+  ]);
+});
+
+test("nested defaultConfig versus declarations outside android blocks", () => {
+  const source = [
+    "minSdk 9",
+    "android {",
+    "  compileSdk 34",
+    "  defaultConfig {",
+    "    minSdk 21",
+    "    targetSdk 34",
+    "  }",
+    "}",
+    "targetSdk 8",
+  ].join("\n");
+  assert.deepEqual(parseAndroidBuildGradle(source), [
+    { kind: "compileSdk", value: "34", line: 3 },
+    { kind: "minSdk", value: "21", line: 5 },
+    { kind: "targetSdk", value: "34", line: 6 },
+  ]);
+});
+
+test("two android blocks each contribute declarations", () => {
+  const source = "android { compileSdk 34 }\nandroid {\n  minSdk = 21\n}";
+  assert.deepEqual(parseAndroidBuildGradle(source), [
+    { kind: "compileSdk", value: "34", line: 1 },
+    { kind: "minSdk", value: "21", line: 3 },
+  ]);
+});
+
+test("CRLF line endings keep 1-based line numbers", () => {
+  assert.deepEqual(parseAndroidBuildGradle("android {\r\n  compileSdk 34\r\n  minSdk = 21\r\n}"), [
+    { kind: "compileSdk", value: "34", line: 2 },
+    { kind: "minSdk", value: "21", line: 3 },
+  ]);
+});
+
+test("escaped quotes inside a string do not hide a later declaration", () => {
+  assert.deepEqual(parseAndroidBuildGradle('android {\n  def label = "say \\"hi\\""\n  compileSdk 34\n}'), [
+    { kind: "compileSdk", value: "34", line: 3 },
+  ]);
+});
+
+test("dollar interpolation in values is skipped", () => {
+  assert.deepEqual(parseAndroidBuildGradle('android {\n  targetSdk = "$target"\n  minSdk "${min}"\n  compileSdk 34\n}'), [
+    { kind: "compileSdk", value: "34", line: 4 },
+  ]);
+});
+
+test("stops values before trailing line comments", () => {
+  assert.deepEqual(parseAndroidBuildGradle("android {\n  compileSdk 34 // old\n  minSdk = 21 /* x */\n}"), [
+    { kind: "compileSdk", value: "34", line: 2 },
+    { kind: "minSdk", value: "21", line: 3 },
+  ]);
+});
+
+test("large files with many string literals stay linear-time", () => {
+  const strings = Array.from({ length: 20_000 }, (_, i) => `  def s${i} = "literal-${i}"`).join("\n");
+  const source = `android {\n${strings}\n  compileSdk 34\n}`;
+  assert.ok(Buffer.byteLength(source, "utf8") < MAXIMUM_INPUT_BYTES);
+  const started = performance.now();
+  const result = parseAndroidBuildGradle(source);
+  const elapsed = performance.now() - started;
+  assert.deepEqual(result, [{ kind: "compileSdk", value: "34", line: 20_002 }]);
+  assert.ok(elapsed < 2000, `expected under 2000ms, took ${elapsed}ms`);
 });
 
 test("junk, oversize, and null-byte inputs yield nothing", () => {
