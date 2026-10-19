@@ -14,7 +14,7 @@ npm marks @types/react-window as deprecated: "This is a stub types definition. r
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/react-window` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/2.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | react-window |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/react-window as deprecated: "This is a stub types definition. r
 ## Sources
 
 - [@types/react-window on npm](https://www.npmjs.com/package/@types/react-window)
-- [@types/react-window registry metadata](https://registry.npmjs.org/@types%2freact-window/latest)
+- [@types/react-window version metadata](https://registry.npmjs.org/@types%2freact-window)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/react-window registry metadata",
-      "url": "https://registry.npmjs.org/@types%2freact-window/latest"
+      "name": "@types/react-window version metadata",
+      "url": "https://registry.npmjs.org/@types%2freact-window"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

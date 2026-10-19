@@ -196,7 +196,7 @@
     {
       "id": "npm",
       "level": "stable",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -209,8 +209,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 8,
-        "expectedFindings": 10,
+        "repositoriesWithFindings": 10,
+        "expectedFindings": 22,
         "zeroFindingRepositories": 8
       }
     },

@@ -14,7 +14,7 @@ npm marks @types/refractor as deprecated: "This is a stub types definition. refr
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/refractor` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/4.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | refractor |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/refractor as deprecated: "This is a stub types definition. refr
 ## Sources
 
 - [@types/refractor on npm](https://www.npmjs.com/package/@types/refractor)
-- [@types/refractor registry metadata](https://registry.npmjs.org/@types%2frefractor/latest)
+- [@types/refractor version metadata](https://registry.npmjs.org/@types%2frefractor)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/refractor registry metadata",
-      "url": "https://registry.npmjs.org/@types%2frefractor/latest"
+      "name": "@types/refractor version metadata",
+      "url": "https://registry.npmjs.org/@types%2frefractor"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

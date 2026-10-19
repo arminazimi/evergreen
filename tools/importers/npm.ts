@@ -1,3 +1,5 @@
+import semver from "semver";
+
 import { formatPurl } from "../../src/purl.js";
 import { NPM_CANDIDATES } from "./npm-candidates.js";
 import { fetchJson } from "./types.js";
@@ -77,18 +79,28 @@ export const npmDeprecatedImporter: Importer = {
         notDeprecated.push(name);
         continue;
       }
+      const metadataUrl = registryUrl(name).replace(/\/latest$/, "");
+      const metadata = await fetchJson<{ versions?: Record<string, LatestManifest> }>(context, metadataUrl);
+      const versions = Object.entries(metadata.versions ?? {})
+        .filter(([version, manifest]) => semver.valid(version) && typeof manifest.deprecated === "string" && manifest.deprecated.trim())
+        .map(([version]) => version)
+        .sort(semver.compare);
+      if (versions.length === 0) {
+        notes.push(`Skipped ${name}: no deprecated versions in package metadata.`);
+        continue;
+      }
       rules.push({
         id: `npm.package.${ruleSlug(name)}.deprecated`,
         ecosystem: "npm",
         purl: purlFor(name),
-        vers: "vers:npm/*",
+        vers: `vers:npm/${versions.join("|")}`,
         event: "deprecated",
         title: `${name} is deprecated`,
         summary: `npm marks ${name} as deprecated: "${quote(message)}"`,
         severity: "medium",
         sources: [
           { title: `${name} on npm`, url: `https://www.npmjs.com/package/${name}` },
-          { title: `${name} registry metadata`, url: registryUrl(name) },
+          { title: `${name} registry metadata`, url: metadataUrl },
         ],
         "x-npm": { package: name },
       });

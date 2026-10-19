@@ -14,7 +14,7 @@ npm marks @types/socket.io-client as deprecated: "This is a stub types definitio
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/socket.io-client` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/3.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | socket.io-client |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/socket.io-client as deprecated: "This is a stub types definitio
 ## Sources
 
 - [@types/socket.io-client on npm](https://www.npmjs.com/package/@types/socket.io-client)
-- [@types/socket.io-client registry metadata](https://registry.npmjs.org/@types%2fsocket.io-client/latest)
+- [@types/socket.io-client version metadata](https://registry.npmjs.org/@types%2fsocket.io-client)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/socket.io-client registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fsocket.io-client/latest"
+      "name": "@types/socket.io-client version metadata",
+      "url": "https://registry.npmjs.org/@types%2fsocket.io-client"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

@@ -14,7 +14,7 @@ npm marks @types/react-virtualized-auto-sizer as deprecated: "This is a stub typ
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/react-virtualized-auto-sizer` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/1.0.8` |
 | Date from the source | The source gives no day |
 | Replacement | react-virtualized-auto-sizer |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/react-virtualized-auto-sizer as deprecated: "This is a stub typ
 ## Sources
 
 - [@types/react-virtualized-auto-sizer on npm](https://www.npmjs.com/package/@types/react-virtualized-auto-sizer)
-- [@types/react-virtualized-auto-sizer registry metadata](https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer/latest)
+- [@types/react-virtualized-auto-sizer version metadata](https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/react-virtualized-auto-sizer registry metadata",
-      "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer/latest"
+      "name": "@types/react-virtualized-auto-sizer version metadata",
+      "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

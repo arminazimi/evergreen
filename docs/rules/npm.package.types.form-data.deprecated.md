@@ -14,7 +14,7 @@ npm marks @types/form-data as deprecated: "This is a stub types definition. form
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/form-data` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/2.5.0\|2.5.1\|2.5.2` |
 | Date from the source | The source gives no day |
 | Replacement | form-data |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/form-data as deprecated: "This is a stub types definition. form
 ## Sources
 
 - [@types/form-data on npm](https://www.npmjs.com/package/@types/form-data)
-- [@types/form-data registry metadata](https://registry.npmjs.org/@types%2fform-data/latest)
+- [@types/form-data version metadata](https://registry.npmjs.org/@types%2fform-data)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/form-data registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fform-data/latest"
+      "name": "@types/form-data version metadata",
+      "url": "https://registry.npmjs.org/@types%2fform-data"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

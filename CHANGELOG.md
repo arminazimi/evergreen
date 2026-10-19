@@ -4,6 +4,8 @@
 
 ## 0.4.0 - 2026-10-19
 
+- Honor per-version npm deprecation notices and resolved dependency versions; remove nine false alarms and independently review twelve additional public-corpus findings. (#825)
+
 - Publish signed Evergreen container images to GHCR. (#820)
 - Import end-of-life drafts from PHP release branches (#447). (#819)
 - Seed registry with five evidence-backed lifecycle rules. (#817)

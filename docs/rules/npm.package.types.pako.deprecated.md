@@ -14,7 +14,7 @@ npm marks @types/pako as deprecated: "This is a stub types definition. pako prov
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/pako` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/3.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | pako |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/pako as deprecated: "This is a stub types definition. pako prov
 ## Sources
 
 - [@types/pako on npm](https://www.npmjs.com/package/@types/pako)
-- [@types/pako registry metadata](https://registry.npmjs.org/@types%2fpako/latest)
+- [@types/pako version metadata](https://registry.npmjs.org/@types%2fpako)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/pako registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fpako/latest"
+      "name": "@types/pako version metadata",
+      "url": "https://registry.npmjs.org/@types%2fpako"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

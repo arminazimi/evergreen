@@ -14,7 +14,7 @@ npm marks @types/diff as deprecated: "This is a stub types definition. diff prov
 | Severity | low |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/%40types/diff` |
-| Affected versions | `vers:npm/*` |
+| Affected versions | `vers:npm/8.0.0` |
 | Date from the source | The source gives no day |
 | Replacement | diff |
 | Evidence last seen | 2026-10-19 |
@@ -25,7 +25,7 @@ npm marks @types/diff as deprecated: "This is a stub types definition. diff prov
 ## Sources
 
 - [@types/diff on npm](https://www.npmjs.com/package/@types/diff)
-- [@types/diff registry metadata](https://registry.npmjs.org/@types%2fdiff/latest)
+- [@types/diff version metadata](https://registry.npmjs.org/@types%2fdiff)
 
 ## Migration
 
@@ -80,8 +80,8 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
     },
     {
       "@type": "CreativeWork",
-      "name": "@types/diff registry metadata",
-      "url": "https://registry.npmjs.org/@types%2fdiff/latest"
+      "name": "@types/diff version metadata",
+      "url": "https://registry.npmjs.org/@types%2fdiff"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",

@@ -63,10 +63,10 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
   assert.ok(data.corpus.repositories >= last.repositories);
 });
 
-test("the evidence counts agree with the table in ADR 0013", () => {
+test("the evidence counts agree with the reviewed corpus", () => {
   const evidence = Object.fromEntries(build().detectors.map((detector) => [detector.id, detector.evidence]));
   assert.deepEqual(evidence["github-actions"], { repositoriesWithFindings: 33, expectedFindings: 205, zeroFindingRepositories: 2 });
-  assert.deepEqual(evidence["npm"], { repositoriesWithFindings: 8, expectedFindings: 10, zeroFindingRepositories: 8 });
+  assert.deepEqual(evidence["npm"], { repositoriesWithFindings: 10, expectedFindings: 22, zeroFindingRepositories: 8 });
 });
 
 test("a detector with no run data has null run numbers, not zeros", () => {
