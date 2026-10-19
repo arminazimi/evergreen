@@ -1361,7 +1361,29 @@ Detectors that live outside this repository use the public SDK directly, as desc
 
 ## Maturity
 
-Every built-in detector has a level (`experimental`, `beta`, or `stable`) in `benchmarks/thresholds.json`. The level says what the detector promises and which corpus evidence it rests on; [decision 0013](decisions/0013-detector-maturity.md) defines both. A new detector starts as `experimental`, and moving it up is a pull request that changes the level and records the corpus run behind it.
+Every built-in detector has a level (`experimental`, `beta`, or `stable`) in `benchmarks/thresholds.json`. The level is what the detector promises users. [Decision 0013](decisions/0013-detector-maturity.md) defines those promises and the evidence that earns each level. The table below is that evidence, and `earnedLevel` in `benchmarks/thresholds.ts` checks the counts. A new detector starts as `experimental`.
+
+A promotion is a pull request that changes `level` and records the corpus run the claim rests on: date, commit, precision, recall, and the counts below. For `beta` and `stable`, the thresholds file sets `stable` to `true`, so the corpus run enforces the precision floor. A demotion is the same pull request in reverse. It is also required when a full run shows precision or recall below the floor for that level and the gap is still open 30 days later.
+
+### Promotion gates
+
+A detector is named by the first segment of its rule ids. Conformance is the shared harness: determinism, locations, evidence, a mandatory zero-finding fixture, and malformed input that does not throw. "Repositories with findings" counts corpus repositories with at least one expected finding for that detector. "Zero-finding repositories" counts corpus repositories of the detector's ecosystem with no expected findings. A repository is blind when a rule fixed before the scan chose it. A repository picked because it contained a finding is targeted, and the corpus entry records `selection`. Every expected finding has a `groundTruthSource` that is independent of Evergreen's own output.
+
+| Gate | Experimental → beta | Beta → stable |
+| --- | --- | --- |
+| Conformance | Passes on positive, negative, zero, and malformed fixtures | Still passes |
+| Repositories with findings | At least 8 | At least 20 |
+| Expected findings | At least 15 | At least 60 |
+| Zero-finding repositories | At least 2 | At least 4 |
+| Blind selection | At least half of the ecosystem's corpus repositories | At least two thirds |
+| Precision on the whole corpus | At least 0.95 | At least 0.95 |
+| Recall on the whole corpus | At least 0.80 | At least 0.90 |
+| Full corpus run on current main, recorded in the thresholds file | Within 30 days | Within 30 days, with no precision or recall regression left open |
+| Detector page | `docs/detectors/` states what is and is not judged | The page still matches the detector |
+
+Experimental → beta is the conformance suite plus the beta column. Beta → stable keeps precision at or above 0.95 on the larger corpus, and the recorded run stays inside 30 days (four weeks) with no regression left open. An `experimental` detector is still scored; a precision or recall miss does not fail its run.
+
+Four detectors that predate this bar (`github-actions`, `nodejs`, `npm`, and `python`) keep the level they already have until the corpus catches up. The threshold test names them. Every other detector's level has to meet the column it claims.
 
 ## Unclassified references
 
