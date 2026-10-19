@@ -24,6 +24,10 @@
         {
           "title": "cmake_minimum_required (Changed in 4.0)",
           "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+        },
+        {
+          "title": "CMake 4.0.0 GitHub release",
+          "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0"
         }
       ],
       "provenance": {
@@ -59,7 +63,7 @@
       "vers": "vers:semver/>=3.5.0|<3.10.0",
       "event": "deprecated",
       "title": "CMake policy versions older than 3.10 are deprecated",
-      "summary": "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions below 3.5 are covered by the removal rule instead.",
+      "summary": "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions older than 3.5 are covered by the removal rule instead.",
       "severity": "medium",
       "replacement": "cmake_minimum_required(VERSION 3.10) or newer, or VERSION <min>...<max> with <max> at least 3.10",
       "deadline": "2024-11-06",
@@ -71,6 +75,10 @@
         {
           "title": "cmake_minimum_required (Changed in 3.31)",
           "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+        },
+        {
+          "title": "CMake 3.31.0 GitHub release",
+          "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
         }
       ],
       "provenance": {

@@ -1,4 +1,4 @@
-import { member, readJsonLines } from "./json-lines.js";
+import { member, readJsonLines } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for `packages.lock.json`: the resolved version of every `"type": "Direct"` dependency,
@@ -20,7 +20,7 @@ export interface LockedPackage {
 }
 
 export function parsePackagesLock(contents: string): LockedPackage[] {
-  const dependencies = member(readJsonLines(contents), "dependencies")?.value;
+  const dependencies = member(readJsonLines(contents, { comments: true }), "dependencies")?.value;
   if (dependencies?.kind !== "object") return [];
   const packages: LockedPackage[] = [];
   for (const framework of dependencies.members) {

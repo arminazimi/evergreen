@@ -1,4 +1,4 @@
-import { member, readJsonLines } from "../dotnet/json-lines.js";
+import { member, readJsonLines } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for the resolved package versions in Package.resolved (SwiftPM lock file v2).
@@ -11,7 +11,7 @@ import { member, readJsonLines } from "../dotnet/json-lines.js";
  * The parser never evaluates contents or runs SwiftPM.
  */
 
-export { MAXIMUM_INPUT_BYTES } from "../dotnet/json-lines.js";
+export { MAXIMUM_INPUT_BYTES } from "../json-lines.js";
 
 export interface PackageResolvedPin {
   /** The package identity as written, such as `swift-log`. */
@@ -24,7 +24,7 @@ export interface PackageResolvedPin {
 
 /** Parse pinned versions from Package.resolved without file, network, or process I/O. */
 export function parsePackageResolved(contents: string): PackageResolvedPin[] {
-  const root = readJsonLines(contents);
+  const root = readJsonLines(contents, { comments: false });
   const pins = member(root, "pins")?.value;
   if (pins?.kind !== "array") return [];
 

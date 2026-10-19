@@ -6,17 +6,22 @@ import { validateRegistryV2 } from "../src/registry.js";
 import { versContains } from "../src/vers/index.js";
 
 const CMAKE_ORG = /^https:\/\/cmake\.org\/cmake\/help\/latest\//;
+const KITWARE_RELEASE = /^https:\/\/github\.com\/Kitware\/CMake\/releases\/tag\/v[\d.]+$/;
 
 async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/cpp.json", "utf8"))).rules;
 }
 
-test("the C and C++ registry has five valid rules, each citing cmake.org", async () => {
+test("the C and C++ registry has five valid rules, each citing cmake.org or a Kitware release", async () => {
   const all = await rules();
   assert.equal(all.length, 5);
   for (const rule of all) {
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://")), rule.id);
-    assert.ok(rule.sources.every((source) => CMAKE_ORG.test(source.url)), `${rule.id} cites cmake.org docs`);
+    assert.ok(
+      rule.sources.every((source) => CMAKE_ORG.test(source.url) || KITWARE_RELEASE.test(source.url)),
+      `${rule.id} cites cmake.org docs or a Kitware GitHub release`,
+    );
+    assert.ok(rule.sources.some((source) => CMAKE_ORG.test(source.url)), `${rule.id} cites cmake.org docs`);
   }
 });
 

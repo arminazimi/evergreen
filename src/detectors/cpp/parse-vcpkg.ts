@@ -1,4 +1,4 @@
-import { member, readJsonLines, type JsonNode } from "./json-lines.js";
+import { member, readJsonLines, type JsonNode } from "../json-lines.js";
 
 /**
  * Pure, bounded parser for the declarations Evergreen reads from `vcpkg.json`: the top-level
@@ -20,7 +20,7 @@ import { member, readJsonLines, type JsonNode } from "./json-lines.js";
  * Nothing is evaluated and `vcpkg` is never run.
  */
 
-export { MAXIMUM_INPUT_BYTES } from "./json-lines.js";
+export { MAXIMUM_INPUT_BYTES } from "../json-lines.js";
 
 export interface VcpkgBaselineDeclaration {
   kind: "vcpkg-baseline";
@@ -70,7 +70,7 @@ function dependency(node: JsonNode): VcpkgDependencyDeclaration | undefined {
  * overrides, and malformed documents return nothing for those parts (or everything, when the file is invalid).
  */
 export function parseVcpkgJson(contents: string): VcpkgDeclaration[] {
-  const root = readJsonLines(contents);
+  const root = readJsonLines(contents, { comments: false });
   if (root?.kind !== "object") return [];
 
   const declarations: VcpkgDeclaration[] = [];

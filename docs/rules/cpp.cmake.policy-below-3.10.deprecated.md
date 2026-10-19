@@ -6,7 +6,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-be
 
 # CMake policy versions older than 3.10 are deprecated
 
-CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions below 3.5 are covered by the removal rule instead.
+CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions older than 3.5 are covered by the removal rule instead.
 
 | | |
 | --- | --- |
@@ -26,6 +26,7 @@ CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmak
 
 - [CMake 3.31 release notes (compatibility older than 3.10 deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html)
 - [cmake_minimum_required (Changed in 3.31)](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
+- [CMake 3.31.0 GitHub release](https://github.com/Kitware/CMake/releases/tag/v3.31.0)
 
 ## Migration
 
@@ -80,6 +81,11 @@ This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/
       "@type": "CreativeWork",
       "name": "cmake_minimum_required (Changed in 3.31)",
       "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "CMake 3.31.0 GitHub release",
+      "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
