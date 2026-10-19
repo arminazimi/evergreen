@@ -222,13 +222,16 @@ test("skips kotlin() shorthand and chained .version forms", () => {
 });
 
 test("incomplete id plus huge blank run stays linear and returns nothing", () => {
-  const source = `id 'com.android.application'${"\n".repeat(100_000)}`;
-  assert.ok(Buffer.byteLength(source, "utf8") < MAXIMUM_INPUT_BYTES);
-  const started = performance.now();
-  const result = parseAndroidSettingsGradle(source);
-  const elapsed = performance.now() - started;
-  assert.deepEqual(result, []);
-  assert.ok(elapsed < 2000, `expected under 2000ms, took ${elapsed}ms`);
+  const blankLines = `id 'com.android.application'${"\n".repeat(100_000)}`;
+  const longSpaces = `id 'com.android.application'${" ".repeat(80_000)}`;
+  for (const source of [blankLines, longSpaces]) {
+    assert.ok(Buffer.byteLength(source, "utf8") < MAXIMUM_INPUT_BYTES);
+    const started = performance.now();
+    const result = parseAndroidSettingsGradle(source);
+    const elapsed = performance.now() - started;
+    assert.deepEqual(result, []);
+    assert.ok(elapsed < 2000, `expected under 2000ms, took ${elapsed}ms`);
+  }
 });
 
 test("settings junk and oversize inputs yield nothing", () => {
