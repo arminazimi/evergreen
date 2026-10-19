@@ -21,6 +21,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
 
+## cpp
+
+- [The Visual Studio 12 2013 generator is removed](cpp.cmake.generator.visual-studio-12-2013.removed.html) — removed, `cpp.cmake.generator.visual-studio-12-2013.removed`
+- [The CMakeFindFrameworks module is deprecated](cpp.cmake.module.cmake-find-frameworks.deprecated.html) — deprecated, `cpp.cmake.module.cmake-find-frameworks.deprecated`
+- [The FindGDAL module is deprecated](cpp.cmake.module.find-gdal.deprecated.html) — deprecated, `cpp.cmake.module.find-gdal.deprecated`
+- [CMake policy versions older than 3.10 are deprecated](cpp.cmake.policy-below-3.10.deprecated.html) — deprecated, `cpp.cmake.policy-below-3.10.deprecated`
+- [CMake policy versions older than 3.5 are removed](cpp.cmake.policy-below-3.5.removed.html) — removed, `cpp.cmake.policy-below-3.5.removed`
+
 ## dotnet
 
 - [WindowsAzure.Storage is deprecated on NuGet](dotnet.package.windowsazure-storage.deprecated.html) — deprecated, `dotnet.package.windowsazure-storage.deprecated`

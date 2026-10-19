@@ -9,6 +9,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator.visual-studio-12-2013.removed.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.5.removed.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.1.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html</loc><lastmod>2026-10-17</lastmod></url>

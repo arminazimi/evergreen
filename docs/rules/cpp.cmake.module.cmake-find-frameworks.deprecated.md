@@ -1,0 +1,92 @@
+---
+title: "The CMakeFindFrameworks module is deprecated — dates, impact, migration"
+description: "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html"
+---
+
+# The CMakeFindFrameworks module is deprecated
+
+CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.
+
+| | |
+| --- | --- |
+| Status | Deprecated |
+| Severity | medium |
+| Ecosystem | `cpp` |
+| Component | `pkg:generic/cmake-module/cmake-find-frameworks` |
+| Affected versions | `vers:semver/*` |
+| Date from the source | 2024-11-06 |
+| Replacement | find_library() |
+| Evidence last seen | 2026-10-19 |
+| Reviewed | 2026-10-19 by arminazimi |
+| Review due | 2027-04-17 (180 days after the last review) |
+| Rule ID | `cpp.cmake.module.cmake-find-frameworks.deprecated` |
+
+## Sources
+
+- [CMake 3.31 release notes (CMakeFindFrameworks deprecated)](https://cmake.org/cmake/help/latest/release/3.31.html)
+- [CMakeFindFrameworks module documentation](https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html)
+
+## Migration
+
+**Constraints**
+
+- Preserve the framework search paths and the library names the project already expects when rewriting calls to find_library().
+
+**Steps**
+
+1. **Replace CMakeFindFrameworks with find_library.** Remove include(CMakeFindFrameworks) / cmake_find_frameworks() and locate the same frameworks with find_library().
+
+**Verification**
+
+- `cmake -S . -B build -Wdev`: Configure with developer warnings and confirm the CMP0173 deprecation is gone.
+
+## Detected by
+
+No built-in detector reads `cpp` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json).
+
+## Data
+
+This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json), rule `cpp.cmake.module.cmake-find-frameworks.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+  "headline": "The CMakeFindFrameworks module is deprecated — dates, impact, migration",
+  "description": "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-19",
+  "keywords": [
+    "deprecated",
+    "cpp",
+    "medium"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "The CMakeFindFrameworks module is deprecated",
+    "identifier": "pkg:generic/cmake-module/cmake-find-frameworks"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
+      "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "CMakeFindFrameworks module documentation",
+      "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>
