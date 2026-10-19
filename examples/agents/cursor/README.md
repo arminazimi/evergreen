@@ -8,11 +8,11 @@ Requires Node.js 22 or newer.
 
 ## Verification status
 
-The file names, keys, and fields follow the vendor documentation read on 2026-10-16 (linked below). Two things are checked, and one is not:
+The file names, keys, and fields follow the vendor documentation read on 2026-10-16 (linked below). Both the server and the host have been checked:
 
-- **Checked (2026-10-18, repeated for 0.3.0 the same day):** the server command in this configuration, `npx --yes --package evergreen-deprecation@0.3.0 evergreen-mcp`, was run from the published npm package with a hand-written MCP client (the same check with the 0.2.0 release passed on 2026-10-18). The server answered `initialize` (evergreen 0.3.0, protocol 2025-06-18), listed its six tools (`check_dependency`, `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration`), and `check_dependency` for `pkg:npm/request` returned the `npm.package.request.deprecated` finding with its replacement and sources.
-- **Not checked:** this configuration has **not** been run inside a live installation of the host, because that needs a licensed host session. Before relying on this setup, run the check below and record the host version here in a pull request.
+- **Checked (2026-10-18, repeated for 0.3.0 the same day):** the server command in this configuration, `npx --yes --package evergreen-deprecation@0.3.0 evergreen-mcp`, was run from the published npm package with a hand-written MCP client. The server answered `initialize` (evergreen 0.3.0, protocol 2025-06-18), listed its six tools (`check_dependency`, `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration`), and `check_dependency` for `pkg:npm/request` returned the `npm.package.request.deprecated` finding with its replacement and sources.
+- **Checked in the host (2026-10-19, Cursor 3.25.9, macOS):** in an empty project with `.cursor/mcp.json` and `.cursor/rules/evergreen.mdc` copied from this directory, the prompt `Add the request package to this project` made the agent call `check_dependency` for `pkg:npm/request` through the `evergreen` server. It reported the package as affected (deprecated since 2020-02-11), cited the npm deprecation notice, recommended native `fetch` or a maintained HTTP client, and did not add `request`.
 
-To verify: start the host in a project that has this setup, ask it to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with its replacement and sources.
+To repeat the check: start the host in a project that has this setup, ask it to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with its replacement and sources.
 
 Documentation: [Cursor rules](https://cursor.com/docs/rules), [Cursor MCP](https://cursor.com/docs/mcp).
