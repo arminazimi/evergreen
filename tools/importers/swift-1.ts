@@ -60,10 +60,9 @@ function decodeEntities(value: string): string {
 }
 
 /**
- * Strip HTML tags without scanning past the next "<". `/<[^>]+>/g` is quadratic when the input
- * contains many "<" characters with no matching ">" (each attempt walks to the end).
- * Incomplete openers that are only "<" runs (no tag name before the next "<" or end) are dropped
- * so a wall of "<" characters collapses to empty text.
+ * Strip HTML tags with `/<[^<>]*>/g` so a bare "<" never scans past the next "<" (the old
+ * `/<[^>]+>/g` is quadratic on long "<" runs). Lone "<" characters with no tag body are dropped
+ * so a wall of "<" collapses to empty text; a comparison like `a < b` is kept.
  */
 function plainText(html: string): string {
   return decodeEntities(html.replace(/<[^<>]*>|<(?=[<]|$)/g, " "))

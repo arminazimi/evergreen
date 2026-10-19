@@ -118,7 +118,9 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
   assert.ok(drafts.notes.some((note) => note.includes("tvOS-only")));
 });
 
-test("diff against the curated registry reports the finer 14.1 bands as additions", async () => {
+// Draft bands below-14.1 and 14.1-through-14 overlap curated swift.xcode.app-store-below-15;
+// a reviewer must pick one set. This PR does not change registry/swift.json.
+test("diff against the curated registry reports additions and leaves below-15 for the reviewer", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/swift.json"), "utf8")) as RegistryV2;
   const drafts = await execute(swiftAppStoreImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
@@ -126,8 +128,13 @@ test("diff against the curated registry reports the finer 14.1 bands as addition
     diff.added.map((rule) => rule.id).sort(),
     ["swift.xcode.app-store-14-1-through-14", "swift.xcode.app-store-below-14-1"],
   );
-  // Curated rules have no provenance.importer, so diff.removed stays empty (hand-written rules are never "removed").
-  assert.deepEqual(diff.removed, []);
+  // Hand-written rules lack provenance.importer, so diff.removed stays empty. The curated
+  // below-15 rule is still in the registry and absent from drafts — that is the overlap to resolve.
+  assert.deepEqual(diff.removed.map((rule) => rule.id), []);
+  assert.deepEqual(
+    registry.rules.map((rule) => rule.id).filter((id) => !drafts.rules.some((draft) => draft.id === id)),
+    ["swift.xcode.app-store-below-15"],
+  );
   assert.deepEqual(diff.unchanged, ["swift.xcode.app-store-15-through-25"]);
   assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.duplicates, []);
