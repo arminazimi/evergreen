@@ -1,4 +1,14 @@
+/**
+ * Recording provenance: `tests/importers/recordings/android-1.json` is the unedited raw HTML from
+ * the Wayback Machine `id_` capture dated 2026-09-29 of
+ * https://developer.android.com/google/play/requirements/target-sdk
+ * (https://web.archive.org/web/20260929090425id_/https://developer.android.com/google/play/requirements/target-sdk).
+ * Live `developer.android.com` returns HTTP 403 to the importer user agent; the recording keeps the
+ * live URL so replay matches what the importer fetches. Schema `evergreen.importer-recording.v1`
+ * has no provenance/note field, so this comment and the PR body carry that history.
+ */
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
@@ -9,6 +19,8 @@ import { execute, runImporter } from "../../tools/importers/run.js";
 import type { ImporterContext } from "../../tools/importers/types.js";
 
 const recording = resolve("tests/importers/recordings/android-1.json");
+const EXISTING_APPS_SENTENCE =
+  "including Android 13 (API level 33) or lower for Wear OS, Android TV, and Android XR, and Android 12 (API level 31) or lower for Android Automotive OS";
 
 const NEW_APPS =
   "New apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target Android 15 (API level 35) or higher, and Android TV and Android XR apps, which must target Android 14 (API level 34) or higher.";
@@ -101,6 +113,12 @@ const EXPECTED_AFTER_DEADLINE = [
 ] as const;
 
 test("drafts one form-factor rule per Play targetSdk floor from the recording", async () => {
+  const recordedBody = (JSON.parse(readFileSync(recording, "utf8")) as { responses: { body: string }[] }).responses[0]!
+    .body;
+  const collapsed = recordedBody.replace(/\s+/g, " ");
+  assert.ok(collapsed.includes("Starting August 31 2026:"));
+  assert.ok(collapsed.includes(EXISTING_APPS_SENTENCE));
+
   const drafts = await execute(androidTargetSdkImporter, { replay: recording, now: "2026-10-19" });
   assert.equal(drafts.observedAt, "2026-10-19");
   assert.deepEqual(
@@ -260,4 +278,14 @@ test("a source failure stops the run", async () => {
     }),
     /source is down/,
   );
+});
+
+test("unterminated script tags strip in linear time without drafting rules", async () => {
+  const body = "<script>".repeat(40_000);
+  const started = performance.now();
+  const result = await runImporter(androidTargetSdkImporter, inline(body));
+  const elapsed = performance.now() - started;
+  assert.ok(elapsed < 200, `expected under 200ms, took ${elapsed}ms`);
+  assert.deepEqual(result.rules, []);
+  assert.deepEqual(result.notes, ["No usable 'Starting <date>:' requirement block was found on the target API page."]);
 });

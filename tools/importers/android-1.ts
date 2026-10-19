@@ -35,12 +35,48 @@ interface Requirement {
   quote: string;
 }
 
+/**
+ * Remove `<script>` / `<style>` blocks with a linear scan. A missing closer drops the rest of the
+ * document so pathological markup cannot quadratic-backtrack the way a `/[\s\S]*?<\/script>/` regex can.
+ */
+function stripTagBlocks(html: string, tag: "script" | "style"): string {
+  const open = `<${tag}`;
+  const close = `</${tag}>`;
+  const lower = html.toLowerCase();
+  let out = "";
+  let cursor = 0;
+  while (cursor < html.length) {
+    const openAt = lower.indexOf(open, cursor);
+    if (openAt === -1) {
+      out += html.slice(cursor);
+      break;
+    }
+    const afterName = openAt + open.length;
+    const boundary = html[afterName];
+    // Require the same `\b` the old regex used: not `<scripted` / `<stylesheet`.
+    if (boundary !== undefined && boundary !== ">" && boundary !== "/" && !/\s/.test(boundary)) {
+      out += html.slice(cursor, afterName);
+      cursor = afterName;
+      continue;
+    }
+    out += html.slice(cursor, openAt);
+    const openEnd = html.indexOf(">", afterName);
+    if (openEnd === -1) {
+      break;
+    }
+    const closeAt = lower.indexOf(close, openEnd + 1);
+    if (closeAt === -1) {
+      break;
+    }
+    out += " ";
+    cursor = closeAt + close.length;
+  }
+  return out;
+}
+
 /** Strip markup and normalize entities/typography so requirement regexes see plain ASCII text. */
 function pageText(html: string): string {
-  const stripped = html
-    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ");
+  const stripped = stripTagBlocks(stripTagBlocks(html, "script"), "style").replace(/<[^>]+>/g, " ");
   const decoded = stripped
     .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) => String.fromCodePoint(Number.parseInt(hex, 16)))
     .replace(/&#(\d+);/g, (_, dec: string) => String.fromCodePoint(Number(dec)))
