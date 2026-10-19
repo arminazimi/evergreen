@@ -1,12 +1,12 @@
 ---
-title: "Xcode 14.1 through 14 are not accepted for App Store uploads — dates, impact, migration"
-description: "Since April 29, 2024. Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-14-1-through-14.html"
+title: "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration"
+description: "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html"
 ---
 
-# Xcode 14.1 through 14 are not accepted for App Store uploads
+# Xcode older than 15 is not accepted for App Store uploads
 
-Since April 29, 2024. Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.
+Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.
 
 | | |
 | --- | --- |
@@ -14,17 +14,17 @@ Since April 29, 2024. Apps uploaded to App Store Connect must be built with Xcod
 | Severity | high |
 | Ecosystem | `swift` |
 | Component | `pkg:generic/xcode` |
-| Affected versions | `vers:semver/>=14.1.0\|<15.0.0` |
+| Affected versions | `vers:semver/<15.0.0` |
 | Date from the source | 2024-04-29 |
-| Replacement | Xcode 15 or later |
+| Replacement | Xcode 26 or later |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-01-17 (90 days after the last review) |
-| Rule ID | `swift.xcode.app-store-14-1-through-14` |
+| Rule ID | `swift.xcode.app-store-below-15` |
 
 ## Sources
 
-- [Xcode 15 — App Store upcoming requirements (Xcode 15)](https://developer.apple.com/news/upcoming-requirements/?id=04292024a)
+- [Xcode 15 — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=04292024a)
 
 ## Migration
 
@@ -49,17 +49,17 @@ No built-in detector reads `swift` declarations yet; the rule is data in the [li
 
 ## Data
 
-This page is generated from [`registry/swift.json`](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json), rule `swift.xcode.app-store-14-1-through-14`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/swift.json`](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json), rule `swift.xcode.app-store-below-15`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-14-1-through-14.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-14-1-through-14.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-14-1-through-14.html",
-  "headline": "Xcode 14.1 through 14 are not accepted for App Store uploads — dates, impact, migration",
-  "description": "Since April 29, 2024. Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
+  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+  "headline": "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration",
+  "description": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [
@@ -69,13 +69,13 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
   ],
   "about": {
     "@type": "Thing",
-    "name": "Xcode 14.1 through 14 are not accepted for App Store uploads",
+    "name": "Xcode older than 15 is not accepted for App Store uploads",
     "identifier": "pkg:generic/xcode"
   },
   "citation": [
     {
       "@type": "CreativeWork",
-      "name": "Xcode 15 — App Store upcoming requirements (Xcode 15)",
+      "name": "Xcode 15 — App Store upcoming requirements",
       "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
     }
   ],

@@ -59,8 +59,14 @@ function decodeEntities(value: string): string {
     .replace(/&#39;/gi, "'");
 }
 
+/**
+ * Strip HTML tags without scanning past the next "<". `/<[^>]+>/g` is quadratic when the input
+ * contains many "<" characters with no matching ">" (each attempt walks to the end).
+ * Incomplete openers that are only "<" runs (no tag name before the next "<" or end) are dropped
+ * so a wall of "<" characters collapses to empty text.
+ */
 function plainText(html: string): string {
-  return decodeEntities(html.replace(/<[^>]+>/g, " "))
+  return decodeEntities(html.replace(/<[^<>]*>|<(?=[<]|$)/g, " "))
     .replace(/\s+/g, " ")
     .replace(/\s+([,.;:!?])/g, "$1")
     .trim();
@@ -143,7 +149,7 @@ function parseArticleBlock(block: string): { article?: Article; note?: string } 
 }
 
 /**
- * Split the listing into `<article>` blocks in linear time, then parse each block. Caps body size
+ * Split the listing into `<article>` blocks with indexOf, then parse each block. Caps body size
  * and article count so a changed or malformed page cannot hang the weekly importer job.
  */
 export function parseArticles(body: string): ParseArticlesResult {
@@ -221,7 +227,7 @@ function draftVers(lower: string | undefined, upper: string): string {
   return `vers:semver/>=${semverBound(lower)}|<${high}`;
 }
 
-function draftRule(lower: string | undefined, floor: XcodeFloor): DraftRule {
+function draftRule(lower: string | undefined, floor: XcodeFloor, newest: string): DraftRule {
   return {
     id: draftId(lower, floor.version),
     ecosystem: "swift",
@@ -231,7 +237,7 @@ function draftRule(lower: string | undefined, floor: XcodeFloor): DraftRule {
     title: draftTitle(lower, floor.version),
     summary: `${floor.sinceLabel}. ${floor.quote}`,
     severity: "high",
-    replacement: `Xcode ${floor.version} or later`,
+    replacement: `Xcode ${newest} or later`,
     deadline: floor.deadline,
     sources: [
       {
@@ -328,6 +334,7 @@ export const swiftAppStoreImporter: Importer = {
     if (floors.length === 0) return { rules: [], notes };
 
     const today = isoDate(context.now);
+    const newest = floors[floors.length - 1]!.version;
     const rules: DraftRule[] = [];
     for (const [index, floor] of floors.entries()) {
       if (floor.deadline > today) {
@@ -335,7 +342,7 @@ export const swiftAppStoreImporter: Importer = {
         continue;
       }
       const lower = index === 0 ? undefined : floors[index - 1]!.version;
-      rules.push(draftRule(lower, floor));
+      rules.push(draftRule(lower, floor, newest));
     }
     return { rules, notes };
   },

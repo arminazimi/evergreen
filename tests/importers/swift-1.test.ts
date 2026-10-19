@@ -8,6 +8,7 @@ import { diffDrafts } from "../../tools/importers/diff.js";
 import {
   APP_STORE_REQUIREMENTS_URL,
   MAXIMUM_ARTICLES,
+  MAXIMUM_BODY_BYTES,
   parseArticles,
   swiftAppStoreImporter,
   xcodeFloors,
@@ -68,6 +69,14 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
       ["swift.xcode.app-store-below-14-1", "vers:semver/<14.1.0", "2023-04-25"],
     ],
   );
+  assert.deepEqual(
+    drafts.rules.map((rule) => rule.id).sort(),
+    [
+      "swift.xcode.app-store-14-1-through-14",
+      "swift.xcode.app-store-15-through-25",
+      "swift.xcode.app-store-below-14-1",
+    ],
+  );
 
   const through25 = drafts.rules.find((rule) => rule.id === "swift.xcode.app-store-15-through-25")!;
   assert.equal(through25.purl, "pkg:generic/xcode");
@@ -91,6 +100,10 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
     importer: "swift-1",
   });
 
+  for (const rule of drafts.rules) {
+    assert.equal(rule.replacement, "Xcode 26 or later");
+  }
+
   const below141 = drafts.rules.find((rule) => rule.id === "swift.xcode.app-store-below-14-1")!;
   assert.match(below141.summary, /built with Xcode 14\.1 and the iOS 16\.1 SDK or later/);
 
@@ -105,19 +118,19 @@ test("drafts Xcode App Store upload bands from the recording", async () => {
   assert.ok(drafts.notes.some((note) => note.includes("tvOS-only")));
 });
 
-test("diff against the curated registry is empty for the recording", async () => {
+test("diff against the curated registry reports the finer 14.1 bands as additions", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/swift.json"), "utf8")) as RegistryV2;
   const drafts = await execute(swiftAppStoreImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual(diff.added, []);
-  assert.deepEqual(diff.changed, []);
+  assert.deepEqual(
+    diff.added.map((rule) => rule.id).sort(),
+    ["swift.xcode.app-store-14-1-through-14", "swift.xcode.app-store-below-14-1"],
+  );
+  // Curated rules have no provenance.importer, so diff.removed stays empty (hand-written rules are never "removed").
   assert.deepEqual(diff.removed, []);
+  assert.deepEqual(diff.unchanged, ["swift.xcode.app-store-15-through-25"]);
+  assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.duplicates, []);
-  assert.deepEqual(diff.unchanged.sort(), [
-    "swift.xcode.app-store-14-1-through-14",
-    "swift.xcode.app-store-15-through-25",
-    "swift.xcode.app-store-below-14-1",
-  ]);
 });
 
 test("draft id, title, and vers use through for whole majors and up-to for dotted floors", async () => {
@@ -132,27 +145,31 @@ test("draft id, title, and vers use through for whole majors and up-to for dotte
     result.rules
       .slice()
       .sort((left, right) => left.id.localeCompare(right.id))
-      .map((rule) => [rule.id, rule.title, rule.vers]),
+      .map((rule) => [rule.id, rule.title, rule.vers, rule.replacement]),
     [
       [
         "swift.xcode.app-store-14-1-through-14",
         "Xcode 14.1 through 14 are not accepted for App Store uploads",
         "vers:semver/>=14.1.0|<15.0.0",
+        "Xcode 27 or later",
       ],
       [
         "swift.xcode.app-store-15-up-to-26-1",
         "Xcode 15 up to 26.1 are not accepted for App Store uploads",
         "vers:semver/>=15.0.0|<26.1.0",
+        "Xcode 27 or later",
       ],
       [
         "swift.xcode.app-store-26-1-through-26",
         "Xcode 26.1 through 26 are not accepted for App Store uploads",
         "vers:semver/>=26.1.0|<27.0.0",
+        "Xcode 27 or later",
       ],
       [
         "swift.xcode.app-store-below-14-1",
         "Xcode older than 14.1 is not accepted for App Store uploads",
         "vers:semver/<14.1.0",
+        "Xcode 27 or later",
       ],
     ],
   );
@@ -165,8 +182,8 @@ test("a floor whose Since date is after the run day is skipped with an exact not
   ].join("\n");
   const result = await importHtml(body, "2026-10-19");
   assert.deepEqual(
-    result.rules.map((rule) => [rule.id, rule.vers, rule.deadline]),
-    [["swift.xcode.app-store-below-15", "vers:semver/<15.0.0", "2024-04-29"]],
+    result.rules.map((rule) => [rule.id, rule.vers, rule.deadline, rule.replacement]),
+    [["swift.xcode.app-store-below-15", "vers:semver/<15.0.0", "2024-04-29", "Xcode 26 or later"]],
   );
   assert.deepEqual(result.notes, [
     'Skipped Xcode 26 floor from "Future Xcode 26 floor": deadline 2027-04-28 is still in the future.',
@@ -289,6 +306,56 @@ test("a block missing article-text between two valid blocks is skipped with an e
   );
 });
 
+test('an article whose text is only "<" characters returns empty text', () => {
+  const parsed = parseArticles(article("angles", { text: "<".repeat(60_000) }));
+  assert.equal(parsed.notes.length, 0);
+  assert.equal(parsed.articles.length, 1);
+  assert.equal(parsed.articles[0]!.text, "");
+});
+
+test('plainText keeps a lone "<" comparison and strips real tags', () => {
+  const parsed = parseArticles(article("mixed", { text: "a < b <b>bold</b> c" }));
+  assert.equal(parsed.articles.length, 1);
+  assert.equal(parsed.articles[0]!.text, "a < b bold c");
+});
+
+test("pathological article text finishes under 1 second", () => {
+  const wall = article("wall", { text: "<".repeat(1_900_000) });
+  assert.ok(Buffer.byteLength(wall, "utf8") <= MAXIMUM_BODY_BYTES);
+  const startWall = performance.now();
+  const wallParsed = parseArticles(wall);
+  const wallMs = performance.now() - startWall;
+  assert.ok(wallMs < 1000, `1.9M "<" article took ${wallMs.toFixed(1)}ms`);
+  assert.equal(wallParsed.articles.length, 1);
+  assert.equal(wallParsed.articles[0]!.text, "");
+
+  const bold = article("bold", { text: "<b>x</b>".repeat(100_000) });
+  const startBold = performance.now();
+  const boldParsed = parseArticles(bold);
+  const boldMs = performance.now() - startBold;
+  assert.ok(boldMs < 1000, `100k <b>x</b> article took ${boldMs.toFixed(1)}ms`);
+  assert.equal(boldParsed.articles.length, 1);
+  assert.equal(boldParsed.articles[0]!.text, Array.from({ length: 100_000 }, () => "x").join(" "));
+
+  const long = "y".repeat(40_000);
+  const blocks: string[] = [];
+  while (Buffer.byteLength(`${blocks.join("\n")}\n`, "utf8") < MAXIMUM_BODY_BYTES - 50_000) {
+    blocks.push(
+      article(`big${blocks.length}`, {
+        text: `<p>Apps uploaded to App Store Connect must be built with Xcode 15 or later. ${long}</p>`,
+      }),
+    );
+  }
+  const heavy = blocks.join("\n");
+  assert.ok(Buffer.byteLength(heavy, "utf8") > 1_500_000);
+  assert.ok(Buffer.byteLength(heavy, "utf8") <= MAXIMUM_BODY_BYTES);
+  const startHeavy = performance.now();
+  const heavyParsed = parseArticles(heavy);
+  const heavyMs = performance.now() - startHeavy;
+  assert.ok(heavyMs < 1000, `~2MB article body took ${heavyMs.toFixed(1)}ms`);
+  assert.ok(heavyParsed.articles.length >= 10);
+});
+
 test("parseArticles stays under 5000ms for large and incomplete pages", () => {
   const wellFormed = Array.from({ length: MAXIMUM_ARTICLES }, (_, index) =>
     article(`n${index}`, {
@@ -303,8 +370,6 @@ test("parseArticles stays under 5000ms for large and incomplete pages", () => {
 
   const n = 500;
   const bodyN = wellFormed.split("\n").slice(0, n).join("\n");
-  // Growth-rate check: time N and 4N (pre-built bodies) and require a generous ratio.
-  // Fall back to the absolute bound when N is so fast that timer noise dominates.
   const startN = performance.now();
   const atN = parseArticles(bodyN);
   const msN = performance.now() - startN;
