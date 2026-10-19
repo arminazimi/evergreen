@@ -10,9 +10,9 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## android
 
-- [Android Gradle Plugin below 7.1 is outside current Android Studio support](android.agp.below-7.1.html) — end of support, `android.agp.below-7.1`
-- [Android Gradle Plugin below 8.6.0 is below Google's minimum for API 35](android.agp.below-8.6-for-api-35.html) — end of support, `android.agp.below-8.6-for-api-35`
-- [Android Gradle Plugin below 8.9.1 is below Google's minimum for API 36](android.agp.below-8.9.1-for-api-36.html) — end of support, `android.agp.below-8.9.1-for-api-36`
+- [Google Play Billing Library 5 is past its new-app and update deadline](android.play-billing.version-5.html) — end of support, `android.play-billing.version-5`
+- [Google Play Billing Library 6 is past its new-app and update deadline](android.play-billing.version-6.html) — end of support, `android.play-billing.version-6`
+- [Google Play Billing Library 7 is past its new-app and update deadline](android.play-billing.version-7.html) — end of support, `android.play-billing.version-7`
 - [Google Play requires existing apps to target API 35 or higher](android.target-sdk.below-35.html) — end of support, `android.target-sdk.below-35`
 - [Google Play requires new apps and updates to target API 36 or higher](android.target-sdk.below-36-for-submissions.html) — end of support, `android.target-sdk.below-36-for-submissions`
 

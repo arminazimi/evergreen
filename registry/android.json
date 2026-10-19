@@ -12,9 +12,9 @@
       "vers": "vers:intdot/<35",
       "event": "end-of-support",
       "title": "Google Play requires existing apps to target API 35 or higher",
-      "summary": "Starting 2026-08-31, Google Play requires existing apps to target Android 15 (API level 35) or higher to remain available to new users on devices running a newer Android OS than the app's target API level. Apps that target API 34 or lower are limited to devices running the same or a lower Android OS version.",
+      "summary": "Starting August 31 2026, existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than the app's target API level; apps that target Android 14 (API level 34) or lower will only be available on devices running Android OS that are the same or lower than the app's target API level. Wear OS, Android TV, Android Automotive OS, and Android XR have different floors on that page; this rule reports declared targetSdk values regardless of form factor.",
       "severity": "high",
-      "replacement": "targetSdk 35 or higher (API 36 for new apps and updates)",
+      "replacement": "targetSdk 35 or higher (API 36 for new apps and updates on phones/tablets)",
       "deadline": "2026-08-31",
       "sources": [
         {
@@ -36,9 +36,9 @@
       "vers": "vers:intdot/>=35|<36",
       "event": "end-of-support",
       "title": "Google Play requires new apps and updates to target API 36 or higher",
-      "summary": "Starting 2026-08-31, Google Play requires new apps and app updates to target Android 16 (API level 36) or higher. Targeting API 35 meets the existing-app availability floor but does not meet the submission requirement for new apps and updates (Wear OS, Android Automotive OS, Android TV, and Android XR have separate floors on that page).",
+      "summary": "Starting August 31 2026, new apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target Android 15 (API level 35) or higher, and Android TV and Android XR apps, which must target Android 14 (API level 34) or higher. This rule reports declared targetSdk values regardless of form factor, so Wear OS, Android TV, Android Automotive OS, and Android XR apps may need different floors than the phone/tablet submission requirement stated here.",
       "severity": "high",
-      "replacement": "targetSdk 36 or higher",
+      "replacement": "targetSdk 36 or higher for phone and tablet submissions",
       "deadline": "2026-08-31",
       "sources": [
         {
@@ -54,19 +54,20 @@
       }
     },
     {
-      "id": "android.agp.below-7.1",
+      "id": "android.play-billing.version-5",
       "ecosystem": "android",
-      "purl": "pkg:maven/com.android.tools.build/gradle",
-      "vers": "vers:maven/<7.1.0",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "vers": "vers:maven/>=5.0.0|<6.0.0",
       "event": "end-of-support",
-      "title": "Android Gradle Plugin below 7.1 is outside current Android Studio support",
-      "summary": "Google's Android Gradle Plugin and Android Studio compatibility table lists current Android Studio releases (including Rabbit 1 and Quail 4) as supporting AGP 7.1 through 9.4. AGP versions older than 7.1.0 are outside that supported range. The same page states Android Studio supports AGP versions released within the previous three years and that incompatible AGP versions must be updated.",
+      "title": "Google Play Billing Library 5 is past its new-app and update deadline",
+      "summary": "The Google Play Billing Library support timeline lists version 5 with a new app and update deadline of August 31, 2024 (extension deadline November 1, 2024). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
       "severity": "high",
-      "replacement": "Android Gradle Plugin 8.x or 9.x within the Studio support range for your IDE",
+      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "deadline": "2024-08-31",
       "sources": [
         {
-          "title": "About Android Gradle plugin — Android Studio compatibility",
-          "url": "https://developer.android.com/build/releases/about-agp",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq",
           "accessedAt": "2026-10-19"
         }
       ],
@@ -77,24 +78,20 @@
       }
     },
     {
-      "id": "android.agp.below-8.6-for-api-35",
+      "id": "android.play-billing.version-6",
       "ecosystem": "android",
-      "purl": "pkg:maven/com.android.tools.build/gradle",
-      "vers": "vers:maven/>=7.1.0|<8.6.0",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "vers": "vers:maven/>=6.0.0|<7.0.0",
       "event": "end-of-support",
-      "title": "Android Gradle Plugin below 8.6.0 is below Google's minimum for API 35",
-      "summary": "Google's table of minimum tool versions for Android API levels lists API level 35 as requiring Android Gradle Plugin 8.6.0 or higher. AGP versions from 7.1.0 up to but not including 8.6.0 are below that documented minimum for API 35, which is also the Google Play existing-app target API floor as of 2026-08-31.",
-      "severity": "medium",
-      "replacement": "Android Gradle Plugin 8.6.0 or higher",
+      "title": "Google Play Billing Library 6 is past its new-app and update deadline",
+      "summary": "The Google Play Billing Library support timeline lists version 6 with a new app and update deadline of August 31, 2025 (extension deadline November 1, 2025). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
+      "severity": "high",
+      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "deadline": "2025-08-31",
       "sources": [
         {
-          "title": "About Android Gradle plugin — Minimum versions of tools for Android API level",
-          "url": "https://developer.android.com/build/releases/about-agp",
-          "accessedAt": "2026-10-19"
-        },
-        {
-          "title": "Meet Google Play's target API level requirement",
-          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq",
           "accessedAt": "2026-10-19"
         }
       ],
@@ -105,24 +102,20 @@
       }
     },
     {
-      "id": "android.agp.below-8.9.1-for-api-36",
+      "id": "android.play-billing.version-7",
       "ecosystem": "android",
-      "purl": "pkg:maven/com.android.tools.build/gradle",
-      "vers": "vers:maven/>=8.6.0|<8.9.1",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "vers": "vers:maven/>=7.0.0|<8.0.0",
       "event": "end-of-support",
-      "title": "Android Gradle Plugin below 8.9.1 is below Google's minimum for API 36",
-      "summary": "Google's table of minimum tool versions for Android API levels lists API level 36 as requiring Android Gradle Plugin 8.9.1 or higher. AGP versions from 8.6.0 up to but not including 8.9.1 meet the API 35 tool minimum but are below the documented minimum for API 36, which Google Play requires for new apps and app updates as of 2026-08-31.",
-      "severity": "medium",
-      "replacement": "Android Gradle Plugin 8.9.1 or higher (9.x is current stable)",
+      "title": "Google Play Billing Library 7 is past its new-app and update deadline",
+      "summary": "The Google Play Billing Library support timeline lists version 7 with a new app and update deadline of August 31, 2026 (extension deadline November 1, 2026). Apps must use a supported version from that table; check the build.gradle dependency on com.android.billingclient:billing.",
+      "severity": "high",
+      "replacement": "Google Play Billing Library 8.x or 9.x (a supported major from the deprecation table)",
+      "deadline": "2026-08-31",
       "sources": [
         {
-          "title": "About Android Gradle plugin — Minimum versions of tools for Android API level",
-          "url": "https://developer.android.com/build/releases/about-agp",
-          "accessedAt": "2026-10-19"
-        },
-        {
-          "title": "Meet Google Play's target API level requirement",
-          "url": "https://developer.android.com/google/play/requirements/target-sdk",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq",
           "accessedAt": "2026-10-19"
         }
       ],

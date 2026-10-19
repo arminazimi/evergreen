@@ -1,12 +1,12 @@
 ---
 title: "Google Play requires new apps and updates to target API 36 or higher — dates, impact, migration"
-description: "Starting 2026-08-31, Google Play requires new apps and app updates to target Android 16 (API level 36) or higher."
+description: "Starting August 31 2026, new apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-36-for-submissions.html"
 ---
 
 # Google Play requires new apps and updates to target API 36 or higher
 
-Starting 2026-08-31, Google Play requires new apps and app updates to target Android 16 (API level 36) or higher. Targeting API 35 meets the existing-app availability floor but does not meet the submission requirement for new apps and updates (Wear OS, Android Automotive OS, Android TV, and Android XR have separate floors on that page).
+Starting August 31 2026, new apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target Android 15 (API level 35) or higher, and Android TV and Android XR apps, which must target Android 14 (API level 34) or higher. This rule reports declared targetSdk values regardless of form factor, so Wear OS, Android TV, Android Automotive OS, and Android XR apps may need different floors than the phone/tablet submission requirement stated here.
 
 | | |
 | --- | --- |
@@ -16,7 +16,7 @@ Starting 2026-08-31, Google Play requires new apps and app updates to target And
 | Component | `pkg:generic/android/targetSdk` |
 | Affected versions | `vers:intdot/>=35\|<36` |
 | Date from the source | 2026-08-31 |
-| Replacement | targetSdk 36 or higher |
+| Replacement | targetSdk 36 or higher for phone and tablet submissions |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-01-17 (90 days after the last review) |
@@ -42,7 +42,7 @@ This page is generated from [`registry/android.json`](https://github.com/arminaz
   "url": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-36-for-submissions.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-36-for-submissions.html",
   "headline": "Google Play requires new apps and updates to target API 36 or higher — dates, impact, migration",
-  "description": "Starting 2026-08-31, Google Play requires new apps and app updates to target Android 16 (API level 36) or higher.",
+  "description": "Starting August 31 2026, new apps and app updates must target Android 16 (API level 36) or higher to be submitted to Google Play; except for Wear OS and Android Automotive OS apps, which must target…",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [

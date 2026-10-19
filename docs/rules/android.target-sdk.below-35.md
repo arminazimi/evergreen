@@ -1,12 +1,12 @@
 ---
 title: "Google Play requires existing apps to target API 35 or higher — dates, impact, migration"
-description: "Starting 2026-08-31, Google Play requires existing apps to target Android 15 (API level 35) or higher to remain available to new users on devices running a newer Android OS than the app's target API…"
+description: "Starting August 31 2026, existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than the app's target API level; apps that…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-35.html"
 ---
 
 # Google Play requires existing apps to target API 35 or higher
 
-Starting 2026-08-31, Google Play requires existing apps to target Android 15 (API level 35) or higher to remain available to new users on devices running a newer Android OS than the app's target API level. Apps that target API 34 or lower are limited to devices running the same or a lower Android OS version.
+Starting August 31 2026, existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than the app's target API level; apps that target Android 14 (API level 34) or lower will only be available on devices running Android OS that are the same or lower than the app's target API level. Wear OS, Android TV, Android Automotive OS, and Android XR have different floors on that page; this rule reports declared targetSdk values regardless of form factor.
 
 | | |
 | --- | --- |
@@ -16,7 +16,7 @@ Starting 2026-08-31, Google Play requires existing apps to target Android 15 (AP
 | Component | `pkg:generic/android/targetSdk` |
 | Affected versions | `vers:intdot/<35` |
 | Date from the source | 2026-08-31 |
-| Replacement | targetSdk 35 or higher (API 36 for new apps and updates) |
+| Replacement | targetSdk 35 or higher (API 36 for new apps and updates on phones/tablets) |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-01-17 (90 days after the last review) |
@@ -42,7 +42,7 @@ This page is generated from [`registry/android.json`](https://github.com/arminaz
   "url": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-35.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.below-35.html",
   "headline": "Google Play requires existing apps to target API 35 or higher — dates, impact, migration",
-  "description": "Starting 2026-08-31, Google Play requires existing apps to target Android 15 (API level 35) or higher to remain available to new users on devices running a newer Android OS than the app's target API…",
+  "description": "Starting August 31 2026, existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than the app's target API level; apps that…",
   "inLanguage": "en",
   "dateModified": "2026-10-19",
   "keywords": [
