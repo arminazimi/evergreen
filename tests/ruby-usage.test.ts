@@ -197,16 +197,18 @@ test("dynamic require, load, gem, and autoload are unclassified; literals and re
 
 test("large alias files and cyclic chains finish quickly without throwing", async () => {
   const manyAliases = Array.from({ length: 30_000 }, (_, index) => `A${index} = JSON`).join("\n") + "\nA1.parse(x)\n";
+  const aliasRoot = await repository({ "lib/aliases.rb": manyAliases });
   const startedAliases = performance.now();
-  const aliasUsages = await analyzeSourceUsage(await repository({ "lib/aliases.rb": manyAliases }), contract("json", ["JSON.parse"]));
+  const aliasUsages = await analyzeSourceUsage(aliasRoot, contract("json", ["JSON.parse"]));
   const aliasMs = performance.now() - startedAliases;
   assert.ok(aliasMs < 1000, `alias scan took ${aliasMs}ms`);
   assert.ok(aliasUsages[0]!.usages.some((usage) => usage.kind === "call" && usage.location.line === 30_001));
 
   const chain = Array.from({ length: 20_000 }, (_, index) => (index === 0 ? "A0 = JSON" : `A${index} = A${index - 1}`)).join("\n");
   const cycle = "A = B\nB = A\n";
+  const chainRoot = await repository({ "lib/chain.rb": chain, "lib/cycle.rb": cycle });
   const startedChain = performance.now();
-  await analyzeSourceUsage(await repository({ "lib/chain.rb": chain, "lib/cycle.rb": cycle }), contract("json", ["JSON.parse"]));
+  await analyzeSourceUsage(chainRoot, contract("json", ["JSON.parse"]));
   const chainMs = performance.now() - startedChain;
   assert.ok(chainMs < 1000, `chain/cycle scan took ${chainMs}ms`);
 });
@@ -215,12 +217,12 @@ test("very long require lines are skipped quickly; a normal line still matches",
   const longJson = ("require 'json'; ".repeat(40_000));
   assert.ok(longJson.length > 600_000);
   const longDynamic = ("require x; ".repeat(20_000));
-  const started = performance.now();
   const root = await repository({
     "lib/long.rb": longJson,
     "lib/long-dynamic.rb": longDynamic,
     "lib/normal.rb": "require 'json'\n",
   });
+  const started = performance.now();
   const [analysis] = await analyzeSourceUsage(root, contract("json", []));
   const dynamic = await findRubyDynamicReferences(root);
   const ms = performance.now() - started;

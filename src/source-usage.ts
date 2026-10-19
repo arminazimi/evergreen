@@ -728,6 +728,8 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     state.rubyBlock = true;
     return " ".repeat(line.length);
   }
+  // Fast path: no quotes, comments, percent literals, or heredocs to mask.
+  if (language === "ruby" && !state.blockComment && !/[#"'%`<]/.test(line)) return line;
 
   const output = [...line];
   let quote: string | undefined;
@@ -918,29 +920,32 @@ export async function analyzeSourceUsage(
             }
           }
           // A Ruby call is qualified (`JSON.parse(` or `JSON::parse(`). `Parser = JSON` then `Parser.parse(` is the same call.
+          // One combined regex per target (not per alias form) so a large alias table cannot multiply file scans.
           if (file.language === "ruby") {
             for (const target of matcher.targets) {
-              for (const parts of rubyReceivers(target, rubyFileAliases)) {
-                const formKey = parts.join("\0");
-                let pattern = rubyReceiverPatterns.get(formKey);
-                if (!pattern) {
-                  pattern = new RegExp(`(?<![\\w$:])(?:::)?${parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*")}\\s*\\(`, "g");
-                  rubyReceiverPatterns.set(formKey, pattern);
-                }
+              const forms = rubyReceivers(target, rubyFileAliases);
+              if (forms.length === 0) continue;
+              const formKey = forms.map((parts) => parts.join("\0")).join("\n");
+              let pattern = rubyReceiverPatterns.get(formKey);
+              if (!pattern) {
+                const alternation = forms
+                  .map((parts) => parts.map((part) => escapePattern(part)).join("\\s*(?:\\.|::)\\s*"))
+                  .join("|");
+                pattern = new RegExp(`(?<![\\w$:])(?:::)?(?:${alternation})\\s*\\(`, "g");
+                rubyReceiverPatterns.set(formKey, pattern);
+              }
+              for (const [index, line] of maskedLines.entries()) {
+                if (line.length > RUBY_MAX_LINE || !line.includes("(")) continue;
                 pattern.lastIndex = 0;
-                for (const [index, line] of maskedLines.entries()) {
-                  if (line.length > RUBY_MAX_LINE) continue;
-                  pattern.lastIndex = 0;
-                  for (const match of line.matchAll(pattern)) {
-                    if (match.index === undefined) continue;
-                    push(contract.id, {
-                      kind: "call",
-                      language: file.language,
-                      symbol: `${matcher.module}.${target}`,
-                      location: { path: file.path, line: index + 1, column: match.index + 1 },
-                      excerpt: lines[index]!.trim(),
-                    });
-                  }
+                for (const match of line.matchAll(pattern)) {
+                  if (match.index === undefined) continue;
+                  push(contract.id, {
+                    kind: "call",
+                    language: file.language,
+                    symbol: `${matcher.module}.${target}`,
+                    location: { path: file.path, line: index + 1, column: match.index + 1 },
+                    excerpt: lines[index]!.trim(),
+                  });
                 }
               }
             }
