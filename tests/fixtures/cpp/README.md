@@ -1,0 +1,24 @@
+# C and C++ fixtures
+
+These fixtures define the parser boundary for C and C++ declarations in [epic #44](https://github.com/arminazimi/evergreen/issues/44). The scope is `cmake_minimum_required`, `CMAKE_C_STANDARD` and `CMAKE_CXX_STANDARD`, and compiler version checks in `CMakeLists.txt`; direct requirements in `conanfile.txt` and `conanfile.py`; and direct dependencies and `builtin-baseline` in `vcpkg.json`. Line numbers below are 1-based. The versions are parser examples only: **they do not claim that any CMake version, compiler, or package is end of life or deprecated.** A lifecycle finding needs a reviewed rule with an authoritative source ([epic #44](https://github.com/arminazimi/evergreen/issues/44), “Scope” and “Non-goals”). The `builtin-baseline` value is a real vcpkg commit used as a parser example, not a lifecycle claim.
+
+| Fixture file | Expected case |
+| --- | --- |
+| `positive/CMakeLists.txt` | `cmake_minimum_required(VERSION 3.16)` (line 1), the C standard `99` (line 5), the C++ standard `17` (line 6), the C compiler check `CMAKE_C_COMPILER_VERSION VERSION_LESS 9.3` (line 9), and the C++ compiler check `CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.3` (line 13). `project` (line 3), `CMAKE_CXX_STANDARD_REQUIRED` (line 7), and `add_executable` (line 17) are not declarations. |
+| `positive/conanfile.txt` | The direct requirements `zlib/1.2.13` (line 2) and `openssl/1.1.1t` (line 3) under `[requires]` (line 1). |
+| `positive/conanfile.py` | The direct requirements `zlib/1.2.13` and `openssl/1.1.1t` in the `requires` attribute (line 8), and `boost/1.75.0` in `self.requires` (line 11). The `tool_requires` call (line 14) is a build tool, not a direct requirement. |
+| `positive/vcpkg.json` | `builtin-baseline` (line 5) and the direct dependencies `fmt` (line 7), `zlib` with `version>=` `1.2.13` (lines 9–10), and `openssl` (line 13). `default-features` (line 14) is an option, not a version. |
+| `negative/CMakeLists.txt` | Commented-out declarations (lines 1–2), a string that mentions `cmake_minimum_required` (line 4), unrelated keys (lines 5–6), a `CMAKE_CXX_STANDARD` value read from a variable (line 7), a `cmake_minimum_required` value read from a variable (line 9), and a compiler check with no version comparison (line 11) produce no declarations. |
+| `negative/conanfile.txt` | Commented-out requirements (lines 1–2), the `[options]` entry that mentions zlib (line 8), and `[tool_requires]` (line 11) produce no direct requirements; the file has no `[requires]` section. |
+| `negative/conanfile.py` | A commented requirement (line 6), prose that mentions a package (line 7), the `build_requires` attribute (line 8), a dynamic `self.requires` (line 11), a `tool_requires` call (line 14), and a log message that mentions a package (line 17) produce no direct requirement with a literal version. |
+| `negative/vcpkg.json` | There is no top-level `dependencies` or `builtin-baseline`. `$comment` (line 2), `description` (line 5), the feature-scoped dependency (line 9), and `overrides` (line 14) are lookalikes, not direct dependencies or a baseline. |
+| `zero/CMakeLists.txt` | `cmake_minimum_required(VERSION 3.31)` (line 1), the C standard `17` (line 5), the C++ standard `20` (line 6), and the compiler floor `13.2` (line 9): valid declarations, no lifecycle finding. |
+| `zero/conanfile.txt` | The direct requirements `fmt/11.0.2` (line 2) and `zlib/1.3.1` (line 3): valid declarations, no lifecycle findings. |
+| `zero/conanfile.py` | The direct requirements `boost/1.86.0` (line 10) and `fmt/11.0.2` (line 11): valid declarations, no lifecycle findings. |
+| `zero/vcpkg.json` | `builtin-baseline` (line 5) and the direct dependencies `fmt` (line 7) and `zlib` with `version>=` `1.3.1` (lines 9–10): valid declarations, no lifecycle findings. |
+| `malformed/CMakeLists.txt` | An unterminated quoted argument (line 2) and an unterminated command (line 3): no partial declarations, no error. |
+| `malformed/conanfile.txt` | Broken and empty section headings (lines 1 and 3): the values that follow produce no declarations, no error. |
+| `malformed/conanfile.py` | Unterminated strings (lines 5 and 8) make the file invalid Python: no partial declarations, no error. |
+| `malformed/vcpkg.json` | A trailing comma (line 4) makes the document invalid JSON: no declarations, no error. |
+
+The zero fixtures are valid projects whose declarations are all supported, so they yield no lifecycle findings. Unclassified or lookalike values in the negative fixtures are not findings. Malformed fixtures are handled without an error or partial declarations.

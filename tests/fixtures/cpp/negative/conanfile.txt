@@ -1,0 +1,11 @@
+# [requires]
+# zlib/1.2.13
+
+[generators]
+CMakeDeps
+
+[options]
+zlib/*:shared=False
+
+[tool_requires]
+cmake/3.27.9

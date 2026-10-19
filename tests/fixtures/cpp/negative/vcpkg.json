@@ -1,0 +1,20 @@
+{
+  "$comment": "Mentions zlib and openssl, but declares no direct dependency",
+  "name": "negative",
+  "version": "1.4.0",
+  "description": "A manifest with features and overrides only",
+  "features": {
+    "tools": {
+      "description": "Helper tools for development",
+      "dependencies": [
+        "ninja"
+      ]
+    }
+  },
+  "overrides": [
+    {
+      "name": "zlib",
+      "version": "1.2.13"
+    }
+  ]
+}

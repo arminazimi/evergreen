@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "positive",
+  "version": "1.4.0",
+  "builtin-baseline": "664933b8d385dfc01f4e0cdff4c7c74e71f6a740",
+  "dependencies": [
+    "fmt",
+    {
+      "name": "zlib",
+      "version>=": "1.2.13"
+    },
+    {
+      "name": "openssl",
+      "default-features": false
+    }
+  ]
+}
