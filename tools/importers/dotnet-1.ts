@@ -39,7 +39,8 @@ function lines(index: { "releases-index"?: unknown }): Line[] {
 }
 
 const name = (line: Line): string => `${line.major >= 5 ? ".NET" : ".NET Core"} ${line.major}.${line.minor}`;
-const shortName = (line: Line): string => (line.minor === 0 ? `${name(line).replace(/\.0$/, "")}` : name(line));
+// ".NET 8" for the unified releases, but ".NET Core 1.0" and ".NET Core 3.0": the vendor never dropped the minor from those names.
+const shortName = (line: Line): string => (line.minor === 0 && line.major >= 5 ? name(line).replace(/\.0$/, "") : name(line));
 
 export const dotnetReleasesImporter: Importer = {
   id: "dotnet-1",

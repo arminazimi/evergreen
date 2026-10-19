@@ -14,8 +14,8 @@ test("thresholds name every shipped detector and enforce precision of at least 0
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
   assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The ci-images, container, .NET, Go, Java, Kubernetes, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["ci-images", "container", "dotnet", "go", "java", "kubernetes", "ruby", "rust"].includes(name), name);
+    // The ci-images, container, Go, Java, Kubernetes, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["ci-images", "container", "go", "java", "kubernetes", "ruby", "rust"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -72,12 +72,31 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
 const GRANDFATHERED = new Set(["github-actions", "nodejs", "npm", "python"]);
 
 test("earnedLevel follows the evidence minimums", () => {
-  const none = { repositoriesWithFindings: 0, expectedFindings: 0, zeroFindingRepositories: 0 };
+  const none = { repositoriesWithFindings: 0, expectedFindings: 0, zeroFindingRepositories: 0, repositories: 0, blindRepositories: 0 };
+  const enough = (level: "beta" | "stable") => {
+    const { blindShare: _blindShare, ...counts } = evidenceMinimums[level];
+    return { ...counts, repositories: 10, blindRepositories: Math.ceil(10 * evidenceMinimums[level].blindShare) };
+  };
   assert.equal(earnedLevel(none), "experimental");
-  assert.equal(earnedLevel(evidenceMinimums.beta), "beta");
-  assert.equal(earnedLevel({ ...evidenceMinimums.stable, zeroFindingRepositories: 3 }), "beta");
-  assert.equal(earnedLevel(evidenceMinimums.stable), "stable");
-  assert.equal(earnedLevel({ ...evidenceMinimums.beta, expectedFindings: 14 }), "experimental");
+  assert.equal(earnedLevel(enough("beta")), "beta");
+  assert.equal(earnedLevel({ ...enough("stable"), zeroFindingRepositories: 3 }), "beta");
+  assert.equal(earnedLevel(enough("stable")), "stable");
+  assert.equal(earnedLevel({ ...enough("beta"), expectedFindings: 14 }), "experimental");
+});
+
+test("a level needs its share of blind-selected repositories; an unrecorded selection counts as not blind", () => {
+  const entry = (repository: string, selection?: "blind" | "targeted") => ({ repository, ecosystem: "dotnet", ...(selection ? { selection } : {}), expected: [] as Array<{ ruleId: string }> });
+  const corpus = [entry("a", "blind"), entry("b", "targeted"), entry("c"), entry("d", "blind")];
+  assert.deepEqual(countEvidence(corpus, "dotnet", ["dotnet"]), {
+    repositoriesWithFindings: 0,
+    expectedFindings: 0,
+    zeroFindingRepositories: 4,
+    repositories: 4,
+    blindRepositories: 2,
+  });
+  const base = { repositoriesWithFindings: 8, expectedFindings: 15, zeroFindingRepositories: 2, repositories: 10 };
+  assert.equal(earnedLevel({ ...base, blindRepositories: 5 }), "beta");
+  assert.equal(earnedLevel({ ...base, blindRepositories: 4 }), "experimental");
 });
 
 test("each detector's level agrees with its enforcement flag, its documented status, and its corpus evidence", async () => {
@@ -107,6 +126,5 @@ test("the thresholds file records the full corpus run its levels rest on", async
   assert.ok(run.repositories >= 85);
   const detectors = Object.values(run.perDetector);
   assert.equal(detectors.reduce((sum, item) => sum + item.truePositives + item.falsePositives, 0), run.findings);
-  // A detector added after the recorded run has no per-detector numbers yet.
-  assert.deepEqual(Object.keys(run.perDetector).sort(), Object.keys(thresholds.detectors).filter((name) => name !== "ruby").sort());
+  assert.deepEqual(Object.keys(run.perDetector).sort(), Object.keys(thresholds.detectors).sort());
 });

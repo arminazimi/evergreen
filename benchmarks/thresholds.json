@@ -12,8 +12,8 @@
       "minPrecision": 0.95
     },
     "dotnet": {
-      "level": "experimental",
-      "stable": false,
+      "level": "beta",
+      "stable": true,
       "minPrecision": 0.95
     },
     "go": {
@@ -63,11 +63,11 @@
     }
   },
   "lastFullRun": {
-    "date": "2026-10-18",
-    "commit": "b19a781",
-    "repositories": 85,
-    "findings": 336,
-    "precision": 1,
+    "date": "2026-10-19",
+    "commit": "f76b261",
+    "repositories": 102,
+    "findings": 432,
+    "precision": 0.9514,
     "recall": 1,
     "perDetector": {
       "ci-images": {
@@ -81,12 +81,12 @@
         "falseNegatives": 0
       },
       "dotnet": {
-        "truePositives": 23,
+        "truePositives": 84,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 201,
+        "truePositives": 211,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -112,11 +112,16 @@
       },
       "npm": {
         "truePositives": 10,
-        "falsePositives": 0,
+        "falsePositives": 21,
         "falseNegatives": 0
       },
       "python": {
         "truePositives": 19,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "ruby": {
+        "truePositives": 4,
         "falsePositives": 0,
         "falseNegatives": 0
       },

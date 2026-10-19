@@ -29,7 +29,7 @@ test("project files: targets and packages with exact lines", () => {
   assert.deepEqual(app.packages, [
     { kind: "reference", name: "WindowsAzure.Storage", version: "9.3.3", line: 10 },
     { kind: "reference", name: "Newtonsoft.Json", version: "13.0.3", line: 11 },
-    { kind: "reference", name: "Microsoft.Azure.ServiceBus", version: "5.2.0", line: 13 },
+    { kind: "reference", name: "Microsoft.Extensions.Logging", version: "5.2.0", line: 13 },
   ]);
   assert.deepEqual(parseMsbuild(read("positive/lib/Lib.fsproj")).targets, [
     { value: "netstandard2.0", line: 4 },
@@ -54,7 +54,7 @@ test("project files: comments, prose, conditions, and a missing version are not 
   assert.deepEqual(dynamic.targets, [{ value: "$(Tfm)", line: 5 }]);
   assert.deepEqual(dynamic.packages, [
     { kind: "reference", name: "WindowsAzure.Storage", version: "$(StorageVersion)", line: 11 },
-    { kind: "reference", name: "Microsoft.Azure.ServiceBus", version: "5.*", line: 12 },
+    { kind: "reference", name: "Microsoft.Extensions.Logging", version: "5.*", line: 12 },
     { kind: "reference", name: "Serilog", version: "[3.0,4.0)", line: 13 },
     { kind: "reference", name: "Unversioned", line: 15 },
   ]);

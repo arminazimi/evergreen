@@ -2444,6 +2444,7 @@
       "repository": "ucdavis/Sloth",
       "commit": "442c022d0d87b872209b3b810154987598c54a32",
       "ecosystem": "dotnet",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "dotnet.runtime.end-of-support-3.1",
@@ -2505,6 +2506,7 @@
       "repository": "sharpjs/Sharp.BlobStorage",
       "commit": "b0c237c81b0b7a85f4e092f774d92760c04d1793",
       "ecosystem": "dotnet",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "dotnet.package.windowsazure-storage.deprecated",
@@ -2521,6 +2523,7 @@
       "repository": "dotnet/sourcelink",
       "commit": "40a5327a26ef250235be54143138325aedd35b79",
       "ecosystem": "dotnet",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "dotnet.runtime.end-of-support-3.1",
@@ -2627,6 +2630,7 @@
       "repository": "qbit86/machinery",
       "commit": "1215446db597a3930c9ebf86aee260683ebf2ad7",
       "ecosystem": "dotnet",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "dotnet.runtime.end-of-support-3.1",
@@ -2661,6 +2665,7 @@
       "repository": "xunit/xunit.analyzers",
       "commit": "5332ac88e46ad223bc44a0675439e3607be838eb",
       "ecosystem": "dotnet",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "dotnet.runtime.end-of-support-8.0",
@@ -2682,7 +2687,650 @@
         }
       ]
     },
-    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "expected": [] },
+    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "selection": "targeted", "expected": [] },
+    {
+      "repository": "rikimaru0345/Ceras",
+      "commit": "de8798b368ea3983e9113be9a8db51ee6e9eda26",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.1",
+          "path": "samples/BinaryDemo/BinaryDemo.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of samples/BinaryDemo/BinaryDemo.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.2",
+          "path": "samples/LiveTesting/LiveTesting.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of samples/LiveTesting/LiveTesting.csproj reads `<TargetFrameworks>net47;netcoreapp2.2;</TargetFrameworks>`; the 2.2 line is a release line whose support ended on 2019-12-23 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.1",
+          "path": "samples/NetworkExample/NetworkExample.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of samples/NetworkExample/NetworkExample.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.2",
+          "path": "tests/Ceras.Test/Ceras.Test.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of tests/Ceras.Test/Ceras.Test.csproj reads `<TargetFrameworks>net452;net47;netcoreapp2.2;</TargetFrameworks>`; the 2.2 line is a release line whose support ended on 2019-12-23 according to Microsoft's releases index."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "takuya-takeuchi/DlibDotNet",
+      "commit": "19c1a91a7743eca966da5633e327875372e5ebe4",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/3DPointCloud/3DPointCloud.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/3DPointCloud/3DPointCloud.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/3rdparty/OpenCVSharp/MatToArray2D/MatToArray2D.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/3rdparty/OpenCVSharp/MatToArray2D/MatToArray2D.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/3rdparty/OpenCVSharp/MatToMatrix/MatToMatrix.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/3rdparty/OpenCVSharp/MatToMatrix/MatToMatrix.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "examples/ASP.NET/FaceDetection.Client/FaceDetection.Client.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/ASP.NET/FaceDetection.Client/FaceDetection.Client.csproj reads `<TargetFramework>netcoreapp3.1</TargetFramework>`; the 3.1 line is a release line whose support ended on 2022-12-13 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "examples/ASP.NET/FaceDetection.Server/FaceDetection.Server.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of examples/ASP.NET/FaceDetection.Server/FaceDetection.Server.csproj reads `<TargetFramework>netcoreapp3.1</TargetFramework>`; the 3.1 line is a release line whose support ended on 2022-12-13 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnFaceRecognition/DnnFaceRecognition.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnFaceRecognition/DnnFaceRecognition.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnInception/DnnInception.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnInception/DnnInception.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnInstanceSegmentation/DnnInstanceSegmentation.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnInstanceSegmentation/DnnInstanceSegmentation.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnInstanceSegmentationTrain/DnnInstanceSegmentationTrain.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnInstanceSegmentationTrain/DnnInstanceSegmentationTrain.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnIntroduction/DnnIntroduction.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnIntroduction/DnnIntroduction.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMetricLearning/DnnMetricLearning.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMetricLearning/DnnMetricLearning.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmod/DnnMmod.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmod/DnnMmod.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmodDogHipsterizer/DnnMmodDogHipsterizer.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmodDogHipsterizer/DnnMmodDogHipsterizer.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmodFaceDetection/DnnMmodFaceDetection.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmodFaceDetection/DnnMmodFaceDetection.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmodFindCars/DnnMmodFindCars.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmodFindCars/DnnMmodFindCars.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmodFindCars2/DnnMmodFindCars2.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmodFindCars2/DnnMmodFindCars2.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnMmodTrainFindCars/DnnMmodTrainFindCars.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnMmodTrainFindCars/DnnMmodTrainFindCars.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnSemanticSegmentation/DnnSemanticSegmentation.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnSemanticSegmentation/DnnSemanticSegmentation.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnSemanticSegmentationOld/DnnSemanticSegmentationOld.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnSemanticSegmentationOld/DnnSemanticSegmentationOld.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnSemanticSegmentationTrain/DnnSemanticSegmentationTrain.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnSemanticSegmentationTrain/DnnSemanticSegmentationTrain.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/DnnSemanticSegmentationTrainOld/DnnSemanticSegmentationTrainOld.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/DnnSemanticSegmentationTrainOld/DnnSemanticSegmentationTrainOld.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/FHog/FHog.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/FHog/FHog.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/FHogObjectDetector/FHogObjectDetector.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/FHogObjectDetector/FHogObjectDetector.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/FaceDetection/FaceDetection.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/FaceDetection/FaceDetection.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/FaceLandmarkDetection/FaceLandmarkDetection.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/FaceLandmarkDetection/FaceLandmarkDetection.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/HoughTransform/HoughTransform.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/HoughTransform/HoughTransform.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Image/Image.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Image/Image.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/KCentroid/KCentroid.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/KCentroid/KCentroid.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/KKMeans/KKMeans.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/KKMeans/KKMeans.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Krls/Krls.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Krls/Krls.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/KrlsFilter/KrlsFilter.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/KrlsFilter/KrlsFilter.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Logger/Logger.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Logger/Logger.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Logger2/Logger2.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Logger2/Logger2.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/LoggerCustomOutput/LoggerCustomOutput.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/LoggerCustomOutput/LoggerCustomOutput.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/MaxCostAssignment/MaxCostAssignment.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/MaxCostAssignment/MaxCostAssignment.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Mlp/Mlp.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Mlp/Mlp.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Pipe/Pipe.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Pipe/Pipe.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Queue/Queue.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Queue/Queue.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/RandomCropper/RandomCropper.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/RandomCropper/RandomCropper.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/RunningStats/RunningStats.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/RunningStats/RunningStats.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Surf/Surf.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Surf/Surf.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/Svm/Svm.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/Svm/Svm.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/SvmC/SvmC.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/SvmC/SvmC.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/SvmPegasos/SvmPegasos.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/SvmPegasos/SvmPegasos.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/TrainShapePredictor/TrainShapePredictor.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/TrainShapePredictor/TrainShapePredictor.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/VideoTracking/VideoTracking.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/VideoTracking/VideoTracking.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "examples/WebcamFacePose/WebcamFacePose.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of examples/WebcamFacePose/WebcamFacePose.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.1",
+          "path": "test/DlibDotNet.Extensions.Tests/DlibDotNet.Extensions.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of test/DlibDotNet.Extensions.Tests/DlibDotNet.Extensions.Tests.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "test/DlibDotNet.Native.Tests/DlibDotNet.Native.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of test/DlibDotNet.Native.Tests/DlibDotNet.Native.Tests.csproj reads `<TargetFramework>netcoreapp2.0</TargetFramework>`; the 2.0 line is a release line whose support ended on 2018-10-01 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.1",
+          "path": "test/DlibDotNet.Tests/DlibDotNet.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of test/DlibDotNet.Tests/DlibDotNet.Tests.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
+          }
+        }
+      ]
+    },
+    { "repository": "0xthirteen/SharpStay", "commit": "27c20ad22a018bd966b0e1f4a35b2b7569d4b4e7", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "NightfallGT/Mercurial-Grabber", "commit": "ed515438e245d7710f079414244a82eedd8b71fb", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "Dec0ne/ShadowSpray", "commit": "ee9dc0ec485bb3a82b95d8ea1aa28321b318120c", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    {
+      "repository": "Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher",
+      "commit": "936977542ecfb025b784cd457fcbfd7dffbe5f5c",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/buildandrelease.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 11 of .github/workflows/buildandrelease.yml reads `- uses: actions/checkout@v2`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-dotnet.node20",
+          "path": ".github/workflows/buildandrelease.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/buildandrelease.yml reads `uses: actions/setup-dotnet@v3`; actions/setup-dotnet v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/buildandrelease.yml",
+          "line": 63,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 63 of .github/workflows/buildandrelease.yml reads `- uses: actions/upload-artifact@v2`; releases of actions/upload-artifact below v7 use a retired artifact service or JavaScript runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/buildandrelease.yml",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of .github/workflows/buildandrelease.yml reads `- uses: actions/upload-artifact@v2`; releases of actions/upload-artifact below v7 use a retired artifact service or JavaScript runtime."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": "ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of ChromeDevExtWarningPatcher/ChromeDevExtWarningPatcher.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": "ChromeDllInjector/ChromeDllInjector.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of ChromeDllInjector/ChromeDllInjector.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": "ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
+        }
+      ]
+    },
+    { "repository": "TerribleDev/OwinOAuthProviders", "commit": "8b382b0429aeb656f54149ab6f3472dd559ae12f", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "chsakell/mvcarchitecture", "commit": "5f48163d038464e7a2cbd40ede120baf49eee549", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "SeriaWei/ASP.NET-MVC-CMS", "commit": "5b764bb1c8c73a8c5e099a209d644eaf3bb4f6b3", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "stanzhai/Html2Article", "commit": "cdbb6c8c4e642eddf9ee1a1e968586b02f055fca", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    { "repository": "BeichenDream/SharpToken", "commit": "45cb5e210b8f5100c6a252541d5a9449b557eeaf", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    {
+      "repository": "nettitude/SharpSocks",
+      "commit": "208226df71205e977afd7edf6d25fb6d8793bd99",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/sharpsocks-server.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/sharpsocks-server.yml reads `- uses: actions/checkout@v2`; actions/checkout v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-dotnet.node20",
+          "path": ".github/workflows/sharpsocks-server.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/sharpsocks-server.yml reads `uses: actions/setup-dotnet@v1`; actions/setup-dotnet v5 is the first release on the Node.js 24 runtime, and GitHub no longer provides Node.js 20 on Actions runners."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksCommon/SharpSocksCommon.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of SharpSocksCommon/SharpSocksCommon.csproj reads `<TargetFrameworks>net40;net5.0</TargetFrameworks>`; the 5.0 line is a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": "SharpSocksServer/SharpSocksServer.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of SharpSocksServer/SharpSocksServer.csproj reads `<TargetFramework>net6.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksServer/global.json",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of SharpSocksServer/global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "global.json",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        }
+      ]
+    },
     {
       "repository": "rack/rack",
       "commit": "a9833c8f3bd6b6d1e0ab35de00a1f1a16b5095f5",

@@ -56,7 +56,7 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
     const counts = last.perDetector[detector.id];
     assert.deepEqual(detector.run, counts ? detectorCounts(counts) : null);
   }
-  assert.equal(data.detectors.find((detector) => detector.id === "ruby")!.run, null);
+  assert.deepEqual(data.detectors.find((detector) => detector.id === "ruby")!.run, detectorCounts(last.perDetector.ruby!));
   const total = data.detectors.reduce((sum, detector) => sum + (detector.run?.truePositives ?? 0) + (detector.run?.falsePositives ?? 0), 0);
   assert.equal(total, last.findings);
   assert.equal(data.corpus.repositories, corpus.length);
@@ -65,8 +65,11 @@ test("counts, precision, and recall are the lastFullRun numbers on the real file
 
 test("the evidence counts agree with the table in ADR 0013", () => {
   const evidence = Object.fromEntries(build().detectors.map((detector) => [detector.id, detector.evidence]));
-  assert.deepEqual(evidence["github-actions"], { repositoriesWithFindings: 33, expectedFindings: 205, zeroFindingRepositories: 2 });
-  assert.deepEqual(evidence["npm"], { repositoriesWithFindings: 8, expectedFindings: 10, zeroFindingRepositories: 8 });
+  const counts = ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories }: { repositoriesWithFindings: number; expectedFindings: number; zeroFindingRepositories: number }) => ({ repositoriesWithFindings, expectedFindings, zeroFindingRepositories });
+  // The table is the 90-repository snapshot; the two .NET repositories with workflow findings added 2 and 6 to GitHub Actions in its 2026-10-19 update.
+  assert.deepEqual(counts(evidence["github-actions"]!), { repositoriesWithFindings: 35, expectedFindings: 211, zeroFindingRepositories: 2 });
+  assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 8, expectedFindings: 10, zeroFindingRepositories: 8 });
+  assert.deepEqual(counts(evidence["dotnet"]!), { repositoriesWithFindings: 9, expectedFindings: 84, zeroFindingRepositories: 9 });
 });
 
 test("a detector with no run data has null run numbers, not zeros", () => {
@@ -110,8 +113,8 @@ test("runAgeDays comes from --today, and invalid days are refused", () => {
   assert.equal(ageInDays("2026-10-18", "2026-11-01"), 14);
   assert.equal(ageInDays("2026-02-27", "2026-03-01"), 2);
   assert.equal(ageInDays("2027-12-25", "2028-03-01"), 67);
-  assert.equal(build("2026-11-15").run!.runAgeDays, 28);
-  assert.equal(build("2026-11-15").referenceDay, "2026-11-15");
+  assert.equal(build("2026-11-16").run!.runAgeDays, 28);
+  assert.equal(build("2026-11-16").referenceDay, "2026-11-16");
   assert.throws(() => ageInDays("2026-10-18", "2026-10-17"), /before the last full run/);
   for (const bad of ["2026-13-01", "2026-02-30", "18-10-2026", "2026-10-18T00:00:00Z", "", "today"]) {
     assert.throws(() => ageInDays("2026-10-18", bad), /YYYY-MM-DD/, bad);

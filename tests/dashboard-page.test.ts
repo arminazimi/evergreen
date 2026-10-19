@@ -301,8 +301,8 @@ test("the real data renders every detector with its counts", () => {
   const cells = Object.fromEntries(githubActions.cells.map((cell) => [cell.key, cell.text]));
   assert.equal(cells.precision, "1.0000");
   assert.equal(cells.recall, "1.0000");
-  assert.equal(cells.truePositives, "201");
-  assert.equal(cells.repositoriesWithFindings, "33");
+  assert.equal(cells.truePositives, "211");
+  assert.equal(cells.repositoriesWithFindings, "35");
   assert.equal(cells.zeroFindingRepositories, "2");
 });
 
@@ -322,7 +322,7 @@ test("a page served over HTTP fills every section and hides the status", async (
     return response(data);
   });
   assert.equal(requested, "data.json");
-  assert.match(text(byId.get("run")!), /b19a781/);
+  assert.match(text(byId.get("run")!), /f76b261/);
   assert.match(text(byId.get("run")!), /not measured/);
   assert.ok(find(byId.get("detectors-table")!, (node) => node.tag === "table"));
   assert.ok(find(byId.get("minimums-table")!, (node) => node.tag === "table"));
@@ -423,9 +423,9 @@ test("run status reads the recorded age and the reference day", () => {
   assert.deepEqual({ ...api.runStatus({ ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } }, new Date(2026, 10, 3)) }, {
     stale: true,
     ageDays: 15,
-    runDate: "2026-10-18",
+    runDate: "2026-10-19",
     referenceDay: "2026-11-02",
-    visitorAgeDays: 16,
+    visitorAgeDays: 15,
     staleAfterDays: 14,
   });
   assert.equal(api.runStatus({ run: null, referenceDay: "2026-11-02" }, new Date()).stale, false);

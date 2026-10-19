@@ -39,7 +39,16 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## dotnet
 
+- [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-documentdb.deprecated`
+- [Microsoft.Azure.ServiceBus is deprecated on NuGet](dotnet.package.microsoft-azure-servicebus.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-servicebus.deprecated`
+- [Microsoft.Azure.Storage.Blob is deprecated on NuGet](dotnet.package.microsoft-azure-storage-blob.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-storage-blob.deprecated`
 - [WindowsAzure.Storage is deprecated on NuGet](dotnet.package.windowsazure-storage.deprecated.html) — deprecated, `dotnet.package.windowsazure-storage.deprecated`
+- [.NET Core 1.0 is no longer supported](dotnet.runtime.end-of-support-1.0.html) — end of support, `dotnet.runtime.end-of-support-1.0`
+- [.NET Core 1.1 is no longer supported](dotnet.runtime.end-of-support-1.1.html) — end of support, `dotnet.runtime.end-of-support-1.1`
+- [.NET Core 2.0 is no longer supported](dotnet.runtime.end-of-support-2.0.html) — end of support, `dotnet.runtime.end-of-support-2.0`
+- [.NET Core 2.1 is no longer supported](dotnet.runtime.end-of-support-2.1.html) — end of support, `dotnet.runtime.end-of-support-2.1`
+- [.NET Core 2.2 is no longer supported](dotnet.runtime.end-of-support-2.2.html) — end of support, `dotnet.runtime.end-of-support-2.2`
+- [.NET Core 3.0 is no longer supported](dotnet.runtime.end-of-support-3.0.html) — end of support, `dotnet.runtime.end-of-support-3.0`
 - [.NET Core 3.1 is no longer supported](dotnet.runtime.end-of-support-3.1.html) — end of support, `dotnet.runtime.end-of-support-3.1`
 - [.NET 5 is no longer supported](dotnet.runtime.end-of-support-5.0.html) — end of support, `dotnet.runtime.end-of-support-5.0`
 - [.NET 6 is no longer supported](dotnet.runtime.end-of-support-6.0.html) — end of support, `dotnet.runtime.end-of-support-6.0`

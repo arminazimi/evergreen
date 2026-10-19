@@ -19,7 +19,7 @@
   "ecosystems": [
     { "id": "ci-images", "status": "experimental", "maturity": "experimental", "detectorIds": ["ci-images"] },
     { "id": "container", "status": "experimental", "maturity": "experimental", "detectorIds": ["container"] },
-    { "id": "dotnet", "status": "experimental", "maturity": "experimental", "detectorIds": ["dotnet"] },
+    { "id": "dotnet", "status": "supported", "maturity": "beta", "detectorIds": ["dotnet"] },
     { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
     { "id": "go", "status": "experimental", "maturity": "experimental", "detectorIds": ["go"] },
     { "id": "java", "status": "experimental", "maturity": "experimental", "detectorIds": ["java"] },

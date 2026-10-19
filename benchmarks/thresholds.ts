@@ -98,19 +98,29 @@ export interface Evidence {
   repositoriesWithFindings: number;
   expectedFindings: number;
   zeroFindingRepositories: number;
+  /** Corpus repositories of the detector's ecosystems, and how many of them record `selection: "blind"`. */
+  repositories: number;
+  blindRepositories: number;
 }
 
-export const evidenceMinimums: Record<Exclude<MaturityLevel, "experimental">, Evidence> = {
-  beta: { repositoriesWithFindings: 8, expectedFindings: 15, zeroFindingRepositories: 2 },
-  stable: { repositoriesWithFindings: 20, expectedFindings: 60, zeroFindingRepositories: 4 },
+export interface EvidenceMinimum extends Omit<Evidence, "repositories" | "blindRepositories"> {
+  /** The share of the ecosystem's corpus repositories that must be blind. */
+  blindShare: number;
+}
+
+export const evidenceMinimums: Record<Exclude<MaturityLevel, "experimental">, EvidenceMinimum> = {
+  beta: { repositoriesWithFindings: 8, expectedFindings: 15, zeroFindingRepositories: 2, blindShare: 1 / 2 },
+  stable: { repositoriesWithFindings: 20, expectedFindings: 60, zeroFindingRepositories: 4, blindShare: 2 / 3 },
 };
 
-const meets = (evidence: Evidence, minimum: Evidence): boolean =>
+const meets = (evidence: Evidence, minimum: EvidenceMinimum): boolean =>
   evidence.repositoriesWithFindings >= minimum.repositoriesWithFindings &&
   evidence.expectedFindings >= minimum.expectedFindings &&
-  evidence.zeroFindingRepositories >= minimum.zeroFindingRepositories;
+  evidence.zeroFindingRepositories >= minimum.zeroFindingRepositories &&
+  evidence.repositories > 0 &&
+  evidence.blindRepositories / evidence.repositories >= minimum.blindShare;
 
-/** The highest level the counted evidence supports. Precision, recall, and blind selection are checked separately. */
+/** The highest level the counted evidence supports. Precision and recall are checked separately. */
 export function earnedLevel(evidence: Evidence): MaturityLevel {
   if (meets(evidence, evidenceMinimums.stable)) return "stable";
   if (meets(evidence, evidenceMinimums.beta)) return "beta";
@@ -119,20 +129,25 @@ export function earnedLevel(evidence: Evidence): MaturityLevel {
 
 /** Counts a detector's evidence from the corpus. `ecosystems` are the corpus ecosystems the detector reads. */
 export function countEvidence(
-  corpus: ReadonlyArray<{ repository: string; ecosystem: string; expected: ReadonlyArray<{ ruleId: string }> }>,
+  corpus: ReadonlyArray<{ repository: string; ecosystem: string; selection?: "blind" | "targeted"; expected: ReadonlyArray<{ ruleId: string }> }>,
   detector: string,
   ecosystems: readonly string[],
 ): Evidence {
   const withFindings = new Set<string>();
   let expectedFindings = 0;
   let zeroFindingRepositories = 0;
+  let repositories = 0;
+  let blindRepositories = 0;
   for (const entry of corpus) {
     const own = entry.expected.filter((finding) => detectorOf(finding.ruleId) === detector);
     if (own.length > 0) {
       withFindings.add(entry.repository);
       expectedFindings += own.length;
     }
-    if (ecosystems.includes(entry.ecosystem) && entry.expected.length === 0) zeroFindingRepositories += 1;
+    if (!ecosystems.includes(entry.ecosystem)) continue;
+    repositories += 1;
+    if (entry.selection === "blind") blindRepositories += 1;
+    if (entry.expected.length === 0) zeroFindingRepositories += 1;
   }
-  return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories };
+  return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories, repositories, blindRepositories };
 }

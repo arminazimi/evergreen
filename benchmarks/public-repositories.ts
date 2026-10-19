@@ -23,6 +23,8 @@ interface CorpusEntry {
   repository: string;
   commit: string;
   ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "java" | "kubernetes" | "ruby" | "rust" | "dotnet";
+  /** How the repository was chosen (decision 0013): "blind" by a rule fixed before scanning, "targeted" because it was known to contain a finding. */
+  selection?: "blind" | "targeted";
   expected: ExpectedFinding[];
 }
 
