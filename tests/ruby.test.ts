@@ -159,7 +159,9 @@ test("a migration packet for a Ruby finding names the file, steps, and verificat
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes(".ruby-version"));
   assert.ok(packet.steps.some((step) => step.id === "update-ruby-declaration"));
+  assert.ok(packet.steps.some((step) => step.id === "align-ruby-surfaces"));
   assert.ok(packet.verification.some((check) => check.command === "ruby --version"));
+  assert.ok(packet.verification.some((check) => check.command === "bundle exec rake test"));
 });
 
 test("the detector is registered and Ruby is experimental in the capability manifest", () => {
