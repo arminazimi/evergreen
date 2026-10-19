@@ -12,10 +12,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The container, .NET, Go, Java, Kubernetes, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["container", "dotnet", "go", "java", "kubernetes", "ruby", "rust"].includes(name), name);
+    // The ci-images, container, .NET, Go, Java, Kubernetes, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["ci-images", "container", "dotnet", "go", "java", "kubernetes", "ruby", "rust"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -54,6 +54,7 @@ import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thre
 
 // Decision 0013. The corpus ecosystems each detector reads, and the label its row has in docs/COMPATIBILITY.md.
 const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
+  "ci-images": { corpus: ["ci-images"], row: "CI runner images" },
   container: { corpus: ["container"], row: "Container base images" },
   dotnet: { corpus: ["dotnet"], row: ".NET" },
   "github-actions": { corpus: ["node-actions"], row: "GitHub Actions" },

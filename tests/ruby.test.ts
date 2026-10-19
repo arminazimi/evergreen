@@ -133,6 +133,14 @@ test("matches the rbenv ruby- prefix to the runtime rule", async () => {
   assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [["ruby.runtime.eol-3.2", ".ruby-version", 1]]);
 });
 
+test("a malformed rule does not hide a later matching rule", async () => {
+  const base = (await committedRules()).find((rule) => rule.id === "ruby.runtime.eol-3.2")!;
+  const malformed: RegistryV2Rule = { ...base, id: "ruby.runtime.malformed", vers: "vers:gem/not-a-version" };
+  const detector = new RubyDetector(async () => [malformed, base]);
+  const root = await repository({ ".ruby-version": "3.2.2\n" });
+  assert.deepEqual((await detector.scan({ root })).map((finding) => finding.ruleId), ["ruby.runtime.eol-3.2"]);
+});
+
 test("a repository without Ruby files scans to nothing", async () => {
   assert.deepEqual(await rubyDetector.analyze({ root: await repository({ "README.md": "x\n" }) }), { findings: [], unclassified: [] });
 });

@@ -2,6 +2,11 @@
   "schemaVersion": "evergreen.coverage-descriptions.v1",
   "rows": [
     {
+      "ecosystems": ["ci-images"],
+      "name": "CI runner images",
+      "coverage": "`pool.vmImage` in Azure Pipelines is matched against retirement rules; GitLab `image`/`services` and CircleCI images are listed as unclassified references, not judged."
+    },
+    {
       "ecosystems": ["container"],
       "name": "Container base images",
       "coverage": "`FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md)."
@@ -44,7 +49,7 @@
     {
       "ecosystems": ["ruby"],
       "name": "Ruby",
-      "coverage": "Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems and gemspec `required_ruby_version`, for Ruby release lines past end of support and yanked gems."
+      "coverage": "Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems."
     },
     {
       "ecosystems": ["rust"],
