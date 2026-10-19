@@ -65,8 +65,8 @@ test("malformed and junk input returns nothing and never throws", () => {
 test("bounds untrusted input without losing later lines", () => {
   assert.deepEqual(parsePackageSwift("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(
-    parsePackageSwift(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n// swift-tools-version:5.9\n`),
-    [{ kind: "tools-version", value: "5.9", line: 2 }],
+    parsePackageSwift(`${"x".repeat(MAXIMUM_LINE_LENGTH + 1)}\n.package(url: "https://x/a", from: "1.0.0")\n`),
+    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 2 }],
   );
 });
 
@@ -94,4 +94,54 @@ test("rejects branch, revision, ranges, and lookalike tools-version prose", () =
     ].join("\n")),
     [],
   );
+});
+
+test("strips a single-line block comment that contains a package", () => {
+  assert.deepEqual(parsePackageSwift('/* .package(url: "https://x/a", from: "1.0.0") */\n'), []);
+});
+
+test("strips a multi-line block comment that contains a package", () => {
+  assert.deepEqual(
+    parsePackageSwift(['/*', '.package(url: "https://x/a", from: "1.0.0")', '*/', '.package(url: "https://x/b", exact: "2.0.0")'].join("\n")),
+    [{ kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 4 }],
+  );
+});
+
+test("reads every package call on one line", () => {
+  assert.deepEqual(
+    parsePackageSwift('[.package(url: "https://x/a", from: "1.0.0"), .package(url: "https://x/b", exact: "2.0.0")]\n'),
+    [
+      { kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 },
+      { kind: "package", url: "https://x/b", requirement: "exact", value: "2.0.0", line: 1 },
+    ],
+  );
+});
+
+test("ignores tools-version on line 2 or later", () => {
+  assert.deepEqual(parsePackageSwift('import PackageDescription\n// swift-tools-version:5.9\n'), []);
+});
+
+test("accepts tools-version after a UTF-8 BOM on line 1", () => {
+  assert.deepEqual(parsePackageSwift("\uFEFF// swift-tools-version:5.9\n"), [
+    { kind: "tools-version", value: "5.9", line: 1 },
+  ]);
+});
+
+test("a /* inside a string literal does not start a block comment", () => {
+  assert.deepEqual(
+    parsePackageSwift('let s = "/*"; .package(url: "https://x/a", from: "1.0.0")\n'),
+    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 }],
+  );
+});
+
+test("a string containing // before a real package on the same line still parses", () => {
+  assert.deepEqual(
+    parsePackageSwift('let s = "https://example.com"; .package(url: "https://x/a", from: "1.0.0")\n'),
+    [{ kind: "package", url: "https://x/a", requirement: "from", value: "1.0.0", line: 1 }],
+  );
+});
+
+test("tools-version inside a block comment does not count", () => {
+  assert.deepEqual(parsePackageSwift("/* // swift-tools-version:5.9 */\n"), []);
+  assert.deepEqual(parsePackageSwift("/*\n// swift-tools-version:5.9\n*/\n"), []);
 });
