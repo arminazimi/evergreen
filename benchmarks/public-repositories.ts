@@ -13,6 +13,7 @@ import {
   runCorpusRepositories,
 } from "./corpus-harness.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
+import { parseCorpusFilter, selectCorpusEntries } from "./corpus-filter.js";
 import { withRetries } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
@@ -52,11 +53,20 @@ if (corpus.repositories.length < 20) {
   throw new Error(`Expected at least 20 repositories, received ${corpus.repositories.length}.`);
 }
 
+let selection: ReturnType<typeof selectCorpusEntries>;
+try {
+  selection = selectCorpusEntries(corpus.repositories, parseCorpusFilter());
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(2);
+}
+if (selection.description) console.error(selection.description);
+
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
 
 try {
   const results = await runCorpusRepositories({
-    entries: corpus.repositories,
+    entries: selection.entries,
     concurrency,
     checkout: async (entry, index) => {
       const checkoutStartedAt = performance.now();
@@ -88,10 +98,13 @@ try {
     : truePositives / (truePositives + falseNegatives);
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   const detectors = scoreDetectors(results);
-  const regressions = violations(detectors, thresholds);
+  // Precision floors are calibrated for the whole corpus, so a filtered run never enforces them.
+  const regressions = selection.full ? violations(detectors, thresholds) : [];
   const report = {
     schemaVersion: "evergreen.public-validation-result.v1",
     mode: observeOnly ? "observe" : "verify",
+    fullRun: selection.full,
+    ...(selection.description ? { filter: selection.description } : {}),
     repositories: results,
     detectors,
     thresholdViolations: regressions,
