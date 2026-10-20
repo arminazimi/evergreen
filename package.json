@@ -86,6 +86,7 @@
     "validate:codex-plugin": "npm run build --silent && node dist/tools/validate-codex-plugin.js",
     "validate:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js",
     "differential:renovate": "npm run build --silent && node dist/benchmarks/differential/renovate.js",
+    "record:corpus-run": "npm run build --silent && node dist/benchmarks/record-corpus-run.js",
     "corpus:warm": "npm run build --silent && node dist/benchmarks/public-repositories.js --warm",
     "corpus:cache": "npm run build --silent && node dist/benchmarks/corpus-cache-cli.js",
     "observe:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js --observe",
