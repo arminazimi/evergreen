@@ -7,7 +7,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers.js";
 import { parseCompose } from "./parse-compose.js";
 import { parseDockerfile } from "./parse-dockerfile.js";
@@ -114,6 +114,10 @@ function rulesByRepository(rules: readonly RegistryV2Rule[]): Map<string, Regist
 export class ContainerDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "container";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = {
+    fileNames: ["Dockerfile*", "Containerfile*", "*.Dockerfile", "*.Containerfile", "docker-compose*.yml", "docker-compose*.yaml", "compose*.yml", "compose*.yaml"],
+  };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];

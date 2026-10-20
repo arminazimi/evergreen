@@ -25,6 +25,7 @@ import type {
   DetectorContext,
   DetectorFinding,
   RegistryDefinition,
+  DetectorInputs,
 } from "../sdk.js";
 
 interface PackageRule extends DeprecationRule {
@@ -297,6 +298,11 @@ function manifestRuntimeDeclarations(
 export class NpmDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "npm";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = {
+    fileNames: ["package.json", "package-lock.json", "npm-shrinkwrap.json", "pnpm-lock.yaml", "yarn.lock", ".nvmrc", ".node-version", "pnpm-workspace.yaml", "lerna.json"],
+    sourceExtensions: [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts", ".json", ".yaml", ".yml"],
+  };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     const rootManifest = await readOptional(resolve(context.root, "package.json"));

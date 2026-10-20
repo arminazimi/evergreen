@@ -8,7 +8,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage } from "../../source-usage.js";
 import { versContains } from "../../vers/index.js";
 import { jdkRuleVersion } from "./jdk-version.js";
@@ -89,6 +89,11 @@ const ROLE_TEXT = {
 export class JavaDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "java";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = {
+    fileNames: ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version", ".sdkmanrc", ".tool-versions"],
+    sourceExtensions: [".java", ".kt"],
+  };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
