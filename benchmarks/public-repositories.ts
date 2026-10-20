@@ -14,6 +14,7 @@ import {
 } from "./corpus-harness.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
+import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
 import { resolveFetchTimeoutMs, withRetries, withTimeout } from "./retry.js";
@@ -61,6 +62,13 @@ const jsonToStdout = process.argv.includes("--json");
 let outputPath: string | undefined;
 try {
   outputPath = parseOutputPath();
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(2);
+}
+let comparePath: string | undefined;
+try {
+  comparePath = parseComparePath();
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exit(2);
@@ -176,6 +184,14 @@ try {
   say(formatSummaryTables(results, detectors));
   // Name every mismatch so a failed run says which repository and which finding, without opening the JSON.
   for (const line of mismatchLines(results)) say(line);
+  if (comparePath) {
+    try {
+      for (const line of compareRuns({ repositories: results, detectors, full: selection.full }, await loadBaseline(comparePath))) say(line);
+    } catch (error) {
+      // A comparison problem is reported but never decides the exit code.
+      console.error(error instanceof Error ? error.message : String(error));
+    }
+  }
   say(`${selection.full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`);
   console.error(`COST      ${formatCost(cost)}`);
   for (const slow of slowestFetches(results)) {
