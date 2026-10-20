@@ -28,19 +28,20 @@ export const sourceLanguageValues = [
   "yaml",
   "toml",
   "ini",
+  "php",
 ] as const;
 
 export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby";
+  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby" | "php";
   module: string;
 }
 
 export interface CallUsageMatcher {
   kind: "call";
-  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp" | "ruby";
+  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp" | "ruby" | "php";
   module: string;
   targets: string[];
 }

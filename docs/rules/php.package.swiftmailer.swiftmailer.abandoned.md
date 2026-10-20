@@ -29,7 +29,7 @@ Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, a
 
 ## Detected by
 
-No built-in detector reads `php` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/php.json).
+The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

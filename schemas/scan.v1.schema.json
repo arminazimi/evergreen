@@ -260,7 +260,8 @@
                     "json",
                     "yaml",
                     "toml",
-                    "ini"
+                    "ini",
+                    "php"
                   ]
                 },
                 "symbol": {

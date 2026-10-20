@@ -65,6 +65,7 @@ function languageFor(path: string): SourceLanguage | undefined {
   if (extension === ".java") return "java";
   if (extension === ".kt") return "kotlin";
   if (extension === ".rb" || extension === ".rake" || extension === ".ru") return "ruby";
+  if (extension === ".php") return "php";
   if (extension === ".json") return "json";
   if ([".yaml", ".yml"].includes(extension)) return "yaml";
   if (extension === ".toml") return "toml";
@@ -219,6 +220,12 @@ function moduleMatches(actual: string, expected: string, language: SourceLanguag
     const actualName = actual.replace(/\.rb$/, "");
     const expectedName = expected.replace(/\.rb$/, "");
     return actualName === expectedName || actualName.startsWith(`${expectedName}/`);
+  }
+  if (language === "php") {
+    const normalize = (value: string): string => value.replace(/^\\+/, "").replace(/\.php$/, "");
+    const actualName = normalize(actual);
+    const expectedName = normalize(expected);
+    return actualName === expectedName || actualName.startsWith(`${expectedName}\\`) || actualName.startsWith(`${expectedName}/`);
   }
   return actual === expected;
 }
@@ -414,11 +421,11 @@ function jvmImports(lines: readonly string[], maskedLines: readonly string[]): I
   return references;
 }
 
-const rubyIgnoredSegments = new Set(["vendor", "fixtures", "__fixtures__", "testdata"]);
+const checkoutIgnoredSegments = new Set(["vendor", "fixtures", "__fixtures__", "testdata"]);
 
-/** Ruby dependency checkouts and fixture trees are not the project's own source. */
-function rubySourceIgnored(path: string): boolean {
-  return path.split("/").some((segment) => rubyIgnoredSegments.has(segment));
+/** Dependency checkouts and fixture trees are not the project's own source. */
+function checkoutSourceIgnored(path: string): boolean {
+  return path.split("/").some((segment) => checkoutIgnoredSegments.has(segment));
 }
 
 interface RubyLiteral {
@@ -717,6 +724,383 @@ function rubyReceivers(target: string, aliases: readonly RubyAlias[]): string[][
   return forms;
 }
 
+const PHP_MAX_LINE = 4096;
+const PHP_MAX_REFERENCE = 200;
+const PHP_MAX_ALIASES = 256;
+const PHP_MAX_ALIAS_DEPTH = 8;
+const PHP_MAX_RECEIVER_FORMS = 64;
+const PHP_DYNAMIC_ARGUMENT_REASON = "the argument is not a string literal, so Evergreen does not attribute it to a package";
+const PHP_DYNAMIC_NAME_REASON = "the class or function name is a variable, so Evergreen does not attribute it to a package";
+
+interface PhpLiteral {
+  value: string;
+  end: number;
+  column: number;
+  interpolated: boolean;
+}
+
+/** A single-line quoted PHP string starting at `start`. Interpolation in double quotes is flagged, not decoded. */
+function readPhpLiteral(line: string, start: number): PhpLiteral | undefined {
+  const quote = line[start];
+  if (quote !== "'" && quote !== '"') return undefined;
+  let value = "";
+  let escaped = false;
+  let interpolated = false;
+  for (let index = start + 1; index < line.length; index += 1) {
+    const character = line[index]!;
+    if (escaped) {
+      value += character;
+      escaped = false;
+      continue;
+    }
+    if (character === "\\") {
+      escaped = true;
+      continue;
+    }
+    if (character === quote) return { value, end: index + 1, column: start + 2, interpolated };
+    if (quote === '"' && character === "$") interpolated = true;
+    value += character;
+  }
+  return undefined;
+}
+
+interface PhpRequire {
+  line: number;
+  keywordColumn: number;
+  reference: string;
+  argument: { kind: "literal"; value: string; column: number } | { kind: "dynamic" };
+}
+
+interface PhpScanSkip {
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
+/** `require`, `require_once`, `include`, and `include_once`. A quoted path is literal; anything else is dynamic. */
+function phpRequires(lines: readonly string[], maskedLines: readonly string[]): { requires: PhpRequire[]; skips: PhpScanSkip[] } {
+  const keyword = /(?<![\w$>-])(require_once|include_once|require|include)\b/g;
+  const requires: PhpRequire[] = [];
+  const skips: PhpScanSkip[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index]!;
+    if (line.length > PHP_MAX_LINE || masked.length > PHP_MAX_LINE) {
+      if (/require|include/.test(masked)) {
+        skips.push({
+          line: index + 1,
+          column: 1,
+          reference: line.slice(0, PHP_MAX_REFERENCE).trim(),
+          reason: `line longer than ${PHP_MAX_LINE} characters`,
+        });
+      }
+      continue;
+    }
+    keyword.lastIndex = 0;
+    for (const match of masked.matchAll(keyword)) {
+      if (match.index === undefined || !match[1]) continue;
+      const reference = line.slice(match.index, match.index + PHP_MAX_REFERENCE).trim();
+      let cursor = match.index + match[1].length;
+      while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      if (line[cursor] === "(") {
+        cursor += 1;
+        while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      }
+      const literal = readPhpLiteral(line, cursor);
+      let after = literal?.end ?? cursor;
+      while (line[after] === " " || line[after] === "\t") after += 1;
+      const transformed = literal !== undefined && (literal.interpolated || line[after] === ".");
+      requires.push({
+        line: index + 1,
+        keywordColumn: match.index + 1,
+        reference,
+        argument: literal && !transformed ? { kind: "literal", value: literal.value, column: literal.column } : { kind: "dynamic" },
+      });
+    }
+  }
+  return { requires, skips };
+}
+
+/** Quoted `require` / `include` (and `_once`) paths. The matched module is the path, with a trailing `.php` removed. */
+function phpImportsFromRequires(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  for (const invocation of phpRequires(lines, maskedLines).requires) {
+    if (invocation.argument.kind !== "literal") continue;
+    const module = invocation.argument.value.replace(/\.php$/, "");
+    if (module.length === 0) continue;
+    references.push({ module, line: invocation.line, column: invocation.argument.column, bindings: [] });
+  }
+  return references;
+}
+
+interface PhpAlias {
+  local: string;
+  target: string;
+}
+
+interface PhpUseHit {
+  module: string;
+  line: number;
+  column: number;
+}
+
+function phpNormalizeName(value: string): string {
+  return value.replace(/^\\+/, "");
+}
+
+function phpLastSegment(name: string): string {
+  const normalized = phpNormalizeName(name);
+  const slash = normalized.lastIndexOf("\\");
+  return slash === -1 ? normalized : normalized.slice(slash + 1);
+}
+
+function readPhpName(line: string, cursor: number): { raw: string; column: number; end: number } | undefined {
+  const match = /^\\?[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)*/.exec(line.slice(cursor));
+  if (!match?.[0]) return undefined;
+  const raw = match[0];
+  const offset = raw.startsWith("\\") ? 1 : 0;
+  return { raw, column: cursor + offset + 1, end: cursor + raw.length };
+}
+
+function phpWordAt(line: string, cursor: number, word: string): boolean {
+  if (!line.startsWith(word, cursor)) return false;
+  const after = line[cursor + word.length];
+  return after === undefined || !/[\w$]/.test(after);
+}
+
+/** One-level `use Prefix\{A, B as C}`. Nested groups are left unread. */
+function readPhpGroup(line: string, prefix: string, brace: number): { imports: Array<{ module: string; column: number }>; aliases: Array<{ local: string; target: string }> } | undefined {
+  const imports: Array<{ module: string; column: number }> = [];
+  const aliases: Array<{ local: string; target: string }> = [];
+  let cursor = brace + 1;
+  while (cursor < line.length) {
+    while (line[cursor] === " " || line[cursor] === "\t" || line[cursor] === ",") cursor += 1;
+    if (line[cursor] === "}") return imports.length > 0 ? { imports, aliases } : undefined;
+    const name = readPhpName(line, cursor);
+    if (!name || name.raw.includes("\\")) return undefined;
+    cursor = name.end;
+    while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+    let local = name.raw;
+    if (phpWordAt(line, cursor, "as")) {
+      cursor += 2;
+      while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+      const alias = /^[A-Za-z_][A-Za-z0-9_]*/.exec(line.slice(cursor));
+      if (!alias) return undefined;
+      local = alias[0];
+      cursor += alias[0].length;
+    }
+    const module = `${prefix}\\${name.raw}`;
+    imports.push({ module, column: name.column });
+    aliases.push({ local, target: module });
+  }
+  return undefined;
+}
+
+/** One `use` statement at `start`, or undefined for a closure `use (` or a form this scanner does not understand. */
+function readPhpUse(line: string, start: number): { imports: Array<{ module: string; column: number }>; aliases: Array<{ local: string; target: string }> } | undefined {
+  let cursor = start + "use".length;
+  const skipSpace = (): void => {
+    while (line[cursor] === " " || line[cursor] === "\t") cursor += 1;
+  };
+  skipSpace();
+  if (line[cursor] === "(") return undefined;
+  if (phpWordAt(line, cursor, "function")) {
+    cursor += "function".length;
+    skipSpace();
+  } else if (phpWordAt(line, cursor, "const")) {
+    cursor += "const".length;
+    skipSpace();
+  }
+  const name = readPhpName(line, cursor);
+  if (!name) return undefined;
+  cursor = name.end;
+  skipSpace();
+  if (line[cursor] === "\\") {
+    let look = cursor + 1;
+    while (line[look] === " " || line[look] === "\t") look += 1;
+    if (line[look] === "{") cursor = look;
+  }
+  if (line[cursor] === "{") return readPhpGroup(line, phpNormalizeName(name.raw), cursor);
+  let local = phpLastSegment(name.raw);
+  if (phpWordAt(line, cursor, "as")) {
+    cursor += 2;
+    skipSpace();
+    const alias = /^[A-Za-z_][A-Za-z0-9_]*/.exec(line.slice(cursor));
+    if (!alias?.[0]) return undefined;
+    local = alias[0];
+  }
+  const module = phpNormalizeName(name.raw);
+  if (module.length === 0 || local.length === 0) return undefined;
+  return { imports: [{ module, column: name.column }], aliases: [{ local, target: module }] };
+}
+
+interface PhpUseScan {
+  imports: PhpUseHit[];
+  aliases: PhpAlias[];
+}
+
+/**
+ * Resolve `name` through `use` aliases. A later alias of an alias follows the chain. Cycles and chains
+ * deeper than {@link PHP_MAX_ALIAS_DEPTH} resolve to nothing.
+ */
+function resolvePhpAlias(name: string, assigned: ReadonlyMap<string, string>, memo: Map<string, string | undefined>): string | undefined {
+  if (memo.has(name)) return memo.get(name);
+  let current = name;
+  const seen = new Set<string>();
+  for (let depth = 0; depth < PHP_MAX_ALIAS_DEPTH; depth += 1) {
+    if (seen.has(current)) {
+      memo.set(name, undefined);
+      return undefined;
+    }
+    seen.add(current);
+    const exact = assigned.get(current);
+    if (exact) {
+      current = exact;
+      continue;
+    }
+    const slash = current.indexOf("\\");
+    if (slash === -1) {
+      memo.set(name, current);
+      return current;
+    }
+    const head = current.slice(0, slash);
+    const headTarget = assigned.get(head);
+    if (!headTarget) {
+      memo.set(name, current);
+      return current;
+    }
+    current = `${headTarget}${current.slice(slash)}`;
+  }
+  memo.set(name, undefined);
+  return undefined;
+}
+
+/** `use` imports and the aliases they create, including `use function`, `use const`, and one-level groups. */
+function phpUses(lines: readonly string[], maskedLines: readonly string[]): PhpUseScan {
+  const keyword = /(?<![\w$>-])use\b/g;
+  const assigned = new Map<string, string>();
+  const imports: PhpUseHit[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index]!;
+    if (line.length > PHP_MAX_LINE || masked.length > PHP_MAX_LINE) continue;
+    keyword.lastIndex = 0;
+    for (const match of masked.matchAll(keyword)) {
+      if (match.index === undefined || assigned.size >= PHP_MAX_ALIASES) continue;
+      const parsed = readPhpUse(line, match.index);
+      if (!parsed) continue;
+      for (const hit of parsed.imports) imports.push({ module: hit.module, line: index + 1, column: hit.column });
+      for (const alias of parsed.aliases) {
+        if (assigned.size >= PHP_MAX_ALIASES) break;
+        assigned.set(alias.local, alias.target);
+      }
+    }
+  }
+  const memo = new Map<string, string | undefined>();
+  const aliases: PhpAlias[] = [];
+  for (const local of assigned.keys()) {
+    const target = resolvePhpAlias(local, assigned, memo);
+    if (target === undefined || target === local) continue;
+    aliases.push({ local, target });
+  }
+  return { imports, aliases };
+}
+
+interface PhpCallForm {
+  kind: "new" | "static";
+  receiver: string;
+  method?: string;
+}
+
+const PHP_CLASS_NAME = /^[A-Za-z_][A-Za-z0-9_]*(?:\\[A-Za-z_][A-Za-z0-9_]*)*$/;
+
+/**
+ * Call forms for a target. `Swift_Mailer::newInstance` is a static call; `new Swift_Mailer` is a constructor.
+ * A `use` alias of that class, or of a namespace prefix, is another receiver. An alias of an alias is already resolved.
+ */
+function phpCallForms(target: string, aliases: readonly PhpAlias[]): PhpCallForm[] {
+  let kind: PhpCallForm["kind"];
+  let className: string;
+  let method: string | undefined;
+  if (target.startsWith("new ")) {
+    kind = "new";
+    className = phpNormalizeName(target.slice("new ".length).trim());
+    if (!PHP_CLASS_NAME.test(className)) return [];
+  } else {
+    const split = target.lastIndexOf("::");
+    if (split <= 0) return [];
+    kind = "static";
+    className = phpNormalizeName(target.slice(0, split));
+    method = target.slice(split + 2);
+    if (!PHP_CLASS_NAME.test(className) || !/^[A-Za-z_][A-Za-z0-9_]*$/.test(method)) return [];
+  }
+  const formFor = (receiver: string): PhpCallForm => (method === undefined ? { kind, receiver } : { kind, receiver, method });
+  const forms: PhpCallForm[] = [formFor(className)];
+  const seen = new Set<string>([`${kind}\0${className}\0${method ?? ""}`]);
+  for (const alias of aliases) {
+    if (forms.length >= PHP_MAX_RECEIVER_FORMS) break;
+    let receiver: string | undefined;
+    if (alias.target === className) receiver = alias.local;
+    else if (className.startsWith(`${alias.target}\\`)) receiver = `${alias.local}${className.slice(alias.target.length)}`;
+    if (!receiver || !PHP_CLASS_NAME.test(receiver)) continue;
+    const key = `${kind}\0${receiver}\0${method ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    forms.push(formFor(receiver));
+  }
+  return forms;
+}
+
+function phpCallPattern(forms: readonly PhpCallForm[]): RegExp {
+  const ordered = [...forms].sort((left, right) => right.receiver.length - left.receiver.length);
+  const parts = ordered.map((form) => {
+    const receiver = form.receiver.split("\\").map((segment) => escapePattern(segment)).join("\\\\");
+    if (form.kind === "new") return `new\\s+\\\\?${receiver}(?![\\w\\\\:])`;
+    return `\\\\?${receiver}\\s*::\\s*${escapePattern(form.method!)}\\s*\\(`;
+  });
+  return new RegExp(`(?<![\\w$\\\\])(?:${parts.join("|")})`, "g");
+}
+
+interface PhpDynamicHit {
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
+/** `new $class` and `$class::method()`. A static `use` or a quoted require is not dynamic. */
+function phpVariableCalls(lines: readonly string[], maskedLines: readonly string[]): PhpDynamicHit[] {
+  const variableNew = /(?<![\w$\\])new\s+\$[A-Za-z_][A-Za-z0-9_]*/g;
+  const variableStatic = /(?<![\w$\\])\$[A-Za-z_][A-Za-z0-9_]*\s*::\s*[A-Za-z_][A-Za-z0-9_]*\s*\(/g;
+  const found: PhpDynamicHit[] = [];
+  for (const [index, masked] of maskedLines.entries()) {
+    const line = lines[index]!;
+    if (line.length > PHP_MAX_LINE || masked.length > PHP_MAX_LINE) {
+      if (/new\s+\$|\$[A-Za-z_][A-Za-z0-9_]*\s*::/.test(masked)) {
+        found.push({
+          line: index + 1,
+          column: 1,
+          reference: line.slice(0, PHP_MAX_REFERENCE).trim(),
+          reason: `line longer than ${PHP_MAX_LINE} characters`,
+        });
+      }
+      continue;
+    }
+    for (const pattern of [variableNew, variableStatic]) {
+      pattern.lastIndex = 0;
+      for (const match of masked.matchAll(pattern)) {
+        if (match.index === undefined) continue;
+        found.push({
+          line: index + 1,
+          column: match.index + 1,
+          reference: line.slice(match.index, match.index + match[0].length).trim(),
+          reason: PHP_DYNAMIC_NAME_REASON,
+        });
+      }
+    }
+  }
+  return found;
+}
+
 interface RubyPercentState {
   kind: "percent";
   delimiter: string;
@@ -826,6 +1210,11 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     state.rubyBlock = true;
     return " ".repeat(line.length);
   }
+  if (language === "php" && state.heredoc) {
+    const trimmed = line.trim();
+    if (trimmed === state.heredoc || trimmed === `${state.heredoc};`) delete state.heredoc;
+    return " ".repeat(line.length);
+  }
   // Fast path: no quotes, comments, percent literals, heredocs, character literals, or regexps to mask.
   if (language === "ruby" && !state.blockComment && !state.openString && !/[#"'%`<\/?]/.test(line)) return line;
 
@@ -833,7 +1222,7 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
   let quote: string | undefined = state.openString?.kind === "quote" ? state.openString.quote : undefined;
   let escaped = state.openString?.kind === "quote" ? state.openString.escaped : false;
   let percent = state.openString?.kind === "percent" ? { ...state.openString } : undefined;
-  if (language === "ruby") delete state.openString;
+  if (language === "ruby" || language === "php") delete state.openString;
 
   let index = 0;
   if (percent) {
@@ -909,6 +1298,15 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
         continue;
       }
     }
+    if (language === "php" && character === "<" && next === "<" && line[index + 2] === "<") {
+      const opener = /^<<<(?:'([A-Za-z_][A-Za-z0-9_]*)'|"([A-Za-z_][A-Za-z0-9_]*)"|([A-Za-z_][A-Za-z0-9_]*))/.exec(line.slice(index));
+      const terminator = opener?.[1] ?? opener?.[2] ?? opener?.[3];
+      if (opener && terminator) {
+        state.heredoc = terminator;
+        for (let cursor = index; cursor < output.length; cursor += 1) output[cursor] = " ";
+        return output.join("");
+      }
+    }
     if (language === "ruby" && character === "<" && next === "<" && (index === 0 || !/[\w)\]]/.test(line[index - 1]!))) {
       const heredoc = /^<<[-~]?(?:'([^'\n]+)'|"([^"\n]+)"|([A-Za-z_]\w*))/.exec(line.slice(index));
       const terminator = heredoc?.[1] ?? heredoc?.[2] ?? heredoc?.[3];
@@ -934,13 +1332,14 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     }
     if (
       ((language === "python" || language === "ruby") && character === "#") ||
+      (language === "php" && character === "#" && next !== "[") ||
       (language !== "python" && language !== "ruby" && character === "/" && next === "/")
     ) {
       for (let rest = index; rest < output.length; rest += 1) output[rest] = " ";
       break;
     }
   }
-  if (language === "ruby" && quote) state.openString = { kind: "quote", quote, escaped };
+  if ((language === "ruby" || language === "php") && quote) state.openString = { kind: "quote", quote, escaped };
   return output.join("");
 }
 
@@ -987,13 +1386,16 @@ export async function analyzeSourceUsage(
 
   for (const file of await sourceFiles(resolvedRoot)) {
     if (!relevantLanguages.has(file.language)) continue;
-    if (file.language === "ruby" && rubySourceIgnored(file.path)) continue;
+    if ((file.language === "ruby" || file.language === "php") && checkoutSourceIgnored(file.path)) continue;
     const contents = await readFile(file.absolutePath, "utf8");
     const lines = contents.split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
     for (const line of lines) maskedLines.push(maskCodeLine(line, file.language, maskState));
-    const imports = file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
+    const phpFile = file.language === "php" ? phpUses(lines, maskedLines) : undefined;
+    const imports = file.language === "php"
+      ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile!.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
+      : file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
@@ -1008,7 +1410,9 @@ export async function analyzeSourceUsage(
     const bindings = imports.flatMap((reference) => reference.bindings);
     // Alias resolution is per file, not per matcher or target.
     const rubyFileAliases = file.language === "ruby" ? rubyAliases(maskedLines) : [];
+    const phpFileAliases = phpFile?.aliases ?? [];
     const rubyReceiverPatterns = new Map<string, RegExp>();
+    const phpReceiverPatterns = new Map<string, RegExp>();
 
     for (const contract of contracts) {
       const matchers = contract.matchers.filter((matcher) => matcher.language === file.language);
@@ -1065,6 +1469,34 @@ export async function analyzeSourceUsage(
                       excerpt: lines[index]!.trim(),
                     });
                   }
+                }
+              }
+            }
+          }
+          // A PHP call target is `Class::method(` or `new Class`. `use Foo as Alias` then `Alias::method(` or `new Alias` is the same call.
+          if (file.language === "php") {
+            for (const target of matcher.targets) {
+              const forms = phpCallForms(target, phpFileAliases);
+              if (forms.length === 0) continue;
+              const formKey = forms.map((form) => `${form.kind}\0${form.receiver}\0${form.method ?? ""}`).join("\n");
+              let pattern = phpReceiverPatterns.get(formKey);
+              if (!pattern) {
+                pattern = phpCallPattern(forms);
+                phpReceiverPatterns.set(formKey, pattern);
+              }
+              for (const [index, line] of maskedLines.entries()) {
+                if (line.length > PHP_MAX_LINE || (!line.includes("(") && !line.includes("new"))) continue;
+                pattern.lastIndex = 0;
+                for (const match of line.matchAll(pattern)) {
+                  if (match.index === undefined) continue;
+                  const column = match.index + 1 + (match[0].startsWith("\\") ? 1 : 0);
+                  push(contract.id, {
+                    kind: "call",
+                    language: file.language,
+                    symbol: `${matcher.module}.${target}`,
+                    location: { path: file.path, line: index + 1, column },
+                    excerpt: lines[index]!.trim(),
+                  });
                 }
               }
             }
@@ -1186,7 +1618,7 @@ const RUBY_DYNAMIC_REASON = "the argument is not a string literal, so Evergreen 
 export async function findRubyDynamicReferences(root: string): Promise<RubyDynamicReference[]> {
   const found: RubyDynamicReference[] = [];
   for (const file of await sourceFiles(resolve(root))) {
-    if (file.language !== "ruby" || rubySourceIgnored(file.path)) continue;
+    if (file.language !== "ruby" || checkoutSourceIgnored(file.path)) continue;
     const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState: MaskState = { blockComment: false };
@@ -1207,6 +1639,53 @@ export async function findRubyDynamicReferences(root: string): Promise<RubyDynam
     }
   }
   return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
+}
+
+export interface PhpDynamicReference {
+  path: string;
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
+/**
+ * `require`, `require_once`, `include`, and `include_once` whose argument is not a string literal, plus
+ * `new $class` and `$class::method()`. A quoted path and a static `use` are never unclassified. PHP has no
+ * `require_relative`. Reported only for files this scanner reads; the detector calls it when a finding has usage matchers.
+ */
+export async function findPhpDynamicReferences(root: string): Promise<PhpDynamicReference[]> {
+  const found: PhpDynamicReference[] = [];
+  for (const file of await sourceFiles(resolve(root))) {
+    if (file.language !== "php" || checkoutSourceIgnored(file.path)) continue;
+    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const maskedLines: string[] = [];
+    const maskState: MaskState = { blockComment: false };
+    for (const line of lines) maskedLines.push(maskCodeLine(line, "php", maskState));
+    const { requires, skips } = phpRequires(lines, maskedLines);
+    for (const skip of skips) {
+      found.push({ path: file.path, line: skip.line, column: skip.column, reference: skip.reference, reason: skip.reason });
+    }
+    for (const invocation of requires) {
+      if (invocation.argument.kind !== "dynamic") continue;
+      found.push({
+        path: file.path,
+        line: invocation.line,
+        column: invocation.keywordColumn,
+        reference: invocation.reference,
+        reason: PHP_DYNAMIC_ARGUMENT_REASON,
+      });
+    }
+    for (const call of phpVariableCalls(lines, maskedLines)) {
+      found.push({ path: file.path, line: call.line, column: call.column, reference: call.reference, reason: call.reason });
+    }
+  }
+  const unique = new Map<string, PhpDynamicReference>();
+  for (const hit of found) {
+    const key = `${hit.path}:${hit.line}:${hit.column}:${hit.reference}:${hit.reason}`;
+    if (!unique.has(key)) unique.set(key, hit);
+  }
+  return [...unique.values()].sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
 }
 
 export type { SourceUsageAnalysis, SourceUsageContract } from "./domain.js";
