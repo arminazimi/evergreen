@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 
-import { parseCorpusFilter, selectCorpusEntries } from "../benchmarks/corpus-filter.js";
+import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "../benchmarks/corpus-filter.js";
 import type { CorpusRepositoryEntry } from "../benchmarks/corpus-harness.js";
 
 const entries: CorpusRepositoryEntry[] = [
@@ -56,4 +58,45 @@ test("--ecosystem php selects exactly the PHP entries of the real corpus", async
   assert.ok(selection.entries.length > 0);
   assert.ok(selection.entries.every((entry) => entry.ecosystem === "php"));
   assert.equal(selection.entries.length, corpus.repositories.filter((entry) => entry.ecosystem === "php").length);
+});
+
+test("--failed-from reads only the repositories with a mismatch", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "evergreen-failed-"));
+  try {
+    const report = join(dir, "report.json");
+    await writeFile(report, JSON.stringify({
+      repositories: [
+        { repository: "a/one", unexpected: [], missing: [] },
+        { repository: "b/two", unexpected: ["npm.x:package.json:1"], missing: [] },
+        { repository: "d/four", unexpected: [], missing: ["go.y:go.mod:2"] },
+        { repository: "gone/repo", unexpected: ["z"], missing: [] },
+      ],
+    }));
+    assert.deepEqual(parseCorpusFilter(["--failed-from", report]), { ecosystems: [], repositories: [], failedFrom: report });
+    const failed = await readFailedRepositories(report);
+    assert.deepEqual(failed, ["b/two", "d/four", "gone/repo"]);
+    const selection = selectCorpusEntries(entries, { ecosystems: [], repositories: [], failedFrom: report }, failed);
+    assert.deepEqual(selection.entries.map((entry) => entry.repository), ["b/two", "d/four"]);
+    assert.equal(selection.full, false);
+    assert.match(selection.description ?? "", /mismatches in .*report\.json.*not a full run/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("a report without mismatches selects nothing and is still labeled filtered", async () => {
+  const selection = selectCorpusEntries(entries, { ecosystems: [], repositories: [], failedFrom: "r.json" }, []);
+  assert.deepEqual(selection.entries, []);
+  assert.equal(selection.full, false);
+});
+
+test("a file that is not a corpus report is an error", async () => {
+  await assert.rejects(readFailedRepositories("does-not-exist.json"), /Cannot read the report/);
+  const dir = await mkdtemp(join(tmpdir(), "evergreen-failed-"));
+  try {
+    await writeFile(join(dir, "x.json"), "{}");
+    await assert.rejects(readFailedRepositories(join(dir, "x.json")), /not a corpus report/);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
 });

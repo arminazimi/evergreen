@@ -15,7 +15,7 @@ import {
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
-import { parseCorpusFilter, selectCorpusEntries } from "./corpus-filter.js";
+import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
 import { resolveFetchTimeoutMs, withRetries, withTimeout } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
@@ -79,12 +79,21 @@ if (corpus.repositories.length < 20) {
 
 let selection: ReturnType<typeof selectCorpusEntries>;
 try {
-  selection = selectCorpusEntries(corpus.repositories, parseCorpusFilter());
+  const filter = parseCorpusFilter();
+  selection = selectCorpusEntries(
+    corpus.repositories,
+    filter,
+    filter.failedFrom === undefined ? [] : await readFailedRepositories(filter.failedFrom),
+  );
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exit(2);
 }
 if (selection.description) console.error(selection.description);
+if (selection.entries.length === 0) {
+  console.error("No repository to run: the report has no mismatches, or none of them is in the corpus any more.");
+  process.exit(0);
+}
 
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
 const costTracker = createCostTracker();
