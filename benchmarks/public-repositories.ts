@@ -13,6 +13,7 @@ import {
   runCorpusRepositories,
 } from "./corpus-harness.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
+import { budgetWarnings, createCostTracker, directorySize, formatCost } from "./corpus-cost.js";
 import { parseCorpusFilter, selectCorpusEntries } from "./corpus-filter.js";
 import { withRetries } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
@@ -20,7 +21,8 @@ import type { Thresholds } from "./thresholds.js";
 
 const run = promisify(execFile);
 
-async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<void> {
+/** Fetches `entry` into `checkout` and returns the size of the fetched git data. */
+async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<number> {
   await run("git", ["init", "--quiet", checkout]);
   await withRetries(entry.repository, () =>
     run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
@@ -29,6 +31,7 @@ async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promis
     }),
   );
   await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
+  return directorySize(join(checkout, ".git"));
 }
 
 interface Corpus {
@@ -63,6 +66,8 @@ try {
 if (selection.description) console.error(selection.description);
 
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
+const costTracker = createCostTracker();
+const runStartedAt = performance.now();
 
 try {
   const results = await runCorpusRepositories({
@@ -70,13 +75,17 @@ try {
     concurrency,
     checkout: async (entry, index) => {
       const checkoutStartedAt = performance.now();
-      const path = cacheDir
-        ? (await ensureCorpusCacheEntry(cacheDir, entry, (directory) => fetchInto(directory, entry))).path
-        : await (async () => {
-            const checkout = join(root, String(index));
-            await fetchInto(checkout, entry);
-            return checkout;
-          })();
+      let path: string;
+      if (cacheDir) {
+        const cached = await ensureCorpusCacheEntry(cacheDir, entry, async (directory) => {
+          costTracker.recordFetch(await fetchInto(directory, entry));
+        });
+        if (cached.cached) costTracker.recordHit();
+        path = cached.path;
+      } else {
+        path = join(root, String(index));
+        costTracker.recordFetch(await fetchInto(path, entry));
+      }
       return { path, checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)) };
     },
     scan: async (path) => {
@@ -100,6 +109,8 @@ try {
   const detectors = scoreDetectors(results);
   // Precision floors are calibrated for the whole corpus, so a filtered run never enforces them.
   const regressions = selection.full ? violations(detectors, thresholds) : [];
+  const cost = costTracker.finish({ wallMs: performance.now() - runStartedAt, checkoutMs: checkoutDurations });
+  const warnings = thresholds.budget ? budgetWarnings(cost, thresholds.budget) : [];
   const report = {
     schemaVersion: "evergreen.public-validation-result.v1",
     mode: observeOnly ? "observe" : "verify",
@@ -123,6 +134,8 @@ try {
       p95CheckoutMs: Number(percentile(checkoutDurations, 0.95).toFixed(2)),
       slowestCheckoutMs: Number(Math.max(...checkoutDurations).toFixed(2)),
     },
+    cost,
+    ...(thresholds.budget ? { budget: thresholds.budget, budgetWarnings: warnings } : {}),
   };
 
   console.log(JSON.stringify(report, null, 2));
@@ -130,6 +143,12 @@ try {
   for (const result of results) {
     for (const key of result.unexpected) console.error(`UNEXPECTED ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
     for (const key of result.missing) console.error(`MISSING    ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
+  }
+  console.error(`COST      ${formatCost(cost)}`);
+  // A budget overrun is a warning only; it never changes the exit code.
+  for (const warning of warnings) {
+    console.error(`BUDGET    ${warning}`);
+    if (process.env.GITHUB_ACTIONS === "true") console.error(`::warning title=Corpus budget::${warning}`);
   }
   for (const regression of regressions) {
     console.error(`THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`);

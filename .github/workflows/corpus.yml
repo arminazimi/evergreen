@@ -38,6 +38,12 @@ jobs:
             corpus-checkouts-
       - name: Compare findings with the pinned corpus
         run: node dist/benchmarks/public-repositories.js > corpus-result.json
+      - name: Show the run cost in the job summary
+        if: always()
+        run: |
+          if [ -s corpus-result.json ]; then
+            jq -r '"### Corpus run cost\n\n| Metric | Value |\n| --- | --- |\n| Wall time | \(.cost.wallMs / 1000 | . * 10 | round / 10) s (budget \(.budget.maxWallSeconds) s) |\n| Fetch time (summed) | \(.cost.fetchMs / 1000 | . * 10 | round / 10) s |\n| Cache hits / misses | \(.cost.cacheHits) / \(.cost.cacheMisses) |\n| Fetched | \(.cost.bytesFetched / 1000000 | . * 10 | round / 10) MB (budget \(.budget.maxFetchedBytes / 1000000) MB) |\n\n" + (if (.budgetWarnings | length) > 0 then "**Over budget:**\n" + (.budgetWarnings | map("- " + .) | join("\n")) + "\n" else "Within budget.\n" end)' corpus-result.json >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Save the corpus checkout cache
         if: always() && steps.corpus-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6

@@ -1,5 +1,9 @@
 {
   "schemaVersion": "evergreen.corpus-thresholds.v1",
+  "budget": {
+    "maxWallSeconds": 300,
+    "maxFetchedBytes": 500000000
+  },
   "detectors": {
     "ci-images": {
       "level": "experimental",
