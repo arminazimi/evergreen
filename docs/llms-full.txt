@@ -1632,6 +1632,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `php-1` | `php` | The PHP release-branch JSON (`/releases/branches.php`), the machine-readable form of the [supported versions](https://www.php.net/supported-versions.php) / eol tables: one `end-of-life` rule per branch from 7.0 whose security-support end date has passed. Older lines are noted and skipped. Replacement is the lowest branch still in active support (`state: stable`), not security-only. | none |
+| `php-2` | `php` | Packagist Composer metadata: one `deprecated` rule per direct candidate package whose `abandoned` flag is set. A string flag becomes `replacement` (a package name or the URL the author gave). `true` drafts a rule with no replacement. The flag is package-wide, so the version range is `vers:composer/*`. | `tools/importers/php-candidates.ts` |
 | `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
 | `pypi-status` | `python` | PyPI's Simple API (PEP 792 project status markers): archived, deprecated, and quarantined projects. | `tools/importers/pypi-candidates.ts` |
@@ -1642,7 +1643,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `swift-1` | `swift` | Apple's App Store upcoming-requirements listing: one `end-of-support` rule per Xcode upload floor band (versions below each dated "built with Xcode N" minimum). iOS/iPadOS deployment-target, notary, and tvOS-only entries are noted and skipped. | none |
 | `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
 
-Some registries have no list of what is deprecated (npm and PyPI expose a flag per package), so those importers check a **candidate list**. To widen coverage, add a name to the list in a pull request: one line, in sorted order. A candidate that is not deprecated produces no rule, and the importer names it in its notes so it can be removed.
+Some registries have no list of what is deprecated (npm, PyPI, and Packagist expose a flag per package), so those importers check a **candidate list**. To widen coverage, add a name to the list in a pull request: one line, in sorted order. A candidate that is not deprecated produces no rule, and the importer names it in its notes so it can be removed.
 
 Two importers have limits worth knowing:
 

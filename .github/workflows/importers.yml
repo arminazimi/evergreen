@@ -5,7 +5,7 @@ name: Lifecycle importers
 # draft file and an evidence table, and a maintainer reviews the facts and changes the registry by hand
 # (docs/IMPORTERS.md). It needs the network, so it is not part of pull-request CI.
 #
-# One pull request per importer: Python has two sources (release cycle and PyPI status), so it gets two.
+# One pull request per importer: Python and PHP each have two sources, so each gets two.
 # The repository setting "Allow GitHub Actions to create and approve pull requests" must be on.
 
 on:
@@ -46,6 +46,7 @@ jobs:
           - { importer: nodejs-schedule, ecosystem: nodejs }
           - { importer: npm-deprecated, ecosystem: npm }
           - { importer: php-1, ecosystem: php }
+          - { importer: php-2, ecosystem: php }
           - { importer: pypi-status, ecosystem: python }
           - { importer: python-release-cycle, ecosystem: python }
           - { importer: ruby-1, ecosystem: ruby }
@@ -117,6 +118,7 @@ jobs:
           - nodejs-schedule
           - npm-deprecated
           - php-1
+          - php-2
           - pypi-status
           - python-release-cycle
           - ruby-1
