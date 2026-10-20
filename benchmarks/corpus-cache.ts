@@ -1,5 +1,8 @@
-import { mkdir, mkdtemp, rename, rm, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { lstat, mkdir, mkdtemp, readdir, rename, rm, stat, utimes } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join, parse, resolve } from "node:path";
+
+import { directorySize } from "./corpus-cost.js";
 
 export const CORPUS_CACHE_ENV = "EVERGREEN_CORPUS_CACHE";
 
@@ -46,7 +49,12 @@ export async function ensureCorpusCacheEntry(
   populate: (directory: string) => Promise<void>,
 ): Promise<{ path: string; cached: boolean }> {
   const target = corpusCachePath(cacheDir, entry);
-  if (await isDirectory(target)) return { path: target, cached: true };
+  if (await isDirectory(target)) {
+    // Mark the entry as just used, so pruning by size evicts the least recently used one.
+    const now = new Date();
+    await utimes(target, now, now).catch(() => undefined);
+    return { path: target, cached: true };
+  }
 
   await mkdir(cacheDir, { recursive: true });
   const staging = await mkdtemp(join(cacheDir, ".incoming-"));
@@ -63,4 +71,76 @@ export async function ensureCorpusCacheEntry(
     await rm(staging, { recursive: true, force: true });
   }
   return { path: target, cached: false };
+}
+
+/** The only names `prune` will ever touch: `<owner>__<repo>@<40-hex commit>`. */
+const CACHE_ENTRY_NAME = /^[^/\\@]+__[^/\\@]+@[0-9a-f]{40}$/;
+
+export interface CorpusCacheListing {
+  name: string;
+  path: string;
+  bytes: number;
+  /** Last use: set when the entry is created and refreshed on every cache hit. */
+  lastUsedMs: number;
+}
+
+/** Refuses an empty or root-like cache path, so a typo cannot point the cache commands at an important directory. */
+export function assertSafeCacheDir(dir: string): string {
+  const refuse = () =>
+    new Error(`Refusing to use "${dir}" as the corpus cache: choose a dedicated directory such as ~/.cache/evergreen-corpus.`);
+  if (dir.trim() === "") throw refuse();
+  const resolved = resolve(dir);
+  const { root } = parse(resolved);
+  const depth = resolved.slice(root.length).split(/[\\/]/).filter(Boolean).length;
+  if (resolved === root || resolved === resolve(homedir()) || depth < 2) throw refuse();
+  return resolved;
+}
+
+/** Cache entries on disk, oldest use first. Anything that is not a cache entry name, or is a symbolic link, is ignored. */
+export async function listCorpusCache(dir: string): Promise<CorpusCacheListing[]> {
+  let names: string[];
+  try {
+    names = await readdir(dir);
+  } catch {
+    return [];
+  }
+  const listings: CorpusCacheListing[] = [];
+  for (const name of names.filter((candidate) => CACHE_ENTRY_NAME.test(candidate))) {
+    const path = join(dir, name);
+    const info = await lstat(path);
+    if (!info.isDirectory()) continue;
+    listings.push({ name, path, bytes: await directorySize(path), lastUsedMs: info.mtimeMs });
+  }
+  return listings.sort((left, right) => left.lastUsedMs - right.lastUsedMs || left.name.localeCompare(right.name));
+}
+
+export interface PruneOptions {
+  /** Remove everything. */
+  all?: boolean;
+  /** Remove least recently used entries until the cache is at most this many megabytes. */
+  maxSizeMb?: number;
+}
+
+/**
+ * Which entries a prune removes. Plain `prune` removes entries that are no longer in the corpus;
+ * `maxSizeMb` removes the least recently used ones until the cache fits; `all` removes everything.
+ */
+export function planPrune(
+  listings: readonly CorpusCacheListing[],
+  currentKeys: ReadonlySet<string>,
+  options: PruneOptions,
+): CorpusCacheListing[] {
+  if (options.all && options.maxSizeMb !== undefined) throw new Error("Use either --all or --max-size, not both.");
+  if (options.all) return [...listings];
+  if (options.maxSizeMb !== undefined) {
+    let total = listings.reduce((sum, entry) => sum + entry.bytes, 0);
+    const removed: CorpusCacheListing[] = [];
+    for (const entry of listings) {
+      if (total <= options.maxSizeMb * 1_000_000) break;
+      removed.push(entry);
+      total -= entry.bytes;
+    }
+    return removed;
+  }
+  return listings.filter((entry) => !currentKeys.has(entry.name));
 }

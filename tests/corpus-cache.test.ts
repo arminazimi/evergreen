@@ -1,13 +1,16 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { mkdir, mkdtemp, readdir, readFile, rm, utimes, writeFile } from "node:fs/promises";
+import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
 import {
+  assertSafeCacheDir,
   corpusCacheKey,
   ensureCorpusCacheEntry,
   isCorpusEntryCached,
+  listCorpusCache,
+  planPrune,
   resolveCorpusCacheDir,
 } from "../benchmarks/corpus-cache.js";
 
@@ -66,4 +69,58 @@ test("a failed populate leaves no entry and no staging directory", async () => {
     assert.equal(await isCorpusEntryCached(dir, entry), false);
     assert.deepEqual(await readdir(dir), []);
   });
+});
+
+const commitA = "a".repeat(40);
+const commitB = "b".repeat(40);
+const commitC = "c".repeat(40);
+
+async function seed(dir: string, name: string, bytes: number, ageSeconds: number): Promise<void> {
+  await mkdir(join(dir, name), { recursive: true });
+  await writeFile(join(dir, name, "file"), "x".repeat(bytes));
+  const when = new Date(Date.now() - ageSeconds * 1000);
+  await utimes(join(dir, name), when, when);
+}
+
+test("listCorpusCache and status inputs match the files on disk and ignore foreign names", async () => {
+  await withCache(async (dir) => {
+    await seed(dir, `o__old@${commitA}`, 100, 300);
+    await seed(dir, `o__new@${commitB}`, 200, 100);
+    await mkdir(join(dir, "not-a-cache-entry"));
+    await writeFile(join(dir, "notes.txt"), "keep");
+    const listings = await listCorpusCache(dir);
+    assert.deepEqual(listings.map((entry) => [entry.name, entry.bytes]), [[`o__old@${commitA}`, 100], [`o__new@${commitB}`, 200]]);
+    assert.deepEqual(await listCorpusCache(join(dir, "missing")), []);
+  });
+});
+
+test("prune plans: stale only, least recently used to fit a size, or everything", async () => {
+  await withCache(async (dir) => {
+    await seed(dir, `o__a@${commitA}`, 1_000_000, 300);
+    await seed(dir, `o__b@${commitB}`, 1_000_000, 200);
+    await seed(dir, `o__c@${commitC}`, 1_000_000, 100);
+    const listings = await listCorpusCache(dir);
+    const current = new Set([`o__b@${commitB}`, `o__c@${commitC}`]);
+    assert.deepEqual(planPrune(listings, current, {}).map((entry) => entry.name), [`o__a@${commitA}`]);
+    assert.deepEqual(planPrune(listings, current, { maxSizeMb: 2 }).map((entry) => entry.name), [`o__a@${commitA}`]);
+    assert.deepEqual(planPrune(listings, current, { maxSizeMb: 1 }).map((entry) => entry.name), [`o__a@${commitA}`, `o__b@${commitB}`]);
+    assert.equal(planPrune(listings, current, { all: true }).length, 3);
+    assert.throws(() => planPrune(listings, current, { all: true, maxSizeMb: 1 }), /either --all or --max-size/);
+  });
+});
+
+test("a cache hit refreshes the entry's last-used time", async () => {
+  await withCache(async (dir) => {
+    await seed(dir, `owner__repo@${entry.commit}`, 10, 1000);
+    const before = (await listCorpusCache(dir))[0]!.lastUsedMs;
+    await ensureCorpusCacheEntry(dir, entry, async () => {});
+    assert.ok((await listCorpusCache(dir))[0]!.lastUsedMs > before + 500_000);
+  });
+});
+
+test("empty and root-like cache paths are refused", () => {
+  for (const bad of ["", "  ", "/", "/Users", homedir()]) {
+    assert.throws(() => assertSafeCacheDir(bad), /Refusing to use/, bad);
+  }
+  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), "/var/cache/evergreen-corpus");
 });

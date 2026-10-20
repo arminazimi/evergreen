@@ -132,6 +132,20 @@ npm run validate:public-repos -- --compare benchmarks/thresholds.json
 
 `--compare <file>` prints what moved since that file. Against an earlier report it lists `ADDED` and `REMOVED` findings per repository and the per-detector true-positive, false-positive, and false-negative differences (`DELTA`), computed over the repositories present in both, so a filtered run compares like with like. Against `benchmarks/thresholds.json` it uses the recorded `lastFullRun` for the per-detector numbers only. Comparing never changes the exit code: false positives, false negatives, and the precision floors still decide it, and an unreadable comparison file is reported without failing the run.
 
+### Managing the cache
+
+A full cache is 1 GB or more on disk without `.git` (about 340 MB of git data fetched). A suggested location is `~/.cache/evergreen-corpus`; set `EVERGREEN_CORPUS_CACHE` to it in your shell profile.
+
+```bash
+npm run corpus:cache -- status                       # directory, entry count, total size, entries no longer in the corpus
+npm run corpus:cache -- prune --dry-run              # what removing entries no longer in the corpus would do
+npm run corpus:cache -- prune                        # remove entries that are no longer in the corpus
+npm run corpus:cache -- prune --max-size 800         # remove least recently used entries until the cache is at most 800 MB
+npm run corpus:cache -- prune --all                  # empty the cache
+```
+
+`--dry-run` works with every `prune` form and removes nothing. Every cache hit refreshes the entry's last-used time, which is what `--max-size` orders by. The commands only ever touch directories directly under the cache directory whose names look like `<owner>__<repo>@<40-hex commit>`; anything else in there is left alone, and an empty or root-like path (`/`, your home directory, a single top-level directory) is refused.
+
 ## Run cost and budget
 
 Every report carries a `cost` block: total wall time, the summed fetch time (larger than the wall time when fetches overlap), cache hits and misses, and the size of the git data fetched (git does not expose network bytes, so this is the `.git` size of each fetched checkout). The run prints it as a `COST` line, and the weekly workflow shows it in the job summary.
