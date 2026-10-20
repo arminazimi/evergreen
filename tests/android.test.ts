@@ -15,6 +15,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { AndroidDetector, androidDetector } from "../src/detectors/android/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -227,6 +228,25 @@ test("the engine attributes an Android finding to the detector", async () => {
       ["android", "android.play-billing.version-5", "build.gradle.kts", 19],
     ],
   );
+});
+
+test("every curated Android rule has migration guidance with real verification commands", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.some((check) => check.command === "./gradlew assembleDebug"), rule.id);
+  }
+});
+
+test("a migration packet for an Android finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [androidDetector]);
+  const finding = result.findings.find((item) => item.id === "android.play-billing.version-5:build.gradle:19");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("build.gradle"));
+  assert.ok(packet.steps.some((step) => step.id === "bump-play-billing"));
+  assert.ok(packet.steps.some((step) => step.id === "align-play-billing-surfaces"));
+  assert.ok(packet.verification.some((check) => check.command === "./gradlew assembleDebug"));
+  assert.ok(packet.verification.some((check) => check.command === "./gradlew dependencies"));
 });
 
 test("the detector is registered and Android is experimental in the capability manifest", () => {

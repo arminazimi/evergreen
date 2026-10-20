@@ -26,6 +26,23 @@ The Google Play Billing Library version deprecation page states that all version
 
 - [Google Play Billing Library version deprecation — support timeline](https://developer.android.com/google/play/billing/deprecation-faq)
 
+## Migration
+
+**Constraints**
+
+- Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.
+- Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping.
+
+**Steps**
+
+1. **Raise the Play Billing Library dependency.** Change the reported com.android.billingclient:billing version to a later supported Google Play Billing Library major from the deprecation timeline (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).
+2. **Align other Play Billing declarations.** Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.
+
+**Verification**
+
+- `./gradlew assembleDebug`: Build a debug APK with the raised Play Billing Library major.
+- `./gradlew dependencies`: Confirm the resolved Play Billing Library major matches the intended replacement.
+
 ## Detected by
 
 The `android` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
