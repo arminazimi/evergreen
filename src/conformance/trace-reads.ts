@@ -1,10 +1,29 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
-import { relative, resolve } from "node:path";
+import { isAbsolute, relative, resolve } from "node:path";
 
 import { toPosixPath } from "../paths.js";
 
+/** Path helpers `relativeInsideRoot` needs; tests pass `path.win32` so the cross-drive case is covered on every host. */
+export interface TracePathApi {
+  resolve(...paths: string[]): string;
+  relative(from: string, to: string): string;
+  isAbsolute(path: string): boolean;
+}
+
+const hostPath: TracePathApi = { resolve, relative, isAbsolute };
+
+/**
+ * Whether `target` resolves to a path under `base`. On Windows, `relative()` returns an absolute
+ * path when the target is on another drive; those must not count as inside the root.
+ */
+export function relativeInsideRoot(base: string, target: string, pathApi: TracePathApi = hostPath): string | undefined {
+  const path = pathApi.relative(pathApi.resolve(base), pathApi.resolve(target));
+  if (path === "" || path.startsWith("..") || pathApi.isAbsolute(path)) return undefined;
+  // Always forward slashes: pathApi may be path.win32 even when the host separator is "/".
+  return toPosixPath(path).split("\\").join("/");
+}
 /**
  * Runs `operation` and returns the files under `root` whose contents it opened, as sorted paths relative to `root`
  * with forward slashes. It wraps `readFile`, `open`, `readFileSync`, and `createReadStream`; listing a directory
@@ -16,8 +35,8 @@ export async function traceReads(root: string, operation: () => Promise<unknown>
   const seen = new Set<string>();
   const note = (target: unknown): void => {
     if (typeof target !== "string" && !(target instanceof URL) && !Buffer.isBuffer(target)) return;
-    const path = relative(base, resolve(target instanceof URL ? target.pathname : target.toString()));
-    if (path !== "" && !path.startsWith("..")) seen.add(toPosixPath(path));
+    const path = relativeInsideRoot(base, target instanceof URL ? target.pathname : target.toString());
+    if (path !== undefined) seen.add(path);
   };
 
   const originals = {

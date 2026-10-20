@@ -3822,8 +3822,8 @@
       "expected": []
     },
     {
-      "repository": "android/architecture-samples",
-      "commit": "ee66e1526b84c026615df032c705842b7d2a521f",
+      "repository": "googlesamples/android-BasicMultitouch",
+      "commit": "a4f99c12681c9aafb2d1ee50f964cd023424a0e5",
       "ecosystem": "android",
       "selection": "blind",
       "expected": []
