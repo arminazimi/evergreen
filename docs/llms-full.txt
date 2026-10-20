@@ -1437,6 +1437,16 @@ npm run corpus:cache -- prune --all                  # empty the cache
 
 `--dry-run` works with every `prune` form and removes nothing. Every cache hit refreshes the entry's last-used time, which is what `--max-size` orders by. The commands only ever touch directories directly under the cache directory whose names look like `<owner>__<repo>@<40-hex commit>`; anything else in there is left alone, and an empty or root-like path (`/`, your home directory, a single top-level directory) is refused.
 
+### Warm ahead, run offline
+
+```bash
+npm run corpus:warm                       # fetch every missing checkout into the cache and stop; no scan
+npm run corpus:warm -- --ecosystem php    # the same filters as a run
+npm run validate:public-repos -- --offline
+```
+
+Both need `EVERGREEN_CORPUS_CACHE` and print how many entries were already cached. `--offline` uses the cache only: if an entry is missing it fails before scanning anything, with exit code 2 and one message that lists every missing `repository@commit`. After `corpus:warm`, an `--offline` run reports the same results as an online one. A good habit is `npm run corpus:warm` after pulling `main`, so a later run never waits on a download.
+
 ## Run cost and budget
 
 Every report carries a `cost` block: total wall time, the summed fetch time (larger than the wall time when fetches overlap), cache hits and misses, and the size of the git data fetched (git does not expose network bytes, so this is the `.git` size of each fetched checkout). The run prints it as a `COST` line, and the weekly workflow shows it in the job summary.

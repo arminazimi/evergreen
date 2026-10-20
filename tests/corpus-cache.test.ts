@@ -7,9 +7,11 @@ import { test } from "node:test";
 import {
   assertSafeCacheDir,
   corpusCacheKey,
+  describeMissingEntries,
   ensureCorpusCacheEntry,
   isCorpusEntryCached,
   listCorpusCache,
+  missingCorpusEntries,
   planPrune,
   resolveCorpusCacheDir,
 } from "../benchmarks/corpus-cache.js";
@@ -123,4 +125,19 @@ test("empty and root-like cache paths are refused", () => {
     assert.throws(() => assertSafeCacheDir(bad), /Refusing to use/, bad);
   }
   assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), "/var/cache/evergreen-corpus");
+});
+
+test("missingCorpusEntries and the offline message name every missing repository@commit", async () => {
+  await withCache(async (dir) => {
+    const present = { repository: "o/present", commit: commitA };
+    const absentOne = { repository: "o/absent", commit: commitB };
+    const absentTwo = { repository: "p/gone", commit: commitC };
+    await seed(dir, corpusCacheKey(present), 5, 10);
+    const missing = await missingCorpusEntries(dir, [present, absentOne, absentTwo]);
+    assert.deepEqual(missing, [absentOne, absentTwo]);
+    const message = describeMissingEntries(missing);
+    assert.match(message, /2 corpus entries are not in the cache/);
+    assert.ok(message.includes(`o/absent@${commitB}`) && message.includes(`p/gone@${commitC}`));
+    assert.deepEqual(await missingCorpusEntries(dir, [present]), []);
+  });
 });

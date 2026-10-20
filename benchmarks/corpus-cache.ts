@@ -144,3 +144,17 @@ export function planPrune(
   }
   return listings.filter((entry) => !currentKeys.has(entry.name));
 }
+
+/** The entries of `entries` that are not in the cache yet. */
+export async function missingCorpusEntries<T extends CorpusCacheEntry>(cacheDir: string, entries: readonly T[]): Promise<T[]> {
+  const missing: T[] = [];
+  for (const entry of entries) {
+    if (!(await isCorpusEntryCached(cacheDir, entry))) missing.push(entry);
+  }
+  return missing;
+}
+
+/** One message naming every missing `repository@commit`, for a run that may not use the network. */
+export function describeMissingEntries(missing: readonly CorpusCacheEntry[]): string {
+  return `Offline run: ${missing.length} corpus ${missing.length === 1 ? "entry is" : "entries are"} not in the cache. Run "npm run corpus:warm" first, or drop --offline.\n${missing.map((entry) => `  ${entry.repository}@${entry.commit}`).join("\n")}`;
+}

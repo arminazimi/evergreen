@@ -8,11 +8,12 @@ import { promisify } from "node:util";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import {
+  inBatches,
   type CorpusRepositoryEntry,
   resolveCorpusConcurrency,
   runCorpusRepositories,
 } from "./corpus-harness.js";
-import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
+import { describeMissingEntries, ensureCorpusCacheEntry, missingCorpusEntries, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
@@ -101,6 +102,38 @@ if (selection.description) console.error(selection.description);
 if (selection.entries.length === 0) {
   console.error("No repository to run: the report has no mismatches, or none of them is in the corpus any more.");
   process.exit(0);
+}
+
+const offline = process.argv.includes("--offline");
+const warmOnly = process.argv.includes("--warm");
+if ((offline || warmOnly) && !cacheDir) {
+  console.error(`${warmOnly ? "--warm" : "--offline"} needs EVERGREEN_CORPUS_CACHE, for example ~/.cache/evergreen-corpus.`);
+  process.exit(2);
+}
+if (offline && warmOnly) {
+  console.error("--warm fetches and --offline forbids fetching; use one of them.");
+  process.exit(2);
+}
+if (cacheDir) {
+  const missing = await missingCorpusEntries(cacheDir, selection.entries);
+  console.error(`cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`);
+  // An offline run fails before scanning anything, naming every entry it cannot serve.
+  if (offline && missing.length > 0) {
+    console.error(describeMissingEntries(missing));
+    process.exit(2);
+  }
+  if (warmOnly) {
+    let fetched = 0;
+    await inBatches(missing, concurrency, async (entry) => {
+      await ensureCorpusCacheEntry(cacheDir, entry, async (directory) => {
+        await fetchInto(directory, entry);
+      });
+      fetched += 1;
+      console.error(`${fetched}/${missing.length} ${entry.repository}`);
+    });
+    console.error(`cache warmed: ${fetched} fetched, ${selection.entries.length - missing.length} were already cached.`);
+    process.exit(0);
+  }
 }
 
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
