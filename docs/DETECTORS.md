@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The Ruby detector has no separate page yet; its supported declarations and limits are in [Compatibility](COMPATIBILITY.md#ruby-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The Ruby and PHP detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#ruby-detector) and [Compatibility](COMPATIBILITY.md#php-detector).
 
 ## Ruby detector layout
 
@@ -51,6 +51,18 @@ The Ruby detector is a useful example of the layout a built-in detector follows.
 - Gem rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the Ruby files that import or call the gem. A `require`, `load`, `gem`, or `autoload` whose argument is not a string literal is unclassified. `require_relative` is never unclassified. Qualified calls without parentheses (for example `JSON.parse text`) are not matched.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ruby-detector).
+
+## PHP detector layout
+
+The PHP detector follows the same layout. Its entry point, `src/detectors/php/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-php-runtime.ts`, `parse-composer-json.ts`, and `parse-composer-lock.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
+- Rules come from `registry/php.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A runtime pin uses the first rule whose `vers` range contains the version. A constraint that is not a concrete version (for example `>=7.4` or `^8.2`) is skipped, and a rule whose `vers` is malformed is skipped, so neither hides a later rule.
+- A `composer.json` package is matched only against rules that cover every version of the package, while a `composer.lock` package is matched against any rule whose `vers` contains the resolved version. An `abandoned` flag in the lockfile is recorded by the parser and is not itself a finding.
+- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#php-detector).
 
 ## Start a new detector in this repository
 
