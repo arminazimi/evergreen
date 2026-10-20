@@ -101,11 +101,7 @@ test("recorded drafts diff against the curated rules and never write the registr
   const before = JSON.stringify(registry);
   const diff = diffDrafts(await execute(phpPackagistAbandonedImporter, { replay: recording }), registry);
 
-  assert.deepEqual(diff.added.map((rule) => rule.id), [
-    "php.package.doctrine.cache.abandoned",
-    "php.package.fzaninotto.faker.abandoned",
-    "php.package.sensiolabs.security-checker.abandoned",
-  ]);
+  assert.deepEqual(diff.added, []);
   assert.deepEqual(diff.changed.map((entry) => entry.id), [
     "php.package.swiftmailer.swiftmailer.abandoned",
     "php.package.zendframework.zend-stdlib.abandoned",
@@ -117,7 +113,11 @@ test("recorded drafts diff against the curated rules and never write the registr
   assert.ok(swift.sources?.added.some((source) => source.url === metadataUrl("swiftmailer/swiftmailer")));
   assert.ok(swift.sources?.removed.some((source) => source.url === "https://symfony.com/blog/the-end-of-swiftmailer"));
   assert.deepEqual(diff.removed, []);
-  assert.deepEqual(diff.unchanged, []);
+  assert.deepEqual(diff.unchanged, [
+    "php.package.doctrine.cache.abandoned",
+    "php.package.fzaninotto.faker.abandoned",
+    "php.package.sensiolabs.security-checker.abandoned",
+  ]);
   assert.deepEqual(diff.duplicates, []);
   assert.ok(!diff.added.some((rule) => rule.id.startsWith("php.runtime.")));
   assert.equal(JSON.stringify(registry), before);
