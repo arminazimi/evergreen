@@ -1861,6 +1861,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a."
           }
+        },
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "Dockerfile",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM golang:1.25 as build`, a Go release line that no longer receives fixes."
+          }
         }
       ]
     },
@@ -2611,6 +2620,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "web/guestbook-go/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of web/guestbook-go/Dockerfile reads `FROM golang:1.10.0`, a Go release line that no longer receives fixes."
+          }
+        },
+        {
+          "ruleId": "container.redis.eol-6.0-and-older",
+          "path": "web/guestbook/redis-slave/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of web/guestbook/redis-slave/Dockerfile reads `FROM redis:3.2.9`, a Redis release line that no longer receives fixes."
           }
         }
       ]
@@ -3842,6 +3869,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 82 of composer.json reads `\"php\": \"7.4.33\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28."
+          }
+        },
+        {
+          "ruleId": "php.package.doctrine.cache.abandoned",
+          "path": "composer.lock",
+          "line": 210,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 210 of composer.lock reads `\"version\": \"2.2.0\"` for the package `doctrine/cache` named on line 209. Packagist marks doctrine/cache as abandoned."
           }
         }
       ]
