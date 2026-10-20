@@ -276,6 +276,276 @@
           }
         ]
       }
+    },
+    {
+      "id": "container.caddy.eol-1-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/caddy",
+      "vers": "vers:semver/<2.0.0",
+      "event": "end-of-life",
+      "title": "Caddy image release lines 1 and older are end-of-life",
+      "summary": "These Caddy release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A caddy image on a supported release line",
+      "deadline": "2020-07-01",
+      "sources": [
+        {
+          "title": "Caddy release policy (vendor)",
+          "url": "https://github.com/caddyserver/caddy/security"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use caddy on one supported Caddy release line.",
+          "Confirm the application and its data or configuration work on the target Caddy release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.golang.eol-1.25-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/golang",
+      "vers": "vers:semver/<1.26.0",
+      "event": "end-of-life",
+      "title": "Go image release lines 1.25 and older are end-of-life",
+      "summary": "These Go release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A golang image on a supported release line",
+      "deadline": "2026-08-19",
+      "sources": [
+        {
+          "title": "Go release policy (vendor)",
+          "url": "https://go.dev/doc/devel/release#policy"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use golang on one supported Go release line.",
+          "Confirm the application and its data or configuration work on the target Go release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.mariadb.eol-10.10-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/mariadb",
+      "vers": "vers:semver/<10.11.0",
+      "event": "end-of-life",
+      "title": "MariaDB image release lines 10.10 and older are end-of-life",
+      "summary": "These MariaDB release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A mariadb image on a supported release line",
+      "deadline": "2026-07-06",
+      "sources": [
+        {
+          "title": "MariaDB release policy (vendor)",
+          "url": "https://mariadb.org/about/#maintenance-policy"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use mariadb on one supported MariaDB release line.",
+          "Confirm the application and its data or configuration work on the target MariaDB release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.redis.eol-6.0-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/redis",
+      "vers": "vers:semver/<6.2.0",
+      "event": "end-of-life",
+      "title": "Redis image release lines 6.0 and older are end-of-life",
+      "summary": "These Redis release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A redis image on a supported release line",
+      "deadline": "2022-05-31",
+      "sources": [
+        {
+          "title": "Redis release policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use redis on one supported Redis release line.",
+          "Confirm the application and its data or configuration work on the target Redis release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.zookeeper.eol-3.7-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/zookeeper",
+      "vers": "vers:semver/<3.8.0",
+      "event": "end-of-life",
+      "title": "Apache ZooKeeper image release lines 3.7 and older are end-of-life",
+      "summary": "These Apache ZooKeeper release lines no longer receive fixes from the vendor.",
+      "severity": "high",
+      "replacement": "A zookeeper image on a supported release line",
+      "deadline": "2024-01-19",
+      "sources": [
+        {
+          "title": "Apache ZooKeeper release policy (vendor)",
+          "url": "https://zookeeper.apache.org/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use zookeeper on one supported ZooKeeper release line.",
+          "Confirm the application and its data or configuration work on the target ZooKeeper release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
     }
   ]
 }

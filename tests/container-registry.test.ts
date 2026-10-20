@@ -9,9 +9,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8"))).rules;
 }
 
-test("container registry has five valid rules with vendor sources", async () => {
+test("container registry has ten valid rules with vendor sources", async () => {
   const all = await rules();
-  assert.equal(all.length, 5);
+  assert.equal(all.length, 10);
   for (const rule of all) {
     assert.match(rule.purl, /^pkg:docker\/library\//);
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://")));

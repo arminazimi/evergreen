@@ -63,6 +63,8 @@ test("container passes detector conformance on every fixture", async () => {
           expected(node, "Dockerfile", 2, "node:16"),
           expected(node, "Dockerfile", 5, "node:16-alpine"),
           expected("container.python.eol-3.10-and-older", "Dockerfile", 8, "docker.io/library/python:3.8-slim"),
+          expected("container.redis.eol-6.0-and-older", "compose.yaml", 5, "redis:5-alpine"),
+          expected("container.redis.eol-6.0-and-older", "Containerfile", 1, "redis:5@sha256:0000000000000000000000000000000000000000000000000000000000000000"),
         ]),
       },
     ],
