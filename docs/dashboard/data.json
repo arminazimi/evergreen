@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-20",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 113
+    "repositories": 114
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
