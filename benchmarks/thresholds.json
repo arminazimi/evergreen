@@ -78,9 +78,9 @@
   },
   "lastFullRun": {
     "date": "2026-10-20",
-    "commit": "b77392c",
-    "repositories": 107,
-    "findings": 441,
+    "commit": "3563468",
+    "repositories": 113,
+    "findings": 475,
     "precision": 1,
     "recall": 1,
     "perDetector": {
@@ -90,7 +90,7 @@
         "falseNegatives": 0
       },
       "container": {
-        "truePositives": 16,
+        "truePositives": 19,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -115,7 +115,7 @@
         "falseNegatives": 0
       },
       "kubernetes": {
-        "truePositives": 9,
+        "truePositives": 29,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -130,7 +130,7 @@
         "falseNegatives": 0
       },
       "php": {
-        "truePositives": 4,
+        "truePositives": 5,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -146,6 +146,11 @@
       },
       "rust": {
         "truePositives": 5,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "swift": {
+        "truePositives": 10,
         "falsePositives": 0,
         "falseNegatives": 0
       }
