@@ -1,0 +1,1408 @@
+{
+  "importer": "kubernetes-1",
+  "ecosystem": "kubernetes",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the admissionregistration.k8s.io/v1beta1 API version of MutatingWebhookConfiguration is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "admissionregistration.k8s.io/v1 MutatingWebhookConfiguration, available since v1.16",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/admissionregistration.k8s.io/ValidatingWebhookConfiguration",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "ValidatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the admissionregistration.k8s.io/v1beta1 API version of ValidatingWebhookConfiguration is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "admissionregistration.k8s.io/v1 ValidatingWebhookConfiguration, available since v1.16",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apiextensions.k8s.io/CustomResourceDefinition",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CustomResourceDefinition apiextensions.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apiextensions.k8s.io/v1beta1 API version of CustomResourceDefinition is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "apiextensions.k8s.io/v1 CustomResourceDefinition, available since v1.16",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apiregistration.k8s.io/APIService",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "APIService apiregistration.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apiregistration.k8s.io/v1beta1 API version of APIService is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "apiregistration.k8s.io/v1 APIService, available since v1.10",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.daemonset.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/DaemonSet",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "DaemonSet apps/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of DaemonSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 DaemonSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.deployment.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/Deployment",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Deployment apps/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta1 API version of Deployment is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 Deployment, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.deployment.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/Deployment",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "Deployment apps/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of Deployment is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 Deployment, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.replicaset.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/ReplicaSet",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "ReplicaSet apps/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta1 API version of ReplicaSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 ReplicaSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.replicaset.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/ReplicaSet",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "ReplicaSet apps/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of ReplicaSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 ReplicaSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.statefulset.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/StatefulSet",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "StatefulSet apps/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta1 API version of StatefulSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 StatefulSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.apps.statefulset.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/apps/StatefulSet",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "StatefulSet apps/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of StatefulSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 StatefulSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.authentication-k8s-io.tokenreview.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/authentication.k8s.io/TokenReview",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "TokenReview authentication.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the authentication.k8s.io/v1beta1 API version of TokenReview is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "authentication.k8s.io/v1 TokenReview, available since v1.6",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/LocalSubjectAccessReview",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "LocalSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of LocalSubjectAccessReview is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "authorization.k8s.io/v1 LocalSubjectAccessReview, available since v1.6",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.authorization-k8s-io.selfsubjectaccessreview.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SelfSubjectAccessReview",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "SelfSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of SelfSubjectAccessReview is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "authorization.k8s.io/v1 SelfSubjectAccessReview, available since v1.6",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.authorization-k8s-io.selfsubjectrulesreview.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SelfSubjectRulesReview",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "SelfSubjectRulesReview authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of SelfSubjectRulesReview is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "authorization.k8s.io/v1 SelfSubjectRulesReview, available since v1.6",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SubjectAccessReview",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "SubjectAccessReview authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of SubjectAccessReview is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "authorization.k8s.io/v1 SubjectAccessReview, available since v1.6",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/autoscaling/HorizontalPodAutoscaler",
+      "vers": "vers:semver/2.0.0-beta.1",
+      "event": "removed",
+      "title": "HorizontalPodAutoscaler autoscaling/v2beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta1 API version of HorizontalPodAutoscaler is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "autoscaling/v2 HorizontalPodAutoscaler, available since v1.23",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/autoscaling/HorizontalPodAutoscaler",
+      "vers": "vers:semver/2.0.0-beta.2",
+      "event": "removed",
+      "title": "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta2 API version of HorizontalPodAutoscaler is no longer served as of v1.26, which was released on 2022-12-09.",
+      "severity": "high",
+      "replacement": "autoscaling/v2 HorizontalPodAutoscaler, available since v1.23",
+      "deadline": "2022-12-09",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.26: Electrifying (release announcement, 2022-12-09)",
+          "url": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.batch.cronjob.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/batch/CronJob",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CronJob batch/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "batch/v1 CronJob, available since v1.21",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/certificates.k8s.io/CertificateSigningRequest",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CertificateSigningRequest certificates.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the certificates.k8s.io/v1beta1 API version of CertificateSigningRequest is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "certificates.k8s.io/v1 CertificateSigningRequest, available since v1.19",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.coordination-k8s-io.lease.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/coordination.k8s.io/Lease",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Lease coordination.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the coordination.k8s.io/v1beta1 API version of Lease is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "coordination.k8s.io/v1 Lease, available since v1.14",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/discovery.k8s.io/EndpointSlice",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "EndpointSlice discovery.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the discovery.k8s.io/v1beta1 API version of EndpointSlice is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "discovery.k8s.io/v1 EndpointSlice, available since v1.21",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.events-k8s-io.event.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/events.k8s.io/Event",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Event events.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the events.k8s.io/v1beta1 API version of Event is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "events.k8s.io/v1 Event, available since v1.19",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/DaemonSet",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "DaemonSet extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of DaemonSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 DaemonSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.deployment.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/Deployment",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Deployment extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of Deployment is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 Deployment, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.ingress.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/Ingress",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Ingress extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "networking.k8s.io/v1 Ingress, available since v1.19",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.networkpolicy.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/NetworkPolicy",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "NetworkPolicy extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of NetworkPolicy is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "networking.k8s.io/v1 NetworkPolicy, available since v1.8",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/PodSecurityPolicy",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "PodSecurityPolicy extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "policy/v1beta1 PodSecurityPolicy, available since v1.10",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/extensions/ReplicaSet",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "ReplicaSet extensions/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of ReplicaSet is no longer served as of v1.16, which was released on 2019-09-18.",
+      "severity": "high",
+      "replacement": "apps/v1 ReplicaSet, available since v1.9",
+      "deadline": "2019-09-18",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "FlowSchema flowcontrol.apiserver.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta1 API version of FlowSchema is no longer served as of v1.26, which was released on 2022-12-09.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1beta2 FlowSchema",
+      "deadline": "2022-12-09",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.26: Electrifying (release announcement, 2022-12-09)",
+          "url": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "FlowSchema flowcontrol.apiserver.k8s.io/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta2 API version of FlowSchema is no longer served as of v1.29, which was released on 2023-12-13.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1 FlowSchema, available since v1.29",
+      "deadline": "2023-12-13",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.29: Mandala (release announcement, 2023-12-13)",
+          "url": "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema",
+      "vers": "vers:semver/1.0.0-beta.3",
+      "event": "removed",
+      "title": "FlowSchema flowcontrol.apiserver.k8s.io/v1beta3 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta3 API version of FlowSchema is no longer served as of v1.32, which was released on 2024-12-11.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1 FlowSchema, available since v1.29",
+      "deadline": "2024-12-11",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.32: Penelope (release announcement, 2024-12-11)",
+          "url": "https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/PriorityLevelConfiguration",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta1 API version of PriorityLevelConfiguration is no longer served as of v1.26, which was released on 2022-12-09.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1beta2 PriorityLevelConfiguration",
+      "deadline": "2022-12-09",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.26: Electrifying (release announcement, 2022-12-09)",
+          "url": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta2.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/PriorityLevelConfiguration",
+      "vers": "vers:semver/1.0.0-beta.2",
+      "event": "removed",
+      "title": "PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta2 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta2 API version of PriorityLevelConfiguration is no longer served as of v1.29, which was released on 2023-12-13.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1 PriorityLevelConfiguration, available since v1.29",
+      "deadline": "2023-12-13",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.29: Mandala (release announcement, 2023-12-13)",
+          "url": "https://kubernetes.io/blog/2023/12/13/kubernetes-v1-29-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/PriorityLevelConfiguration",
+      "vers": "vers:semver/1.0.0-beta.3",
+      "event": "removed",
+      "title": "PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta3 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta3 API version of PriorityLevelConfiguration is no longer served as of v1.32, which was released on 2024-12-11.",
+      "severity": "high",
+      "replacement": "flowcontrol.apiserver.k8s.io/v1 PriorityLevelConfiguration, available since v1.29",
+      "deadline": "2024-12-11",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.32: Penelope (release announcement, 2024-12-11)",
+          "url": "https://kubernetes.io/blog/2024/12/11/kubernetes-v1-32-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/networking.k8s.io/Ingress",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Ingress networking.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "networking.k8s.io/v1 Ingress, available since v1.19",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.networking-k8s-io.ingressclass.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/networking.k8s.io/IngressClass",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "IngressClass networking.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of IngressClass is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "networking.k8s.io/v1 IngressClass, available since v1.19",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.node-k8s-io.runtimeclass.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/node.k8s.io/RuntimeClass",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "RuntimeClass node.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the node.k8s.io/v1beta1 API version of RuntimeClass is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "node.k8s.io/v1 RuntimeClass, available since v1.20",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/policy/PodDisruptionBudget",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "PodDisruptionBudget policy/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the policy/v1beta1 API version of PodDisruptionBudget is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "policy/v1 PodDisruptionBudget, available since v1.21",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/policy/PodSecurityPolicy",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "PodSecurityPolicy policy/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the policy/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.25, which was released on 2022-08-23.",
+      "severity": "high",
+      "replacement": "Pod Security Admission or a 3rd party admission webhook",
+      "deadline": "2022-08-23",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/ClusterRole",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "ClusterRole rbac.authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the rbac.authorization.k8s.io/v1beta1 API version of ClusterRole is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "rbac.authorization.k8s.io/v1 ClusterRole, available since v1.8",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the rbac.authorization.k8s.io/v1beta1 API version of ClusterRoleBinding is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "rbac.authorization.k8s.io/v1 ClusterRoleBinding, available since v1.8",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/Role",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "Role rbac.authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the rbac.authorization.k8s.io/v1beta1 API version of Role is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "rbac.authorization.k8s.io/v1 Role, available since v1.8",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/RoleBinding",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "RoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the rbac.authorization.k8s.io/v1beta1 API version of RoleBinding is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "rbac.authorization.k8s.io/v1 RoleBinding, available since v1.8",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/scheduling.k8s.io/PriorityClass",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "PriorityClass scheduling.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the scheduling.k8s.io/v1beta1 API version of PriorityClass is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "scheduling.k8s.io/v1 PriorityClass, available since v1.14",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.storage-k8s-io.csidriver.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIDriver",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CSIDriver storage.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIDriver is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "storage.k8s.io/v1 CSIDriver",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.storage-k8s-io.csinode.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSINode",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CSINode storage.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSINode is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "storage.k8s.io/v1 CSINode",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11.",
+      "severity": "high",
+      "replacement": "storage.k8s.io/v1 CSIStorageCapacity, available since v1.24",
+      "deadline": "2023-04-11",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)",
+          "url": "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/StorageClass",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "StorageClass storage.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of StorageClass is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "storage.k8s.io/v1 StorageClass",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    },
+    {
+      "id": "kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed",
+      "ecosystem": "kubernetes",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/VolumeAttachment",
+      "vers": "vers:semver/1.0.0-beta.1",
+      "event": "removed",
+      "title": "VolumeAttachment storage.k8s.io/v1beta1 is no longer served",
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of VolumeAttachment is no longer served as of v1.22, which was released on 2021-08-04.",
+      "severity": "high",
+      "replacement": "storage.k8s.io/v1 VolumeAttachment",
+      "deadline": "2021-08-04",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "kubernetes-1"
+      }
+    }
+  ],
+  "notes": []
+}
