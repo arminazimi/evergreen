@@ -3502,6 +3502,33 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 4 of test/DlibDotNet.Tests/DlibDotNet.Tests.csproj reads `<TargetFramework>netcoreapp2.1</TargetFramework>`; the 2.1 line is a release line whose support ended on 2021-08-21 according to Microsoft's releases index."
           }
+        },
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "examples/MultiThreadFaceDetectionCpp/CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of examples/MultiThreadFaceDetectionCpp/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.0.0)`; CMake 4.0 removed compatibility with policy versions older than 3.5 (CMake 4.0.0, 2025-03-27)."
+          }
+        },
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "src/DlibDotNet.Native.Dnn/CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of src/DlibDotNet.Native.Dnn/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.0.0)`; CMake 4.0 removed compatibility with policy versions older than 3.5 (CMake 4.0.0, 2025-03-27)."
+          }
+        },
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "src/DlibDotNet.Native/CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of src/DlibDotNet.Native/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.0.0)`; CMake 4.0 removed compatibility with policy versions older than 3.5 (CMake 4.0.0, 2025-03-27)."
+          }
         }
       ]
     },

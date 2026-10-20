@@ -98,8 +98,8 @@
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 0,
-        "expectedFindings": 0,
+        "repositoriesWithFindings": 1,
+        "expectedFindings": 3,
         "zeroFindingRepositories": 0,
         "repositories": 0,
         "blindRepositories": 0
