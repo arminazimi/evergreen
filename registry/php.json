@@ -111,7 +111,31 @@
         "observedAt": "2026-10-19",
         "reviewedAt": "2026-10-19",
         "reviewer": "arminazimi"
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "php",
+          "module": "Swift_Mailer"
+        },
+        {
+          "kind": "import",
+          "language": "php",
+          "module": "Swift_Message"
+        },
+        {
+          "kind": "call",
+          "language": "php",
+          "module": "Swift_Mailer",
+          "targets": ["new Swift_Mailer", "Swift_Mailer::newInstance"]
+        },
+        {
+          "kind": "call",
+          "language": "php",
+          "module": "Swift_Message",
+          "targets": ["new Swift_Message", "Swift_Message::newInstance"]
+        }
+      ]
     },
     {
       "id": "php.package.zendframework.zend-stdlib.abandoned",
@@ -138,7 +162,20 @@
         "observedAt": "2026-10-19",
         "reviewedAt": "2026-10-19",
         "reviewer": "arminazimi"
-      }
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "php",
+          "module": "Zend\\Stdlib"
+        },
+        {
+          "kind": "call",
+          "language": "php",
+          "module": "Zend\\Stdlib",
+          "targets": ["Zend\\Stdlib\\ArrayUtils::merge", "new Zend\\Stdlib\\Parameters"]
+        }
+      ]
     }
   ]
 }

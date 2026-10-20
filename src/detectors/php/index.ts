@@ -6,7 +6,8 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import { analyzeSourceUsage, findPhpDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseComposerJson } from "./parse-composer-json.js";
 import { parseComposerLock } from "./parse-composer-lock.js";
@@ -18,7 +19,11 @@ import { parsePhpVersion, parseToolVersions } from "./parse-php-runtime.js";
  * It reads the runtime pins in `.php-version`, `.tool-versions`, `composer.json` `require.php` and
  * `config.platform.php`, and `composer.lock` `platform.php`; direct packages in `composer.json` for rules that
  * cover every version; and resolved packages in `composer.lock`. An `abandoned` flag records what Composer wrote
- * and is not itself a finding. PHP, phpenv, asdf, and Composer are never run and nothing is fetched.
+ * and is not itself a finding. A package rule with usage matchers also lists quoted `require` and `include`
+ * paths and `use` names of that package, and the qualified calls and constructors those matchers name
+ * (`Class::method` and `new Class`). When such a finding exists, a require or include whose argument is not a
+ * string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not
+ * name source usages. PHP, phpenv, asdf, and Composer are never run and nothing is fetched.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -85,8 +90,12 @@ export class PhpDetector implements Detector {
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/php.json")).rules) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
+    return [...(await this.analyze(context)).findings];
+  }
+
+  async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const files = await phpFiles(context.root);
-    if (files.length === 0) return [];
+    if (files.length === 0) return { findings: [], unclassified: [] };
 
     const rules = await this.loadRules();
     const runtimeRules = rules.filter((rule) => rule.purl === RUNTIME_PURL);
@@ -100,9 +109,11 @@ export class PhpDetector implements Detector {
     }
 
     const findings: DetectorFinding[] = [];
+    const withUsage: Array<{ id: string; rule: RegistryV2Rule }> = [];
     const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
+      const id = `${rule.id}:${path}:${line}`;
       findings.push({
-        id: `${rule.id}:${path}:${line}`,
+        id,
         ruleId: rule.id,
         title: rule.title,
         summary,
@@ -113,6 +124,7 @@ export class PhpDetector implements Detector {
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
       });
+      if ((rule.usage ?? []).length > 0) withUsage.push({ id, rule });
     };
 
     for (const file of files) {
@@ -159,11 +171,34 @@ export class PhpDetector implements Detector {
       }
     }
 
+    const unclassified: Array<{
+      component: string;
+      reference: string;
+      reason: string;
+      location: { path: string; line: number; column: number };
+    }> = [];
+
+    if (withUsage.length > 0) {
+      const analyses = new Map((await analyzeSourceUsage(context.root, withUsage.map((item) => ({ id: item.id, matchers: item.rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      for (const finding of findings) {
+        const analysis = analyses.get(finding.id);
+        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+      }
+      for (const reference of await findPhpDynamicReferences(context.root)) {
+        unclassified.push({
+          component: "php",
+          reference: reference.reference,
+          reason: reference.reason,
+          location: { path: reference.path, line: reference.line, column: reference.column },
+        });
+      }
+    }
+
     findings.sort((left, right) => {
       if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
       return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
     });
-    return findings;
+    return { findings, unclassified };
   }
 }
 
