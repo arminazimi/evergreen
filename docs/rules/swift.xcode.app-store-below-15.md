@@ -45,7 +45,7 @@ Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadO
 
 ## Detected by
 
-No built-in detector reads `swift` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json).
+The `swift` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

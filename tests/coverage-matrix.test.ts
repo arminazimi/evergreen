@@ -30,6 +30,7 @@ const ROW_NAMES = [
   "Python",
   "Ruby",
   "Rust",
+  "Swift",
   "Other language and platform ecosystems",
 ];
 

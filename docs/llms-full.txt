@@ -626,6 +626,7 @@ Matrix version: **2026-10-15 / v1**
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
 | Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files. |
 | Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |
+| Swift | Experimental | `.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule. |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 <!-- coverage-matrix:end -->
 

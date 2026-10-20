@@ -38,6 +38,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   python: ["python"],
   ruby: ["ruby"],
   rust: ["rust"],
+  swift: ["swift"],
 };
 
 export interface CorpusRepository {

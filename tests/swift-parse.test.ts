@@ -228,7 +228,7 @@ test("parses .swift-version and .xcode-version pins with exact lines", async () 
   assert.deepEqual(parseSwiftVersion(await fixture("positive/.swift-version")), [{ value: "5.9", line: 1 }]);
   assert.deepEqual(parseXcodeVersion(await fixture("positive/.xcode-version")), [{ value: "15.4", line: 1 }]);
   assert.deepEqual(parseSwiftVersion(await fixture("zero/.swift-version")), [{ value: "6.0", line: 1 }]);
-  assert.deepEqual(parseXcodeVersion(await fixture("zero/.xcode-version")), [{ value: "16.2", line: 1 }]);
+  assert.deepEqual(parseXcodeVersion(await fixture("zero/.xcode-version")), [{ value: "26.0", line: 1 }]);
 });
 
 test("ignores moving names, comments, and non-version tokens in toolchain pins", async () => {

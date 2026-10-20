@@ -81,6 +81,7 @@ test("the bundle lists every registry and the SHA map, and matches the published
     "registry/python.json",
     "registry/ruby.json",
     "registry/rust.json",
+    "registry/swift.json",
   ]);
   assert.equal(bundle.manifest.version, "2026.10.16");
   assert.equal(bundle.manifest.minimumEvergreenVersion, "0.2.0");

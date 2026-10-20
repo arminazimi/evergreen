@@ -65,6 +65,11 @@
       "level": "experimental",
       "stable": false,
       "minPrecision": 0.95
+    },
+    "swift": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
     }
   },
   "lastFullRun": {
