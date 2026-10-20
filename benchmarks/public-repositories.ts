@@ -12,11 +12,23 @@ import {
   resolveCorpusConcurrency,
   runCorpusRepositories,
 } from "./corpus-harness.js";
+import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { withRetries } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
 const run = promisify(execFile);
+
+async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<void> {
+  await run("git", ["init", "--quiet", checkout]);
+  await withRetries(entry.repository, () =>
+    run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
+      env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+      maxBuffer: 10 * 1024 * 1024,
+    }),
+  );
+  await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
+}
 
 interface Corpus {
   schemaVersion: "evergreen.public-validation.v1";
@@ -31,6 +43,7 @@ function percentile(values: number[], fraction: number): number {
 
 const observeOnly = process.argv.includes("--observe");
 const concurrency = resolveCorpusConcurrency();
+const cacheDir = resolveCorpusCacheDir();
 const corpus = JSON.parse(
   await readFile(resolve("benchmarks/public-repositories.json"), "utf8"),
 ) as Corpus;
@@ -46,20 +59,15 @@ try {
     entries: corpus.repositories,
     concurrency,
     checkout: async (entry, index) => {
-      const checkout = join(root, String(index));
       const checkoutStartedAt = performance.now();
-      await run("git", ["init", "--quiet", checkout]);
-      await withRetries(entry.repository, () =>
-        run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
-          env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
-          maxBuffer: 10 * 1024 * 1024,
-        }),
-      );
-      await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
-      return {
-        path: checkout,
-        checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)),
-      };
+      const path = cacheDir
+        ? (await ensureCorpusCacheEntry(cacheDir, entry, (directory) => fetchInto(directory, entry))).path
+        : await (async () => {
+            const checkout = join(root, String(index));
+            await fetchInto(checkout, entry);
+            return checkout;
+          })();
+      return { path, checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)) };
     },
     scan: async (path) => {
       const scan = await scanRepository(path, builtInDetectors);
