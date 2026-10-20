@@ -101,7 +101,7 @@ test("recorded drafts diff against the curated rules and never write the registr
   const before = JSON.stringify(registry);
   const diff = diffDrafts(await execute(phpPackagistAbandonedImporter, { replay: recording }), registry);
 
-  assert.deepEqual(diff.added, []);
+  assert.equal(diff.added.length, 0);
   assert.deepEqual(diff.changed.map((entry) => entry.id), [
     "php.package.swiftmailer.swiftmailer.abandoned",
     "php.package.zendframework.zend-stdlib.abandoned",

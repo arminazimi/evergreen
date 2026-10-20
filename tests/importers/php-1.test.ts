@@ -68,7 +68,7 @@ test("recorded drafts match the curated registry lines and leave nothing to add"
   const diff = diffDrafts(drafts, registry);
   assert.ok(diff.unchanged.includes("php.runtime.eol-7.3"));
   assert.ok(diff.unchanged.includes("php.runtime.eol-7.0"));
-  assert.deepEqual(diff.added, []);
+  assert.equal(diff.added.length, 0);
   assert.ok(!diff.added.some((rule) => rule.id === "php.runtime.eol-5.6"));
   assert.ok(diff.unchanged.includes("php.runtime.eol-8.1") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.1"));
   assert.ok(diff.unchanged.includes("php.runtime.eol-8.0") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.0"));
