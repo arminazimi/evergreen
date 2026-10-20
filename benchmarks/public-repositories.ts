@@ -6,32 +6,21 @@ import { performance } from "node:perf_hooks";
 import { promisify } from "node:util";
 
 import { builtInDetectors } from "../src/detectors/index.js";
-import type { Finding } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
+import {
+  type CorpusRepositoryEntry,
+  resolveCorpusConcurrency,
+  runCorpusRepositories,
+} from "./corpus-harness.js";
 import { withRetries } from "./retry.js";
-import { findingKey, scoreDetectors, violations } from "./thresholds.js";
+import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
 const run = promisify(execFile);
 
-interface ExpectedFinding {
-  ruleId: string;
-  path: string;
-  line?: number;
-}
-
-interface CorpusEntry {
-  repository: string;
-  commit: string;
-  ecosystem: "node" | "python" | "node-actions" | "container" | "go" | "java" | "kubernetes" | "php" | "ruby" | "rust" | "dotnet" | "swift";
-  /** How the repository was chosen (decision 0013): "blind" by a rule fixed before scanning, "targeted" because it was known to contain a finding. */
-  selection?: "blind" | "targeted";
-  expected: ExpectedFinding[];
-}
-
 interface Corpus {
   schemaVersion: "evergreen.public-validation.v1";
-  repositories: CorpusEntry[];
+  repositories: CorpusRepositoryEntry[];
 }
 
 function percentile(values: number[], fraction: number): number {
@@ -41,6 +30,7 @@ function percentile(values: number[], fraction: number): number {
 }
 
 const observeOnly = process.argv.includes("--observe");
+const concurrency = resolveCorpusConcurrency();
 const corpus = JSON.parse(
   await readFile(resolve("benchmarks/public-repositories.json"), "utf8"),
 ) as Corpus;
@@ -50,59 +40,32 @@ if (corpus.repositories.length < 20) {
 }
 
 const root = await mkdtemp(join(tmpdir(), "evergreen-public-validation-"));
-const results: Array<{
-  repository: string;
-  commit: string;
-  ecosystem: CorpusEntry["ecosystem"];
-  checkoutMs: number;
-  durationMs: number;
-  findings: ExpectedFinding[];
-  truePositives: number;
-  falsePositives: number;
-  falseNegatives: number;
-  unexpected: string[];
-  missing: string[];
-}> = [];
 
 try {
-  for (const [index, entry] of corpus.repositories.entries()) {
-    const checkout = join(root, String(index));
-    const checkoutStartedAt = performance.now();
-    await run("git", ["init", "--quiet", checkout]);
-    await withRetries(entry.repository, () =>
-      run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
-        env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
-        maxBuffer: 10 * 1024 * 1024,
-      }),
-    );
-    await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
-    const checkoutMs = Number((performance.now() - checkoutStartedAt).toFixed(2));
-
-    const startedAt = performance.now();
-    const scan = await scanRepository(checkout, builtInDetectors);
-    const durationMs = Number((performance.now() - startedAt).toFixed(2));
-    const findings = scan.findings.map((finding: Finding) => ({
-      ruleId: finding.ruleId,
-      path: finding.location.path,
-      ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
-    }));
-    const expected = new Set(entry.expected.map(findingKey));
-    const actual = new Set(findings.map(findingKey));
-    const truePositives = [...actual].filter((key) => expected.has(key)).length;
-    results.push({
-      repository: entry.repository,
-      commit: entry.commit,
-      ecosystem: entry.ecosystem,
-      checkoutMs,
-      durationMs,
-      findings,
-      truePositives,
-      falsePositives: [...actual].filter((key) => !expected.has(key)).length,
-      falseNegatives: [...expected].filter((key) => !actual.has(key)).length,
-      unexpected: [...actual].filter((key) => !expected.has(key)).sort(),
-      missing: [...expected].filter((key) => !actual.has(key)).sort(),
-    });
-  }
+  const results = await runCorpusRepositories({
+    entries: corpus.repositories,
+    concurrency,
+    checkout: async (entry, index) => {
+      const checkout = join(root, String(index));
+      const checkoutStartedAt = performance.now();
+      await run("git", ["init", "--quiet", checkout]);
+      await withRetries(entry.repository, () =>
+        run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
+          env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+          maxBuffer: 10 * 1024 * 1024,
+        }),
+      );
+      await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
+      return {
+        path: checkout,
+        checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)),
+      };
+    },
+    scan: async (path) => {
+      const scan = await scanRepository(path, builtInDetectors);
+      return scan.findings;
+    },
+  });
 
   const truePositives = results.reduce((total, result) => total + result.truePositives, 0);
   const falsePositives = results.reduce((total, result) => total + result.falsePositives, 0);
