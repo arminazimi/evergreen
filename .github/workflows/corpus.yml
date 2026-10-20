@@ -37,7 +37,7 @@ jobs:
           restore-keys: |
             corpus-checkouts-
       - name: Compare findings with the pinned corpus
-        run: node dist/benchmarks/public-repositories.js > corpus-result.json
+        run: node dist/benchmarks/public-repositories.js --output corpus-result.json
       - name: Show the run cost in the job summary
         if: always()
         run: |

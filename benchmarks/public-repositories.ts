@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { readFile, rm, mkdtemp } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
@@ -14,6 +14,7 @@ import {
 } from "./corpus-harness.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
+import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, selectCorpusEntries } from "./corpus-filter.js";
 import { resolveFetchTimeoutMs, withRetries, withTimeout } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
@@ -56,6 +57,16 @@ function percentile(values: number[], fraction: number): number {
 }
 
 const observeOnly = process.argv.includes("--observe");
+const jsonToStdout = process.argv.includes("--json");
+let outputPath: string | undefined;
+try {
+  outputPath = parseOutputPath();
+} catch (error) {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(2);
+}
+// Stdout carries JSON only with --json; otherwise it is the readable summary and JSON goes to --output.
+const say = jsonToStdout ? console.error : console.log;
 const concurrency = resolveCorpusConcurrency();
 const cacheDir = resolveCorpusCacheDir();
 const corpus = JSON.parse(
@@ -97,6 +108,9 @@ try {
         costTracker.recordFetch(await fetchInto(path, entry));
       }
       return { path, checkoutMs: Number((performance.now() - checkoutStartedAt).toFixed(2)) };
+    },
+    onCheckout: (entry, outcome, done) => {
+      console.error(progressLine(done, selection.entries.length, entry.repository, outcome.checkoutMs));
     },
     scan: async (path) => {
       const scan = await scanRepository(path, builtInDetectors);
@@ -148,12 +162,12 @@ try {
     ...(thresholds.budget ? { budget: thresholds.budget, budgetWarnings: warnings } : {}),
   };
 
-  console.log(JSON.stringify(report, null, 2));
+  if (outputPath) await writeFile(resolve(outputPath), `${JSON.stringify(report, null, 2)}\n`);
+  if (jsonToStdout) console.log(JSON.stringify(report, null, 2));
+  say(formatSummaryTables(results, detectors));
   // Name every mismatch so a failed run says which repository and which finding, without opening the JSON.
-  for (const result of results) {
-    for (const key of result.unexpected) console.error(`UNEXPECTED ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
-    for (const key of result.missing) console.error(`MISSING    ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
-  }
+  for (const line of mismatchLines(results)) say(line);
+  say(`${selection.full ? "full run" : "filtered run"}: ${results.length} repositories, wall ${(cost.wallMs / 1000).toFixed(1)} s${outputPath ? `, report written to ${outputPath}` : ""}`);
   console.error(`COST      ${formatCost(cost)}`);
   for (const slow of slowestFetches(results)) {
     console.error(`SLOWEST   ${slow.repository}@${slow.commit.slice(0, 10)}: ${(slow.checkoutMs / 1000).toFixed(1)} s`);

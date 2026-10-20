@@ -101,10 +101,16 @@ export async function runCorpusRepositories(input: {
   concurrency: number;
   checkout: (entry: CorpusRepositoryEntry, index: number) => Promise<CheckoutOutcome>;
   scan: (path: string, entry: CorpusRepositoryEntry, index: number) => Promise<CorpusScannedFinding[]>;
+  /** Called as each checkout finishes, with the number done so far. */
+  onCheckout?: (entry: CorpusRepositoryEntry, outcome: CheckoutOutcome, done: number) => void;
 }): Promise<CorpusRepositoryResult[]> {
-  const checkouts = await inBatches(input.entries, input.concurrency, (entry, index) =>
-    input.checkout(entry, index),
-  );
+  let done = 0;
+  const checkouts = await inBatches(input.entries, input.concurrency, async (entry, index) => {
+    const outcome = await input.checkout(entry, index);
+    done += 1;
+    input.onCheckout?.(entry, outcome, done);
+    return outcome;
+  });
 
   const results: CorpusRepositoryResult[] = [];
   for (const [index, entry] of input.entries.entries()) {
