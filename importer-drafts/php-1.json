@@ -1,0 +1,222 @@
+{
+  "importer": "php-1",
+  "ecosystem": "php",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "php.runtime.eol-7.0",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=7.0.0|<7.1.0",
+      "event": "end-of-life",
+      "title": "PHP 7.0 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 7.0 as end of life: active support ended on 2018-01-04 and security support ended on 2019-01-10.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2019-01-10",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-7.1",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=7.1.0|<7.2.0",
+      "event": "end-of-life",
+      "title": "PHP 7.1 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 7.1 as end of life: active support ended on 2018-12-01 and security support ended on 2019-12-01.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2019-12-01",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-7.2",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=7.2.0|<7.3.0",
+      "event": "end-of-life",
+      "title": "PHP 7.2 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 7.2 as end of life: active support ended on 2019-11-30 and security support ended on 2020-11-30.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2020-11-30",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-7.3",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=7.3.0|<7.4.0",
+      "event": "end-of-life",
+      "title": "PHP 7.3 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 7.3 as end of life: active support ended on 2020-12-06 and security support ended on 2021-12-06.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2021-12-06",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-7.4",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=7.4.0|<8.0.0",
+      "event": "end-of-life",
+      "title": "PHP 7.4 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 7.4 as end of life: active support ended on 2021-11-28 and security support ended on 2022-11-28.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2022-11-28",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-8.0",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=8.0.0|<8.1.0",
+      "event": "end-of-life",
+      "title": "PHP 8.0 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 8.0 as end of life: active support ended on 2022-11-26 and security support ended on 2023-11-26.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2023-11-26",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    },
+    {
+      "id": "php.runtime.eol-8.1",
+      "ecosystem": "php",
+      "purl": "pkg:generic/php",
+      "vers": "vers:semver/>=8.1.0|<8.2.0",
+      "event": "end-of-life",
+      "title": "PHP 8.1 is end-of-life",
+      "summary": "The PHP release branches list marks PHP 8.1 as end of life: active support ended on 2023-11-25 and security support ended on 2025-12-31.",
+      "severity": "high",
+      "replacement": "PHP 8.4 or later",
+      "deadline": "2025-12-31",
+      "sources": [
+        {
+          "title": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "title": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-1"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped PHP 3.0: no valid state.",
+    "Not yet end-of-life: PHP 8.5 (EOL 2029-12-31).",
+    "Not yet end-of-life: PHP 8.4 (EOL 2028-12-31).",
+    "Not yet end-of-life: PHP 8.3 (EOL 2027-12-31).",
+    "Not yet end-of-life: PHP 8.2 (EOL 2026-12-31).",
+    "Skipped PHP 5.6: older than the first drafted line 7.0.",
+    "Skipped PHP 5.5: older than the first drafted line 7.0.",
+    "Skipped PHP 5.4: older than the first drafted line 7.0.",
+    "Skipped PHP 5.3: older than the first drafted line 7.0.",
+    "Skipped PHP 5.2: older than the first drafted line 7.0.",
+    "Skipped PHP 5.1: older than the first drafted line 7.0.",
+    "Skipped PHP 5.0: older than the first drafted line 7.0.",
+    "Skipped PHP 4.4: older than the first drafted line 7.0.",
+    "Skipped PHP 4.3: older than the first drafted line 7.0.",
+    "Skipped PHP 4.2: older than the first drafted line 7.0.",
+    "Skipped PHP 4.1: older than the first drafted line 7.0.",
+    "Skipped PHP 4.0: older than the first drafted line 7.0."
+  ]
+}
