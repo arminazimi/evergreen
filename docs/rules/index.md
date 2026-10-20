@@ -196,8 +196,15 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## php
 
+- [doctrine/cache is abandoned](php.package.doctrine.cache.abandoned.html) — deprecated, `php.package.doctrine.cache.abandoned`
+- [fzaninotto/faker is abandoned](php.package.fzaninotto.faker.abandoned.html) — deprecated, `php.package.fzaninotto.faker.abandoned`
+- [sensiolabs/security-checker is abandoned](php.package.sensiolabs.security-checker.abandoned.html) — deprecated, `php.package.sensiolabs.security-checker.abandoned`
 - [swiftmailer/swiftmailer is abandoned](php.package.swiftmailer.swiftmailer.abandoned.html) — deprecated, `php.package.swiftmailer.swiftmailer.abandoned`
 - [zendframework/zend-stdlib is abandoned](php.package.zendframework.zend-stdlib.abandoned.html) — deprecated, `php.package.zendframework.zend-stdlib.abandoned`
+- [PHP 7.0 is end-of-life](php.runtime.eol-7.0.html) — end of life, `php.runtime.eol-7.0`
+- [PHP 7.1 is end-of-life](php.runtime.eol-7.1.html) — end of life, `php.runtime.eol-7.1`
+- [PHP 7.2 is end-of-life](php.runtime.eol-7.2.html) — end of life, `php.runtime.eol-7.2`
+- [PHP 7.3 is end-of-life](php.runtime.eol-7.3.html) — end of life, `php.runtime.eol-7.3`
 - [PHP 7.4 is end-of-life](php.runtime.eol-7.4.html) — end of life, `php.runtime.eol-7.4`
 - [PHP 8.0 is end-of-life](php.runtime.eol-8.0.html) — end of life, `php.runtime.eol-8.0`
 - [PHP 8.1 is end-of-life](php.runtime.eol-8.1.html) — end of life, `php.runtime.eol-8.1`
