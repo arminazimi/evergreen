@@ -546,6 +546,114 @@
           }
         ]
       }
+    },
+    {
+      "id": "container.drupal.eol-10.5-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/drupal",
+      "vers": "vers:semver/<10.6.0",
+      "event": "end-of-life",
+      "title": "Drupal image release lines 10.5 and older are end-of-life",
+      "summary": "These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6 as the only supported minor of Drupal 10.",
+      "severity": "high",
+      "replacement": "A drupal image on a supported release line",
+      "deadline": "2026-07-01",
+      "sources": [
+        {
+          "title": "Drupal release policy (vendor)",
+          "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use drupal on one supported Drupal release line.",
+          "Confirm the application and its data or configuration work on the target Drupal release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.traefik.eol-3.6-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/traefik",
+      "vers": "vers:semver/<3.7.0",
+      "event": "end-of-life",
+      "title": "Traefik image release lines 3.6 and older are end-of-life",
+      "summary": "These Traefik release lines no longer receive security fixes from the vendor: the release policy lists 3.7 as the only supported line, and security support for 3.6 ended on 2026-08-16.",
+      "severity": "high",
+      "replacement": "A traefik image on a supported release line",
+      "deadline": "2026-08-16",
+      "sources": [
+        {
+          "title": "Traefik release policy (vendor)",
+          "url": "https://doc.traefik.io/traefik/deprecation/releases"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use traefik on one supported Traefik release line.",
+          "Confirm the application and its data or configuration work on the target Traefik release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
     }
   ]
 }
