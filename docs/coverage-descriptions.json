@@ -44,7 +44,7 @@
     {
       "ecosystems": ["php"],
       "name": "PHP",
-      "coverage": "Pinned runtime declarations in `.php-version`, `.tool-versions`, `composer.json`, and `composer.lock`, for PHP release lines past end of support and abandoned Composer packages."
+      "coverage": "Pinned runtime declarations in `.php-version`, `.tool-versions`, `composer.json`, and `composer.lock`, for PHP release lines past end of support and abandoned Composer packages. See [PHP](#php-detector)."
     },
     {
       "ecosystems": ["python"],
