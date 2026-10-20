@@ -44,7 +44,7 @@ CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmak
 
 ## Detected by
 
-No built-in detector reads `cpp` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json).
+The `cpp` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

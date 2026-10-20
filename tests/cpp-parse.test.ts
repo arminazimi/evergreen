@@ -17,7 +17,7 @@ async function fixture(path: string): Promise<string> {
 
 test("parses the minimum version, language standards, and compiler checks from CMakeLists.txt with exact lines", async () => {
   assert.deepEqual(parseCmakeLists(await fixture("positive/CMakeLists.txt")), [
-    { kind: "cmake-minimum-required", value: "3.16", line: 1 },
+    { kind: "cmake-minimum-required", value: "3.4", line: 1 },
     { kind: "language-standard", language: "c", value: "99", line: 5 },
     { kind: "language-standard", language: "cxx", value: "17", line: 6 },
     { kind: "compiler-check", language: "c", compiler: "GNU", comparison: "VERSION_LESS", value: "9.3", line: 9 },

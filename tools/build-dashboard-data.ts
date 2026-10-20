@@ -27,6 +27,7 @@ export const OUTPUT_FILE = "docs/dashboard/data.json";
 export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   "ci-images": ["ci-images"],
   container: ["container"],
+  cpp: [],
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   go: ["go"],

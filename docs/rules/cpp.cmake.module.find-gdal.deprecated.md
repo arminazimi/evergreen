@@ -44,7 +44,7 @@ CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CM
 
 ## Detected by
 
-No built-in detector reads `cpp` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json).
+The `cpp` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

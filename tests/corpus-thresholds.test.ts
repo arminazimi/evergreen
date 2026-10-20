@@ -12,10 +12,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "swift"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "swift"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The ci-images, container, Go, Java, Kubernetes, PHP, Ruby, Rust, and Swift detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["ci-images", "container", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name), name);
+    // The ci-images, container, C and C++, Go, Java, Kubernetes, PHP, Ruby, Rust, and Swift detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["ci-images", "container", "cpp", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -56,6 +56,7 @@ import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thre
 const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   "ci-images": { corpus: ["ci-images"], row: "CI runner images" },
   container: { corpus: ["container"], row: "Container base images" },
+  cpp: { corpus: [], row: "C and C++" },
   dotnet: { corpus: ["dotnet"], row: ".NET" },
   "github-actions": { corpus: ["node-actions"], row: "GitHub Actions" },
   go: { corpus: ["go"], row: "Go" },
