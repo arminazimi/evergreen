@@ -3976,6 +3976,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of .xcode-version reads `9.3.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
           }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "Formalist.xcodeproj/project.pbxproj",
+          "line": 1048,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1048 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Debug build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "Formalist.xcodeproj/project.pbxproj",
+          "line": 1064,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1064 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Release build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
         }
       ]
     },
@@ -4033,6 +4051,50 @@
     {
       "repository": "Simperium/simperium-ios",
       "commit": "50a3a39811f3cbcbece755eee259fa72bc424e95",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj",
+          "line": 316,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 316 of samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Debug build configuration of the `Simpletodo` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj",
+          "line": 334,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 334 of samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Release build configuration of the `Simpletodo` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj",
+          "line": 477,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 477 of samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Debug build configuration of the `SimpletodoFinal` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj",
+          "line": 499,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 499 of samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Release build configuration of the `SimpletodoFinal` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "JohnSundell/Files",
+      "commit": "e85f2b4a8dfa0f242889f45236f3867d16e40480",
       "ecosystem": "swift",
       "selection": "targeted",
       "expected": []
