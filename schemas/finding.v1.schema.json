@@ -122,7 +122,8 @@
               "yaml",
               "toml",
               "ini",
-              "php"
+              "php",
+              "swift"
             ]
           },
           "symbol": {

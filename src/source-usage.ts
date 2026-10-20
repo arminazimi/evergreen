@@ -66,6 +66,7 @@ function languageFor(path: string): SourceLanguage | undefined {
   if (extension === ".kt") return "kotlin";
   if (extension === ".rb" || extension === ".rake" || extension === ".ru") return "ruby";
   if (extension === ".php") return "php";
+  if (extension === ".swift") return "swift";
   if (extension === ".json") return "json";
   if ([".yaml", ".yml"].includes(extension)) return "yaml";
   if (extension === ".toml") return "toml";
@@ -227,7 +228,42 @@ function moduleMatches(actual: string, expected: string, language: SourceLanguag
     const expectedName = normalize(expected);
     return actualName === expectedName || actualName.startsWith(`${expectedName}\\`) || actualName.startsWith(`${expectedName}/`);
   }
+  if (language === "swift") return actual === expected || actual.startsWith(`${expected}.`);
   return actual === expected;
+}
+
+/** Swift module imports, including declaration-specific and underscored attribute forms. */
+function swiftImports(lines: readonly string[], maskedLines: readonly string[]): ImportReference[] {
+  const references: ImportReference[] = [];
+  const entry = /^\s*(?:(?:@testable|@_exported|@_implementationOnly|@preconcurrency)\s+)?import\s+(?:(?:typealias|struct|class|enum|protocol|let|var|func)\s+)?([A-Za-z_]\w*)/;
+  for (const [index, masked] of maskedLines.entries()) {
+    const match = entry.exec(masked);
+    if (!match?.[1]) continue;
+    references.push({
+      module: match[1],
+      line: index + 1,
+      column: lines[index]!.indexOf(match[1]) + 1,
+      bindings: [{ module: match[1], local: match[1], imported: "*" }],
+    });
+  }
+  return references;
+}
+
+interface SwiftAlias {
+  local: string;
+  target: string;
+}
+
+/** Simple source-level aliases such as `typealias LegacyClient = OldSDK.Client`. */
+function swiftAliases(maskedLines: readonly string[]): SwiftAlias[] {
+  const aliases: SwiftAlias[] = [];
+  const entry = /^\s*(?:public\s+|internal\s+|private\s+|fileprivate\s+)?typealias\s+([A-Za-z_]\w*)\s*=\s*([A-Za-z_]\w*(?:\s*\.\s*[A-Za-z_]\w*)*)/;
+  for (const line of maskedLines) {
+    const match = entry.exec(line);
+    if (!match?.[1] || !match[2]) continue;
+    aliases.push({ local: match[1], target: match[2].replace(/\s+/g, "") });
+  }
+  return aliases;
 }
 
 interface RustLeaf {
@@ -1184,12 +1220,16 @@ function rubyRegexEnd(line: string, start: number): number | undefined {
 
 interface MaskState {
   blockComment: boolean;
+  /** Swift permits nested block comments; the boolean alone cannot preserve their depth. */
+  swiftBlockCommentDepth?: number;
   rubyBlock?: boolean;
   heredoc?: string;
   /** Set when a line that is exactly `__END__` has been seen; the rest of the file is data. */
   afterEnd?: boolean;
   /** Unclosed single-quoted, double-quoted, or percent string carried across lines. */
   openString?: RubyOpenString;
+  /** Swift multiline string literal opened by three double quotes. */
+  swiftMultilineString?: boolean;
 }
 
 function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
@@ -1225,6 +1265,13 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
   if (language === "ruby" || language === "php") delete state.openString;
 
   let index = 0;
+  if (language === "swift" && state.swiftMultilineString) {
+    const end = line.indexOf('"""');
+    if (end === -1) return " ".repeat(line.length);
+    for (let cursor = 0; cursor < end + 3; cursor += 1) output[cursor] = " ";
+    state.swiftMultilineString = false;
+    index = end + 3;
+  }
   if (percent) {
     const closed = rubyPercentClose(line, 0, percent);
     const end = closed === undefined ? line.length - 1 : closed;
@@ -1242,9 +1289,20 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     const next = output[index + 1];
     if (state.blockComment) {
       output[index] = " ";
+      if (language === "swift" && character === "/" && next === "*") {
+        output[index + 1] = " ";
+        state.swiftBlockCommentDepth = (state.swiftBlockCommentDepth ?? 1) + 1;
+        index += 1;
+        continue;
+      }
       if (character === "*" && next === "/") {
         output[index + 1] = " ";
-        state.blockComment = false;
+        if (language === "swift" && (state.swiftBlockCommentDepth ?? 1) > 1) {
+          state.swiftBlockCommentDepth = (state.swiftBlockCommentDepth ?? 1) - 1;
+        } else {
+          state.blockComment = false;
+          delete state.swiftBlockCommentDepth;
+        }
         index += 1;
       }
       continue;
@@ -1253,6 +1311,17 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
       output[index] = " ";
       if (!escaped && character === quote) quote = undefined;
       escaped = character === "\\" && !escaped;
+      continue;
+    }
+    if (language === "swift" && line.slice(index, index + 3) === '"""') {
+      const end = line.indexOf('"""', index + 3);
+      if (end === -1) {
+        for (let rest = index; rest < output.length; rest += 1) output[rest] = " ";
+        state.swiftMultilineString = true;
+        return output.join("");
+      }
+      for (let cursor = index; cursor < end + 3; cursor += 1) output[cursor] = " ";
+      index = end + 2;
       continue;
     }
     if (language === "ruby" && character === "?" && next !== undefined && next !== " " && next !== "\t") {
@@ -1327,6 +1396,7 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
       output[index] = " ";
       output[index + 1] = " ";
       state.blockComment = true;
+      if (language === "swift") state.swiftBlockCommentDepth = 1;
       index += 1;
       continue;
     }
@@ -1395,7 +1465,7 @@ export async function analyzeSourceUsage(
     const phpFile = file.language === "php" ? phpUses(lines, maskedLines) : undefined;
     const imports = file.language === "php"
       ? [...phpImportsFromRequires(lines, maskedLines), ...phpFile!.imports.map((hit) => ({ module: hit.module, line: hit.line, column: hit.column, bindings: [] }))]
-      : file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : lines.flatMap((line, index) => {
+      : file.language === "ruby" ? rubyImports(lines, maskedLines) : file.language === "go" ? goImports(lines, maskedLines) : file.language === "rust" ? rustImports(lines, maskedLines) : file.language === "csharp" ? csharpImports(lines, maskedLines) : file.language === "java" || file.language === "kotlin" ? jvmImports(lines, maskedLines) : file.language === "swift" ? swiftImports(lines, maskedLines) : lines.flatMap((line, index) => {
       const maskedLine = maskedLines[index]!;
       if (file.language === "python") {
         return /\b(?:from|import)\b/.test(maskedLine) ? pythonImports(line, index + 1) : [];
@@ -1411,6 +1481,7 @@ export async function analyzeSourceUsage(
     // Alias resolution is per file, not per matcher or target.
     const rubyFileAliases = file.language === "ruby" ? rubyAliases(maskedLines) : [];
     const phpFileAliases = phpFile?.aliases ?? [];
+    const swiftFileAliases = file.language === "swift" ? swiftAliases(maskedLines) : [];
     const rubyReceiverPatterns = new Map<string, RegExp>();
     const phpReceiverPatterns = new Map<string, RegExp>();
 
@@ -1430,6 +1501,34 @@ export async function analyzeSourceUsage(
             });
           }
         } else if (matcher.kind === "call") {
+          // Swift calls are attributed only when they stay module-qualified, or use a source-level
+          // typealias whose target is inside that module. Unqualified imported names are ambiguous.
+          if (file.language === "swift") {
+            for (const target of matcher.targets) {
+              const qualified = `${matcher.module}.${target}`;
+              const forms = [qualified];
+              for (const alias of swiftFileAliases) {
+                if (qualified === alias.target) forms.push(alias.local);
+                else if (qualified.startsWith(`${alias.target}.`)) forms.push(`${alias.local}${qualified.slice(alias.target.length)}`);
+              }
+              const alternatives = [...new Set(forms)]
+                .sort((left, right) => right.length - left.length)
+                .map((form) => form.split(".").map(escapePattern).join("\\s*\\.\\s*"));
+              const pattern = new RegExp(`(?<![\\w$.])(?:${alternatives.join("|")})\\s*\\(`, "g");
+              for (const [index, line] of maskedLines.entries()) {
+                for (const match of line.matchAll(pattern)) {
+                  if (match.index === undefined) continue;
+                  push(contract.id, {
+                    kind: "call",
+                    language: file.language,
+                    symbol: `${matcher.module}.${target}`,
+                    location: { path: file.path, line: index + 1, column: match.index + 1 },
+                    excerpt: lines[index]!.trim(),
+                  });
+                }
+              }
+            }
+          }
           // In Rust a crate is always in scope by name, so `crate::function(…)` needs no `use`.
           if (file.language === "rust") {
             for (const target of matcher.targets) {
@@ -1532,7 +1631,7 @@ export async function analyzeSourceUsage(
               }
             }
           }
-          const matchingBindings = bindings.filter((binding) =>
+          const matchingBindings = file.language === "swift" ? [] : bindings.filter((binding) =>
             moduleMatches(binding.module, matcher.module, file.language),
           );
           for (const binding of matchingBindings) {
@@ -1686,6 +1785,43 @@ export async function findPhpDynamicReferences(root: string): Promise<PhpDynamic
     if (!unique.has(key)) unique.set(key, hit);
   }
   return [...unique.values()].sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column || left.reference.localeCompare(right.reference));
+}
+
+export interface SwiftDynamicReference {
+  path: string;
+  line: number;
+  column: number;
+  reference: string;
+  reason: string;
+}
+
+const SWIFT_DYNAMIC_REASON = "the runtime lookup cannot be attributed statically to a Swift package or API";
+const SWIFT_DYNAMIC_LOOKUP = /\b(?:NSClassFromString|NSProtocolFromString|NSSelectorFromString|Selector|objc_getClass|sel_registerName|dlsym)\s*\(/g;
+
+/** Runtime Objective-C lookup forms in Swift source that cannot be assigned to a package safely. */
+export async function findSwiftDynamicReferences(root: string): Promise<SwiftDynamicReference[]> {
+  const found: SwiftDynamicReference[] = [];
+  for (const file of await sourceFiles(resolve(root))) {
+    if (file.language !== "swift" || checkoutSourceIgnored(file.path)) continue;
+    const lines = (await readFile(file.absolutePath, "utf8")).split(/\r?\n/);
+    const maskedLines: string[] = [];
+    const maskState: MaskState = { blockComment: false };
+    for (const line of lines) maskedLines.push(maskCodeLine(line, "swift", maskState));
+    for (const [index, masked] of maskedLines.entries()) {
+      SWIFT_DYNAMIC_LOOKUP.lastIndex = 0;
+      for (const match of masked.matchAll(SWIFT_DYNAMIC_LOOKUP)) {
+        if (match.index === undefined) continue;
+        found.push({
+          path: file.path,
+          line: index + 1,
+          column: match.index + 1,
+          reference: lines[index]!.trim(),
+          reason: SWIFT_DYNAMIC_REASON,
+        });
+      }
+    }
+  }
+  return found.sort((left, right) => left.path.localeCompare(right.path) || left.line - right.line || left.column - right.column);
 }
 
 export type { SourceUsageAnalysis, SourceUsageContract } from "./domain.js";

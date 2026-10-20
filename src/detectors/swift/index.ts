@@ -7,7 +7,8 @@ import { purlIdentity } from "../../purl.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import { analyzeSourceUsage, findSwiftDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parsePackageResolved } from "./parse-package-resolved.js";
 import { parsePackageSwift } from "./parse-package-swift.js";
@@ -133,14 +134,20 @@ export class SwiftDetector implements Detector {
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/swift.json")).rules) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
+    return [...(await this.analyze(context)).findings];
+  }
+
+  async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const files = await swiftFiles(context.root);
-    if (files.length === 0) return [];
+    if (files.length === 0) return { findings: [], unclassified: [] };
 
     const byPurl = rulesByPurl(await this.loadRules());
     const findings: DetectorFinding[] = [];
+    const usageContracts: Array<{ id: string; rule: RegistryV2Rule }> = [];
     const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
+      const id = `${rule.id}:${path}:${line}`;
       findings.push({
-        id: `${rule.id}:${path}:${line}`,
+        id,
         ruleId: rule.id,
         title: rule.title,
         summary,
@@ -151,6 +158,7 @@ export class SwiftDetector implements Detector {
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,
       });
+      if ((rule.usage ?? []).length > 0) usageContracts.push({ id, rule });
     };
 
     for (const file of files) {
@@ -199,11 +207,28 @@ export class SwiftDetector implements Detector {
       }
     }
 
+    const unclassified: Array<DetectorAnalysis["unclassified"][number]> = [];
+    if (usageContracts.length > 0) {
+      const analyses = new Map((await analyzeSourceUsage(context.root, usageContracts.map(({ id, rule }) => ({ id, matchers: rule.usage ?? [] })))).map((analysis) => [analysis.contractId, analysis]));
+      for (const finding of findings) {
+        const analysis = analyses.get(finding.id);
+        if (analysis) Object.assign(finding, { usages: analysis.usages, impact: analysis.impact });
+      }
+      for (const reference of await findSwiftDynamicReferences(context.root)) {
+        unclassified.push({
+          component: "swift",
+          reference: reference.reference,
+          reason: reference.reason,
+          location: { path: reference.path, line: reference.line, column: reference.column },
+        });
+      }
+    }
+
     findings.sort((left, right) => {
       if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
       return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
     });
-    return findings;
+    return { findings, unclassified };
   }
 }
 
