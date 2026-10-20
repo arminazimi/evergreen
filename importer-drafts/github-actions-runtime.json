@@ -1,0 +1,360 @@
+{
+  "importer": "github-actions-runtime",
+  "ecosystem": "github-actions",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "github-actions.cache.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/cache",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/cache runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/cache@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/cache v5 action.yml",
+          "url": "https://github.com/actions/cache/blob/v5/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/cache",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.checkout.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/checkout",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/checkout runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/checkout@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/checkout v5 action.yml",
+          "url": "https://github.com/actions/checkout/blob/v5/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/checkout",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.download-artifact.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/download-artifact",
+      "vers": "vers:semver/<7.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/download-artifact runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/download-artifact@v7 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/download-artifact v7 action.yml",
+          "url": "https://github.com/actions/download-artifact/blob/v7/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/download-artifact",
+        "supportedFromMajor": 7
+      }
+    },
+    {
+      "id": "github-actions.github-script.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/github-script",
+      "vers": "vers:semver/<8.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/github-script runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/github-script@v8 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/github-script v8 action.yml",
+          "url": "https://github.com/actions/github-script/blob/v8/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/github-script",
+        "supportedFromMajor": 8
+      }
+    },
+    {
+      "id": "github-actions.labeler.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/labeler",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/labeler runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/labeler@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/labeler v6 action.yml",
+          "url": "https://github.com/actions/labeler/blob/v6/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/labeler",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.setup-go.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-go",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-go runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-go@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-go v6 action.yml",
+          "url": "https://github.com/actions/setup-go/blob/v6/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/setup-go",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.setup-java.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-java",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-java runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-java@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-java v5 action.yml",
+          "url": "https://github.com/actions/setup-java/blob/v5/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/setup-java",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.setup-node.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-node",
+      "vers": "vers:semver/<5.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-node runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-node@v5 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-node v5 action.yml",
+          "url": "https://github.com/actions/setup-node/blob/v5/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/setup-node",
+        "supportedFromMajor": 5
+      }
+    },
+    {
+      "id": "github-actions.setup-python.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/setup-python",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/setup-python runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/setup-python@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/setup-python v6 action.yml",
+          "url": "https://github.com/actions/setup-python/blob/v6/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/setup-python",
+        "supportedFromMajor": 6
+      }
+    },
+    {
+      "id": "github-actions.stale.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/stale",
+      "vers": "vers:semver/<10.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/stale runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/stale@v10 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/stale v10 action.yml",
+          "url": "https://github.com/actions/stale/blob/v10/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/stale",
+        "supportedFromMajor": 10
+      }
+    },
+    {
+      "id": "github-actions.upload-artifact.node20",
+      "ecosystem": "github-actions",
+      "purl": "pkg:github/actions/upload-artifact",
+      "vers": "vers:semver/<6.0.0",
+      "event": "end-of-support",
+      "title": "Unsupported actions/upload-artifact runtime",
+      "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "replacement": "actions/upload-artifact@v6 or later",
+      "deadline": "2026-09-23",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/upload-artifact v6 action.yml",
+          "url": "https://github.com/actions/upload-artifact/blob/v6/action.yml"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "github-actions-runtime"
+      },
+      "x-github-actions": {
+        "action": "actions/upload-artifact",
+        "supportedFromMajor": 6
+      }
+    }
+  ],
+  "notes": []
+}
