@@ -1,0 +1,301 @@
+{
+  "importer": "ruby-1",
+  "ecosystem": "ruby",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "ruby.runtime.eol-1.9.3",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=1.9.3|<2.0.0",
+      "event": "end-of-life",
+      "title": "Ruby 1.9.3 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 1.9.3 as eol: normal maintenance ended on 2014-02-24 and the branch reached end-of-life on 2015-02-23.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2015-02-23",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.0.0",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.0.0|<2.1.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.0.0 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.0.0 as eol: normal maintenance ended on 2016-02-24 and the branch reached end-of-life on 2016-02-24.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2016-02-24",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.1",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.1.0|<2.2.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.1 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2017-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.2",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.2.0|<2.3.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.2 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.2 as eol: normal maintenance ended on 2017-03-28 and the branch reached end-of-life on 2018-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2018-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.3",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.3.0|<2.4.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.3 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.3 as eol: normal maintenance ended on 2018-03-28 and the branch reached end-of-life on 2019-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2019-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.4",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.4.0|<2.5.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.4 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.4 as eol: normal maintenance ended on 2019-04-01 and the branch reached end-of-life on 2020-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2020-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.5",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.5.0|<2.6.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.5 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.5 as eol: normal maintenance ended on 2020-04-01 and the branch reached end-of-life on 2021-04-05.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2021-04-05",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.6",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.6.0|<2.7.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.6 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.6 as eol: normal maintenance ended on 2021-04-01 and the branch reached end-of-life on 2022-04-12.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2022-04-12",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-2.7",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=2.7.0|<3.0.0",
+      "event": "end-of-life",
+      "title": "Ruby 2.7 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 2.7 as eol: normal maintenance ended on 2022-04-01 and the branch reached end-of-life on 2023-03-31.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2023-03-31",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-3.0",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.0.0|<3.1.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.0 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.0 as eol: normal maintenance ended on 2023-04-01 and the branch reached end-of-life on 2024-04-23.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2024-04-23",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-3.1",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.1.0|<3.2.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.1 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.1 as eol: normal maintenance ended on 2024-04-01 and the branch reached end-of-life on 2025-03-26.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2025-03-26",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    },
+    {
+      "id": "ruby.runtime.eol-3.2",
+      "ecosystem": "ruby",
+      "purl": "pkg:generic/ruby",
+      "vers": "vers:gem/>=3.2.0|<3.3.0",
+      "event": "end-of-life",
+      "title": "Ruby 3.2 is end-of-life",
+      "summary": "The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01.",
+      "severity": "high",
+      "replacement": "Ruby 3.4 or later",
+      "deadline": "2026-04-01",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "ruby-1"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped Ruby 4.1: status \"preview\".",
+    "Skipped Ruby 4.0: status \"normal maintenance\".",
+    "Skipped Ruby 3.4: status \"normal maintenance\".",
+    "Skipped Ruby 3.3: status \"security maintenance\"."
+  ]
+}
