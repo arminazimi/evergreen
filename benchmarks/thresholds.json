@@ -73,10 +73,10 @@
     }
   },
   "lastFullRun": {
-    "date": "2026-10-19",
-    "commit": "7c4c57c",
-    "repositories": 102,
-    "findings": 423,
+    "date": "2026-10-20",
+    "commit": "b77392c",
+    "repositories": 107,
+    "findings": 441,
     "precision": 1,
     "recall": 1,
     "perDetector": {
@@ -96,7 +96,7 @@
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 211,
+        "truePositives": 225,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -126,7 +126,7 @@
         "falseNegatives": 0
       },
       "php": {
-        "truePositives": 0,
+        "truePositives": 4,
         "falsePositives": 0,
         "falseNegatives": 0
       },

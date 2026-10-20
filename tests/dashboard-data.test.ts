@@ -114,7 +114,7 @@ test("runAgeDays comes from --today, and invalid days are refused", () => {
   assert.equal(ageInDays("2026-10-18", "2026-11-01"), 14);
   assert.equal(ageInDays("2026-02-27", "2026-03-01"), 2);
   assert.equal(ageInDays("2027-12-25", "2028-03-01"), 67);
-  assert.equal(build("2026-11-16").run!.runAgeDays, 28);
+  assert.equal(build("2026-11-16").run!.runAgeDays, 27);
   assert.equal(build("2026-11-16").referenceDay, "2026-11-16");
   assert.throws(() => ageInDays("2026-10-18", "2026-10-17"), /before the last full run/);
   for (const bad of ["2026-13-01", "2026-02-30", "18-10-2026", "2026-10-18T00:00:00Z", "", "today"]) {

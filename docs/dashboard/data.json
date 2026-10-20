@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.dashboard-data.v1",
-  "referenceDay": "2026-10-19",
+  "referenceDay": "2026-10-20",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
     "repositories": 107
@@ -11,10 +11,10 @@
     "decision": "docs/decisions/0013-detector-maturity.md"
   },
   "run": {
-    "date": "2026-10-19",
-    "commit": "7c4c57c",
-    "repositories": 102,
-    "findings": 423,
+    "date": "2026-10-20",
+    "commit": "b77392c",
+    "repositories": 107,
+    "findings": 441,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -103,7 +103,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 211,
+        "truePositives": 225,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -241,11 +241,11 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 0,
+        "truePositives": 4,
         "falsePositives": 0,
         "falseNegatives": 0,
-        "precision": null,
-        "recall": null
+        "precision": 1,
+        "recall": 1
       },
       "evidence": {
         "repositoriesWithFindings": 4,
