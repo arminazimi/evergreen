@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, resolve, win32 } from "node:path";
 import { after, test } from "node:test";
 
 import { declaresInput } from "../src/detector-inputs.js";
 import { declaredInputsCheck } from "../src/conformance/checks/inputs.js";
-import { traceReads } from "../src/conformance/trace-reads.js";
+import { relativeInsideRoot, traceReads } from "../src/conformance/trace-reads.js";
 import { ConformanceError, runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
@@ -56,6 +56,19 @@ test("traceReads reports files whose contents are opened, not listings, and igno
   assert.deepEqual(reads, ["a.txt", "dir/b.txt"]);
   // Tracing is removed afterwards: later reads are not recorded and still work.
   assert.equal(await readFile(join(root, "c.txt"), "utf8"), "c");
+});
+
+test("a Windows relative path on another drive is absolute and is never recorded as inside the root", () => {
+  // path.win32.relative returns an absolute path across drives; the old filter only checked for "..".
+  // Pass win32 so this case is covered on every host, not only on Windows CI.
+  const acrossDrive = win32.relative("C:\\repo", "D:\\a\\evergreen\\registry\\php.json");
+  assert.ok(win32.isAbsolute(acrossDrive), acrossDrive);
+  assert.ok(!acrossDrive.startsWith(".."), acrossDrive);
+  assert.equal(relativeInsideRoot("C:\\repo", "D:\\a\\evergreen\\registry\\php.json", win32), undefined);
+  assert.equal(relativeInsideRoot("C:\\repo", "C:\\repo\\src\\a.ts", win32), "src/a.ts");
+  assert.equal(relativeInsideRoot("/repo", "/other/registry/php.json"), undefined);
+  assert.equal(relativeInsideRoot("/repo", "/repo/src/a.ts"), "src/a.ts");
+  assert.equal(relativeInsideRoot("/repo", "/repo"), undefined);
 });
 
 function leaky(): Detector {

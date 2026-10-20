@@ -29,14 +29,30 @@ test("detectors that serve a different corpus name map to it", () => {
 });
 
 test("a shared-file change runs the ecosystems that depend on it", () => {
-  assert.deepEqual(names(["src/source-usage.ts"]), ["dotnet", "go", "java", "node", "php", "python", "ruby", "rust", "swift"]);
+  assert.deepEqual(names(["src/source-usage.ts"]), [
+    "android",
+    "dotnet",
+    "go",
+    "java",
+    "node",
+    "php",
+    "python",
+    "ruby",
+    "rust",
+    "swift",
+  ]);
   assert.deepEqual(names(["src/engine.ts"]), [...CORPUS_ECOSYSTEMS]);
   assert.deepEqual(names(["src/detectors/index.ts"]), [...CORPUS_ECOSYSTEMS]);
 });
 
 test("unrelated and no-corpus paths map to nothing", () => {
-  assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "src/detectors/android/gradle-scan.ts", "registry/cpp.json", "tests/fixtures/dart/x"]), []);
+  assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "registry/cpp.json", "tests/fixtures/dart/x"]), []);
   assert.deepEqual(describeAffected([], 3), ["No corpus ecosystem is affected by the 3 changed files; nothing to run."]);
+});
+
+test("the Android detector maps to the android corpus ecosystem", () => {
+  assert.deepEqual(names(["src/detectors/android/gradle-scan.ts"]), ["android"]);
+  assert.deepEqual(names(["registry/android.json", "tests/fixtures/android/positive/build.gradle"]), ["android"]);
 });
 
 test("the reasons name the changed paths", () => {

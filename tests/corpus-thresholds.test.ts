@@ -12,10 +12,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "swift"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "swift"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The ci-images, container, C and C++, Go, Java, Kubernetes, PHP, Ruby, Rust, and Swift detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["ci-images", "container", "cpp", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name), name);
+    // The Android, ci-images, container, C and C++, Go, Java, Kubernetes, PHP, Ruby, Rust, and Swift detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -69,6 +69,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   ruby: { corpus: ["ruby"], row: "Ruby" },
   rust: { corpus: ["rust"], row: "Rust" },
   swift: { corpus: ["swift"], row: "Swift" },
+  android: { corpus: ["android"], row: "Android" },
 };
 // Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus
 // grows (#141, #142); the test fails if one of them starts to meet its level, so the entry is removed.

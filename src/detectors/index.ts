@@ -1,4 +1,5 @@
 import type { Detector } from "../sdk.js";
+import { androidDetector } from "./android/index.js";
 import { ciImagesDetector } from "./ci-images/index.js";
 import { containerDetector } from "./container/index.js";
 import { cppDetector } from "./cpp/index.js";
@@ -29,4 +30,5 @@ export const builtInDetectors: readonly Detector[] = [
   ciImagesDetector,
   rubyDetector,
   swiftDetector,
+  androidDetector,
 ];

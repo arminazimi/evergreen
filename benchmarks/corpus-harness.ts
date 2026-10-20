@@ -12,6 +12,7 @@ export interface CorpusExpectedFinding {
 }
 
 export type CorpusEcosystem =
+  | "android"
   | "node"
   | "python"
   | "node-actions"

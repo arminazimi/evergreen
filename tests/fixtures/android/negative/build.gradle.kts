@@ -12,3 +12,5 @@ android {
         versionName = "targetSdk = 16"
     }
 }
+
+// implementation("com.android.billingclient:billing:5.2.1")

@@ -25,6 +25,7 @@ export const OUTPUT_FILE = "docs/dashboard/data.json";
 
 /** The corpus ecosystems each detector reads, which is what its zero-finding repositories are counted over. */
 export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
+  android: ["android"],
   "ci-images": ["ci-images"],
   container: ["container"],
   cpp: [],

@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-20",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 113
+    "repositories": 114
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -25,6 +25,23 @@
     }
   },
   "detectors": [
+    {
+      "id": "android",
+      "level": "experimental",
+      "earnedLevel": "experimental",
+      "precisionFloor": {
+        "value": 0.95,
+        "enforced": false
+      },
+      "run": null,
+      "evidence": {
+        "repositoriesWithFindings": 0,
+        "expectedFindings": 0,
+        "zeroFindingRepositories": 1,
+        "repositories": 1,
+        "blindRepositories": 1
+      }
+    },
     {
       "id": "ci-images",
       "level": "experimental",

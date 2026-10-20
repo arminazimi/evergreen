@@ -5,6 +5,7 @@ const run = promisify(execFile);
 
 /** Every ecosystem a corpus entry can name. A change to shared code maps to all of them. */
 export const CORPUS_ECOSYSTEMS = [
+  "android",
   "container",
   "dotnet",
   "go",
@@ -25,7 +26,7 @@ export const CORPUS_ECOSYSTEMS = [
  * without deciding is caught by the test.
  */
 export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
-  android: [],
+  android: ["android"],
   "ci-images": ["container", "node-actions"],
   container: ["container"],
   cpp: [],
@@ -46,7 +47,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
  * Corpus ecosystems for each file in `registry/`. The Node.js runtime and npm package rules both belong to `node`.
  */
 export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
-  "android.json": [],
+  "android.json": ["android"],
   "ci-images.json": ["container", "node-actions"],
   "container.json": ["container"],
   "cpp.json": [],
@@ -68,7 +69,11 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 
 /** Corpus ecosystems for each directory in `tests/fixtures/`; directories absent here belong to no corpus ecosystem. */
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
-  ...Object.fromEntries(Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) => ["ci-images", "container", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name))),
+  ...Object.fromEntries(
+    Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
+      ["android", "ci-images", "container", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name),
+    ),
+  ),
 };
 
 /**
@@ -76,11 +81,19 @@ export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
  * under `src/detectors/`, so a detector that starts using a shared file must be added here.
  */
 export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems: readonly string[]; reason: string }> = [
-  { pattern: /^src\/source-usage\.ts$|^src\/usage\//, ecosystems: ["dotnet", "go", "java", "node", "php", "python", "ruby", "rust", "swift"], reason: "source usage mapping" },
+  {
+    pattern: /^src\/source-usage\.ts$|^src\/usage\//,
+    ecosystems: ["android", "dotnet", "go", "java", "node", "php", "python", "ruby", "rust", "swift"],
+    reason: "source usage mapping",
+  },
   { pattern: /^src\/workspaces\.ts$/, ecosystems: ["node", "python"], reason: "workspace discovery" },
-  { pattern: /^src\/purl\.ts$/, ecosystems: ["java", "swift"], reason: "package URLs" },
+  { pattern: /^src\/purl\.ts$/, ecosystems: ["android", "java", "swift"], reason: "package URLs" },
   { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes"], reason: "version ranges" },
-  { pattern: /^src\/vers\//, ecosystems: ["container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "ruby", "rust", "swift"], reason: "version ranges" },
+  {
+    pattern: /^src\/vers\//,
+    ecosystems: ["android", "container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "ruby", "rust", "swift"],
+    reason: "version ranges",
+  },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["dotnet", "php", "swift"], reason: "JSON line locations" },
   {
     pattern: /^src\/(engine|domain|sdk|paths|registry|data-source|package-files|version|index)\.ts$|^src\/detectors\/index\.ts$|^src\/conformance\/|^benchmarks\/(corpus-harness|public-repositories)\.ts$|^benchmarks\/thresholds\.(ts|json)$/,

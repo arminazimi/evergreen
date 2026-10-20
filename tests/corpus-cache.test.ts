@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readdir, readFile, rm, utimes, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join, parse, resolve } from "node:path";
 import { test } from "node:test";
 
 import {
@@ -73,6 +73,18 @@ test("a failed populate leaves no entry and no staging directory", async () => {
   });
 });
 
+test("populate may leave a nested .git pack tree and still strips it", async () => {
+  await withCache(async (dir) => {
+    const result = await ensureCorpusCacheEntry(dir, entry, async (target) => {
+      await mkdir(join(target, ".git", "objects", "pack"), { recursive: true });
+      await writeFile(join(target, ".git", "objects", "pack", "x.pack"), "pack");
+      await writeFile(join(target, "README.md"), "ok");
+    });
+    assert.equal(result.cached, false);
+    assert.deepEqual((await readdir(result.path)).sort(), ["README.md"]);
+  });
+});
+
 const commitA = "a".repeat(40);
 const commitB = "b".repeat(40);
 const commitC = "c".repeat(40);
@@ -121,10 +133,12 @@ test("a cache hit refreshes the entry's last-used time", async () => {
 });
 
 test("empty and root-like cache paths are refused", () => {
-  for (const bad of ["", "  ", "/", "/Users", homedir()]) {
+  const root = parse(resolve("/")).root;
+  for (const bad of ["", "  ", root, join(root, "Users"), homedir()]) {
     assert.throws(() => assertSafeCacheDir(bad), /Refusing to use/, bad);
   }
-  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), resolve("/var/cache/evergreen-corpus"));
+  const safe = join(root, "var", "cache", "evergreen-corpus");
+  assert.equal(assertSafeCacheDir(safe), resolve(safe));
 });
 
 test("missingCorpusEntries and the offline message name every missing repository@commit", async () => {

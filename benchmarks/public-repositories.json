@@ -4098,6 +4098,13 @@
       "ecosystem": "swift",
       "selection": "targeted",
       "expected": []
+    },
+    {
+      "repository": "googlesamples/android-BasicMultitouch",
+      "commit": "a4f99c12681c9aafb2d1ee50f964cd023424a0e5",
+      "ecosystem": "android",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }
