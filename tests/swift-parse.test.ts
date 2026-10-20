@@ -9,6 +9,7 @@ import {
   MAXIMUM_LINE_LENGTH,
   parsePackageSwift,
 } from "../src/detectors/swift/parse-package-swift.js";
+import { MAXIMUM_PROJECT_BYTES, parseXcodeProjectIOSDeploymentTargets } from "../src/detectors/swift/parse-xcode-project.js";
 import {
   MAXIMUM_INPUT_BYTES as TOOLCHAIN_MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH as TOOLCHAIN_MAXIMUM_LINE_LENGTH,
@@ -260,4 +261,111 @@ test("toolchain pins handle CRLF, blank lines, comments, and reject multiple pin
   assert.deepEqual(parseXcodeVersion("# 15.4 was old\n15.4\n"), [{ value: "15.4", line: 2 }]);
   assert.deepEqual(parseSwiftVersion("5.9\n6.0\n"), []);
   assert.deepEqual(parseXcodeVersion("15.4\n16.2\n"), []);
+});
+
+/** A minimal Xcode project: one app target with two configurations, one library target, and one app target that inherits its minimum. */
+function xcodeProject(options: { appProductType?: string; appDeployment?: string; libraryDeployment?: string } = {}): string {
+  const appDeployment = options.appDeployment ?? "12.0";
+  const libraryDeployment = options.libraryDeployment ?? "12.0";
+  const lines = [
+    "// !$*UTF8*$!",
+    "{",
+    "\tobjects = {",
+    "",
+    "/* Begin PBXNativeTarget section */",
+    "\t\tA100000000000000000000A1 /* MyApp */ = {",
+    "\t\t\tisa = PBXNativeTarget;",
+    "\t\t\tbuildConfigurationList = B100000000000000000000B1 /* Build configuration list for PBXNativeTarget \"MyApp\" */;",
+    `\t\t\tproductType = "${options.appProductType ?? "com.apple.product-type.application"}";`,
+    "\t\t};",
+    "\t\tA200000000000000000000A2 /* MyKit */ = {",
+    "\t\t\tisa = PBXNativeTarget;",
+    "\t\t\tbuildConfigurationList = B200000000000000000000B2 /* Build configuration list for PBXNativeTarget \"MyKit\" */;",
+    `\t\t\tproductType = "com.apple.product-type.framework";`,
+    "\t\t};",
+    "/* End PBXNativeTarget section */",
+    "",
+    "/* Begin XCBuildConfiguration section */",
+    "\t\tC100000000000000000000C1 /* Debug */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    `\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = ${appDeployment};`,
+    "\t\t\t\tPRODUCT_NAME = MyApp;",
+    "\t\t\t};",
+    "\t\t\tname = Debug;",
+    "\t\t};",
+    "\t\tC200000000000000000000C2 /* Release */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    `\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = ${appDeployment};`,
+    "\t\t\t};",
+    "\t\t\tname = Release;",
+    "\t\t};",
+    "\t\tC300000000000000000000C3 /* Debug */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    `\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = ${libraryDeployment};`,
+    "\t\t\t};",
+    "\t\t\tname = Debug;",
+    "\t\t};",
+    "\t\tC400000000000000000000C4 /* Release */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    "\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = \"$(inherited)\";",
+    "\t\t\t};",
+    "\t\t\tname = Release;",
+    "\t\t};",
+    "/* End XCBuildConfiguration section */",
+    "",
+    "/* Begin XCConfigurationList section */",
+    "\t\tB100000000000000000000B1 /* Build configuration list for PBXNativeTarget \"MyApp\" */ = {",
+    "\t\t\tisa = XCConfigurationList;",
+    "\t\t\tbuildConfigurations = (",
+    "\t\t\t\tC100000000000000000000C1 /* Debug */,",
+    "\t\t\t\tC200000000000000000000C2 /* Release */,",
+    "\t\t\t);",
+    "\t\t\tdefaultConfigurationIsVisible = 0;",
+    "\t\t};",
+    "\t\tB200000000000000000000B2 /* Build configuration list for PBXNativeTarget \"MyKit\" */ = {",
+    "\t\t\tisa = XCConfigurationList;",
+    "\t\t\tbuildConfigurations = (",
+    "\t\t\t\tC300000000000000000000C3 /* Debug */,",
+    "\t\t\t\tC400000000000000000000C4 /* Release */,",
+    "\t\t\t);",
+    "\t\t};",
+    "/* End XCConfigurationList section */",
+    "\t};",
+    "}",
+    "",
+  ];
+  return lines.join("\n");
+}
+
+test("reads the iOS deployment target of each build configuration of an app target", () => {
+  const declarations = parseXcodeProjectIOSDeploymentTargets(xcodeProject());
+  assert.deepEqual(declarations, [
+    { value: "12.0", line: 22 },
+    { value: "12.0", line: 30 },
+  ]);
+});
+
+test("reads no deployment target from a library target or a non-application product", () => {
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appProductType: "com.apple.product-type.framework" })), []);
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appDeployment: "13.0" })), [
+    { value: "13.0", line: 22 },
+    { value: "13.0", line: 30 },
+  ]);
+});
+
+test("skips inherited, variable, and non-numeric deployment targets", () => {
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(xcodeProject({ appDeployment: "$(IOS_DEPLOYMENT_TARGET)" })), []);
+});
+
+test("returns nothing for a truncated, oversized, or ambiguous project", () => {
+  const complete = xcodeProject();
+  const truncated = complete.slice(0, complete.indexOf("\t\t\tname = Release;"));
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(truncated), []);
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(complete + " ".repeat(MAXIMUM_PROJECT_BYTES)), []);
+  const duplicated = complete.replace("C200000000000000000000C2 /* Release */ = {", "C100000000000000000000C1 /* Debug */ = {");
+  assert.deepEqual(parseXcodeProjectIOSDeploymentTargets(duplicated), []);
 });

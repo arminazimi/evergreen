@@ -217,8 +217,12 @@ test("the engine attributes a Swift finding to the detector", async () => {
 test("every curated Swift rule has migration guidance with real verification commands", async () => {
   for (const rule of await committedRules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
-    assert.ok(rule.migration.verification.some((check) => check.command === "swift build && swift test"), rule.id);
-    assert.ok(rule.migration.verification.some((check) => check.command === "xcodebuild -version"), rule.id);
+    assert.ok(rule.migration.verification.some((check) => check.command.startsWith("xcodebuild")), rule.id);
+    // The Xcode release rules also verify the SwiftPM package; an app target's deployment target is verified with Xcode alone.
+    if (rule.purl === "pkg:generic/xcode") {
+      assert.ok(rule.migration.verification.some((check) => check.command === "swift build && swift test"), rule.id);
+      assert.ok(rule.migration.verification.some((check) => check.command === "xcodebuild -version"), rule.id);
+    }
   }
 });
 
@@ -242,4 +246,61 @@ test("the detector is registered and Swift is experimental in the capability man
     maturity: "experimental",
     detectorIds: ["swift"],
   });
+});
+
+test("reports an app target's iOS deployment target below 13 from project.pbxproj, and never a library's", async () => {
+  const appProject = [
+    "// !$*UTF8*$!",
+    "{",
+    "\tobjects = {",
+    "\t\t0000000000000000000000A1 /* App */ = {",
+    "\t\t\tisa = PBXNativeTarget;",
+    "\t\t\tbuildConfigurationList = 0000000000000000000000B1 /* Build configuration list */;",
+    '\t\t\tproductType = "com.apple.product-type.application";',
+    "\t\t};",
+    "\t\t0000000000000000000000B1 /* Build configuration list */ = {",
+    "\t\t\tisa = XCConfigurationList;",
+    "\t\t\tbuildConfigurations = (",
+    "\t\t\t\t0000000000000000000000C1 /* Debug */,",
+    "\t\t\t\t0000000000000000000000C2 /* Release */,",
+    "\t\t\t);",
+    "\t\t};",
+    "\t\t0000000000000000000000C1 /* Debug */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    "\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 12.0;",
+    "\t\t\t};",
+    "\t\t};",
+    "\t\t0000000000000000000000C2 /* Release */ = {",
+    "\t\t\tisa = XCBuildConfiguration;",
+    "\t\t\tbuildSettings = {",
+    "\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 12.0;",
+    "\t\t\t};",
+    "\t\t};",
+    "\t};",
+    "}",
+    "",
+  ].join("\n");
+  const libraryProject = appProject.replace('"com.apple.product-type.application"', '"com.apple.product-type.framework"');
+  const root = await repository({
+    "App.xcodeproj/project.pbxproj": appProject,
+    "Kit.xcodeproj/project.pbxproj": libraryProject,
+    "Packages/Kit/Package.swift": 'import PackageDescription\n\nlet package = Package(name: "Kit", platforms: [.iOS(.v12)])\n',
+    "Other/project.pbxproj": appProject,
+  });
+  const findings = await swiftDetector.scan({ root });
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [
+      ["swift.app-store.ios-below-13", "App.xcodeproj/project.pbxproj", 19],
+      ["swift.app-store.ios-below-13", "App.xcodeproj/project.pbxproj", 25],
+    ],
+  );
+  assert.match(findings[0]!.summary, /^App\.xcodeproj\/project\.pbxproj sets IPHONEOS_DEPLOYMENT_TARGET 12\.0 on an app target\./);
+});
+
+test("does not report an app target that already targets iOS 13 or later", async () => {
+  const project = "{\n\tobjects = {\n\t\t0000000000000000000000A1 /* App */ = {\n\t\t\tisa = PBXNativeTarget;\n\t\t\tbuildConfigurationList = 0000000000000000000000B1;\n\t\t\tproductType = \"com.apple.product-type.application\";\n\t\t};\n\t\t0000000000000000000000B1 = {\n\t\t\tisa = XCConfigurationList;\n\t\t\tbuildConfigurations = (\n\t\t\t\t0000000000000000000000C1,\n\t\t\t);\n\t\t};\n\t\t0000000000000000000000C1 = {\n\t\t\tisa = XCBuildConfiguration;\n\t\t\tbuildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 13.0;\n\t\t\t};\n\t\t};\n\t};\n}\n";
+  const findings = await swiftDetector.scan({ root: await repository({ "App.xcodeproj/project.pbxproj": project }) });
+  assert.deepEqual(findings, []);
 });

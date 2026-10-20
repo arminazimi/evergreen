@@ -12,6 +12,7 @@ import { analyzeSourceUsage, findSwiftDynamicReferences } from "../../source-usa
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parsePackageResolved } from "./parse-package-resolved.js";
 import { parsePackageSwift } from "./parse-package-swift.js";
+import { parseXcodeProjectIOSDeploymentTargets } from "./parse-xcode-project.js";
 import { parseSwiftVersion, parseXcodeVersion } from "./parse-swift-toolchain.js";
 
 /**
@@ -30,16 +31,24 @@ import { parseSwiftVersion, parseXcodeVersion } from "./parse-swift-toolchain.js
  * every version. A rule whose VERS is malformed never matches and does not hide a later rule.
  * `path:`, `branch:`, `revision:`, range, and interpolated versions are not read. Swift, SwiftPM,
  * and Xcode are never run and nothing is fetched.
+ *
+ * The iOS deployment target in `project.pbxproj` is read only from the build configurations of
+ * application targets, so it names an App Store app and never a library. A `platforms:` minimum in
+ * `Package.swift` is not matched, because a library declares one without being uploaded.
  */
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
 const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
 const SWIFT_FILES = new Set(["Package.swift", "Package.resolved", ".swift-version", ".xcode-version"]);
+/** The Xcode project file. It is read only inside an `.xcodeproj` bundle. */
+const XCODE_PROJECT_FILE = "project.pbxproj";
 /** Rules for the Xcode release a project pins in `.xcode-version`. */
 const XCODE_PURL = "pkg:generic/xcode";
 /** Rules for the Swift toolchain: `.swift-version` and the manifest's `swift-tools-version`. */
 const SWIFT_PURL = "pkg:generic/swift";
+/** Rules for the iOS and iPadOS deployment target of an App Store app target. */
+const IOS_PURL = "pkg:generic/ios";
 
 async function swiftFiles(root: string): Promise<string[]> {
   const files: string[] = [];
@@ -55,7 +64,7 @@ async function swiftFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (entry.isFile() && SWIFT_FILES.has(entry.name)) {
+      } else if (entry.isFile() && (SWIFT_FILES.has(entry.name) || (entry.name === XCODE_PROJECT_FILE && basename(directory).endsWith(".xcodeproj")))) {
         files.push(join(directory, entry.name));
       }
     }
@@ -198,6 +207,11 @@ export class SwiftDetector implements Detector {
             const rule = rules.find(coversEveryVersion);
             if (rule) report(rule, path, declaration.line, `${path} requires ${identity} from ${declaration.value}. ${rule.summary}`);
           }
+        }
+      } else if (name === XCODE_PROJECT_FILE) {
+        for (const declaration of parseXcodeProjectIOSDeploymentTargets(contents)) {
+          const rule = firstMatchingRule(byPurl.get(IOS_PURL) ?? [], declaration.value);
+          if (rule) report(rule, path, declaration.line, `${path} sets IPHONEOS_DEPLOYMENT_TARGET ${declaration.value} on an app target. ${rule.summary}`);
         }
       } else if (name === "Package.resolved") {
         for (const pin of parsePackageResolved(contents)) {

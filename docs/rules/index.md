@@ -258,5 +258,6 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## swift
 
+- [iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads](swift.app-store.ios-below-13.html) — end of support, `swift.app-store.ios-below-13`
 - [Xcode 15 through 25 are not accepted for App Store uploads](swift.xcode.app-store-15-through-25.html) — end of support, `swift.xcode.app-store-15-through-25`
 - [Xcode older than 15 is not accepted for App Store uploads](swift.xcode.app-store-below-15.html) — end of support, `swift.xcode.app-store-below-15`

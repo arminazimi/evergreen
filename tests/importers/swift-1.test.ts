@@ -131,9 +131,10 @@ test("diff against the curated registry reports additions and leaves below-15 fo
   // Hand-written rules lack provenance.importer, so diff.removed stays empty. The curated
   // below-15 rule is still in the registry and absent from drafts — that is the overlap to resolve.
   assert.deepEqual(diff.removed.map((rule) => rule.id), []);
+  // The iOS deployment-target rule is curated by hand: the listing's "must target iOS" articles are skipped by design.
   assert.deepEqual(
     registry.rules.map((rule) => rule.id).filter((id) => !drafts.rules.some((draft) => draft.id === id)),
-    ["swift.xcode.app-store-below-15"],
+    ["swift.xcode.app-store-below-15", "swift.app-store.ios-below-13"],
   );
   assert.deepEqual(diff.unchanged, ["swift.xcode.app-store-15-through-25"]);
   assert.deepEqual(diff.changed, []);

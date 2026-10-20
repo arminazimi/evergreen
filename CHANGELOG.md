@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add the iOS 13 App Store upload rule (`swift.app-store.ios-below-13`). The Swift detector reads `IPHONEOS_DEPLOYMENT_TARGET` from application targets in `project.pbxproj` only, so libraries that declare an older `platforms:` minimum are not reported. (#808)
 - Promote the .NET detector to beta (decision 0013). The corpus has twelve blind-selected .NET repositories on top
   of the six targeted ones (84 expected `dotnet` findings, precision 1 and recall 1 on the full run), and corpus
   entries gain an optional `selection` field that the maturity test counts.
