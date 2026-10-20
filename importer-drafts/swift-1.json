@@ -1,0 +1,85 @@
+{
+  "importer": "swift-1",
+  "ecosystem": "swift",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "swift.xcode.app-store-14-1-through-14",
+      "ecosystem": "swift",
+      "purl": "pkg:generic/xcode",
+      "vers": "vers:semver/>=14.1.0|<15.0.0",
+      "event": "end-of-support",
+      "title": "Xcode 14.1 through 14 are not accepted for App Store uploads",
+      "summary": "Since April 29, 2024. Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
+      "severity": "high",
+      "replacement": "Xcode 26 or later",
+      "deadline": "2024-04-29",
+      "sources": [
+        {
+          "title": "Xcode 15 — App Store upcoming requirements (Xcode 15)",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "swift-1"
+      }
+    },
+    {
+      "id": "swift.xcode.app-store-15-through-25",
+      "ecosystem": "swift",
+      "purl": "pkg:generic/xcode",
+      "vers": "vers:semver/>=15.0.0|<26.0.0",
+      "event": "end-of-support",
+      "title": "Xcode 15 through 25 are not accepted for App Store uploads",
+      "summary": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+      "severity": "high",
+      "replacement": "Xcode 26 or later",
+      "deadline": "2026-04-28",
+      "sources": [
+        {
+          "title": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "swift-1"
+      }
+    },
+    {
+      "id": "swift.xcode.app-store-below-14-1",
+      "ecosystem": "swift",
+      "purl": "pkg:generic/xcode",
+      "vers": "vers:semver/<14.1.0",
+      "event": "end-of-support",
+      "title": "Xcode older than 14.1 is not accepted for App Store uploads",
+      "summary": "Since April 25, 2023. iOS and iPadOS apps submitted to the App Store must be built with Xcode 14.1 and the iOS 16.1 SDK or later. And watchOS apps submitted to the App Store must be built with Xcode 14.1 and the watchOS 9.1 SDK or later.",
+      "severity": "high",
+      "replacement": "Xcode 26 or later",
+      "deadline": "2023-04-25",
+      "sources": [
+        {
+          "title": "Xcode 14.1 — App Store upcoming requirements (Xcode 14.1)",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04252023a"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "swift-1"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped \"iOS and iPadOS minimum system requirements\": iOS/iPadOS deployment-target minima apply to App Store Connect uploads, not library Package.swift platforms (see follow-up for app-vs-library detection).",
+    "Skipped \"Apple notary service update\": Apple notary service requirement, not App Store Connect app uploads.",
+    "Skipped \"Game Center entitlement and configuration requirement\": no readable \"built with Xcode N\" App Store upload floor.",
+    "Skipped \"tvOS 16.1 SDK\": tvOS-only App Store submission requirement."
+  ]
+}
