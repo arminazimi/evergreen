@@ -1,6 +1,11 @@
 {
   "schemaVersion": "evergreen.corpus-thresholds.v1",
   "detectors": {
+    "android": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
     "ci-images": {
       "level": "experimental",
       "stable": false,

@@ -14,3 +14,7 @@ android {
         versionName = "1.0"
     }
 }
+
+dependencies {
+    implementation("com.android.billingclient:billing:10.0.0")
+}

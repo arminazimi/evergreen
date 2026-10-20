@@ -28,7 +28,7 @@ The Google Play Billing Library version deprecation page states that all version
 
 ## Detected by
 
-No built-in detector reads `android` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/android.json).
+The `android` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 
