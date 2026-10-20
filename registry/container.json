@@ -654,6 +654,223 @@
           }
         ]
       }
+    },
+    {
+      "id": "container.clickhouse.eol-26.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/clickhouse",
+      "vers": "vers:semver/<26.3.0",
+      "event": "end-of-life",
+      "title": "ClickHouse image release lines 26.2 and older are end-of-life",
+      "summary": "These ClickHouse release lines are listed as not supported with security updates in the vendor's security policy; 26.3 is the oldest line it still supports.",
+      "severity": "high",
+      "replacement": "A clickhouse image on a supported release line",
+      "sources": [
+        {
+          "title": "ClickHouse security policy: supported versions",
+          "url": "https://github.com/ClickHouse/ClickHouse/blob/master/SECURITY.md"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use clickhouse on one supported ClickHouse release line.",
+          "Confirm the application and its data or configuration work on the target ClickHouse release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.couchbase.eol-7.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/couchbase",
+      "vers": "vers:semver/<7.6.0",
+      "event": "end-of-life",
+      "title": "Couchbase Server image release lines 7.2 and older are end-of-life",
+      "summary": "These Couchbase Server release lines are past their end-of-life date in the vendor's lifecycle schedule (7.2 reached end of life in July 2026; 7.6 is supported until March 2027).",
+      "severity": "high",
+      "replacement": "A couchbase image on a supported release line",
+      "deadline": "2026-07-31",
+      "sources": [
+        {
+          "title": "Couchbase software lifecycle schedules",
+          "url": "https://www.couchbase.com/support-policy/EOL/"
+        },
+        {
+          "title": "Couchbase enterprise software support policy",
+          "url": "https://www.couchbase.com/support-policy/enterprise-software/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use couchbase on one supported Couchbase Server release line.",
+          "Confirm the application and its data or configuration work on the target Couchbase Server release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.couchdb.eol-3.3-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/couchdb",
+      "vers": "vers:semver/<3.4.0",
+      "event": "end-of-life",
+      "title": "Apache CouchDB image release lines 3.3 and older are end-of-life",
+      "summary": "The CouchDB project publishes CVE fixes only for the current release series and its immediate predecessor, so these older release lines receive no security fixes by policy.",
+      "severity": "high",
+      "replacement": "A couchdb image on a supported release line",
+      "sources": [
+        {
+          "title": "Apache CouchDB security policy",
+          "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use couchdb on one supported CouchDB release line.",
+          "Confirm the application and its data or configuration work on the target CouchDB release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.phpmyadmin.eol-4.8-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/phpmyadmin",
+      "vers": "vers:semver/<4.9.0",
+      "event": "end-of-life",
+      "title": "phpMyAdmin image release lines 4.8 and older are end-of-life",
+      "summary": "These phpMyAdmin release lines are unsupported: the vendor's downloads page supports only the current stable line and the 4.9 LTS line, and says older releases are unsupported.",
+      "severity": "high",
+      "replacement": "A phpmyadmin image on a supported release line",
+      "sources": [
+        {
+          "title": "phpMyAdmin downloads and version support policy",
+          "url": "https://www.phpmyadmin.net/downloads/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use phpmyadmin on one supported phpMyAdmin release line.",
+          "Confirm the application and its data or configuration work on the target phpMyAdmin release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
     }
   ]
 }
