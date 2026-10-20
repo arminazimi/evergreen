@@ -107,6 +107,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Java 26 is no longer supported](java.jdk.end-of-support-26.html) — end of support, `java.jdk.end-of-support-26`
 - [Java 9 and 10 are no longer supported](java.jdk.end-of-support-9-10.html) — end of support, `java.jdk.end-of-support-9-10`
 - [mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j](java.maven.mysql.mysql-connector-java.relocated.html) — deprecated, `java.maven.mysql.mysql-connector-java.relocated`
+- [org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager](java.maven.org.hibernate.hibernate-entitymanager.relocated.html) — deprecated, `java.maven.org.hibernate.hibernate-entitymanager.relocated`
 - [org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j](java.maven.org.slf4j.slf4j-log4j12.relocated.html) — deprecated, `java.maven.org.slf4j.slf4j-log4j12.relocated`
 
 ## kubernetes
@@ -221,6 +222,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [aiohttp-valera-validator was renamed and is no longer maintained](python.package.aiohttp-valera-validator.eol.html) — end of life, `python.package.aiohttp-valera-validator.eol`
 - [api-shield is deprecated](python.package.api-shield.deprecated.html) — deprecated, `python.package.api-shield.deprecated`
 - [apisec-code-bolt was renamed](python.package.apisec-code-bolt.deprecated.html) — deprecated, `python.package.apisec-code-bolt.deprecated`
+- [argparse is archived on PyPI](python.package.argparse.archived.html) — end of life, `python.package.argparse.archived`
 - [asyncio-requests is retired](python.package.asyncio-requests.deprecated.html) — deprecated, `python.package.asyncio-requests.deprecated`
 - [BatchNotebook is deprecated](python.package.batchnotebook.deprecated.html) — deprecated, `python.package.batchnotebook.deprecated`
 - [cmip_ref was renamed and is no longer maintained](python.package.cmip-ref.eol.html) — end of life, `python.package.cmip-ref.eol`
@@ -228,8 +230,10 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [distribute is deprecated](python.package.distribute.deprecated.html) — deprecated, `python.package.distribute.deprecated`
 - [django-celery is no longer required](python.package.django-celery.deprecated.html) — deprecated, `python.package.django-celery.deprecated`
 - [django-nose is maintenance-only](python.package.django-nose.maintenance-only.html) — deprecated, `python.package.django-nose.maintenance-only`
+- [enum is archived on PyPI](python.package.enum.archived.html) — end of life, `python.package.enum.archived`
 - [ghops is deprecated and no longer maintained](python.package.ghops.eol.html) — end of life, `python.package.ghops.eol`
 - [goobook is no longer maintained](python.package.goobook.eol.html) — end of life, `python.package.goobook.eol`
+- [google-cloud is archived on PyPI](python.package.google-cloud.archived.html) — end of life, `python.package.google-cloud.archived`
 - [headroom-cli was renamed and is no longer maintained](python.package.headroom-cli.eol.html) — end of life, `python.package.headroom-cli.eol`
 - [imagej was renamed to pyimagej](python.package.imagej.deprecated.html) — deprecated, `python.package.imagej.deprecated`
 - [ipaddr is superseded](python.package.ipaddr.deprecated.html) — deprecated, `python.package.ipaddr.deprecated`
@@ -238,7 +242,9 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [multimodal-timesfm is no longer maintained](python.package.multimodal-timesfm.deprecated.html) — deprecated, `python.package.multimodal-timesfm.deprecated`
 - [nose is maintenance-only](python.package.nose.maintenance-only.html) — deprecated, `python.package.nose.maintenance-only`
 - [opennms-api-wrapper was renamed](python.package.opennms-api-wrapper.deprecated.html) — deprecated, `python.package.opennms-api-wrapper.deprecated`
+- [pathlib is archived on PyPI](python.package.pathlib.archived.html) — end of life, `python.package.pathlib.archived`
 - [pep8 was renamed to pycodestyle](python.package.pep8.deprecated.html) — deprecated, `python.package.pep8.deprecated`
+- [PIL is archived on PyPI](python.package.pil.archived.html) — end of life, `python.package.pil.archived`
 - [poetry-version-plugin is deprecated](python.package.poetry-version-plugin.deprecated.html) — deprecated, `python.package.poetry-version-plugin.deprecated`
 - [PyCrypto is obsolete and vulnerable](python.package.pycrypto.obsolete.html) — end of life, `python.package.pycrypto.obsolete`
 - [pyinj is archived on PyPI](python.package.pyinj.archived.html) — end of life, `python.package.pyinj.archived`
@@ -248,6 +254,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [sklearn is deprecated on PyPI](python.package.sklearn.deprecated.html) — deprecated, `python.package.sklearn.deprecated`
 - [superlinked-server is deprecated](python.package.superlinked-server.deprecated.html) — deprecated, `python.package.superlinked-server.deprecated`
 - [superlinked is deprecated for new projects](python.package.superlinked.deprecated.html) — deprecated, `python.package.superlinked.deprecated`
+- [typing is archived on PyPI](python.package.typing.archived.html) — end of life, `python.package.typing.archived`
 - [vsdeband is deprecated](python.package.vsdeband.deprecated.html) — deprecated, `python.package.vsdeband.deprecated`
 - [vsscale is deprecated](python.package.vsscale.deprecated.html) — deprecated, `python.package.vsscale.deprecated`
 - [Python 3.10 and older are end-of-life](python.runtime.eol-3.10-and-older.html) — end of life, `python.runtime.eol-3.10-and-older`

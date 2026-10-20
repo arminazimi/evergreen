@@ -1963,6 +1963,342 @@
         "kind": "runtime",
         "maximumVersion": "3.10"
       }
+    },
+    {
+      "id": "python.package.argparse.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/argparse",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "argparse is archived on PyPI",
+      "summary": "PyPI marks argparse as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "argparse on PyPI",
+          "url": "https://pypi.org/project/argparse/"
+        },
+        {
+          "title": "argparse project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/argparse/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "argparse"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing argparse; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-argparse",
+            "title": "Replace argparse",
+            "instructions": "Remove argparse from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "python.package.enum.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/enum",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "enum is archived on PyPI",
+      "summary": "PyPI marks enum as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "enum on PyPI",
+          "url": "https://pypi.org/project/enum/"
+        },
+        {
+          "title": "enum project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/enum/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "enum"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing enum; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-enum",
+            "title": "Replace enum",
+            "instructions": "Remove enum from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "python.package.google-cloud.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/google-cloud",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "google-cloud is archived on PyPI",
+      "summary": "PyPI marks google-cloud as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "google-cloud on PyPI",
+          "url": "https://pypi.org/project/google-cloud/"
+        },
+        {
+          "title": "google-cloud project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/google-cloud/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "google-cloud"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing google-cloud; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-google-cloud",
+            "title": "Replace google-cloud",
+            "instructions": "Remove google-cloud from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "python.package.pathlib.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pathlib",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "pathlib is archived on PyPI",
+      "summary": "PyPI marks pathlib as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "pathlib on PyPI",
+          "url": "https://pypi.org/project/pathlib/"
+        },
+        {
+          "title": "pathlib project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pathlib/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "pathlib"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing pathlib; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-pathlib",
+            "title": "Replace pathlib",
+            "instructions": "Remove pathlib from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "python.package.pil.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/pil",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "PIL is archived on PyPI",
+      "summary": "PyPI marks PIL as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "PIL on PyPI",
+          "url": "https://pypi.org/project/pil/"
+        },
+        {
+          "title": "PIL project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pil/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "PIL"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing pil; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-pil",
+            "title": "Replace pil",
+            "instructions": "Remove pil from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
+    },
+    {
+      "id": "python.package.typing.archived",
+      "ecosystem": "python",
+      "purl": "pkg:pypi/typing",
+      "vers": "vers:pypi/*",
+      "event": "end-of-life",
+      "title": "typing is archived on PyPI",
+      "summary": "PyPI marks typing as archived: the project does not expect to be updated in the future.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "typing on PyPI",
+          "url": "https://pypi.org/project/typing/"
+        },
+        {
+          "title": "typing project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/typing/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "x-python": {
+        "kind": "package",
+        "package": "typing"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing typing; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-typing",
+            "title": "Replace typing",
+            "instructions": "Remove typing from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      }
     }
   ]
 }
