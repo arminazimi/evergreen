@@ -58,9 +58,11 @@ export async function ensureCorpusCacheEntry(
 
   await mkdir(cacheDir, { recursive: true });
   const staging = await mkdtemp(join(cacheDir, ".incoming-"));
+  // Concurrent fetches can leave pack files briefly busy; Node retries ENOTEMPTY/EBUSY when asked.
+  const remove = (path: string) => rm(path, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
   try {
     await populate(staging);
-    await rm(join(staging, ".git"), { recursive: true, force: true });
+    await remove(join(staging, ".git"));
     try {
       await rename(staging, target);
     } catch (error) {
@@ -68,7 +70,7 @@ export async function ensureCorpusCacheEntry(
       if (!(await isDirectory(target))) throw error;
     }
   } finally {
-    await rm(staging, { recursive: true, force: true });
+    await remove(staging);
   }
   return { path: target, cached: false };
 }
