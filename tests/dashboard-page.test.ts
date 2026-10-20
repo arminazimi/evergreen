@@ -302,7 +302,7 @@ test("the real data renders every detector with its counts", () => {
   assert.equal(cells.precision, "1.0000");
   assert.equal(cells.recall, "1.0000");
   assert.equal(cells.truePositives, "211");
-  assert.equal(cells.repositoriesWithFindings, "35");
+  assert.equal(cells.repositoriesWithFindings, "37");
   assert.equal(cells.zeroFindingRepositories, "2");
 });
 
