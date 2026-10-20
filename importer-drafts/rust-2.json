@@ -1,0 +1,170 @@
+{
+  "importer": "rust-2",
+  "ecosystem": "rust",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "rust.crate.bytes.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/bytes",
+      "vers": "vers:cargo/0.5.0|0.5.1|0.5.2|1.6.0",
+      "event": "removed",
+      "title": "4 versions of bytes are yanked",
+      "summary": "crates.io lists these versions of bytes as yanked: 0.5.0, 0.5.1, 0.5.2, 1.6.0. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of bytes that is not yanked",
+      "sources": [
+        {
+          "title": "bytes versions on crates.io",
+          "url": "https://crates.io/crates/bytes/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    },
+    {
+      "id": "rust.crate.memchr.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/memchr",
+      "vers": "vers:cargo/2.3.1",
+      "event": "removed",
+      "title": "1 version of memchr is yanked",
+      "summary": "crates.io lists this version of memchr as yanked: 2.3.1. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of memchr that is not yanked",
+      "sources": [
+        {
+          "title": "memchr versions on crates.io",
+          "url": "https://crates.io/crates/memchr/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    },
+    {
+      "id": "rust.crate.once-cell.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/once_cell",
+      "vers": "vers:cargo/0.0.1|0.0.2|0.2.5|0.2.6|0.2.7|1.0.0|1.5.0|1.20.0",
+      "event": "removed",
+      "title": "8 versions of once_cell are yanked",
+      "summary": "crates.io lists these versions of once_cell as yanked: 0.0.1, 0.0.2, 0.2.5, 0.2.6, 0.2.7, 1.0.0, 1.5.0, 1.20.0. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of once_cell that is not yanked",
+      "sources": [
+        {
+          "title": "once_cell versions on crates.io",
+          "url": "https://crates.io/crates/once_cell/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    },
+    {
+      "id": "rust.crate.smallvec.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/smallvec",
+      "vers": "vers:cargo/0.3.2|0.3.3|0.4.0|0.4.1|0.4.2|0.4.3|0.4.4|0.5.0|0.6.0|0.6.1|0.6.2|0.6.3|0.6.4|0.6.5|0.6.6|0.6.7|0.6.8|0.6.9|1.4.0|1.13.0",
+      "event": "removed",
+      "title": "20 versions of smallvec are yanked",
+      "summary": "crates.io lists these versions of smallvec as yanked: 0.3.2, 0.3.3, 0.4.0, 0.4.1, 0.4.2, 0.4.3, 0.4.4, 0.5.0, 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.6.6, 0.6.7, 0.6.8, 0.6.9, 1.4.0, 1.13.0. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of smallvec that is not yanked",
+      "sources": [
+        {
+          "title": "smallvec versions on crates.io",
+          "url": "https://crates.io/crates/smallvec/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    },
+    {
+      "id": "rust.crate.tempfile.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/tempfile",
+      "vers": "vers:cargo/3.0.0|3.0.1|3.0.9",
+      "event": "removed",
+      "title": "3 versions of tempfile are yanked",
+      "summary": "crates.io lists these versions of tempfile as yanked: 3.0.0, 3.0.1, 3.0.9. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of tempfile that is not yanked",
+      "sources": [
+        {
+          "title": "tempfile versions on crates.io",
+          "url": "https://crates.io/crates/tempfile/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    },
+    {
+      "id": "rust.crate.tower.yanked",
+      "ecosystem": "rust",
+      "purl": "pkg:cargo/tower",
+      "vers": "vers:cargo/0.4.9",
+      "event": "removed",
+      "title": "1 version of tower is yanked",
+      "summary": "crates.io lists this version of tower as yanked: 0.4.9. A yanked version has been withdrawn by its maintainers: new projects cannot depend on it, and a lockfile that pins one should move to a version that is not yanked.",
+      "severity": "medium",
+      "replacement": "A version of tower that is not yanked",
+      "sources": [
+        {
+          "title": "tower versions on crates.io",
+          "url": "https://crates.io/crates/tower/versions"
+        },
+        {
+          "title": "Cargo: yanking a version",
+          "url": "https://doc.rust-lang.org/cargo/commands/cargo-yank.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "rust-2"
+      }
+    }
+  ],
+  "notes": []
+}
