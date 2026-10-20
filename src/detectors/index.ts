@@ -10,6 +10,7 @@ import { npmDetector } from "./npm.js";
 import { pythonDetector } from "./python.js";
 import { rubyDetector } from "./ruby/index.js";
 import { rustDetector } from "./rust/index.js";
+import { swiftDetector } from "./swift/index.js";
 
 export const builtInDetectors: readonly Detector[] = [
   githubActionsDetector,
@@ -23,4 +24,5 @@ export const builtInDetectors: readonly Detector[] = [
   rustDetector,
   ciImagesDetector,
   rubyDetector,
+  swiftDetector,
 ];

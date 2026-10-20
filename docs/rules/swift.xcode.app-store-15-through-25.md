@@ -44,7 +44,7 @@ Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcod
 
 ## Detected by
 
-No built-in detector reads `swift` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json).
+The `swift` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

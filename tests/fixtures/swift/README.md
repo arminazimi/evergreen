@@ -15,7 +15,7 @@ These fixtures define the parser boundary for Swift and Apple toolchain declarat
 | `zero/Package.swift` | `swift-tools-version:6.0` (line 1) and the dependency `from: "1.3.0"` (line 8): valid declarations, no lifecycle finding. |
 | `zero/Package.resolved` | The pin `swift-argument-parser` at version `1.3.0` (line 9): a valid declaration, no lifecycle finding. |
 | `zero/.swift-version` | The pinned Swift version `6.0` (line 1): a valid declaration, no lifecycle finding. |
-| `zero/.xcode-version` | The pinned Xcode version `16.2` (line 1): a valid declaration, no lifecycle finding. |
+| `zero/.xcode-version` | The pinned Xcode version `26.0` (line 1): a valid declaration, no lifecycle finding. It is at or above the current App Store minimum, so no curated Xcode rule covers it. |
 | `malformed/Package.swift` | The tools-version (line 1) is valid. The dependency on line 7 has an unterminated string and an unclosed call: no partial declaration, no error. |
 | `malformed/Package.resolved` | Truncated JSON. The file ends inside the `state` object (line 9), so it is not valid JSON: no partial pins, no error. |
 | `malformed/.swift-version` | `five-point-nine` (line 1) is not a version: no declaration, no error. |

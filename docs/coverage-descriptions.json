@@ -55,6 +55,11 @@
       "ecosystems": ["rust"],
       "name": "Rust",
       "coverage": "The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md)."
+    },
+    {
+      "ecosystems": ["swift"],
+      "name": "Swift",
+      "coverage": "`.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule."
     }
   ],
   "unsupported": {

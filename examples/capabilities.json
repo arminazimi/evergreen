@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.capabilities.v1",
-  "manifestVersion": "1.2.0",
+  "manifestVersion": "1.3.0",
   "product": {
     "name": "Evergreen",
     "package": "evergreen-deprecation",
@@ -28,14 +28,15 @@
     { "id": "npm", "status": "supported", "maturity": "stable", "detectorIds": ["npm"] },
     { "id": "python", "status": "supported", "maturity": "stable", "detectorIds": ["python"] },
     { "id": "ruby", "status": "experimental", "maturity": "experimental", "detectorIds": ["ruby"] },
-    { "id": "rust", "status": "experimental", "maturity": "experimental", "detectorIds": ["rust"] }
+    { "id": "rust", "status": "experimental", "maturity": "experimental", "detectorIds": ["rust"] },
+    { "id": "swift", "status": "experimental", "maturity": "experimental", "detectorIds": ["swift"] }
   ],
   "capabilities": [
-    { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"] },
-    { "id": "deprecation.list", "status": "supported", "version": "1", "description": "List compact lifecycle findings from a fresh local scan.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"] },
-    { "id": "deprecation.explain", "status": "supported", "version": "1", "description": "Explain one evidence-backed finding by its exact identifier.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"] },
-    { "id": "migration.context.create", "status": "supported", "version": "1", "description": "Create a validated migration packet for one finding.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"] },
-    { "id": "migration.verify", "status": "supported", "version": "1", "description": "Re-scan and verify that an observed finding is absent.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"] },
+    { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust", "swift"] },
+    { "id": "deprecation.list", "status": "supported", "version": "1", "description": "List compact lifecycle findings from a fresh local scan.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust", "swift"] },
+    { "id": "deprecation.explain", "status": "supported", "version": "1", "description": "Explain one evidence-backed finding by its exact identifier.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust", "swift"] },
+    { "id": "migration.context.create", "status": "supported", "version": "1", "description": "Create a validated migration packet for one finding.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust", "swift"] },
+    { "id": "migration.verify", "status": "supported", "version": "1", "description": "Re-scan and verify that an observed finding is absent.", "ecosystems": ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust", "swift"] },
     { "id": "environment.doctor", "status": "supported", "version": "1", "description": "Diagnose local and CI prerequisites without changing configuration.", "ecosystems": [] },
     { "id": "repository.remote-scan", "status": "unsupported", "version": "1", "description": "Upload a repository to a hosted Evergreen scanner.", "ecosystems": [] },
     { "id": "migration.execute", "status": "unsupported", "version": "1", "description": "Execute migration edits or suggested verification commands automatically.", "ecosystems": [] }
