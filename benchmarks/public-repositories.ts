@@ -8,6 +8,7 @@ import { promisify } from "node:util";
 import { builtInDetectors } from "../src/detectors/index.js";
 import type { Finding } from "../src/domain.js";
 import { scanRepository } from "../src/engine.js";
+import { withRetries } from "./retry.js";
 import { findingKey, scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
@@ -68,10 +69,12 @@ try {
     const checkout = join(root, String(index));
     const checkoutStartedAt = performance.now();
     await run("git", ["init", "--quiet", checkout]);
-    await run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
-      env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
-      maxBuffer: 10 * 1024 * 1024,
-    });
+    await withRetries(entry.repository, () =>
+      run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
+        env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+        maxBuffer: 10 * 1024 * 1024,
+      }),
+    );
     await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
     const checkoutMs = Number((performance.now() - checkoutStartedAt).toFixed(2));
 
