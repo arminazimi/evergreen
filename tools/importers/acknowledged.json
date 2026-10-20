@@ -1,0 +1,34 @@
+{
+  "acknowledged": {
+    "dotnet-2:dotnet.package.windowsazure-storage.deprecated": "8574a04a32c9d33a",
+    "github-actions-runtime:github-actions.cache.node20": "e01ffd4b59dbe82f",
+    "github-actions-runtime:github-actions.checkout.node20": "19ffe99b4fd49835",
+    "github-actions-runtime:github-actions.download-artifact.node20": "53b03cf40486139e",
+    "github-actions-runtime:github-actions.github-script.node20": "9837d05b46359d7e",
+    "github-actions-runtime:github-actions.labeler.node20": "7472a17bed733802",
+    "github-actions-runtime:github-actions.setup-go.node20": "41420c1935dbe941",
+    "github-actions-runtime:github-actions.setup-java.node20": "13a9d85299c02b17",
+    "github-actions-runtime:github-actions.setup-node.node20": "b507beba6cceeb27",
+    "github-actions-runtime:github-actions.setup-python.node20": "dd3a7b034c860df3",
+    "github-actions-runtime:github-actions.stale.node20": "24a320368d363d7f",
+    "github-actions-runtime:github-actions.upload-artifact.node20": "180c83cf8897bb20",
+    "swift-1:swift.xcode.app-store-14-1-through-14": "e9f87ae18c1bd595",
+    "swift-1:swift.xcode.app-store-below-14-1": "86b8c7d4be2bb11f"
+  },
+  "reasons": {
+    "dotnet-2:dotnet.package.windowsazure-storage.deprecated": "The registry rule keeps the Azure SDK support policy as a source and names every replacement package; the draft drops both. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.cache.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.checkout.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.download-artifact.node20": "Overlaps github-actions.*-artifact.retired, which already covers these releases (below 7) with a stronger event. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.github-script.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.labeler.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.setup-go.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.setup-java.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.setup-node.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.setup-python.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.stale.node20": "The registry rule already cites the GitHub announcement and release notes and states the exact runtime change; the draft only swaps them for the action.yml blob. Reviewed 2026-10-20.",
+    "github-actions-runtime:github-actions.upload-artifact.node20": "Overlaps github-actions.*-artifact.retired, which already covers these releases (below 7) with a stronger event. Reviewed 2026-10-20.",
+    "swift-1:swift.xcode.app-store-14-1-through-14": "The draft splits Xcode below 15 into two bands that overlap the hand-written swift.xcode.app-store-below-15, so a project would be reported twice. Reviewed 2026-10-20.",
+    "swift-1:swift.xcode.app-store-below-14-1": "The draft splits Xcode below 15 into two bands that overlap the hand-written swift.xcode.app-store-below-15, so a project would be reported twice. Reviewed 2026-10-20."
+  }
+}

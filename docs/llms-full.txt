@@ -1874,6 +1874,8 @@ When you accept a draft:
 4. Add `migration` and `usage` for a new rule if you can; importers leave them to people.
 5. Run `npm run check`.
 
+If you compare a draft with the registry and decide the registry should stay as it is (the draft overlaps a hand-written rule, or drops sources and wording you reviewed), acknowledge that exact draft instead of leaving the pull request open: `node dist/tools/importers/diff.js drafts.json registry/<ecosystem>.json --fingerprints` prints one `"<importer>:<rule id>": "<fingerprint>"` line per draft that still shows as added or changed. Add those lines to `acknowledged` in [`tools/importers/acknowledged.json`](../tools/importers/acknowledged.json) and a sentence for each in `reasons`. An acknowledged draft is counted as acknowledged, not added or changed, so it no longer opens the weekly pull request. The fingerprint covers every field except provenance: if the source later drafts something different, the rule is reported again.
+
 Do not remove a rule only because an importer stopped drafting it. A source can stop listing something because the thing is gone, and a retired image or release is exactly what an old workflow needs to be told about. The diff reports such rules as "no longer drafted"; remove one only when its fact is no longer true.
 
 ## The weekly run

@@ -7,7 +7,7 @@ import { test } from "node:test";
 import { promisify } from "node:util";
 
 import type { RegistryV2, RegistryV2Rule } from "../../src/registry.js";
-import { diffDrafts, hasChanges, renderDiffText } from "../../tools/importers/diff.js";
+import { diffDrafts, fingerprint, hasChanges, loadAcknowledged, renderDiffText } from "../../tools/importers/diff.js";
 import type { DraftRegistry } from "../../tools/importers/types.js";
 
 const run = promisify(execFile);
@@ -171,4 +171,51 @@ test("the command line prints the diff and signals changes through its exit code
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
+});
+
+test("an acknowledged draft is left out of added and changed, and comes back when the draft changes", () => {
+  const registry = registryOf([rule("node.a", { summary: "reviewed text" })]);
+  const drafts = draftOf([rule("node.a", { summary: "importer text" }), rule("node.b")]);
+  assert.equal(hasChanges(diffDrafts(drafts, registry)), true);
+
+  const acknowledged = {
+    [`node-schedule:node.a`]: fingerprint(drafts.rules[0]!),
+    [`node-schedule:node.b`]: fingerprint(drafts.rules[1]!),
+  };
+  const quiet = diffDrafts(drafts, registry, acknowledged);
+  assert.deepEqual([quiet.added, quiet.changed], [[], []]);
+  assert.deepEqual(quiet.acknowledged, ["node.a", "node.b"]);
+  assert.equal(hasChanges(quiet), false);
+  assert.match(renderDiffText(quiet), /2 acknowledged/);
+
+  const moved = draftOf([rule("node.a", { summary: "importer text, updated" }), rule("node.b", { vers: "vers:semver/<19.0.0" })]);
+  const again = diffDrafts(moved, registry, acknowledged);
+  assert.deepEqual(again.added.map((item) => item.id), ["node.b"]);
+  assert.deepEqual(again.changed.map((item) => item.id), ["node.a"]);
+  assert.deepEqual(again.acknowledged, []);
+});
+
+test("an acknowledgement belongs to one importer, and provenance does not change its fingerprint", () => {
+  const registry = registryOf([rule("node.a", { summary: "reviewed text" })]);
+  const draft = draftOf([rule("node.a", { summary: "importer text" })]);
+  const key = fingerprint(draft.rules[0]!);
+  assert.equal(diffDrafts(draft, registry, { "other-importer:node.a": key }).changed.length, 1);
+  const later = draftOf([rule("node.a", { summary: "importer text" })]);
+  later.rules[0]!.provenance.observedAt = "2027-01-01";
+  assert.equal(fingerprint(later.rules[0]!), key);
+});
+
+test("the committed acknowledgements all name a registered importer and a fingerprint", async () => {
+  const { importers } = await import("../../tools/importers/index.js");
+  const file = JSON.parse(await readFile(resolve("tools/importers/acknowledged.json"), "utf8")) as { acknowledged: Record<string, string>; reasons: Record<string, string> };
+  assert.deepEqual(Object.keys(file.reasons).sort(), Object.keys(file.acknowledged).sort(), "every acknowledgement states why");
+  for (const [key, value] of Object.entries(file.acknowledged)) {
+    const [importer] = key.split(":");
+    assert.ok(importers.some((candidate) => candidate.id === importer), key);
+    assert.match(value, /^[0-9a-f]{16}$/, key);
+  }
+});
+
+test("a missing acknowledgement file means nothing is acknowledged", async () => {
+  assert.deepEqual(await loadAcknowledged(join(tmpdir(), "no-such-acknowledged.json")), {});
 });

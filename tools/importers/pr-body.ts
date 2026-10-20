@@ -7,7 +7,7 @@ import { pathToFileURL } from "node:url";
 
 import { validateRegistryV2 } from "../../src/registry.js";
 import type { RegistryV2Rule } from "../../src/registry.js";
-import { diffDrafts } from "./diff.js";
+import { diffDrafts, loadAcknowledged } from "./diff.js";
 import type { ChangedRule, DraftDiff } from "./diff.js";
 import type { DraftRegistry } from "./types.js";
 
@@ -137,7 +137,7 @@ export async function main(argv: string[]): Promise<number> {
   if (files.length !== 2) throw new Error("Usage: pr-body <drafts.json> <registry.json> [--out FILE]");
   const drafts = JSON.parse(await readFile(files[0]!, "utf8")) as DraftRegistry;
   const registry = validateRegistryV2(JSON.parse(await readFile(files[1]!, "utf8")) as unknown);
-  const body = renderPullRequestBody(diffDrafts(drafts, registry), drafts);
+  const body = renderPullRequestBody(diffDrafts(drafts, registry, await loadAcknowledged()), drafts);
   if (out) await writeFile(out, body);
   else process.stdout.write(body);
   return 0;
