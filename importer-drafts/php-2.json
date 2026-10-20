@@ -1,0 +1,143 @@
+{
+  "importer": "php-2",
+  "ecosystem": "php",
+  "observedAt": "2026-10-20",
+  "rules": [
+    {
+      "id": "php.package.doctrine.cache.abandoned",
+      "ecosystem": "php",
+      "purl": "pkg:composer/doctrine/cache",
+      "vers": "vers:composer/*",
+      "event": "deprecated",
+      "title": "doctrine/cache is abandoned",
+      "summary": "Packagist marks doctrine/cache as abandoned and no longer maintained.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "doctrine/cache on Packagist",
+          "url": "https://packagist.org/packages/doctrine/cache"
+        },
+        {
+          "title": "doctrine/cache Composer metadata",
+          "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-2"
+      }
+    },
+    {
+      "id": "php.package.fzaninotto.faker.abandoned",
+      "ecosystem": "php",
+      "purl": "pkg:composer/fzaninotto/faker",
+      "vers": "vers:composer/*",
+      "event": "deprecated",
+      "title": "fzaninotto/faker is abandoned",
+      "summary": "Packagist marks fzaninotto/faker as abandoned and no longer maintained.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "fzaninotto/faker on Packagist",
+          "url": "https://packagist.org/packages/fzaninotto/faker"
+        },
+        {
+          "title": "fzaninotto/faker Composer metadata",
+          "url": "https://repo.packagist.org/p2/fzaninotto/faker.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-2"
+      }
+    },
+    {
+      "id": "php.package.sensiolabs.security-checker.abandoned",
+      "ecosystem": "php",
+      "purl": "pkg:composer/sensiolabs/security-checker",
+      "vers": "vers:composer/*",
+      "event": "deprecated",
+      "title": "sensiolabs/security-checker is abandoned",
+      "summary": "Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker.",
+      "severity": "high",
+      "replacement": "https://github.com/fabpot/local-php-security-checker",
+      "sources": [
+        {
+          "title": "sensiolabs/security-checker on Packagist",
+          "url": "https://packagist.org/packages/sensiolabs/security-checker"
+        },
+        {
+          "title": "sensiolabs/security-checker Composer metadata",
+          "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-2"
+      }
+    },
+    {
+      "id": "php.package.swiftmailer.swiftmailer.abandoned",
+      "ecosystem": "php",
+      "purl": "pkg:composer/swiftmailer/swiftmailer",
+      "vers": "vers:composer/*",
+      "event": "deprecated",
+      "title": "swiftmailer/swiftmailer is abandoned",
+      "summary": "Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, and the author suggests using symfony/mailer instead.",
+      "severity": "high",
+      "replacement": "symfony/mailer",
+      "sources": [
+        {
+          "title": "swiftmailer/swiftmailer on Packagist",
+          "url": "https://packagist.org/packages/swiftmailer/swiftmailer"
+        },
+        {
+          "title": "swiftmailer/swiftmailer Composer metadata",
+          "url": "https://repo.packagist.org/p2/swiftmailer/swiftmailer.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-2"
+      }
+    },
+    {
+      "id": "php.package.zendframework.zend-stdlib.abandoned",
+      "ecosystem": "php",
+      "purl": "pkg:composer/zendframework/zend-stdlib",
+      "vers": "vers:composer/*",
+      "event": "deprecated",
+      "title": "zendframework/zend-stdlib is abandoned",
+      "summary": "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead.",
+      "severity": "high",
+      "replacement": "laminas/laminas-stdlib",
+      "sources": [
+        {
+          "title": "zendframework/zend-stdlib on Packagist",
+          "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+        },
+        {
+          "title": "zendframework/zend-stdlib Composer metadata",
+          "url": "https://repo.packagist.org/p2/zendframework/zend-stdlib.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "pending-review",
+        "importer": "php-2"
+      }
+    }
+  ],
+  "notes": [
+    "Not abandoned on Packagist, so no rule (remove them from PHP_PACKAGE_CANDIDATES if they stay that way): monolog/monolog."
+  ]
+}
