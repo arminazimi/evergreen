@@ -27,6 +27,23 @@ Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, a
 - [swiftmailer/swiftmailer on Packagist](https://packagist.org/packages/swiftmailer/swiftmailer)
 - [The end of Swiftmailer (Symfony Blog)](https://symfony.com/blog/the-end-of-swiftmailer)
 
+## Migration
+
+**Constraints**
+
+- Preserve message construction, transport configuration, and delivery behavior while moving from Swiftmailer to Symfony Mailer.
+- Keep composer.json, composer.lock, and any package that still requires swiftmailer/swiftmailer consistent after the replacement.
+
+**Steps**
+
+1. **Replace the dependency.** Remove swiftmailer/swiftmailer from composer.json and require symfony/mailer (and any transport packages the project needs), then run `composer update`.
+2. **Migrate Swiftmailer usages.** Replace reported Swift_Mailer and Swift_Message requires, use statements, constructors, and newInstance calls with the Symfony Mailer Email and Mailer APIs.
+
+**Verification**
+
+- `composer validate && composer show symfony/mailer`: Confirm the Composer project is valid and symfony/mailer is installed.
+- `composer validate && vendor/bin/phpunit`: Validate the Composer project and run the PHPUnit suite with the replacement mailer.
+
 ## Detected by
 
 The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

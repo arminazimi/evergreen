@@ -13,6 +13,8 @@ import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { PhpDetector, phpDetector } from "../src/detectors/php/index.js";
+import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -48,6 +50,7 @@ function expected(rule: RegistryV2Rule, path: string, line: number, summary: str
     location: { path, line },
     replacement: rule.replacement!,
     deadline: rule.deadline!,
+    migration: rule.migration!,
     sources: rule.sources,
   };
 }
@@ -172,6 +175,25 @@ test("nested projects are found, vendored and fixture directories and symbolic l
   await symlink(join(root, "apps"), join(root, "linked")).catch(() => undefined);
   assert.deepEqual((await phpDetector.scan({ root })).map((finding) => finding.location.path), ["apps/api/.php-version"]);
   assert.deepEqual(await phpDetector.scan({ root: await repository({ "README.md": "x\n" }) }), []);
+});
+
+test("every curated PHP rule has migration guidance", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.length >= 1, rule.id);
+  }
+});
+
+test("a migration packet for a PHP finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [phpDetector]);
+  const finding = result.findings.find((item) => item.id === "php.runtime.eol-7.4:.php-version:1");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes(".php-version"));
+  assert.ok(packet.steps.some((step) => step.id === "update-php-declaration"));
+  assert.ok(packet.steps.some((step) => step.id === "align-php-surfaces"));
+  assert.ok(packet.verification.some((check) => check.command === "php --version"));
+  assert.ok(packet.verification.some((check) => check.command === "composer validate && vendor/bin/phpunit"));
 });
 
 test("the detector is registered and PHP is experimental in the capability manifest", () => {

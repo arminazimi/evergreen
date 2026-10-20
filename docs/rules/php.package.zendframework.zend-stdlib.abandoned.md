@@ -27,6 +27,23 @@ Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained,
 - [zendframework/zend-stdlib on Packagist](https://packagist.org/packages/zendframework/zend-stdlib)
 - [Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!](https://www.zendframework.com/blog/2020-01-24-laminas-launch.html)
 
+## Migration
+
+**Constraints**
+
+- Preserve array and parameter helper behavior while moving from Zend\Stdlib to Laminas\Stdlib.
+- Keep composer.json, composer.lock, and any package that still requires zendframework/zend-stdlib consistent after the replacement.
+
+**Steps**
+
+1. **Replace the dependency.** Remove zendframework/zend-stdlib from composer.json and require laminas/laminas-stdlib, then run `composer update`.
+2. **Migrate Zend\Stdlib usages.** Replace reported Zend\Stdlib use statements, ArrayUtils calls, and Parameters constructors with the Laminas\Stdlib equivalents.
+
+**Verification**
+
+- `composer validate && composer show laminas/laminas-stdlib`: Confirm the Composer project is valid and laminas/laminas-stdlib is installed.
+- `composer validate && vendor/bin/phpunit`: Validate the Composer project and run the PHPUnit suite with the replacement package.
+
 ## Detected by
 
 The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

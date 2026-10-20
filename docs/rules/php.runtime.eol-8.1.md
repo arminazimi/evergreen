@@ -27,6 +27,24 @@ The PHP unsupported branches page lists the PHP 8.1 branch as end of life on 202
 - [PHP unsupported branches](https://www.php.net/eol.php)
 - [PHP supported versions](https://www.php.net/supported-versions.php)
 
+## Migration
+
+**Constraints**
+
+- Keep .php-version, .tool-versions, composer.json require.php and config.platform.php, composer.lock platform.php, CI matrices, and container images on one supported PHP release line.
+- Confirm Composer packages and extensions build on the target PHP and reinstall dependencies after changing the runtime.
+
+**Steps**
+
+1. **Raise the PHP version.** Change the reported declaration from PHP 8.1 to a supported release (see the replacement), using the project's existing version manager.
+2. **Align other PHP version surfaces.** Update CI setup-php versions, Dockerfile `php:` images, composer.json require.php and config.platform.php, and composer.lock platform.php so they agree.
+
+**Verification**
+
+- `php --version`: Confirm the active runtime is the intended release.
+- `composer validate && composer install`: Validate and reinstall dependencies on the new PHP.
+- `composer validate && vendor/bin/phpunit`: Validate the Composer project and run the PHPUnit suite on the new PHP.
+
 ## Detected by
 
 The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
