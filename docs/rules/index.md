@@ -243,6 +243,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 ## ruby
 
 - [json 2.17.1.1 is yanked](ruby.gem.json.yanked-2.17.1.1.html) — removed, `ruby.gem.json.yanked-2.17.1.1`
+- [Ruby 1.9.3 is end-of-life](ruby.runtime.eol-1.9.3.html) — end of life, `ruby.runtime.eol-1.9.3`
+- [Ruby 2.0.0 is end-of-life](ruby.runtime.eol-2.0.0.html) — end of life, `ruby.runtime.eol-2.0.0`
+- [Ruby 2.1 is end-of-life](ruby.runtime.eol-2.1.html) — end of life, `ruby.runtime.eol-2.1`
+- [Ruby 2.2 is end-of-life](ruby.runtime.eol-2.2.html) — end of life, `ruby.runtime.eol-2.2`
+- [Ruby 2.3 is end-of-life](ruby.runtime.eol-2.3.html) — end of life, `ruby.runtime.eol-2.3`
+- [Ruby 2.4 is end-of-life](ruby.runtime.eol-2.4.html) — end of life, `ruby.runtime.eol-2.4`
+- [Ruby 2.5 is end-of-life](ruby.runtime.eol-2.5.html) — end of life, `ruby.runtime.eol-2.5`
+- [Ruby 2.6 is end-of-life](ruby.runtime.eol-2.6.html) — end of life, `ruby.runtime.eol-2.6`
 - [Ruby 2.7 is end-of-life](ruby.runtime.eol-2.7.html) — end of life, `ruby.runtime.eol-2.7`
 - [Ruby 3.0 is end-of-life](ruby.runtime.eol-3.0.html) — end of life, `ruby.runtime.eol-3.0`
 - [Ruby 3.1 is end-of-life](ruby.runtime.eol-3.1.html) — end of life, `ruby.runtime.eol-3.1`

@@ -12,6 +12,7 @@ import type {
   DetectorContext,
   DetectorFinding,
   DetectorUnclassifiedReference,
+  DetectorInputs,
 } from "../sdk.js";
 
 interface GitHubActionRule extends DeprecationRule {
@@ -182,6 +183,8 @@ function resolveReference(
 export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { directories: [".github/workflows"] };
 
   async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const [rules, shaRegistry, workflowFiles] = await Promise.all([

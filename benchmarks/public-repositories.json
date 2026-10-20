@@ -3820,6 +3820,13 @@
       "ecosystem": "swift",
       "selection": "targeted",
       "expected": []
+    },
+    {
+      "repository": "android/architecture-samples",
+      "commit": "ee66e1526b84c026615df032c705842b7d2a521f",
+      "ecosystem": "android",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }

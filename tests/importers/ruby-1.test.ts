@@ -66,11 +66,15 @@ test("drafts one end-of-life rule per eol release line from the recording", asyn
   ]);
 });
 
-test("recorded drafts match the reviewed registry and show the older lines as additions", async () => {
+test("recorded drafts match the reviewed registry", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/ruby.json"), "utf8")) as RegistryV2;
   const drafts = await execute(rubyMaintenanceImporter, { replay: recording, now: "2026-10-18" });
   const diff = diffDrafts(drafts, registry);
-  assert.deepEqual(diff.added.map((rule) => rule.id), [
+  assert.deepEqual(diff.added, []);
+  assert.deepEqual(diff.changed, []);
+  assert.deepEqual(diff.removed, []);
+  assert.deepEqual(diff.duplicates, []);
+  assert.deepEqual(diff.unchanged, [
     "ruby.runtime.eol-1.9.3",
     "ruby.runtime.eol-2.0.0",
     "ruby.runtime.eol-2.1",
@@ -79,11 +83,11 @@ test("recorded drafts match the reviewed registry and show the older lines as ad
     "ruby.runtime.eol-2.4",
     "ruby.runtime.eol-2.5",
     "ruby.runtime.eol-2.6",
+    "ruby.runtime.eol-2.7",
+    "ruby.runtime.eol-3.0",
+    "ruby.runtime.eol-3.1",
+    "ruby.runtime.eol-3.2",
   ]);
-  assert.deepEqual(diff.changed, []);
-  assert.deepEqual(diff.removed, []);
-  assert.deepEqual(diff.duplicates, []);
-  assert.deepEqual(diff.unchanged, ["ruby.runtime.eol-2.7", "ruby.runtime.eol-3.0", "ruby.runtime.eol-3.1", "ruby.runtime.eol-3.2"]);
 });
 
 test("follows the calendar: a line is drafted on its end-of-life date", async () => {

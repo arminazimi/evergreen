@@ -6,7 +6,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage, findRubyDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseGemfile } from "./parse-gemfile.js";
@@ -82,6 +82,8 @@ const coversEveryVersion = (rule: RegistryV2Rule): boolean => parseVersLenient(r
 export class RubyDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "ruby";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: [".ruby-version", ".tool-versions", "Gemfile", "Gemfile.lock"], sourceExtensions: [".rb", ".rake", ".ru"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/ruby.json`. */
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/ruby.json")).rules) {}

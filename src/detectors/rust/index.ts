@@ -8,7 +8,7 @@ import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseCargoLock } from "./parse-cargo-lock.js";
 import type { CargoLockPackage } from "./parse-cargo-lock.js";
@@ -66,6 +66,8 @@ const coversEveryVersion = (rule: RegistryV2Rule): boolean => parseVersLenient(r
 export class RustDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "rust";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: ["Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "rust-toolchain"], sourceExtensions: [".rs"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/rust.json`. */
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/rust.json")).rules) {}

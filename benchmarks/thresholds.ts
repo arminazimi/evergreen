@@ -1,6 +1,8 @@
 // Per-detector precision floors for the public corpus. A detector is named by the first segment of
 // its rule ids ("npm.package.request.deprecated" belongs to "npm").
 
+import type { CorpusBudget } from "./corpus-cost.js";
+
 export const maturityLevels = ["experimental", "beta", "stable"] as const;
 export type MaturityLevel = (typeof maturityLevels)[number];
 
@@ -25,6 +27,8 @@ export interface FullRunRecord {
 
 export interface Thresholds {
   schemaVersion: "evergreen.corpus-thresholds.v1";
+  /** What a corpus run may cost before it warns; see benchmarks/corpus-cost.ts. */
+  budget?: CorpusBudget;
   lastFullRun?: FullRunRecord;
   detectors: Record<string, DetectorThreshold>;
 }

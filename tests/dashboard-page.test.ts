@@ -4,6 +4,8 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 import { runInNewContext } from "node:vm";
 
+import type { Thresholds } from "../benchmarks/thresholds.js";
+
 interface TextNode {
   kind: "text";
   text: string;
@@ -84,6 +86,7 @@ const script = await readFile(resolve("docs/dashboard/dashboard.js"), "utf8");
 const html = await readFile(resolve("docs/dashboard/index.html"), "utf8");
 const css = await readFile(resolve("docs/dashboard/style.css"), "utf8");
 const data = JSON.parse(await readFile(resolve("docs/dashboard/data.json"), "utf8")) as Data;
+const recorded = (JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds).lastFullRun!;
 
 const api = (() => {
   const context: { EvergreenDashboard?: DashboardApi } = {};
@@ -299,11 +302,15 @@ test("the real data renders every detector with its counts", () => {
   assert.deepEqual(headers, data.detectors.map((detector) => detector.id));
   const githubActions = api.rowModel(data.detectors.find((detector) => detector.id === "github-actions")!, data.sources);
   const cells = Object.fromEntries(githubActions.cells.map((cell) => [cell.key, cell.text]));
-  assert.equal(cells.precision, "1.0000");
-  assert.equal(cells.recall, "1.0000");
-  assert.equal(cells.truePositives, "225");
-  assert.equal(cells.repositoriesWithFindings, "37");
-  assert.equal(cells.zeroFindingRepositories, "2");
+  // The expected strings come from the recorded run and the evidence counts, not from literals, so recording a
+  // newer run does not break this test; it still checks that the page shows what the data says.
+  const detector = data.detectors.find((candidate) => candidate.id === "github-actions")!;
+  assert.equal(detector.run!.truePositives, recorded.perDetector["github-actions"]!.truePositives, "data.json carries the recorded counts");
+  assert.equal(cells.precision, api.formatRatio(detector.run!.precision as number));
+  assert.equal(cells.recall, api.formatRatio(detector.run!.recall as number));
+  assert.equal(cells.truePositives, api.formatCount(recorded.perDetector["github-actions"]!.truePositives));
+  assert.equal(cells.repositoriesWithFindings, api.formatCount(detector.evidence.repositoriesWithFindings as number));
+  assert.equal(cells.zeroFindingRepositories, api.formatCount(detector.evidence.zeroFindingRepositories as number));
 });
 
 test("the first limitation is in the HTML and reads without JavaScript", () => {
@@ -322,7 +329,7 @@ test("a page served over HTTP fills every section and hides the status", async (
     return response(data);
   });
   assert.equal(requested, "data.json");
-  assert.match(text(byId.get("run")!), /b77392c/);
+  assert.match(text(byId.get("run")!), new RegExp(recorded.commit));
   assert.match(text(byId.get("run")!), /not measured/);
   assert.ok(find(byId.get("detectors-table")!, (node) => node.tag === "table"));
   assert.ok(find(byId.get("minimums-table")!, (node) => node.tag === "table"));
