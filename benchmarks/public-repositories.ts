@@ -1,9 +1,7 @@
-import { execFile } from "node:child_process";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { performance } from "node:perf_hooks";
-import { promisify } from "node:util";
 
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
@@ -14,38 +12,21 @@ import {
   runCorpusRepositories,
 } from "./corpus-harness.js";
 import { describeMissingEntries, ensureCorpusCacheEntry, missingCorpusEntries, resolveCorpusCacheDir } from "./corpus-cache.js";
+import { fetchWith, isCheckoutUsable, resolveFetchStrategy } from "./corpus-fetch.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
 import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } from "./corpus-affected.js";
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
-import { resolveFetchTimeoutMs, withRetries, withTimeout } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
-const run = promisify(execFile);
-const fetchTimeoutMs = resolveFetchTimeoutMs();
+
+const fetchStrategy = resolveFetchStrategy();
 
 /** Fetches `entry` into `checkout` and returns the size of the fetched git data. */
 async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<number> {
-  await run("git", ["init", "--quiet", checkout]);
-  // A stalled connection must fail the attempt instead of holding the run: git aborts a transfer below
-  // 1 KB/s for 30 s, and the whole attempt has a hard limit. Both count as a failed attempt for withRetries.
-  await withRetries(entry.repository, () =>
-    withTimeout(fetchTimeoutMs, (signal) =>
-      run(
-        "git",
-        ["-C", checkout, "-c", "http.lowSpeedLimit=1000", "-c", "http.lowSpeedTime=30", "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit],
-        {
-          env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
-          maxBuffer: 10 * 1024 * 1024,
-          signal,
-        },
-      ),
-    ),
-  );
-  await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
-  return directorySize(join(checkout, ".git"));
+  return (await fetchWith(fetchStrategy, checkout, entry)).bytes;
 }
 
 interface Corpus {
@@ -126,7 +107,7 @@ if (offline && warmOnly) {
   process.exit(2);
 }
 if (cacheDir) {
-  const missing = await missingCorpusEntries(cacheDir, selection.entries);
+  const missing = await missingCorpusEntries(cacheDir, selection.entries, (existing) => isCheckoutUsable(existing, fetchStrategy));
   console.error(`cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`);
   // An offline run fails before scanning anything, naming every entry it cannot serve.
   if (offline && missing.length > 0) {
@@ -138,7 +119,7 @@ if (cacheDir) {
     await inBatches(missing, concurrency, async (entry) => {
       await ensureCorpusCacheEntry(cacheDir, entry, async (directory) => {
         await fetchInto(directory, entry);
-      });
+      }, (existing) => isCheckoutUsable(existing, fetchStrategy));
       fetched += 1;
       console.error(`${fetched}/${missing.length} ${entry.repository}`);
     });
@@ -159,9 +140,14 @@ try {
       const checkoutStartedAt = performance.now();
       let path: string;
       if (cacheDir) {
-        const cached = await ensureCorpusCacheEntry(cacheDir, entry, async (directory) => {
-          costTracker.recordFetch(await fetchInto(directory, entry));
-        });
+        const cached = await ensureCorpusCacheEntry(
+          cacheDir,
+          entry,
+          async (directory) => {
+            costTracker.recordFetch(await fetchInto(directory, entry));
+          },
+          (existing) => isCheckoutUsable(existing, fetchStrategy),
+        );
         if (cached.cached) costTracker.recordHit();
         path = cached.path;
       } else {

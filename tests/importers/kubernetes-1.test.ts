@@ -50,14 +50,14 @@ test("reads sentences that list several versions and several kinds", async () =>
   );
 });
 
-test("recorded drafts match the five reviewed rules and add the rest for review", async () => {
+test("recorded drafts match the reviewed rules", async () => {
   const drafts = await execute(kubernetesDeprecationGuideImporter, { replay: recording });
   const reviewed = await registry();
   const diff = diffDrafts(drafts, reviewed);
   assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.removed, []);
   assert.deepEqual(diff.unchanged, reviewed.rules.map((rule) => rule.id).sort());
-  assert.equal(diff.added.length, drafts.rules.length - reviewed.rules.length);
+  assert.equal(diff.added.length, 0);
 });
 
 test("each release announcement row is dated like its URL", () => {

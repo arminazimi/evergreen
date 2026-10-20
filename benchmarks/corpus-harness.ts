@@ -2,7 +2,8 @@ import { performance } from "node:perf_hooks";
 
 import { findingKey } from "./thresholds.js";
 
-export const DEFAULT_CORPUS_CONCURRENCY = 6;
+// 16 halved a cold run in the measurements of decision 0015; 32 gained nothing more.
+export const DEFAULT_CORPUS_CONCURRENCY = 16;
 
 export interface CorpusExpectedFinding {
   ruleId: string;

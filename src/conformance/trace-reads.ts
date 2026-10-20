@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
-import { isAbsolute, relative, resolve } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 
 import { toPosixPath } from "../paths.js";
 
@@ -10,9 +10,10 @@ export interface TracePathApi {
   resolve(...paths: string[]): string;
   relative(from: string, to: string): string;
   isAbsolute(path: string): boolean;
+  readonly sep: string;
 }
 
-const hostPath: TracePathApi = { resolve, relative, isAbsolute };
+const hostPath: TracePathApi = { resolve, relative, isAbsolute, sep };
 
 /**
  * Whether `target` resolves to a path under `base`. On Windows, `relative()` returns an absolute
@@ -20,10 +21,12 @@ const hostPath: TracePathApi = { resolve, relative, isAbsolute };
  */
 export function relativeInsideRoot(base: string, target: string, pathApi: TracePathApi = hostPath): string | undefined {
   const path = pathApi.relative(pathApi.resolve(base), pathApi.resolve(target));
-  if (path === "" || path.startsWith("..") || pathApi.isAbsolute(path)) return undefined;
+  // On Windows, `relative` returns an absolute path when the file is on another drive: that is outside the root.
+  if (path === "" || pathApi.isAbsolute(path) || path === ".." || path.startsWith(`..${pathApi.sep}`)) return undefined;
   // Always forward slashes: pathApi may be path.win32 even when the host separator is "/".
   return toPosixPath(path).split("\\").join("/");
 }
+
 /**
  * Runs `operation` and returns the files under `root` whose contents it opened, as sorted paths relative to `root`
  * with forward slashes. It wraps `readFile`, `open`, `readFileSync`, and `createReadStream`; listing a directory

@@ -81,8 +81,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 6,
-        "expectedFindings": 16,
+        "repositoriesWithFindings": 7,
+        "expectedFindings": 19,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -197,7 +197,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 4,
-        "expectedFindings": 9,
+        "expectedFindings": 29,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -266,7 +266,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 4,
-        "expectedFindings": 4,
+        "expectedFindings": 5,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -351,10 +351,10 @@
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 4,
+        "repositoriesWithFindings": 5,
+        "expectedFindings": 10,
         "zeroFindingRepositories": 1,
-        "repositories": 5,
+        "repositories": 6,
         "blindRepositories": 0
       }
     }

@@ -70,7 +70,7 @@ test("the evidence counts agree with the reviewed corpus", () => {
   assert.deepEqual(counts(evidence["github-actions"]!), { repositoriesWithFindings: 37, expectedFindings: 225, zeroFindingRepositories: 2 });
   assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 10, expectedFindings: 22, zeroFindingRepositories: 8 });
   assert.deepEqual(counts(evidence["dotnet"]!), { repositoriesWithFindings: 9, expectedFindings: 84, zeroFindingRepositories: 9 });
-  assert.deepEqual(counts(evidence["php"]!), { repositoriesWithFindings: 4, expectedFindings: 4, zeroFindingRepositories: 1 });
+  assert.deepEqual(counts(evidence["php"]!), { repositoriesWithFindings: 4, expectedFindings: 5, zeroFindingRepositories: 1 });
 });
 
 test("a detector with no run data has null run numbers, not zeros", () => {

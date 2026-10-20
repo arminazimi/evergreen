@@ -1390,9 +1390,11 @@ The weekly corpus workflow therefore fails on a precision regression even if the
 
 ## Fetching and the checkout cache
 
-The harness fetches up to six repositories at once; change that with `--concurrency <n>` or `EVERGREEN_CORPUS_CONCURRENCY`. Scans and the report stay in corpus order.
+The harness fetches up to sixteen repositories at once; change that with `--concurrency <n>` or `EVERGREEN_CORPUS_CONCURRENCY`. Scans and the report stay in corpus order.
 
-Every corpus commit is pinned, so a checkout never changes. Set `EVERGREEN_CORPUS_CACHE=<dir>` (for example `~/.cache/evergreen-corpus`) to keep each one on disk as `<owner>__<repo>@<commit>` and skip the network when it is already there. Entries are written to a temporary directory and renamed into place, and `.git` is removed because scans read files only, so an interrupted run never leaves a half-filled entry. Unset, there is no cache and a run behaves as before. A warm run reports the same true positives, false positives, false negatives, and findings as a cold one.
+By default it fetches each repository as a blobless shallow fetch plus a sparse checkout of only the files the detectors declare they read ([decision 0015](decisions/0015-corpus-fetch-strategy.md)): a cold full run takes about a minute and fetches about 190 MB, and the results are identical to a full checkout. `EVERGREEN_CORPUS_FETCH=shallow` fetches complete checkouts instead. `node dist/benchmarks/fetch-strategies.js --strategy <shallow|sparse|tarball>` re-measures the options.
+
+Every corpus commit is pinned, so a checkout never changes. Set `EVERGREEN_CORPUS_CACHE=<dir>` (for example `~/.cache/evergreen-corpus`) to keep each one on disk as `<owner>__<repo>@<commit>` and skip the network when it is already there. Entries are written to a temporary directory and renamed into place, and `.git` is removed because scans read files only, so an interrupted run never leaves a half-filled entry. A sparse entry carries an `.evergreen-fetch` marker naming the declarations it was built from; if a detector later declares more files, that entry is refetched rather than reused. Unset, there is no cache and a run behaves as before. A warm run reports the same true positives, false positives, false negatives, and findings as a cold one.
 
 ## Running a subset
 
@@ -1426,7 +1428,7 @@ npm run validate:public-repos -- --compare benchmarks/thresholds.json
 
 ### Managing the cache
 
-A full cache is 1 GB or more on disk without `.git` (about 340 MB of git data fetched). A suggested location is `~/.cache/evergreen-corpus`; set `EVERGREEN_CORPUS_CACHE` to it in your shell profile.
+A cache of complete checkouts is about 1.5 GB on disk; the default sparse entries need about 570 MB. A suggested location is `~/.cache/evergreen-corpus`; set `EVERGREEN_CORPUS_CACHE` to it in your shell profile.
 
 ```bash
 npm run corpus:cache -- status                       # directory, entry count, total size, entries no longer in the corpus
@@ -1875,11 +1877,13 @@ When you accept a draft:
 4. Add `migration` and `usage` for a new rule if you can; importers leave them to people.
 5. Run `npm run check`.
 
+If you compare a draft with the registry and decide the registry should stay as it is (the draft overlaps a hand-written rule, or drops sources and wording you reviewed), acknowledge that exact draft instead of leaving the pull request open: `node dist/tools/importers/diff.js drafts.json registry/<ecosystem>.json --fingerprints` prints one `"<importer>:<rule id>": "<fingerprint>"` line per draft that still shows as added or changed. Add those lines to `acknowledged` in [`tools/importers/acknowledged.json`](../tools/importers/acknowledged.json) and a sentence for each in `reasons`. An acknowledged draft is counted as acknowledged, not added or changed, so it no longer opens the weekly pull request. The fingerprint covers every field except provenance: if the source later drafts something different, the rule is reported again.
+
 Do not remove a rule only because an importer stopped drafting it. A source can stop listing something because the thing is gone, and a retired image or release is exactly what an old workflow needs to be told about. The diff reports such rules as "no longer drafted"; remove one only when its fact is no longer true.
 
 ## The weekly run
 
-[`importers.yml`](../.github/workflows/importers.yml) runs every importer that has a registry file each Tuesday (and on manual dispatch), except importers whose source rejects automated fetches (today: `android-1`; see its row below). For each one it drafts rules, compares them with the registry, and, only when they differ, opens or updates one pull request on the branch `importers/<importer-id>`. The pull request adds `importer-drafts/<importer-id>.json` and the evidence table from `pr-body.js`; it never edits `registry/`. A maintainer reviews it as described above and changes the registry in a separate commit. Python has two importers, so it gets two pull requests.
+[`importers.yml`](../.github/workflows/importers.yml) runs every importer that has a registry file each Tuesday (and on manual dispatch), except importers whose source rejects automated fetches (`android-1`) and importers whose drafts nothing can use yet (`kubernetes-2` and `rust-2`); see their rows below. For each one it drafts rules, compares them with the registry, and, only when they differ, opens or updates one pull request on the branch `importers/<importer-id>`. The pull request adds `importer-drafts/<importer-id>.json` and the evidence table from `pr-body.js`; it never edits `registry/`. A maintainer reviews it as described above and changes the registry in a separate commit. Python has two importers, so it gets two pull requests.
 
 The drafting jobs have read-only permissions; only the second job can write, and it only pushes that branch and opens the pull request. The repository setting "Allow GitHub Actions to create and approve pull requests" must be on, and checks do not start on pull requests opened with the default token, so close and reopen the pull request (or push to its branch) to run them. `runner-images` is not in the run because it has no registry file.
 
@@ -1899,7 +1903,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `java-1` | `java` | The Oracle Java SE Support Roadmap and the Eclipse Temurin support page: one `end-of-support` rule per group of non-LTS JDK feature releases whose last Premier Support month is over, citing Temurin where it lists a release as EOSL. LTS releases are never drafted. The sources give a month, so the rules have no `deadline`. | none |
 | `java-2` | `java` | Maven Central: dependencies whose own POM declares a `<relocation>` to new coordinates, found by walking down from the newest version while each POM keeps the same relocation. A relocation that only changes the version is skipped. | `tools/importers/maven-candidates.ts` |
 | `kubernetes-1` | `kubernetes` | The Kubernetes Deprecated API Migration Guide: one `removed` rule per group, kind, and API version the guide says is no longer served. The guide names the release, not a date, so the `deadline` is the date of that release's announcement on kubernetes.io, from a small dated table in the importer. | none |
-| `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. | none |
+| `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. Not scheduled in the weekly workflow until one does; run it by hand. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `php-1` | `php` | The PHP release-branch JSON (`/releases/branches.php`), the machine-readable form of the [supported versions](https://www.php.net/supported-versions.php) / eol tables: one `end-of-life` rule per branch from 7.0 whose security-support end date has passed. Older lines are noted and skipped. Replacement is the lowest branch still in active support (`state: stable`), not security-only. | none |
 | `php-2` | `php` | Packagist Composer metadata: one `deprecated` rule per direct candidate package whose `abandoned` flag is set. A string flag becomes `replacement` (a package name or the URL the author gave). `true` drafts a rule with no replacement. The flag is package-wide, so the version range is `vers:composer/*`. | `tools/importers/php-candidates.ts` |
@@ -1909,7 +1913,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `github-actions-runtime` | `github-actions` | Each action's own `action.yml` at its major tags: releases that run on a Node.js runtime GitHub has retired. | `tools/importers/github-actions-candidates.ts` |
 | `ruby-1` | `ruby` | The Ruby maintenance branches page: one `end-of-life` rule per release line the page marks eol, with its published end-of-life date. | none |
 | `rust-1` | `rust` | `RELEASES.md` in the Rust repository: the one 'Rust 1.N and older are no longer supported' rule, from the policy that only the most recent stable release is supported. It moves every six weeks; headings dated in the future are ignored. | none |
-| `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. | `tools/importers/rust-candidates.ts` |
+| `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. Not scheduled in the weekly workflow: the Rust registry tests accept only `deprecated` crate rules that cite RustSec, so a yanked-version rule cannot be accepted yet; run it by hand. | `tools/importers/rust-candidates.ts` |
 | `swift-1` | `swift` | Apple's App Store upcoming-requirements listing: one `end-of-support` rule per Xcode upload floor band (versions below each dated "built with Xcode N" minimum). iOS/iPadOS deployment-target, notary, and tvOS-only entries are noted and skipped. | none |
 | `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
 

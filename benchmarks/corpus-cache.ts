@@ -47,8 +47,11 @@ export async function ensureCorpusCacheEntry(
   cacheDir: string,
   entry: CorpusCacheEntry,
   populate: (directory: string) => Promise<void>,
+  /** Whether an existing entry still serves this run; an entry that does not is removed and fetched again. */
+  usable: (path: string) => Promise<boolean> = async () => true,
 ): Promise<{ path: string; cached: boolean }> {
   const target = corpusCachePath(cacheDir, entry);
+  if ((await isDirectory(target)) && !(await usable(target))) await rm(target, { recursive: true, force: true });
   if (await isDirectory(target)) {
     // Mark the entry as just used, so pruning by size evicts the least recently used one.
     const now = new Date();
@@ -147,11 +150,15 @@ export function planPrune(
   return listings.filter((entry) => !currentKeys.has(entry.name));
 }
 
-/** The entries of `entries` that are not in the cache yet. */
-export async function missingCorpusEntries<T extends CorpusCacheEntry>(cacheDir: string, entries: readonly T[]): Promise<T[]> {
+/** The entries of `entries` that are not in the cache yet, or whose cached copy `usable` rejects. */
+export async function missingCorpusEntries<T extends CorpusCacheEntry>(
+  cacheDir: string,
+  entries: readonly T[],
+  usable: (path: string) => Promise<boolean> = async () => true,
+): Promise<T[]> {
   const missing: T[] = [];
   for (const entry of entries) {
-    if (!(await isCorpusEntryCached(cacheDir, entry))) missing.push(entry);
+    if (!(await isCorpusEntryCached(cacheDir, entry)) || !(await usable(corpusCachePath(cacheDir, entry)))) missing.push(entry);
   }
   return missing;
 }

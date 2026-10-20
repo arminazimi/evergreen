@@ -117,10 +117,11 @@ test("the candidate list holds valid, sorted projects with distinct normalized n
   for (const name of ["", "-x", "x-", "has space", "a/b"]) assert.doesNotMatch(name, PYPI_NAME, name);
 });
 
-test("none of today's drafts duplicates or overlaps a rule already in the registry", async () => {
+test("today's drafts are all reviewed rules already in the registry", async () => {
   const existing = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(pypiStatusImporter, { replay: recording }), existing);
-  assert.equal(diff.added.length, 6);
+  assert.equal(diff.added.length, 0);
+  assert.equal(diff.unchanged.length, 6);
   assert.deepEqual([diff.changed, diff.removed, diff.duplicates], [[], [], []]);
 });
 

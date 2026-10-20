@@ -155,3 +155,24 @@ test("missingCorpusEntries and the offline message name every missing repository
     assert.deepEqual(await missingCorpusEntries(dir, [present]), []);
   });
 });
+
+test("an entry the caller rejects is removed and fetched again", async () => {
+  await withCache(async (dir) => {
+    await seed(dir, `owner__repo@${entry.commit}`, 10, 10);
+    let populated = 0;
+    const result = await ensureCorpusCacheEntry(
+      dir,
+      entry,
+      async (target) => {
+        populated++;
+        await writeFile(join(target, "fresh"), "x");
+      },
+      async () => false,
+    );
+    assert.equal(result.cached, false);
+    assert.equal(populated, 1);
+    assert.deepEqual(await readdir(result.path), ["fresh"]);
+    const missing = await missingCorpusEntries(dir, [entry], async () => false);
+    assert.equal(missing.length, 1, "an unusable entry counts as missing for an offline run");
+  });
+});

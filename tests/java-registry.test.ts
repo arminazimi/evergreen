@@ -45,7 +45,7 @@ test("only non-LTS feature releases fall inside a range; LTS releases never do",
 
 test("relocation rules name Maven coordinates and cite the artifact's own POM", async () => {
   const relocations = (await allRules()).filter((rule) => rule.id.startsWith("java.maven."));
-  assert.deepEqual(relocations.map((rule) => rule.purl), ["pkg:maven/mysql/mysql-connector-java", "pkg:maven/org.slf4j/slf4j-log4j12"]);
+  assert.deepEqual(relocations.map((rule) => rule.purl), ["pkg:maven/mysql/mysql-connector-java", "pkg:maven/org.slf4j/slf4j-log4j12", "pkg:maven/org.hibernate/hibernate-entitymanager"]);
   for (const rule of relocations) {
     assert.equal(rule.event, "deprecated");
     assert.ok(rule.replacement, rule.id);

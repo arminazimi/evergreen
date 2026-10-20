@@ -62,12 +62,13 @@ test("drafts one end-of-life rule per ended release line from the recording", as
   assert.ok(drafts.notes.includes("Not yet end-of-life: PHP 8.5 (EOL 2029-12-31)."));
 });
 
-test("recorded drafts match the curated registry lines and show older in-range lines as additions", async () => {
+test("recorded drafts match the curated registry lines and leave nothing to add", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/php.json"), "utf8")) as RegistryV2;
   const drafts = await execute(phpSupportedVersionsImporter, { replay: recording, now: "2026-10-19" });
   const diff = diffDrafts(drafts, registry);
-  assert.ok(diff.added.map((rule) => rule.id).includes("php.runtime.eol-7.3"));
-  assert.ok(diff.added.map((rule) => rule.id).includes("php.runtime.eol-7.0"));
+  assert.ok(diff.unchanged.includes("php.runtime.eol-7.3"));
+  assert.ok(diff.unchanged.includes("php.runtime.eol-7.0"));
+  assert.equal(diff.added.length, 0);
   assert.ok(!diff.added.some((rule) => rule.id === "php.runtime.eol-5.6"));
   assert.ok(diff.unchanged.includes("php.runtime.eol-8.1") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.1"));
   assert.ok(diff.unchanged.includes("php.runtime.eol-8.0") || diff.changed.some((entry) => entry.id === "php.runtime.eol-8.0"));
