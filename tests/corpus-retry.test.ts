@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { withRetries } from "../benchmarks/retry.js";
+import { resolveFetchTimeoutMs, withRetries, withTimeout } from "../benchmarks/retry.js";
 
 const noSleep = async () => {};
 
@@ -36,4 +36,36 @@ test("withRetries waits longer after each failure", async () => {
     sleep: async (ms) => { delays.push(ms); },
   }));
   assert.deepEqual(delays, [10, 20]);
+});
+
+test("resolveFetchTimeoutMs reads the environment and rejects bad values", () => {
+  assert.equal(resolveFetchTimeoutMs({}), 120_000);
+  assert.equal(resolveFetchTimeoutMs({ EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS: "5" }), 5000);
+  assert.throws(() => resolveFetchTimeoutMs({ EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS: "0" }), /positive number/);
+  assert.throws(() => resolveFetchTimeoutMs({ EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS: "soon" }), /positive number/);
+});
+
+test("withTimeout aborts a stalled operation and lets a fast one through", async () => {
+  let aborted = false;
+  await assert.rejects(
+    withTimeout(20, (signal) => new Promise<never>((_, reject) => signal.addEventListener("abort", () => {
+      aborted = true;
+      reject(new Error("aborted"));
+    }))),
+    /timed out after 0.02 s|aborted/,
+  );
+  assert.equal(aborted, true);
+  assert.equal(await withTimeout(1000, async () => "ok"), "ok");
+});
+
+test("a stalled fetch is retried and then reported by repository name", async () => {
+  let calls = 0;
+  await assert.rejects(
+    withRetries("owner/stalled", () => withTimeout(10, () => {
+      calls += 1;
+      return new Promise<never>(() => {});
+    }), { attempts: 3, sleep: noSleep }),
+    /owner\/stalled: failed after 3 attempts: timed out after 0\.01 s/,
+  );
+  assert.equal(calls, 3);
 });

@@ -78,3 +78,15 @@ export function budgetWarnings(cost: CorpusCost, budget: CorpusBudget): string[]
 export function formatCost(cost: CorpusCost): string {
   return `wall ${(cost.wallMs / 1000).toFixed(1)} s, fetch ${(cost.fetchMs / 1000).toFixed(1)} s (summed), cache ${cost.cacheHits} hit / ${cost.cacheMisses} miss, fetched ${megabytes(cost.bytesFetched)}`;
 }
+
+/** The `count` slowest fetches, slowest first; ties keep corpus order. */
+export function slowestFetches(
+  results: ReadonlyArray<{ repository: string; commit: string; checkoutMs: number }>,
+  count = 5,
+): Array<{ repository: string; commit: string; checkoutMs: number }> {
+  return results
+    .map((result, index) => ({ result, index }))
+    .sort((left, right) => right.result.checkoutMs - left.result.checkoutMs || left.index - right.index)
+    .slice(0, count)
+    .map(({ result }) => ({ repository: result.repository, commit: result.commit, checkoutMs: result.checkoutMs }));
+}

@@ -13,22 +13,32 @@ import {
   runCorpusRepositories,
 } from "./corpus-harness.js";
 import { ensureCorpusCacheEntry, resolveCorpusCacheDir } from "./corpus-cache.js";
-import { budgetWarnings, createCostTracker, directorySize, formatCost } from "./corpus-cost.js";
+import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
 import { parseCorpusFilter, selectCorpusEntries } from "./corpus-filter.js";
-import { withRetries } from "./retry.js";
+import { resolveFetchTimeoutMs, withRetries, withTimeout } from "./retry.js";
 import { scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
 const run = promisify(execFile);
+const fetchTimeoutMs = resolveFetchTimeoutMs();
 
 /** Fetches `entry` into `checkout` and returns the size of the fetched git data. */
 async function fetchInto(checkout: string, entry: CorpusRepositoryEntry): Promise<number> {
   await run("git", ["init", "--quiet", checkout]);
+  // A stalled connection must fail the attempt instead of holding the run: git aborts a transfer below
+  // 1 KB/s for 30 s, and the whole attempt has a hard limit. Both count as a failed attempt for withRetries.
   await withRetries(entry.repository, () =>
-    run("git", ["-C", checkout, "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit], {
-      env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
-      maxBuffer: 10 * 1024 * 1024,
-    }),
+    withTimeout(fetchTimeoutMs, (signal) =>
+      run(
+        "git",
+        ["-C", checkout, "-c", "http.lowSpeedLimit=1000", "-c", "http.lowSpeedTime=30", "fetch", "--quiet", "--depth", "1", `https://github.com/${entry.repository}.git`, entry.commit],
+        {
+          env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+          maxBuffer: 10 * 1024 * 1024,
+          signal,
+        },
+      ),
+    ),
   );
   await run("git", ["-C", checkout, "checkout", "--quiet", "--detach", "FETCH_HEAD"]);
   return directorySize(join(checkout, ".git"));
@@ -145,6 +155,9 @@ try {
     for (const key of result.missing) console.error(`MISSING    ${result.repository}@${result.commit.slice(0, 10)}: ${key}`);
   }
   console.error(`COST      ${formatCost(cost)}`);
+  for (const slow of slowestFetches(results)) {
+    console.error(`SLOWEST   ${slow.repository}@${slow.commit.slice(0, 10)}: ${(slow.checkoutMs / 1000).toFixed(1)} s`);
+  }
   // A budget overrun is a warning only; it never changes the exit code.
   for (const warning of warnings) {
     console.error(`BUDGET    ${warning}`);
