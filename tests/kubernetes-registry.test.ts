@@ -12,9 +12,9 @@ async function rules() {
 
 const GUIDE = "https://kubernetes.io/docs/reference/using-api/deprecation-guide/";
 
-test("kubernetes registry has five valid removal rules with the migration guide and a release announcement", async () => {
+test("kubernetes registry has 50 valid removal rules with the migration guide and a release announcement", async () => {
   const all = await rules();
-  assert.equal(all.length, 5);
+  assert.equal(all.length, 50);
   for (const rule of all) {
     assert.match(rule.purl, /^pkg:generic\/kubernetes\/[a-z0-9.-]+\/[A-Za-z0-9]+$/);
     assert.equal(rule.event, "removed");

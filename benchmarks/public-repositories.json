@@ -1861,6 +1861,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 3 of go.mod is `go 1.25.0`, a Go release line that no longer receives fixes. The maintainers moved it to go 1.26.0 in https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a."
           }
+        },
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "Dockerfile",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM golang:1.25 as build`, a Go release line that no longer receives fixes."
+          }
         }
       ]
     },
@@ -2389,6 +2398,105 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of example/nginx-ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
           }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/grafana.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of addons/heapster/grafana.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/heapster.yaml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of addons/heapster/heapster.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/influxdb.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of addons/heapster/influxdb.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-ds.yaml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-ds.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "addons/ingress/daemonset.yml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of addons/ingress/daemonset.yml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-deployment.yaml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-deployment.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/Kube-dns/kube-dns.yaml",
+          "line": 59,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 59 of addons/Kube-dns/kube-dns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/coredns/coredns.yaml",
+          "line": 69,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 69 of addons/coredns/coredns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRole`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRole is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+          "path": "addons/ingress/ingress-rbac.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of addons/ingress/ingress-rbac.yml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+          }
         }
       ]
     },
@@ -2431,6 +2539,105 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 26 of _archived/podsecuritypolicy/rbac/policies.yaml, the second document of the file, reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "_archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of _archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "_archived/volumes/flexvolume/deploy/ds.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of _archived/volumes/flexvolume/deploy/ds.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+          "path": "_archived/cockroachdb/cockroachdb-statefulset.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of _archived/cockroachdb/cockroachdb-statefulset.yaml reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodDisruptionBudget`. The Kubernetes Deprecated API Migration Guide says this API version of PodDisruptionBudget is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "web/guestbook-go/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of web/guestbook-go/Dockerfile reads `FROM golang:1.10.0`, a Go release line that no longer receives fixes."
+          }
+        },
+        {
+          "ruleId": "container.redis.eol-6.0-and-older",
+          "path": "web/guestbook/redis-slave/Dockerfile",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of web/guestbook/redis-slave/Dockerfile reads `FROM redis:3.2.9`, a Redis release line that no longer receives fixes."
           }
         }
       ]
@@ -3663,6 +3870,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 82 of composer.json reads `\"php\": \"7.4.33\"` under config.platform. The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28."
           }
+        },
+        {
+          "ruleId": "php.package.doctrine.cache.abandoned",
+          "path": "composer.lock",
+          "line": 210,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 210 of composer.lock reads `\"version\": \"2.2.0\"` for the package `doctrine/cache` named on line 209. Packagist marks doctrine/cache as abandoned."
+          }
         }
       ]
     },
@@ -3760,6 +3976,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of .xcode-version reads `9.3.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
           }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "Formalist.xcodeproj/project.pbxproj",
+          "line": 1048,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1048 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Debug build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "Formalist.xcodeproj/project.pbxproj",
+          "line": 1064,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1064 of Formalist.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 12.0` in the Release build configuration of the `Example` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
         }
       ]
     },
@@ -3817,6 +4051,50 @@
     {
       "repository": "Simperium/simperium-ios",
       "commit": "50a3a39811f3cbcbece755eee259fa72bc424e95",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj",
+          "line": 316,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 316 of samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Debug build configuration of the `Simpletodo` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj",
+          "line": 334,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 334 of samples/Simpletodo/Simpletodo.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Release build configuration of the `Simpletodo` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj",
+          "line": 477,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 477 of samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Debug build configuration of the `SimpletodoFinal` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "ruleId": "swift.app-store.ios-below-13",
+          "path": "samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj",
+          "line": 499,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 499 of samples/Simpletodo/SimpletodoFinal.xcodeproj/project.pbxproj sets `IPHONEOS_DEPLOYMENT_TARGET = 8.0` in the Release build configuration of the `SimpletodoFinal` target, whose product type is `com.apple.product-type.application`, so it is an app target below iOS 13 (a sample app inside a library repository, still an application target). Apple's App Store upcoming requirements require apps uploaded to App Store Connect to target iOS 13 or later since September 9, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "JohnSundell/Files",
+      "commit": "e85f2b4a8dfa0f242889f45236f3867d16e40480",
       "ecosystem": "swift",
       "selection": "targeted",
       "expected": []

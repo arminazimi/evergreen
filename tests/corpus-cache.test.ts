@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readdir, readFile, rm, utimes, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import {
@@ -124,7 +124,7 @@ test("empty and root-like cache paths are refused", () => {
   for (const bad of ["", "  ", "/", "/Users", homedir()]) {
     assert.throws(() => assertSafeCacheDir(bad), /Refusing to use/, bad);
   }
-  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), "/var/cache/evergreen-corpus");
+  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), resolve("/var/cache/evergreen-corpus"));
 });
 
 test("missingCorpusEntries and the offline message name every missing repository@commit", async () => {
@@ -139,5 +139,26 @@ test("missingCorpusEntries and the offline message name every missing repository
     assert.match(message, /2 corpus entries are not in the cache/);
     assert.ok(message.includes(`o/absent@${commitB}`) && message.includes(`p/gone@${commitC}`));
     assert.deepEqual(await missingCorpusEntries(dir, [present]), []);
+  });
+});
+
+test("an entry the caller rejects is removed and fetched again", async () => {
+  await withCache(async (dir) => {
+    await seed(dir, `owner__repo@${entry.commit}`, 10, 10);
+    let populated = 0;
+    const result = await ensureCorpusCacheEntry(
+      dir,
+      entry,
+      async (target) => {
+        populated++;
+        await writeFile(join(target, "fresh"), "x");
+      },
+      async () => false,
+    );
+    assert.equal(result.cached, false);
+    assert.equal(populated, 1);
+    assert.deepEqual(await readdir(result.path), ["fresh"]);
+    const missing = await missingCorpusEntries(dir, [entry], async () => false);
+    assert.equal(missing.length, 1, "an unusable entry counts as missing for an offline run");
   });
 });

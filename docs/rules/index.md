@@ -23,11 +23,22 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## container
 
+- [Caddy image release lines 1 and older are end-of-life](container.caddy.eol-1-and-older.html) — end of life, `container.caddy.eol-1-and-older`
+- [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html) — end of life, `container.clickhouse.eol-26.2-and-older`
+- [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html) — end of life, `container.couchbase.eol-7.2-and-older`
+- [Apache CouchDB image release lines 3.3 and older are end-of-life](container.couchdb.eol-3.3-and-older.html) — end of life, `container.couchdb.eol-3.3-and-older`
+- [Drupal image release lines 10.5 and older are end-of-life](container.drupal.eol-10.5-and-older.html) — end of life, `container.drupal.eol-10.5-and-older`
+- [Go image release lines 1.25 and older are end-of-life](container.golang.eol-1.25-and-older.html) — end of life, `container.golang.eol-1.25-and-older`
+- [MariaDB image release lines 10.10 and older are end-of-life](container.mariadb.eol-10.10-and-older.html) — end of life, `container.mariadb.eol-10.10-and-older`
 - [MySQL image release lines 8.0 and older are past end-of-life](container.mysql.eol-8.0-and-older.html) — end of life, `container.mysql.eol-8.0-and-older`
 - [Node.js image release lines 21 and older are end-of-life](container.node.eol-21-and-older.html) — end of life, `container.node.eol-21-and-older`
+- [phpMyAdmin image release lines 4.8 and older are end-of-life](container.phpmyadmin.eol-4.8-and-older.html) — end of life, `container.phpmyadmin.eol-4.8-and-older`
 - [PostgreSQL image major versions 13 and older are end-of-life](container.postgres.eol-13-and-older.html) — end of life, `container.postgres.eol-13-and-older`
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
+- [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
+- [Traefik image release lines 3.6 and older are end-of-life](container.traefik.eol-3.6-and-older.html) — end of life, `container.traefik.eol-3.6-and-older`
+- [Apache ZooKeeper image release lines 3.7 and older are end-of-life](container.zookeeper.eol-3.7-and-older.html) — end of life, `container.zookeeper.eol-3.7-and-older`
 
 ## cpp
 
@@ -112,11 +123,56 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## kubernetes
 
+- [MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served](kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.html) — removed, `kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed`
+- [ValidatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served](kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html) — removed, `kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed`
+- [CustomResourceDefinition apiextensions.k8s.io/v1beta1 is no longer served](kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed.html) — removed, `kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed`
+- [APIService apiregistration.k8s.io/v1beta1 is no longer served](kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed.html) — removed, `kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed`
+- [DaemonSet apps/v1beta2 is no longer served](kubernetes.apps.daemonset.v1beta2.removed.html) — removed, `kubernetes.apps.daemonset.v1beta2.removed`
+- [Deployment apps/v1beta1 is no longer served](kubernetes.apps.deployment.v1beta1.removed.html) — removed, `kubernetes.apps.deployment.v1beta1.removed`
+- [Deployment apps/v1beta2 is no longer served](kubernetes.apps.deployment.v1beta2.removed.html) — removed, `kubernetes.apps.deployment.v1beta2.removed`
+- [ReplicaSet apps/v1beta1 is no longer served](kubernetes.apps.replicaset.v1beta1.removed.html) — removed, `kubernetes.apps.replicaset.v1beta1.removed`
+- [ReplicaSet apps/v1beta2 is no longer served](kubernetes.apps.replicaset.v1beta2.removed.html) — removed, `kubernetes.apps.replicaset.v1beta2.removed`
+- [StatefulSet apps/v1beta1 is no longer served](kubernetes.apps.statefulset.v1beta1.removed.html) — removed, `kubernetes.apps.statefulset.v1beta1.removed`
+- [StatefulSet apps/v1beta2 is no longer served](kubernetes.apps.statefulset.v1beta2.removed.html) — removed, `kubernetes.apps.statefulset.v1beta2.removed`
+- [TokenReview authentication.k8s.io/v1beta1 is no longer served](kubernetes.authentication-k8s-io.tokenreview.v1beta1.removed.html) — removed, `kubernetes.authentication-k8s-io.tokenreview.v1beta1.removed`
+- [LocalSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served](kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed.html) — removed, `kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed`
+- [SelfSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served](kubernetes.authorization-k8s-io.selfsubjectaccessreview.v1beta1.removed.html) — removed, `kubernetes.authorization-k8s-io.selfsubjectaccessreview.v1beta1.removed`
+- [SelfSubjectRulesReview authorization.k8s.io/v1beta1 is no longer served](kubernetes.authorization-k8s-io.selfsubjectrulesreview.v1beta1.removed.html) — removed, `kubernetes.authorization-k8s-io.selfsubjectrulesreview.v1beta1.removed`
+- [SubjectAccessReview authorization.k8s.io/v1beta1 is no longer served](kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed.html) — removed, `kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed`
+- [HorizontalPodAutoscaler autoscaling/v2beta1 is no longer served](kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed.html) — removed, `kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed`
 - [HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served](kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html) — removed, `kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed`
 - [CronJob batch/v1beta1 is no longer served](kubernetes.batch.cronjob.v1beta1.removed.html) — removed, `kubernetes.batch.cronjob.v1beta1.removed`
+- [CertificateSigningRequest certificates.k8s.io/v1beta1 is no longer served](kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed.html) — removed, `kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed`
+- [Lease coordination.k8s.io/v1beta1 is no longer served](kubernetes.coordination-k8s-io.lease.v1beta1.removed.html) — removed, `kubernetes.coordination-k8s-io.lease.v1beta1.removed`
+- [EndpointSlice discovery.k8s.io/v1beta1 is no longer served](kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.html) — removed, `kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed`
+- [Event events.k8s.io/v1beta1 is no longer served](kubernetes.events-k8s-io.event.v1beta1.removed.html) — removed, `kubernetes.events-k8s-io.event.v1beta1.removed`
+- [DaemonSet extensions/v1beta1 is no longer served](kubernetes.extensions.daemonset.v1beta1.removed.html) — removed, `kubernetes.extensions.daemonset.v1beta1.removed`
+- [Deployment extensions/v1beta1 is no longer served](kubernetes.extensions.deployment.v1beta1.removed.html) — removed, `kubernetes.extensions.deployment.v1beta1.removed`
 - [Ingress extensions/v1beta1 is no longer served](kubernetes.extensions.ingress.v1beta1.removed.html) — removed, `kubernetes.extensions.ingress.v1beta1.removed`
+- [NetworkPolicy extensions/v1beta1 is no longer served](kubernetes.extensions.networkpolicy.v1beta1.removed.html) — removed, `kubernetes.extensions.networkpolicy.v1beta1.removed`
+- [PodSecurityPolicy extensions/v1beta1 is no longer served](kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html) — removed, `kubernetes.extensions.podsecuritypolicy.v1beta1.removed`
+- [ReplicaSet extensions/v1beta1 is no longer served](kubernetes.extensions.replicaset.v1beta1.removed.html) — removed, `kubernetes.extensions.replicaset.v1beta1.removed`
+- [FlowSchema flowcontrol.apiserver.k8s.io/v1beta1 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta1.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta1.removed`
+- [FlowSchema flowcontrol.apiserver.k8s.io/v1beta2 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta2.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta2.removed`
+- [FlowSchema flowcontrol.apiserver.k8s.io/v1beta3 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed`
+- [PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta1 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed`
+- [PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta2 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta2.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta2.removed`
+- [PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta3 is no longer served](kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed.html) — removed, `kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed`
 - [Ingress networking.k8s.io/v1beta1 is no longer served](kubernetes.networking-k8s-io.ingress.v1beta1.removed.html) — removed, `kubernetes.networking-k8s-io.ingress.v1beta1.removed`
+- [IngressClass networking.k8s.io/v1beta1 is no longer served](kubernetes.networking-k8s-io.ingressclass.v1beta1.removed.html) — removed, `kubernetes.networking-k8s-io.ingressclass.v1beta1.removed`
+- [RuntimeClass node.k8s.io/v1beta1 is no longer served](kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.html) — removed, `kubernetes.node-k8s-io.runtimeclass.v1beta1.removed`
+- [PodDisruptionBudget policy/v1beta1 is no longer served](kubernetes.policy.poddisruptionbudget.v1beta1.removed.html) — removed, `kubernetes.policy.poddisruptionbudget.v1beta1.removed`
 - [PodSecurityPolicy policy/v1beta1 is no longer served](kubernetes.policy.podsecuritypolicy.v1beta1.removed.html) — removed, `kubernetes.policy.podsecuritypolicy.v1beta1.removed`
+- [ClusterRole rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed`
+- [ClusterRoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed`
+- [Role rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed`
+- [RoleBinding rbac.authorization.k8s.io/v1beta1 is no longer served](kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed.html) — removed, `kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed`
+- [PriorityClass scheduling.k8s.io/v1beta1 is no longer served](kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed.html) — removed, `kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed`
+- [CSIDriver storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.csidriver.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.csidriver.v1beta1.removed`
+- [CSINode storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.csinode.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.csinode.v1beta1.removed`
+- [CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed`
+- [StorageClass storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.storageclass.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.storageclass.v1beta1.removed`
+- [VolumeAttachment storage.k8s.io/v1beta1 is no longer served](kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed.html) — removed, `kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed`
 
 ## nodejs
 
