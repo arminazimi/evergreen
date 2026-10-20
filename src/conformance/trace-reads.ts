@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
-import { relative, resolve } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 
 import { toPosixPath } from "../paths.js";
 
@@ -17,7 +17,9 @@ export async function traceReads(root: string, operation: () => Promise<unknown>
   const note = (target: unknown): void => {
     if (typeof target !== "string" && !(target instanceof URL) && !Buffer.isBuffer(target)) return;
     const path = relative(base, resolve(target instanceof URL ? target.pathname : target.toString()));
-    if (path !== "" && !path.startsWith("..")) seen.add(toPosixPath(path));
+    // On Windows, `relative` returns an absolute path when the file is on another drive: that is outside the root.
+    const inside = path !== "" && !isAbsolute(path) && path !== ".." && !path.startsWith(`..${sep}`);
+    if (inside) seen.add(toPosixPath(path));
   };
 
   const originals = {

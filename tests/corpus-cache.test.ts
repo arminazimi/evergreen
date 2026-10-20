@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readdir, readFile, rm, utimes, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import {
@@ -124,7 +124,7 @@ test("empty and root-like cache paths are refused", () => {
   for (const bad of ["", "  ", "/", "/Users", homedir()]) {
     assert.throws(() => assertSafeCacheDir(bad), /Refusing to use/, bad);
   }
-  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), "/var/cache/evergreen-corpus");
+  assert.equal(assertSafeCacheDir("/var/cache/evergreen-corpus"), resolve("/var/cache/evergreen-corpus"));
 });
 
 test("missingCorpusEntries and the offline message name every missing repository@commit", async () => {
