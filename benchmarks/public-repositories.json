@@ -2389,6 +2389,105 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of example/nginx-ingress.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Ingress`. The Kubernetes Deprecated API Migration Guide says this API version of Ingress is no longer served as of v1.22."
           }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/grafana.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of addons/heapster/grafana.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/heapster.yaml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of addons/heapster/heapster.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "addons/heapster/influxdb.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of addons/heapster/influxdb.yaml reads `apiVersion: apps/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-ds.yaml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-ds.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "addons/ingress/daemonset.yml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of addons/ingress/daemonset.yml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-deployment.yaml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of addons/Ingress-traefic/traefik-deployment.yaml reads `apiVersion: extensions/v1beta1` and the previous line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/Kube-dns/kube-dns.yaml",
+          "line": 59,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 59 of addons/Kube-dns/kube-dns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "addons/coredns/coredns.yaml",
+          "line": 69,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 69 of addons/coredns/coredns.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: Deployment`. The Kubernetes Deprecated API Migration Guide says this API version of Deployment is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRole`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRole is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+          "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of addons/Ingress-traefic/traefik-rbac.yaml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+          "path": "addons/ingress/ingress-rbac.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of addons/ingress/ingress-rbac.yml reads `apiVersion: rbac.authorization.k8s.io/v1beta1` and the previous line reads `kind: ClusterRoleBinding`. The Kubernetes Deprecated API Migration Guide says this API version of ClusterRoleBinding is no longer served as of v1.22."
+          }
         }
       ]
     },
@@ -2431,6 +2530,87 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 26 of _archived/podsecuritypolicy/rbac/policies.yaml, the second document of the file, reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodSecurityPolicy`. The Kubernetes Deprecated API Migration Guide says this API version of PodSecurityPolicy is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "_archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of _archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+          "path": "_archived/volumes/flexvolume/deploy/ds.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of _archived/volumes/flexvolume/deploy/ds.yaml reads `apiVersion: extensions/v1beta1` and the next line reads `kind: DaemonSet`. The Kubernetes Deprecated API Migration Guide says this API version of DaemonSet is no longer served as of v1.16."
+          }
+        },
+        {
+          "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+          "path": "_archived/cockroachdb/cockroachdb-statefulset.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of _archived/cockroachdb/cockroachdb-statefulset.yaml reads `apiVersion: policy/v1beta1` and the next line reads `kind: PodDisruptionBudget`. The Kubernetes Deprecated API Migration Guide says this API version of PodDisruptionBudget is no longer served as of v1.25."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
+          }
+        },
+        {
+          "ruleId": "kubernetes.storage-k8s-io.storageclass.v1beta1.removed",
+          "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of _archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml reads `apiVersion: storage.k8s.io/v1beta1` and the previous line reads `kind: StorageClass`. The Kubernetes Deprecated API Migration Guide says this API version of StorageClass is no longer served as of v1.22."
           }
         }
       ]
