@@ -10,10 +10,26 @@ export interface CorpusExpectedFinding {
   line?: number;
 }
 
+export type CorpusEcosystem =
+  | "node"
+  | "python"
+  | "node-actions"
+  | "container"
+  | "go"
+  | "java"
+  | "kubernetes"
+  | "php"
+  | "ruby"
+  | "rust"
+  | "dotnet"
+  | "swift";
+
 export interface CorpusRepositoryEntry {
   repository: string;
   commit: string;
-  ecosystem: string;
+  ecosystem: CorpusEcosystem;
+  /** How the repository was chosen (decision 0013): "blind" by a rule fixed before scanning, "targeted" because it was known to contain a finding. */
+  selection?: "blind" | "targeted";
   expected: CorpusExpectedFinding[];
 }
 
