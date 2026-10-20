@@ -66,6 +66,12 @@ Five public repositories at pinned commits cover the `ruby` detector: `rack/rack
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Ruby ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The EOL dates come from the [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/) page, not from these repositories.
 
+## PHP corpus
+
+Five public repositories at pinned commits cover the `php` detector: `laravel/laravel` (a current Laravel application skeleton, no findings), `jobbyphp/jobby` (`swiftmailer/swiftmailer`), `ZF-Commons/ZfcUser` (`zendframework/zend-stdlib`), `MacPaw/behat-orm-context` (`config.platform.php` 7.4.33, plus `actions/checkout@v4` and `actions/cache@v4` pins), and `Kalpa-Services/mmg-wp-plugin` (`config.platform.php` 7.4, plus `actions/checkout@v4`, `actions/github-script@v6`, and `actions/setup-go@v4` pins).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the PHP ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. Package abandonment comes from Packagist and the Laminas / Symfony announcements; the PHP 7.4 end-of-life date comes from the [PHP unsupported branches](https://www.php.net/supported-versions.php) page, not from these repositories.
+
 ## .NET blind selection
 
 The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
