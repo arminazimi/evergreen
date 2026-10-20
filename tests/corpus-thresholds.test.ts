@@ -128,6 +128,7 @@ test("the thresholds file records the full corpus run its levels rest on", async
   assert.ok(run.repositories >= 85);
   const detectors = Object.values(run.perDetector);
   assert.equal(detectors.reduce((sum, item) => sum + item.truePositives + item.falsePositives, 0), run.findings);
-  // A detector added after the recorded run has no per-detector numbers yet.
-  assert.deepEqual(Object.keys(run.perDetector).sort(), Object.keys(thresholds.detectors).filter((name) => name !== "swift").sort());
+  // A detector added after the recorded run has no per-detector numbers yet; the record never names a detector that does not exist.
+  const known = Object.keys(thresholds.detectors);
+  for (const name of Object.keys(run.perDetector)) assert.ok(known.includes(name), `${name} is in lastFullRun but not in the detectors`);
 });

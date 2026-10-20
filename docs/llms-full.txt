@@ -626,7 +626,7 @@ Matrix version: **2026-10-15 / v1**
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
 | Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files. |
 | Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |
-| Swift | Experimental | `.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule. The iOS deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) of an application target in an `.xcodeproj` `project.pbxproj`, for iOS releases App Store Connect no longer accepts. Libraries and `platforms:` minimums in `Package.swift` are not read for it. |
+| Swift | Experimental | `.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule. The iOS deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) of an application target in an `.xcodeproj` `project.pbxproj`, for iOS releases App Store Connect no longer accepts. Libraries and `platforms:` minimums in `Package.swift` are not read for it. See [Swift](#swift-detector). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 <!-- coverage-matrix:end -->
 
@@ -725,6 +725,53 @@ Each finding names the file and line, and carries its rule's source, replacement
 - A `require`, `load`, `gem`, or `autoload` whose argument is not a string literal (a variable, interpolation, concatenation, or a method call on the string) is listed as unclassified, with its file and line. Evergreen does not guess which gem it loads. `require_relative` is never unclassified: it always names a local file. A local variable or hash key named `require`/`load`/`gem`, or a bare `load` with no argument, is not a call.
 - Alias assignments are capped per file; deep or cyclic alias chains resolve to nothing. A single source line over 4,096 characters is skipped for usage scanning, matching the declaration parsers.
 - Usage is not read under `vendor`, `fixtures`, `__fixtures__`, or `testdata`. Comments, ordinary strings, percent literals, heredocs, and `=begin`/`=end` blocks are not usages. A method receiver such as `JSON.load` is a call only when a matcher names it, not a file `load`.
+
+## Swift detector
+
+The `swift` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#swift-corpus) cover it. Its lifecycle rules are in `registry/swift.json` and ship in the [data bundle](DATA.md). Until a recorded full corpus run includes those pins, the dashboard's last-run counts for `swift` stay at zero.
+
+### Supported files and declarations
+
+| File | Declaration read | Notes |
+| --- | --- | --- |
+| `.xcode-version` | One pinned Xcode release on a line by itself, such as `15.4` or `14.2.0` | Blank lines and `#` comments are ignored. A file with more than one pin, or any non-release token (`latest`, `stable`), produces nothing. |
+| `.swift-version` | One pinned Swift release on a line by itself, such as `5.9` or `5.9.2` | Same pin rules as `.xcode-version`. There are no bundled Swift toolchain lifecycle rules yet, so a pin alone produces no finding today. |
+| `Package.swift` | The `swift-tools-version` comment on line 1, and direct `.package(url:…, from:…)` / `.package(url:…, exact:…)` dependencies with a literal version string | Block and line comments and string literals are stripped before `.package` calls are read. `path:`, `branch:`, `revision:`, range / `.upToNextMajor` requirements, multi-line `.package` calls, platform minimums (`.iOS(.v13)` and friends), and interpolated or `Version(…)` values are ignored. |
+| `Package.resolved` | Each pin under `pins` with a non-empty `identity` and a `state.version` string (SwiftPM lockfile v2) | Pins with only `branch` / `revision`, the legacy v1 `object.pins` shape, and non-version pins produce nothing. |
+| `*.xcodeproj/project.pbxproj` | `IPHONEOS_DEPLOYMENT_TARGET` on build configurations of application targets (`com.apple.product-type.application`) | Frameworks, static libraries, extensions, and other product types are skipped. Project-level settings, `$(…)` references, and non-numeric values are ignored. |
+
+Files are found by walking the repository up to eight directories deep, to at most 500 files. Symbolic links are not followed, and `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata` are skipped. A `project.pbxproj` is read only when it sits inside a directory whose name ends with `.xcodeproj`. Swift, SwiftPM, and Xcode are never run, and nothing is fetched.
+
+### What it reports
+
+- An `.xcode-version` pin that App Store Connect no longer accepts. The bundled rules cover Xcode older than 15 (deadline 2024-04-29) and Xcode 15 through 25 (deadline 2026-04-28), citing [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/).
+- An application target whose `IPHONEOS_DEPLOYMENT_TARGET` is below iOS 13. The bundled rule cites the [iOS and iPadOS minimum system requirements](https://developer.apple.com/news/upcoming-requirements/?id=0992026a) (deadline 2026-09-09).
+- A `Package.swift` `exact:` pin or a `Package.resolved` version when a rule for that SwiftPM identity's `vers` contains the version. A `from:` requirement is reported only by a rule that covers every version of the package. There are no bundled package rules yet.
+- A `.swift-version` or `swift-tools-version` pin when a rule for `pkg:generic/swift` contains that version. There are no such bundled rules yet.
+
+Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. A package finding whose rule lists usage matchers also lists the `.swift` files that `import` that module and the qualified calls those matchers name. The finding's impact counts those usages, and a migration packet lists the files. Toolchain and App Store findings point at the pin or deployment-target line only.
+
+### What it intentionally does not judge
+
+- Xcode releases, Swift toolchain lines, iOS deployment targets, and SwiftPM packages with no rule in `registry/swift.json`. A missing finding is not evidence that a version is current.
+- A `.xcode-version` or `.swift-version` value of `latest` or `stable`, a template, or a value that interpolates at runtime.
+- Platform minimums in `Package.swift` (`platforms: [.iOS(.v12)]` and similar). Those declare a library's supported OS floor, not an App Store upload target.
+- Deployment targets on non-application Xcode targets (frameworks, libraries, extensions, tests).
+- `path:`, `branch:`, `revision:`, range, and `.upToNextMajor` / `.upToNextMinor` package requirements; multi-line `.package` calls; and dynamic version expressions.
+- The legacy `Package.resolved` v1 shape.
+- Vulnerability advisories and license policy.
+
+### Known limits and false-positive boundaries
+
+- An `.xcode-version` pin is reported whatever the project actually builds with. A stale pin that CI no longer uses still produces a finding.
+- The App Store Xcode rules apply to uploads to App Store Connect. A Swift package that never ships an app can still pin an old Xcode for local builds and be reported.
+- The iOS deployment-target rule names only application targets. A shared framework that still declares an older minimum is not reported, even when an app links it.
+- Package identity is the lowercased last path segment of the http(s) URL without `.git`. A `file://` or relative URL has no identity and never matches. A renamed repository matches only under the identity SwiftPM recorded.
+- Malformed input produces no declarations from the affected unit, never a partial result, and no error is raised. For `.xcode-version`, `.swift-version`, `Package.swift`, `Package.resolved`, and `project.pbxproj` that unit is the whole file. A toolchain or package file over 1 MiB yields nothing; a `project.pbxproj` over 16 MiB yields nothing. A single line over 4,096 characters is skipped.
+- The eight-level and 500-file limits are silent. Files beyond them, and any under `vendor` or a skipped directory, are not scanned.
+- Source usage reads `.swift` files. An `import Module` (including `@testable` and similar attributes) matches a rule whose module is that name. A call matches when the rule names the qualified form. Usage is not a Swift AST: it is regex-based matching, so unusual formatting can miss an import or call.
+- Runtime Objective-C lookup forms (`NSClassFromString`, `NSProtocolFromString`, `NSSelectorFromString`, `Selector(…)`, `objc_getClass`, `sel_registerName`, `dlsym`) are listed as unclassified, with their file and line. Evergreen does not guess which type they resolve to.
+- Usage is not read under `vendor`, `fixtures`, `__fixtures__`, or `testdata`. Comments and ordinary strings are not usages. A single source line over 4,096 characters is skipped for usage scanning, matching the declaration parsers.
 
 ## Monorepos
 
@@ -1316,6 +1363,12 @@ Five public repositories at pinned commits cover the `php` detector: `laravel/la
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the PHP ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. Package abandonment comes from Packagist and the Laminas / Symfony announcements; the PHP 7.4 end-of-life date comes from the [PHP unsupported branches](https://www.php.net/supported-versions.php) page, not from these repositories.
 
+## Swift corpus
+
+Five public repositories at pinned commits cover the `swift` detector: `seedco/Formalist` (`.xcode-version` 9.3.1), `bojan/Troop` (`.xcode-version` 10.2.1), `s2mr/xc` (`.xcode-version` 14.2.0), `s2mr/L10nLint` (`.xcode-version` 16.4.0), and `Simperium/simperium-ios` (`.xcode-version` 26.6, no findings).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Swift ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The Xcode acceptance dates come from [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), not from these repositories.
+
 ## .NET blind selection
 
 The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
@@ -1333,6 +1386,122 @@ THRESHOLD  npm: precision 0.9 is below the required 0.95
 ```
 
 The weekly corpus workflow therefore fails on a precision regression even if the exact-match comparison is later relaxed. Mark a new detector `"stable": false` until its corpus coverage is meaningful; it is still scored and reported but never fails the run. Never lower a floor to make a run pass.
+
+## Fetching and the checkout cache
+
+The harness fetches up to sixteen repositories at once; change that with `--concurrency <n>` or `EVERGREEN_CORPUS_CONCURRENCY`. Scans and the report stay in corpus order.
+
+By default it fetches each repository as a blobless shallow fetch plus a sparse checkout of only the files the detectors declare they read ([decision 0015](decisions/0015-corpus-fetch-strategy.md)): a cold full run takes about a minute and fetches about 190 MB, and the results are identical to a full checkout. `EVERGREEN_CORPUS_FETCH=shallow` fetches complete checkouts instead. `node dist/benchmarks/fetch-strategies.js --strategy <shallow|sparse|tarball>` re-measures the options.
+
+Every corpus commit is pinned, so a checkout never changes. Set `EVERGREEN_CORPUS_CACHE=<dir>` (for example `~/.cache/evergreen-corpus`) to keep each one on disk as `<owner>__<repo>@<commit>` and skip the network when it is already there. Entries are written to a temporary directory and renamed into place, and `.git` is removed because scans read files only, so an interrupted run never leaves a half-filled entry. A sparse entry carries an `.evergreen-fetch` marker naming the declarations it was built from; if a detector later declares more files, that entry is refetched rather than reused. Unset, there is no cache and a run behaves as before. A warm run reports the same true positives, false positives, false negatives, and findings as a cold one.
+
+## Running a subset
+
+```bash
+npm run validate:public-repos -- --ecosystem php
+npm run validate:public-repos -- --ecosystem php --ecosystem ruby
+npm run validate:public-repos -- --repo laravel/framework
+```
+
+`--ecosystem <name>` and `--repo <owner/name>` are repeatable; naming both selects the union, reported in corpus order. An unknown name is an error that lists the valid ones. A filtered run still fails on any false positive or false negative among the entries it covers, but it is not a full run: it does not enforce the per-detector precision floors, it writes no `lastFullRun`, the JSON report says `"fullRun": false` with a `filter` line, and the run prints `FILTERED RUN` on stderr. Only an unfiltered run can be recorded or compared with the full-corpus claims in this document.
+
+### Re-running only what failed
+
+After fixing a detector, re-check just the repositories that had a mismatch:
+
+```bash
+npm run validate:public-repos -- --output corpus-result.json     # a run with UNEXPECTED or MISSING lines
+npm run validate:public-repos -- --failed-from corpus-result.json
+```
+
+`--failed-from <report.json>` runs the repositories whose entry in that report has an `unexpected` or `missing` finding; any that have left the corpus are skipped. It is a filtered run like the others (`FILTERED RUN` on stderr, `"fullRun": false`) and never counts as a full run. A report with no mismatches prints that and exits 0 without fetching anything.
+
+### Comparing with an earlier run
+
+```bash
+npm run validate:public-repos -- --compare corpus-result.json
+npm run validate:public-repos -- --compare benchmarks/thresholds.json
+```
+
+`--compare <file>` prints what moved since that file. Against an earlier report it lists `ADDED` and `REMOVED` findings per repository and the per-detector true-positive, false-positive, and false-negative differences (`DELTA`), computed over the repositories present in both, so a filtered run compares like with like. Against `benchmarks/thresholds.json` it uses the recorded `lastFullRun` for the per-detector numbers only. Comparing never changes the exit code: false positives, false negatives, and the precision floors still decide it, and an unreadable comparison file is reported without failing the run.
+
+### Managing the cache
+
+A cache of complete checkouts is about 1.5 GB on disk; the default sparse entries need about 570 MB. A suggested location is `~/.cache/evergreen-corpus`; set `EVERGREEN_CORPUS_CACHE` to it in your shell profile.
+
+```bash
+npm run corpus:cache -- status                       # directory, entry count, total size, entries no longer in the corpus
+npm run corpus:cache -- prune --dry-run              # what removing entries no longer in the corpus would do
+npm run corpus:cache -- prune                        # remove entries that are no longer in the corpus
+npm run corpus:cache -- prune --max-size 800         # remove least recently used entries until the cache is at most 800 MB
+npm run corpus:cache -- prune --all                  # empty the cache
+```
+
+`--dry-run` works with every `prune` form and removes nothing. Every cache hit refreshes the entry's last-used time, which is what `--max-size` orders by. The commands only ever touch directories directly under the cache directory whose names look like `<owner>__<repo>@<40-hex commit>`; anything else in there is left alone, and an empty or root-like path (`/`, your home directory, a single top-level directory) is refused.
+
+### Warm ahead, run offline
+
+```bash
+npm run corpus:warm                       # fetch every missing checkout into the cache and stop; no scan
+npm run corpus:warm -- --ecosystem php    # the same filters as a run
+npm run validate:public-repos -- --offline
+```
+
+Both need `EVERGREEN_CORPUS_CACHE` and print how many entries were already cached. `--offline` uses the cache only: if an entry is missing it fails before scanning anything, with exit code 2 and one message that lists every missing `repository@commit`. After `corpus:warm`, an `--offline` run reports the same results as an online one. A good habit is `npm run corpus:warm` after pulling `main`, so a later run never waits on a download.
+
+### Running only what a change affects
+
+```bash
+npm run validate:public-repos -- --changed            # changes since origin/main, plus uncommitted and untracked files
+npm run validate:public-repos -- --changed release/1  # a different base
+```
+
+`--changed [base]` reads `git diff --name-only <base>...HEAD` together with uncommitted and untracked files and maps them to corpus ecosystems with [`benchmarks/corpus-affected.ts`](../benchmarks/corpus-affected.ts): `src/detectors/<name>`, `registry/<file>.json`, and `tests/fixtures/<name>/` map to the ecosystems that detector serves (for example `src/detectors/npm.ts` and `registry/nodejs.json` to `node`, the GitHub Actions detector to `node-actions`), and shared files map to every ecosystem whose detectors use them (`src/source-usage.ts` to nine ecosystems; `src/engine.ts`, `src/sdk.ts`, and the other scan-wide files to all twelve). It prints one `changed:` line per chosen ecosystem naming the paths behind it. If nothing maps, it says so and exits 0 without fetching. The result is a filtered run like any other, and it combines with `--ecosystem` and `--repo`.
+
+The map is tested: every built-in detector, every corpus ecosystem, every directory under `src/detectors/`, every file in `registry/`, and every shared file a detector imports must be listed, so adding a detector fails `npm run check` until it is mapped. Other work can import the same module, for example a pull request workflow.
+
+## Run cost and budget
+
+Every report carries a `cost` block: total wall time, the summed fetch time (larger than the wall time when fetches overlap), cache hits and misses, and the size of the git data fetched (git does not expose network bytes, so this is the `.git` size of each fetched checkout). The run prints it as a `COST` line, and the weekly workflow shows it in the job summary.
+
+`benchmarks/thresholds.json` holds the `budget`: a wall-time limit in seconds and a fetched-bytes limit. Going over either prints a `BUDGET` warning (a `::warning::` annotation in Actions), lists it in the report's `budgetWarnings`, and flags it in the job summary. A budget overrun never fails the run; correctness is decided by false positives, false negatives, and the precision floors alone. Tighten the budget in a pull request when a faster fetch strategy lands, and raise it only with a stated reason.
+
+## Stalled fetches
+
+One hung connection must not hold a run. Each fetch passes git's low-speed abort (`http.lowSpeedLimit=1000`, `http.lowSpeedTime=30`: below 1 KB/s for 30 s) and a hard limit of 120 s per attempt, changed with `EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS`. A stall counts as a failed attempt, so it is retried and, when every attempt fails, reported with the repository name. At the end of every run the five slowest fetches print as `SLOWEST` lines.
+
+## Reading a run
+
+By default a run prints a short table on stdout instead of the full JSON: true positives, false positives, false negatives, and precision per ecosystem and per detector, then every `UNEXPECTED` and `MISSING` line, then a one-line wall-time summary. Progress goes to stderr as one line per fetched repository (`12/107 owner/name 2.1s`). The `COST`, `SLOWEST`, and `BUDGET` lines follow on stderr.
+
+```bash
+npm run validate:public-repos -- --output corpus-result.json   # table on screen, full JSON in the file
+npm run validate:public-repos -- --json > corpus-result.json   # JSON on stdout; the table moves to stderr
+```
+
+`--output <file>` writes the full JSON report whatever the result, so a failing run still leaves it behind. The weekly workflow uses `--output` and uploads that file as the `corpus-result-<run id>` artifact.
+
+## Recording a full run
+
+```bash
+npm run record:corpus-run
+```
+
+One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`) and `docs/llms-full.txt`. It leaves the changes uncommitted so you can review the diff.
+
+It refuses, and changes nothing, when:
+
+- the working tree has uncommitted changes, because the recorded commit would not describe them;
+- any run-narrowing flag is passed (`--ecosystem`, `--repo`, `--failed-from`, `--changed`), or `--observe`, `--warm`, `--output`, `--json`, or `--compare`;
+- the run did not cover every corpus entry, was not in verify mode, or has any false positive or false negative, or a detector below its precision floor.
+
+Other harness flags such as `--concurrency` and `--offline` are passed through. The dashboard tests read the recorded commit, counts, and age from `benchmarks/thresholds.json` instead of repeating them, so recording a new run needs no test edits.
+
+## Pull request check
+
+Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. [`.github/workflows/corpus-pr.yml`](../.github/workflows/corpus-pr.yml) closes that gap in a separate workflow: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only).
+
+The job summary lists the chosen ecosystems and every `UNEXPECTED` and `MISSING` line; the full report is attached as the `corpus-pr-result-<run id>` artifact. If nothing maps, it says so and fetches nothing. The workflow is **not a required check**: keep it out of branch protection, because it needs the network and GitHub's availability. It has `contents: read` only, no secrets, and no `pull_request_target`, and the base branch reaches the shell through an environment variable, never an inline expression. Treat a red run as a finding to explain in the pull request, using the rules in "Weekly run and refreshing pins" above.
 
 ## Weekly run and refreshing pins
 
@@ -1449,7 +1618,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The Ruby and PHP detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#ruby-detector) and [Compatibility](COMPATIBILITY.md#php-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The Ruby, PHP, and Swift detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#swift-detector).
 
 ## Ruby detector layout
 
@@ -1474,6 +1643,19 @@ The PHP detector follows the same layout. Its entry point, `src/detectors/php/in
 - Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#php-detector).
+
+## Swift detector layout
+
+The Swift detector follows the same layout. Its entry point, `src/detectors/swift/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-swift-toolchain.ts`, `parse-package-swift.ts`, `parse-package-resolved.ts`, and `parse-xcode-project.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file or line.
+- Rules come from `registry/swift.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An exact pin (`.xcode-version`, `.swift-version`, `swift-tools-version`, `exact:` in `Package.swift`, a `Package.resolved` version, or an app-target `IPHONEOS_DEPLOYMENT_TARGET`) uses the first rule whose `vers` range contains the version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- A `from:` requirement in `Package.swift` is matched only against rules that cover every version of that package. Package identity is the lowercased repository name without `.git`, matching what SwiftPM writes in `Package.resolved`.
+- The iOS deployment target is read only from application targets in `project.pbxproj` (`com.apple.product-type.application`), so a library or a `platforms:` minimum in `Package.swift` never produces that finding.
+- Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.swift` files that `import` that module and the qualified calls those matchers name. Runtime Objective-C lookup forms (`NSClassFromString`, `Selector(…)`, and similar) are unclassified. Toolchain and App Store rules do not name source usages.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#swift-detector).
 
 ## Start a new detector in this repository
 
@@ -1543,6 +1725,32 @@ Detectors may implement the optional `analyze` operation when they need to retur
 The built-in GitHub Actions detector uses this metadata for full 40-character commit pins it cannot resolve. It classifies a covered action from a valid trailing version comment first, or from Evergreen's bundled exact SHA-to-release map when no comment is present. An unknown SHA is reported with reason `unknown-sha`; a present but unusable comment is reported with reason `invalid-version-comment`. Neither case becomes a lifecycle finding because Evergreen does not guess a release line.
 
 This resolution is fully offline. The bundled map is reviewed and regenerated by a separate maintainer tool; repository scans never query GitHub or another service.
+
+## Declaring the files a detector reads
+
+A detector may declare, in one place, which repository files its `scan` reads. The optional `inputs` field on `Detector` (added to the `evergreen.detector.v1` interface without changing anything that exists) has four parts, all relative to the scanned root with forward slashes:
+
+| Field | Meaning |
+| --- | --- |
+| `fileNames` | Exact base names at any depth, case-insensitive; `*` matches any run of characters (`requirements*.txt`, `*.Dockerfile`). |
+| `extensions` | Base-name endings, including the dot (`.csproj`). |
+| `directories` | Directories, at the root or below any directory, all of whose files may be read (`.github/workflows`). |
+| `sourceExtensions` | Source files read to map usage of a deprecated API (`.ts`, `.cs`). |
+
+```ts
+readonly inputs: DetectorInputs = {
+  fileNames: ["go.mod", "go.work"],
+  sourceExtensions: [".go"],
+};
+```
+
+Every built-in detector declares it, and a test fails if one does not. `declaredInputsCheck` (`evergreen/conformance`, from `src/conformance/checks/inputs.ts`) scans a fixture while recording every file whose contents the scan opens, and fails naming each file outside the declaration:
+
+```text
+Detector "leaky" violated the "declared inputs" guarantee for fixture "leak": read "secrets/token.txt", which its inputs do not declare
+```
+
+Listing a directory or testing that a path exists is not a read, and files outside the scanned root (the bundled rules) are ignored. A detector that omits `inputs` makes no promise and passes the check. The declaration is what a tool needs to fetch only the files a detector reads; keep it as narrow as the detector's real behavior, and widen it in the same change that makes the detector read something new.
 
 ## Registry validation
 
@@ -1668,11 +1876,13 @@ When you accept a draft:
 4. Add `migration` and `usage` for a new rule if you can; importers leave them to people.
 5. Run `npm run check`.
 
+If you compare a draft with the registry and decide the registry should stay as it is (the draft overlaps a hand-written rule, or drops sources and wording you reviewed), acknowledge that exact draft instead of leaving the pull request open: `node dist/tools/importers/diff.js drafts.json registry/<ecosystem>.json --fingerprints` prints one `"<importer>:<rule id>": "<fingerprint>"` line per draft that still shows as added or changed. Add those lines to `acknowledged` in [`tools/importers/acknowledged.json`](../tools/importers/acknowledged.json) and a sentence for each in `reasons`. An acknowledged draft is counted as acknowledged, not added or changed, so it no longer opens the weekly pull request. The fingerprint covers every field except provenance: if the source later drafts something different, the rule is reported again.
+
 Do not remove a rule only because an importer stopped drafting it. A source can stop listing something because the thing is gone, and a retired image or release is exactly what an old workflow needs to be told about. The diff reports such rules as "no longer drafted"; remove one only when its fact is no longer true.
 
 ## The weekly run
 
-[`importers.yml`](../.github/workflows/importers.yml) runs every importer that has a registry file each Tuesday (and on manual dispatch), except importers whose source rejects automated fetches (today: `android-1`; see its row below). For each one it drafts rules, compares them with the registry, and, only when they differ, opens or updates one pull request on the branch `importers/<importer-id>`. The pull request adds `importer-drafts/<importer-id>.json` and the evidence table from `pr-body.js`; it never edits `registry/`. A maintainer reviews it as described above and changes the registry in a separate commit. Python has two importers, so it gets two pull requests.
+[`importers.yml`](../.github/workflows/importers.yml) runs every importer that has a registry file each Tuesday (and on manual dispatch), except importers whose source rejects automated fetches (`android-1`) and importers whose drafts nothing can use yet (`kubernetes-2` and `rust-2`); see their rows below. For each one it drafts rules, compares them with the registry, and, only when they differ, opens or updates one pull request on the branch `importers/<importer-id>`. The pull request adds `importer-drafts/<importer-id>.json` and the evidence table from `pr-body.js`; it never edits `registry/`. A maintainer reviews it as described above and changes the registry in a separate commit. Python has two importers, so it gets two pull requests.
 
 The drafting jobs have read-only permissions; only the second job can write, and it only pushes that branch and opens the pull request. The repository setting "Allow GitHub Actions to create and approve pull requests" must be on, and checks do not start on pull requests opened with the default token, so close and reopen the pull request (or push to its branch) to run them. `runner-images` is not in the run because it has no registry file.
 
@@ -1692,7 +1902,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `java-1` | `java` | The Oracle Java SE Support Roadmap and the Eclipse Temurin support page: one `end-of-support` rule per group of non-LTS JDK feature releases whose last Premier Support month is over, citing Temurin where it lists a release as EOSL. LTS releases are never drafted. The sources give a month, so the rules have no `deadline`. | none |
 | `java-2` | `java` | Maven Central: dependencies whose own POM declares a `<relocation>` to new coordinates, found by walking down from the newest version while each POM keeps the same relocation. A relocation that only changes the version is skipped. | `tools/importers/maven-candidates.ts` |
 | `kubernetes-1` | `kubernetes` | The Kubernetes Deprecated API Migration Guide: one `removed` rule per group, kind, and API version the guide says is no longer served. The guide names the release, not a date, so the `deadline` is the date of that release's announcement on kubernetes.io, from a small dated table in the importer. | none |
-| `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. | none |
+| `kubernetes-2` | `kubernetes` | The Kubernetes release history: one `end-of-life` rule per minor release among the five newest whose published end-of-life date has passed. These rules describe Kubernetes itself (`pkg:generic/kubernetes`), not an API version, and no detector reads them yet. Not scheduled in the weekly workflow until one does; run it by hand. | none |
 | `nodejs-schedule` | `nodejs` | The Node.js Release Working Group's `schedule.json`: one `end-of-life` rule per release line from v18 whose end date has passed. | none |
 | `php-1` | `php` | The PHP release-branch JSON (`/releases/branches.php`), the machine-readable form of the [supported versions](https://www.php.net/supported-versions.php) / eol tables: one `end-of-life` rule per branch from 7.0 whose security-support end date has passed. Older lines are noted and skipped. Replacement is the lowest branch still in active support (`state: stable`), not security-only. | none |
 | `php-2` | `php` | Packagist Composer metadata: one `deprecated` rule per direct candidate package whose `abandoned` flag is set. A string flag becomes `replacement` (a package name or the URL the author gave). `true` drafts a rule with no replacement. The flag is package-wide, so the version range is `vers:composer/*`. | `tools/importers/php-candidates.ts` |
@@ -1702,7 +1912,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `github-actions-runtime` | `github-actions` | Each action's own `action.yml` at its major tags: releases that run on a Node.js runtime GitHub has retired. | `tools/importers/github-actions-candidates.ts` |
 | `ruby-1` | `ruby` | The Ruby maintenance branches page: one `end-of-life` rule per release line the page marks eol, with its published end-of-life date. | none |
 | `rust-1` | `rust` | `RELEASES.md` in the Rust repository: the one 'Rust 1.N and older are no longer supported' rule, from the policy that only the most recent stable release is supported. It moves every six weeks; headings dated in the future are ignored. | none |
-| `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. | `tools/importers/rust-candidates.ts` |
+| `rust-2` | `rust` | The crates.io sparse index (what Cargo reads): one rule per candidate crate listing its yanked versions. Not scheduled in the weekly workflow: the Rust registry tests accept only `deprecated` crate rules that cite RustSec, so a yanked-version rule cannot be accepted yet; run it by hand. | `tools/importers/rust-candidates.ts` |
 | `swift-1` | `swift` | Apple's App Store upcoming-requirements listing: one `end-of-support` rule per Xcode upload floor band (versions below each dated "built with Xcode N" minimum). iOS/iPadOS deployment-target, notary, and tvOS-only entries are noted and skipped. | none |
 | `runner-images` | `github-runners` | The runner-images README and the announcement issues it links: images GitHub is deprecating or has retired. | none |
 

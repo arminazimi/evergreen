@@ -6,7 +6,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers.js";
 import { ruleVersion } from "./api-version.js";
 import { parseTemplate } from "./parse-helm.js";
@@ -126,6 +126,8 @@ function rulesByPurl(rules: readonly RegistryV2Rule[]): Map<string, RegistryV2Ru
 export class KubernetesDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "kubernetes";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: ["Kustomization"], extensions: [".yaml", ".yml"] };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];

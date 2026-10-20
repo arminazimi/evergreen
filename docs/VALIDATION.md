@@ -72,6 +72,12 @@ Five public repositories at pinned commits cover the `php` detector: `laravel/la
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the PHP ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. Package abandonment comes from Packagist and the Laminas / Symfony announcements; the PHP 7.4 end-of-life date comes from the [PHP unsupported branches](https://www.php.net/supported-versions.php) page, not from these repositories.
 
+## Swift corpus
+
+Five public repositories at pinned commits cover the `swift` detector: `seedco/Formalist` (`.xcode-version` 9.3.1), `bojan/Troop` (`.xcode-version` 10.2.1), `s2mr/xc` (`.xcode-version` 14.2.0), `s2mr/L10nLint` (`.xcode-version` 16.4.0), and `Simperium/simperium-ios` (`.xcode-version` 26.6, no findings).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Swift ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The Xcode acceptance dates come from [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), not from these repositories.
+
 ## .NET blind selection
 
 The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
@@ -89,6 +95,122 @@ THRESHOLD  npm: precision 0.9 is below the required 0.95
 ```
 
 The weekly corpus workflow therefore fails on a precision regression even if the exact-match comparison is later relaxed. Mark a new detector `"stable": false` until its corpus coverage is meaningful; it is still scored and reported but never fails the run. Never lower a floor to make a run pass.
+
+## Fetching and the checkout cache
+
+The harness fetches up to sixteen repositories at once; change that with `--concurrency <n>` or `EVERGREEN_CORPUS_CONCURRENCY`. Scans and the report stay in corpus order.
+
+By default it fetches each repository as a blobless shallow fetch plus a sparse checkout of only the files the detectors declare they read ([decision 0015](decisions/0015-corpus-fetch-strategy.md)): a cold full run takes about a minute and fetches about 190 MB, and the results are identical to a full checkout. `EVERGREEN_CORPUS_FETCH=shallow` fetches complete checkouts instead. `node dist/benchmarks/fetch-strategies.js --strategy <shallow|sparse|tarball>` re-measures the options.
+
+Every corpus commit is pinned, so a checkout never changes. Set `EVERGREEN_CORPUS_CACHE=<dir>` (for example `~/.cache/evergreen-corpus`) to keep each one on disk as `<owner>__<repo>@<commit>` and skip the network when it is already there. Entries are written to a temporary directory and renamed into place, and `.git` is removed because scans read files only, so an interrupted run never leaves a half-filled entry. A sparse entry carries an `.evergreen-fetch` marker naming the declarations it was built from; if a detector later declares more files, that entry is refetched rather than reused. Unset, there is no cache and a run behaves as before. A warm run reports the same true positives, false positives, false negatives, and findings as a cold one.
+
+## Running a subset
+
+```bash
+npm run validate:public-repos -- --ecosystem php
+npm run validate:public-repos -- --ecosystem php --ecosystem ruby
+npm run validate:public-repos -- --repo laravel/framework
+```
+
+`--ecosystem <name>` and `--repo <owner/name>` are repeatable; naming both selects the union, reported in corpus order. An unknown name is an error that lists the valid ones. A filtered run still fails on any false positive or false negative among the entries it covers, but it is not a full run: it does not enforce the per-detector precision floors, it writes no `lastFullRun`, the JSON report says `"fullRun": false` with a `filter` line, and the run prints `FILTERED RUN` on stderr. Only an unfiltered run can be recorded or compared with the full-corpus claims in this document.
+
+### Re-running only what failed
+
+After fixing a detector, re-check just the repositories that had a mismatch:
+
+```bash
+npm run validate:public-repos -- --output corpus-result.json     # a run with UNEXPECTED or MISSING lines
+npm run validate:public-repos -- --failed-from corpus-result.json
+```
+
+`--failed-from <report.json>` runs the repositories whose entry in that report has an `unexpected` or `missing` finding; any that have left the corpus are skipped. It is a filtered run like the others (`FILTERED RUN` on stderr, `"fullRun": false`) and never counts as a full run. A report with no mismatches prints that and exits 0 without fetching anything.
+
+### Comparing with an earlier run
+
+```bash
+npm run validate:public-repos -- --compare corpus-result.json
+npm run validate:public-repos -- --compare benchmarks/thresholds.json
+```
+
+`--compare <file>` prints what moved since that file. Against an earlier report it lists `ADDED` and `REMOVED` findings per repository and the per-detector true-positive, false-positive, and false-negative differences (`DELTA`), computed over the repositories present in both, so a filtered run compares like with like. Against `benchmarks/thresholds.json` it uses the recorded `lastFullRun` for the per-detector numbers only. Comparing never changes the exit code: false positives, false negatives, and the precision floors still decide it, and an unreadable comparison file is reported without failing the run.
+
+### Managing the cache
+
+A cache of complete checkouts is about 1.5 GB on disk; the default sparse entries need about 570 MB. A suggested location is `~/.cache/evergreen-corpus`; set `EVERGREEN_CORPUS_CACHE` to it in your shell profile.
+
+```bash
+npm run corpus:cache -- status                       # directory, entry count, total size, entries no longer in the corpus
+npm run corpus:cache -- prune --dry-run              # what removing entries no longer in the corpus would do
+npm run corpus:cache -- prune                        # remove entries that are no longer in the corpus
+npm run corpus:cache -- prune --max-size 800         # remove least recently used entries until the cache is at most 800 MB
+npm run corpus:cache -- prune --all                  # empty the cache
+```
+
+`--dry-run` works with every `prune` form and removes nothing. Every cache hit refreshes the entry's last-used time, which is what `--max-size` orders by. The commands only ever touch directories directly under the cache directory whose names look like `<owner>__<repo>@<40-hex commit>`; anything else in there is left alone, and an empty or root-like path (`/`, your home directory, a single top-level directory) is refused.
+
+### Warm ahead, run offline
+
+```bash
+npm run corpus:warm                       # fetch every missing checkout into the cache and stop; no scan
+npm run corpus:warm -- --ecosystem php    # the same filters as a run
+npm run validate:public-repos -- --offline
+```
+
+Both need `EVERGREEN_CORPUS_CACHE` and print how many entries were already cached. `--offline` uses the cache only: if an entry is missing it fails before scanning anything, with exit code 2 and one message that lists every missing `repository@commit`. After `corpus:warm`, an `--offline` run reports the same results as an online one. A good habit is `npm run corpus:warm` after pulling `main`, so a later run never waits on a download.
+
+### Running only what a change affects
+
+```bash
+npm run validate:public-repos -- --changed            # changes since origin/main, plus uncommitted and untracked files
+npm run validate:public-repos -- --changed release/1  # a different base
+```
+
+`--changed [base]` reads `git diff --name-only <base>...HEAD` together with uncommitted and untracked files and maps them to corpus ecosystems with [`benchmarks/corpus-affected.ts`](../benchmarks/corpus-affected.ts): `src/detectors/<name>`, `registry/<file>.json`, and `tests/fixtures/<name>/` map to the ecosystems that detector serves (for example `src/detectors/npm.ts` and `registry/nodejs.json` to `node`, the GitHub Actions detector to `node-actions`), and shared files map to every ecosystem whose detectors use them (`src/source-usage.ts` to nine ecosystems; `src/engine.ts`, `src/sdk.ts`, and the other scan-wide files to all twelve). It prints one `changed:` line per chosen ecosystem naming the paths behind it. If nothing maps, it says so and exits 0 without fetching. The result is a filtered run like any other, and it combines with `--ecosystem` and `--repo`.
+
+The map is tested: every built-in detector, every corpus ecosystem, every directory under `src/detectors/`, every file in `registry/`, and every shared file a detector imports must be listed, so adding a detector fails `npm run check` until it is mapped. Other work can import the same module, for example a pull request workflow.
+
+## Run cost and budget
+
+Every report carries a `cost` block: total wall time, the summed fetch time (larger than the wall time when fetches overlap), cache hits and misses, and the size of the git data fetched (git does not expose network bytes, so this is the `.git` size of each fetched checkout). The run prints it as a `COST` line, and the weekly workflow shows it in the job summary.
+
+`benchmarks/thresholds.json` holds the `budget`: a wall-time limit in seconds and a fetched-bytes limit. Going over either prints a `BUDGET` warning (a `::warning::` annotation in Actions), lists it in the report's `budgetWarnings`, and flags it in the job summary. A budget overrun never fails the run; correctness is decided by false positives, false negatives, and the precision floors alone. Tighten the budget in a pull request when a faster fetch strategy lands, and raise it only with a stated reason.
+
+## Stalled fetches
+
+One hung connection must not hold a run. Each fetch passes git's low-speed abort (`http.lowSpeedLimit=1000`, `http.lowSpeedTime=30`: below 1 KB/s for 30 s) and a hard limit of 120 s per attempt, changed with `EVERGREEN_CORPUS_FETCH_TIMEOUT_SECONDS`. A stall counts as a failed attempt, so it is retried and, when every attempt fails, reported with the repository name. At the end of every run the five slowest fetches print as `SLOWEST` lines.
+
+## Reading a run
+
+By default a run prints a short table on stdout instead of the full JSON: true positives, false positives, false negatives, and precision per ecosystem and per detector, then every `UNEXPECTED` and `MISSING` line, then a one-line wall-time summary. Progress goes to stderr as one line per fetched repository (`12/107 owner/name 2.1s`). The `COST`, `SLOWEST`, and `BUDGET` lines follow on stderr.
+
+```bash
+npm run validate:public-repos -- --output corpus-result.json   # table on screen, full JSON in the file
+npm run validate:public-repos -- --json > corpus-result.json   # JSON on stdout; the table moves to stderr
+```
+
+`--output <file>` writes the full JSON report whatever the result, so a failing run still leaves it behind. The weekly workflow uses `--output` and uploads that file as the `corpus-result-<run id>` artifact.
+
+## Recording a full run
+
+```bash
+npm run record:corpus-run
+```
+
+One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`) and `docs/llms-full.txt`. It leaves the changes uncommitted so you can review the diff.
+
+It refuses, and changes nothing, when:
+
+- the working tree has uncommitted changes, because the recorded commit would not describe them;
+- any run-narrowing flag is passed (`--ecosystem`, `--repo`, `--failed-from`, `--changed`), or `--observe`, `--warm`, `--output`, `--json`, or `--compare`;
+- the run did not cover every corpus entry, was not in verify mode, or has any false positive or false negative, or a detector below its precision floor.
+
+Other harness flags such as `--concurrency` and `--offline` are passed through. The dashboard tests read the recorded commit, counts, and age from `benchmarks/thresholds.json` instead of repeating them, so recording a new run needs no test edits.
+
+## Pull request check
+
+Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. [`.github/workflows/corpus-pr.yml`](../.github/workflows/corpus-pr.yml) closes that gap in a separate workflow: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only).
+
+The job summary lists the chosen ecosystems and every `UNEXPECTED` and `MISSING` line; the full report is attached as the `corpus-pr-result-<run id>` artifact. If nothing maps, it says so and fetches nothing. The workflow is **not a required check**: keep it out of branch protection, because it needs the network and GitHub's availability. It has `contents: read` only, no secrets, and no `pull_request_target`, and the base branch reaches the shell through an environment variable, never an inline expression. Treat a red run as a finding to explain in the pull request, using the rules in "Weekly run and refreshing pins" above.
 
 ## Weekly run and refreshing pins
 

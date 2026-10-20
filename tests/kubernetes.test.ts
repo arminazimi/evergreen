@@ -64,6 +64,7 @@ test("kubernetes passes detector conformance on every fixture", async () => {
           expected(NETWORKING_INGRESS, "helm/mychart/templates/ingress.yaml", 2, "networking.k8s.io/v1beta1 Ingress"),
           expected(NETWORKING_INGRESS, "kustomize/ingress.yaml", 1, "networking.k8s.io/v1beta1 Ingress"),
           expected(CRONJOB, "kustomize/kustomization.yaml", 10, "batch/v1beta1 CronJob"),
+          expected("kubernetes.policy.poddisruptionbudget.v1beta1.removed", "kustomize/kustomization.yaml", 18, "policy/v1beta1 PodDisruptionBudget"),
           expected("kubernetes.policy.podsecuritypolicy.v1beta1.removed", "manifests/psp.yml", 3, "policy/v1beta1 PodSecurityPolicy"),
           expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/web.yaml", 2, "extensions/v1beta1 Ingress"),
           expected(CRONJOB, "manifests/web.yaml", 34, "batch/v1beta1 CronJob"),
@@ -114,6 +115,7 @@ test("only a rule's own group, kind, and version produce a finding", async () =>
   });
   const findings = await kubernetesDetector.scan({ root });
   assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
+    ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed", 7],
     ["kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed", 10],
   ]);
 });

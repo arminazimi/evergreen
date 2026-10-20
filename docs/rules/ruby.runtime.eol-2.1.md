@@ -1,0 +1,90 @@
+---
+title: "Ruby 2.1 is end-of-life — dates, impact, migration"
+description: "The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.1.html"
+---
+
+# Ruby 2.1 is end-of-life
+
+The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31.
+
+| | |
+| --- | --- |
+| Status | End of life |
+| Severity | high |
+| Ecosystem | `ruby` |
+| Component | `pkg:generic/ruby` |
+| Affected versions | `vers:gem/>=2.1.0\|<2.2.0` |
+| Date from the source | 2017-03-31 |
+| Replacement | Ruby 3.4 or later |
+| Evidence last seen | 2026-10-20 |
+| Reviewed | 2026-10-20 by arminazimi |
+| Review due | 2027-01-18 (90 days after the last review) |
+| Rule ID | `ruby.runtime.eol-2.1` |
+
+## Sources
+
+- [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/)
+
+## Migration
+
+**Constraints**
+
+- Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.
+- Confirm gems with native extensions build on the target Ruby and reinstall bundled gems.
+
+**Steps**
+
+1. **Raise the Ruby version.** Change the reported declaration from Ruby 2.1 to a supported release (see the replacement), using the project's existing version manager.
+2. **Align other Ruby version surfaces.** Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.
+
+**Verification**
+
+- `ruby --version`: Confirm the active runtime is the intended release.
+- `bundle install`: Re-resolve and install gems on the new Ruby.
+- `bundle exec rake test`: Run the test suite on the new Ruby.
+
+## Detected by
+
+The `ruby` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
+
+## Data
+
+This page is generated from [`registry/ruby.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json), rule `ruby.runtime.eol-2.1`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "@id": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.1.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.1.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.1.html",
+  "headline": "Ruby 2.1 is end-of-life — dates, impact, migration",
+  "description": "The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-20",
+  "keywords": [
+    "end-of-life",
+    "ruby",
+    "high"
+  ],
+  "about": {
+    "@type": "Thing",
+    "name": "Ruby 2.1 is end-of-life",
+    "identifier": "pkg:generic/ruby"
+  },
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Ruby maintenance branches",
+      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+    }
+  ],
+  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen"
+  }
+}
+</script>

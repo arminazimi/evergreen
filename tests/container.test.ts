@@ -59,6 +59,8 @@ test("container passes detector conformance on every fixture", async () => {
         expectedFindings: await Promise.all([
           expected(postgres, "api.Dockerfile", 1, "postgres:11.5-bullseye"),
           expected(postgres, "compose.yaml", 3, "postgres:11"),
+          expected("container.redis.eol-6.0-and-older", "compose.yaml", 5, "redis:5-alpine"),
+          expected("container.redis.eol-6.0-and-older", "Containerfile", 1, "redis:5@sha256:0000000000000000000000000000000000000000000000000000000000000000"),
           expected(node, "docker-compose.yml", 3, "docker.io/library/node:16-alpine"),
           expected(node, "Dockerfile", 2, "node:16"),
           expected(node, "Dockerfile", 5, "node:16-alpine"),

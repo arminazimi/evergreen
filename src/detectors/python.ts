@@ -14,7 +14,7 @@ import {
   isUsageMatcher,
 } from "../sdk.js";
 import { loadRegistryRules } from "../registry.js";
-import type { Detector, DetectorContext, DetectorFinding } from "../sdk.js";
+import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../sdk.js";
 
 interface PythonRuntimeRule extends DeprecationRule {
   kind: "runtime";
@@ -331,6 +331,11 @@ async function loadRules(): Promise<readonly PythonRule[]> {
 export class PythonDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "python";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = {
+    fileNames: ["pyproject.toml", ".python-version", "runtime.txt", ".tool-versions", "uv.lock", "poetry.lock", "pdm.lock", "Pipfile.lock", "requirements*.txt"],
+    sourceExtensions: [".py", ".ini", ".cfg"],
+  };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     const memberDirectories = await discoverPythonWorkspaces(context.root);

@@ -8,7 +8,7 @@ import { analyzeSourceUsage } from "../../source-usage.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers/index.js";
 import { parseGoMod } from "./parse-go-mod.js";
 import { parseGoWork } from "./parse-go-work.js";
@@ -59,6 +59,8 @@ function normalizeVersion(value: string): string | undefined {
 export class GoDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "go";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: ["go.mod", "go.work"], sourceExtensions: [".go"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/go.json`. */
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/go.json")).rules) {}

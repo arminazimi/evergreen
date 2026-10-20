@@ -9,11 +9,22 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-9.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.clickhouse.eol-26.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.couchbase.eol-7.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.node.eol-21-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator.visual-studio-12-2013.removed.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
@@ -60,6 +71,12 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.setup-uv.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.stale.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.upload-artifact.retired.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.cncf.udpa.go.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.streadway.amqp.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.22.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -72,12 +89,58 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-26.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4j.slf4j-log4j12.relocated.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.admissionregistration-k8s-io.validatingwebhookconfiguration.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apiregistration-k8s-io.apiservice.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.daemonset.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.deployment.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.deployment.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.replicaset.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.replicaset.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.statefulset.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.apps.statefulset.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authentication-k8s-io.tokenreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.selfsubjectaccessreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.selfsubjectrulesreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.certificates-k8s-io.certificatesigningrequest.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.coordination-k8s-io.lease.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.discovery-k8s-io.endpointslice.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.events-k8s-io.event.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.daemonset.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.deployment.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.ingress.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.networkpolicy.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.replicaset.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingressclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.policy.poddisruptionbudget.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.policy.podsecuritypolicy.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.rolebinding.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.scheduling-k8s-io.priorityclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csidriver.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csinode.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.storageclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-18.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-19.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-20.html</loc><lastmod>2026-10-17</lastmod></url>
@@ -155,8 +218,15 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.swiftmailer.swiftmailer.abandoned.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.0.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.1.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.2.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.4.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.0.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html</loc><lastmod>2026-10-19</lastmod></url>
@@ -164,6 +234,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -171,8 +242,10 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.django-celery.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.enum.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.google-cloud.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.headroom-cli.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -181,7 +254,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.nose.maintenance-only.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.opennms-api-wrapper.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.pathlib.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.pil.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -191,11 +266,20 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.sklearn.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.typing.archived.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.vsdeband.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-1.9.3.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.0.0.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.1.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.2.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.3.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.4.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.5.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.6.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.7.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.0.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html</loc><lastmod>2026-10-18</lastmod></url>

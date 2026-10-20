@@ -7,7 +7,7 @@ import { purlIdentity } from "../../purl.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage, findSwiftDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parsePackageResolved } from "./parse-package-resolved.js";
@@ -138,6 +138,8 @@ function coversEveryVersion(rule: RegistryV2Rule): boolean {
 export class SwiftDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "swift";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: ["Package.swift", "Package.resolved", ".swift-version", ".xcode-version", "project.pbxproj"], sourceExtensions: [".swift"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/swift.json`. */
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/swift.json")).rules) {}

@@ -70,7 +70,7 @@ test("the evidence counts agree with the reviewed corpus", () => {
   assert.deepEqual(counts(evidence["github-actions"]!), { repositoriesWithFindings: 37, expectedFindings: 225, zeroFindingRepositories: 2 });
   assert.deepEqual(counts(evidence["npm"]!), { repositoriesWithFindings: 10, expectedFindings: 22, zeroFindingRepositories: 8 });
   assert.deepEqual(counts(evidence["dotnet"]!), { repositoriesWithFindings: 9, expectedFindings: 84, zeroFindingRepositories: 9 });
-  assert.deepEqual(counts(evidence["php"]!), { repositoriesWithFindings: 4, expectedFindings: 4, zeroFindingRepositories: 1 });
+  assert.deepEqual(counts(evidence["php"]!), { repositoriesWithFindings: 4, expectedFindings: 5, zeroFindingRepositories: 1 });
 });
 
 test("a detector with no run data has null run numbers, not zeros", () => {
@@ -114,8 +114,10 @@ test("runAgeDays comes from --today, and invalid days are refused", () => {
   assert.equal(ageInDays("2026-10-18", "2026-11-01"), 14);
   assert.equal(ageInDays("2026-02-27", "2026-03-01"), 2);
   assert.equal(ageInDays("2027-12-25", "2028-03-01"), 67);
-  assert.equal(build("2026-11-16").run!.runAgeDays, 27);
-  assert.equal(build("2026-11-16").referenceDay, "2026-11-16");
+  // Derived from the recorded run, so recording a newer run does not break this test.
+  const later = new Date(Date.parse(`${runDate}T00:00:00Z`) + 27 * 86_400_000).toISOString().slice(0, 10);
+  assert.equal(build(later).run!.runAgeDays, 27);
+  assert.equal(build(later).referenceDay, later);
   assert.throws(() => ageInDays("2026-10-18", "2026-10-17"), /before the last full run/);
   for (const bad of ["2026-13-01", "2026-02-30", "18-10-2026", "2026-10-18T00:00:00Z", "", "today"]) {
     assert.throws(() => ageInDays("2026-10-18", bad), /YYYY-MM-DD/, bad);
