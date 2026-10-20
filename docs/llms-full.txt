@@ -622,6 +622,7 @@ Matrix version: **2026-10-15 / v1**
 | Kubernetes APIs | Experimental | The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served. See [Kubernetes APIs](detectors/kubernetes.md). |
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
+| PHP | Experimental | Pinned runtime declarations in `.php-version`, `.tool-versions`, `composer.json`, and `composer.lock`, for PHP release lines past end of support and abandoned Composer packages. |
 | Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
 | Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files. |
 | Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |

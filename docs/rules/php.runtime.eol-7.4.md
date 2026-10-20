@@ -29,7 +29,7 @@ The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 202
 
 ## Detected by
 
-No built-in detector reads `php` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/php.json).
+The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

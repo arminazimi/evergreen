@@ -26,6 +26,7 @@ const ROW_NAMES = [
   "Kubernetes APIs",
   "GitHub Actions",
   "Node.js and npm",
+  "PHP",
   "Python",
   "Ruby",
   "Rust",

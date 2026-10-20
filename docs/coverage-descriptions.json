@@ -42,6 +42,11 @@
       "coverage": "Runtime declarations, direct dependencies, lockfiles, and supported source usages."
     },
     {
+      "ecosystems": ["php"],
+      "name": "PHP",
+      "coverage": "Pinned runtime declarations in `.php-version`, `.tool-versions`, `composer.json`, and `composer.lock`, for PHP release lines past end of support and abandoned Composer packages."
+    },
+    {
       "ecosystems": ["python"],
       "name": "Python",
       "coverage": "Runtime declarations, direct dependencies, common lockfiles, and supported source usages."

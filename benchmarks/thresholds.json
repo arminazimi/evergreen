@@ -46,6 +46,11 @@
       "stable": true,
       "minPrecision": 0.95
     },
+    "php": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
     "python": {
       "level": "stable",
       "stable": true,
@@ -112,6 +117,11 @@
       },
       "npm": {
         "truePositives": 22,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "php": {
+        "truePositives": 0,
         "falsePositives": 0,
         "falseNegatives": 0
       },

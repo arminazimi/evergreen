@@ -12,10 +12,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "python", "ruby", "rust"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["ci-images", "container", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
-    // The ci-images, container, Go, Java, Kubernetes, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["ci-images", "container", "go", "java", "kubernetes", "ruby", "rust"].includes(name), name);
+    // The ci-images, container, Go, Java, Kubernetes, PHP, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
+    assert.equal(threshold.stable, !["ci-images", "container", "go", "java", "kubernetes", "php", "ruby", "rust"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -63,6 +63,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   kubernetes: { corpus: ["kubernetes"], row: "Kubernetes APIs" },
   nodejs: { corpus: ["node"], row: "Node.js and npm" },
   npm: { corpus: ["node"], row: "Node.js and npm" },
+  php: { corpus: ["php"], row: "PHP" },
   python: { corpus: ["python"], row: "Python" },
   ruby: { corpus: ["ruby"], row: "Ruby" },
   rust: { corpus: ["rust"], row: "Rust" },
