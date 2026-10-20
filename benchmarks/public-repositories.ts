@@ -15,6 +15,7 @@ import {
 } from "./corpus-harness.js";
 import { describeMissingEntries, ensureCorpusCacheEntry, missingCorpusEntries, resolveCorpusCacheDir } from "./corpus-cache.js";
 import { budgetWarnings, createCostTracker, directorySize, formatCost, slowestFetches } from "./corpus-cost.js";
+import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } from "./corpus-affected.js";
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
@@ -89,6 +90,16 @@ if (corpus.repositories.length < 20) {
 let selection: ReturnType<typeof selectCorpusEntries>;
 try {
   const filter = parseCorpusFilter();
+  const changed = parseChangedFlag();
+  if (changed) {
+    const paths = await changedPaths(changed.base);
+    const affected = affectedEcosystems(paths);
+    for (const line of describeAffected(affected, paths.length)) console.error(line);
+    const explicit = filter.ecosystems.length > 0 || filter.repositories.length > 0 || filter.failedFrom !== undefined;
+    // Nothing maps and nothing else was asked for: an unfiltered run would be the whole corpus, so stop.
+    if (affected.length === 0 && !explicit) process.exit(0);
+    filter.ecosystems.push(...affected.map((entry) => entry.ecosystem));
+  }
   selection = selectCorpusEntries(
     corpus.repositories,
     filter,
