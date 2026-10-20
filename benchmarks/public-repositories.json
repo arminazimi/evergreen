@@ -4132,6 +4132,90 @@
       "ecosystem": "android",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "jberkel/sms-backup-plus",
+      "commit": "fd33c3209c80598632d0323237fc86fa4ffea710",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "android.play-billing.version-7",
+          "path": "app/build.gradle",
+          "line": 78,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+            "note": "Reviewed independently at this commit: line 78 of app/build.gradle pins com.android.billingclient:billing:7.1.1; Google's Play Billing deprecation timeline requires version 8 or newer for releases after the 2026 deadline."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "pia-foss/mobile-android-legacy",
+      "commit": "8c380f875a1a3328f95a1e9ff460588041175f3d",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "android.play-billing.version-5",
+          "path": "app/build.gradle",
+          "line": 88,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+            "note": "Reviewed independently at this commit: line 88 of app/build.gradle pins com.android.billingclient:billing:5.2.1; Google's Play Billing deprecation timeline says version 5 can no longer be used for new releases."
+          }
+        },
+        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/tools/CMakeLists.txt", "line": 5, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 5 of app/tools/CMakeLists.txt declares cmake_minimum_required(VERSION 3.1.0), below the policy version removed by CMake 4.0." } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build-playstore-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/build-playstore-android.yaml uses actions/checkout@v3, below the supported major." } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build-web-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/build-web-android.yaml uses actions/checkout@v3, below the supported major." } },
+        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/test-android.yaml uses actions/checkout@v3, below the supported major." } },
+        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/build-playstore-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/build-playstore-android.yaml uses actions/setup-java@v3, below the supported major." } },
+        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/build-web-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/build-web-android.yaml uses actions/setup-java@v3, below the supported major." } },
+        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/test-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/test-android.yaml uses actions/setup-java@v3, below the supported major." } },
+        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/build-playstore-android.yaml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/build-playstore-android.yaml uses the retired actions/upload-artifact@v3 release." } },
+        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/build-web-android.yaml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/build-web-android.yaml uses the retired actions/upload-artifact@v3 release." } },
+        { "ruleId": "go.runtime.end-of-support-1.20-and-older", "path": "app/tools/libwg-go/go.mod", "line": 3, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 3 of app/tools/libwg-go/go.mod declares Go 1.19, which is outside the supported release window." } }
+      ]
+    },
+    {
+      "repository": "blokadaorg/five-android",
+      "commit": "99b572218a1c0f2b9d4fd152e34ad6b1b95d6767",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "android.play-billing.version-6",
+          "path": "app/build.gradle",
+          "line": 231,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+            "note": "Reviewed independently at this commit: line 231 of app/build.gradle pins com.android.billingclient:billing:6.2.1; Google's Play Billing deprecation timeline says version 6 can no longer be used for new releases."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "HiddenRamblings/TagMo",
+      "commit": "d4e8246c9f087db70f2ad159a831f851127f033c",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "android.play-billing.version-8",
+          "path": "app/build.gradle",
+          "line": 150,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://developer.android.com/google/play/billing/deprecation-faq",
+            "note": "Reviewed independently at this commit: line 150 of app/build.gradle pins com.android.billingclient:billing:8.0.0; Google's Play Billing deprecation timeline records the version 8 support window and its 2027 deadline."
+          }
+        },
+        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/CMakeLists.txt", "line": 1, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 1 of app/libs/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } },
+        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/free-reflection/CMakeLists.txt", "line": 6, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 6 of app/libs/free-reflection/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } }
+      ]
     }
   ]
 }
