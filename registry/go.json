@@ -346,6 +346,340 @@
           }
         ]
       }
+    },
+    {
+      "id": "go.module.cloud.google.com.go.pubsub.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/cloud.google.com/go/pubsub",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "cloud.google.com/go/pubsub is deprecated",
+      "summary": "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026. For migration, see https://github.com/googleapis/google-cloud-go/blob/main/pubsub/MIGRATING.md\"",
+      "severity": "medium",
+      "replacement": "cloud.google.com/go/pubsub/v2",
+      "sources": [
+        {
+          "title": "cloud.google.com/go/pubsub v1.51.1 go.mod",
+          "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require cloud.google.com/go/pubsub, directly or through a replace directive.",
+          "Check cloud.google.com/go/pubsub/v2 for API differences before switching; it may not be a drop-in replacement for every cloud.google.com/go/pubsub call."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the cloud.google.com/go/pubsub requirement with cloud.google.com/go/pubsub/v2 (`go get cloud.google.com/go/pubsub/v2@latest`), then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of cloud.google.com/go/pubsub in the reported files to cloud.google.com/go/pubsub/v2.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "go.module.github.com.cncf.udpa.go.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/cncf/udpa/go",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/cncf/udpa/go is deprecated",
+      "summary": "The latest github.com/cncf/udpa/go module declares: \"use github.com/cncf/xds/go instead.\"",
+      "severity": "medium",
+      "replacement": "github.com/cncf/xds/go",
+      "sources": [
+        {
+          "title": "github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod",
+          "url": "https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require github.com/cncf/udpa/go, directly or through a replace directive.",
+          "Check github.com/cncf/xds/go for API differences before switching; it may not be a drop-in replacement for every github.com/cncf/udpa/go call."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the github.com/cncf/udpa/go requirement with github.com/cncf/xds/go (`go get github.com/cncf/xds/go@latest`), then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of github.com/cncf/udpa/go in the reported files to github.com/cncf/xds/go.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "go.module.github.com.discord.lilliput.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/discord/lilliput",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/discord/lilliput is deprecated",
+      "summary": "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes. See https://github.com/discord/lilliput/issues/303\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "github.com/discord/lilliput v1.5.1 go.mod",
+          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require github.com/discord/lilliput, directly or through a replace directive.",
+          "github.com/discord/lilliput names no replacement module; pick a maintained alternative or accept the risk, and record the decision."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the github.com/discord/lilliput requirement with a maintained alternative that fits how the project uses it, then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of github.com/discord/lilliput in the reported files to the chosen alternative.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "go.module.github.com.golang.protobuf.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/golang/protobuf",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/golang/protobuf is deprecated",
+      "summary": "The latest github.com/golang/protobuf module declares: \"Use the \"google.golang.org/protobuf\" module instead.\"",
+      "severity": "medium",
+      "replacement": "google.golang.org/protobuf",
+      "sources": [
+        {
+          "title": "github.com/golang/protobuf v1.5.4 go.mod",
+          "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require github.com/golang/protobuf, directly or through a replace directive.",
+          "Check google.golang.org/protobuf for API differences before switching; it may not be a drop-in replacement for every github.com/golang/protobuf call."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the github.com/golang/protobuf requirement with google.golang.org/protobuf (`go get google.golang.org/protobuf@latest`), then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of github.com/golang/protobuf in the reported files to google.golang.org/protobuf.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "go.module.github.com.streadway.amqp.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/github.com/streadway/amqp",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "github.com/streadway/amqp is deprecated",
+      "summary": "The latest github.com/streadway/amqp module declares: \"Consider using the github.com/rabbitmq/amqp091-go package instead.\"",
+      "severity": "medium",
+      "replacement": "github.com/rabbitmq/amqp091-go",
+      "sources": [
+        {
+          "title": "github.com/streadway/amqp v1.1.0 go.mod",
+          "url": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require github.com/streadway/amqp, directly or through a replace directive.",
+          "Check github.com/rabbitmq/amqp091-go for API differences before switching; it may not be a drop-in replacement for every github.com/streadway/amqp call."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the github.com/streadway/amqp requirement with github.com/rabbitmq/amqp091-go (`go get github.com/rabbitmq/amqp091-go@latest`), then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of github.com/streadway/amqp in the reported files to github.com/rabbitmq/amqp091-go.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
+    },
+    {
+      "id": "go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated",
+      "ecosystem": "go",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+      "vers": "vers:golang/*",
+      "event": "deprecated",
+      "title": "go.opentelemetry.io/otel/exporters/zipkin is deprecated",
+      "summary": "The latest go.opentelemetry.io/otel/exporters/zipkin module declares: \"The zipkin exporter is deprecated and will be removed in early 2027. See the blog post \"Deprecating Zipkin Exporter\": https://opentelemetry.io/blog/2025/deprecating-zipkin-exporters/\"",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod",
+          "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require go.opentelemetry.io/otel/exporters/zipkin, directly or through a replace directive.",
+          "go.opentelemetry.io/otel/exporters/zipkin names no replacement module; pick a maintained alternative or accept the risk, and record the decision."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "title": "Replace the deprecated module",
+            "instructions": "Replace the go.opentelemetry.io/otel/exporters/zipkin requirement with a maintained alternative that fits how the project uses it, then run `go mod tidy`.",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-module-usages",
+            "title": "Migrate imports and calls",
+            "instructions": "Update imports and calls of go.opentelemetry.io/otel/exporters/zipkin in the reported files to the chosen alternative.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      }
     }
   ]
 }

@@ -86,6 +86,12 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## go
 
+- [cloud.google.com/go/pubsub is deprecated](go.module.cloud.google.com.go.pubsub.deprecated.html) — deprecated, `go.module.cloud.google.com.go.pubsub.deprecated`
+- [github.com/cncf/udpa/go is deprecated](go.module.github.com.cncf.udpa.go.deprecated.html) — deprecated, `go.module.github.com.cncf.udpa.go.deprecated`
+- [github.com/discord/lilliput is deprecated](go.module.github.com.discord.lilliput.deprecated.html) — deprecated, `go.module.github.com.discord.lilliput.deprecated`
+- [github.com/golang/protobuf is deprecated](go.module.github.com.golang.protobuf.deprecated.html) — deprecated, `go.module.github.com.golang.protobuf.deprecated`
+- [github.com/streadway/amqp is deprecated](go.module.github.com.streadway.amqp.deprecated.html) — deprecated, `go.module.github.com.streadway.amqp.deprecated`
+- [go.opentelemetry.io/otel/exporters/zipkin is deprecated](go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.html) — deprecated, `go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated`
 - [Go 1.20 and older are no longer supported](go.runtime.end-of-support-1.20-and-older.html) — end of support, `go.runtime.end-of-support-1.20-and-older`
 - [Go 1.21 is no longer supported](go.runtime.end-of-support-1.21.html) — end of support, `go.runtime.end-of-support-1.21`
 - [Go 1.22 is no longer supported](go.runtime.end-of-support-1.22.html) — end of support, `go.runtime.end-of-support-1.22`

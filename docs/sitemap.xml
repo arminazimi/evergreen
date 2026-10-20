@@ -60,6 +60,12 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.setup-uv.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.stale.node20.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/github-actions.upload-artifact.retired.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.cncf.udpa.go.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.github.com.streadway.amqp.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.21.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.22.html</loc><lastmod>2026-10-16</lastmod></url>
