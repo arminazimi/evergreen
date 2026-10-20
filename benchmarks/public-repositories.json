@@ -3745,6 +3745,81 @@
           }
         }
       ]
+    },
+    {
+      "repository": "seedco/Formalist",
+      "commit": "066025d60458ebd71f2c0edd0f995810a16bd339",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `9.3.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bojan/Troop",
+      "commit": "1f15c0bde2155e432012c14575c2434e433ed223",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `10.2.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "s2mr/xc",
+      "commit": "ffb56ca8208b1cc660a00c660f0fbd49279920bd",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `14.2.0`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "s2mr/L10nLint",
+      "commit": "3dd0a0cc061bb2240e05875c55f81f3ae5154f76",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-15-through-25",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.4.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Simperium/simperium-ios",
+      "commit": "50a3a39811f3cbcbece755eee259fa72bc424e95",
+      "ecosystem": "swift",
+      "selection": "targeted",
+      "expected": []
     }
   ]
 }
