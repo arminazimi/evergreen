@@ -180,7 +180,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 4,
-        "expectedFindings": 9,
+        "expectedFindings": 29,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
