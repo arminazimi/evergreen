@@ -86,3 +86,40 @@ test("only .cs files are read, and a file with no C# usage is empty", async () =
   const [analysis] = await analyzeSourceUsage(root, [{ id: "n", matchers }]);
   assert.deepEqual(analysis!.usages, []);
 });
+
+test("a verbatim string ending in a backslash does not hide the code after it", async () => {
+  assert.deepEqual(
+    await usages({ "A.cs": "using Acme.Storage;\nclass A { void M() { var p = @\"C:\\dir\\\"; var a = Account.Parse(p); } }\n" }),
+    ["import A.cs:1:1 Acme.Storage", "call A.cs:2:50 Acme.Storage.Account.Parse"],
+  );
+});
+
+test("a verbatim string spans lines and treats a doubled quote as a literal quote", async () => {
+  assert.deepEqual(
+    await usages({
+      "A.cs": [
+        "using Acme.Storage;",
+        "class A { void M() {",
+        "  var s = $@\"say \"\"Account.Parse(x)\"\" and",
+        "Account.Parse(y) still text\";",
+        "  var a = Account.Parse(s);",
+        "} }",
+      ].join("\n"),
+    }),
+    ["import A.cs:1:1 Acme.Storage", "call A.cs:5:11 Acme.Storage.Account.Parse"],
+  );
+});
+
+test("an unterminated verbatim string masks the rest of the file instead of failing", async () => {
+  assert.deepEqual(await usages({ "A.cs": "using Acme.Storage;\nclass A { string s = @\"open\n Account.Parse(x);\n" }), ["import A.cs:1:1 Acme.Storage"]);
+});
+
+test("a method called on an instance, and F# sources, are deliberate limits", async () => {
+  assert.deepEqual(
+    await usages({
+      "A.cs": "using Acme.Storage;\nclass A { void M(CloudStorageAccount account) { var c = account.CreateCloudBlobClient(); } }\n",
+      "B.fs": "open Acme.Storage\nlet a = Account.Parse \"x\"\n",
+    }),
+    ["import A.cs:1:1 Acme.Storage"],
+  );
+});

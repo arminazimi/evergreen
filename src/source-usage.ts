@@ -1230,6 +1230,24 @@ interface MaskState {
   openString?: RubyOpenString;
   /** Swift multiline string literal opened by three double quotes. */
   swiftMultilineString?: boolean;
+  /** C# verbatim string (`@"…"`) left open at the end of a line; it may span lines. */
+  csharpVerbatim?: boolean;
+}
+
+/**
+ * Index of the quote that closes a C# verbatim string whose body starts at `from`, or undefined if it stays open.
+ * A verbatim string has no backslash escapes; a doubled quote (`""`) is a literal quote.
+ */
+function csharpVerbatimEnd(line: string, from: number): number | undefined {
+  for (let index = from; index < line.length; index += 1) {
+    if (line[index] !== '"') continue;
+    if (line[index + 1] === '"') {
+      index += 1;
+      continue;
+    }
+    return index;
+  }
+  return undefined;
 }
 
 function maskCodeLine(line: string, language: SourceLanguage, state: MaskState): string {
@@ -1271,6 +1289,13 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
     for (let cursor = 0; cursor < end + 3; cursor += 1) output[cursor] = " ";
     state.swiftMultilineString = false;
     index = end + 3;
+  }
+  if (language === "csharp" && state.csharpVerbatim) {
+    const end = csharpVerbatimEnd(line, 0);
+    if (end === undefined) return " ".repeat(line.length);
+    for (let cursor = 0; cursor <= end; cursor += 1) output[cursor] = " ";
+    state.csharpVerbatim = false;
+    index = end + 1;
   }
   if (percent) {
     const closed = rubyPercentClose(line, 0, percent);
@@ -1385,6 +1410,17 @@ function maskCodeLine(line: string, language: SourceLanguage, state: MaskState):
         index += heredoc[0].length - 1;
         continue;
       }
+    }
+    if (language === "csharp" && character === "@" && next === '"') {
+      const end = csharpVerbatimEnd(line, index + 2);
+      const last = end ?? output.length - 1;
+      for (let cursor = index; cursor <= last; cursor += 1) output[cursor] = " ";
+      if (end === undefined) {
+        state.csharpVerbatim = true;
+        return output.join("");
+      }
+      index = end;
+      continue;
     }
     if (character === '"' || (character === "'" && language !== "rust") || (character === "`" && language !== "python" && language !== "rust")) {
       quote = character;

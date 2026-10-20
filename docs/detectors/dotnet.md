@@ -40,7 +40,10 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 
 - A target framework is a statement about what the project builds for. A library can multi-target an old line on purpose; Evergreen reports the declaration and cannot know the intent. A `global.json` SDK pin names the toolchain that builds the repository, which is closer to the truth.
 - A sample, test, or tool project in a repository that still targets an old line is reported like any other project.
-- Source usage is found for `.cs` files only. `using` directives, aliases, `global using`, a type reached by its full name, and a type reached by its simple name when its own namespace is imported are found. A method called on an instance (`account.CreateCloudBlobClient()`) is not, `using static` binds no name, F# and Visual Basic sources are not read, and a verbatim string that ends in a backslash can confuse the masking of strings and comments.
+- Source usage is found for `.cs` files only. `using` directives, aliases, `global using`, a type reached by its full name, and a type reached by its simple name when its own namespace is imported are found. Verbatim strings (`@"…"`, `$@"…"`), including ones that end in a backslash, contain doubled quotes, or span lines, are masked correctly, so code after them is still read. Three cases are deliberate limits, because attributing them would need type or symbol resolution that a text scan cannot do without guessing:
+  - A method called on an instance (`account.CreateCloudBlobClient()`) is not found. The receiver's type is declared elsewhere (a field, a parameter, `var`), and matching on the method name alone would report unrelated types that share it. The file is still listed if it has the `using` directive.
+  - `using static N.Type;` is reported as an import but binds no name. A bare `Parse()` may be a member of the enclosing class, which C# prefers over the imported one, so it is not attributed.
+  - F# (`*.fs`) and Visual Basic (`*.vb`) sources are not read. Their import and call syntax differs from C#, and the project files that declare the packages are read regardless.
 
 ## Data
 
