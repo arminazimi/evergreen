@@ -54,6 +54,10 @@
           {
             "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
             "purpose": "Build with the new Xcode before uploading to App Store Connect."
+          },
+          {
+            "command": "swift build && swift test",
+            "purpose": "Build and test the Swift package on the toolchain that matches the new Xcode."
           }
         ]
       }
@@ -106,6 +110,10 @@
           {
             "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
             "purpose": "Build with the new Xcode before uploading to App Store Connect."
+          },
+          {
+            "command": "swift build && swift test",
+            "purpose": "Build and test the Swift package on the toolchain that matches the new Xcode."
           }
         ]
       }

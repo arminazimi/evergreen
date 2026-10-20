@@ -15,6 +15,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { SwiftDetector, swiftDetector } from "../src/detectors/swift/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -211,6 +212,26 @@ test("a repository without Swift files scans to nothing", async () => {
 test("the engine attributes a Swift finding to the detector", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [swiftDetector]);
   assert.deepEqual(result.findings.map((finding) => [finding.detector, finding.ruleId, finding.location.path, finding.location.line]), [["swift", "swift.xcode.app-store-15-through-25", ".xcode-version", 1]]);
+});
+
+test("every curated Swift rule has migration guidance with real verification commands", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(rule.migration.verification.some((check) => check.command === "swift build && swift test"), rule.id);
+    assert.ok(rule.migration.verification.some((check) => check.command === "xcodebuild -version"), rule.id);
+  }
+});
+
+test("a migration packet for a Swift finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [swiftDetector]);
+  const finding = result.findings.find((item) => item.id === "swift.xcode.app-store-15-through-25:.xcode-version:1");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes(".xcode-version"));
+  assert.ok(packet.steps.some((step) => step.id === "raise-xcode-pin"));
+  assert.ok(packet.steps.some((step) => step.id === "align-xcode-surfaces"));
+  assert.ok(packet.verification.some((check) => check.command === "xcodebuild -version"));
+  assert.ok(packet.verification.some((check) => check.command === "swift build && swift test"));
 });
 
 test("the detector is registered and Swift is experimental in the capability manifest", () => {

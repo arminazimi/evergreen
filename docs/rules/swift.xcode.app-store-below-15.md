@@ -42,6 +42,7 @@ Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadO
 
 - `xcodebuild -version`: Confirm the active Xcode is the intended release.
 - `xcodebuild -scheme "$(basename "$PWD")" -destination 'generic/platform=iOS' build`: Build with the new Xcode before uploading to App Store Connect.
+- `swift build && swift test`: Build and test the Swift package on the toolchain that matches the new Xcode.
 
 ## Detected by
 
