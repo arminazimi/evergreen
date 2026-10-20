@@ -69,7 +69,7 @@ combination works.
 
 ## PHP detector
 
-The `php` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](DATA.md). Public corpus pins for it are tracked with the PHP validation work; until a recorded full corpus run includes them, the dashboard's last-run counts for `php` stay at zero.
+The `php` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#php-corpus) cover it. Its lifecycle rules are in `registry/php.json` and ship in the [data bundle](DATA.md). Until a recorded full corpus run includes those pins, the dashboard's last-run counts for `php` stay at zero.
 
 ### Supported files and declarations
 
