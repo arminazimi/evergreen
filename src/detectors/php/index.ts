@@ -6,7 +6,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { analyzeSourceUsage, findPhpDynamicReferences } from "../../source-usage.js";
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseComposerJson } from "./parse-composer-json.js";
@@ -85,6 +85,8 @@ function coversEveryVersion(rule: RegistryV2Rule): boolean {
 export class PhpDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "php";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: [".php-version", ".tool-versions", "composer.json", "composer.lock"], sourceExtensions: [".php"] };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/php.json`. */
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/php.json")).rules) {}

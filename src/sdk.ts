@@ -22,9 +22,29 @@ export interface DetectorAnalysis {
   unclassified: readonly DetectorUnclassifiedReference[];
 }
 
+/**
+ * The files a detector may read from the repository it scans. A file is declared when any field matches it.
+ * Paths are relative to the scanned root and written with forward slashes.
+ */
+export interface DetectorInputs {
+  /** Exact base names matched at any depth, case-insensitively. `*` matches any run of characters: `requirements*.txt`. */
+  readonly fileNames?: readonly string[];
+  /** Base-name endings matched case-insensitively, including the dot: `.csproj`. */
+  readonly extensions?: readonly string[];
+  /** Directories, relative to the root or to any directory below it, whose files may all be read: `.github/workflows`. */
+  readonly directories?: readonly string[];
+  /** Extensions of source files read to map usage of a deprecated API, including the dot: `.ts`. */
+  readonly sourceExtensions?: readonly string[];
+}
+
 export interface Detector {
   readonly apiVersion: typeof DETECTOR_API_VERSION;
   readonly id: string;
+  /**
+   * Optional and additive: the files `scan` may read. Conformance fails a scan that reads a file outside it,
+   * so tools can fetch only these files. A detector that omits it makes no promise.
+   */
+  readonly inputs?: DetectorInputs;
   scan(context: DetectorContext): Promise<readonly DetectorFinding[]>;
   /** Optional richer result. Engines use it when present; scan remains the stable v1 seam. */
   analyze?(context: DetectorContext): Promise<DetectorAnalysis>;

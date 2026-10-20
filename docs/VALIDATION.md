@@ -204,6 +204,12 @@ It refuses, and changes nothing, when:
 
 Other harness flags such as `--concurrency` and `--offline` are passed through. The dashboard tests read the recorded commit, counts, and age from `benchmarks/thresholds.json` instead of repeating them, so recording a new run needs no test edits.
 
+## Pull request check
+
+Pull request CI (`ci.yml`) stays offline, so a detector or rule change that adds false positives would only be found in the weekly run. [`.github/workflows/corpus-pr.yml`](../.github/workflows/corpus-pr.yml) closes that gap in a separate workflow: when a pull request touches `src/`, `registry/`, `tests/fixtures/`, or `benchmarks/`, it maps the changed files to corpus ecosystems with the same `--changed` logic described above and runs only those, using the weekly run's checkout cache (restore only).
+
+The job summary lists the chosen ecosystems and every `UNEXPECTED` and `MISSING` line; the full report is attached as the `corpus-pr-result-<run id>` artifact. If nothing maps, it says so and fetches nothing. The workflow is **not a required check**: keep it out of branch protection, because it needs the network and GitHub's availability. It has `contents: read` only, no secrets, and no `pull_request_target`, and the base branch reaches the shell through an environment variable, never an inline expression. Treat a red run as a finding to explain in the pull request, using the rules in "Weekly run and refreshing pins" above.
+
 ## Weekly run and refreshing pins
 
 Pull request CI never touches the network, so the corpus is checked by [`.github/workflows/corpus.yml`](../.github/workflows/corpus.yml) every Monday and on demand (Actions → Public corpus → Run workflow). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:

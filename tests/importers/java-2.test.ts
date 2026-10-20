@@ -25,12 +25,12 @@ test("drafts relocation rules from the real recording", async () => {
   assert.match(drafts.rules[0]!.summary, /Its message says: "MySQL Connector\/J artifacts moved/);
 });
 
-test("reviewed rules match their drafts; the rest are left for review", async () => {
+test("reviewed rules match their drafts", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/java.json"), "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(mavenRelocationImporter, { replay: recording }), registry);
   assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.removed, []);
-  assert.deepEqual(diff.added.map((rule) => rule.id), ["java.maven.org.hibernate.hibernate-entitymanager.relocated"]);
+  assert.equal(diff.added.length, 0);
 });
 
 test("the candidate list is sorted and holds Maven coordinates", () => {

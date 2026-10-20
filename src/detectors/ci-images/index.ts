@@ -7,7 +7,7 @@ import { relativePosix } from "../../paths.js";
 import { validateRegistryV2 } from "../../registry.js";
 import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
-import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding } from "../../sdk.js";
+import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers/index.js";
 import { parseAzurePipelines } from "./parse-azure-pipelines.js";
 import { parseCircleci } from "./parse-circleci.js";
@@ -68,6 +68,8 @@ function azureNormalize(label: string): { purl: string; version: string } | unde
 export class CiImagesDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "ci-images";
+  /** The files `scan` may read; conformance fails a scan that reads another. */
+  readonly inputs: DetectorInputs = { fileNames: [".gitlab-ci.yml", "azure-pipelines.yml"], directories: [".circleci"] };
 
   constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/ci-images.json")).rules) {}
 

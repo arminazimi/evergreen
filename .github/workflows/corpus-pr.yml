@@ -1,0 +1,89 @@
+name: Corpus (affected ecosystems)
+
+# Pull request CI (ci.yml) stays offline. This separate, non-required workflow fetches the pinned public
+# repositories for just the corpus ecosystems the change touches, so a detector or rule change that adds
+# false positives shows up before merge instead of in the weekly run. Do not add it to the required checks.
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "registry/**"
+      - "tests/fixtures/**"
+      - "benchmarks/**"
+      - ".github/workflows/corpus-pr.yml"
+
+# Least privilege: the job only reads the repository. There is no write scope, no secret, and no
+# pull_request_target, so code from a fork runs without any credential.
+permissions:
+  contents: read
+
+concurrency:
+  group: corpus-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  EVERGREEN_CORPUS_CACHE: ${{ github.workspace }}/.corpus-cache
+
+jobs:
+  corpus:
+    name: corpus (affected ecosystems)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The affected ecosystems come from the diff against the base branch, which needs its history.
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      # Restore only: the weekly run saves the cache, and a pull request must not write a gigabyte-scale
+      # entry that could push it out. The prefix finds the newest cache the default branch saved.
+      - name: Restore the corpus checkout cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ env.EVERGREEN_CORPUS_CACHE }}
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories.json') }}
+          restore-keys: |
+            corpus-checkouts-
+      - name: Check the affected ecosystems against the pinned corpus
+        shell: bash
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags origin "$BASE_REF"
+          node dist/benchmarks/public-repositories.js --changed "origin/$BASE_REF" --output corpus-result.json 2>&1 | tee corpus.log
+      - name: Show the result in the job summary
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "### Corpus check for the affected ecosystems"
+            echo
+            if grep -q '^No corpus ecosystem is affected' corpus.log; then
+              echo "No corpus ecosystem is affected by this change, so nothing was fetched or run."
+            else
+              grep '^changed: ' corpus.log | sed 's/^/- /' || true
+              echo
+              if grep -qE '^(UNEXPECTED|MISSING)' corpus.log; then
+                echo '```text'
+                grep -E '^(UNEXPECTED|MISSING)' corpus.log
+                echo '```'
+              else
+                echo "No UNEXPECTED or MISSING findings."
+              fi
+              echo
+              grep -E '^(COST|BUDGET)' corpus.log | sed 's/^/    /' || true
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload the result
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: corpus-pr-result-${{ github.run_id }}
+          path: corpus-result.json
+          if-no-files-found: ignore
+          retention-days: 14

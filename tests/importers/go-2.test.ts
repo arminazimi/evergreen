@@ -24,12 +24,13 @@ test("drafts rules from real latest go.mod deprecation comments", async () => {
   assert.equal(protobuf.provenance.observedAt, "2026-10-16");
 });
 
-test("recorded drafts are reviewable additions and never mutate the Go registry", async () => {
+test("recorded drafts match the reviewed rules and never mutate the Go registry", async () => {
   const registry = JSON.parse(await readFile(resolve("registry/go.json"), "utf8")) as RegistryV2;
   const before = JSON.stringify(registry);
   const drafts = await execute(goModuleDeprecationImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
-  assert.equal(diff.added.length, GO_MODULE_CANDIDATES.length);
+  assert.equal(diff.added.length, 0);
+  assert.equal(diff.unchanged.length, GO_MODULE_CANDIDATES.length);
   assert.deepEqual([diff.changed, diff.removed, diff.duplicates], [[], [], []]);
   assert.equal(JSON.stringify(registry), before);
 });
