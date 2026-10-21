@@ -1,0 +1,7 @@
+{
+  "name": "angular-positive-v20",
+  "private": true,
+  "dependencies": {
+    "@angular/core": "^20.3.0"
+  }
+}

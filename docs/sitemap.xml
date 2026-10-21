@@ -149,6 +149,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-25.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v18-and-older.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
