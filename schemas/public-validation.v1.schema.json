@@ -23,6 +23,7 @@
               "ci-images",
               "container",
               "cpp",
+              "dart",
               "dotnet",
               "go",
               "java",

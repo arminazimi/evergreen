@@ -31,6 +31,7 @@ test("detectors that serve a different corpus name map to it", () => {
 test("a shared-file change runs the ecosystems that depend on it", () => {
   assert.deepEqual(names(["src/source-usage.ts"]), [
     "android",
+    "dart",
     "dotnet",
     "go",
     "java",
@@ -46,7 +47,7 @@ test("a shared-file change runs the ecosystems that depend on it", () => {
 });
 
 test("unrelated and no-corpus paths map to nothing", () => {
-  assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "tests/fixtures/dart/x"]), []);
+  assert.deepEqual(names(["docs/VALIDATION.md", "src/cli.ts", "tests/fixtures/unlisted/x"]), []);
   assert.deepEqual(describeAffected([], 3), ["No corpus ecosystem is affected by the 3 changed files; nothing to run."]);
 });
 
@@ -76,8 +77,8 @@ test("every corpus ecosystem and every built-in detector is covered by the map",
   for (const ecosystem of mapped) assert.ok((CORPUS_ECOSYSTEMS as readonly string[]).includes(ecosystem), `${ecosystem} is not a corpus ecosystem`);
   assert.deepEqual([...used].sort(), [...CORPUS_ECOSYSTEMS]);
 
-  // dart (and any pre-corpus detector) registers with an empty list on purpose; every other built-in must name one.
-  const withoutCorpus = new Set(["dart"]);
+  // A detector with no public corpus yet registers with an empty list on purpose; every other built-in must name one.
+  const withoutCorpus = new Set<string>();
   for (const detector of builtInDetectors) {
     const ecosystems = DETECTOR_ECOSYSTEMS[detector.id];
     assert.ok(ecosystems, `built-in detector ${detector.id} has no entry in DETECTOR_ECOSYSTEMS`);

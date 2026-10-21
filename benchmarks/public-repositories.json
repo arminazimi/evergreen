@@ -6605,6 +6605,234 @@
       "ecosystem": "ci-images",
       "selection": "targeted",
       "expected": []
+    },
+    {
+      "repository": "KaitoJD/btchess",
+      "commit": "82955bba0451935d34aba92d56fc045ea3076597",
+      "ecosystem": "dart",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/pr_check.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/pr_check.yml reads uses: actions/github-script@v6, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.lock",
+          "line": 1220,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1220 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.yaml",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 8 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rainbeek/isekai",
+      "commit": "840bfbef8efac0b49dba839dc80a3369caa02a3f",
+      "ecosystem": "dart",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd_dev.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/cd_dev.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd_dev.yml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/cd_dev.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd_regular-beta-release.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of .github/workflows/cd_regular-beta-release.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_code.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_code.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_code.yml",
+          "line": 78,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 78 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_code.yml",
+          "line": 107,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 107 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_code.yml",
+          "line": 142,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 142 of .github/workflows/ci_code.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_dependabot.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/ci_dependabot.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci_pr.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/ci_pr.yml reads uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4, a full-SHA pin whose trailing comment names v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "swift.xcode.app-store-15-through-25",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.3.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.lock",
+          "line": 1158,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1158 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.yaml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "kumokumo1653/ideamaker",
+      "commit": "8c2ba048a009bf82db0a80c7030e4652e1c7703a",
+      "ecosystem": "dart",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/deploy-develop-preview.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/deploy-develop-preview.yml reads uses: actions/checkout@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.lock",
+          "line": 1206,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1206 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.yaml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Salah-Essam/InstaFood",
+      "commit": "89da20e9aa24a96adedc681ae17c5a941cf408ca",
+      "ecosystem": "dart",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.lock",
+          "line": 1497,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1497 of pubspec.lock reads `dart: \"3.8.1\"`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        },
+        {
+          "ruleId": "dart.sdk.end-of-support-3.8",
+          "path": "pubspec.yaml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of pubspec.yaml reads `sdk: 3.8.1`, an exact Dart 3.8.1 pin. Dart 3.8 stopped receiving security updates when Dart 3.9 shipped on 2025-08-13 (https://dart.dev/changelog; Dart security policy, https://dart.dev/security)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "jonasbark/flutter_in_app_update",
+      "commit": "c85a20f5dc017c62cac0026fc762219832e4900b",
+      "ecosystem": "dart",
+      "selection": "targeted",
+      "expected": []
     }
   ]
 }
