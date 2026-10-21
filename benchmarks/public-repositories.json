@@ -38,10 +38,22 @@
       "commit": "05b4476913da39a47dd8e20d29e250f28b0a6dca",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "npm.package.request.deprecated", "path": "package.json", "line": 91, "groundTruthSource": { "kind": "maintainer-review" } }
+        {
+          "ruleId": "npm.package.request.deprecated",
+          "path": "package.json",
+          "line": 91,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        }
       ]
     },
-    { "repository": "fastify/fastify", "commit": "f736849a10a9b2ca57fb09437feb8294cda76234", "ecosystem": "node", "expected": [] },
+    {
+      "repository": "fastify/fastify",
+      "commit": "f736849a10a9b2ca57fb09437feb8294cda76234",
+      "ecosystem": "node",
+      "expected": []
+    },
     {
       "repository": "koajs/koa",
       "commit": "2fecd029c6ce6b79d65158d28a76538f7f6b0378",
@@ -74,15 +86,38 @@
         }
       ]
     },
-    { "repository": "axios/axios", "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12", "ecosystem": "node", "expected": [] },
-    { "repository": "chalk/chalk", "commit": "47fc05abd46171b235e24174cd2dba83d25bf037", "ecosystem": "node", "expected": [] },
-    { "repository": "tj/commander.js", "commit": "ba6d13ddb4243e5913367734f8c159089ffe7834", "ecosystem": "node", "expected": [] },
+    {
+      "repository": "axios/axios",
+      "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12",
+      "ecosystem": "node",
+      "expected": []
+    },
+    {
+      "repository": "chalk/chalk",
+      "commit": "47fc05abd46171b235e24174cd2dba83d25bf037",
+      "ecosystem": "node",
+      "expected": []
+    },
+    {
+      "repository": "tj/commander.js",
+      "commit": "ba6d13ddb4243e5913367734f8c159089ffe7834",
+      "ecosystem": "node",
+      "expected": []
+    },
     {
       "repository": "actions/toolkit",
       "commit": "7e25f67e8fd17369aa21e6e816ac99654106e0dc",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.github-script.node20", "path": ".github/workflows/update-github.yaml", "line": 33, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 33 of .github/workflows/update-github.yaml reads uses: actions/github-script@v6, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/update-github.yaml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of .github/workflows/update-github.yaml reads uses: actions/github-script@v6, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -90,13 +125,62 @@
       "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/quality.yml", "line": 22, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 21, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/quality.yml", "line": 30, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/test.yml", "line": 29, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 23, "groundTruthSource": { "kind": "maintainer-review" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/quality.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/quality.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        }
       ]
     },
     {
@@ -182,15 +266,41 @@
         }
       ]
     },
-    { "repository": "pallets/flask", "commit": "d086db856be187255b8ec61ef409357393020f32", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "pallets/flask",
+      "commit": "d086db856be187255b8ec61ef409357393020f32",
+      "ecosystem": "python",
+      "expected": []
+    },
     {
       "repository": "encode/httpx",
       "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/publish.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test-suite.yml", "line": 20, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 9, "groundTruthSource": { "kind": "maintainer-review" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test-suite.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        }
       ]
     },
     {
@@ -198,11 +308,48 @@
       "commit": "621e4974ca25ce531773def586ba3ed8e736b3fc",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 57, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/release.yml", "line": 21, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 21 of .github/workflows/release.yml reads uses: actions/setup-python@v4, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/test.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/test.yml reads uses: actions/setup-python@v5, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/release.yml reads uses: actions/setup-python@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/test.yml reads uses: actions/setup-python@v5, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -260,13 +407,63 @@
       "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codeql.yml", "line": 32, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codespell.yml", "line": 7, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/newissue.yml", "line": 11, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/pythonpackage.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/readmechanged.yml", "line": 14, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "maintainer-review" } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/pythonpackage.yml", "line": 21, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 21 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v5, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codespell.yml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/newissue.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/pythonpackage.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/readmechanged.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/pythonpackage.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v5, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -331,23 +528,159 @@
       "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/security-scan.yml", "line": 127, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a" } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/ai-review.yml", "line": 66, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 66 of .github/workflows/ai-review.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/ai-scorecard.yml", "line": 38, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 38 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/ai-scorecard.yml", "line": 54, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 54 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/claude-md-check.yml", "line": 38, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 38 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/claude-md-check.yml", "line": 57, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 57 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/issue-fields.yml", "line": 53, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 53 of .github/workflows/issue-fields.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/issue-sweep.yml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/issue-sweep.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/merge-lane.yml", "line": 52, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 52 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/merge-lane.yml", "line": 62, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 62 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/peras-tests.yml", "line": 40, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 40 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/peras-tests.yml", "line": 68, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 68 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/settings-check.yml", "line": 38, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 38 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/settings-check.yml", "line": 56, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 56 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.create-github-app-token.node20", "path": ".github/workflows/settings-check.yml", "line": 76, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 76 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/ai-review.yml", "line": 99, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 99 of .github/workflows/ai-review.yml reads - uses: actions/setup-python@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/security-scan.yml", "line": 55, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 55 of .github/workflows/security-scan.yml reads - uses: actions/setup-python@v5, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/security-scan.yml",
+          "line": 127,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/Akenon-Studio/.github/commit/4521883cc1c0c79f00f855fd944305997c23571a"
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/ai-review.yml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/ai-review.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/ai-scorecard.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/ai-scorecard.yml",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 54 of .github/workflows/ai-scorecard.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/claude-md-check.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/claude-md-check.yml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of .github/workflows/claude-md-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/issue-fields.yml",
+          "line": 53,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 53 of .github/workflows/issue-fields.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/issue-sweep.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of .github/workflows/issue-sweep.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/merge-lane.yml",
+          "line": 52,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 52 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/merge-lane.yml",
+          "line": 62,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 62 of .github/workflows/merge-lane.yml reads uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/peras-tests.yml",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/peras-tests.yml",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of .github/workflows/peras-tests.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/settings-check.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/settings-check.yml",
+          "line": 56,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 56 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/settings-check.yml",
+          "line": 76,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 76 of .github/workflows/settings-check.yml reads uses: actions/create-github-app-token@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ai-review.yml",
+          "line": 99,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 99 of .github/workflows/ai-review.yml reads - uses: actions/setup-python@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/security-scan.yml",
+          "line": 55,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 55 of .github/workflows/security-scan.yml reads - uses: actions/setup-python@v5, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -355,10 +688,42 @@
       "commit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/fix-php-code-style-issues.yml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/phpstan.yml", "line": 16, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/run-tests.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/update-changelog.yml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/fix-php-code-style-issues.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/phpstan.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/run-tests.yml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/update-changelog.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/concept7/filament-deepl-translations/commit/ce7686cb98c304df1f52fb71974ffba51ef0d3b3"
+          }
+        }
       ]
     },
     {
@@ -366,7 +731,15 @@
       "commit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/lean_action_ci.yml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/CuteSurtr/NeedlemanWunschLean/commit/90162967c2931a0eb4a0105da3f18ee0dac840bc" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/lean_action_ci.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/CuteSurtr/NeedlemanWunschLean/commit/90162967c2931a0eb4a0105da3f18ee0dac840bc"
+          }
+        }
       ]
     },
     {
@@ -426,10 +799,42 @@
       "commit": "99ff647c15fb6a56e3044a57f940ed87f1c1b222",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 27, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 36, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244" } },
-        { "ruleId": "github-actions.setup-terraform.node20", "path": ".github/workflows/ci.yml", "line": 18, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 18 of .github/workflows/ci.yml reads - uses: hashicorp/setup-terraform@v3, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/homelabdude/spire-federation-lab/commit/e3a19f70ea2c275b4e5862e64c9004fe507cd244"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-terraform.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/ci.yml reads - uses: hashicorp/setup-terraform@v3, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -437,8 +842,24 @@
       "commit": "cf9995a41163c761250b2b69d34457b6fa9ef640",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 38, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 82, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 82,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/ohmygodashish/nakatsu/commit/13fccce145761a1219856c0df36865acb3fdfd69"
+          }
+        }
       ]
     },
     {
@@ -446,12 +867,60 @@
       "commit": "b34cde6b925cd00e024e92f4b3e3521ecf35c6e5",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yaml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/prepare-release.yaml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release-package.yaml", "line": 17, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yaml", "line": 11, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/prepare-release.yaml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release-package.yaml", "line": 18, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/prepare-release.yaml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release-package.yaml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/prepare-release.yaml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release-package.yaml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/pipe-cd/docs-mcp-server/commit/cba16cf8a261da00a3f143182910e3ba6c3962ce"
+          }
+        }
       ]
     },
     {
@@ -459,19 +928,61 @@
       "commit": "2bb7ab4c344692f8549aef8441edafc9af614450",
       "ecosystem": "node-actions",
       "expected": [
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/build-and-push.yml", "line": 24, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/ci.yml", "line": 20, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05" } },
-        { "ruleId": "github-actions.setup-buildx-action.node20", "path": ".github/workflows/build-and-push.yml", "line": 66, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 66 of .github/workflows/build-and-push.yml reads uses: docker/setup-buildx-action@v3, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/build-and-push.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/smartcrabai/paperhanger/commit/240335f3fd5c75c912f1ab4b0740d5a52c3dbe05"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/build-and-push.yml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/build-and-push.yml reads uses: docker/setup-buildx-action@v3, a release below the supported major."
+          }
+        }
       ]
     },
-    { "repository": "openmcp-project/crossplane-headlamp-plugin", "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3", "ecosystem": "node-actions", "expected": [] },
-    { "repository": "phmatray/claude-deck", "commit": "d1325af2d9d883d86288312079d1bca012ee10c2", "ecosystem": "node-actions", "expected": [] },
+    {
+      "repository": "openmcp-project/crossplane-headlamp-plugin",
+      "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
+      "ecosystem": "node-actions",
+      "expected": []
+    },
+    {
+      "repository": "phmatray/claude-deck",
+      "commit": "d1325af2d9d883d86288312079d1bca012ee10c2",
+      "ecosystem": "node-actions",
+      "expected": []
+    },
     {
       "repository": "edwardm/ECORE-JS-Page-Down-Progress",
       "commit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 43, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8" } }
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8"
+          }
+        }
       ]
     },
     {
@@ -479,21 +990,141 @@
       "commit": "819baed5d20420ca8d2935945300f1536d3f8783",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888" } },
-        { "ruleId": "python.package.django-4.2.eol", "path": "pyproject.toml", "line": 42, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: pyproject.toml line 42 starts the django extra, which lists django>=4.2 on line 43. uv.lock has a django 4.2.30 entry (lines 1402-1408) whose resolution-markers are python_full_version == '3.9.*' or < '3.9', and the django extra selects it for python_full_version < '3.10' (lines 351-355). requires-python is >=3.8, so installing the extra on Python 3.8 or 3.9 resolves Django 4.2, which has been end-of-life since 2026-04-07. The 5.2.17 and 6.1.1 entries apply to newer Pythons and are not reported." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/codspeed.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/codspeed.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 84, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 84 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 111, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 111 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 159, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 159 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 17 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 62, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 62 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/tests.yml", "line": 81, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 81 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/zizmor.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/zizmor.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/release.yml", "line": 89, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 89 of .github/workflows/release.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/tests.yml", "line": 169, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 169 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major." } },
-        { "ruleId": "github-actions.setup-node.node20", "path": ".github/workflows/tests.yml", "line": 86, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 86 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major." } }
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/marcelomarkus/b-fast/commit/8627d6feed48be46187d6db759a96bf513066888"
+          }
+        },
+        {
+          "ruleId": "python.package.django-4.2.eol",
+          "path": "pyproject.toml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: pyproject.toml line 42 starts the django extra, which lists django>=4.2 on line 43. uv.lock has a django 4.2.30 entry (lines 1402-1408) whose resolution-markers are python_full_version == '3.9.*' or < '3.9', and the django extra selects it for python_full_version < '3.10' (lines 351-355). requires-python is >=3.8, so installing the extra on Python 3.8 or 3.9 resolves Django 4.2, which has been end-of-life since 2026-04-07. The 5.2.17 and 6.1.1 entries apply to newer Pythons and are not reported."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codspeed.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/codspeed.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 84,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 84 of .github/workflows/release.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 111,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 111 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 159,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 159 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 62,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 62 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 81,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 81 of .github/workflows/tests.yml reads - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/zizmor.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/zizmor.yml reads uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 89,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 89 of .github/workflows/release.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 169,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 169 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 86,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 86 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -501,7 +1132,15 @@
       "commit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e" } }
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e"
+          }
+        }
       ]
     },
     {
@@ -509,7 +1148,15 @@
       "commit": "4413b27a567feee21a9e331bc60497c8458448aa",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 13, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/simonsobs/socs/commit/f22f0b56a89d463b3357034d353020e3bdb2f62b" } }
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/simonsobs/socs/commit/f22f0b56a89d463b3357034d353020e3bdb2f62b"
+          }
+        }
       ]
     },
     {
@@ -517,7 +1164,15 @@
       "commit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 14, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/strambc/fof-ct-linkml/commit/e0f029a6b0a4bef8c7b18d62a74444dfaeddb906" } }
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/strambc/fof-ct-linkml/commit/e0f029a6b0a4bef8c7b18d62a74444dfaeddb906"
+          }
+        }
       ]
     },
     {
@@ -525,7 +1180,15 @@
       "commit": "996156beb522c2cbb10f735d8a92d884178e1a42",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 41, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83" } }
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83"
+          }
+        }
       ]
     },
     {
@@ -533,8 +1196,24 @@
       "commit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/semgrep.yml", "line": 15, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 15 of .github/workflows/semgrep.yml reads - uses: actions/checkout@v3" } },
-        { "ruleId": "npm.package.request.deprecated", "path": "package.json", "line": 29, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9" } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/semgrep.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/semgrep.yml reads - uses: actions/checkout@v3"
+          }
+        },
+        {
+          "ruleId": "npm.package.request.deprecated",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9"
+          }
+        }
       ]
     },
     {
@@ -542,10 +1221,42 @@
       "commit": "eac7dcfd929aa9fe86ac3b6c11f56d5ddb68d1e8",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.cache.node20", "path": ".github/workflows/build.yml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/build.yml reads - uses: actions/cache@v2" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/build.yml reads - uses: actions/checkout@v2" } },
-        { "ruleId": "npm.package.node-sass.eol", "path": "package.json", "line": 33, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/collective/collective.sidebar/commit/e23a6a5cd5ec57e813cec1cf883adc4551c2d40a" } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/build.yml", "line": 28, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 28 of .github/workflows/build.yml reads uses: actions/setup-python@v2, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of .github/workflows/build.yml reads - uses: actions/cache@v2"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/build.yml reads - uses: actions/checkout@v2"
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/collective/collective.sidebar/commit/e23a6a5cd5ec57e813cec1cf883adc4551c2d40a"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/build.yml reads uses: actions/setup-python@v2, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -596,16 +1307,96 @@
       "commit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 16, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 16 of .github/workflows/ci.yml reads - uses: actions/checkout@v4" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@v4" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/docs.yml", "line": 49, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 49 of .github/workflows/docs.yml reads uses: actions/checkout@v4" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 6, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732" } },
-        { "ruleId": "github-actions.deploy-pages.node20", "path": ".github/workflows/docs.yml", "line": 81, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 81 of .github/workflows/docs.yml reads uses: actions/deploy-pages@v4, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/docs.yml", "line": 30, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 30 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-python.node20", "path": ".github/workflows/docs.yml", "line": 52, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 52 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/ci.yml", "line": 17, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads - uses: astral-sh/setup-uv@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/docs.yml", "line": 35, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 35 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/docs.yml", "line": 57, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 57 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/ci.yml reads - uses: actions/checkout@v4"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/docs.yml reads uses: actions/checkout@v4"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 49 of .github/workflows/docs.yml reads uses: actions/checkout@v4"
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/jmanteau/fastapi-topaz/commit/d1eff702b0e3afc932e8794e50aed76fca028732"
+          }
+        },
+        {
+          "ruleId": "github-actions.deploy-pages.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 81,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 81 of .github/workflows/docs.yml reads uses: actions/deploy-pages@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 52,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 52 of .github/workflows/docs.yml reads uses: actions/setup-python@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/ci.yml reads - uses: astral-sh/setup-uv@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of .github/workflows/docs.yml reads uses: astral-sh/setup-uv@v4, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -613,11 +1404,51 @@
       "commit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
       "ecosystem": "python",
       "expected": [
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/ci.yml", "line": 24, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yml reads uses: actions/checkout@v4" } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/release.yml", "line": 19, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads - uses: actions/checkout@v4" } },
-        { "ruleId": "python.runtime.eol-3.9-and-older", "path": "pyproject.toml", "line": 10, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811" } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/ci.yml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/ci.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major." } },
-        { "ruleId": "github-actions.setup-uv.node20", "path": ".github/workflows/release.yml", "line": 25, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/ci.yml reads uses: actions/checkout@v4"
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads - uses: actions/checkout@v4"
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/lv10/amazonapi/commit/6062b3897f65a3ad4fd91626b7942ee951899811"
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/ci.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-uv.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/release.yml reads uses: astral-sh/setup-uv@v5, a release below the supported major."
+          }
+        }
       ]
     },
     {
@@ -779,8 +1610,24 @@
       "commit": "d842b983d031675de736bfdbdb28798c071ebba5",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "nodejs.runtime.eol-20", "path": ".nvmrc", "line": 1, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea" } },
-        { "ruleId": "nodejs.runtime.eol-20", "path": "package.json", "line": 29, "groundTruthSource": { "kind": "migration-commit", "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea" } }
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".nvmrc",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "migration-commit",
+            "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea"
+          }
+        }
       ]
     },
     {
@@ -788,12 +1635,35 @@
       "commit": "c2c43a99f4d50676456c137ff88359579f78bf5c",
       "ecosystem": "node",
       "expected": [
-        { "ruleId": "github-actions.labeler.node20", "path": ".github/workflows/label.yml", "line": 13, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 13 of .github/workflows/label.yml reads - uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4.3.0, a release below the supported major." } }
+        {
+          "ruleId": "github-actions.labeler.node20",
+          "path": ".github/workflows/label.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 13 of .github/workflows/label.yml reads - uses: actions/labeler@ac9175f8a1f3625fd0d4fb234536d26811351594 # v4.3.0, a release below the supported major."
+          }
+        }
       ]
     },
-    { "repository": "vitest-dev/vitest", "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7", "ecosystem": "node", "expected": [] },
-    { "repository": "lerna/lerna", "commit": "b00fa0321a42947bb4113bc7906021f04131d0db", "ecosystem": "node", "expected": [] },
-    { "repository": "changesets/changesets", "commit": "c73949ba7b3160a4aa5729223335c190de1528f8", "ecosystem": "node", "expected": [] },
+    {
+      "repository": "vitest-dev/vitest",
+      "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7",
+      "ecosystem": "node",
+      "expected": []
+    },
+    {
+      "repository": "lerna/lerna",
+      "commit": "b00fa0321a42947bb4113bc7906021f04131d0db",
+      "ecosystem": "node",
+      "expected": []
+    },
+    {
+      "repository": "changesets/changesets",
+      "commit": "c73949ba7b3160a4aa5729223335c190de1528f8",
+      "ecosystem": "node",
+      "expected": []
+    },
     {
       "repository": "outline/outline",
       "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
@@ -1848,7 +2718,12 @@
         }
       ]
     },
-    { "repository": "gethomepage/homepage", "commit": "89b0d20655ca521e55ae65097c2da4285c87a403", "ecosystem": "container", "expected": [] },
+    {
+      "repository": "gethomepage/homepage",
+      "commit": "89b0d20655ca521e55ae65097c2da4285c87a403",
+      "ecosystem": "container",
+      "expected": []
+    },
     {
       "repository": "jesseduffield/lazygit",
       "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
@@ -1949,7 +2824,12 @@
         }
       ]
     },
-    { "repository": "helm/helm", "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0", "ecosystem": "go", "expected": [] },
+    {
+      "repository": "helm/helm",
+      "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0",
+      "ecosystem": "go",
+      "expected": []
+    },
     {
       "repository": "trpc/trpc",
       "commit": "10e2ef98f7842b94eb3026e4f9bcfe62cc39b088",
@@ -2063,8 +2943,18 @@
         }
       ]
     },
-    { "repository": "facebook/docusaurus", "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9", "ecosystem": "node", "expected": [] },
-    { "repository": "pydantic/pydantic-ai", "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1", "ecosystem": "python", "expected": [] },
+    {
+      "repository": "facebook/docusaurus",
+      "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9",
+      "ecosystem": "node",
+      "expected": []
+    },
+    {
+      "repository": "pydantic/pydantic-ai",
+      "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1",
+      "ecosystem": "python",
+      "expected": []
+    },
     {
       "repository": "sharkdp/hyperfine",
       "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
@@ -2345,7 +3235,12 @@
         }
       ]
     },
-    { "repository": "sharkdp/fd", "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696", "ecosystem": "rust", "expected": [] },
+    {
+      "repository": "sharkdp/fd",
+      "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696",
+      "ecosystem": "rust",
+      "expected": []
+    },
     {
       "repository": "argoproj/argocd-example-apps",
       "commit": "8088f4c0d970abb09e250248cc97e35623447cb5",
@@ -3012,7 +3907,13 @@
         }
       ]
     },
-    { "repository": "qgindi/LibreAutomate", "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d", "ecosystem": "dotnet", "selection": "targeted", "expected": [] },
+    {
+      "repository": "qgindi/LibreAutomate",
+      "commit": "0ee67843a2bd1a2d7412935a2f235496b8557c3d",
+      "ecosystem": "dotnet",
+      "selection": "targeted",
+      "expected": []
+    },
     {
       "repository": "rikimaru0345/Ceras",
       "commit": "de8798b368ea3983e9113be9a8db51ee6e9eda26",
@@ -3542,9 +4443,27 @@
         }
       ]
     },
-    { "repository": "0xthirteen/SharpStay", "commit": "27c20ad22a018bd966b0e1f4a35b2b7569d4b4e7", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "NightfallGT/Mercurial-Grabber", "commit": "ed515438e245d7710f079414244a82eedd8b71fb", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "Dec0ne/ShadowSpray", "commit": "ee9dc0ec485bb3a82b95d8ea1aa28321b318120c", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    {
+      "repository": "0xthirteen/SharpStay",
+      "commit": "27c20ad22a018bd966b0e1f4a35b2b7569d4b4e7",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "NightfallGT/Mercurial-Grabber",
+      "commit": "ed515438e245d7710f079414244a82eedd8b71fb",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "Dec0ne/ShadowSpray",
+      "commit": "ee9dc0ec485bb3a82b95d8ea1aa28321b318120c",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
     {
       "repository": "Ceiridge/Chrome-Developer-Mode-Extension-Warning-Patcher",
       "commit": "936977542ecfb025b784cd457fcbfd7dffbe5f5c",
@@ -3616,11 +4535,41 @@
         }
       ]
     },
-    { "repository": "TerribleDev/OwinOAuthProviders", "commit": "8b382b0429aeb656f54149ab6f3472dd559ae12f", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "chsakell/mvcarchitecture", "commit": "5f48163d038464e7a2cbd40ede120baf49eee549", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "SeriaWei/ASP.NET-MVC-CMS", "commit": "5b764bb1c8c73a8c5e099a209d644eaf3bb4f6b3", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "stanzhai/Html2Article", "commit": "cdbb6c8c4e642eddf9ee1a1e968586b02f055fca", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
-    { "repository": "BeichenDream/SharpToken", "commit": "45cb5e210b8f5100c6a252541d5a9449b557eeaf", "ecosystem": "dotnet", "selection": "blind", "expected": [] },
+    {
+      "repository": "TerribleDev/OwinOAuthProviders",
+      "commit": "8b382b0429aeb656f54149ab6f3472dd559ae12f",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "chsakell/mvcarchitecture",
+      "commit": "5f48163d038464e7a2cbd40ede120baf49eee549",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "SeriaWei/ASP.NET-MVC-CMS",
+      "commit": "5b764bb1c8c73a8c5e099a209d644eaf3bb4f6b3",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "stanzhai/Html2Article",
+      "commit": "cdbb6c8c4e642eddf9ee1a1e968586b02f055fca",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "BeichenDream/SharpToken",
+      "commit": "45cb5e210b8f5100c6a252541d5a9449b557eeaf",
+      "ecosystem": "dotnet",
+      "selection": "blind",
+      "expected": []
+    },
     {
       "repository": "nettitude/SharpSocks",
       "commit": "208226df71205e977afd7edf6d25fb6d8793bd99",
@@ -4177,16 +5126,96 @@
             "note": "Reviewed independently at this commit: line 88 of app/build.gradle pins com.android.billingclient:billing:5.2.1; Google's Play Billing deprecation timeline says version 5 can no longer be used for new releases."
           }
         },
-        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/tools/CMakeLists.txt", "line": 5, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 5 of app/tools/CMakeLists.txt declares cmake_minimum_required(VERSION 3.1.0), below the policy version removed by CMake 4.0." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build-playstore-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/build-playstore-android.yaml uses actions/checkout@v3, below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/build-web-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/build-web-android.yaml uses actions/checkout@v3, below the supported major." } },
-        { "ruleId": "github-actions.checkout.node20", "path": ".github/workflows/test-android.yaml", "line": 7, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 7 of .github/workflows/test-android.yaml uses actions/checkout@v3, below the supported major." } },
-        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/build-playstore-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/build-playstore-android.yaml uses actions/setup-java@v3, below the supported major." } },
-        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/build-web-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/build-web-android.yaml uses actions/setup-java@v3, below the supported major." } },
-        { "ruleId": "github-actions.setup-java.node20", "path": ".github/workflows/test-android.yaml", "line": 10, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 10 of .github/workflows/test-android.yaml uses actions/setup-java@v3, below the supported major." } },
-        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/build-playstore-android.yaml", "line": 27, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 27 of .github/workflows/build-playstore-android.yaml uses the retired actions/upload-artifact@v3 release." } },
-        { "ruleId": "github-actions.upload-artifact.retired", "path": ".github/workflows/build-web-android.yaml", "line": 37, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 37 of .github/workflows/build-web-android.yaml uses the retired actions/upload-artifact@v3 release." } },
-        { "ruleId": "go.runtime.end-of-support-1.20-and-older", "path": "app/tools/libwg-go/go.mod", "line": 3, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 3 of app/tools/libwg-go/go.mod declares Go 1.19, which is outside the supported release window." } }
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "app/tools/CMakeLists.txt",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of app/tools/CMakeLists.txt declares cmake_minimum_required(VERSION 3.1.0), below the policy version removed by CMake 4.0."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build-playstore-android.yaml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of .github/workflows/build-playstore-android.yaml uses actions/checkout@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build-web-android.yaml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of .github/workflows/build-web-android.yaml uses actions/checkout@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test-android.yaml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of .github/workflows/test-android.yaml uses actions/checkout@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/build-playstore-android.yaml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of .github/workflows/build-playstore-android.yaml uses actions/setup-java@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/build-web-android.yaml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of .github/workflows/build-web-android.yaml uses actions/setup-java@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/test-android.yaml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of .github/workflows/test-android.yaml uses actions/setup-java@v3, below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/build-playstore-android.yaml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/build-playstore-android.yaml uses the retired actions/upload-artifact@v3 release."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/build-web-android.yaml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of .github/workflows/build-web-android.yaml uses the retired actions/upload-artifact@v3 release."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.20-and-older",
+          "path": "app/tools/libwg-go/go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of app/tools/libwg-go/go.mod declares Go 1.19, which is outside the supported release window."
+          }
+        }
       ]
     },
     {
@@ -4223,8 +5252,24 @@
             "note": "Reviewed independently at this commit: line 150 of app/build.gradle pins com.android.billingclient:billing:8.0.0; Google's Play Billing deprecation timeline records the version 8 support window and its 2027 deadline."
           }
         },
-        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/CMakeLists.txt", "line": 1, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 1 of app/libs/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } },
-        { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/free-reflection/CMakeLists.txt", "line": 6, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 6 of app/libs/free-reflection/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } }
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "app/libs/CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of app/libs/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0."
+          }
+        },
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "app/libs/free-reflection/CMakeLists.txt",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 6 of app/libs/free-reflection/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0."
+          }
+        }
       ]
     },
     {
@@ -4334,6 +5379,261 @@
     {
       "repository": "serverless/examples",
       "commit": "71d6720f68e1f25ee02bbef7c3e843591870639a",
+      "ecosystem": "serverless",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "aws-samples/sam-python-crud-sample",
+      "commit": "f91982d24775dce644283b9ae33deb78e49c49fc",
+      "ecosystem": "serverless",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "template.yaml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 29 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "template.yaml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 49 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "template.yaml",
+          "line": 69,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 69 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "template.yaml",
+          "line": 89,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 89 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "template.yaml",
+          "line": 109,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 109 of template.yaml reads `Runtime: python3.8` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql-analysis.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 38 of .github/workflows/codeql-analysis.yml reads uses: actions/checkout@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/pythonpackage.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/pythonpackage.yml reads uses: actions/checkout@v1, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/pythonpackage.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v1, a release below the supported major."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "livgust/covid-vaccine-scrapers",
+      "commit": "3433936c5a6400aa6406cec61b977e0b6768aadd",
+      "ecosystem": "serverless",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 73,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 73 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 107,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 107 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 137,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 137 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 162,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 162 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 188,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 188 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 220,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 220 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "template.yaml",
+          "line": 254,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 254 of template.yaml reads `Runtime: nodejs14.x`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 18, which has ended."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 19, which has ended."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes release line 20, which has ended."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of package.json reads `\"node\": \">= 14.0.0\"`, a Node.js range that includes legacy release lines past end of support."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/nodejs.yaml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 22 of .github/workflows/nodejs.yaml reads uses: actions/checkout@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/prod_deploy.yaml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of .github/workflows/prod_deploy.yaml reads uses: actions/checkout@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/nodejs.yaml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/nodejs.yaml reads uses: actions/setup-node@v1, a release below the supported major."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Swizec/lambda-screenshot-as-a-service",
+      "commit": "8873c4f4ad9ed95e58186ff11798d07a023210dc",
+      "ecosystem": "serverless",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "serverless.yml",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 6 of serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "skojin/send-gmail-lambda",
+      "commit": "3e6425d4155584c2693691101b3465dc5ea66ebe",
+      "ecosystem": "serverless",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.ruby2.7",
+          "path": "serverless.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of serverless.yml reads `runtime: ruby2.7` under `provider:`. The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "AnomalyInnovations/serverless-stack-demo-api",
+      "commit": "755e2e49dd0a69556b39249b57f5db54b4ae893e",
       "ecosystem": "serverless",
       "selection": "blind",
       "expected": []
