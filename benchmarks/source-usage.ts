@@ -60,7 +60,7 @@ async function compareEngines(): Promise<Record<string, unknown>> {
   };
   const regexRun = async (): Promise<number> => {
     const startedAt = performance.now();
-    await analyzeSourceUsage(corpus, [usageContract]);
+    await analyzeSourceUsage(corpus, [usageContract], { parser: false });
     return performance.now() - startedAt;
   };
   const treeSitterRun = async (): Promise<number> => {
@@ -102,7 +102,7 @@ try {
   );
 
   const startedAt = performance.now();
-  const [analysis] = await analyzeSourceUsage(root, [contract]);
+  const [analysis] = await analyzeSourceUsage(root, [contract], { parser: false });
   const durationMs = performance.now() - startedAt;
   const usages = analysis?.usages ?? [];
   const detectedUsages = usages.length;

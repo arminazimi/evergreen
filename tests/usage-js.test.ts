@@ -49,7 +49,7 @@ async function regexUsages(files: Record<string, string>): Promise<SourceUsage[]
     await mkdir(dirname(join(root, path)), { recursive: true });
     await writeFile(join(root, path), contents);
   }
-  const [analysis] = await analyzeSourceUsage(root, [contract]);
+  const [analysis] = await analyzeSourceUsage(root, [contract], { parser: false });
   return analysis!.usages;
 }
 
@@ -217,4 +217,22 @@ test("returns undefined for files over the size bound so callers can fall back",
     [contract],
   );
   assert.equal(result, undefined);
+});
+
+test("scans use the parser by default, find what the regex scanner cannot", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-usage-wired-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "multiline.ts"), `import request from "request";\nrequest\n  .get(\n    url,\n  );\n`);
+  await writeFile(join(root, "script.py"), `import requests\nrequests.get(\n  url,\n)\n`);
+  const pythonContract: SourceUsageContract = {
+    id: "requests",
+    matchers: [{ kind: "call", language: "python", module: "requests", targets: ["get"] }],
+  };
+  const [parsed] = await analyzeSourceUsage(root, [contract]);
+  const [regex] = await analyzeSourceUsage(root, [contract], { parser: false });
+  const [python] = await analyzeSourceUsage(root, [pythonContract]);
+  const calls = (usages: SourceUsage[] | undefined): string[] => summary(usages ?? []).filter((entry) => entry.startsWith("call"));
+  assert.deepEqual(calls(parsed?.usages), ["call multiline.ts:2:1 request.get"]);
+  assert.deepEqual(calls(regex?.usages), []);
+  assert.deepEqual(calls(python?.usages), ["call script.py:2:1 requests.get"]);
 });

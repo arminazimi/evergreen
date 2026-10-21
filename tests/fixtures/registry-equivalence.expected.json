@@ -774,7 +774,7 @@
      "location": {
       "path": "src/app.js",
       "line": 1,
-      "column": 7
+      "column": 26
      },
      "excerpt": "const request = require(\"request\");"
     },

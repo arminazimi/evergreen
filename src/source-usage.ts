@@ -12,6 +12,8 @@ import type {
   SourceUsageContract,
 } from "./domain.js";
 import { relativePosix } from "./paths.js";
+import { analyzeJavaScriptFile } from "./usage/javascript.js";
+import { analyzePythonFile } from "./usage/python.js";
 
 const ignoredDirectories = new Set([
   ".git",
@@ -1472,9 +1474,31 @@ export function impactFor(usages: readonly SourceUsage[]): MigrationImpact {
   };
 }
 
+async function parsedUsages(
+  file: SourceFile,
+  contents: string,
+  contracts: readonly SourceUsageContract[],
+): Promise<Map<string, SourceUsage[]> | undefined> {
+  try {
+    if (file.language === "python") return await analyzePythonFile({ path: file.path, language: "python", source: contents }, contracts);
+    if (file.language === "javascript" || file.language === "typescript") {
+      return await analyzeJavaScriptFile({ path: file.path, language: file.language, source: contents }, contracts);
+    }
+  } catch {
+    // The parser could not run; the regex scanner covers the file.
+  }
+  return undefined;
+}
+
+export interface SourceUsageOptions {
+  /** Set to false to use the regex scanner for every language, as the parity tests and benchmark do. Defaults to true. */
+  parser?: boolean;
+}
+
 export async function analyzeSourceUsage(
   root: string,
   contracts: readonly SourceUsageContract[],
+  options: SourceUsageOptions = {},
 ): Promise<SourceUsageAnalysis[]> {
   const resolvedRoot = resolve(root);
   const relevantLanguages = new Set(
@@ -1494,6 +1518,13 @@ export async function analyzeSourceUsage(
     if (!relevantLanguages.has(file.language)) continue;
     if ((file.language === "ruby" || file.language === "php") && checkoutSourceIgnored(file.path)) continue;
     const contents = await readFile(file.absolutePath, "utf8");
+    // JavaScript, TypeScript, and Python import and call usages come from the parser when it can read the file;
+    // otherwise (too large, over budget, or the runtime cannot load) the regex scanner below handles them.
+    const parsed = options.parser === false ? undefined : await parsedUsages(file, contents, contracts);
+    if (parsed) {
+      for (const [contractId, usages] of parsed) for (const usage of usages) push(contractId, usage);
+      if (!contracts.some((contract) => contract.matchers.some((matcher) => matcher.kind === "config-key" && matcher.language === file.language))) continue;
+    }
     const lines = contents.split(/\r?\n/);
     const maskedLines: string[] = [];
     const maskState = { blockComment: false };
@@ -1524,6 +1555,7 @@ export async function analyzeSourceUsage(
     for (const contract of contracts) {
       const matchers = contract.matchers.filter((matcher) => matcher.language === file.language);
       for (const matcher of matchers) {
+        if (parsed && matcher.kind !== "config-key") continue;
         if (matcher.kind === "import") {
           for (const reference of imports.filter((candidate) =>
             moduleMatches(candidate.module, matcher.module, file.language),

@@ -131,7 +131,7 @@ interface Differences {
 async function compare(contracts: readonly SourceUsageContract[], subdirectory: string): Promise<Differences> {
   const root = join(corpus, subdirectory);
   const regex = new Set<string>();
-  for (const analysis of await analyzeSourceUsage(root, contracts)) {
+  for (const analysis of await analyzeSourceUsage(root, contracts, { parser: false })) {
     for (const usage of analysis.usages) regex.add(`${analysis.contractId} ${identify(usage)}`);
   }
   const parsed = new Set<string>();

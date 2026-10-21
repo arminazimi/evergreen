@@ -45,7 +45,7 @@ async function regexUsages(files: Record<string, string>): Promise<SourceUsage[]
     await mkdir(dirname(join(root, path)), { recursive: true });
     await writeFile(join(root, path), contents);
   }
-  const [analysis] = await analyzeSourceUsage(root, [contract]);
+  const [analysis] = await analyzeSourceUsage(root, [contract], { parser: false });
   return analysis!.usages;
 }
 
