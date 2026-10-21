@@ -54,6 +54,7 @@ jobs:
           - { importer: serverless-1, ecosystem: serverless }
           - { importer: serverless-2, ecosystem: serverless }
           - { importer: swift-1, ecosystem: swift }
+          - { importer: terraform-1, ecosystem: terraform }
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -127,6 +128,7 @@ jobs:
           - serverless-1
           - serverless-2
           - swift-1
+          - terraform-1
     steps:
       - uses: actions/checkout@v7
       - name: Fetch the drafts, if this importer found a difference
