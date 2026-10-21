@@ -26,6 +26,22 @@ The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its schedu
 
 - [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)
 
+## Migration
+
+**Constraints**
+
+- Change only Microsoft-hosted pool.vmImage labels. The macOS 14 schedule does not apply to self-hosted macOS 14 agents.
+- Move off macos-14 before the scheduled removal on 2026-11-02. The notice names macos-latest or macos-15.
+
+**Steps**
+
+1. **Retarget the hosted image.** Change the reported pool.vmImage from macos-14 to macos-latest or macos-15 (see the replacement).
+2. **Align other Azure Pipelines pools.** Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-14. Leave self-hosted pool names unchanged.
+
+**Verification**
+
+- `gitlab-ci-lint || circleci config validate`: Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage.
+
 ## Detected by
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

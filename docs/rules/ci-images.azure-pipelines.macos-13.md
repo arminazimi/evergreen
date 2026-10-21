@@ -27,6 +27,22 @@ The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hoste
 - [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted)
 - [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)
 
+## Migration
+
+**Constraints**
+
+- Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.
+- The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it.
+
+**Steps**
+
+1. **Retarget the hosted image.** Change the reported pool.vmImage from macos-13 to macos-15 or macos-latest (the notice also allows macos-14; see the replacement).
+2. **Align other Azure Pipelines pools.** Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-13. Leave self-hosted pool names unchanged.
+
+**Verification**
+
+- `gitlab-ci-lint || circleci config validate`: Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage.
+
 ## Detected by
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

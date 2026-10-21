@@ -27,6 +27,22 @@ The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps
 - [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)
 - [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted)
 
+## Migration
+
+**Constraints**
+
+- Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted Windows Server 2019 agents, Managed DevOps Pools, or VM scale sets.
+- The notice names windows-2022, windows-2025, or windows-latest. Pin windows-2022 or windows-2025 when the pipeline must stay on one Windows Server release, because windows-latest moves when Microsoft updates the alias.
+
+**Steps**
+
+1. **Retarget the hosted image.** Change the reported pool.vmImage from windows-2019 to windows-2022, windows-2025, or windows-latest (see the replacement).
+2. **Align other Azure Pipelines pools.** Update every other azure-pipelines.yml pool, including stage and job pools, that still pins windows-2019. Leave self-hosted pool names unchanged.
+
+**Verification**
+
+- `gitlab-ci-lint || circleci config validate`: Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage.
+
 ## Detected by
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
