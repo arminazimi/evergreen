@@ -47,6 +47,15 @@ interface DirectDependency {
 }
 
 type ResolvedVersions = Map<string, Set<string>>;
+
+/** One Python project: the root, or a uv workspace member. */
+interface ProjectScan {
+  directory: string;
+  declarations: Declaration[];
+  dependencies: Map<string, DirectDependency>;
+  resolved: ResolvedVersions;
+}
+
 type UnknownRecord = Record<string, unknown>;
 
 function asRecord(value: unknown): UnknownRecord | undefined {
@@ -361,13 +370,6 @@ function coversDependency(rule: PythonPackageRule, project: ProjectScan): boolea
   if (range === undefined || parseVersLenient(range).all) return true;
   const versions = project.resolved.get(normalizePackageName(rule.package)) ?? new Set<string>();
   return [...versions].some((version) => versionMatches(range, version));
-}
-
-interface ProjectScan {
-  directory: string;
-  declarations: Declaration[];
-  dependencies: Map<string, DirectDependency>;
-  resolved: ResolvedVersions;
 }
 
 export class PythonDetector implements Detector {

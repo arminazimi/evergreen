@@ -244,3 +244,69 @@ test("bundled Django rules cover each end-of-life series once and no supported s
   // Pre-releases of the next series are not part of the series before it.
   assert.deepEqual(djangoRules.filter((rule) => versContains(rule.vers, "5.0rc1")), []);
 });
+
+test("a Django range in optional and dependency-group declarations without a lockfile produces no finding (b-fast shape)", async () => {
+  const root = await repository({
+    "pyproject.toml": `[project]
+name = "bfast-like"
+requires-python = ">=3.8"
+dependencies = ["pydantic>=2.0"]
+
+[project.optional-dependencies]
+django = [
+    "django>=4.2",
+    "django-ninja>=1.0",
+]
+all = [
+    "django>=4.2",
+]
+
+[dependency-groups]
+dev = [
+    "django>=4.2",
+]
+`,
+  });
+
+  const findings = await new PythonDetector().scan({ root });
+
+  assert.deepEqual(
+    findings.filter((finding) => finding.ruleId.startsWith("python.package.django")),
+    [],
+  );
+});
+
+test("a lockfile entry that resolves an end-of-life Django counts when its marker applies (b-fast lock shape)", async () => {
+  const root = await repository({
+    "pyproject.toml": `[project]
+name = "bfast-like"
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+django = [
+    "django>=4.2",
+]
+`,
+    "uv.lock": `version = 1
+[[package]]
+name = "django"
+version = "4.2.30"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = ["python_full_version < '3.10'"]
+
+[[package]]
+name = "django"
+version = "5.2.17"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = ["python_full_version >= '3.10'"]
+`,
+  });
+
+  const findings = (await new PythonDetector().scan({ root })).filter((finding) => finding.ruleId.startsWith("python.package.django"));
+
+  assert.deepEqual(
+    findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["python.package.django-4.2.eol", "pyproject.toml", 6]],
+  );
+  assert.ok(findings[0]?.summary.includes("resolved: 4.2.30, 5.2.17"));
+});
