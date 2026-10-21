@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "dart",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "dart.sdk.end-of-support-3.12",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.12.0|<3.13.0",
+      "event": "end-of-support",
+      "title": "Dart 3.12 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.12 stopped being that release when Dart 3.13 shipped on 2026-08-12.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2026-08-12",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.11",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.11.0|<3.12.0",
+      "event": "end-of-support",
+      "title": "Dart 3.11 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.11 stopped being that release when Dart 3.12 shipped on 2026-05-18.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2026-05-18",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.10",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.10.0|<3.11.0",
+      "event": "end-of-support",
+      "title": "Dart 3.10 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.10 stopped being that release when Dart 3.11 shipped on 2026-02-11.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2026-02-11",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.9",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.9.0|<3.10.0",
+      "event": "end-of-support",
+      "title": "Dart 3.9 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.9 stopped being that release when Dart 3.10 shipped on 2025-11-12.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2025-11-12",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "dart.sdk.end-of-support-3.8",
+      "ecosystem": "dart",
+      "purl": "pkg:generic/dart",
+      "vers": "vers:semver/>=3.8.0|<3.9.0",
+      "event": "end-of-support",
+      "title": "Dart 3.8 no longer receives security updates",
+      "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.8 stopped being that release when Dart 3.9 shipped on 2025-08-13.",
+      "severity": "high",
+      "replacement": "Dart 3.13 or later",
+      "deadline": "2025-08-13",
+      "sources": [
+        {
+          "title": "Dart security policy",
+          "url": "https://dart.dev/security"
+        },
+        {
+          "title": "Dart changelog",
+          "url": "https://dart.dev/changelog"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}

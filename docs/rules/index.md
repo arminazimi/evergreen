@@ -51,6 +51,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [CMake policy versions older than 3.10 are deprecated](cpp.cmake.policy-below-3.10.deprecated.html) — deprecated, `cpp.cmake.policy-below-3.10.deprecated`
 - [CMake policy versions older than 3.5 are removed](cpp.cmake.policy-below-3.5.removed.html) — removed, `cpp.cmake.policy-below-3.5.removed`
 
+## dart
+
+- [Dart 3.10 no longer receives security updates](dart.sdk.end-of-support-3.10.html) — end of support, `dart.sdk.end-of-support-3.10`
+- [Dart 3.11 no longer receives security updates](dart.sdk.end-of-support-3.11.html) — end of support, `dart.sdk.end-of-support-3.11`
+- [Dart 3.12 no longer receives security updates](dart.sdk.end-of-support-3.12.html) — end of support, `dart.sdk.end-of-support-3.12`
+- [Dart 3.8 no longer receives security updates](dart.sdk.end-of-support-3.8.html) — end of support, `dart.sdk.end-of-support-3.8`
+- [Dart 3.9 no longer receives security updates](dart.sdk.end-of-support-3.9.html) — end of support, `dart.sdk.end-of-support-3.9`
+
 ## dotnet
 
 - [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-documentdb.deprecated`

@@ -56,6 +56,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "ci-images.json": ["ci-images"],
   "container.json": ["container"],
   "cpp.json": ["cpp"],
+  "dart.json": [],
   "dotnet.json": ["dotnet"],
   "github-actions-shas.json": ["node-actions"],
   "github-actions.json": ["node-actions"],
