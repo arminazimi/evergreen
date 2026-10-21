@@ -56,7 +56,7 @@ import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thre
 const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   "ci-images": { corpus: ["ci-images"], row: "CI runner images" },
   container: { corpus: ["container"], row: "Container base images" },
-  cpp: { corpus: [], row: "C and C++" },
+  cpp: { corpus: ["cpp"], row: "C and C++" },
   dotnet: { corpus: ["dotnet"], row: ".NET" },
   "github-actions": { corpus: ["node-actions"], row: "GitHub Actions" },
   go: { corpus: ["go"], row: "Go" },

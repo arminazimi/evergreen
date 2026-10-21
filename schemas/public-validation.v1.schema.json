@@ -21,6 +21,7 @@
             "enum": [
               "android",
               "container",
+              "cpp",
               "dotnet",
               "go",
               "java",

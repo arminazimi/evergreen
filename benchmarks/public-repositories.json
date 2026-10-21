@@ -4341,7 +4341,7 @@
     {
       "repository": "dr-m/crc32_simd",
       "commit": "aaa329cff5e5697b184be5cb7b073ec2d18f908f",
-      "ecosystem": "android",
+      "ecosystem": "cpp",
       "selection": "targeted",
       "expected": [
         {
@@ -4359,7 +4359,7 @@
     {
       "repository": "Yukrid/cptp",
       "commit": "e1c8c101ed320466432940de2c306423b795fa21",
-      "ecosystem": "android",
+      "ecosystem": "cpp",
       "selection": "targeted",
       "expected": [
         {
@@ -4377,7 +4377,7 @@
     {
       "repository": "Samsung/starfish",
       "commit": "f41c159ef27d3b66ae0d38599f2b0a4aea83341b",
-      "ecosystem": "android",
+      "ecosystem": "cpp",
       "selection": "targeted",
       "expected": [
         {
@@ -4445,7 +4445,7 @@
     {
       "repository": "yaml/libyaml",
       "commit": "840b65c40675e2d06bf40405ad3f12dec7f35923",
-      "ecosystem": "android",
+      "ecosystem": "cpp",
       "selection": "targeted",
       "expected": [
         {
@@ -4493,7 +4493,7 @@
     {
       "repository": "catchorg/Catch2",
       "commit": "08092139210881f01a34e60c5f2fd6afa0ea4024",
-      "ecosystem": "android",
+      "ecosystem": "cpp",
       "selection": "blind",
       "expected": []
     }
