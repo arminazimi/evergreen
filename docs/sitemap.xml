@@ -7,8 +7,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-8.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/android.play-billing.version-9.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-13.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-20.04.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.clickhouse.eol-26.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.couchbase.eol-7.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>

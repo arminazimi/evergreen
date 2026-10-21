@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -11,7 +11,9 @@ import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
 import { CiImagesDetector } from "../src/detectors/ci-images/index.js";
+import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
+import type { DetectorFinding } from "../src/sdk.js";
 
 const fixtures = resolve("tests/fixtures/ci-images");
 const detector = new CiImagesDetector();
@@ -31,11 +33,42 @@ async function repository(files: Record<string, string>): Promise<string> {
   return root;
 }
 
+function expected(rule: RegistryV2Rule, path: string, line: number, summary: string): DetectorFinding {
+  return {
+    id: `${rule.id}:${path}:${line}`,
+    ruleId: rule.id,
+    title: rule.title,
+    summary,
+    severity: rule.severity,
+    location: { path, line },
+    ...(rule.replacement ? { replacement: rule.replacement } : {}),
+    ...(rule.deadline ? { deadline: rule.deadline } : {}),
+    ...(rule.migration ? { migration: rule.migration } : {}),
+    sources: rule.sources,
+  };
+}
+
 test("ci-images passes detector conformance on every fixture", async () => {
+  const rules = validateRegistryV2(JSON.parse(await readFile("registry/ci-images.json", "utf8"))).rules;
+  const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
+  const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   await runDetectorConformance({
     detector,
     fixtures: [
-      { name: "ci-images positive", root: resolve(fixtures, "positive"), expectedFindings: [] },
+      {
+        name: "ci-images positive",
+        root: resolve(fixtures, "positive"),
+        expectedFindings: [
+          expected(ubuntu2004, "azure-pipelines.yml", 2, `azure-pipelines.yml uses vmImage ubuntu-20.04. ${ubuntu2004.summary}`),
+          expected(windows2019, "azure-pipelines.yml", 7, `azure-pipelines.yml uses vmImage windows-2019. ${windows2019.summary}`),
+        ],
+      },
+    ],
+    checks: [determinismCheck, evidenceCheck, boundsCheck],
+  });
+  await runDetectorConformance({
+    detector,
+    fixtures: [
       { name: "ci-images negative", root: resolve(fixtures, "negative"), expectedFindings: [] },
       { name: "ci-images zero", root: resolve(fixtures, "zero"), expectedFindings: [] },
     ],
@@ -97,9 +130,12 @@ test("Azure vmImage matching is case-insensitive and rejects suffixes", async ()
   ]);
 });
 
-test("GitLab and CircleCI references are unclassified, never findings", async () => {
+test("GitLab and CircleCI references stay unclassified while retired Azure labels are findings", async () => {
+  const rules = validateRegistryV2(JSON.parse(await readFile("registry/ci-images.json", "utf8"))).rules;
+  const ubuntu2004 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.ubuntu-20.04")!;
+  const windows2019 = rules.find((rule) => rule.id === "ci-images.azure-pipelines.windows-2019")!;
   const analysis = await detector.analyze({ root: resolve(fixtures, "positive") });
-  assert.deepEqual(analysis.findings, []);
+  assert.deepEqual(analysis.findings.map((finding) => finding.ruleId), [ubuntu2004.id, windows2019.id]);
   assert.deepEqual(analysis.unclassified.map((item) => [item.location.path, item.location.line, item.reason]), [
     [".circleci/config.yml", 3, "orb-not-resolved"],
     [".gitlab-ci.yml", 1, "gitlab-not-judged"],

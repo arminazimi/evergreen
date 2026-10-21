@@ -3,6 +3,35 @@
   "ecosystem": "ci-images",
   "rules": [
     {
+      "id": "ci-images.azure-pipelines.macos-13",
+      "ecosystem": "ci-images",
+      "purl": "pkg:generic/azure-pipelines/macos-image",
+      "vers": "vers:intdot/13",
+      "event": "removed",
+      "title": "Azure Pipelines macOS 13 Ventura hosted image is retired",
+      "summary": "The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hosted agents page states that date, and the Azure DevOps blog lists the same full retiral date.",
+      "severity": "high",
+      "replacement": "macos-14, macos-15, or macos-latest",
+      "deadline": "2025-12-04",
+      "sources": [
+        {
+          "title": "Microsoft-hosted agents for Azure Pipelines",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
+          "accessedAt": "2026-10-21"
+        },
+        {
+          "title": "Upcoming Updates for Azure Pipelines Agents Images",
+          "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
       "id": "ci-images.azure-pipelines.macos-14",
       "ecosystem": "ci-images",
       "purl": "pkg:generic/azure-pipelines/macos-image",
@@ -26,6 +55,35 @@
       }
     },
     {
+      "id": "ci-images.azure-pipelines.ubuntu-20.04",
+      "ecosystem": "ci-images",
+      "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+      "vers": "vers:intdot/20.04",
+      "event": "removed",
+      "title": "Azure Pipelines Ubuntu 20.04 hosted image is retired",
+      "summary": "The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure DevOps blog deprecation plan. The Microsoft-hosted agents page lists that image as retired.",
+      "severity": "high",
+      "replacement": "ubuntu-22.04, ubuntu-24.04, or ubuntu-latest",
+      "deadline": "2025-04-30",
+      "sources": [
+        {
+          "title": "Upcoming Updates for Azure Pipelines Agents Images",
+          "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+          "accessedAt": "2026-10-21"
+        },
+        {
+          "title": "Microsoft-hosted agents for Azure Pipelines",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
       "id": "ci-images.azure-pipelines.ubuntu-22.04",
       "ecosystem": "ci-images",
       "purl": "pkg:generic/azure-pipelines/ubuntu-image",
@@ -45,6 +103,35 @@
       "provenance": {
         "observedAt": "2026-10-18",
         "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "ci-images.azure-pipelines.windows-2019",
+      "ecosystem": "ci-images",
+      "purl": "pkg:generic/azure-pipelines/windows-image",
+      "vers": "vers:intdot/2019",
+      "event": "removed",
+      "title": "Azure Pipelines Windows Server 2019 hosted image is retired",
+      "summary": "The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps blog sets that full removal date, and the Microsoft-hosted agents page records the same retirement.",
+      "severity": "high",
+      "replacement": "windows-2022, windows-2025, or windows-latest",
+      "deadline": "2025-12-31",
+      "sources": [
+        {
+          "title": "Upcoming Updates for Azure Pipelines Agents Images",
+          "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+          "accessedAt": "2026-10-21"
+        },
+        {
+          "title": "Microsoft-hosted agents for Azure Pipelines",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
       }
     }

@@ -18,8 +18,11 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## ci-images
 
+- [Azure Pipelines macOS 13 Ventura hosted image is retired](ci-images.azure-pipelines.macos-13.html) — removed, `ci-images.azure-pipelines.macos-13`
 - [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html) — scheduled end of life, `ci-images.azure-pipelines.macos-14`
+- [Azure Pipelines Ubuntu 20.04 hosted image is retired](ci-images.azure-pipelines.ubuntu-20.04.html) — removed, `ci-images.azure-pipelines.ubuntu-20.04`
 - [Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal](ci-images.azure-pipelines.ubuntu-22.04.html) — scheduled end of life, `ci-images.azure-pipelines.ubuntu-22.04`
+- [Azure Pipelines Windows Server 2019 hosted image is retired](ci-images.azure-pipelines.windows-2019.html) — removed, `ci-images.azure-pipelines.windows-2019`
 
 ## container
 
