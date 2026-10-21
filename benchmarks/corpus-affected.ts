@@ -73,6 +73,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "rust.json": ["rust"],
   "serverless.json": ["serverless"],
   "sources.lock.json": [],
+  "terraform.json": [],
   "swift.json": ["swift"],
 };
 

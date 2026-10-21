@@ -447,4 +447,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.10.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.11.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.13.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.14.html</loc><lastmod>2026-10-21</lastmod></url>
 </urlset>

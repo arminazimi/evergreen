@@ -506,3 +506,11 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads](swift.app-store.ios-below-13.html) — end of support, `swift.app-store.ios-below-13`
 - [Xcode 15 through 25 are not accepted for App Store uploads](swift.xcode.app-store-15-through-25.html) — end of support, `swift.xcode.app-store-15-through-25`
 - [Xcode older than 15 is not accepted for App Store uploads](swift.xcode.app-store-below-15.html) — end of support, `swift.xcode.app-store-below-15`
+
+## terraform
+
+- [Terraform CLI 1.10 is no longer a supported release line](terraform.cli.end-of-support-1.10.html) — end of support, `terraform.cli.end-of-support-1.10`
+- [Terraform CLI 1.11 is no longer a supported release line](terraform.cli.end-of-support-1.11.html) — end of support, `terraform.cli.end-of-support-1.11`
+- [Terraform CLI 1.12 is no longer a supported release line](terraform.cli.end-of-support-1.12.html) — end of support, `terraform.cli.end-of-support-1.12`
+- [Terraform CLI 1.13 is no longer a supported release line](terraform.cli.end-of-support-1.13.html) — end of support, `terraform.cli.end-of-support-1.13`
+- [Terraform CLI 1.14 is no longer a supported release line](terraform.cli.end-of-support-1.14.html) — end of support, `terraform.cli.end-of-support-1.14`

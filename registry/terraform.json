@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "terraform",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "terraform.cli.end-of-support-1.14",
+      "ecosystem": "terraform",
+      "purl": "pkg:generic/terraform",
+      "vers": "vers:semver/>=1.14.0|<1.15.0",
+      "event": "end-of-support",
+      "title": "Terraform CLI 1.14 is no longer a supported release line",
+      "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.14 (first released 2025-11-19) stopped being one of them when Terraform 1.16 was released on 2026-08-26. endoflife.date records 2026-08-26 as the end-of-life date for the 1.14 line. The HashiCorp support policy page could not be read when this rule was reviewed, so the support window is taken from the endoflife.date record and the dates of the hashicorp/terraform GitHub releases.",
+      "severity": "high",
+      "replacement": "Terraform 1.15 or later",
+      "deadline": "2026-08-26",
+      "sources": [
+        {
+          "title": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "title": "hashicorp/terraform release v1.16.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0"
+        },
+        {
+          "title": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "terraform.cli.end-of-support-1.13",
+      "ecosystem": "terraform",
+      "purl": "pkg:generic/terraform",
+      "vers": "vers:semver/>=1.13.0|<1.14.0",
+      "event": "end-of-support",
+      "title": "Terraform CLI 1.13 is no longer a supported release line",
+      "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.13 (first released 2025-08-20) stopped being one of them when Terraform 1.15 was released on 2026-04-29. endoflife.date records 2026-04-29 as the end-of-life date for the 1.13 line. The HashiCorp support policy page could not be read when this rule was reviewed, so the support window is taken from the endoflife.date record and the dates of the hashicorp/terraform GitHub releases.",
+      "severity": "high",
+      "replacement": "Terraform 1.15 or later",
+      "deadline": "2026-04-29",
+      "sources": [
+        {
+          "title": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "title": "hashicorp/terraform release v1.15.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
+        },
+        {
+          "title": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "terraform.cli.end-of-support-1.12",
+      "ecosystem": "terraform",
+      "purl": "pkg:generic/terraform",
+      "vers": "vers:semver/>=1.12.0|<1.13.0",
+      "event": "end-of-support",
+      "title": "Terraform CLI 1.12 is no longer a supported release line",
+      "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.12 (first released 2025-05-14) stopped being one of them when Terraform 1.14 was released on 2025-11-19. endoflife.date records 2025-11-19 as the end-of-life date for the 1.12 line. The HashiCorp support policy page could not be read when this rule was reviewed, so the support window is taken from the endoflife.date record and the dates of the hashicorp/terraform GitHub releases.",
+      "severity": "medium",
+      "replacement": "Terraform 1.15 or later",
+      "deadline": "2025-11-19",
+      "sources": [
+        {
+          "title": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "title": "hashicorp/terraform release v1.14.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0"
+        },
+        {
+          "title": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "terraform.cli.end-of-support-1.11",
+      "ecosystem": "terraform",
+      "purl": "pkg:generic/terraform",
+      "vers": "vers:semver/>=1.11.0|<1.12.0",
+      "event": "end-of-support",
+      "title": "Terraform CLI 1.11 is no longer a supported release line",
+      "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.11 (first released 2025-02-27) stopped being one of them when Terraform 1.13 was released on 2025-08-20. endoflife.date records 2025-08-20 as the end-of-life date for the 1.11 line. The HashiCorp support policy page could not be read when this rule was reviewed, so the support window is taken from the endoflife.date record and the dates of the hashicorp/terraform GitHub releases.",
+      "severity": "medium",
+      "replacement": "Terraform 1.15 or later",
+      "deadline": "2025-08-20",
+      "sources": [
+        {
+          "title": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "title": "hashicorp/terraform release v1.13.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.13.0"
+        },
+        {
+          "title": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "terraform.cli.end-of-support-1.10",
+      "ecosystem": "terraform",
+      "purl": "pkg:generic/terraform",
+      "vers": "vers:semver/>=1.10.0|<1.11.0",
+      "event": "end-of-support",
+      "title": "Terraform CLI 1.10 is no longer a supported release line",
+      "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.10 (first released 2024-11-26) stopped being one of them when Terraform 1.12 was released on 2025-05-14. endoflife.date records 2025-05-14 as the end-of-life date for the 1.10 line. The HashiCorp support policy page could not be read when this rule was reviewed, so the support window is taken from the endoflife.date record and the dates of the hashicorp/terraform GitHub releases.",
+      "severity": "medium",
+      "replacement": "Terraform 1.15 or later",
+      "deadline": "2025-05-14",
+      "sources": [
+        {
+          "title": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "title": "hashicorp/terraform release v1.12.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.12.0"
+        },
+        {
+          "title": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}
