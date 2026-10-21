@@ -82,6 +82,11 @@
       "coverage": "Resolved packages and SDK constraints in `pubspec.lock`, direct dependencies and `environment` constraints in `pubspec.yaml`, and the Flutter version pinned in `.fvmrc` and `.fvm/fvm_config.json`, for Dart SDK releases past end of support and discontinued pub packages. See [Dart and Flutter](detectors/dart.md)."
     },
     {
+      "ecosystems": ["database"],
+      "name": "Database runtimes",
+      "coverage": "Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on AWS managed database resources in `*.tf`, for major and minor lines past end of life. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0."
+    },
+    {
       "ecosystems": ["terraform"],
       "name": "Terraform",
       "coverage": "`required_version` and `required_providers` constraints in `*.tf`, locked provider versions in `.terraform.lock.hcl`, and the Terraform CLI version pinned in `.terraform-version` and `.tool-versions`, for Terraform CLI release lines past end of support. Bundled rules cover CLI lines 1.10 through 1.14; provider rules are not bundled yet. See [Terraform](detectors/terraform.md)."

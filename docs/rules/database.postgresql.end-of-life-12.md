@@ -29,7 +29,7 @@ The PostgreSQL Global Development Group lists 12 as unsupported: its final relea
 
 ## Detected by
 
-No built-in detector reads `database` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/database.json).
+The `database` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

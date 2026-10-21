@@ -30,6 +30,11 @@
       "stable": false,
       "minPrecision": 0.95
     },
+    "database": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
+    },
     "dotnet": {
       "level": "beta",
       "stable": true,

@@ -34,6 +34,7 @@ const ROW_NAMES = [
   "Android",
   "C and C++",
   "Dart and Flutter",
+  "Database runtimes",
   "Terraform",
   "Serverless runtimes",
   "Other language and platform ecosystems",

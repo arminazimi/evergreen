@@ -59,6 +59,7 @@ Matrix version: **2026-10-15 / v1**
 | Android | Experimental | Literal `compileSdk`, `minSdk`, `targetSdk`, and `buildToolsVersion` in `build.gradle` and `build.gradle.kts`, Android Gradle Plugin and Kotlin Android plugin versions in `settings.gradle(.kts)`, `agp` and `kotlin` keys in `libs.versions.toml`, and string-notation Maven dependencies, matched to reviewed rules. Bundled rules cover Google Play Billing Library majors 5 through 9. SDK and plugin declarations produce a finding only when a rule names them. See [Android](#android-detector). |
 | C and C++ | Experimental | `cmake_minimum_required`, C and C++ language standards, and compiler version checks in `CMakeLists.txt`; direct requirements in `conanfile.txt` and `conanfile.py`; and direct dependencies and `builtin-baseline` in `vcpkg.json`. Bundled rules cover CMake policy versions older than 3.5 (removed) and from 3.5 up to 3.10 (deprecated). See [C and C++](#c-and-c-detector). |
 | Dart and Flutter | Experimental | Resolved packages and SDK constraints in `pubspec.lock`, direct dependencies and `environment` constraints in `pubspec.yaml`, and the Flutter version pinned in `.fvmrc` and `.fvm/fvm_config.json`, for Dart SDK releases past end of support and discontinued pub packages. See [Dart and Flutter](detectors/dart.md). |
+| Database runtimes | Experimental | Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on AWS managed database resources in `*.tf`, for major and minor lines past end of life. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0. |
 | Terraform | Experimental | `required_version` and `required_providers` constraints in `*.tf`, locked provider versions in `.terraform.lock.hcl`, and the Terraform CLI version pinned in `.terraform-version` and `.tool-versions`, for Terraform CLI release lines past end of support. Bundled rules cover CLI lines 1.10 through 1.14; provider rules are not bundled yet. See [Terraform](detectors/terraform.md). |
 | Serverless runtimes | Beta | `Runtime` on AWS SAM and CloudFormation functions and `Globals`, `provider.runtime` and per-function `runtime` in `serverless.yml`, and Terraform `runtime` on `aws_lambda_function` plus Google Cloud Functions runtimes and Azure function-app `application_stack` version pins. Bundled rules cover selected AWS Lambda and Google Cloud Functions identifiers that the vendors list as end-of-life. See [Serverless runtimes](detectors/serverless.md). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
@@ -167,6 +168,10 @@ The `swift` detector is **beta**: its level is recorded as `beta` in `benchmarks
 ## Dart and Flutter detector
 
 The `dart` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Dart and Flutter](detectors/dart.md). Its lifecycle rules are in `registry/dart.json` and ship in the [data bundle](DATA.md).
+
+## Database runtimes detector
+
+The `database` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Its lifecycle rules are in `registry/database.json` and ship in the [data bundle](DATA.md).
 
 ## Terraform detector
 

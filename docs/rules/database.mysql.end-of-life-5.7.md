@@ -29,7 +29,7 @@ MySQL 5.7 reached end of life on 2023-10-31 and no longer receives security or b
 
 ## Detected by
 
-No built-in detector reads `database` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/database.json).
+The `database` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

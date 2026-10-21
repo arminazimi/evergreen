@@ -4,6 +4,7 @@ import { ciImagesDetector } from "./ci-images/index.js";
 import { containerDetector } from "./container/index.js";
 import { cppDetector } from "./cpp/index.js";
 import { dartDetector } from "./dart/index.js";
+import { databaseDetector } from "./database/index.js";
 import { dotnetDetector } from "./dotnet/index.js";
 import { goDetector } from "./go/index.js";
 import { javaDetector } from "./java/index.js";
@@ -37,4 +38,5 @@ export const builtInDetectors: readonly Detector[] = [
   androidDetector,
   dartDetector,
   terraformDetector,
+  databaseDetector,
 ];

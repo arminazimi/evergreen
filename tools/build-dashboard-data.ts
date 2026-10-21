@@ -30,6 +30,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   container: ["container"],
   cpp: ["cpp"],
   dart: ["dart"],
+  database: [],
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   go: ["go"],
