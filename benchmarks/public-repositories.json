@@ -2431,6 +2431,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed 2026-10-19 at this pinned commit, package.json line 19: @types/socket.io-client is declared as 3.0.0; npm explicitly deprecates matching version 3.0.0 (https://registry.npmjs.org/@types%2fsocket.io-client/3.0.0)."
           }
+        },
+        {
+          "ruleId": "npm.package.next.14.support-end",
+          "path": "examples/with-nextjs/package.json",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of examples/with-nextjs/package.json reads `\"next\": \"14.1\"` under dependencies. Next.js 14 is listed under Unsupported Versions in the support policy (https://nextjs.org/support-policy)."
+          }
         }
       ]
     },
@@ -2696,6 +2705,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.13.support-end",
+          "path": "package.json",
+          "line": 92,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 92 of package.json reads `\"next\": \"^13.2.3\"` under dependencies. Next.js 13 is listed under Unsupported Versions in the support policy (https://nextjs.org/support-policy)."
           }
         },
         {
