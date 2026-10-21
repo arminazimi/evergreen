@@ -22,13 +22,13 @@ import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
-import { renderCheckText, renderFindingText, renderJson, renderMigrationPacketText, renderSarif, renderText } from "./reporters.js";
+import { renderCheckText, renderFindingText, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { VERSION } from "./version.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
-  evergreen scan [path] [--json | --format <text|json|sarif>]
+  evergreen scan [path] [--json | --format <text|json|sarif|rdjson>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
@@ -178,16 +178,16 @@ async function main(args: string[]): Promise<number> {
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
-  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif") {
-    process.stderr.write(`Unknown format: ${format ?? ""} (expected text, json, or sarif).\n`);
+  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif" && format !== "rdjson") {
+    process.stderr.write(`Unknown format: ${format ?? ""} (expected text, json, sarif, or rdjson).\n`);
     return 2;
   }
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     process.stderr.write("check supports --json and --format text|json only.\n");
     return 2;
   }
-  if (format === "sarif" && command !== "scan") {
-    process.stderr.write("--format sarif is only available for the scan command.\n");
+  if ((format === "sarif" || format === "rdjson") && command !== "scan") {
+    process.stderr.write(`--format ${format} is only available for the scan command.\n`);
     return 2;
   }
   const json = args.includes("--json") || format === "json";
@@ -312,7 +312,7 @@ async function main(args: string[]): Promise<number> {
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else {
-    const output = format === "sarif" ? renderSarif(result) : json ? renderJson(result) : renderText(result);
+    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : json ? renderJson(result) : renderText(result);
     process.stdout.write(`${output}\n`);
   }
   if (baselineExpiredFailure) {

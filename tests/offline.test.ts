@@ -186,6 +186,7 @@ globalThis.fetch = function (input, ...rest) { record("fetch " + input); return 
   for (const args of [
     ["scan", project, "--json"],
     ["scan", project, "--format", "sarif"],
+    ["scan", project, "--format", "rdjson"],
     ["check", "pkg:npm/request@2.88.2"],
     ["explain", findingId, project],
     ["context", findingId, project],

@@ -52,9 +52,18 @@ export function describeData(data: DataInfo): string {
   return `Data: ${data.source} ${data.version}, evidence reviewed through ${data.reviewedThrough} (${age})${data.stale ? ", stale" : ""}`;
 }
 
+const RDJSON_SEVERITY: Record<Severity, "ERROR" | "WARNING" | "INFO"> = {
+  critical: "ERROR",
+  high: "ERROR",
+  medium: "WARNING",
+  low: "INFO",
+  info: "INFO",
+};
+
 const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
 
-function sarifOrder(left: Finding, right: Finding): number {
+/** The one order every machine-readable reporter uses, so the same scan always lists findings the same way. */
+function findingOrder(left: Finding, right: Finding): number {
   return (
     compare(left.location.path, right.location.path) ||
     (left.location.line ?? 0) - (right.location.line ?? 0) ||
@@ -69,7 +78,7 @@ function sarifOrder(left: Finding, right: Finding): number {
  * locations and Evergreen's own rule text are written; no source content is uploaded.
  */
 export function renderSarif(result: ScanResult): string {
-  const findings = [...result.findings].sort(sarifOrder);
+  const findings = [...result.findings].sort(findingOrder);
   const ruleIds = [...new Set(findings.map((finding) => finding.ruleId))].sort(compare);
   const rules = ruleIds.map((ruleId) => {
     const finding = findings.find((candidate) => candidate.ruleId === ruleId)!;
@@ -118,6 +127,34 @@ export function renderSarif(result: ScanResult): string {
     ],
   };
   return JSON.stringify(sarif, null, 2);
+}
+
+/**
+ * Renders a scan as one reviewdog Diagnostic Format (rdjson) result, the input `reviewdog -f=rdjson` reads. Findings use
+ * the same order as SARIF. Lines and columns are written only when the finding has them, and only Evergreen's own rule
+ * text and locations are included. Like SARIF, the output has no root path or timestamp, so it is deterministic.
+ */
+export function renderRdjson(result: ScanResult): string {
+  const diagnostics = [...result.findings].sort(findingOrder).map((finding) => {
+    const { line, column } = finding.location;
+    return {
+      message: finding.summary,
+      location: {
+        path: finding.location.path,
+        ...(line ? { range: { start: { line, ...(column ? { column } : {}) } } } : {}),
+      },
+      severity: RDJSON_SEVERITY[finding.severity],
+      code: {
+        value: finding.ruleId,
+        ...(finding.sources[0] ? { url: finding.sources[0].url } : {}),
+      },
+    };
+  });
+  const rdjson = {
+    source: { name: "Evergreen", url: "https://github.com/arminazimi/evergreen" },
+    diagnostics,
+  };
+  return JSON.stringify(rdjson, null, 2);
 }
 
 export function renderText(result: ScanResult): string {
