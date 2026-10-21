@@ -92,20 +92,30 @@
     }
   },
   "lastFullRun": {
-    "date": "2026-10-20",
-    "commit": "b77392c",
-    "repositories": 107,
-    "findings": 441,
+    "date": "2026-10-21",
+    "commit": "db5d0ee",
+    "repositories": 128,
+    "findings": 528,
     "precision": 1,
     "recall": 1,
     "perDetector": {
+      "android": {
+        "truePositives": 4,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
       "ci-images": {
         "truePositives": 0,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "container": {
-        "truePositives": 16,
+        "truePositives": 19,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "cpp": {
+        "truePositives": 6,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -115,12 +125,12 @@
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 225,
+        "truePositives": 242,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "go": {
-        "truePositives": 7,
+        "truePositives": 8,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -130,12 +140,12 @@
         "falseNegatives": 0
       },
       "kubernetes": {
-        "truePositives": 9,
+        "truePositives": 29,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "nodejs": {
-        "truePositives": 40,
+        "truePositives": 44,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -145,12 +155,12 @@
         "falseNegatives": 0
       },
       "php": {
-        "truePositives": 4,
+        "truePositives": 5,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "python": {
-        "truePositives": 19,
+        "truePositives": 20,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -161,6 +171,16 @@
       },
       "rust": {
         "truePositives": 5,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "serverless": {
+        "truePositives": 20,
+        "falsePositives": 0,
+        "falseNegatives": 0
+      },
+      "swift": {
+        "truePositives": 10,
         "falsePositives": 0,
         "falseNegatives": 0
       }
