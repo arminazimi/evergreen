@@ -249,8 +249,8 @@
         ],
         "verification": [
           {
-            "command": "sam validate || serverless print || terraform validate",
-            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+            "command": "terraform validate",
+            "purpose": "Validate the updated Terraform google_cloudfunctions*_function declaration before deploy."
           }
         ]
       }

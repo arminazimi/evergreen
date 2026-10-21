@@ -163,9 +163,19 @@ test("the engine attributes a serverless finding to the detector", async () => {
 test("every curated Serverless rule has migration guidance with real verification commands", async () => {
   for (const rule of await committedRules()) {
     assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    if (rule.id.startsWith("serverless.google-cloud-functions.")) {
+      assert.ok(
+        rule.migration.verification.length >= 1 &&
+          rule.migration.verification.every(
+            (check) => check.command.startsWith("terraform ") && !check.command.includes("sam ") && !check.command.includes("serverless "),
+          ),
+        `${rule.id}: Google Cloud Functions verification must be Terraform-only`,
+      );
+      continue;
+    }
     assert.ok(
       rule.migration.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"),
-      rule.id,
+      `${rule.id}: AWS Lambda verification must keep the SAM/Serverless/Terraform chain`,
     );
   }
 });

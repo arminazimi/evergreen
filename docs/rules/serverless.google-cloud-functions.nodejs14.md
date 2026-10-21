@@ -40,7 +40,7 @@ The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID
 
 **Verification**
 
-- `sam validate || serverless print || terraform validate`: Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy.
+- `terraform validate`: Validate the updated Terraform google_cloudfunctions*_function declaration before deploy.
 
 ## Detected by
 
