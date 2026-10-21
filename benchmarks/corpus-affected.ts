@@ -64,6 +64,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "python.json": ["python"],
   "ruby.json": ["ruby"],
   "rust.json": ["rust"],
+  "serverless.json": [],
   "sources.lock.json": [],
   "swift.json": ["swift"],
 };

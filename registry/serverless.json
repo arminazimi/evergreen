@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "serverless",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "serverless.aws-lambda.nodejs14.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 14 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-11-04. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs22.x or nodejs24.x",
+      "deadline": "2023-11-04",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.8",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.8",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.8 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.13 or python3.12",
+      "deadline": "2024-10-14",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.ruby2.7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/ruby2.7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Ruby 2.7 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-11-07. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "ruby3.4 or ruby3.3",
+      "deadline": "2023-11-07",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnetcore3.1",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore3.1",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET Core 3.1 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnetcore3.1 under Deprecated runtimes with deprecation date 2023-04-03. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet8",
+      "deadline": "2023-04-03",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs14",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Node.js 14 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "nodejs22 or nodejs24",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support",
+          "accessedAt": "2026-10-21"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}
