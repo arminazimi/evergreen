@@ -6256,6 +6256,355 @@
           }
         }
       ]
+    },
+    {
+      "repository": "oatpp/oatpp",
+      "commit": "f83d648fd82dc222ef88aabbafb68efbd7d7bf50",
+      "ecosystem": "ci-images",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+          "path": "azure-pipelines.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+            "note": "Reviewed at this commit: line 11 of azure-pipelines.yml sets pool.vmImage to ubuntu-20.04. The Azure DevOps blog's deprecation plan sets full removal of that image for 2025-04-30 (https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)."
+          }
+        },
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 32 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Chinachu/Mirakurun",
+      "commit": "563a9e703061866c38847f4e5395447afa51ca72",
+      "ecosystem": "ci-images",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 36 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 70 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 107,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 107 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 137,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 137 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "npm.package.tslint.deprecated",
+          "path": "package.json",
+          "line": 116,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://www.npmjs.com/package/tslint",
+            "note": "Reviewed at this commit: line 116 of package.json depends on tslint ^6.1.3. npm marks tslint deprecated in favor of ESLint (https://www.npmjs.com/package/tslint)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "microsoft/Sysmon-Linux",
+      "commit": "b2f11cc07ac9392813fdd3c7aea79a66f41268db",
+      "ecosystem": "ci-images",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 32 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/scorecard.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/scorecard.yml uses actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1, a release older than v5. GitHub's changelog says Node.js 20 is no longer available on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "aliostad/CacheCow",
+      "commit": "eb59252c704b99e6f69358b1da15bd71ad383c4b",
+      "ecosystem": "ci-images",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "ci-images.azure-pipelines.ubuntu-22.04",
+          "path": "azure-pipelines.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule",
+            "note": "Reviewed at this commit: line 17 of azure-pipelines.yml sets pool.vmImage to ubuntu-22.04. Microsoft's hosted image deprecation schedule sets removal of that image for 2027-04-17 (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "samples/CacheCow.Samples.Carter/CacheCow.Samples.Carter.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 5 of samples/CacheCow.Samples.Carter/CacheCow.Samples.Carter.csproj sets `<TargetFramework>netcoreapp2.0</TargetFramework>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.0",
+          "path": "samples/CacheCow.Samples.MvcCore/CacheCow.Samples.MvcCore.csproj",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 5 of samples/CacheCow.Samples.MvcCore/CacheCow.Samples.MvcCore.csproj sets `<TargetFramework>netcoreapp3.0</TargetFramework>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Client.FileCacheStore/CacheCow.Client.FileCacheStore.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of src/CacheCow.Client.FileCacheStore/CacheCow.Client.FileCacheStore.csproj sets `<TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Client.NatsKeyValueCacheStore/CacheCow.Client.NatsKeyValueCacheStore.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of src/CacheCow.Client.NatsKeyValueCacheStore/CacheCow.Client.NatsKeyValueCacheStore.csproj sets `<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Client.RedisCacheStore/CacheCow.Client.RedisCacheStore.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of src/CacheCow.Client.RedisCacheStore/CacheCow.Client.RedisCacheStore.csproj sets `<TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Client/CacheCow.Client.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of src/CacheCow.Client/CacheCow.Client.csproj sets `<TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Common/CacheCow.Common.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of src/CacheCow.Common/CacheCow.Common.csproj sets `<TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Server.Core.Mvc/CacheCow.Server.Core.Mvc.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of src/CacheCow.Server.Core.Mvc/CacheCow.Server.Core.Mvc.csproj sets `<TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "src/CacheCow.Server/CacheCow.Server.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of src/CacheCow.Server/CacheCow.Server.csproj sets `<TargetFrameworks>netstandard2.0;net462;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-2.0",
+          "path": "test/CacheCow.Client.FileCacheStore.Tests/CacheCow.Client.FileCacheStore.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.FileCacheStore.Tests/CacheCow.Client.FileCacheStore.Tests.csproj sets `<TargetFrameworks>netcoreapp2.0;netcoreapp3.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.0",
+          "path": "test/CacheCow.Client.FileCacheStore.Tests/CacheCow.Client.FileCacheStore.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.FileCacheStore.Tests/CacheCow.Client.FileCacheStore.Tests.csproj sets `<TargetFrameworks>netcoreapp2.0;netcoreapp3.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "test/CacheCow.Client.NatsKeyValueCacheStore.Tests/CacheCow.Client.NatsKeyValueCacheStore.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of test/CacheCow.Client.NatsKeyValueCacheStore.Tests/CacheCow.Client.NatsKeyValueCacheStore.Tests.csproj sets `<TargetFrameworks>netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "test/CacheCow.Client.NatsKeyValueCacheStore.Tests/CacheCow.Client.NatsKeyValueCacheStore.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of test/CacheCow.Client.NatsKeyValueCacheStore.Tests/CacheCow.Client.NatsKeyValueCacheStore.Tests.csproj sets `<TargetFrameworks>netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "test/CacheCow.Client.RedisCacheStore.Tests/CacheCow.Client.RedisCacheStore.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.RedisCacheStore.Tests/CacheCow.Client.RedisCacheStore.Tests.csproj sets `<TargetFrameworks>net462;netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "test/CacheCow.Client.RedisCacheStore.Tests/CacheCow.Client.RedisCacheStore.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.RedisCacheStore.Tests/CacheCow.Client.RedisCacheStore.Tests.csproj sets `<TargetFrameworks>net462;netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "test/CacheCow.Client.Tests/CacheCow.Client.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.Tests/CacheCow.Client.Tests.csproj sets `<TargetFrameworks>net462;netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "test/CacheCow.Client.Tests/CacheCow.Client.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Client.Tests/CacheCow.Client.Tests.csproj sets `<TargetFrameworks>net462;netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "test/CacheCow.Server.Core.Mvc.Tests/CacheCow.Server.Core.Mvc.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of test/CacheCow.Server.Core.Mvc.Tests/CacheCow.Server.Core.Mvc.Tests.csproj sets `<TargetFrameworks>netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": "test/CacheCow.Server.Core.Mvc.Tests/CacheCow.Server.Core.Mvc.Tests.csproj",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 4 of test/CacheCow.Server.Core.Mvc.Tests/CacheCow.Server.Core.Mvc.Tests.csproj sets `<TargetFrameworks>netcoreapp3.1;net8.0</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-3.1",
+          "path": "test/CacheCow.Tests/CacheCow.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Tests/CacheCow.Tests.csproj sets `<TargetFrameworks>net7.0;netcoreapp3.1;net462</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-7.0",
+          "path": "test/CacheCow.Tests/CacheCow.Tests.csproj",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core",
+            "note": "Reviewed at this commit: line 3 of test/CacheCow.Tests/CacheCow.Tests.csproj sets `<TargetFrameworks>net7.0;netcoreapp3.1;net462</TargetFrameworks>`. Microsoft's .NET support policy gives that release line an end-of-support date (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Windos/PoshNotify",
+      "commit": "039de20fe5099a97c2a1e3b04c1885a84bc2ac98",
+      "ecosystem": "ci-images",
+      "selection": "targeted",
+      "expected": []
     }
   ]
 }

@@ -20,6 +20,7 @@
           "ecosystem": {
             "enum": [
               "android",
+              "ci-images",
               "container",
               "cpp",
               "dotnet",

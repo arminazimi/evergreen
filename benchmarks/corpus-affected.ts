@@ -6,6 +6,7 @@ const run = promisify(execFile);
 /** Every ecosystem a corpus entry can name. A change to shared code maps to all of them. */
 export const CORPUS_ECOSYSTEMS = [
   "android",
+  "ci-images",
   "container",
   "cpp",
   "dotnet",
@@ -29,7 +30,7 @@ export const CORPUS_ECOSYSTEMS = [
  */
 export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   android: ["android"],
-  "ci-images": ["container", "node-actions"],
+  "ci-images": ["ci-images"],
   container: ["container"],
   cpp: ["cpp"],
   dart: [],
@@ -52,7 +53,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
  */
 export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   "android.json": ["android"],
-  "ci-images.json": ["container", "node-actions"],
+  "ci-images.json": ["ci-images"],
   "container.json": ["container"],
   "cpp.json": ["cpp"],
   "dotnet.json": ["dotnet"],
@@ -96,7 +97,7 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
   { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes"], reason: "version ranges" },
   {
     pattern: /^src\/vers\//,
-    ecosystems: ["android", "container", "cpp", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "swift"],
+    ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "swift"],
     reason: "version ranges",
   },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["cpp", "dotnet", "php", "swift"], reason: "JSON line locations" },

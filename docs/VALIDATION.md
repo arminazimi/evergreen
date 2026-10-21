@@ -116,6 +116,12 @@ The blind rule, run on 2026-10-19: GitHub repository search for `language:C#`, 1
 
 Ground truth: for each repository the target frameworks, SDK pins, and package references were listed by `grep` over the pinned files and compared with the report, independently of Evergreen's own output. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the vendor date the rule rests on. Ceras was the one miss: it targets `netcoreapp2.1` and `netcoreapp2.2`, which had no rule, so the registry gained the 1.x, 2.x, and 3.0 lines in the same change.
 
+## CI runner images corpus
+
+Five public repositories at pinned commits cover the `ci-images` detector: `oatpp/oatpp` (`ubuntu-20.04` and `ubuntu-22.04` hosted images), `Chinachu/Mirakurun` (four `ubuntu-22.04` pools, plus a deprecated `tslint` dependency), `microsoft/Sysmon-Linux` (`ubuntu-22.04`, plus `actions/checkout` v4.1.1), `aliostad/CacheCow` (`ubuntu-22.04`, plus .NET target frameworks past or scheduled for end of support), and `Windos/PoshNotify` (Azure Pipelines pools that use only `*-latest` images, no findings).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the CI image ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line. The Azure dates come from the [hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule) and the [Azure DevOps blog deprecation plan](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/), not from these repositories. All five were chosen knowing their image labels, so each records `selection: "targeted"`.
+
 ## Precision thresholds
 
 [`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
