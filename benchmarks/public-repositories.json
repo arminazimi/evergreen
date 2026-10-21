@@ -4337,6 +4337,165 @@
       "ecosystem": "serverless",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "dr-m/crc32_simd",
+      "commit": "aaa329cff5e5697b184be5cb7b073ec2d18f908f",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.com/dr-m/crc32_simd/commit/1c640d4960b2dd48d2a520fab73b6120fc7500af",
+            "note": "Pinned to the parent of the maintainer's commit \"Update CMAKE_MINIMUM_REQUIRED for CMake 4.0\": line 1 of CMakeLists.txt declares CMAKE_MINIMUM_REQUIRED(VERSION 3.1), below the policy version removed by CMake 4.0; the commit changes it to VERSION 3.1...3.10."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Yukrid/cptp",
+      "commit": "e1c8c101ed320466432940de2c306423b795fa21",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.com/Yukrid/cptp/commit/128d74ba71e3d74df251345aff683bd7b6142242",
+            "note": "Pinned to the parent of the maintainer's commit \"raise cmake_minimum_required for CMake 4 compatibility\": line 1 of CMakeLists.txt declares cmake_minimum_required(VERSION 2.8), below the policy version removed by CMake 4.0; the commit raises it to 3.14."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Samsung/starfish",
+      "commit": "f41c159ef27d3b66ae0d38599f2b0a4aea83341b",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.com/Samsung/starfish/commit/c92eb6bdb4e606d71c907e4be13e59a268f9a8a0",
+            "note": "Pinned to the parent of the maintainer's commit \"cmake: allow CMake 4.x to configure this tree (2.8-era minimums removed)\": line 1 of CMakeLists.txt declares CMAKE_MINIMUM_REQUIRED (VERSION 2.8.12 FATAL_ERROR); the commit message states CMake 4.0 hard-errors below 3.5."
+          }
+        },
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "third_party/robin_map/CMakeLists.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://cmake.org/cmake/help/latest/release/4.0.html",
+            "note": "Reviewed at this commit: line 1 of third_party/robin_map/CMakeLists.txt declares cmake_minimum_required(VERSION 3.1), below the 3.5 floor that the CMake 4.0 release notes say was removed. The maintainer's migration commit did not touch this file."
+          }
+        },
+        {
+          "ruleId": "github-actions.labeler.node20",
+          "path": ".github/workflows/pr_label.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 9 of .github/workflows/pr_label.yml uses actions/labeler@v3, a release that predates the action's Node.js 24 runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/android.yml",
+          "line": 124,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 124 of .github/workflows/android.yml uses actions/setup-java@v3, a release that predates the action's Node.js 24 runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/android.yml",
+          "line": 134,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 134 of .github/workflows/android.yml uses actions/setup-java@v3, a release that predates the action's Node.js 24 runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/android.yml",
+          "line": 142,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 142 of .github/workflows/android.yml uses actions/setup-java@v3, a release that predates the action's Node.js 24 runtime."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "yaml/libyaml",
+      "commit": "840b65c40675e2d06bf40405ad3f12dec7f35923",
+      "ecosystem": "android",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "cpp.cmake.policy-below-3.5.removed",
+          "path": "CMakeLists.txt",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.com/yaml/libyaml/commit/23b51d6cf566ab4a47177495c2fe2a56dcca4a0c",
+            "note": "Pinned to the parent of the maintainer's commit \"Bump cmake_minimum_required to 3.5\": line 2 of CMakeLists.txt declares cmake_minimum_required(VERSION 3.0), below the policy version removed by CMake 4.0; the commit raises it to 3.5."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/dist.yaml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/dist.yaml uses actions/checkout@v4, a release that predates the action's Node.js 24 runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/",
+            "note": "Reviewed at this commit: line 26 of .github/workflows/main.yml uses actions/checkout@v4, a release that predates the action's Node.js 24 runtime."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/dist.yaml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/dist.yaml uses actions/upload-artifact@v2, a retired release of the artifact actions."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "catchorg/Catch2",
+      "commit": "08092139210881f01a34e60c5f2fd6afa0ea4024",
+      "ecosystem": "android",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }
