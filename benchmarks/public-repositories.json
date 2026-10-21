@@ -2672,6 +2672,15 @@
           }
         },
         {
+          "ruleId": "database.postgresql.end-of-life-12",
+          "path": "docker-compose.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of docker-compose.yml is image: postgres:12-alpine, PostgreSQL 12, which the PostgreSQL versioning policy lists as unsupported (final release 2024-11-21). The maintainers moved it to postgres:15-alpine in https://github.com/umami-software/umami/commit/01559c4c63e805dc2416112d8deba6b2ea0d98b2."
+          }
+        },
+        {
           "ruleId": "github-actions.checkout.node20",
           "path": ".github/workflows/cd-manual.yml",
           "line": 21,
@@ -2860,6 +2869,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 4 of examples/next-prisma-websockets-starter/docker-compose.yaml reads `image: postgres:13`, a Docker image release line that has ended, in a file inside the repository's examples."
+          }
+        },
+        {
+          "ruleId": "database.postgresql.end-of-life-13",
+          "path": "examples/next-prisma-websockets-starter/docker-compose.yaml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of examples/next-prisma-websockets-starter/docker-compose.yaml reads `image: postgres:13`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13), in a file inside the repository's examples."
           }
         },
         {
