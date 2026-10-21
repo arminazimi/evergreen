@@ -23,8 +23,9 @@ import { pythonReleaseCycleImporter } from "./python.js";
 import { rubyMaintenanceImporter } from "./ruby-1.js";
 import { runnerImagesImporter } from "./runner-images.js";
 import { awsLambdaRuntimesImporter } from "./serverless-1.js";
+import { gcloudFunctionsRuntimesImporter } from "./serverless-2.js";
 import { swiftAppStoreImporter } from "./swift-1.js";
 import type { Importer } from "./types.js";
 
 /** Every importer the command line can run. Each importer adds itself here when it lands. */
-export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, swiftAppStoreImporter];
+export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, gcloudFunctionsRuntimesImporter, swiftAppStoreImporter];
