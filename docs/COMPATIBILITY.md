@@ -164,7 +164,7 @@ The `swift` detector is **beta**: its level is recorded as `beta` in `benchmarks
 
 ## C and C++ detector
 
-The `cpp` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. It has no public corpus yet, so the dashboard's last-run counts for `cpp` stay empty. Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](DATA.md).
+The `cpp` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted migration cases and one blind, zero-finding repository. Their ground truth cites maintainer migration commits or upstream release notes, independently of Evergreen output. Precision on this corpus does not establish coverage of unsupported declaration forms. Its lifecycle rules are in `registry/cpp.json` and ship in the [data bundle](DATA.md).
 
 ### Supported files and declarations
 
