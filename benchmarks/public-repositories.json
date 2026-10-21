@@ -6833,6 +6833,135 @@
       "ecosystem": "dart",
       "selection": "targeted",
       "expected": []
+    },
+    {
+      "repository": "blackbird-cloud/terraform-aws-cloudformation-stackset",
+      "commit": "1fc62541393334ec655f93058b2ff54aa1c47be0",
+      "ecosystem": "terraform",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/format.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/format.yml reads `uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/readme.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/readme.yml reads `- uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/test.yml reads `uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.create-github-app-token.node20",
+          "path": ".github/workflows/readme.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/readme.yml reads `- uses: actions/create-github-app-token@v1`, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "terraform.cli.end-of-support-1.13",
+          "path": ".terraform-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .terraform-version reads `1.13.5`, an exact Terraform 1.13.5 pin. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "leek/terraform-aws-laravel",
+      "commit": "dbb7caf04535e8442c9b31653bb1b767c3b06afe",
+      "ecosystem": "terraform",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "terraform.cli.end-of-support-1.13",
+          "path": "terraform/.terraform-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of terraform/.terraform-version reads `1.13.5`, an exact Terraform 1.13.5 pin. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "govuk-one-login/di-account-management-frontend",
+      "commit": "d9a4e9ec01e6b6a2f061d45b5d411b9b6c9df9ad",
+      "ecosystem": "terraform",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "terraform.cli.end-of-support-1.12",
+          "path": ".terraform-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .terraform-version reads `1.12.2`, an exact Terraform 1.12.2 pin. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        },
+        {
+          "ruleId": "terraform.cli.end-of-support-1.12",
+          "path": "deploy/site.tf",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of deploy/site.tf reads `required_version = \"~> 1.12.0\"`, which admits only Terraform 1.12.x patch releases. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "govuk-forms/forms-admin",
+      "commit": "435fec7f942a8563398389262f383012b8e0822b",
+      "ecosystem": "terraform",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "terraform.cli.end-of-support-1.13",
+          "path": ".review_apps/.terraform-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .review_apps/.terraform-version reads `1.13.5`, an exact Terraform 1.13.5 pin. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        },
+        {
+          "ruleId": "terraform.cli.end-of-support-1.13",
+          "path": ".review_apps/site.tf",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of .review_apps/site.tf reads `required_version = \"~> 1.13.5\"`, which admits only Terraform 1.13.x patch releases. Terraform 1.13 stopped being one of the two most recent release lines when Terraform 1.15.0 shipped on 2026-04-29 (https://github.com/hashicorp/terraform/releases/tag/v1.15.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "v2d27/github-runner-provisioner",
+      "commit": "902bffe9155c6c67cb4ab06d98db80d12777621a",
+      "ecosystem": "terraform",
+      "selection": "targeted",
+      "expected": []
     }
   ]
 }

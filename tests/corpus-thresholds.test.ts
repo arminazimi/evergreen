@@ -71,7 +71,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   rust: { corpus: ["rust"], row: "Rust" },
   serverless: { corpus: ["serverless"], row: "Serverless runtimes" },
   swift: { corpus: ["swift"], row: "Swift" },
-  terraform: { corpus: [], row: "Terraform" },
+  terraform: { corpus: ["terraform"], row: "Terraform" },
   android: { corpus: ["android"], row: "Android" },
 };
 // Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus

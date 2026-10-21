@@ -35,7 +35,8 @@
               "ruby",
               "rust",
               "serverless",
-              "swift"
+              "swift",
+              "terraform"
             ]
           },
           "selection": { "enum": ["blind", "targeted"] },
