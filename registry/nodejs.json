@@ -1044,6 +1044,3752 @@
           "shape": "call"
         }
       ]
+    },
+    {
+      "id": "nodejs.symbol.util.isboolean",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isBoolean has been removed",
+      "summary": "Node.js removed util.isBoolean (DEP0045: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "typeof arg === 'boolean'",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0045",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isBoolean with typeof arg === 'boolean'.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isBoolean",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isBoolean",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isbuffer",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isBuffer has been removed",
+      "summary": "Node.js removed util.isBuffer (DEP0046: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "Buffer.isBuffer(arg)",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0046",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isBuffer with Buffer.isBuffer(arg).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isBuffer",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isBuffer",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isdate",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isDate has been removed",
+      "summary": "Node.js removed util.isDate (DEP0047: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg instanceof Date",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0047",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isDate with arg instanceof Date.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isDate",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isDate",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.iserror",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isError has been removed",
+      "summary": "Node.js removed util.isError (DEP0048: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "Error.isError(arg)",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0048",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isError with Error.isError(arg).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isError",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isError",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isfunction",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isFunction has been removed",
+      "summary": "Node.js removed util.isFunction (DEP0049: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "typeof arg === 'function'",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0049",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isFunction with typeof arg === 'function'.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isFunction",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isFunction",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isnull",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isNull has been removed",
+      "summary": "Node.js removed util.isNull (DEP0050: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg === null",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0050",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isNull with arg === null.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isNull",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isNull",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isnullorundefined",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isNullOrUndefined has been removed",
+      "summary": "Node.js removed util.isNullOrUndefined (DEP0051: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg === null || arg === undefined",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0051",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isNullOrUndefined with arg === null || arg === undefined.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isNullOrUndefined",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isNullOrUndefined",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isnumber",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isNumber has been removed",
+      "summary": "Node.js removed util.isNumber (DEP0052: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "typeof arg === 'number'",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0052",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isNumber with typeof arg === 'number'.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isNumber",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isNumber",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isobject",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isObject has been removed",
+      "summary": "Node.js removed util.isObject (DEP0053: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg && typeof arg === 'object'",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0053",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isObject with arg && typeof arg === 'object'.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isObject",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isObject",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isprimitive",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isPrimitive has been removed",
+      "summary": "Node.js removed util.isPrimitive (DEP0054: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "Object(arg) !== arg",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0054",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isPrimitive with Object(arg) !== arg.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isPrimitive",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isPrimitive",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isregexp",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isRegExp has been removed",
+      "summary": "Node.js removed util.isRegExp (DEP0055: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg instanceof RegExp",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0055",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isRegExp with arg instanceof RegExp.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isRegExp",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isRegExp",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.issymbol",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isSymbol has been removed",
+      "summary": "Node.js removed util.isSymbol (DEP0057: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "typeof arg === 'symbol'",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0057",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isSymbol with typeof arg === 'symbol'.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isSymbol",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isSymbol",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.isundefined",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.isUndefined has been removed",
+      "summary": "Node.js removed util.isUndefined (DEP0058: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "arg === undefined",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0058",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.isUndefined with arg === undefined.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "isUndefined",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "isUndefined",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.log",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Util.log has been removed",
+      "summary": "Node.js removed util.log (DEP0059: documentation-only since v6.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "a third-party logging library, or console.log(new Date().toLocaleString(), message)",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0059",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.log with a third-party logging library, or console.log(new Date().toLocaleString(), message).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "log",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "log",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.print",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "Util.print has been removed",
+      "summary": "Node.js removed util.print (DEP0026: runtime deprecation since v0.11.3, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "console.log()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0026",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.print with console.log().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "print",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "print",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.puts",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "Util.puts has been removed",
+      "summary": "Node.js removed util.puts (DEP0027: runtime deprecation since v0.11.3, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "console.log()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0027",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.puts with console.log().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "puts",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "puts",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.debug",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "Util.debug has been removed",
+      "summary": "Node.js removed util.debug (DEP0028: runtime deprecation since v0.11.3, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "console.error()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0028",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.debug with console.error().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "debug",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "debug",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.error",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "Util.error has been removed",
+      "summary": "Node.js removed util.error (DEP0029: runtime deprecation since v0.11.3, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "console.error()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0029",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.error with console.error().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "error",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "error",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.slowbuffer",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=25.0.0",
+      "event": "removed",
+      "title": "SlowBuffer has been removed",
+      "summary": "Node.js removed SlowBuffer (DEP0030: documentation-only since v6.0.0, runtime deprecation since v24.0.0, end-of-life since v25.0.0).",
+      "severity": "high",
+      "replacement": "Buffer.allocUnsafeSlow(size)",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0030",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of SlowBuffer with Buffer.allocUnsafeSlow(size).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "buffer",
+          "symbol": "SlowBuffer",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "buffer",
+          "symbol": "SlowBuffer",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "buffer",
+          "symbol": "SlowBuffer",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "buffer",
+          "symbol": "SlowBuffer",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.os.tmpdir",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=14.0.0",
+      "event": "removed",
+      "title": "Os.tmpDir has been removed",
+      "summary": "Node.js removed os.tmpDir (DEP0022: runtime deprecation since v7.0.0, end-of-life since v14.0.0).",
+      "severity": "high",
+      "replacement": "os.tmpdir()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0022",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of os.tmpDir with os.tmpdir().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "os",
+          "symbol": "tmpDir",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "os",
+          "symbol": "tmpDir",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.os.getnetworkinterfaces",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "Os.getNetworkInterfaces has been removed",
+      "summary": "Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6.0, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "os.networkInterfaces()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0023",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of os.getNetworkInterfaces with os.networkInterfaces().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "os",
+          "symbol": "getNetworkInterfaces",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "os",
+          "symbol": "getNetworkInterfaces",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.createcredentials",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=11.0.0",
+      "event": "removed",
+      "title": "Crypto.createCredentials has been removed",
+      "summary": "Node.js removed crypto.createCredentials (DEP0010: runtime deprecation since v0.11.13, end-of-life since v11.0.0).",
+      "severity": "high",
+      "replacement": "tls.createSecureContext()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0010",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of crypto.createCredentials with tls.createSecureContext().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "createCredentials",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "createCredentials",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.credentials",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=11.0.0",
+      "event": "removed",
+      "title": "Crypto.Credentials has been removed",
+      "summary": "Node.js removed crypto.Credentials (DEP0011: runtime deprecation since v0.11.13, end-of-life since v11.0.0).",
+      "severity": "high",
+      "replacement": "tls.SecureContext",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0011",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of crypto.Credentials with tls.SecureContext.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Credentials",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Credentials",
+          "shape": "construct"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.prng",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=11.0.0",
+      "event": "deprecated",
+      "title": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated",
+      "summary": "Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115: documentation-only since v11.0.0).",
+      "severity": "low",
+      "replacement": "crypto.randomBytes()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0115",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of crypto.prng, crypto.pseudoRandomBytes and crypto.rng with crypto.randomBytes().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "prng",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "pseudoRandomBytes",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "rng",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "prng",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "pseudoRandomBytes",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "rng",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.fips",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=10.0.0",
+      "event": "deprecated",
+      "title": "Crypto.fips is deprecated",
+      "summary": "Node.js deprecates crypto.fips (DEP0093: documentation-only since v10.0.0, runtime deprecation since v23.0.0).",
+      "severity": "medium",
+      "replacement": "crypto.setFips() and crypto.getFips()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0093",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of crypto.fips with crypto.setFips() and crypto.getFips().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "fips",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "fips",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.default-encoding",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=20.0.0",
+      "event": "removed",
+      "title": "Crypto.DEFAULT_ENCODING has been removed",
+      "summary": "Node.js removed crypto.DEFAULT_ENCODING (DEP0091: runtime deprecation since v10.0.0, end-of-life since v20.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0091",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of crypto.DEFAULT_ENCODING with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "DEFAULT_ENCODING",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "DEFAULT_ENCODING",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.process.assert",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=23.0.0",
+      "event": "removed",
+      "title": "Process.assert has been removed",
+      "summary": "Node.js removed process.assert (DEP0100: documentation-only since v0.3.7, runtime deprecation since v10.0.0, end-of-life since v23.0.0).",
+      "severity": "high",
+      "replacement": "the assert module",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0100",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of process.assert with the assert module.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "process.assert",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "process.assert",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.module.createrequirefrompath",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=16.0.0",
+      "event": "removed",
+      "title": "Module.createRequireFromPath has been removed",
+      "summary": "Node.js removed module.createRequireFromPath (DEP0130: documentation-only since v12.2.0, runtime deprecation since v13.0.0, end-of-life since v16.0.0).",
+      "severity": "high",
+      "replacement": "module.createRequire()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0130",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of module.createRequireFromPath with module.createRequire().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "module",
+          "symbol": "createRequireFromPath",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "module",
+          "symbol": "createRequireFromPath",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.process.mainmodule",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=14.0.0",
+      "event": "deprecated",
+      "title": "Process.mainModule is deprecated",
+      "summary": "Node.js deprecates process.mainModule (DEP0138: documentation-only since v14.0.0).",
+      "severity": "low",
+      "replacement": "require.main",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0138",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of process.mainModule with require.main.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "process.mainModule",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "process.mainModule",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.module.parent",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=14.6.0",
+      "event": "deprecated",
+      "title": "Module.parent is deprecated",
+      "summary": "Node.js deprecates module.parent (DEP0144: documentation-only since v14.6.0).",
+      "severity": "low",
+      "replacement": "require.main === module, or require.cache with module.children",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0144",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of module.parent with require.main === module, or require.cache with module.children.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "module.parent",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "module.parent",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.process.getactive",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=17.6.0",
+      "event": "deprecated",
+      "title": "Process._getActiveRequests and process._getActiveHandles are deprecated",
+      "summary": "Node.js deprecates process._getActiveRequests and process._getActiveHandles (DEP0161: documentation-only since v17.6.0).",
+      "severity": "low",
+      "replacement": "process.getActiveResourcesInfo()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0161",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of process._getActiveRequests and process._getActiveHandles with process.getActiveResourcesInfo().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "process._getActiveRequests",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "process._getActiveHandles",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "process._getActiveRequests",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "process._getActiveHandles",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.process.tickcallback",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.12.0",
+      "event": "deprecated",
+      "title": "Process._tickCallback is deprecated",
+      "summary": "Node.js deprecates process._tickCallback (DEP0134: documentation-only since v12.12.0).",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0134",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of process._tickCallback with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "process._tickCallback",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "process._tickCallback",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.tousvstring",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=20.8.0",
+      "event": "deprecated",
+      "title": "Util.toUSVString is deprecated",
+      "summary": "Node.js deprecates util.toUSVString (DEP0175: documentation-only since v20.8.0).",
+      "severity": "low",
+      "replacement": "String.prototype.toWellFormed",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0175",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.toUSVString with String.prototype.toWellFormed.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "toUSVString",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "toUSVString",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.util.types.isnativeerror",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.2.0",
+      "event": "deprecated",
+      "title": "Util.types.isNativeError is deprecated",
+      "summary": "Node.js deprecates util.types.isNativeError (DEP0197: documentation-only since v24.2.0).",
+      "severity": "low",
+      "replacement": "Error.isError()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0197",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of util.types.isNativeError with Error.isError().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "util",
+          "symbol": "types.isNativeError",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "util",
+          "symbol": "types.isNativeError",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.fs.access-constants",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=25.0.0",
+      "event": "removed",
+      "title": "Fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK have been removed",
+      "summary": "Node.js removed fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK (DEP0176: documentation-only since v20.8.0, runtime deprecation since v24.0.0, end-of-life since v25.0.0).",
+      "severity": "high",
+      "replacement": "fs.constants or fs.promises.constants",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0176",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK with fs.constants or fs.promises.constants.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "F_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "R_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "W_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "X_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "F_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "R_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "W_OK",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "X_OK",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.timers.enroll",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Timers.enroll has been removed",
+      "summary": "Node.js removed timers.enroll (DEP0095: runtime deprecation since v10.0.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "replacement": "setTimeout() or setInterval()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0095",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of timers.enroll with setTimeout() or setInterval().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "timers",
+          "symbol": "enroll",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "timers",
+          "symbol": "enroll",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.timers.unenroll",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Timers.unenroll has been removed",
+      "summary": "Node.js removed timers.unenroll (DEP0096: runtime deprecation since v10.0.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "replacement": "clearTimeout() or clearInterval()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0096",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of timers.unenroll with clearTimeout() or clearInterval().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "timers",
+          "symbol": "unenroll",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "timers",
+          "symbol": "unenroll",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.timers.active",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Timers.active has been removed",
+      "summary": "Node.js removed timers.active (DEP0126: runtime deprecation since v11.14.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "replacement": "timeout.refresh(), or timeout.ref()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0126",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of timers.active with timeout.refresh(), or timeout.ref().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "timers",
+          "symbol": "active",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "timers",
+          "symbol": "active",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.timers.unrefactive",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Timers._unrefActive has been removed",
+      "summary": "Node.js removed timers._unrefActive (DEP0127: runtime deprecation since v11.14.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "replacement": "timeout.refresh(), or timeout.unref()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0127",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of timers._unrefActive with timeout.refresh(), or timeout.unref().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "timers",
+          "symbol": "_unrefActive",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "timers",
+          "symbol": "_unrefActive",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.child-process.customfds",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=12.0.0",
+      "event": "removed",
+      "title": "The customFds option of child_process has been removed",
+      "summary": "Node.js removed the customFds option of child_process (DEP0006: documentation-only since v0.5.10, runtime deprecation since v0.11.14, end-of-life since v12.0.0).",
+      "severity": "high",
+      "replacement": "options.stdio",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0006",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the customFds option of child_process with options.stdio.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "child_process",
+          "symbol": "spawn",
+          "shape": "option",
+          "option": "customFds",
+          "argument": 2
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "child_process",
+          "symbol": "spawnSync",
+          "shape": "option",
+          "option": "customFds",
+          "argument": 2
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "child_process",
+          "symbol": "spawn",
+          "shape": "option",
+          "option": "customFds",
+          "argument": 2
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "child_process",
+          "symbol": "spawnSync",
+          "shape": "option",
+          "option": "customFds",
+          "argument": 2
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.vm.script.producecacheddata",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=10.6.0",
+      "event": "deprecated",
+      "title": "The produceCachedData option of vm.Script is deprecated",
+      "summary": "Node.js deprecates the produceCachedData option of vm.Script (DEP0110: documentation-only since v10.6.0).",
+      "severity": "low",
+      "replacement": "script.createCachedData()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0110",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the produceCachedData option of vm.Script with script.createCachedData().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "vm",
+          "symbol": "Script",
+          "shape": "option",
+          "option": "produceCachedData",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "vm",
+          "symbol": "Script",
+          "shape": "option",
+          "option": "produceCachedData",
+          "argument": 1
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.rsa-pss-options",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=25.0.0",
+      "event": "removed",
+      "title": "The hash and mgf1Hash options of RSA-PSS key generation have been removed",
+      "summary": "Node.js removed the hash and mgf1Hash options of RSA-PSS key generation (DEP0154: documentation-only since v16.10.0, runtime deprecation since v20.0.0, end-of-life since v25.0.0).",
+      "severity": "high",
+      "replacement": "the hashAlgorithm and mgf1HashAlgorithm options",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0154",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the hash and mgf1Hash options of RSA-PSS key generation with the hashAlgorithm and mgf1HashAlgorithm options.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "generateKeyPair",
+          "shape": "option",
+          "option": "hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "generateKeyPair",
+          "shape": "option",
+          "option": "mgf1Hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "generateKeyPairSync",
+          "shape": "option",
+          "option": "hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "generateKeyPairSync",
+          "shape": "option",
+          "option": "mgf1Hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "generateKeyPair",
+          "shape": "option",
+          "option": "hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "generateKeyPair",
+          "shape": "option",
+          "option": "mgf1Hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "generateKeyPairSync",
+          "shape": "option",
+          "option": "hash",
+          "argument": 1
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "generateKeyPairSync",
+          "shape": "option",
+          "option": "mgf1Hash",
+          "argument": 1
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.hash",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=22.0.0",
+      "event": "deprecated",
+      "title": "The crypto.Hash constructor is deprecated",
+      "summary": "Node.js deprecates the crypto.Hash constructor (DEP0179: documentation-only since v21.5.0, runtime deprecation since v22.0.0).",
+      "severity": "medium",
+      "replacement": "crypto.createHash()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0179",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the crypto.Hash constructor with crypto.createHash().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Hash",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Hash",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Hash",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Hash",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.hmac",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=22.0.0",
+      "event": "deprecated",
+      "title": "The crypto.Hmac constructor is deprecated",
+      "summary": "Node.js deprecates the crypto.Hmac constructor (DEP0181: documentation-only since v20.13.0, runtime deprecation since v22.0.0).",
+      "severity": "medium",
+      "replacement": "crypto.createHmac()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0181",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the crypto.Hmac constructor with crypto.createHmac().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Hmac",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Hmac",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Hmac",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Hmac",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.fs.stats",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=22.0.0",
+      "event": "deprecated",
+      "title": "The fs.Stats constructor is deprecated",
+      "summary": "Node.js deprecates the fs.Stats constructor (DEP0180: documentation-only since v20.13.0, runtime deprecation since v22.0.0).",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0180",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the fs.Stats constructor with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "Stats",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "Stats",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "Stats",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "Stats",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.crypto.certificate",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=14.9.0",
+      "event": "deprecated",
+      "title": "New crypto.Certificate() is deprecated",
+      "summary": "Node.js deprecates new crypto.Certificate() (DEP0146: documentation-only since v14.9.0).",
+      "severity": "low",
+      "replacement": "the static methods of crypto.Certificate",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0146",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of new crypto.Certificate() with the static methods of crypto.Certificate.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "crypto",
+          "symbol": "Certificate",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "crypto",
+          "symbol": "Certificate",
+          "shape": "construct"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.assert.calltracker",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=25.0.0",
+      "event": "removed",
+      "title": "Assert.CallTracker has been removed",
+      "summary": "Node.js removed assert.CallTracker (DEP0173: runtime deprecation since v20.1.0, end-of-life since v25.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0173",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of assert.CallTracker with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "assert",
+          "symbol": "CallTracker",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "assert",
+          "symbol": "CallTracker",
+          "shape": "construct"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.module.register",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=25.9.0",
+      "event": "deprecated",
+      "title": "Module.register is deprecated",
+      "summary": "Node.js deprecates module.register (DEP0205: documentation-only since v25.9.0, runtime deprecation since v26.0.0).",
+      "severity": "medium",
+      "replacement": "module.registerHooks()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0205",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of module.register with module.registerHooks().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "module",
+          "symbol": "register",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "module",
+          "symbol": "register",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.path.makelong",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=9.0.0",
+      "event": "deprecated",
+      "title": "Path._makeLong is deprecated",
+      "summary": "Node.js deprecates path._makeLong (DEP0080: documentation-only since v9.0.0).",
+      "severity": "low",
+      "replacement": "path.toNamespacedPath()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0080",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of path._makeLong with path.toNamespacedPath().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "path",
+          "symbol": "_makeLong",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "path",
+          "symbol": "_makeLong",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.async-hooks.currentid",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=9.0.0",
+      "event": "removed",
+      "title": "Async_hooks.currentId has been removed",
+      "summary": "Node.js removed async_hooks.currentId (DEP0070: runtime deprecation since v8.2.0, end-of-life since v9.0.0).",
+      "severity": "high",
+      "replacement": "async_hooks.executionAsyncId()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0070",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of async_hooks.currentId with async_hooks.executionAsyncId().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "async_hooks",
+          "symbol": "currentId",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "async_hooks",
+          "symbol": "currentId",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.async-hooks.triggerid",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=9.0.0",
+      "event": "removed",
+      "title": "Async_hooks.triggerId has been removed",
+      "summary": "Node.js removed async_hooks.triggerId (DEP0071: runtime deprecation since v8.2.0, end-of-life since v9.0.0).",
+      "severity": "high",
+      "replacement": "async_hooks.triggerAsyncId()",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0071",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of async_hooks.triggerId with async_hooks.triggerAsyncId().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "async_hooks",
+          "symbol": "triggerId",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "async_hooks",
+          "symbol": "triggerId",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.tls.convertnpnprotocols",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=11.0.0",
+      "event": "removed",
+      "title": "Tls.convertNPNProtocols has been removed",
+      "summary": "Node.js removed tls.convertNPNProtocols (DEP0107: runtime deprecation since v10.0.0, end-of-life since v11.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0107",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of tls.convertNPNProtocols with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "tls",
+          "symbol": "convertNPNProtocols",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "tls",
+          "symbol": "convertNPNProtocols",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.tls.parsecertstring",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=18.0.0",
+      "event": "removed",
+      "title": "Tls.parseCertString has been removed",
+      "summary": "Node.js removed tls.parseCertString (DEP0076: documentation-only since v8.6.0, runtime deprecation since v9.0.0, end-of-life since v18.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0076",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of tls.parseCertString with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "tls",
+          "symbol": "parseCertString",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "tls",
+          "symbol": "parseCertString",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.tls.cryptostream",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=10.0.0",
+      "event": "removed",
+      "title": "Tls.CryptoStream has been removed",
+      "summary": "Node.js removed tls.CryptoStream (DEP0042: documentation-only since v0.11.3, end-of-life since v10.0.0).",
+      "severity": "high",
+      "replacement": "tls.TLSSocket",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0042",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of tls.CryptoStream with tls.TLSSocket.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "tls",
+          "symbol": "CryptoStream",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "tls",
+          "symbol": "CryptoStream",
+          "shape": "construct"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.tls.securepair",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Tls.SecurePair has been removed",
+      "summary": "Node.js removed tls.SecurePair (DEP0043: documentation-only since v6.0.0, runtime deprecation since v8.0.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "replacement": "tls.TLSSocket",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0043",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of tls.SecurePair with tls.TLSSocket.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "tls",
+          "symbol": "SecurePair",
+          "shape": "construct"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "tls",
+          "symbol": "SecurePair",
+          "shape": "construct"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.net.setsimultaneousaccepts",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "removed",
+      "title": "Net._setSimultaneousAccepts has been removed",
+      "summary": "Node.js removed net._setSimultaneousAccepts (DEP0121: runtime deprecation since v12.0.0, end-of-life since v24.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0121",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of net._setSimultaneousAccepts with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "net",
+          "symbol": "_setSimultaneousAccepts",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "net",
+          "symbol": "_setSimultaneousAccepts",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.intl.v8breakiterator",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=9.0.0",
+      "event": "removed",
+      "title": "Intl.v8BreakIterator has been removed",
+      "summary": "Node.js removed Intl.v8BreakIterator (DEP0017: runtime deprecation since v7.0.0, end-of-life since v9.0.0).",
+      "severity": "high",
+      "replacement": "Intl.Segmenter",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0017",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of Intl.v8BreakIterator with Intl.Segmenter.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "Intl.v8BreakIterator",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "Intl.v8BreakIterator",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.vm.runindebugcontext",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=10.0.0",
+      "event": "removed",
+      "title": "Vm.runInDebugContext has been removed",
+      "summary": "Node.js removed vm.runInDebugContext (DEP0069: documentation-only since v8.0.0, runtime deprecation since v9.0.0, end-of-life since v10.0.0).",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0069",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of vm.runInDebugContext with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "vm",
+          "symbol": "runInDebugContext",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "vm",
+          "symbol": "runInDebugContext",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.fs.lchmod",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=0.4.7",
+      "event": "deprecated",
+      "title": "Fs.lchmod and fs.lchmodSync are deprecated",
+      "summary": "Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only since v0.4.7).",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0035",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of fs.lchmod and fs.lchmodSync with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "lchmod",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "fs",
+          "symbol": "lchmodSync",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "lchmod",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "fs",
+          "symbol": "lchmodSync",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.require.extensions",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=0.10.6",
+      "event": "deprecated",
+      "title": "Require.extensions is deprecated",
+      "summary": "Node.js deprecates require.extensions (DEP0039: documentation-only since v0.10.6).",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0039",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of require.extensions with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "symbol": "require.extensions",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "symbol": "require.extensions",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.repl.builtinmodules",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=24.0.0",
+      "event": "deprecated",
+      "title": "Repl.builtinModules is deprecated",
+      "summary": "Node.js deprecates repl.builtinModules (DEP0191: documentation-only since v24.0.0).",
+      "severity": "low",
+      "replacement": "require('node:module').builtinModules",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0191",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of repl.builtinModules with require('node:module').builtinModules.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "repl",
+          "symbol": "builtinModules",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "repl",
+          "symbol": "builtinModules",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "nodejs.symbol.repl.builtinlibs",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=14.3.0",
+      "event": "deprecated",
+      "title": "Repl._builtinLibs is deprecated",
+      "summary": "Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0).",
+      "severity": "low",
+      "replacement": "require('node:module').builtinModules",
+      "sources": [
+        {
+          "title": "Node.js deprecations: DEP0142",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of repl._builtinLibs with require('node:module').builtinModules.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "javascript",
+          "module": "repl",
+          "symbol": "_builtinLibs",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "typescript",
+          "module": "repl",
+          "symbol": "_builtinLibs",
+          "shape": "reference"
+        }
+      ]
     }
   ]
 }

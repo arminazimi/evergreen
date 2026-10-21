@@ -194,16 +194,78 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Node.js 23 is end-of-life](nodejs.runtime.eol-23.html) — end of life, `nodejs.runtime.eol-23`
 - [Node.js 25 is end-of-life](nodejs.runtime.eol-25.html) — end of life, `nodejs.runtime.eol-25`
 - [Legacy Node.js runtime is end-of-life](nodejs.runtime.legacy.html) — end of life, `nodejs.runtime.legacy`
+- [Assert.CallTracker has been removed](nodejs.symbol.assert.calltracker.html) — removed, `nodejs.symbol.assert.calltracker`
+- [Async_hooks.currentId has been removed](nodejs.symbol.async-hooks.currentid.html) — removed, `nodejs.symbol.async-hooks.currentid`
+- [Async_hooks.triggerId has been removed](nodejs.symbol.async-hooks.triggerid.html) — removed, `nodejs.symbol.async-hooks.triggerid`
 - [The Buffer() constructor is deprecated](nodejs.symbol.buffer.constructor.html) — deprecated, `nodejs.symbol.buffer.constructor`
+- [The customFds option of child_process has been removed](nodejs.symbol.child-process.customfds.html) — removed, `nodejs.symbol.child-process.customfds`
+- [New crypto.Certificate() is deprecated](nodejs.symbol.crypto.certificate.html) — deprecated, `nodejs.symbol.crypto.certificate`
 - [crypto.createCipher and createDecipher have been removed](nodejs.symbol.crypto.createcipher.html) — removed, `nodejs.symbol.crypto.createcipher`
+- [Crypto.createCredentials has been removed](nodejs.symbol.crypto.createcredentials.html) — removed, `nodejs.symbol.crypto.createcredentials`
+- [Crypto.Credentials has been removed](nodejs.symbol.crypto.credentials.html) — removed, `nodejs.symbol.crypto.credentials`
+- [Crypto.DEFAULT_ENCODING has been removed](nodejs.symbol.crypto.default-encoding.html) — removed, `nodejs.symbol.crypto.default-encoding`
+- [Crypto.fips is deprecated](nodejs.symbol.crypto.fips.html) — deprecated, `nodejs.symbol.crypto.fips`
+- [The crypto.Hash constructor is deprecated](nodejs.symbol.crypto.hash.html) — deprecated, `nodejs.symbol.crypto.hash`
+- [The crypto.Hmac constructor is deprecated](nodejs.symbol.crypto.hmac.html) — deprecated, `nodejs.symbol.crypto.hmac`
+- [Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated](nodejs.symbol.crypto.prng.html) — deprecated, `nodejs.symbol.crypto.prng`
+- [The hash and mgf1Hash options of RSA-PSS key generation have been removed](nodejs.symbol.crypto.rsa-pss-options.html) — removed, `nodejs.symbol.crypto.rsa-pss-options`
+- [Fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK have been removed](nodejs.symbol.fs.access-constants.html) — removed, `nodejs.symbol.fs.access-constants`
 - [fs.exists is deprecated](nodejs.symbol.fs.exists.html) — deprecated, `nodejs.symbol.fs.exists`
+- [Fs.lchmod and fs.lchmodSync are deprecated](nodejs.symbol.fs.lchmod.html) — deprecated, `nodejs.symbol.fs.lchmod`
 - [The recursive option of fs.rmdir has been removed](nodejs.symbol.fs.rmdir-recursive.html) — removed, `nodejs.symbol.fs.rmdir-recursive`
+- [The fs.Stats constructor is deprecated](nodejs.symbol.fs.stats.html) — deprecated, `nodejs.symbol.fs.stats`
+- [Intl.v8BreakIterator has been removed](nodejs.symbol.intl.v8breakiterator.html) — removed, `nodejs.symbol.intl.v8breakiterator`
+- [Module.createRequireFromPath has been removed](nodejs.symbol.module.createrequirefrompath.html) — removed, `nodejs.symbol.module.createrequirefrompath`
+- [Module.parent is deprecated](nodejs.symbol.module.parent.html) — deprecated, `nodejs.symbol.module.parent`
+- [Module.register is deprecated](nodejs.symbol.module.register.html) — deprecated, `nodejs.symbol.module.register`
+- [Net._setSimultaneousAccepts has been removed](nodejs.symbol.net.setsimultaneousaccepts.html) — removed, `nodejs.symbol.net.setsimultaneousaccepts`
+- [Os.getNetworkInterfaces has been removed](nodejs.symbol.os.getnetworkinterfaces.html) — removed, `nodejs.symbol.os.getnetworkinterfaces`
+- [Os.tmpDir has been removed](nodejs.symbol.os.tmpdir.html) — removed, `nodejs.symbol.os.tmpdir`
+- [Path._makeLong is deprecated](nodejs.symbol.path.makelong.html) — deprecated, `nodejs.symbol.path.makelong`
+- [Process.assert has been removed](nodejs.symbol.process.assert.html) — removed, `nodejs.symbol.process.assert`
 - [process.binding is deprecated](nodejs.symbol.process.binding.html) — deprecated, `nodejs.symbol.process.binding`
+- [Process._getActiveRequests and process._getActiveHandles are deprecated](nodejs.symbol.process.getactive.html) — deprecated, `nodejs.symbol.process.getactive`
+- [Process.mainModule is deprecated](nodejs.symbol.process.mainmodule.html) — deprecated, `nodejs.symbol.process.mainmodule`
+- [Process._tickCallback is deprecated](nodejs.symbol.process.tickcallback.html) — deprecated, `nodejs.symbol.process.tickcallback`
+- [Repl._builtinLibs is deprecated](nodejs.symbol.repl.builtinlibs.html) — deprecated, `nodejs.symbol.repl.builtinlibs`
+- [Repl.builtinModules is deprecated](nodejs.symbol.repl.builtinmodules.html) — deprecated, `nodejs.symbol.repl.builtinmodules`
+- [Require.extensions is deprecated](nodejs.symbol.require.extensions.html) — deprecated, `nodejs.symbol.require.extensions`
+- [SlowBuffer has been removed](nodejs.symbol.slowbuffer.html) — removed, `nodejs.symbol.slowbuffer`
+- [Timers.active has been removed](nodejs.symbol.timers.active.html) — removed, `nodejs.symbol.timers.active`
+- [Timers.enroll has been removed](nodejs.symbol.timers.enroll.html) — removed, `nodejs.symbol.timers.enroll`
+- [Timers.unenroll has been removed](nodejs.symbol.timers.unenroll.html) — removed, `nodejs.symbol.timers.unenroll`
+- [Timers._unrefActive has been removed](nodejs.symbol.timers.unrefactive.html) — removed, `nodejs.symbol.timers.unrefactive`
+- [Tls.convertNPNProtocols has been removed](nodejs.symbol.tls.convertnpnprotocols.html) — removed, `nodejs.symbol.tls.convertnpnprotocols`
 - [tls.createSecurePair has been removed](nodejs.symbol.tls.createsecurepair.html) — removed, `nodejs.symbol.tls.createsecurepair`
+- [Tls.CryptoStream has been removed](nodejs.symbol.tls.cryptostream.html) — removed, `nodejs.symbol.tls.cryptostream`
+- [Tls.parseCertString has been removed](nodejs.symbol.tls.parsecertstring.html) — removed, `nodejs.symbol.tls.parsecertstring`
+- [Tls.SecurePair has been removed](nodejs.symbol.tls.securepair.html) — removed, `nodejs.symbol.tls.securepair`
 - [url.parse is deprecated](nodejs.symbol.url.parse.html) — deprecated, `nodejs.symbol.url.parse`
+- [Util.debug has been removed](nodejs.symbol.util.debug.html) — removed, `nodejs.symbol.util.debug`
+- [Util.error has been removed](nodejs.symbol.util.error.html) — removed, `nodejs.symbol.util.error`
 - [util._extend is deprecated](nodejs.symbol.util.extend.html) — deprecated, `nodejs.symbol.util.extend`
 - [util.isArray is deprecated](nodejs.symbol.util.isarray.html) — deprecated, `nodejs.symbol.util.isarray`
+- [Util.isBoolean has been removed](nodejs.symbol.util.isboolean.html) — removed, `nodejs.symbol.util.isboolean`
+- [Util.isBuffer has been removed](nodejs.symbol.util.isbuffer.html) — removed, `nodejs.symbol.util.isbuffer`
+- [Util.isDate has been removed](nodejs.symbol.util.isdate.html) — removed, `nodejs.symbol.util.isdate`
+- [Util.isError has been removed](nodejs.symbol.util.iserror.html) — removed, `nodejs.symbol.util.iserror`
+- [Util.isFunction has been removed](nodejs.symbol.util.isfunction.html) — removed, `nodejs.symbol.util.isfunction`
+- [Util.isNull has been removed](nodejs.symbol.util.isnull.html) — removed, `nodejs.symbol.util.isnull`
+- [Util.isNullOrUndefined has been removed](nodejs.symbol.util.isnullorundefined.html) — removed, `nodejs.symbol.util.isnullorundefined`
+- [Util.isNumber has been removed](nodejs.symbol.util.isnumber.html) — removed, `nodejs.symbol.util.isnumber`
+- [Util.isObject has been removed](nodejs.symbol.util.isobject.html) — removed, `nodejs.symbol.util.isobject`
+- [Util.isPrimitive has been removed](nodejs.symbol.util.isprimitive.html) — removed, `nodejs.symbol.util.isprimitive`
+- [Util.isRegExp has been removed](nodejs.symbol.util.isregexp.html) — removed, `nodejs.symbol.util.isregexp`
 - [util.isString has been removed](nodejs.symbol.util.isstring.html) — removed, `nodejs.symbol.util.isstring`
+- [Util.isSymbol has been removed](nodejs.symbol.util.issymbol.html) — removed, `nodejs.symbol.util.issymbol`
+- [Util.isUndefined has been removed](nodejs.symbol.util.isundefined.html) — removed, `nodejs.symbol.util.isundefined`
+- [Util.log has been removed](nodejs.symbol.util.log.html) — removed, `nodejs.symbol.util.log`
+- [Util.print has been removed](nodejs.symbol.util.print.html) — removed, `nodejs.symbol.util.print`
+- [Util.puts has been removed](nodejs.symbol.util.puts.html) — removed, `nodejs.symbol.util.puts`
+- [Util.toUSVString is deprecated](nodejs.symbol.util.tousvstring.html) — deprecated, `nodejs.symbol.util.tousvstring`
+- [Util.types.isNativeError is deprecated](nodejs.symbol.util.types.isnativeerror.html) — deprecated, `nodejs.symbol.util.types.isnativeerror`
+- [Vm.runInDebugContext has been removed](nodejs.symbol.vm.runindebugcontext.html) — removed, `nodejs.symbol.vm.runindebugcontext`
+- [The produceCachedData option of vm.Script is deprecated](nodejs.symbol.vm.script.producecacheddata.html) — deprecated, `nodejs.symbol.vm.script.producecacheddata`
 
 ## npm
 
@@ -367,13 +429,45 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated](python.symbol.ast.constant-nodes.html) — deprecated, `python.symbol.ast.constant-nodes`
 - [asyncio child watcher functions are deprecated](python.symbol.asyncio.child-watcher.html) — deprecated, `python.symbol.asyncio.child-watcher`
 - [asyncio.get_event_loop warns when it has to create a loop](python.symbol.asyncio.get-event-loop.html) — deprecated, `python.symbol.asyncio.get-event-loop`
+- [Configparser.SafeConfigParser has been removed](python.symbol.configparser.safeconfigparser.html) — removed, `python.symbol.configparser.safeconfigparser`
+- [Ctypes.SetPointerType is deprecated](python.symbol.ctypes.setpointertype.html) — deprecated, `python.symbol.ctypes.setpointertype`
 - [datetime.utcfromtimestamp is deprecated](python.symbol.datetime.utcfromtimestamp.html) — deprecated, `python.symbol.datetime.utcfromtimestamp`
 - [datetime.utcnow is deprecated](python.symbol.datetime.utcnow.html) — deprecated, `python.symbol.datetime.utcnow`
+- [Glob.glob0 and glob.glob1 are deprecated](python.symbol.glob.glob0.html) — deprecated, `python.symbol.glob.glob0`
+- [Http.server.CGIHTTPRequestHandler is deprecated](python.symbol.http.server.cgihttprequesthandler.html) — deprecated, `python.symbol.http.server.cgihttprequesthandler`
+- [Imp.cache_from_source has been removed](python.symbol.imp.cache-from-source.html) — removed, `python.symbol.imp.cache-from-source`
+- [Imp.find_module has been removed](python.symbol.imp.find-module.html) — removed, `python.symbol.imp.find-module`
+- [Imp.get_magic has been removed](python.symbol.imp.get-magic.html) — removed, `python.symbol.imp.get-magic`
+- [Imp.get_suffixes has been removed](python.symbol.imp.get-suffixes.html) — removed, `python.symbol.imp.get-suffixes`
+- [Imp.get_tag has been removed](python.symbol.imp.get-tag.html) — removed, `python.symbol.imp.get-tag`
+- [Imp.load_module has been removed](python.symbol.imp.load-module.html) — removed, `python.symbol.imp.load-module`
+- [Imp.load_source has been removed](python.symbol.imp.load-source.html) — removed, `python.symbol.imp.load-source`
+- [Imp.new_module has been removed](python.symbol.imp.new-module.html) — removed, `python.symbol.imp.new-module`
+- [Imp.reload has been removed](python.symbol.imp.reload.html) — removed, `python.symbol.imp.reload`
+- [Imp.source_from_cache has been removed](python.symbol.imp.source-from-cache.html) — removed, `python.symbol.imp.source-from-cache`
+- [Importlib.util.module_for_loader has been removed](python.symbol.importlib.util.module-for-loader.html) — removed, `python.symbol.importlib.util.module-for-loader`
+- [Importlib.util.set_loader has been removed](python.symbol.importlib.util.set-loader.html) — removed, `python.symbol.importlib.util.set-loader`
+- [Importlib.util.set_package has been removed](python.symbol.importlib.util.set-package.html) — removed, `python.symbol.importlib.util.set-package`
+- [Io.OpenWrapper has been removed](python.symbol.io.openwrapper.html) — removed, `python.symbol.io.openwrapper`
+- [Locale.format has been removed](python.symbol.locale.format.html) — removed, `python.symbol.locale.format`
 - [locale.getdefaultlocale is deprecated](python.symbol.locale.getdefaultlocale.html) — deprecated, `python.symbol.locale.getdefaultlocale`
+- [Locale.resetlocale has been removed](python.symbol.locale.resetlocale.html) — removed, `python.symbol.locale.resetlocale`
 - [pkgutil.find_loader and get_loader are deprecated](python.symbol.pkgutil.find-loader.html) — deprecated, `python.symbol.pkgutil.find-loader`
+- [Platform.java_ver is deprecated](python.symbol.platform.java-ver.html) — deprecated, `python.symbol.platform.java-ver`
 - [pty.master_open and slave_open are deprecated](python.symbol.pty.master-open.html) — deprecated, `python.symbol.pty.master-open`
 - [The onerror argument of shutil.rmtree is deprecated](python.symbol.shutil.rmtree-onerror.html) — deprecated, `python.symbol.shutil.rmtree-onerror`
+- [Sqlite3.enable_shared_cache has been removed](python.symbol.sqlite3.enable-shared-cache.html) — removed, `python.symbol.sqlite3.enable-shared-cache`
+- [Sqlite3.OptimizedUnicode has been removed](python.symbol.sqlite3.optimizedunicode.html) — removed, `python.symbol.sqlite3.optimizedunicode`
+- [Ssl.match_hostname has been removed](python.symbol.ssl.match-hostname.html) — removed, `python.symbol.ssl.match-hostname`
+- [Ssl.RAND_pseudo_bytes has been removed](python.symbol.ssl.rand-pseudo-bytes.html) — removed, `python.symbol.ssl.rand-pseudo-bytes`
+- [Ssl.wrap_socket has been removed](python.symbol.ssl.wrap-socket.html) — removed, `python.symbol.ssl.wrap-socket`
+- [Sys._enablelegacywindowsfsencoding is deprecated](python.symbol.sys.enablelegacywindowsfsencoding.html) — deprecated, `python.symbol.sys.enablelegacywindowsfsencoding`
+- [Sysconfig.expand_makefile_vars is deprecated](python.symbol.sysconfig.expand-makefile-vars.html) — deprecated, `python.symbol.sysconfig.expand-makefile-vars`
+- [Typing.ByteString is deprecated](python.symbol.typing.bytestring.html) — deprecated, `python.symbol.typing.bytestring`
+- [Typing.no_type_check_decorator is deprecated](python.symbol.typing.no-type-check-decorator.html) — deprecated, `python.symbol.typing.no-type-check-decorator`
 - [unittest.makeSuite, findTestCases and getTestCaseNames have been removed](python.symbol.unittest.make-suite.html) — removed, `python.symbol.unittest.make-suite`
+- [The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed](python.symbol.urllib.request.urlopen-cafile.html) — removed, `python.symbol.urllib.request.urlopen-cafile`
+- [Webbrowser.MacOSX has been removed](python.symbol.webbrowser.macosx.html) — removed, `python.symbol.webbrowser.macosx`
 
 ## ruby
 

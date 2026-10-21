@@ -4463,6 +4463,1642 @@
           "shape": "call"
         }
       ]
+    },
+    {
+      "id": "python.symbol.imp.find-module",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.find_module has been removed",
+      "summary": "Python 3.12 removed imp.find_module, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.util.find_spec()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.find_module with importlib.util.find_spec().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "find_module",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.load-module",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.load_module has been removed",
+      "summary": "Python 3.12 removed imp.load_module, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.import_module()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.load_module with importlib.import_module().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "load_module",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.new-module",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.new_module has been removed",
+      "summary": "Python 3.12 removed imp.new_module, so using it raises an error.",
+      "severity": "high",
+      "replacement": "types.ModuleType(name)",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.new_module with types.ModuleType(name).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "new_module",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.reload",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.reload has been removed",
+      "summary": "Python 3.12 removed imp.reload, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.reload()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.reload with importlib.reload().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "reload",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.cache-from-source",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.cache_from_source has been removed",
+      "summary": "Python 3.12 removed imp.cache_from_source, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.util.cache_from_source()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.cache_from_source with importlib.util.cache_from_source().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "cache_from_source",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.get-magic",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.get_magic has been removed",
+      "summary": "Python 3.12 removed imp.get_magic, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.util.MAGIC_NUMBER",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.get_magic with importlib.util.MAGIC_NUMBER.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "get_magic",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.get-suffixes",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.get_suffixes has been removed",
+      "summary": "Python 3.12 removed imp.get_suffixes, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.machinery.SOURCE_SUFFIXES, EXTENSION_SUFFIXES and BYTECODE_SUFFIXES",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.get_suffixes with importlib.machinery.SOURCE_SUFFIXES, EXTENSION_SUFFIXES and BYTECODE_SUFFIXES.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "get_suffixes",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.get-tag",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.get_tag has been removed",
+      "summary": "Python 3.12 removed imp.get_tag, so using it raises an error.",
+      "severity": "high",
+      "replacement": "sys.implementation.cache_tag",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.get_tag with sys.implementation.cache_tag.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "get_tag",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.source-from-cache",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.source_from_cache has been removed",
+      "summary": "Python 3.12 removed imp.source_from_cache, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.util.source_from_cache()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.source_from_cache with importlib.util.source_from_cache().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "source_from_cache",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.imp.load-source",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Imp.load_source has been removed",
+      "summary": "Python 3.12 removed imp.load_source, so using it raises an error.",
+      "severity": "high",
+      "replacement": "importlib.machinery.SourceFileLoader with importlib.util.spec_from_file_location()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of imp.load_source with importlib.machinery.SourceFileLoader with importlib.util.spec_from_file_location().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "imp",
+          "symbol": "load_source",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.importlib.util.set-package",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Importlib.util.set_package has been removed",
+      "summary": "Python 3.12 removed importlib.util.set_package, so using it raises an error.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of importlib.util.set_package with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "importlib.util",
+          "symbol": "set_package",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.importlib.util.set-loader",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Importlib.util.set_loader has been removed",
+      "summary": "Python 3.12 removed importlib.util.set_loader, so using it raises an error.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of importlib.util.set_loader with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "importlib.util",
+          "symbol": "set_loader",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.importlib.util.module-for-loader",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Importlib.util.module_for_loader has been removed",
+      "summary": "Python 3.12 removed importlib.util.module_for_loader, so using it raises an error.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of importlib.util.module_for_loader with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "importlib.util",
+          "symbol": "module_for_loader",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.locale.format",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Locale.format has been removed",
+      "summary": "Python 3.12 removed locale.format, so using it raises an error.",
+      "severity": "high",
+      "replacement": "locale.format_string()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of locale.format with locale.format_string().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "locale",
+          "symbol": "format",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.ssl.wrap-socket",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Ssl.wrap_socket has been removed",
+      "summary": "Python 3.12 removed ssl.wrap_socket, so using it raises an error.",
+      "severity": "high",
+      "replacement": "an ssl.SSLContext and its wrap_socket() method",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of ssl.wrap_socket with an ssl.SSLContext and its wrap_socket() method.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ssl",
+          "symbol": "wrap_socket",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.ssl.match-hostname",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Ssl.match_hostname has been removed",
+      "summary": "Python 3.12 removed ssl.match_hostname, so using it raises an error.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of ssl.match_hostname with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ssl",
+          "symbol": "match_hostname",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.ssl.rand-pseudo-bytes",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Ssl.RAND_pseudo_bytes has been removed",
+      "summary": "Python 3.12 removed ssl.RAND_pseudo_bytes, so using it raises an error.",
+      "severity": "high",
+      "replacement": "os.urandom() or ssl.RAND_bytes()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of ssl.RAND_pseudo_bytes with os.urandom() or ssl.RAND_bytes().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ssl",
+          "symbol": "RAND_pseudo_bytes",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.sqlite3.enable-shared-cache",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Sqlite3.enable_shared_cache has been removed",
+      "summary": "Python 3.12 removed sqlite3.enable_shared_cache, so using it raises an error.",
+      "severity": "high",
+      "replacement": "opening the database in URI mode with the cache=shared query parameter",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of sqlite3.enable_shared_cache with opening the database in URI mode with the cache=shared query parameter.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "sqlite3",
+          "symbol": "enable_shared_cache",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.sqlite3.optimizedunicode",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Sqlite3.OptimizedUnicode has been removed",
+      "summary": "Python 3.12 removed sqlite3.OptimizedUnicode, so using it raises an error.",
+      "severity": "high",
+      "replacement": "str, which is also the default",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of sqlite3.OptimizedUnicode with str, which is also the default.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "sqlite3",
+          "symbol": "OptimizedUnicode",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.io.openwrapper",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Io.OpenWrapper has been removed",
+      "summary": "Python 3.12 removed io.OpenWrapper, so using it raises an error.",
+      "severity": "high",
+      "replacement": "open()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of io.OpenWrapper with open().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "io",
+          "symbol": "OpenWrapper",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.configparser.safeconfigparser",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "removed",
+      "title": "Configparser.SafeConfigParser has been removed",
+      "summary": "Python 3.12 removed configparser.SafeConfigParser, so using it raises an error.",
+      "severity": "high",
+      "replacement": "configparser.ConfigParser",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of configparser.SafeConfigParser with configparser.ConfigParser.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "configparser",
+          "symbol": "SafeConfigParser",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.locale.resetlocale",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "removed",
+      "title": "Locale.resetlocale has been removed",
+      "summary": "Python 3.13 removed locale.resetlocale, so using it raises an error.",
+      "severity": "high",
+      "replacement": "locale.setlocale(locale.LC_ALL, \"\")",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of locale.resetlocale with locale.setlocale(locale.LC_ALL, \"\").",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "locale",
+          "symbol": "resetlocale",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.webbrowser.macosx",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "removed",
+      "title": "Webbrowser.MacOSX has been removed",
+      "summary": "Python 3.13 removed webbrowser.MacOSX, so using it raises an error.",
+      "severity": "high",
+      "replacement": "webbrowser.MacOSXOSAScript",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of webbrowser.MacOSX with webbrowser.MacOSXOSAScript.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "webbrowser",
+          "symbol": "MacOSX",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.urllib.request.urlopen-cafile",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "removed",
+      "title": "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed",
+      "summary": "Python 3.13 removed the cafile, capath and cadefault parameters of urllib.request.urlopen, so using it raises an error.",
+      "severity": "high",
+      "replacement": "the context parameter with an ssl.SSLContext",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of the cafile, capath and cadefault parameters of urllib.request.urlopen with the context parameter with an ssl.SSLContext.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "urllib.request",
+          "symbol": "urlopen",
+          "shape": "option",
+          "option": "cafile"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "urllib.request",
+          "symbol": "urlopen",
+          "shape": "option",
+          "option": "capath"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "urllib.request",
+          "symbol": "urlopen",
+          "shape": "option",
+          "option": "cadefault"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.typing.bytestring",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.9",
+      "event": "deprecated",
+      "title": "Typing.ByteString is deprecated",
+      "summary": "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.",
+      "severity": "low",
+      "replacement": "collections.abc.Buffer, or an explicit union",
+      "sources": [
+        {
+          "title": "Python deprecations: pending removal in 3.17",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of typing.ByteString with collections.abc.Buffer, or an explicit union.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "typing",
+          "symbol": "ByteString",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.platform.java-ver",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Platform.java_ver is deprecated",
+      "summary": "Python 3.13 deprecates platform.java_ver, to be removed in Python 3.15.",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.15",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of platform.java_ver with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "platform",
+          "symbol": "java_ver",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.ctypes.setpointertype",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Ctypes.SetPointerType is deprecated",
+      "summary": "Python 3.13 deprecates ctypes.SetPointerType, to be removed in Python 3.15.",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.15",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of ctypes.SetPointerType with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ctypes",
+          "symbol": "SetPointerType",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.glob.glob0",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Glob.glob0 and glob.glob1 are deprecated",
+      "summary": "Python 3.13 deprecates glob.glob0 and glob.glob1.",
+      "severity": "low",
+      "replacement": "glob.glob() with a path-like root_dir",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of glob.glob0 and glob.glob1 with glob.glob() with a path-like root_dir.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "glob",
+          "symbol": "glob0",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "glob",
+          "symbol": "glob1",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.http.server.cgihttprequesthandler",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Http.server.CGIHTTPRequestHandler is deprecated",
+      "summary": "Python 3.13 deprecates http.server.CGIHTTPRequestHandler, to be removed in Python 3.15.",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.15",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of http.server.CGIHTTPRequestHandler with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "http.server",
+          "symbol": "CGIHTTPRequestHandler",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.sys.enablelegacywindowsfsencoding",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Sys._enablelegacywindowsfsencoding is deprecated",
+      "summary": "Python 3.13 deprecates sys._enablelegacywindowsfsencoding, to be removed in Python 3.16.",
+      "severity": "low",
+      "replacement": "the PYTHONLEGACYWINDOWSFSENCODING environment variable",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.16",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of sys._enablelegacywindowsfsencoding with the PYTHONLEGACYWINDOWSFSENCODING environment variable.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "sys",
+          "symbol": "_enablelegacywindowsfsencoding",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.typing.no-type-check-decorator",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "deprecated",
+      "title": "Typing.no_type_check_decorator is deprecated",
+      "summary": "Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3.15.",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.15",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of typing.no_type_check_decorator with code that no longer depends on it.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "typing",
+          "symbol": "no_type_check_decorator",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.sysconfig.expand-makefile-vars",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.14",
+      "event": "deprecated",
+      "title": "Sysconfig.expand_makefile_vars is deprecated",
+      "summary": "Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16.",
+      "severity": "low",
+      "replacement": "the vars argument of sysconfig.get_paths()",
+      "sources": [
+        {
+          "title": "Python deprecations: pending removal in 3.16",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Replace the usage",
+            "instructions": "Replace each reported use of sysconfig.expand_makefile_vars with the vars argument of sysconfig.get_paths().",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "sysconfig",
+          "symbol": "expand_makefile_vars",
+          "shape": "call"
+        }
+      ]
     }
   ]
 }

@@ -89,3 +89,11 @@ isinstance(n, ast.Num)
   ]);
   assert.deepEqual(await pyLines(source, [{ module: "ast", symbol: "Num", shape: "reference" }]), ["symbol 11:15 ast.Num"]);
 });
+
+test("Python: a dotted module is reached by import a.b, import a.b as c, and from a import b", async () => {
+  const matchers = [{ module: "urllib.request", symbol: "urlopen", shape: "call" as const }];
+  assert.deepEqual(await pyLines(`import urllib.request\nurllib.request.urlopen(u)\nurllib.parse.urlparse(u)\n`, matchers), ["symbol 2:1 urllib.request.urlopen"]);
+  assert.deepEqual(await pyLines(`import urllib.request as r\nr.urlopen(u)\n`, matchers), ["symbol 2:1 urllib.request.urlopen"]);
+  assert.deepEqual(await pyLines(`from urllib import request\nrequest.urlopen(u)\n`, matchers), ["symbol 2:1 urllib.request.urlopen"]);
+  assert.deepEqual(await pyLines(`from urllib.request import urlopen as go\ngo(u)\n`, matchers), ["symbol 2:1 urllib.request.urlopen"]);
+});

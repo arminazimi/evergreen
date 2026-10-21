@@ -29,7 +29,7 @@ const withoutNodePrefix = (module: string): string => (module.startsWith("node:"
 
 /** True when a binding's module is the matcher's module, treating `node:fs` and `fs` as the same module. */
 function sameModule(language: SymbolUsageMatcher["language"], bound: SymbolBinding, module: string): boolean {
-  if (language === "python") return bound.module === module || (bound.imported === "*" && bound.module.startsWith(`${module}.`));
+  if (language === "python") return bound.module === module;
   return withoutNodePrefix(bound.module) === withoutNodePrefix(module);
 }
 
@@ -41,7 +41,19 @@ function resolve(matcher: SymbolUsageMatcher, occurrence: SymbolOccurrence, bind
     return bindings.some((binding) => binding.local === head) ? undefined : occurrence.path.join(".");
   }
   for (const binding of bindings) {
-    if (binding.local !== head || !sameModule(matcher.language, binding, matcher.module)) continue;
+    if (binding.local !== head) continue;
+    if (matcher.language === "python") {
+      const parts = matcher.module.split(".");
+      // `import a.b` binds `a`, and `a.b.name` reads `name` from module a.b.
+      if (binding.imported === "*" && binding.module === matcher.module && parts.length > 1 && head === parts[0]) {
+        const tail = parts.slice(1);
+        if (tail.every((part, index) => rest[index] === part)) return rest.slice(tail.length).join(".");
+        continue;
+      }
+      // `from a import b` binds `b` to module a.b.
+      if (binding.imported !== "*" && `${binding.module}.${binding.imported}` === matcher.module) return rest.join(".");
+    }
+    if (!sameModule(matcher.language, binding, matcher.module)) continue;
     if (rootNames.has(binding.imported)) return rest.join(".");
     return [binding.imported, ...rest].join(".");
   }
@@ -70,7 +82,7 @@ export function symbolUsages(
       if (matcher.shape === "reference" && occurrence.role === "reference") reported = { node: occurrence.head, symbol: name };
       else if (matcher.shape === "call" && occurrence.role === "call") reported = { node: occurrence.head, symbol: name };
       else if (matcher.shape === "construct" && occurrence.role === "construct") reported = { node: occurrence.head, symbol: name };
-      else if (matcher.shape === "option" && occurrence.role === "call" && matcher.option !== undefined) {
+      else if (matcher.shape === "option" && occurrence.role !== "reference" && matcher.option !== undefined) {
         const options = occurrence.options ?? [];
         const position = matcher.argument ?? options.length - 1;
         const found = matcher.language === "python" ? pythonOption(options, matcher.option, matcher.argument) : options[position]?.get(matcher.option);

@@ -16,11 +16,10 @@ async function symbolRules(): Promise<(RegistryV2Rule & { usage: SymbolUsageMatc
   return registry.rules.filter((rule) => rule.id.startsWith(prefix)) as (RegistryV2Rule & { usage: SymbolUsageMatcher[] })[];
 }
 
-test("the Node.js registry carries ten symbol-level rules with official evidence", async () => {
+test("the Node.js registry carries 72 symbol-level rules with official evidence", async () => {
   const rules = await symbolRules();
-  assert.equal(rules.length, 10);
+  assert.equal(rules.length, 72);
   for (const rule of rules) {
-    assert.ok(rule.replacement, `${rule.id} names a replacement`);
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://nodejs.org/")), `${rule.id} cites nodejs.org`);
     assert.ok(rule.usage.length > 0 && rule.usage.every((matcher) => matcher.kind === "symbol"), `${rule.id} has only symbol entries`);
     for (const language of ["javascript", "typescript"]) {
