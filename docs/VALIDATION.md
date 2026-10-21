@@ -78,6 +78,12 @@ Five public repositories at pinned commits cover the `swift` detector: `seedco/F
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Swift ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The Xcode acceptance dates come from [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), not from these repositories.
 
+## Serverless corpus
+
+Five public repositories at pinned commits cover the `serverless` detector: `Dwolla/webhook-receiver` (`provider.runtime` `nodejs14.x`), `haltakov/natural-language-image-search` (`provider.runtime` `python3.8`), `HUK-COBURG/innoforum-aws-serverless` (SAM `Runtime` and Terraform `aws_lambda_function.runtime` `nodejs14.x`, plus GitHub Actions pins), `BaptisteLecat/gcp_architect_certification` (Terraform `google_cloudfunctions*_function` `nodejs14`), and `serverless/examples` (current Serverless Framework examples, no findings; selected blind).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Serverless ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The AWS Lambda and Google Cloud Functions end-of-life dates come from the [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) table and the [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) schedule, not from these repositories.
+
 ## .NET blind selection
 
 The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.

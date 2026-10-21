@@ -629,7 +629,7 @@ Matrix version: **2026-10-15 / v1**
 | Swift | Experimental | `.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule. The iOS deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) of an application target in an `.xcodeproj` `project.pbxproj`, for iOS releases App Store Connect no longer accepts. Libraries and `platforms:` minimums in `Package.swift` are not read for it. See [Swift](#swift-detector). |
 | Android | Experimental | Literal `compileSdk`, `minSdk`, `targetSdk`, and `buildToolsVersion` in `build.gradle` and `build.gradle.kts`, Android Gradle Plugin and Kotlin Android plugin versions in `settings.gradle(.kts)`, `agp` and `kotlin` keys in `libs.versions.toml`, and string-notation Maven dependencies, matched to reviewed rules. Bundled rules cover Google Play Billing Library majors 5 through 9. SDK and plugin declarations produce a finding only when a rule names them. |
 | C and C++ | Experimental | `cmake_minimum_required`, C and C++ language standards, and compiler version checks in `CMakeLists.txt`; direct requirements in `conanfile.txt` and `conanfile.py`; and direct dependencies and `builtin-baseline` in `vcpkg.json`. Bundled rules cover CMake policy versions older than 3.5 (removed) and from 3.5 up to 3.10 (deprecated). See [C and C++](#c-and-c-detector). |
-| Serverless runtimes | Experimental | `Runtime` on AWS SAM and CloudFormation functions and `Globals`, `provider.runtime` and per-function `runtime` in `serverless.yml`, and Terraform `runtime` on `aws_lambda_function` plus Google Cloud Functions runtimes and Azure function-app `application_stack` version pins. Bundled rules cover selected AWS Lambda and Google Cloud Functions identifiers that the vendors list as end-of-life. |
+| Serverless runtimes | Experimental | `Runtime` on AWS SAM and CloudFormation functions and `Globals`, `provider.runtime` and per-function `runtime` in `serverless.yml`, and Terraform `runtime` on `aws_lambda_function` plus Google Cloud Functions runtimes and Azure function-app `application_stack` version pins. Bundled rules cover selected AWS Lambda and Google Cloud Functions identifiers that the vendors list as end-of-life. See [Serverless runtimes](#serverless-runtimes-detector). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 <!-- coverage-matrix:end -->
 
@@ -820,6 +820,43 @@ The first matching rule wins. A rule whose VERS is malformed, or whose compariso
 - A baseline commit matches a rule that covers every version, because that range does not inspect the commit.
 - Malformed input produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped.
 - The eight-level and 500-file limits are silent. Files beyond them, and any under `build`, `vendor`, or another skipped directory, are not scanned.
+
+## Serverless runtimes detector
+
+The `serverless` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories in [Validation](VALIDATION.md#serverless-corpus) cover it. Its lifecycle rules are in `registry/serverless.json` and ship in the [data bundle](DATA.md).
+
+### Supported files and declarations
+
+| File | Declaration read | Notes |
+| --- | --- | --- |
+| `template.yaml` / `template.yml` | Literal `Globals.Function.Runtime`, and each `Properties.Runtime` on an `AWS::Serverless::Function` or `AWS::Lambda::Function` | Plain or quoted string scalars only. CloudFormation tags (`!Ref`, `!Sub`), `Ref` mappings, parameter defaults, environment variables named `Runtime`, and image functions without `Runtime` are ignored. |
+| `serverless.yml` | Literal `provider.runtime` and each function's own `runtime` | A function that omits `runtime` is not a second declaration of the provider value. Serverless `${…}` interpolations, floating values such as `latest`, `custom.runtime`, and image functions without `runtime` are ignored. `serverless.yaml` is not read. |
+| `*.tf` | Literal `runtime` on `aws_lambda_function`, `google_cloudfunctions_function`, and `google_cloudfunctions2_function.build_config`; and version fields on `azurerm_*_function_app` `site_config.application_stack` (`node_version`, `python_version`, `java_version`, `powershell_core_version`, `dotnet_version`) | Nested lookalike keys (`environment`, `tags`, and similar), `data` sources, `var` / `local` / interpolation values, heredocs, and legacy `azurerm_function_app` `linux_fx_version` are ignored. |
+
+Files are found by walking the repository up to eight directories deep, to at most 500 files. Symbolic links are not followed, and `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata` are skipped. SAM, the Serverless Framework, Terraform, and cloud CLIs are never run, and nothing is fetched.
+
+### What it reports
+
+- A literal AWS Lambda runtime identifier that a `pkg:generic/aws-lambda-runtime/<id>` rule covers. The bundled rules cover `nodejs14.x`, `python3.8`, `ruby2.7`, and `dotnetcore3.1`, citing the [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) table.
+- A literal Google Cloud Functions runtime identifier that a `pkg:generic/google-cloud-functions-runtime/<id>` rule covers. The bundled rule covers `nodejs14`, citing the [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) schedule.
+- An Azure Functions `application_stack` version pin only when a rule names that identifier. There are no bundled Azure rules yet, so those declarations produce no finding today.
+
+Each finding names the file and line, and carries its rule's source, replacement, deadline, migration guidance, and verification commands. There is no source-usage pass: a runtime finding points at the declaration only.
+
+### What it intentionally does not judge
+
+- Runtime identifiers with no rule in `registry/serverless.json`. A missing finding is not evidence that a runtime is current.
+- CloudFormation intrinsic functions and tags, Serverless Framework variables, Terraform variables and interpolations, and floating aliases such as `latest`.
+- CDK, Pulumi, SAM CLI `samconfig`, Serverless Framework `serverless.ts` / `serverless.js`, and Azure Function `function.json` / `host.json` app settings.
+- Image-based Lambda or Cloud Functions deployments that omit a managed-runtime identifier.
+- Vulnerability advisories and license policy.
+
+### Known limits and false-positive boundaries
+
+- A declared runtime is reported whatever the project actually deploys. A stale example under the repository root still produces a finding when it is within the walk limits.
+- The identifier is matched as written. `nodejs14.x` is an AWS Lambda id; `nodejs14` is a Google Cloud Functions id. They do not substitute for each other.
+- Malformed input produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped. An unterminated string or comment in Terraform yields nothing from the whole file.
+- The eight-level and 500-file limits are silent. Files beyond them, and any under `vendor` or a skipped directory, are not scanned.
 
 ## Monorepos
 
@@ -1417,6 +1454,12 @@ Five public repositories at pinned commits cover the `swift` detector: `seedco/F
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Swift ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The Xcode acceptance dates come from [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), not from these repositories.
 
+## Serverless corpus
+
+Five public repositories at pinned commits cover the `serverless` detector: `Dwolla/webhook-receiver` (`provider.runtime` `nodejs14.x`), `haltakov/natural-language-image-search` (`provider.runtime` `python3.8`), `HUK-COBURG/innoforum-aws-serverless` (SAM `Runtime` and Terraform `aws_lambda_function.runtime` `nodejs14.x`, plus GitHub Actions pins), `BaptisteLecat/gcp_architect_certification` (Terraform `google_cloudfunctions*_function` `nodejs14`), and `serverless/examples` (current Serverless Framework examples, no findings; selected blind).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Serverless ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The AWS Lambda and Google Cloud Functions end-of-life dates come from the [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) table and the [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) schedule, not from these repositories.
+
 ## .NET blind selection
 
 The six earliest .NET repositories were chosen knowing their result, so each records `selection: "targeted"`. The `selection` field is optional on every corpus entry; `"blind"` means the repository was chosen by a rule fixed before Evergreen ran on it ([decision 0013](decisions/0013-detector-maturity.md)), and an entry without the field counts as not blind.
@@ -1666,7 +1709,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The C and C++, Ruby, PHP, and Swift detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#swift-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The C and C++, Ruby, PHP, Swift, and Serverless runtimes detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#swift-detector), and [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
 
 ## Ruby detector layout
 
@@ -1716,6 +1759,18 @@ The C and C++ detector follows the same layout. Its entry point, `src/detectors/
 - Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#c-and-c-detector).
+
+## Serverless runtimes detector layout
+
+The Serverless runtimes detector follows the same layout. Its entry point, `src/detectors/serverless/index.ts`, finds the files, reads them, and matches each literal runtime identifier to a rule. One pure parser per file type sits beside it (`parse-template.ts`, `parse-serverless-yml.ts`, and `parse-tf.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/serverless.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- Each literal identifier is tried against `pkg:generic/aws-lambda-runtime/<id>` and `pkg:generic/google-cloud-functions-runtime/<id>`. The first rule whose VERS range contains the identifier wins. A rule whose VERS is malformed is skipped, so it does not hide a later rule.
+- CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
+- There is no source-usage pass: a runtime finding points at the declaration only.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
 
 ## Start a new detector in this repository
 

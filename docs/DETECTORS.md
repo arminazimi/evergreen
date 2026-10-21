@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The C and C++, Ruby, PHP, and Swift detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#swift-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The C and C++, Ruby, PHP, Swift, and Serverless runtimes detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#swift-detector), and [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
 
 ## Ruby detector layout
 
@@ -88,6 +88,18 @@ The C and C++ detector follows the same layout. Its entry point, `src/detectors/
 - Generator and module rules are not matched yet: the CMake parser does not emit those declarations. There is no source-usage pass.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#c-and-c-detector).
+
+## Serverless runtimes detector layout
+
+The Serverless runtimes detector follows the same layout. Its entry point, `src/detectors/serverless/index.ts`, finds the files, reads them, and matches each literal runtime identifier to a rule. One pure parser per file type sits beside it (`parse-template.ts`, `parse-serverless-yml.ts`, and `parse-tf.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/serverless.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- Each literal identifier is tried against `pkg:generic/aws-lambda-runtime/<id>` and `pkg:generic/google-cloud-functions-runtime/<id>`. The first rule whose VERS range contains the identifier wins. A rule whose VERS is malformed is skipped, so it does not hide a later rule.
+- CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
+- There is no source-usage pass: a runtime finding points at the declaration only.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
 
 ## Start a new detector in this repository
 
