@@ -93,9 +93,9 @@
   },
   "lastFullRun": {
     "date": "2026-10-21",
-    "commit": "db5d0ee",
-    "repositories": 128,
-    "findings": 528,
+    "commit": "4c8a0a2",
+    "repositories": 140,
+    "findings": 585,
     "precision": 1,
     "recall": 1,
     "perDetector": {
@@ -115,7 +115,7 @@
         "falseNegatives": 0
       },
       "cpp": {
-        "truePositives": 6,
+        "truePositives": 11,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -125,7 +125,7 @@
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 242,
+        "truePositives": 260,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -150,7 +150,7 @@
         "falseNegatives": 0
       },
       "npm": {
-        "truePositives": 22,
+        "truePositives": 48,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -165,7 +165,7 @@
         "falseNegatives": 0
       },
       "ruby": {
-        "truePositives": 4,
+        "truePositives": 7,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -180,7 +180,7 @@
         "falseNegatives": 0
       },
       "swift": {
-        "truePositives": 10,
+        "truePositives": 15,
         "falsePositives": 0,
         "falseNegatives": 0
       }
