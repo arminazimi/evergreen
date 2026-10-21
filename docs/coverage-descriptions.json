@@ -4,7 +4,7 @@
     {
       "ecosystems": ["ci-images"],
       "name": "CI runner images",
-      "coverage": "`pool.vmImage` in Azure Pipelines is matched against retirement rules; GitLab `image`/`services` and CircleCI images are listed as unclassified references, not judged."
+      "coverage": "`pool.vmImage` in `azure-pipelines.yml` is matched against reviewed Azure hosted-image rules. GitLab `image` and `services` values are unclassified. CircleCI orbs, dynamic values, and floating aliases are unclassified; other CircleCI images are not judged. See [CI runner images](#ci-runner-images-detector)."
     },
     {
       "ecosystems": ["container"],

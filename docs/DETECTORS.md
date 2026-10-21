@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, and Android detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#android-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Ruby detector layout
 
@@ -76,6 +76,18 @@ The Android detector follows the same layout. Its entry point, `src/detectors/an
 - A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#android-detector).
+
+## CI runner images detector layout
+
+The CI runner images detector follows the same layout. Its entry point, `src/detectors/ci-images/index.ts`, finds the files, reads them, and matches Azure hosted-image labels to a rule. One pure parser per file type sits beside it (`parse-gitlab-ci.ts`, `parse-circleci.ts`, and `parse-azure-pipelines.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/ci-images.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An Azure `pool.vmImage` label of the form `ubuntu-<version>`, `macos-<version>`, or `windows-<version>` matches `pkg:generic/azure-pipelines/<family>-image` with an `intdot` version. Every rule whose `vers` range contains that version is reported. A label with an architecture suffix, or any other shape, is not matched.
+- GitLab `image` and `services` values are always unclassified. CircleCI returns orbs, dynamic values, and floating aliases as unclassified; a literal CircleCI image is not matched, because this version has no CircleCI Package URL mapping.
+- `latest`, `*-latest`, variables, and template expressions produce no finding. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Swift detector layout
 

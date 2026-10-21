@@ -614,7 +614,7 @@ Matrix version: **2026-10-15 / v1**
 <!-- coverage-matrix:start -->
 | Detector ecosystem | Status | Coverage |
 | --- | --- | --- |
-| CI runner images | Experimental | `pool.vmImage` in Azure Pipelines is matched against retirement rules; GitLab `image`/`services` and CircleCI images are listed as unclassified references, not judged. |
+| CI runner images | Experimental | `pool.vmImage` in `azure-pipelines.yml` is matched against reviewed Azure hosted-image rules. GitLab `image` and `services` values are unclassified. CircleCI orbs, dynamic values, and floating aliases are unclassified; other CircleCI images are not judged. See [CI runner images](#ci-runner-images-detector). |
 | Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
 | .NET | Beta | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md). |
 | Go | Experimental | `go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md). |
@@ -830,6 +830,44 @@ The first matching rule wins. A rule whose VERS is malformed, or whose compariso
 - Malformed input produces no declarations from the affected file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single line over 4,096 characters is skipped. Each parser keeps at most 5,000 declarations from one file.
 - The eight-level and 2,000-file limits are silent. Files beyond them, and any under `build`, `.gradle`, or another skipped directory, are not scanned.
 - A plugin or catalog value that is not a literal version is omitted. A string-notation coordinate is kept and compared as the version text written in the file. The analysis reports no unclassified references.
+
+## CI runner images detector
+
+The `ci-images` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. It has no public corpus yet, so the dashboard's last-run counts for `ci-images` stay empty. Its lifecycle rules are in `registry/ci-images.json` and ship in the [data bundle](DATA.md). Bundled rules include the scheduled removals of the macOS 14 Sonoma and Ubuntu 22.04 hosted images, citing the [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule). A label is a finding only when a reviewed rule covers it. Scans read that bundled registry only.
+
+### Supported files and declarations
+
+| File | Declaration read | Notes |
+| --- | --- | --- |
+| `azure-pipelines.yml` | Literal `pool.vmImage` on the pipeline, a stage, or a job | The label is matched when it is `ubuntu-<version>`, `macos-<version>`, or `windows-<version>`, compared case-insensitively. |
+| `.gitlab-ci.yml` | Root and job `image` values, including an image object's `name`, and image values in `services` | Every located value is unclassified. None become findings. |
+| `.circleci/config.yml` | `docker.image` and `machine.image` under `jobs` and `executors`, and string values under `orbs` | Orbs, dynamic values, and floating aliases are unclassified. A literal image is parsed and not judged. |
+
+Only a file named `.gitlab-ci.yml`, `azure-pipelines.yml`, or `config.yml` directly inside a `.circleci` directory is read. Files are found by walking the repository up to eight directories deep, to at most 500 files. Symbolic links are not followed, and `.git`, `node_modules`, `vendor`, `dist`, `build`, `bin`, `obj`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata` are skipped. GitLab CI, CircleCI, and Azure Pipelines are never run, and nothing is fetched.
+
+### What it reports
+
+- An Azure `pool.vmImage` whose family and numeric version a rule's Package URL and `vers` range contain. The finding is the value's line. It carries the rule's source, replacement, deadline, and migration guidance when the rule has it. Every matching rule is reported.
+- Nothing for a GitLab image or service, a CircleCI image or orb, or an Azure label no rule covers. An unclassified reference is not a finding.
+
+### What it intentionally does not judge
+
+- GitLab CI images and services. Decision 0014 records no authoritative GitLab lifecycle source, so a literal image is not evidence that GitLab retired it.
+- CircleCI `docker.image` and `machine.image` values, including ones that look old. This version has no CircleCI Package URL mapping, so a literal image is not matched against a rule. Orb references are not image lifecycle claims, and their remote contents are not read.
+- `latest`, `ubuntu-latest`, `macos-latest`, `windows-latest`, and other `*-latest` or `:latest` aliases. `cimg/<name>:current` is floating too.
+- Dynamic values: `$IMAGE`, `${IMAGE}`, `$(vmImage)`, `<< parameters.image >>`, `<< pipeline.parameters.image >>`, and any value that contains `$` or `<<`.
+- Azure labels outside `ubuntu-`, `macos-`, and `windows-` plus a numeric version, including `ubuntu-22.04-arm64` and `windows-2025-vs2026`.
+- A pool written as a string, a pool `name` without `vmImage`, containers, resources, and `strategy.matrix` `vmImage` entries.
+- CircleCI workflow executor references, `resource_class`, descriptions, and a job that only names an orb executor.
+- Comments, unrelated keys, unresolved YAML aliases, merge keys, non-string values, and malformed YAML.
+- Vulnerability advisories. A newer image existing is not a lifecycle finding.
+
+### Known limits and false-positive boundaries
+
+- An Azure label is reported when a rule matches the text, including a pipeline the project no longer runs, and including a self-hosted agent that reuses a hosted label string. Evergreen does not ask Azure DevOps which pipeline is active.
+- GitLab and CircleCI references that are unclassified name the file and line. A literal CircleCI image is omitted from both findings and unclassified references.
+- Malformed YAML produces no declarations from that file, never a partial result, and no error is raised. A file over 1 MiB yields nothing, and a single value over 4,096 characters is skipped.
+- The eight-level and 500-file limits are silent. Files beyond them, and any under a skipped directory, are not scanned.
 
 ## Monorepos
 
@@ -1712,7 +1750,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, and Android detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#android-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Ruby detector layout
 
@@ -1750,6 +1788,18 @@ The Android detector follows the same layout. Its entry point, `src/detectors/an
 - A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#android-detector).
+
+## CI runner images detector layout
+
+The CI runner images detector follows the same layout. Its entry point, `src/detectors/ci-images/index.ts`, finds the files, reads them, and matches Azure hosted-image labels to a rule. One pure parser per file type sits beside it (`parse-gitlab-ci.ts`, `parse-circleci.ts`, and `parse-azure-pipelines.ts`):
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/ci-images.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An Azure `pool.vmImage` label of the form `ubuntu-<version>`, `macos-<version>`, or `windows-<version>` matches `pkg:generic/azure-pipelines/<family>-image` with an `intdot` version. Every rule whose `vers` range contains that version is reported. A label with an architecture suffix, or any other shape, is not matched.
+- GitLab `image` and `services` values are always unclassified. CircleCI returns orbs, dynamic values, and floating aliases as unclassified; a literal CircleCI image is not matched, because this version has no CircleCI Package URL mapping.
+- `latest`, `*-latest`, variables, and template expressions produce no finding. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Swift detector layout
 
