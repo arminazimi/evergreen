@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, and PHP detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), and [Compatibility](COMPATIBILITY.md#php-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, and Android detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#android-detector).
 
 ## Ruby detector layout
 
@@ -63,6 +63,19 @@ The PHP detector follows the same layout. Its entry point, `src/detectors/php/in
 - Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.php` files that `require` or `include` that package and the qualified calls those matchers name. A `require` or `include` whose argument is not a string literal is unclassified, as is `new $class` or `$class::method()`. Runtime end-of-life rules do not name source usages.
 
 The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#php-detector).
+
+## Android detector layout
+
+The Android detector follows the same layout. Its entry point, `src/detectors/android/index.ts`, finds the files, reads them, and matches each declaration to a rule. Pure parsers sit beside it: `parse-build-gradle.ts` for SDK settings, `parse-settings-gradle.ts` for plugin pins, and `parse-libs-versions-toml.ts` for the version catalog. String-notation Maven dependencies in `build.gradle` and `build.gradle.kts` come from the Java detector's `parse-gradle.ts`; this detector keeps only those dependency declarations.
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/android.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- A declaration uses the first rule whose `vers` range contains the version text. A rule whose `vers` is malformed, or whose comparison throws, is skipped, so it does not hide a later rule.
+- An SDK setting matches `pkg:generic/android/<kind>` (`compileSdk`, `minSdk`, `targetSdk`, `buildToolsVersion`). An Android Gradle Plugin pin, in settings or the catalog `agp` key, matches `pkg:generic/android/agp`. `org.jetbrains.kotlin.android` in settings matches `pkg:generic/android/kotlin-android`. The catalog `kotlin` key matches `pkg:generic/android/kotlin`. A string-notation dependency matches `pkg:maven/<group>/<artifact>`.
+- Property references, method calls, version-catalog lookups, and `$` interpolation produce no declaration. The analysis reports no unclassified references.
+- A rule that lists usage matchers uses `analyzeSourceUsage` for `.java` and `.kt` files. The bundled Play Billing rules do not list matchers, so those findings point at the declaration only.
+
+The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#android-detector).
 
 ## Swift detector layout
 
