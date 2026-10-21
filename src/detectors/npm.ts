@@ -79,11 +79,23 @@ async function readOptional(path: string): Promise<string | undefined> {
   }
 }
 
+/**
+ * Symbol-level rules (a `usage` entry of kind `symbol`) are read by parser-backed usage analysis. They carry no
+ * `major` or package hint, so this detector's rule readers would reject them; they are left out of its view.
+ */
+function withoutSymbolRules(data: unknown): unknown {
+  if (typeof data !== "object" || data === null || !("rules" in data) || !Array.isArray(data.rules)) return data;
+  const isSymbolRule = (rule: unknown): boolean =>
+    typeof rule === "object" && rule !== null && "usage" in rule && Array.isArray(rule.usage) &&
+    rule.usage.some((matcher: unknown) => typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol");
+  return { ...data, rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)) };
+}
+
 async function loadRegistry<Rule>(
   path: string,
   definition: RegistryDefinition<Rule>,
 ): Promise<readonly Rule[]> {
-  const data = await loadDataFile(path);
+  const data = withoutSymbolRules(await loadDataFile(path));
   const loaded = loadRegistryRules(data, definition).rules;
   if (path !== "registry/npm.json" || typeof data !== "object" || data === null || !("rules" in data)) return loaded;
   const versions = new Map((data.rules as Array<{ id: string; vers?: string }>).map((rule) => [rule.id, rule.vers]));

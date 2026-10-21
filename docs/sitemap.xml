@@ -151,6 +151,16 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-25.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.buffer.constructor.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.createcipher.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.exists.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.rmdir-recursive.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.binding.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.extend.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isarray.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isstring.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v18-and-older.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>

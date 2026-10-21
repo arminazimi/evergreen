@@ -186,6 +186,16 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Node.js 23 is end-of-life](nodejs.runtime.eol-23.html) — end of life, `nodejs.runtime.eol-23`
 - [Node.js 25 is end-of-life](nodejs.runtime.eol-25.html) — end of life, `nodejs.runtime.eol-25`
 - [Legacy Node.js runtime is end-of-life](nodejs.runtime.legacy.html) — end of life, `nodejs.runtime.legacy`
+- [The Buffer() constructor is deprecated](nodejs.symbol.buffer.constructor.html) — deprecated, `nodejs.symbol.buffer.constructor`
+- [crypto.createCipher and createDecipher have been removed](nodejs.symbol.crypto.createcipher.html) — removed, `nodejs.symbol.crypto.createcipher`
+- [fs.exists is deprecated](nodejs.symbol.fs.exists.html) — deprecated, `nodejs.symbol.fs.exists`
+- [The recursive option of fs.rmdir has been removed](nodejs.symbol.fs.rmdir-recursive.html) — removed, `nodejs.symbol.fs.rmdir-recursive`
+- [process.binding is deprecated](nodejs.symbol.process.binding.html) — deprecated, `nodejs.symbol.process.binding`
+- [tls.createSecurePair has been removed](nodejs.symbol.tls.createsecurepair.html) — removed, `nodejs.symbol.tls.createsecurepair`
+- [url.parse is deprecated](nodejs.symbol.url.parse.html) — deprecated, `nodejs.symbol.url.parse`
+- [util._extend is deprecated](nodejs.symbol.util.extend.html) — deprecated, `nodejs.symbol.util.extend`
+- [util.isArray is deprecated](nodejs.symbol.util.isarray.html) — deprecated, `nodejs.symbol.util.isarray`
+- [util.isString has been removed](nodejs.symbol.util.isstring.html) — removed, `nodejs.symbol.util.isstring`
 
 ## npm
 
