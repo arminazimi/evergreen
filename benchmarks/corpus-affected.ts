@@ -10,6 +10,7 @@ export const CORPUS_ECOSYSTEMS = [
   "container",
   "cpp",
   "dart",
+  "database",
   "dotnet",
   "go",
   "java",
@@ -36,7 +37,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   container: ["container"],
   cpp: ["cpp"],
   dart: ["dart"],
-  database: [],
+  database: ["database"],
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   go: ["go"],
@@ -61,7 +62,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "container.json": ["container"],
   "cpp.json": ["cpp"],
   "dart.json": ["dart"],
-  "database.json": [],
+  "database.json": ["database"],
   "dotnet.json": ["dotnet"],
   "github-actions-shas.json": ["node-actions"],
   "github-actions.json": ["node-actions"],
@@ -84,7 +85,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "cpp", "dart", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "swift", "terraform"].includes(name),
+      ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "swift", "terraform"].includes(name),
     ),
   ),
 };
@@ -100,11 +101,11 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
     reason: "source usage mapping",
   },
   { pattern: /^src\/workspaces\.ts$/, ecosystems: ["node", "python"], reason: "workspace discovery" },
-  { pattern: /^src\/purl\.ts$/, ecosystems: ["android", "cpp", "dart", "java", "swift", "terraform"], reason: "package URLs" },
+  { pattern: /^src\/purl\.ts$/, ecosystems: ["android", "cpp", "dart", "database", "java", "swift", "terraform"], reason: "package URLs" },
   { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes"], reason: "version ranges" },
   {
     pattern: /^src\/vers\//,
-    ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "swift", "terraform"],
+    ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "swift", "terraform"],
     reason: "version ranges",
   },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["cpp", "dart", "dotnet", "php", "swift"], reason: "JSON line locations" },

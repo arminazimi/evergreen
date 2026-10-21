@@ -6980,6 +6980,243 @@
       "ecosystem": "terraform",
       "selection": "targeted",
       "expected": []
+    },
+    {
+      "repository": "infracost/example-terraform",
+      "commit": "7b5a96ddc1d1b570afc6ffbd36fb6ec150a80c18",
+      "ecosystem": "database",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "database.mysql.end-of-life-5.7",
+          "path": "more_examples/main.tf",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of more_examples/main.tf reads `engine_version      = \"5.7.44\"`, MySQL 5.7, which reached end of life on 2023-10-31 (MySQL lifecycle, https://www.mysql.com/support/supportedplatforms/database.html; https://endoflife.date/mysql)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "CodeForPoznan/infrastructure",
+      "commit": "24b0a2069eec679db21f099d265cbc3e7c5ecb17",
+      "ecosystem": "database",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "database.postgresql.end-of-life-13",
+          "path": "db.tf",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of db.tf reads `engine_version = \"13.20\"`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 11 of .github/workflows/lint.yml reads `- uses: actions/checkout@v3`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "terraform.cli.end-of-support-1.12",
+          "path": "providers.tf",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of providers.tf reads `required_version = \"~> 1.12.0\"`, a constraint that admits only Terraform 1.12 patch releases. Terraform 1.12 stopped being one of the two most recent release lines when Terraform 1.14.0 shipped on 2025-11-19 (https://github.com/hashicorp/terraform/releases/tag/v1.14.0; HashiCorp Terraform support policy, https://support.hashicorp.com/hc/en-us/articles/360021185113)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "SJD16/devops-recipe-app-api",
+      "commit": "58bfbd28ade524aa896618b9f2a148f017404397",
+      "ecosystem": "database",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "container.postgres.eol-13-and-older",
+          "path": "docker-compose.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 29 of docker-compose.yml is `image: postgres:13-alpine`, an image release line the vendor has ended (PostgreSQL versioning policy, https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Dockerfile is `FROM python:3.9-alpine3.13`, an image release line the vendor has ended (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "database.postgresql.end-of-life-12",
+          "path": "infra/deploy/database.tf",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 43 of infra/deploy/database.tf reads `engine_version             = \"12.22\"`, PostgreSQL 12, which the PostgreSQL versioning policy lists as unsupported (final release 2024-11-21; https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "database.postgresql.end-of-life-13",
+          "path": "docker-compose.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 29 of docker-compose.yml reads `image: postgres:13-alpine`, PostgreSQL 13, which the PostgreSQL versioning policy lists as unsupported (final release 2025-11-13; https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/deploy.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of .github/workflows/deploy.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/destroy.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/destroy.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test-and-lint.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/test-and-lint.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test-and-lint.yml",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 40 of .github/workflows/test-and-lint.yml reads `uses: actions/checkout@v4`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/test-and-lint.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/test-and-lint.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/test-and-lint.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/test-and-lint.yml reads `uses: docker/login-action@v3`, which github-actions.login-action.node20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "nestjsx/crud",
+      "commit": "d6d3c4ebd844d543ab71b494d424660c448a9d42",
+      "ecosystem": "database",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "container.mysql.eol-8.0-and-older",
+          "path": "docker-compose.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of docker-compose.yml is `image: mysql:5.7`, an image release line the vendor has ended (https://endoflife.date/mysql)."
+          }
+        },
+        {
+          "ruleId": "container.postgres.eol-13-and-older",
+          "path": "docker-compose.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of docker-compose.yml is `image: postgres:11.5`, an image release line the vendor has ended (PostgreSQL versioning policy, https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "database.mysql.end-of-life-5.7",
+          "path": "docker-compose.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of docker-compose.yml reads `image: mysql:5.7`, MySQL 5.7, which reached end of life on 2023-10-31 (MySQL lifecycle, https://www.mysql.com/support/supportedplatforms/database.html; https://endoflife.date/mysql)."
+          }
+        },
+        {
+          "ruleId": "database.postgresql.end-of-life-11",
+          "path": "docker-compose.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of docker-compose.yml reads `image: postgres:11.5`, PostgreSQL 11, which the PostgreSQL versioning policy lists as unsupported (final release 2023-11-09; https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/tests.yml reads `- uses: actions/checkout@v2`, which github-actions.checkout.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.github-script.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 112,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 112 of .github/workflows/release.yml reads `uses: actions/github-script@0.8.0`, which github-actions.github-script.node20 reports."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads `uses: actions/setup-node@v2`, which github-actions.setup-node.node20 reports."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "pacman82/odbc2parquet",
+      "commit": "e1b93b538ac875404d5fe7f7be9a3fb0dfb73a73",
+      "ecosystem": "database",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }
