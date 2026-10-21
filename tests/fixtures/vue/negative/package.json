@@ -1,0 +1,12 @@
+{
+  "name": "vue-lookalikes",
+  "private": true,
+  "dependencies": {
+    "vue": "^3.5.13",
+    "@vue/compat": "^3.5.13",
+    "vue-router": "^3.6.5"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^5.0.8"
+  }
+}
