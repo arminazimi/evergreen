@@ -344,8 +344,11 @@ for (const [name, withoutHelper] of [
     const cache = await scratch("cache");
     const preload = join(await scratch("preload"), "no-helper.cjs");
     await writeFile(preload, "delete require('node:http').setGlobalProxyFromEnv;\n");
+    // Drop every inherited proxy variable (both cases, since Node prefers lowercase): a developer's no_proxy
+    // would otherwise bypass the test proxy on 127.0.0.1.
+    const inherited = Object.fromEntries(Object.entries(process.env).filter(([name]) => !/^(https?|all|no)_proxy$/i.test(name)));
     const env = {
-      ...process.env,
+      ...inherited,
       EVERGREEN_DATA_DIR: cache,
       EVERGREEN_DATA_URL: fixture.url,
       HTTP_PROXY: `http://127.0.0.1:${(proxy.address() as AddressInfo).port}`,
