@@ -28,7 +28,7 @@ The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with de
 
 ## Detected by
 
-No built-in detector reads `serverless` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json).
+The `serverless` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

@@ -28,7 +28,7 @@ The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with dep
 
 ## Detected by
 
-No built-in detector reads `serverless` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json).
+The `serverless` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

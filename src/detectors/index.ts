@@ -13,6 +13,7 @@ import { phpDetector } from "./php/index.js";
 import { pythonDetector } from "./python.js";
 import { rubyDetector } from "./ruby/index.js";
 import { rustDetector } from "./rust/index.js";
+import { serverlessDetector } from "./serverless/index.js";
 import { swiftDetector } from "./swift/index.js";
 
 export const builtInDetectors: readonly Detector[] = [
@@ -29,6 +30,7 @@ export const builtInDetectors: readonly Detector[] = [
   rustDetector,
   ciImagesDetector,
   rubyDetector,
+  serverlessDetector,
   swiftDetector,
   androidDetector,
 ];
