@@ -86,7 +86,7 @@ export interface SourceUsageContract {
 }
 
 export interface SourceUsage {
-  kind: "import" | "call" | "config-key";
+  kind: "import" | "call" | "config-key" | "symbol";
   language: SourceLanguage;
   symbol: string;
   location: SourceLocation;

@@ -63,7 +63,7 @@ function isSource(value: unknown): value is EvidenceSource {
 function isUsage(value: unknown): value is SourceUsage {
   return (
     isRecord(value) &&
-    ["import", "call", "config-key"].includes(value.kind as string) &&
+    ["import", "call", "config-key", "symbol"].includes(value.kind as string) &&
     sourceLanguageValues.includes(value.language as never) &&
     isNonEmptyString(value.symbol) &&
     isLocation(value.location) &&

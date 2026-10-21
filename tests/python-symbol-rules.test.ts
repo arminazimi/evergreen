@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 
 import type { SymbolUsageMatcher } from "../src/domain.js";
+import { analyzePythonFile } from "../src/usage/python.js";
 import { registryV2Issues, type RegistryV2Rule } from "../src/registry.js";
 
 const root = join(import.meta.dirname, "..", "..");
@@ -26,16 +27,18 @@ test("the Python registry carries ten symbol-level rules with official evidence"
   }
 });
 
-test("each symbol rule has a fixture that marks what is reported and what is not", async () => {
+test("each symbol rule reports exactly the usages its fixture marks", async () => {
   for (const rule of await symbolRules()) {
-    const fixture = await readFile(join(root, "tests", "fixtures", "symbol-rules", "python", `${rule.id.slice(prefix.length)}.py`), "utf8");
-    const reported = fixture.split("\n").filter((line) => line.includes("# reported:"));
-    const ignored = fixture.split("\n").filter((line) => line.includes("# not reported:"));
-    assert.ok(reported.length > 0, `${rule.id} fixture has reported usages`);
-    assert.ok(ignored.length > 0, `${rule.id} fixture has lookalikes`);
-    for (const matcher of rule.usage) {
-      const name = matcher.symbol.split(".").pop()!;
-      assert.ok(reported.some((line) => line.includes(name)), `${rule.id} fixture reports ${matcher.symbol}`);
-    }
+    const path = `${rule.id.slice(prefix.length)}.py`;
+    const fixture = await readFile(join(root, "tests", "fixtures", "symbol-rules", "python", path), "utf8");
+    const lines = fixture.split("\n");
+    const marked = lines.flatMap((line, index) => (line.includes("# reported:") ? [index + 1] : []));
+    assert.ok(marked.length > 0, `${rule.id} fixture has reported usages`);
+    assert.ok(lines.some((line) => line.includes("# not reported:")), `${rule.id} fixture has lookalikes`);
+
+    const result = await analyzePythonFile({ path, language: "python", source: fixture }, [{ id: rule.id, matchers: rule.usage }]);
+    assert.ok(result, `${rule.id} fixture parsed`);
+    const found = [...new Set(result.get(rule.id)!.map((usage) => usage.location.line ?? 0))].sort((left, right) => left - right);
+    assert.deepEqual(found, marked, `${rule.id} reports the marked lines`);
   }
 });

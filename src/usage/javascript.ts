@@ -1,6 +1,7 @@
 import type { Node } from "@vscode/tree-sitter-wasm";
 
-import type { SourceUsage, SourceUsageContract } from "../domain.js";
+import type { SourceUsage, SourceUsageContract, SymbolUsageMatcher } from "../domain.js";
+import { symbolUsages, type SymbolOccurrence } from "./symbols.js";
 import { grammarFor, loadQuery, parseSource } from "./tree-sitter.js";
 
 export interface JavaScriptSourceFile {
@@ -74,6 +75,35 @@ function patternEntries(pattern: Node): { key: string; local: string }[] {
 function symbolPath(binding: Binding, rest: readonly string[]): string {
   if (rootNames.has(binding.imported)) return rest.length === 0 ? binding.imported : rest.join(".");
   return [binding.imported, ...rest].join(".");
+}
+
+/** Property names of an object literal argument, each with the node of its name. */
+function objectOptions(argument: Node): Map<string, Node> {
+  const options = new Map<string, Node>();
+  if (argument.type !== "object") return options;
+  for (const child of argument.namedChildren) {
+    if (!child) continue;
+    if (child.type === "shorthand_property_identifier") options.set(child.text, child);
+    else if (child.type === "pair") {
+      const key = child.childForFieldName("key");
+      if (key) options.set(key.text.replace(/^["']|["']$/g, ""), key);
+    }
+  }
+  return options;
+}
+
+/** Positions where an identifier or member expression names something rather than uses it. */
+function namesADeclaration(node: Node): boolean {
+  const parent = node.parent;
+  if (!parent) return false;
+  if (["variable_declarator", "function_declaration", "class_declaration", "method_definition", "assignment_pattern", "pair_pattern"].includes(parent.type)) {
+    const named = parent.childForFieldName("name") ?? parent.childForFieldName("left");
+    if (named?.id === node.id) return true;
+  }
+  return [
+    "formal_parameters", "required_parameter", "optional_parameter", "rest_pattern", "import_specifier", "import_clause", "namespace_import",
+    "export_specifier", "object_pattern", "array_pattern", "labeled_statement", "type_annotation",
+  ].includes(parent.type);
 }
 
 function lineStarts(source: string): number[] {
@@ -180,6 +210,41 @@ export async function analyzeJavaScriptFile(
       if (!changed) break;
     }
 
+    const symbolMatchers = (contract: SourceUsageContract): SymbolUsageMatcher[] =>
+      contract.matchers.filter((matcher): matcher is SymbolUsageMatcher => matcher.kind === "symbol" && matcher.language === file.language);
+    let occurrences: SymbolOccurrence[] | undefined;
+    const wantsReferences = contracts.some((contract) => symbolMatchers(contract).some((matcher) => matcher.shape === "reference"));
+    const occurrencesOf = (): SymbolOccurrence[] => {
+      if (occurrences) return occurrences;
+      occurrences = [];
+      const used = new Set<number>();
+      for (const callee of callees) {
+        const chain = chainOf(callee);
+        const call = callee.parent;
+        if (!chain || !call) continue;
+        used.add(callee.id);
+        const args = call.childForFieldName("arguments");
+        occurrences.push({
+          head: chain.head,
+          path: chain.path,
+          role: call.type === "new_expression" ? "construct" : "call",
+          options: args ? args.namedChildren.flatMap((argument) => (argument ? [objectOptions(argument)] : [])) : [],
+        });
+      }
+      if (wantsReferences) {
+        for (const node of tree.rootNode.descendantsOfType(["identifier", "member_expression"])) {
+          if (!node || used.has(node.id) || namesADeclaration(node)) continue;
+          const parent = node.parent;
+          if (parent?.type === "member_expression" && parent.childForFieldName("object")?.id === node.id) continue;
+          if (parent?.type === "call_expression" && parent.childForFieldName("function")?.id === node.id) continue;
+          if (parent?.type === "new_expression" && parent.childForFieldName("constructor")?.id === node.id) continue;
+          const chain = chainOf(node);
+          if (chain) occurrences.push({ head: chain.head, path: chain.path, role: "reference" });
+        }
+      }
+      return occurrences;
+    };
+
     const results = new Map<string, SourceUsage[]>();
     for (const contract of contracts) {
       const usages: SourceUsage[] = [];
@@ -228,6 +293,14 @@ export async function analyzeJavaScriptFile(
             }
           }
         }
+      }
+      const symbols = symbolMatchers(contract);
+      if (symbols.length > 0) {
+        const describe = (node: Node): Pick<SourceUsage, "location" | "excerpt"> => {
+          const { line, column } = locate(node);
+          return { location: { path: file.path, line, column }, excerpt: lines[line - 1]!.trim() };
+        };
+        for (const usage of symbolUsages(symbols, occurrencesOf(), bindings, describe, file)) push(usage);
       }
       results.set(
         contract.id,

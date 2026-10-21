@@ -248,7 +248,8 @@
                   "enum": [
                     "import",
                     "call",
-                    "config-key"
+                    "config-key",
+                    "symbol"
                   ]
                 },
                 "language": {

@@ -4263,7 +4263,8 @@
           "module": "shutil",
           "symbol": "rmtree",
           "shape": "option",
-          "option": "onerror"
+          "option": "onerror",
+          "argument": 2
         }
       ]
     },
