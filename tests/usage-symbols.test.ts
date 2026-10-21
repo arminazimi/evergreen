@@ -59,7 +59,7 @@ fs.rmdir("d", { force: true }, cb);
 `;
   const at1 = { module: "fs", symbol: "rmdir", shape: "option" as const, option: "recursive", argument: 1 };
   assert.deepEqual(await jsLines(source, [at1]), ["symbol 2:17 fs.rmdir(recursive)"]);
-  assert.deepEqual(await jsLines(source, [{ ...at1, symbol: "rmdirSync", argument: undefined as never }]), ["symbol 4:19 fs.rmdirSync(recursive)"]);
+  assert.deepEqual(await jsLines(source, [{ ...at1, symbol: "rmdirSync", argument: undefined as never }]), ["symbol 4:21 fs.rmdirSync(recursive)"]);
 });
 
 test("TypeScript wrappers do not hide a call", async () => {
