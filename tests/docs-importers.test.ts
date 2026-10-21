@@ -45,11 +45,11 @@ test("other docs point to the importer guide", async () => {
 /**
  * Registered importers that stay out of `.github/workflows/importers.yml` even when their
  * registry file exists: their source rejects automated fetches (android-1), or no detector
- * or registry test can use the rules they draft yet (kubernetes-2, rust-2), so a weekly pull
+ * or registry test can use the rules they draft yet (kubernetes-2, rust-2, terraform-2), so a weekly pull
  * request would only be noise. Keep them in `tools/importers/index.ts` for local `--replay`
  * / hand runs. Document each row in docs/IMPORTERS.md.
  */
-const UNSCHEDULED_IMPORTERS = new Set(["android-1", "kubernetes-2", "rust-2"]);
+const UNSCHEDULED_IMPORTERS = new Set(["android-1", "kubernetes-2", "rust-2", "terraform-2"]);
 
 test("the weekly workflow runs every schedulable importer whose registry file exists, and nothing else", async () => {
   const { existsSync } = await import("node:fs");
