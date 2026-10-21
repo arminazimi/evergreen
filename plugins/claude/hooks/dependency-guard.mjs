@@ -179,8 +179,13 @@ function checkCommand() {
   return ["npx", "--yes", "--package", PACKAGE_SPEC, "evergreen"];
 }
 
+/** On Windows the command runs through the shell, which splits an unquoted word at its spaces. */
+function shellWord(word) {
+  return process.platform === "win32" && /\s/.test(word) ? `"${word}"` : word;
+}
+
 function runCheck(purl, version) {
-  const [command, ...args] = checkCommand();
+  const [command, ...args] = checkCommand().map(shellWord);
   const target = version ? `${purl}@${version}` : purl;
   const result = spawnSync(command, [...args, "check", target, "--json", "--fail-on", "none"], { encoding: "utf8", timeout: 45_000, shell: process.platform === "win32" });
   if (result.status !== 0) return { error: (result.stderr || result.error?.message || "evergreen check failed").trim().split("\n")[0] };
