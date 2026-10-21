@@ -92,7 +92,7 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
   { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes"], reason: "version ranges" },
   {
     pattern: /^src\/vers\//,
-    ecosystems: ["android", "container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "ruby", "rust", "swift"],
+    ecosystems: ["android", "container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "swift"],
     reason: "version ranges",
   },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["dotnet", "php", "swift"], reason: "JSON line locations" },

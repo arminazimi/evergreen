@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { PythonDetector } from "../src/detectors/python.js";
+import { versContains } from "../src/vers/index.js";
 
 const temporaryRoots: string[] = [];
 
@@ -160,4 +161,86 @@ test("each declaration is reported by the narrowest 'and older' runtime rule tha
     ],
   );
   assert.equal(findings.find((finding) => finding.location.path === ".python-version")?.deadline, "2026-10-01");
+});
+
+test("reports a Django release series that is end-of-life when a requirements file pins it", async () => {
+  const root = await repository({
+    "requirements.txt": "Django==3.2.25\n",
+    "app.py": "import django\n",
+  });
+
+  const findings = await new PythonDetector().scan({ root });
+
+  assert.equal(findings.length, 1);
+  const [finding] = findings;
+  assert.equal(finding?.ruleId, "python.package.django-3.2.eol");
+  assert.equal(finding?.severity, "high");
+  assert.equal(finding?.deadline, "2024-04-01");
+  assert.equal(finding?.location.path, "requirements.txt");
+  assert.equal(finding?.location.line, 1);
+  assert.ok(finding?.summary.includes("resolved: 3.2.25"));
+  assert.equal(finding?.impact?.usageCount, 1);
+});
+
+test("reports a Django pin in pyproject.toml and the version a lockfile resolves", async () => {
+  const pinned = await repository({
+    "pyproject.toml": `[project]\nname = "legacy-app"\ndependencies = ["Django==4.2.30"]\n`,
+  });
+  const pinnedFindings = await new PythonDetector().scan({ root: pinned });
+  assert.deepEqual(
+    pinnedFindings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["python.package.django-4.2.eol", "pyproject.toml", 3]],
+  );
+
+  const locked = await repository({
+    "pyproject.toml": `[project]\nname = "legacy-app"\ndependencies = ["Django>=4.1"]\n`,
+    "uv.lock": `version = 1\n[[package]]\nname = "django"\nversion = "4.1.13"\n`,
+  });
+  const lockedFindings = await new PythonDetector().scan({ root: locked });
+  assert.equal(lockedFindings.length, 1);
+  assert.equal(lockedFindings[0]?.ruleId, "python.package.django-4.1.eol");
+  assert.ok(lockedFindings[0]?.summary.includes("resolved: 4.1.13"));
+});
+
+test("a supported Django release produces no finding, and a declared range is not a pin", async () => {
+  const supported = await repository({
+    "pyproject.toml": `[project]\nname = "modern-app"\ndependencies = ["Django==5.2.18"]\n`,
+    "uv.lock": `version = 1\n[[package]]\nname = "django"\nversion = "6.1.2"\n`,
+  });
+  assert.deepEqual(await new PythonDetector().scan({ root: supported }), []);
+
+  const ranged = await repository({
+    "requirements.txt": "Django>=3.2,<4.0\n",
+    "app.py": "import django\n",
+  });
+  assert.deepEqual(await new PythonDetector().scan({ root: ranged }), []);
+});
+
+test("a malformed Django version matches no rule and does not stop the scan", async () => {
+  const root = await repository({
+    "requirements.txt": "Django==not-a-version\nrequests==2.31.0\n",
+  });
+
+  assert.deepEqual(await new PythonDetector().scan({ root }), []);
+});
+
+test("bundled Django rules cover each end-of-life series once and no supported series", async () => {
+  const registry = JSON.parse(await readFile(resolve("registry/python.json"), "utf8")) as {
+    rules: Array<{ id: string; purl: string; vers: string; event: string; deadline?: string }>;
+  };
+  const djangoRules = registry.rules.filter((rule) => rule.purl === "pkg:pypi/django");
+
+  assert.equal(djangoRules.length, 20);
+  assert.ok(djangoRules.every((rule) => rule.event === "end-of-life" && rule.deadline !== undefined));
+
+  const releases = ["1.3.7", "1.4.22", "1.11.29", "2.2.28", "3.2.25", "4.2.30", "5.0.14", "5.1.15"];
+  for (const release of releases) {
+    const matching = djangoRules.filter((rule) => versContains(rule.vers, release));
+    assert.deepEqual(matching.map((rule) => rule.id), [`python.package.django-${release.split(".").slice(0, 2).join(".")}.eol`]);
+  }
+  for (const supported of ["5.2.18", "6.0.9", "6.1.2"]) {
+    assert.deepEqual(djangoRules.filter((rule) => versContains(rule.vers, supported)), []);
+  }
+  // Pre-releases of the next series are not part of the series before it.
+  assert.deepEqual(djangoRules.filter((rule) => versContains(rule.vers, "5.0rc1")), []);
 });

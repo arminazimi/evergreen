@@ -284,6 +284,26 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [cmip_ref was renamed and is no longer maintained](python.package.cmip-ref.eol.html) — end of life, `python.package.cmip-ref.eol`
 - [datacommons is deprecated](python.package.datacommons.deprecated.html) — deprecated, `python.package.datacommons.deprecated`
 - [distribute is deprecated](python.package.distribute.deprecated.html) — deprecated, `python.package.distribute.deprecated`
+- [Django 1.10 is end-of-life](python.package.django-1.10.eol.html) — end of life, `python.package.django-1.10.eol`
+- [Django 1.11 LTS is end-of-life](python.package.django-1.11.eol.html) — end of life, `python.package.django-1.11.eol`
+- [Django 1.3 is end-of-life](python.package.django-1.3.eol.html) — end of life, `python.package.django-1.3.eol`
+- [Django 1.4 LTS is end-of-life](python.package.django-1.4.eol.html) — end of life, `python.package.django-1.4.eol`
+- [Django 1.5 is end-of-life](python.package.django-1.5.eol.html) — end of life, `python.package.django-1.5.eol`
+- [Django 1.6 is end-of-life](python.package.django-1.6.eol.html) — end of life, `python.package.django-1.6.eol`
+- [Django 1.7 is end-of-life](python.package.django-1.7.eol.html) — end of life, `python.package.django-1.7.eol`
+- [Django 1.8 LTS is end-of-life](python.package.django-1.8.eol.html) — end of life, `python.package.django-1.8.eol`
+- [Django 1.9 is end-of-life](python.package.django-1.9.eol.html) — end of life, `python.package.django-1.9.eol`
+- [Django 2.0 is end-of-life](python.package.django-2.0.eol.html) — end of life, `python.package.django-2.0.eol`
+- [Django 2.1 is end-of-life](python.package.django-2.1.eol.html) — end of life, `python.package.django-2.1.eol`
+- [Django 2.2 LTS is end-of-life](python.package.django-2.2.eol.html) — end of life, `python.package.django-2.2.eol`
+- [Django 3.0 is end-of-life](python.package.django-3.0.eol.html) — end of life, `python.package.django-3.0.eol`
+- [Django 3.1 is end-of-life](python.package.django-3.1.eol.html) — end of life, `python.package.django-3.1.eol`
+- [Django 3.2 LTS is end-of-life](python.package.django-3.2.eol.html) — end of life, `python.package.django-3.2.eol`
+- [Django 4.0 is end-of-life](python.package.django-4.0.eol.html) — end of life, `python.package.django-4.0.eol`
+- [Django 4.1 is end-of-life](python.package.django-4.1.eol.html) — end of life, `python.package.django-4.1.eol`
+- [Django 4.2 LTS is end-of-life](python.package.django-4.2.eol.html) — end of life, `python.package.django-4.2.eol`
+- [Django 5.0 is end-of-life](python.package.django-5.0.eol.html) — end of life, `python.package.django-5.0.eol`
+- [Django 5.1 is end-of-life](python.package.django-5.1.eol.html) — end of life, `python.package.django-5.1.eol`
 - [django-celery is no longer required](python.package.django-celery.deprecated.html) — deprecated, `python.package.django-celery.deprecated`
 - [django-nose is maintenance-only](python.package.django-nose.maintenance-only.html) — deprecated, `python.package.django-nose.maintenance-only`
 - [enum is archived on PyPI](python.package.enum.archived.html) — end of life, `python.package.enum.archived`

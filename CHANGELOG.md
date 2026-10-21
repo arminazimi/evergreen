@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add end-of-life rules for every unsupported Django release series from 1.3 through 5.1 (`python.package.django-<series>.eol`), with the dates from the Django supported-versions page. A bounded Python package rule now matches a lockfile entry or an exact `==` pin, not a declared range, so a `Django>=3.2` requirement alone produces no Django finding. Supported series (5.2 LTS, 6.0, 6.1) have no rule until the page gives their end dates to the day.
 - Add the iOS 13 App Store upload rule (`swift.app-store.ios-below-13`). The Swift detector reads `IPHONEOS_DEPLOYMENT_TARGET` from application targets in `project.pbxproj` only, so libraries that declare an older `platforms:` minimum are not reported. (#808)
 - Promote the .NET detector to beta (decision 0013). The corpus has twelve blind-selected .NET repositories on top
   of the six targeted ones (84 expected `dotnet` findings, precision 1 and recall 1 on the full run), and corpus

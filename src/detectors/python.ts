@@ -13,8 +13,9 @@ import {
   isDeprecationRule,
   isUsageMatcher,
 } from "../sdk.js";
-import { loadRegistryRules } from "../registry.js";
+import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../sdk.js";
+import { parseVersLenient, versContains } from "../vers/index.js";
 
 interface PythonRuntimeRule extends DeprecationRule {
   kind: "runtime";
@@ -25,6 +26,8 @@ interface PythonPackageRule extends DeprecationRule {
   kind: "package";
   package: string;
   usage?: UsageMatcher[];
+  /** The rule's VERS range. Absent from the detector view, so `loadRules` attaches it from the v2 rule. */
+  vers?: string | undefined;
 }
 
 type PythonRule = PythonRuntimeRule | PythonPackageRule;
@@ -109,6 +112,7 @@ function addRequirementList(
   path: string,
   contents: string,
   values: unknown,
+  resolved: ResolvedVersions,
 ): void {
   if (!Array.isArray(values)) return;
   for (const value of values) {
@@ -116,6 +120,7 @@ function addRequirementList(
     const requirement = parseRequirement(value);
     if (requirement) {
       addDependency(target, path, contents, requirement.name, requirement.constraint);
+      addExactPin(resolved, requirement.name, requirement.constraint);
     }
   }
 }
@@ -125,12 +130,13 @@ function collectPyprojectDependencies(
   contents: string,
   document: UnknownRecord,
   target: Map<string, DirectDependency>,
+  resolved: ResolvedVersions,
 ): void {
   const project = asRecord(document.project);
-  addRequirementList(target, path, contents, project?.dependencies);
+  addRequirementList(target, path, contents, project?.dependencies, resolved);
   const optional = asRecord(project?.["optional-dependencies"]);
   for (const values of Object.values(optional ?? {})) {
-    addRequirementList(target, path, contents, values);
+    addRequirementList(target, path, contents, values, resolved);
   }
 
   const poetry = asRecord(asRecord(document.tool)?.poetry);
@@ -178,9 +184,14 @@ function collectRequirementsFile(
     const requirement = parseRequirement(line);
     if (!requirement) continue;
     addDependency(target, path, contents, requirement.name, requirement.constraint, index + 1);
-    const exact = /^===?\s*([^\s,;]+)$/.exec(requirement.constraint)?.[1];
-    if (exact) addResolved(resolved, requirement.name, exact);
+    addExactPin(resolved, requirement.name, requirement.constraint);
   }
+}
+
+/** An exact `==` or `===` pin is a version Evergreen can see, so it counts as resolved. A range is not a pin. */
+function addExactPin(resolved: ResolvedVersions, name: string, constraint: string): void {
+  const exact = /^===?\s*([^\s,;]+)$/.exec(constraint)?.[1];
+  if (exact) addResolved(resolved, name, exact);
 }
 
 function addResolved(target: ResolvedVersions, rawName: string, rawVersion: unknown): void {
@@ -322,10 +333,41 @@ function isPythonRule(value: unknown): value is PythonRule {
 }
 
 async function loadRules(): Promise<readonly PythonRule[]> {
-  return loadRegistryRules(await loadDataFile("registry/python.json"), {
+  const document = await loadDataFile("registry/python.json");
+  // The detector view drops `vers`, which version-bounded package rules are matched on, so it is read from the v2 rule.
+  const versions = new Map(validateRegistryV2(document).rules.map((rule) => [rule.id, rule.vers]));
+  return loadRegistryRules(document, {
     schemaVersion: "evergreen.python-registry.v1",
     isRule: isPythonRule,
-  }).rules;
+  }).rules.map((rule) => (rule.kind === "package" ? { ...rule, vers: versions.get(rule.id) } : rule));
+}
+
+/** True when a version is inside a rule's VERS range. A version the scheme cannot read is not a match. */
+function versionMatches(range: string, version: string): boolean {
+  try {
+    return versContains(range, version);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * A package rule that covers every version matches a declaration of the package. A rule with a bounded
+ * `vers` matches only a version Evergreen can see: a lockfile entry or an exact pin. A declared range such
+ * as `>=3.2` is not a pin, so it does not match (as for the Ruby and PHP detectors).
+ */
+function coversDependency(rule: PythonPackageRule, project: ProjectScan): boolean {
+  const range = rule.vers;
+  if (range === undefined || parseVersLenient(range).all) return true;
+  const versions = project.resolved.get(normalizePackageName(rule.package)) ?? new Set<string>();
+  return [...versions].some((version) => versionMatches(range, version));
+}
+
+interface ProjectScan {
+  directory: string;
+  declarations: Declaration[];
+  dependencies: Map<string, DirectDependency>;
+  resolved: ResolvedVersions;
 }
 
 export class PythonDetector implements Detector {
@@ -340,12 +382,7 @@ export class PythonDetector implements Detector {
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     const memberDirectories = await discoverPythonWorkspaces(context.root);
     // The root project is "", each uv workspace member is its relative directory.
-    const projects: Array<{
-      directory: string;
-      declarations: Declaration[];
-      dependencies: Map<string, DirectDependency>;
-      resolved: ResolvedVersions;
-    }> = [];
+    const projects: ProjectScan[] = [];
     for (const directory of ["", ...memberDirectories]) {
       const projectRoot = resolve(context.root, directory);
       const pyprojectPath = resolve(projectRoot, "pyproject.toml");
@@ -359,7 +396,7 @@ export class PythonDetector implements Detector {
       const resolved: ResolvedVersions = new Map();
       const declarations = pyproject && pyprojectContents ? collectPyprojectRuntime(pyprojectPath, pyprojectContents, pyproject) : [];
       declarations.push(...versionDeclarations);
-      if (pyproject && pyprojectContents) collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies);
+      if (pyproject && pyprojectContents) collectPyprojectDependencies(pyprojectPath, pyprojectContents, pyproject, dependencies, resolved);
       for (const path of requirements) {
         collectRequirementsFile(path, await readFile(path, "utf8"), dependencies, resolved);
       }
@@ -414,7 +451,11 @@ export class PythonDetector implements Detector {
 
     const matchedPackageRules = rules.filter(
       (rule): rule is PythonPackageRule =>
-        rule.kind === "package" && projects.some((project) => project.dependencies.has(normalizePackageName(rule.package))),
+        rule.kind === "package" &&
+        projects.some(
+          (project) =>
+            project.dependencies.has(normalizePackageName(rule.package)) && coversDependency(rule, project),
+        ),
     );
     const usageAnalyses = await analyzeSourceUsage(
       context.root,
@@ -426,7 +467,7 @@ export class PythonDetector implements Detector {
     for (const project of projects) {
       for (const rule of matchedPackageRules) {
         const dependency = project.dependencies.get(normalizePackageName(rule.package));
-        if (!dependency) continue;
+        if (!dependency || !coversDependency(rule, project)) continue;
         const resolved = [...(project.resolved.get(dependency.name) ?? [])].sort();
         // Each project reports the usages inside its own directory; the root keeps the ones outside every member.
         const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
