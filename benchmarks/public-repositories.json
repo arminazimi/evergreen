@@ -2017,6 +2017,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 5 of examples/next-websockets-encoder/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "examples/lambda-api-gateway/serverless.yml",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 6 of examples/lambda-api-gateway/serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
         }
       ]
     },

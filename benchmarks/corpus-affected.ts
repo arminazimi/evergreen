@@ -40,7 +40,8 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   python: ["python"],
   ruby: ["ruby"],
   rust: ["rust"],
-  serverless: [],
+  // Serverless findings currently land in Node.js corpus entries (for example serverless.yml in JS repos).
+  serverless: ["node"],
   swift: ["swift"],
 };
 
@@ -64,7 +65,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "python.json": ["python"],
   "ruby.json": ["ruby"],
   "rust.json": ["rust"],
-  "serverless.json": [],
+  "serverless.json": ["node"],
   "sources.lock.json": [],
   "swift.json": ["swift"],
 };
@@ -73,7 +74,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "swift"].includes(name),
+      ["android", "ci-images", "container", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "swift"].includes(name),
     ),
   ),
 };

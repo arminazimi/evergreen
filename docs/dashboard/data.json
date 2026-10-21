@@ -368,10 +368,10 @@
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 0,
-        "expectedFindings": 0,
-        "zeroFindingRepositories": 0,
-        "repositories": 0,
+        "repositoriesWithFindings": 1,
+        "expectedFindings": 1,
+        "zeroFindingRepositories": 8,
+        "repositories": 26,
         "blindRepositories": 0
       }
     },
