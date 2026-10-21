@@ -13,7 +13,7 @@ import {
   isDeprecationRule,
   isUsageMatcher,
 } from "../sdk.js";
-import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
+import { loadRegistryRules, validateRegistryV2, withoutSymbolRules } from "../registry.js";
 import type { Detector, DetectorContext, DetectorFinding, DetectorInputs } from "../sdk.js";
 import { parseVersLenient, versContains } from "../vers/index.js";
 
@@ -345,7 +345,7 @@ async function loadRules(): Promise<readonly PythonRule[]> {
   const document = await loadDataFile("registry/python.json");
   // The detector view drops `vers`, which version-bounded package rules are matched on, so it is read from the v2 rule.
   const versions = new Map(validateRegistryV2(document).rules.map((rule) => [rule.id, rule.vers]));
-  return loadRegistryRules(document, {
+  return loadRegistryRules(withoutSymbolRules(document), {
     schemaVersion: "evergreen.python-registry.v1",
     isRule: isPythonRule,
   }).rules.map((rule) => (rule.kind === "package" ? { ...rule, vers: versions.get(rule.id) } : rule));

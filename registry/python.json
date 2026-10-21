@@ -3874,6 +3874,594 @@
         "kind": "package",
         "package": "django"
       }
+    },
+    {
+      "id": "python.symbol.datetime.utcnow",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "datetime.utcnow is deprecated",
+      "summary": "Python 3.12 deprecates datetime.datetime.utcnow() and says to use timezone-aware objects to represent datetimes in UTC.",
+      "severity": "medium",
+      "replacement": "datetime.now(datetime.UTC)",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "title": "datetime documentation",
+          "url": "https://docs.python.org/3/library/datetime.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use an aware datetime",
+            "instructions": "Replace datetime.utcnow() with datetime.now(datetime.UTC); the result is timezone-aware, so check comparisons with naive datetimes.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "datetime",
+          "symbol": "datetime.utcnow",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.datetime.utcfromtimestamp",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "datetime.utcfromtimestamp is deprecated",
+      "summary": "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC.",
+      "severity": "medium",
+      "replacement": "datetime.fromtimestamp(timestamp, datetime.UTC)",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "title": "datetime documentation",
+          "url": "https://docs.python.org/3/library/datetime.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use an aware datetime",
+            "instructions": "Replace datetime.utcfromtimestamp(ts) with datetime.fromtimestamp(ts, datetime.UTC); check comparisons with naive datetimes.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "datetime",
+          "symbol": "datetime.utcfromtimestamp",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.asyncio.get-event-loop",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "asyncio.get_event_loop warns when it has to create a loop",
+      "summary": "In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one.",
+      "severity": "medium",
+      "replacement": "asyncio.run() at entry points, or asyncio.get_running_loop() inside coroutines",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Stop creating loops implicitly",
+            "instructions": "Use asyncio.run(main()) at the entry point and asyncio.get_running_loop() inside coroutines.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "asyncio",
+          "symbol": "get_event_loop",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.asyncio.child-watcher",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "asyncio child watcher functions are deprecated",
+      "summary": "Python 3.12 deprecates asyncio.set_child_watcher() and asyncio.get_child_watcher(), to be removed in Python 3.14; the event loop now uses the best available child watcher for each platform.",
+      "severity": "low",
+      "replacement": "Remove manual child watcher configuration",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.14",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Remove child watcher setup",
+            "instructions": "Delete the calls; the event loop picks a child watcher for the platform.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "asyncio",
+          "symbol": "set_child_watcher",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "asyncio",
+          "symbol": "get_child_watcher",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.pkgutil.find-loader",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "pkgutil.find_loader and get_loader are deprecated",
+      "summary": "Python 3.12 deprecates pkgutil.find_loader() and pkgutil.get_loader(), to be removed in Python 3.14.",
+      "severity": "medium",
+      "replacement": "importlib.util.find_spec()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.14",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use find_spec",
+            "instructions": "Replace the call with importlib.util.find_spec(name) and read spec.loader if the loader is needed.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "pkgutil",
+          "symbol": "find_loader",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "pkgutil",
+          "symbol": "get_loader",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.pty.master-open",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "pty.master_open and slave_open are deprecated",
+      "summary": "Python 3.12 gives the undocumented pty.master_open() and pty.slave_open() a DeprecationWarning, to be removed in Python 3.14.",
+      "severity": "low",
+      "replacement": "pty.openpty()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "title": "Python deprecations: pending removal in 3.14",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use pty.openpty",
+            "instructions": "Replace both calls with a single pty.openpty() that returns the master and slave file descriptors.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "pty",
+          "symbol": "master_open",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "pty",
+          "symbol": "slave_open",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.shutil.rmtree-onerror",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.12",
+      "event": "deprecated",
+      "title": "The onerror argument of shutil.rmtree is deprecated",
+      "summary": "Python 3.12 deprecates the onerror argument of shutil.rmtree(); onexc is the same handler but receives the exception instance.",
+      "severity": "low",
+      "replacement": "onexc",
+      "sources": [
+        {
+          "title": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use onexc",
+            "instructions": "Rename onerror to onexc and change the handler to take (function, path, exception) instead of (function, path, exc_info).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "shutil",
+          "symbol": "rmtree",
+          "shape": "option",
+          "option": "onerror"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.locale.getdefaultlocale",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.11",
+      "event": "deprecated",
+      "title": "locale.getdefaultlocale is deprecated",
+      "summary": "Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15.",
+      "severity": "low",
+      "replacement": "locale.setlocale(), locale.getpreferredencoding(False), or locale.getlocale()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.11",
+          "url": "https://docs.python.org/3/whatsnew/3.11.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use the locale API",
+            "instructions": "Use locale.getlocale() for the current locale and locale.getpreferredencoding(False) for the encoding.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "locale",
+          "symbol": "getdefaultlocale",
+          "shape": "call"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.ast.constant-nodes",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.8",
+      "event": "deprecated",
+      "title": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated",
+      "summary": "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.",
+      "severity": "low",
+      "replacement": "ast.Constant",
+      "sources": [
+        {
+          "title": "Python deprecations: pending removal in 3.14",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use ast.Constant",
+            "instructions": "Replace each class with ast.Constant and read .value instead of .n, .s or .value of the old node.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ast",
+          "symbol": "Num",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ast",
+          "symbol": "Str",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ast",
+          "symbol": "Bytes",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ast",
+          "symbol": "NameConstant",
+          "shape": "reference"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "ast",
+          "symbol": "Ellipsis",
+          "shape": "reference"
+        }
+      ]
+    },
+    {
+      "id": "python.symbol.unittest.make-suite",
+      "ecosystem": "python",
+      "purl": "pkg:generic/python",
+      "vers": "vers:pypi/>=3.13",
+      "event": "removed",
+      "title": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed",
+      "summary": "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.",
+      "severity": "high",
+      "replacement": "The matching TestLoader methods: loadTestsFromTestCase(), loadTestsFromModule(), getTestCaseNames()",
+      "sources": [
+        {
+          "title": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "title": "What's New in Python 3.11",
+          "url": "https://docs.python.org/3/whatsnew/3.11.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+        ],
+        "steps": [
+          {
+            "id": "replace-symbol",
+            "title": "Use TestLoader",
+            "instructions": "Call unittest.defaultTestLoader.loadTestsFromTestCase(cls), loadTestsFromModule(module) or getTestCaseNames(cls).",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -W error::DeprecationWarning -m pytest",
+            "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "makeSuite",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "findTestCases",
+          "shape": "call"
+        },
+        {
+          "kind": "symbol",
+          "language": "python",
+          "module": "unittest",
+          "symbol": "getTestCaseNames",
+          "shape": "call"
+        }
+      ]
     }
   ]
 }

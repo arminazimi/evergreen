@@ -317,6 +317,16 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.package.vsscale.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html</loc><lastmod>2026-10-14</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.child-watcher.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcnow.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.pkgutil.find-loader.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.pty.master-open.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-1.9.3.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.0.0.html</loc><lastmod>2026-10-20</lastmod></url>

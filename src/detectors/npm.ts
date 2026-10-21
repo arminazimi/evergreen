@@ -19,7 +19,7 @@ import {
   isDeprecationRule,
   isUsageMatcher,
 } from "../sdk.js";
-import { loadRegistryRules } from "../registry.js";
+import { loadRegistryRules, withoutSymbolRules } from "../registry.js";
 import type {
   Detector,
   DetectorContext,
@@ -77,18 +77,6 @@ async function readOptional(path: string): Promise<string | undefined> {
     }
     throw error;
   }
-}
-
-/**
- * Symbol-level rules (a `usage` entry of kind `symbol`) are read by parser-backed usage analysis. They carry no
- * `major` or package hint, so this detector's rule readers would reject them; they are left out of its view.
- */
-function withoutSymbolRules(data: unknown): unknown {
-  if (typeof data !== "object" || data === null || !("rules" in data) || !Array.isArray(data.rules)) return data;
-  const isSymbolRule = (rule: unknown): boolean =>
-    typeof rule === "object" && rule !== null && "usage" in rule && Array.isArray(rule.usage) &&
-    rule.usage.some((matcher: unknown) => typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol");
-  return { ...data, rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)) };
 }
 
 async function loadRegistry<Rule>(

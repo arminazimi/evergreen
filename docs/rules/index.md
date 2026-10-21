@@ -364,6 +364,16 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [vsscale is deprecated](python.package.vsscale.deprecated.html) — deprecated, `python.package.vsscale.deprecated`
 - [Python 3.10 and older are end-of-life](python.runtime.eol-3.10-and-older.html) — end of life, `python.runtime.eol-3.10-and-older`
 - [Python 3.9 and older are end-of-life](python.runtime.eol-3.9-and-older.html) — end of life, `python.runtime.eol-3.9-and-older`
+- [ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated](python.symbol.ast.constant-nodes.html) — deprecated, `python.symbol.ast.constant-nodes`
+- [asyncio child watcher functions are deprecated](python.symbol.asyncio.child-watcher.html) — deprecated, `python.symbol.asyncio.child-watcher`
+- [asyncio.get_event_loop warns when it has to create a loop](python.symbol.asyncio.get-event-loop.html) — deprecated, `python.symbol.asyncio.get-event-loop`
+- [datetime.utcfromtimestamp is deprecated](python.symbol.datetime.utcfromtimestamp.html) — deprecated, `python.symbol.datetime.utcfromtimestamp`
+- [datetime.utcnow is deprecated](python.symbol.datetime.utcnow.html) — deprecated, `python.symbol.datetime.utcnow`
+- [locale.getdefaultlocale is deprecated](python.symbol.locale.getdefaultlocale.html) — deprecated, `python.symbol.locale.getdefaultlocale`
+- [pkgutil.find_loader and get_loader are deprecated](python.symbol.pkgutil.find-loader.html) — deprecated, `python.symbol.pkgutil.find-loader`
+- [pty.master_open and slave_open are deprecated](python.symbol.pty.master-open.html) — deprecated, `python.symbol.pty.master-open`
+- [The onerror argument of shutil.rmtree is deprecated](python.symbol.shutil.rmtree-onerror.html) — deprecated, `python.symbol.shutil.rmtree-onerror`
+- [unittest.makeSuite, findTestCases and getTestCaseNames have been removed](python.symbol.unittest.make-suite.html) — removed, `python.symbol.unittest.make-suite`
 
 ## ruby
 

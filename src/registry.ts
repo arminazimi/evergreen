@@ -306,3 +306,15 @@ export function loadRegistryRules<Rule>(
   }
   return validateRegistry(value, definition);
 }
+
+/**
+ * Symbol-level rules (a `usage` entry of kind `symbol`) are read by parser-backed usage analysis. They carry no
+ * `major` or package hint, so a detector's rule readers would reject them; detectors read the registry through this function to leave them out.
+ */
+export function withoutSymbolRules(data: unknown): unknown {
+  if (typeof data !== "object" || data === null || !("rules" in data) || !Array.isArray(data.rules)) return data;
+  const isSymbolRule = (rule: unknown): boolean =>
+    typeof rule === "object" && rule !== null && "usage" in rule && Array.isArray(rule.usage) &&
+    rule.usage.some((matcher: unknown) => typeof matcher === "object" && matcher !== null && "kind" in matcher && matcher.kind === "symbol");
+  return { ...data, rules: data.rules.filter((rule: unknown) => !isSymbolRule(rule)) };
+}
