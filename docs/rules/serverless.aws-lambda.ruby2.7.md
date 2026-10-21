@@ -1,12 +1,12 @@
 ---
 title: "AWS Lambda Ruby 2.7 runtime is end-of-life — dates, impact, migration"
-description: "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-11-07. AWS no longer applies security or other updates to that managed runtime."
+description: "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html"
 ---
 
 # AWS Lambda Ruby 2.7 runtime is end-of-life
 
-The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-11-07. AWS no longer applies security or other updates to that managed runtime.
+The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime.
 
 | | |
 | --- | --- |
@@ -15,7 +15,7 @@ The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with depre
 | Ecosystem | `serverless` |
 | Component | `pkg:generic/aws-lambda-runtime/ruby2.7` |
 | Affected versions | `vers:semver/*` |
-| Date from the source | 2023-11-07 |
+| Date from the source | 2023-12-07 |
 | Replacement | ruby3.4 or ruby3.3 |
 | Evidence last seen | 2026-10-21 |
 | Reviewed | 2026-10-21 by arminazimi |
@@ -42,7 +42,7 @@ This page is generated from [`registry/serverless.json`](https://github.com/armi
   "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html",
   "headline": "AWS Lambda Ruby 2.7 runtime is end-of-life — dates, impact, migration",
-  "description": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-11-07. AWS no longer applies security or other updates to that managed runtime.",
+  "description": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime.",
   "inLanguage": "en",
   "dateModified": "2026-10-21",
   "keywords": [

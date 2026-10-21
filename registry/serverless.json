@@ -12,10 +12,10 @@
       "vers": "vers:semver/*",
       "event": "end-of-life",
       "title": "AWS Lambda Node.js 14 runtime is end-of-life",
-      "summary": "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-11-04. AWS no longer applies security or other updates to that managed runtime.",
+      "summary": "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",
       "severity": "high",
       "replacement": "nodejs22.x or nodejs24.x",
-      "deadline": "2023-11-04",
+      "deadline": "2023-12-04",
       "sources": [
         {
           "title": "AWS Lambda runtimes",
@@ -60,10 +60,10 @@
       "vers": "vers:semver/*",
       "event": "end-of-life",
       "title": "AWS Lambda Ruby 2.7 runtime is end-of-life",
-      "summary": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-11-07. AWS no longer applies security or other updates to that managed runtime.",
+      "summary": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime.",
       "severity": "high",
       "replacement": "ruby3.4 or ruby3.3",
-      "deadline": "2023-11-07",
+      "deadline": "2023-12-07",
       "sources": [
         {
           "title": "AWS Lambda runtimes",
