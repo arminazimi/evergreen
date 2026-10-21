@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-20",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 123
+    "repositories": 128
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -144,8 +144,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 39,
-        "expectedFindings": 236,
+        "repositoriesWithFindings": 41,
+        "expectedFindings": 242,
         "zeroFindingRepositories": 2,
         "repositories": 11,
         "blindRepositories": 0
@@ -236,8 +236,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 12,
-        "expectedFindings": 40,
+        "repositoriesWithFindings": 13,
+        "expectedFindings": 44,
         "zeroFindingRepositories": 8,
         "repositories": 26,
         "blindRepositories": 0
@@ -360,19 +360,19 @@
     },
     {
       "id": "serverless",
-      "level": "experimental",
-      "earnedLevel": "experimental",
+      "level": "beta",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 5,
-        "expectedFindings": 6,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 1
+        "repositoriesWithFindings": 9,
+        "expectedFindings": 20,
+        "zeroFindingRepositories": 2,
+        "repositories": 10,
+        "blindRepositories": 5
       }
     },
     {

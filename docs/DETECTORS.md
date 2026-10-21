@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md). The C and C++, Ruby, PHP, Swift, and Serverless runtimes detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#swift-detector), and [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md). The C and C++, Ruby, PHP, and Swift detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#swift-detector).
 
 ## Ruby detector layout
 
@@ -99,7 +99,7 @@ The Serverless runtimes detector follows the same layout. Its entry point, `src/
 - CloudFormation tags (`!Ref`, `!Sub`), Serverless `${…}` interpolations, Terraform `var` / `local` / interpolation values, and floating aliases such as `latest` produce no declaration.
 - There is no source-usage pass: a runtime finding points at the declaration only.
 
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#serverless-runtimes-detector).
+The user-facing list of supported forms and limits for this detector is in [Serverless runtimes](detectors/serverless.md).
 
 ## Start a new detector in this repository
 

@@ -101,7 +101,7 @@ const manifest = {
     { id: "python", status: "supported", maturity: "stable", detectorIds: ["python"] },
     { id: "ruby", status: "experimental", maturity: "experimental", detectorIds: ["ruby"] },
     { id: "rust", status: "experimental", maturity: "experimental", detectorIds: ["rust"] },
-    { id: "serverless", status: "experimental", maturity: "experimental", detectorIds: ["serverless"] },
+    { id: "serverless", status: "supported", maturity: "beta", detectorIds: ["serverless"] },
     { id: "swift", status: "experimental", maturity: "experimental", detectorIds: ["swift"] },
   ],
   capabilities: [

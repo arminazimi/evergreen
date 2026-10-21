@@ -191,12 +191,12 @@ test("a migration packet for a Serverless finding names the file, steps, and ver
   assert.ok(packet.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"));
 });
 
-test("the detector is registered and serverless is experimental in the capability manifest", () => {
+test("the detector is registered and serverless is beta in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "serverless"));
   assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "serverless"), {
     id: "serverless",
-    status: "experimental",
-    maturity: "experimental",
+    status: "supported",
+    maturity: "beta",
     detectorIds: ["serverless"],
   });
 });

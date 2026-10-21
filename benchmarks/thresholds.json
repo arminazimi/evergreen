@@ -81,8 +81,8 @@
       "minPrecision": 0.95
     },
     "serverless": {
-      "level": "experimental",
-      "stable": false,
+      "level": "beta",
+      "stable": true,
       "minPrecision": 0.95
     },
     "swift": {
