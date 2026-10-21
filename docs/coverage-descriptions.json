@@ -84,7 +84,7 @@
     {
       "ecosystems": ["database"],
       "name": "Database runtimes",
-      "coverage": "Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on AWS managed database resources in `*.tf`, for major and minor lines past end of life. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0."
+      "coverage": "Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on AWS managed database resources in `*.tf`, for major and minor lines past end of life. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0. See [Database runtimes](detectors/database.md)."
     },
     {
       "ecosystems": ["terraform"],
