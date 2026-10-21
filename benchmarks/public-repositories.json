@@ -3048,24 +3048,6 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 13 of integrations/angular-cli-20/package.json declares @angular/core as \"^20.0.0\", a range on the Angular 20 line, which is scheduled to end of life on 2026-11-28."
           }
-        },
-        {
-          "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
-          "path": "packages/angular-query-experimental/package.json",
-          "line": 88,
-          "groundTruthSource": {
-            "kind": "maintainer-review",
-            "note": "Reviewed at this commit: line 88 of packages/angular-query-experimental/package.json declares @angular/core as \"catalog:\", which pnpm-workspace.yaml line 59 resolves to \"^20.0.0\", a range on the Angular 20 line scheduled to end of life on 2026-11-28."
-          }
-        },
-        {
-          "ruleId": "npm.package.angular.core.v20.scheduled-end-of-life",
-          "path": "packages/angular-query-persist-client/package.json",
-          "line": 60,
-          "groundTruthSource": {
-            "kind": "maintainer-review",
-            "note": "Reviewed at this commit: line 60 of packages/angular-query-persist-client/package.json declares @angular/core as \"catalog:\", which pnpm-workspace.yaml line 59 resolves to \"^20.0.0\", a range on the Angular 20 line scheduled to end of life on 2026-11-28."
-          }
         }
       ]
     },
