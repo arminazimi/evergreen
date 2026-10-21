@@ -102,3 +102,19 @@ export async function parseSource(
     parser.reset();
   }
 }
+
+/** Maps a node's start offset to a one-based line and column, for a source text parsed once. */
+export function lineLocator(source: string): (offset: number) => { line: number; column: number } {
+  const starts = [0];
+  for (const match of source.matchAll(/\r?\n/g)) starts.push(match.index + match[0].length);
+  return (offset) => {
+    let low = 0;
+    let high = starts.length - 1;
+    while (low < high) {
+      const middle = Math.ceil((low + high) / 2);
+      if (starts[middle]! <= offset) low = middle;
+      else high = middle - 1;
+    }
+    return { line: low + 1, column: offset - starts[low]! + 1 };
+  };
+}
