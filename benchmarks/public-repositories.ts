@@ -106,6 +106,9 @@ if (offline && warmOnly) {
   console.error("--warm fetches and --offline forbids fetching; use one of them.");
   process.exit(2);
 }
+if (!cacheDir) {
+  console.error("WARNING: EVERGREEN_CORPUS_CACHE is not set, so every repository is fetched again. Set it to ~/.cache/evergreen-corpus and run `npm run corpus:warm` once.");
+}
 if (cacheDir) {
   const missing = await missingCorpusEntries(cacheDir, selection.entries, (existing) => isCheckoutUsable(existing, fetchStrategy));
   console.error(`cache: ${selection.entries.length - missing.length} of ${selection.entries.length} entries already cached in ${cacheDir}`);
