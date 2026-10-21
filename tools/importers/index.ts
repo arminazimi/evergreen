@@ -2,6 +2,7 @@ import { androidTargetSdkImporter } from "./android-1.js";
 import { ciImagesImporter } from "./ci-images-1.js";
 import { containerOfficialImagesImporter } from "./container.js";
 import { cmakePolicyImporter } from "./cpp-1.js";
+import { dartDiscontinuedImporter } from "./dart-1.js";
 import { dotnetReleasesImporter } from "./dotnet-1.js";
 import { nugetDeprecationImporter } from "./dotnet-2.js";
 import { endoflifeDateImporter } from "./endoflife.js";
@@ -28,4 +29,4 @@ import { swiftAppStoreImporter } from "./swift-1.js";
 import type { Importer } from "./types.js";
 
 /** Every importer the command line can run. Each importer adds itself here when it lands. */
-export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, gcloudFunctionsRuntimesImporter, swiftAppStoreImporter];
+export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dartDiscontinuedImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, gcloudFunctionsRuntimesImporter, swiftAppStoreImporter];
