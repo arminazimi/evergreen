@@ -14,6 +14,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { DartDetector, dartDetector } from "../src/detectors/dart/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -173,4 +174,22 @@ test("scanRepository attributes findings to the dart detector", async () => {
 test("ignores generated and vendored directories and returns nothing without Dart files", async () => {
   assert.deepEqual(await dartDetector.scan({ root: await repository({ "README.md": "hello\n" }) }), []);
   assert.deepEqual(await dartDetector.scan({ root: await repository({ ".dart_tool/pubspec.yaml": POSITIVE["pubspec.yaml"], "node_modules/x/pubspec.yaml": POSITIVE["pubspec.yaml"] }) }), []);
+});
+
+test("every curated Dart rule has migration guidance with real verification commands", async () => {
+  for (const item of await committedRules()) {
+    assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "dart analyze && flutter test"), item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "dart analyze && dart test"), item.id);
+  }
+});
+
+test("a migration packet for a Dart SDK finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(await repository(POSITIVE), [dartDetector]);
+  const finding = result.findings.find((item) => item.id === "dart.sdk.end-of-support-3.8:pubspec.yaml:3");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("pubspec.yaml"));
+  assert.deepEqual(packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)), ["raise-sdk-pin", "raise-sdk-constraint", "align-ci-toolchain"]);
+  assert.ok(packet.verification.some((check) => check.command === "dart analyze && flutter test"));
 });

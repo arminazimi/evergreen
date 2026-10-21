@@ -27,6 +27,26 @@ The Dart security policy commits security updates only for the most recent stabl
 - [Dart security policy](https://dart.dev/security)
 - [Dart changelog](https://dart.dev/changelog)
 
+## Migration
+
+**Constraints**
+
+- Keep environment.sdk in pubspec.yaml, the sdks block in pubspec.lock, the Flutter version pinned in .fvmrc, and the SDK used in CI on one supported release.
+- A Flutter project gets its Dart SDK from the Flutter release it pins, so raise the Flutter pin to a release that bundles the Dart version in the replacement instead of installing Dart on its own.
+
+**Steps**
+
+1. **Raise the SDK pin.** Change the reported Dart SDK pin to the version in the replacement. For a Flutter project, raise the Flutter version in .fvmrc or .fvm/fvm_config.json to a release that bundles that Dart version.
+2. **Raise the SDK constraint.** Raise the lower bound of environment.sdk in pubspec.yaml (and environment.flutter for an app) so it admits only supported SDKs, then re-resolve dependencies so pubspec.lock records the new sdks constraints.
+3. **Align CI and documentation.** Update CI workflows, Docker images, and setup documentation that install the Dart or Flutter SDK so they match the new pin.
+
+**Verification**
+
+- `dart --version`: Confirm the active Dart SDK is the intended release.
+- `dart pub get`: Re-resolve dependencies against the new SDK constraint.
+- `dart analyze && flutter test`: Analyze and test a Flutter app on the new SDK.
+- `dart analyze && dart test`: Analyze and test a Dart package on the new SDK.
+
 ## Detected by
 
 The `dart` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
