@@ -29,6 +29,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.",
+          "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "title": "Retarget the hosted image",
+            "instructions": "Change the reported pool.vmImage from macos-13 to macos-15 or macos-latest (the notice also allows macos-14; see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "title": "Align other Azure Pipelines pools",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-13. Leave self-hosted pool names unchanged.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
       }
     },
     {
@@ -52,6 +78,32 @@
         "observedAt": "2026-10-18",
         "reviewedAt": "2026-10-18",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. The macOS 14 schedule does not apply to self-hosted macOS 14 agents.",
+          "Move off macos-14 before the scheduled removal on 2026-11-02. The notice names macos-latest or macos-15."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "title": "Retarget the hosted image",
+            "instructions": "Change the reported pool.vmImage from macos-14 to macos-latest or macos-15 (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "title": "Align other Azure Pipelines pools",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-14. Leave self-hosted pool names unchanged.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
       }
     },
     {
@@ -81,6 +133,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. This removal does not apply to self-hosted Ubuntu 20.04 agents.",
+          "The Ubuntu 20.04 notice names ubuntu-22.04, ubuntu-24.04, or ubuntu-latest. ubuntu-22.04 is scheduled for removal on 2027-04-17, so prefer ubuntu-24.04 or ubuntu-latest when the workload allows it."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "title": "Retarget the hosted image",
+            "instructions": "Change the reported pool.vmImage from ubuntu-20.04 to ubuntu-24.04 or ubuntu-latest (the notice also allows ubuntu-22.04; see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "title": "Align other Azure Pipelines pools",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-20.04. Leave self-hosted pool names unchanged.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
       }
     },
     {
@@ -104,6 +182,32 @@
         "observedAt": "2026-10-18",
         "reviewedAt": "2026-10-18",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. The Ubuntu 22.04 schedule does not apply to self-hosted Ubuntu 22.04 agents.",
+          "Move off ubuntu-22.04 before the scheduled removal on 2027-04-17. The notice names ubuntu-latest, ubuntu-24.04, or ubuntu-26.04."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "title": "Retarget the hosted image",
+            "instructions": "Change the reported pool.vmImage from ubuntu-22.04 to ubuntu-latest, ubuntu-24.04, or ubuntu-26.04 (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "title": "Align other Azure Pipelines pools",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-22.04. Leave self-hosted pool names unchanged.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
       }
     },
     {
@@ -133,6 +237,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted Windows Server 2019 agents, Managed DevOps Pools, or VM scale sets.",
+          "The notice names windows-2022, windows-2025, or windows-latest. Pin windows-2022 or windows-2025 when the pipeline must stay on one Windows Server release, because windows-latest moves when Microsoft updates the alias."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "title": "Retarget the hosted image",
+            "instructions": "Change the reported pool.vmImage from windows-2019 to windows-2022, windows-2025, or windows-latest (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "title": "Align other Azure Pipelines pools",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins windows-2019. Leave self-hosted pool names unchanged.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
       }
     }
   ]

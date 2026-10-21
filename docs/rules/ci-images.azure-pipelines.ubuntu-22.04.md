@@ -26,6 +26,22 @@ The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled
 
 - [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)
 
+## Migration
+
+**Constraints**
+
+- Change only Microsoft-hosted pool.vmImage labels. The Ubuntu 22.04 schedule does not apply to self-hosted Ubuntu 22.04 agents.
+- Move off ubuntu-22.04 before the scheduled removal on 2027-04-17. The notice names ubuntu-latest, ubuntu-24.04, or ubuntu-26.04.
+
+**Steps**
+
+1. **Retarget the hosted image.** Change the reported pool.vmImage from ubuntu-22.04 to ubuntu-latest, ubuntu-24.04, or ubuntu-26.04 (see the replacement).
+2. **Align other Azure Pipelines pools.** Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-22.04. Leave self-hosted pool names unchanged.
+
+**Verification**
+
+- `gitlab-ci-lint || circleci config validate`: Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage.
+
 ## Detected by
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

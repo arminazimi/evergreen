@@ -27,6 +27,22 @@ The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure Dev
 - [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)
 - [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted)
 
+## Migration
+
+**Constraints**
+
+- Change only Microsoft-hosted pool.vmImage labels. This removal does not apply to self-hosted Ubuntu 20.04 agents.
+- The Ubuntu 20.04 notice names ubuntu-22.04, ubuntu-24.04, or ubuntu-latest. ubuntu-22.04 is scheduled for removal on 2027-04-17, so prefer ubuntu-24.04 or ubuntu-latest when the workload allows it.
+
+**Steps**
+
+1. **Retarget the hosted image.** Change the reported pool.vmImage from ubuntu-20.04 to ubuntu-24.04 or ubuntu-latest (the notice also allows ubuntu-22.04; see the replacement).
+2. **Align other Azure Pipelines pools.** Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-20.04. Leave self-hosted pool names unchanged.
+
+**Verification**
+
+- `gitlab-ci-lint || circleci config validate`: Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage.
+
 ## Detected by
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
