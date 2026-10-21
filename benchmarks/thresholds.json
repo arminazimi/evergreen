@@ -94,6 +94,11 @@
       "level": "beta",
       "stable": true,
       "minPrecision": 0.95
+    },
+    "terraform": {
+      "level": "experimental",
+      "stable": false,
+      "minPrecision": 0.95
     }
   },
   "lastFullRun": {

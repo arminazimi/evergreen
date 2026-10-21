@@ -16,6 +16,7 @@ import { rubyDetector } from "./ruby/index.js";
 import { rustDetector } from "./rust/index.js";
 import { serverlessDetector } from "./serverless/index.js";
 import { swiftDetector } from "./swift/index.js";
+import { terraformDetector } from "./terraform/index.js";
 
 export const builtInDetectors: readonly Detector[] = [
   githubActionsDetector,
@@ -35,4 +36,5 @@ export const builtInDetectors: readonly Detector[] = [
   swiftDetector,
   androidDetector,
   dartDetector,
+  terraformDetector,
 ];

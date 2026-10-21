@@ -78,7 +78,7 @@ test("every corpus ecosystem and every built-in detector is covered by the map",
   assert.deepEqual([...used].sort(), [...CORPUS_ECOSYSTEMS]);
 
   // A detector with no public corpus yet registers with an empty list on purpose; every other built-in must name one.
-  const withoutCorpus = new Set<string>();
+  const withoutCorpus = new Set<string>(["terraform"]);
   for (const detector of builtInDetectors) {
     const ecosystems = DETECTOR_ECOSYSTEMS[detector.id];
     assert.ok(ecosystems, `built-in detector ${detector.id} has no entry in DETECTOR_ECOSYSTEMS`);

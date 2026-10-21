@@ -43,6 +43,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   rust: ["rust"],
   serverless: ["serverless"],
   swift: ["swift"],
+  terraform: [],
 };
 
 export interface CorpusRepository {

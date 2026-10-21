@@ -12,10 +12,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift", "terraform"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
     // The Android, ci-images, container, C and C++, Go, Java, Kubernetes, PHP, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "go", "java", "kubernetes", "php", "ruby", "rust"].includes(name), name);
+    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "go", "java", "kubernetes", "php", "ruby", "rust", "terraform"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -71,6 +71,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   rust: { corpus: ["rust"], row: "Rust" },
   serverless: { corpus: ["serverless"], row: "Serverless runtimes" },
   swift: { corpus: ["swift"], row: "Swift" },
+  terraform: { corpus: [], row: "Terraform" },
   android: { corpus: ["android"], row: "Android" },
 };
 // Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus

@@ -30,7 +30,7 @@ HashiCorp supports the two most recent Terraform release lines. Terraform 1.13 (
 
 ## Detected by
 
-No built-in detector reads `terraform` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json).
+The `terraform` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 
