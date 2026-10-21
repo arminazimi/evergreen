@@ -7,7 +7,7 @@ import type { Language, Parser, Query, Tree } from "@vscode/tree-sitter-wasm";
 import type { SourceLanguage } from "../domain.js";
 
 // Grammars ship inside @vscode/tree-sitter-wasm: prebuilt WebAssembly, no native build, no network.
-const require = createRequire(import.meta.url);
+const nodeRequire = createRequire(import.meta.url);
 
 type TreeSitter = typeof import("@vscode/tree-sitter-wasm");
 
@@ -25,9 +25,9 @@ const parsers = new Map<TreeSitterGrammar, Parser>();
 
 function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
   runtime ??= (async () => {
-    const entry = require.resolve("@vscode/tree-sitter-wasm");
+    const entry = nodeRequire.resolve("@vscode/tree-sitter-wasm");
     const directory = dirname(entry);
-    const module = require("@vscode/tree-sitter-wasm") as TreeSitter;
+    const module = nodeRequire("@vscode/tree-sitter-wasm") as TreeSitter;
     await module.Parser.init({ locateFile: (file) => join(directory, file) });
     return { module, directory };
   })();
