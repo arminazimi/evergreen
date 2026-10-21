@@ -38,6 +38,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.12.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.8.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.9.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-5.7.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-11.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-13.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-servicebus.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-storage-blob.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>

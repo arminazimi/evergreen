@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "database",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "database.postgresql.end-of-life-11",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=11.0.0|<12.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 11 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 11 as unsupported: its final release was on November 9, 2023, so it receives no further bug or security fixes. A database image tag or managed engine_version on this line runs unsupported software.",
+      "severity": "high",
+      "replacement": "PostgreSQL 16 or later",
+      "deadline": "2023-11-09",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        },
+        {
+          "title": "endoflife.date: PostgreSQL",
+          "url": "https://endoflife.date/postgresql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-22",
+        "reviewedAt": "2026-10-22",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-12",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=12.0.0|<13.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 12 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on November 21, 2024, so it receives no further bug or security fixes. A database image tag or managed engine_version on this line runs unsupported software.",
+      "severity": "high",
+      "replacement": "PostgreSQL 16 or later",
+      "deadline": "2024-11-21",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        },
+        {
+          "title": "endoflife.date: PostgreSQL",
+          "url": "https://endoflife.date/postgresql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-22",
+        "reviewedAt": "2026-10-22",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-13",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=13.0.0|<14.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 13 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 13 as unsupported: its final release was on November 13, 2025, so it receives no further bug or security fixes. A database image tag or managed engine_version on this line runs unsupported software.",
+      "severity": "high",
+      "replacement": "PostgreSQL 16 or later",
+      "deadline": "2025-11-13",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        },
+        {
+          "title": "endoflife.date: PostgreSQL",
+          "url": "https://endoflife.date/postgresql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-22",
+        "reviewedAt": "2026-10-22",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "database.mysql.end-of-life-5.7",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mysql",
+      "vers": "vers:semver/>=5.7.0|<5.8.0",
+      "event": "end-of-life",
+      "title": "MySQL 5.7 is end-of-life",
+      "summary": "MySQL 5.7 reached end of life on 2023-10-31 and no longer receives security or bug fixes from Oracle. The mysql.com lifecycle page could not be read when this rule was reviewed (it refuses automated requests), so the date is taken from the endoflife.date record for MySQL.",
+      "severity": "high",
+      "replacement": "MySQL 8.4 LTS or later",
+      "deadline": "2023-10-31",
+      "sources": [
+        {
+          "title": "MySQL supported platforms and lifecycle",
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+        },
+        {
+          "title": "endoflife.date: MySQL",
+          "url": "https://endoflife.date/mysql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-22",
+        "reviewedAt": "2026-10-22",
+        "reviewer": "arminazimi"
+      }
+    },
+    {
+      "id": "database.mysql.end-of-life-8.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mysql",
+      "vers": "vers:semver/>=8.0.0|<8.1.0",
+      "event": "end-of-life",
+      "title": "MySQL 8.0 is end-of-life",
+      "summary": "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle. The mysql.com lifecycle page could not be read when this rule was reviewed (it refuses automated requests), so the date is taken from the endoflife.date record for MySQL.",
+      "severity": "high",
+      "replacement": "MySQL 8.4 LTS or later",
+      "deadline": "2026-04-30",
+      "sources": [
+        {
+          "title": "MySQL supported platforms and lifecycle",
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+        },
+        {
+          "title": "endoflife.date: MySQL",
+          "url": "https://endoflife.date/mysql"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-22",
+        "reviewedAt": "2026-10-22",
+        "reviewer": "arminazimi"
+      }
+    }
+  ]
+}

@@ -59,6 +59,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Dart 3.8 no longer receives security updates](dart.sdk.end-of-support-3.8.html) — end of support, `dart.sdk.end-of-support-3.8`
 - [Dart 3.9 no longer receives security updates](dart.sdk.end-of-support-3.9.html) — end of support, `dart.sdk.end-of-support-3.9`
 
+## database
+
+- [MySQL 5.7 is end-of-life](database.mysql.end-of-life-5.7.html) — end of life, `database.mysql.end-of-life-5.7`
+- [MySQL 8.0 is end-of-life](database.mysql.end-of-life-8.0.html) — end of life, `database.mysql.end-of-life-8.0`
+- [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html) — end of life, `database.postgresql.end-of-life-11`
+- [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html) — end of life, `database.postgresql.end-of-life-12`
+- [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`
+
 ## dotnet
 
 - [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-documentdb.deprecated`
