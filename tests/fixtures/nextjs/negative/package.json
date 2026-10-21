@@ -1,0 +1,13 @@
+{
+  "name": "example-lookalikes-app",
+  "private": true,
+  "dependencies": {
+    "next": "latest",
+    "next-auth": "4.24.11",
+    "react": "19.2.0"
+  },
+  "devDependencies": {
+    "@next/codemod": "14.2.15",
+    "eslint-config-next": "14.2.15"
+  }
+}
