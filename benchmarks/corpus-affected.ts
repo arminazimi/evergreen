@@ -17,6 +17,7 @@ export const CORPUS_ECOSYSTEMS = [
   "python",
   "ruby",
   "rust",
+  "serverless",
   "swift",
 ] as const;
 
@@ -41,8 +42,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   python: ["python"],
   ruby: ["ruby"],
   rust: ["rust"],
-  // Serverless findings currently land in Node.js corpus entries (for example serverless.yml in JS repos).
-  serverless: ["node"],
+  serverless: ["serverless"],
   swift: ["swift"],
 };
 
@@ -66,7 +66,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "python.json": ["python"],
   "ruby.json": ["ruby"],
   "rust.json": ["rust"],
-  "serverless.json": ["node"],
+  "serverless.json": ["serverless"],
   "sources.lock.json": [],
   "swift.json": ["swift"],
 };
@@ -95,7 +95,7 @@ export const SHARED_FILE_ECOSYSTEMS: ReadonlyArray<{ pattern: RegExp; ecosystems
   { pattern: /^src\/vers\.ts$/, ecosystems: ["container", "kubernetes"], reason: "version ranges" },
   {
     pattern: /^src\/vers\//,
-    ecosystems: ["android", "container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "swift"],
+    ecosystems: ["android", "container", "dotnet", "go", "java", "kubernetes", "node", "node-actions", "php", "python", "ruby", "rust", "serverless", "swift"],
     reason: "version ranges",
   },
   { pattern: /^src\/detectors\/json-lines\.ts$/, ecosystems: ["dotnet", "php", "swift"], reason: "JSON line locations" },

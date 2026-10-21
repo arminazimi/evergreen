@@ -68,7 +68,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   python: { corpus: ["python"], row: "Python" },
   ruby: { corpus: ["ruby"], row: "Ruby" },
   rust: { corpus: ["rust"], row: "Rust" },
-  serverless: { corpus: ["node"], row: "Serverless runtimes" },
+  serverless: { corpus: ["serverless"], row: "Serverless runtimes" },
   swift: { corpus: ["swift"], row: "Swift" },
   android: { corpus: ["android"], row: "Android" },
 };

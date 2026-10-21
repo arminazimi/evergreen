@@ -76,9 +76,8 @@ test("every corpus ecosystem and every built-in detector is covered by the map",
   for (const ecosystem of mapped) assert.ok((CORPUS_ECOSYSTEMS as readonly string[]).includes(ecosystem), `${ecosystem} is not a corpus ecosystem`);
   assert.deepEqual([...used].sort(), [...CORPUS_ECOSYSTEMS]);
 
-  // cpp is registered before its public corpus. An empty list is that decision; every other built-in must name one.
-  // serverless maps to `node` because its reviewed ground truth lives on Node.js corpus entries (serverless.yml).
-  const withoutCorpus = new Set(["cpp"]);
+  // cpp (and any pre-corpus detector) registers with an empty list on purpose; every other built-in must name one.
+  const withoutCorpus = new Set(["cpp", "dart"]);
   for (const detector of builtInDetectors) {
     const ecosystems = DETECTOR_ECOSYSTEMS[detector.id];
     assert.ok(ecosystems, `built-in detector ${detector.id} has no entry in DETECTOR_ECOSYSTEMS`);

@@ -4226,6 +4226,117 @@
         { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/CMakeLists.txt", "line": 1, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 1 of app/libs/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } },
         { "ruleId": "cpp.cmake.policy-below-3.5.removed", "path": "app/libs/free-reflection/CMakeLists.txt", "line": 6, "groundTruthSource": { "kind": "maintainer-review", "note": "Reviewed at this commit: line 6 of app/libs/free-reflection/CMakeLists.txt declares cmake_minimum_required(VERSION 3.4.1), below the policy version removed by CMake 4.0." } }
       ]
+    },
+    {
+      "repository": "Dwolla/webhook-receiver",
+      "commit": "2d4ee141898abdc41a8c9c539fb9c94146a8a24d",
+      "ecosystem": "serverless",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "serverless.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "haltakov/natural-language-image-search",
+      "commit": "280f4736686b4436aa73c9219a7c4a9669ae78f0",
+      "ecosystem": "serverless",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.python3.8",
+          "path": "unsplash-proxy/serverless.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of unsplash-proxy/serverless.yml reads `runtime: python3.8` under `provider:`. The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "HUK-COBURG/innoforum-aws-serverless",
+      "commit": "98fb072c59932ad79e15f87b77b74e380f090100",
+      "ecosystem": "serverless",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "sam-app/template.yaml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of sam-app/template.yaml reads `Runtime: nodejs14.x` on an AWS::Serverless::Function. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs14.x",
+          "path": "terraform/lambda.tf",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of terraform/lambda.tf reads `runtime = \"nodejs14.x\"` on an aws_lambda_function. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/shiftleft.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/shiftleft.yml reads uses: actions/checkout@v2, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tfsec.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/tfsec.yml reads uses: actions/checkout@v3, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/shiftleft.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/shiftleft.yml reads uses: actions/setup-java@v1.4.3, a release below the supported major."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "BaptisteLecat/gcp_architect_certification",
+      "commit": "333f3b477e8274a0fddc5748957e7462f4745b1d",
+      "ecosystem": "serverless",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "serverless.google-cloud-functions.nodejs14",
+          "path": "gsp315/main.tf",
+          "line": 53,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 53 of gsp315/main.tf reads `runtime = \"nodejs14\"` on a Google Cloud Functions resource. The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30 (https://cloud.google.com/functions/docs/runtime-support)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "serverless/examples",
+      "commit": "71d6720f68e1f25ee02bbef7c3e843591870639a",
+      "ecosystem": "serverless",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }

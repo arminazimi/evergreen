@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-20",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 118
+    "repositories": 123
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -144,8 +144,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 38,
-        "expectedFindings": 233,
+        "repositoriesWithFindings": 39,
+        "expectedFindings": 236,
         "zeroFindingRepositories": 2,
         "repositories": 11,
         "blindRepositories": 0
@@ -368,11 +368,11 @@
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 1,
-        "expectedFindings": 1,
-        "zeroFindingRepositories": 8,
-        "repositories": 26,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 5,
+        "expectedFindings": 6,
+        "zeroFindingRepositories": 1,
+        "repositories": 5,
+        "blindRepositories": 1
       }
     },
     {
