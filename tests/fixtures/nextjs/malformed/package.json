@@ -1,0 +1,8 @@
+{
+  "name": "example-malformed-app",
+  "private": true,
+  "dependencies": {
+    "next": "not-a-version",
+    "react": "19.2.0"
+  }
+}
