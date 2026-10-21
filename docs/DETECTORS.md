@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md). The C and C++, Ruby, PHP, and Swift detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), and [Compatibility](COMPATIBILITY.md#swift-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, and PHP detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), and [Compatibility](COMPATIBILITY.md#php-detector).
 
 ## Ruby detector layout
 
@@ -75,7 +75,7 @@ The Swift detector follows the same layout. Its entry point, `src/detectors/swif
 - The iOS deployment target is read only from application targets in `project.pbxproj` (`com.apple.product-type.application`), so a library or a `platforms:` minimum in `Package.swift` never produces that finding.
 - Package rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.swift` files that `import` that module and the qualified calls those matchers name. Runtime Objective-C lookup forms (`NSClassFromString`, `Selector(…)`, and similar) are unclassified. Toolchain and App Store rules do not name source usages.
 
-The user-facing list of supported forms and limits for this detector is in [Compatibility](COMPATIBILITY.md#swift-detector).
+The user-facing list of supported forms and limits for this detector is in [Swift](detectors/swift.md).
 
 ## C and C++ detector layout
 

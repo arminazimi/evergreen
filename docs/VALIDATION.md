@@ -74,9 +74,21 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 ## Swift corpus
 
-Five public repositories at pinned commits cover the `swift` detector: `seedco/Formalist` (`.xcode-version` 9.3.1), `bojan/Troop` (`.xcode-version` 10.2.1), `s2mr/xc` (`.xcode-version` 14.2.0), `s2mr/L10nLint` (`.xcode-version` 16.4.0), and `Simperium/simperium-ios` (`.xcode-version` 26.6, no findings).
+Thirteen public repositories at pinned commits cover the `swift` detector.
+
+Targeted: `seedco/Formalist` (`.xcode-version` 9.3.1 and an iOS 12 sample app), `bojan/Troop` (`.xcode-version` 10.2.1), `s2mr/xc` (`.xcode-version` 14.2.0), `s2mr/L10nLint` (`.xcode-version` 16.4.0), `Simperium/simperium-ios` (four iOS 8 application targets), and `JohnSundell/Files` (no findings).
+
+Blind (rule below): `microsoft/SwiftStreamingMarkdown` (`.xcode-version` 16.0), `hhru/mvi-swift` (`.xcode-version` 16.0, plus `actions/checkout@v3` and Ruby 3.1), `babylonhealth/Stevenson` (`.xcode-version` 11.6), `cgoldsby/TvOSMoreButton` (`.xcode-version` 13.2.1, plus `actions/checkout@v2`, `actions/cache@v2`, and Ruby 2.7), `griffin-stewie/BudouX.swift` (`.xcode-version` 14.3.1), `micahflee/TM-SGNL-iOS` (no Swift finding: the pin reads `Xcode 16.1` and the app target is iOS 15; the same pin has `actions/checkout@v4`, `actions/upload-artifact@v4`, and Ruby 3.2), and `paulgessinger/swift-paperless` (`.xcode-version` 27.1, no findings).
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Swift ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a reviewed migration entry in the mining log for the finding, so none is cited as `migration-commit`. The Xcode acceptance dates come from [App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/), not from these repositories.
+
+## Swift blind selection
+
+The six earliest Swift repositories were chosen knowing their result, so each records `selection: "targeted"`. The seven below record `selection: "blind"`.
+
+The blind rule, fixed on 2026-10-21 before Evergreen ran on these additions: GitHub code search for `filename:xcode-version`. Walk unique repositories whose path is exactly `.xcode-version`, in the order returned that day. Skip a repository when it is a fork, archived, already in the corpus, not primarily Swift, or larger than 50,000 KB on GitHub. Keep it when the default branch still contains `.xcode-version`. Stop once the beta counts in [decision 0013](decisions/0013-detector-maturity.md) are met, which happened at seven. The seven, pinned at their default-branch commit on that date, are search results 12, 19, 20, 22, 24, 28, and 31: `paulgessinger/swift-paperless`, `microsoft/SwiftStreamingMarkdown`, `hhru/mvi-swift`, `babylonhealth/Stevenson`, `cgoldsby/TvOSMoreButton`, `micahflee/TM-SGNL-iOS`, and `griffin-stewie/BudouX.swift`. Results before and between those were skipped by the rule above (size, language, or an existing pin), including `signalapp/Signal-iOS`, `Simperium/simperium-ios`, and `seedco/Formalist`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Ground truth: for each repository the `.xcode-version` line, every application-target `IPHONEOS_DEPLOYMENT_TARGET`, and any other detector declaration on that pin were read from the file and compared with the report. `swift-paperless` pins Xcode 27.1, which neither Xcode rule covers, and its workflows are commit-pinned at majors the rules do not match, so the expected set is empty. `TM-SGNL-iOS` writes `Xcode 16.1`, which is not a numeric pin, and its application target is iOS 15, so the Swift detector reports nothing there; the Ruby pin and the Action refs are expected findings of those detectors. `BudouX.swift` pins `14.3.1`. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the vendor date the rule rests on.
 
 ## Serverless corpus
 
@@ -106,7 +118,7 @@ Ground truth: for each repository the target frameworks, SDK pins, and package r
 
 ## Precision thresholds
 
-[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, and `dotnet` at `beta`; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
+[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
 
 ```text
 THRESHOLD  npm: precision 0.9 is below the required 0.95

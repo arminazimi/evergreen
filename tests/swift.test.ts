@@ -238,12 +238,12 @@ test("a migration packet for a Swift finding names the file, steps, and verifica
   assert.ok(packet.verification.some((check) => check.command === "swift build && swift test"));
 });
 
-test("the detector is registered and Swift is experimental in the capability manifest", () => {
+test("the detector is registered and Swift is beta in the capability manifest", () => {
   assert.ok(builtInDetectors.some((detector) => detector.id === "swift"));
   assert.deepEqual(getCapabilityManifest().ecosystems.find((ecosystem) => ecosystem.id === "swift"), {
     id: "swift",
-    status: "experimental",
-    maturity: "experimental",
+    status: "supported",
+    maturity: "beta",
     detectorIds: ["swift"],
   });
 });

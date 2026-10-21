@@ -33,7 +33,7 @@
     { "id": "ruby", "status": "experimental", "maturity": "experimental", "detectorIds": ["ruby"] },
     { "id": "rust", "status": "experimental", "maturity": "experimental", "detectorIds": ["rust"] },
     { "id": "serverless", "status": "supported", "maturity": "beta", "detectorIds": ["serverless"] },
-    { "id": "swift", "status": "experimental", "maturity": "experimental", "detectorIds": ["swift"] }
+    { "id": "swift", "status": "supported", "maturity": "beta", "detectorIds": ["swift"] }
   ],
   "capabilities": [
     { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"] },

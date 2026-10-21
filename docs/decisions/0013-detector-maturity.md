@@ -95,3 +95,7 @@ The .NET corpus grew from six repositories to eighteen: six targeted and twelve 
 ## Update 2026-10-21: Serverless runtimes promoted to beta
 
 The Serverless corpus grew to ten repositories: five targeted and five chosen blind by the rule in [Validation](../VALIDATION.md#serverless-blind-selection). Counts for the `serverless` detector on 2026-10-21: nine repositories with findings (including the existing `trpc/trpc` Node.js corpus pin), twenty expected findings, two zero-finding repositories, and five of ten Serverless-ecosystem repositories blind, which meets every row of the beta column. The detector page is [Serverless runtimes](../detectors/serverless.md). The full run recorded with this promotion reports precision and recall for `serverless` in `benchmarks/thresholds.json`.
+
+## Update 2026-10-21: Swift promoted to beta
+
+The Swift corpus grew from six repositories to thirteen: six targeted and seven chosen blind by the rule in [Validation](../VALIDATION.md#swift-blind-selection). Counts for the `swift` detector on 2026-10-21: ten repositories with findings, fifteen expected findings, two zero-finding repositories, and seven of thirteen Swift repositories blind, which meets every row of the beta column. The detector page is [Swift](../detectors/swift.md). The full run recorded with this promotion reports precision and recall for `swift` in `benchmarks/thresholds.json`. Three of the blind repositories also carry GitHub Actions and Ruby findings, which are recorded on those pins and are not Swift findings.

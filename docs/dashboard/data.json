@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-21",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 128
+    "repositories": 135
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -156,8 +156,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 41,
-        "expectedFindings": 242,
+        "repositoriesWithFindings": 44,
+        "expectedFindings": 253,
         "zeroFindingRepositories": 2,
         "repositories": 11,
         "blindRepositories": 0
@@ -340,8 +340,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 4,
+        "repositoriesWithFindings": 7,
+        "expectedFindings": 7,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -395,11 +395,11 @@
     },
     {
       "id": "swift",
-      "level": "experimental",
-      "earnedLevel": "experimental",
+      "level": "beta",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": {
         "truePositives": 10,
@@ -409,11 +409,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 5,
-        "expectedFindings": 10,
-        "zeroFindingRepositories": 1,
-        "repositories": 6,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 10,
+        "expectedFindings": 15,
+        "zeroFindingRepositories": 2,
+        "repositories": 13,
+        "blindRepositories": 7
       }
     }
   ],

@@ -5637,6 +5637,232 @@
       "ecosystem": "serverless",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "paulgessinger/swift-paperless",
+      "commit": "ceb007633eab1b33e092243b332247e72489d375",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "microsoft/SwiftStreamingMarkdown",
+      "commit": "95bb755a9b23a1aea8682b9ebc912cb72b176c95",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-15-through-25",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "hhru/mvi-swift",
+      "commit": "f6af9c822dabb1788b3a258115af3453309c6615",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/swift.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/swift.yml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/swift.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 70 of .github/workflows/swift.yml reads `uses: actions/checkout@v3`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "ruby.runtime.eol-3.1",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.1.0`, a Ruby 3.1 pin. The Ruby maintenance branches page marks Ruby 3.1 as end of life (security maintenance ended 2025-03-26) (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        },
+        {
+          "ruleId": "swift.xcode.app-store-15-through-25",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `16.0`, an Xcode 16 pin. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 26 or later since April 28, 2026 (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "babylonhealth/Stevenson",
+      "commit": "e7f5aa102a37fa617fe534a6072f04fd3fb08df8",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `11.6`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "cgoldsby/TvOSMoreButton",
+      "commit": "afd4fa478d8a214a17152caa6209b49a08066ea3",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/pulls.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/pulls.yml reads `uses: actions/cache@v2`. actions/cache v5 moved the action to Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/pulls.yml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 45 of .github/workflows/pulls.yml reads `uses: actions/cache@v2`. actions/cache v5 moved the action to Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/pulls.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/pulls.yml reads `uses: actions/checkout@v2`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/pulls.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of .github/workflows/pulls.yml reads `uses: actions/checkout@v2`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "ruby.runtime.eol-2.7",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `2.7.3`, a Ruby 2.7 pin. The Ruby maintenance branches page marks Ruby 2.7 as end of life (security maintenance ended 2023-03-31) (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        },
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `13.2.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "micahflee/TM-SGNL-iOS",
+      "commit": "dde0620dafe32c0a10d93aee2a19b406a5aeb015",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of .github/workflows/main.yml reads `uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/main.yml",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 72 of .github/workflows/main.yml reads `uses: actions/upload-artifact@v4`. actions/upload-artifact v7 is the first release on Node.js 24; earlier releases are retired (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 88,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 88 of .github/workflows/main.yml reads `uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 106,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 106 of .github/workflows/main.yml reads `uses: actions/checkout@v4`. actions/checkout v5 is the first release on Node.js 24, and GitHub no longer provides Node.js 20 on Actions runners (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "ruby.runtime.eol-3.2",
+          "path": ".ruby-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .ruby-version reads `3.2.2`, a Ruby 3.2 pin. The Ruby maintenance branches page marks Ruby 3.2 as end of life (security maintenance ended 2026-04-01) (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "griffin-stewie/BudouX.swift",
+      "commit": "89ca4c4b83719c84e60eb92e7d93e9fcc021f9c7",
+      "ecosystem": "swift",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "swift.xcode.app-store-below-15",
+          "path": ".xcode-version",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of .xcode-version reads `14.3.1`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        }
+      ]
     }
   ]
 }
