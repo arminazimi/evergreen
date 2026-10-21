@@ -12,9 +12,9 @@
   },
   "run": {
     "date": "2026-10-21",
-    "commit": "4c8a0a2",
-    "repositories": 140,
-    "findings": 585,
+    "commit": "122d612",
+    "repositories": 145,
+    "findings": 616,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -57,11 +57,11 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 0,
+        "truePositives": 8,
         "falsePositives": 0,
         "falseNegatives": 0,
-        "precision": null,
-        "recall": null
+        "precision": 1,
+        "recall": 1
       },
       "evidence": {
         "repositoriesWithFindings": 4,
@@ -126,7 +126,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 84,
+        "truePositives": 105,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -149,7 +149,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 260,
+        "truePositives": 261,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -264,7 +264,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 48,
+        "truePositives": 49,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
