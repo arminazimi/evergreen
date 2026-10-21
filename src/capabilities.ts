@@ -68,7 +68,7 @@ const workflowCapabilityIds = [
 
 const manifest = {
   schemaVersion: "evergreen.capabilities.v1",
-  manifestVersion: "1.4.0",
+  manifestVersion: "1.5.0",
   product: {
     name: "Evergreen",
     package: "evergreen-deprecation",
@@ -89,6 +89,7 @@ const manifest = {
     { id: "ci-images", status: "experimental", maturity: "experimental", detectorIds: ["ci-images"] },
     { id: "container", status: "experimental", maturity: "experimental", detectorIds: ["container"] },
     { id: "cpp", status: "experimental", maturity: "experimental", detectorIds: ["cpp"] },
+    { id: "dart", status: "experimental", maturity: "experimental", detectorIds: ["dart"] },
     { id: "dotnet", status: "supported", maturity: "beta", detectorIds: ["dotnet"] },
     { id: "github-actions", status: "supported", maturity: "stable", detectorIds: ["github-actions"] },
     { id: "go", status: "experimental", maturity: "experimental", detectorIds: ["go"] },
@@ -110,35 +111,35 @@ const manifest = {
       status: "supported",
       version: "1",
       description: "Scan a local repository with all built-in lifecycle detectors.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
+      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
     },
     {
       id: "deprecation.list",
       status: "supported",
       version: "1",
       description: "List compact lifecycle findings from a fresh local scan.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
+      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
     },
     {
       id: "deprecation.explain",
       status: "supported",
       version: "1",
       description: "Explain one evidence-backed finding by its exact identifier.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
+      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
     },
     {
       id: "migration.context.create",
       status: "supported",
       version: "1",
       description: "Create a validated migration packet for one finding.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
+      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
     },
     {
       id: "migration.verify",
       status: "supported",
       version: "1",
       description: "Re-scan and verify that an observed finding is absent.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
+      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "swift"],
     },
     {
       id: "environment.doctor",

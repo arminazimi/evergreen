@@ -29,7 +29,7 @@ The Dart security policy commits security updates only for the most recent stabl
 
 ## Detected by
 
-No built-in detector reads `dart` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/dart.json).
+The `dart` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

@@ -29,6 +29,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   "ci-images": ["ci-images"],
   container: ["container"],
   cpp: ["cpp"],
+  dart: ["dart"],
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   go: ["go"],

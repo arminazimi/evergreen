@@ -33,6 +33,7 @@ const ROW_NAMES = [
   "Swift",
   "Android",
   "C and C++",
+  "Dart and Flutter",
   "Serverless runtimes",
   "Other language and platform ecosystems",
 ];
