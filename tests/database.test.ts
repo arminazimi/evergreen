@@ -14,6 +14,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { DatabaseDetector, databaseDetector } from "../src/detectors/database/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -196,4 +197,25 @@ test("ignores vendored directories, fixture directories, and a repository withou
     }),
     [],
   );
+});
+
+test("every curated database rule has migration guidance with real verification commands", async () => {
+  for (const item of await committedRules()) {
+    assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "docker compose config"), item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "terraform plan"), item.id);
+  }
+});
+
+test("a migration packet for a Compose finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }), [databaseDetector]);
+  const finding = result.findings.find((item) => item.id === "database.postgresql.end-of-life-12:compose.yaml:3");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("compose.yaml"));
+  assert.deepEqual(
+    packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)),
+    ["back-up-data", "upgrade-data", "raise-declared-version", "align-clients"],
+  );
+  assert.ok(packet.verification.some((check) => check.command === "docker compose config"));
 });

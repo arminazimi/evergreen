@@ -27,6 +27,27 @@ MySQL 5.7 reached end of life on 2023-10-31 and no longer receives security or b
 - [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html)
 - [endoflife.date: MySQL](https://endoflife.date/mysql)
 
+## Migration
+
+**Constraints**
+
+- MySQL does not support skipping major release lines on upgrade. MySQL 5.7 must move to 8.0 before 8.4; 8.0 can move to 8.4 in place.
+- A MySQL data directory is upgraded by the new server on first start and cannot be started by the old version again, so a backup is the only way back.
+- For managed databases, engine_version changes do not apply major upgrades unless allow_major_version_upgrade is set; plan the maintenance window before applying.
+
+**Steps**
+
+1. **Back up the data first.** Take a verified backup or snapshot of every MySQL instance in the reported files before changing any version. A major version change is not reversible by changing the version back.
+2. **Upgrade the database server.** Run mysqlcheck or the MySQL Shell upgrade checker against the old server, fix what it reports, then start the target version on the same data directory, or restore a logical dump into a new instance. On a managed database, upgrade through a snapshot restore or a reviewed engine_version change with allow_major_version_upgrade.
+3. **Raise the declared version.** Change the image tag in Compose files, or engine_version in Terraform, to the release in the replacement. Do this in every file and environment that runs this database, not only the reported line.
+4. **Check clients and tooling.** Update drivers, ORMs, CI service containers, and local setup documentation that assume the old MySQL version.
+
+**Verification**
+
+- `docker compose config`: Confirm the Compose file is valid and shows the intended MySQL image tag after the change.
+- `terraform validate`: Check that the Terraform configuration is valid with the new engine_version.
+- `terraform plan`: Review the plan and confirm the engine_version change is the only database change, and that it is intended.
+
 ## Detected by
 
 The `database` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
