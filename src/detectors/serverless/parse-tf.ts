@@ -2,18 +2,21 @@
  * Pure, bounded parser for serverless runtime declarations in Terraform `*.tf` files.
  *
  * Reads literal string assignments on:
- * - `aws_lambda_function.runtime`
- * - `google_cloudfunctions_function.runtime`
- * - `google_cloudfunctions2_function.build_config.runtime`
- * - `azurerm_linux_function_app` / `azurerm_windows_function_app` `application_stack`
- *   version fields (`node_version`, `python_version`, `java_version`,
- *   `powershell_core_version`, `dotnet_version`)
+ * - `aws_lambda_function.runtime` (direct resource attribute only)
+ * - `google_cloudfunctions_function.runtime` (direct resource attribute only)
+ * - `google_cloudfunctions2_function.build_config.runtime` (direct attribute of a
+ *   top-level `build_config` block)
+ * - `azurerm_linux_function_app` / `azurerm_windows_function_app`: version fields on
+ *   `application_stack` that sits directly inside `site_config`
+ *   (`node_version`, `python_version`, `java_version`, `powershell_core_version`,
+ *   `dotnet_version`)
  *
- * Quotes are not part of the value. Comments, `data` sources, unrelated resources,
- * `var` / `local` / interpolation values, legacy `azurerm_function_app` `linux_fx_version`,
- * image functions without `runtime`, and heredocs return nothing for that site. An
- * unterminated string or comment makes the whole file yield nothing. The parser never
- * evaluates HCL or executes Terraform.
+ * Quotes are not part of the value. Nested map keys (`environment.variables`, `tags`,
+ * and similar), comments, `data` sources, unrelated resources, `var` / `local` /
+ * interpolation values, legacy `azurerm_function_app` `linux_fx_version`, image
+ * functions without `runtime`, and heredocs return nothing for that site. An
+ * unterminated double-quoted string or comment makes the whole file yield nothing.
+ * The parser never evaluates HCL or executes Terraform.
  */
 
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
@@ -50,8 +53,9 @@ function blankNonNewlines(text: string): string {
 }
 
 /**
- * Comments and string/heredoc text become spaces; newlines and offsets stay aligned with
- * the source. Returns undefined when a comment, string, or heredoc is unterminated.
+ * Comments and double-quoted string/heredoc text become spaces; newlines and offsets
+ * stay aligned with the source. HCL strings use `"`, so an apostrophe is left alone.
+ * Returns undefined when a comment, string, or heredoc is unterminated.
  */
 function maskHcl(source: string): string | undefined {
   const chunks: string[] = [];
@@ -88,8 +92,7 @@ function maskHcl(source: string): string | undefined {
       continue;
     }
 
-    const quote = source[index];
-    if (quote === '"' || quote === "'") {
+    if (source[index] === '"') {
       let position = index + 1;
       while (position < source.length) {
         const code = source.charCodeAt(position);
@@ -97,7 +100,7 @@ function maskHcl(source: string): string | undefined {
           position += 2;
           continue;
         }
-        if (source[position] === quote) {
+        if (source[position] === '"') {
           chunks.push(blankNonNewlines(source.slice(index, position + 1)));
           index = position + 1;
           break;
@@ -111,7 +114,7 @@ function maskHcl(source: string): string | undefined {
     const plainStart = index;
     while (index < source.length) {
       const character = source[index]!;
-      if (character === "#" || character === '"' || character === "'") break;
+      if (character === "#" || character === '"') break;
       if (character === "/" && (source[index + 1] === "/" || source[index + 1] === "*")) break;
       if (character === "<" && source.startsWith("<<", index)) break;
       index++;
@@ -137,6 +140,10 @@ function lineAt(text: string, offset: number): number {
   return line;
 }
 
+function isWordChar(character: string | undefined): boolean {
+  return character !== undefined && /[A-Za-z0-9_]/.test(character);
+}
+
 /** Half-open body span after the opening `{`, or undefined when braces do not close. */
 function blockBody(masked: string, openBrace: number): [number, number] | undefined {
   let depth = 1;
@@ -148,17 +155,41 @@ function blockBody(masked: string, openBrace: number): [number, number] | undefi
   return undefined;
 }
 
-function namedBlocks(masked: string, start: number, end: number, name: string): Array<[number, number]> {
+/**
+ * Bodies of `name { ... }` blocks that open at relative brace depth 0 inside `[start, end)`.
+ * Nested blocks of the same name are skipped.
+ */
+function directBlocks(masked: string, start: number, end: number, name: string): Array<[number, number]> {
   const blocks: Array<[number, number]> = [];
-  const pattern = new RegExp(`\\b${name}\\s*\\{`, "g");
-  pattern.lastIndex = start;
-  for (let match = pattern.exec(masked); match && match.index < end; match = pattern.exec(masked)) {
-    const openBrace = match.index + match[0].length - 1;
-    if (openBrace >= end) break;
-    const body = blockBody(masked, openBrace);
-    if (!body || body[1] > end) continue;
-    blocks.push(body);
-    pattern.lastIndex = body[1] + 1;
+  const opener = new RegExp(`^${name}\\s*\\{`);
+  let depth = 0;
+  let index = start;
+  while (index < end) {
+    const character = masked[index]!;
+    if (character === "{") {
+      depth++;
+      index++;
+      continue;
+    }
+    if (character === "}") {
+      depth--;
+      index++;
+      continue;
+    }
+    if (depth === 0 && !isWordChar(masked[index - 1]) && opener.test(masked.slice(index))) {
+      const match = opener.exec(masked.slice(index))!;
+      const openBrace = index + match[0].length - 1;
+      if (openBrace >= end) break;
+      const body = blockBody(masked, openBrace);
+      if (!body || body[1] > end) {
+        index++;
+        continue;
+      }
+      blocks.push(body);
+      index = body[1] + 1;
+      continue;
+    }
+    index++;
   }
   return blocks;
 }
@@ -172,10 +203,9 @@ function skipSpaces(source: string, index: number): number {
   return index;
 }
 
-/** Read a quoted string starting at `index`; returns the value and the offset after the closer. */
+/** Read a double-quoted string starting at `index`. */
 function readQuoted(source: string, index: number): { value: string; end: number; start: number } | undefined {
-  const quote = source[index];
-  if (quote !== '"' && quote !== "'") return undefined;
+  if (source[index] !== '"') return undefined;
   let position = index + 1;
   let value = "";
   while (position < source.length) {
@@ -187,7 +217,7 @@ function readQuoted(source: string, index: number): { value: string; end: number
       position += 2;
       continue;
     }
-    if (character === quote) return { value, end: position + 1, start: index };
+    if (character === '"') return { value, end: position + 1, start: index };
     value += character;
     position++;
   }
@@ -220,7 +250,11 @@ function readLiteral(source: string, equalsOffset: number): RuntimeDeclaration |
   return { value: quoted.value, line: lineAt(source, quoted.start) };
 }
 
-function collectAttributes(
+/**
+ * Collect `key = "..."` assignments that sit at relative brace depth 0 inside the span.
+ * Map values (`= { ... }`) and nested blocks raise the depth, so their keys are ignored.
+ */
+function collectDirectAttributes(
   source: string,
   masked: string,
   start: number,
@@ -228,17 +262,41 @@ function collectAttributes(
   keys: ReadonlySet<string>,
   declarations: RuntimeDeclaration[],
 ): void {
-  for (const key of keys) {
-    const pattern = new RegExp(`\\b${key}\\s*=`, "g");
-    pattern.lastIndex = start;
-    for (let match = pattern.exec(masked); match && match.index < end; match = pattern.exec(masked)) {
+  const keyList = [...keys];
+  let depth = 0;
+  let index = start;
+  while (index < end) {
+    const character = masked[index]!;
+    if (character === "{") {
+      depth++;
+      index++;
+      continue;
+    }
+    if (character === "}") {
+      depth--;
+      index++;
+      continue;
+    }
+    if (depth !== 0 || isWordChar(masked[index - 1])) {
+      index++;
+      continue;
+    }
+
+    let matched = false;
+    for (const key of keyList) {
+      const pattern = new RegExp(`^${key}\\s*=`);
+      const match = pattern.exec(masked.slice(index));
+      if (!match) continue;
       if (declarations.length >= MAXIMUM_DECLARATIONS) return;
-      const equals = match.index + match[0].length - 1;
-      if (equals >= end) break;
-      // Nested blocks after this attribute are outside its value; stop if `{` appears first on the line of `=`.
+      const equals = index + match[0].length - 1;
+      if (equals >= end) return;
       const declaration = readLiteral(source, equals);
       if (declaration) declarations.push(declaration);
+      index += match[0].length;
+      matched = true;
+      break;
     }
+    if (!matched) index++;
   }
 }
 
@@ -256,20 +314,21 @@ export function parseTf(contents: string): RuntimeDeclaration[] {
     for (let match = RESOURCE_KEYWORD.exec(masked); match; match = RESOURCE_KEYWORD.exec(masked)) {
       const header = resourceHeader(contents, match.index + match[0].length);
       if (!header || !RESOURCE_TYPES.has(header.type)) continue;
-      // The opening brace offset must match in the masked view (quotes are blanked, braces are not).
       const body = blockBody(masked, header.openBrace);
       if (!body) return [];
       const [start, end] = body;
 
       if (header.type === "aws_lambda_function" || header.type === "google_cloudfunctions_function") {
-        collectAttributes(contents, masked, start, end, new Set(["runtime"]), declarations);
+        collectDirectAttributes(contents, masked, start, end, new Set(["runtime"]), declarations);
       } else if (header.type === "google_cloudfunctions2_function") {
-        for (const block of namedBlocks(masked, start, end, "build_config")) {
-          collectAttributes(contents, masked, block[0], block[1], new Set(["runtime"]), declarations);
+        for (const block of directBlocks(masked, start, end, "build_config")) {
+          collectDirectAttributes(contents, masked, block[0], block[1], new Set(["runtime"]), declarations);
         }
       } else {
-        for (const block of namedBlocks(masked, start, end, "application_stack")) {
-          collectAttributes(contents, masked, block[0], block[1], STACK_KEYS, declarations);
+        for (const siteConfig of directBlocks(masked, start, end, "site_config")) {
+          for (const stack of directBlocks(masked, siteConfig[0], siteConfig[1], "application_stack")) {
+            collectDirectAttributes(contents, masked, stack[0], stack[1], STACK_KEYS, declarations);
+          }
         }
       }
       if (declarations.length >= MAXIMUM_DECLARATIONS) break;

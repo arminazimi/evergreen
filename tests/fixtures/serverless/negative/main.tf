@@ -46,3 +46,27 @@ resource "google_cloudfunctions_function" "api" {
 data "aws_lambda_function" "existing" {
   function_name = "existing"
 }
+
+resource "aws_lambda_function" "nested" {
+  runtime = var.r
+  environment {
+    variables = {
+      runtime = "nodejs14.x"
+    }
+  }
+  tags = {
+    runtime = "python3.8"
+  }
+}
+
+resource "azurerm_linux_function_app" "labels" {
+  name = "labels"
+
+  site_config {
+    always_on = true
+  }
+
+  app_settings = {
+    node_version = "14"
+  }
+}

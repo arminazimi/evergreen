@@ -189,6 +189,53 @@ test("malformed Terraform returns no declarations", async () => {
   assert.deepEqual(parseTf(await fixture("malformed", "main.tf")), []);
 });
 
+test("ignores runtime keys nested in environment variables and tags when the real runtime is dynamic", () => {
+  assert.deepEqual(
+    parseTf(`resource "aws_lambda_function" "a" {
+  runtime = var.r
+  environment {
+    variables = {
+      runtime = "nodejs14.x"
+    }
+  }
+  tags = {
+    runtime = "python3.8"
+  }
+}
+`),
+    [],
+  );
+});
+
+test("ignores a nested runtime inside an environment block even when a top-level runtime is present", () => {
+  assert.deepEqual(
+    parseTf(`resource "aws_lambda_function" "a" {
+  runtime = "nodejs22.x"
+  environment {
+    variables = {
+      runtime = "nodejs14.x"
+    }
+  }
+}
+`),
+    [{ value: "nodejs22.x", line: 2 }],
+  );
+});
+
+test("an apostrophe in a comment or heredoc does not make the file return nothing", () => {
+  assert.deepEqual(
+    parseTf(`# don't skip this resource
+resource "aws_lambda_function" "api" {
+  runtime = "nodejs14.x"
+  description = <<EOF
+it's a function
+EOF
+}
+`),
+    [{ value: "nodejs14.x", line: 3 }],
+  );
+});
+
 test("rejects non-literal Terraform runtime forms", () => {
   for (const contents of [
     'resource "aws_lambda_function" "api" {\n  runtime = var.lambda_runtime\n}\n',
@@ -199,6 +246,8 @@ test("rejects non-literal Terraform runtime forms", () => {
     'data "aws_lambda_function" "existing" {\n  function_name = "existing"\n}\n',
     'resource "azurerm_function_app" "legacy" {\n  site_config {\n    linux_fx_version = "NODE|14"\n  }\n}\n',
     'resource "aws_lambda_function" "image" {\n  package_type = "Image"\n  image_uri = "public.ecr.aws/lambda/nodejs:14"\n}\n',
+    'resource "google_cloudfunctions_function" "api" {\n  labels = {\n    runtime = "nodejs14"\n  }\n}\n',
+    'resource "azurerm_linux_function_app" "api" {\n  application_stack {\n    node_version = "14"\n  }\n}\n',
     "",
     "}}}\n{{{",
   ]) {
