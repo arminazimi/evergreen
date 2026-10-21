@@ -14,6 +14,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { TerraformDetector, terraformDetector } from "../src/detectors/terraform/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -201,4 +202,25 @@ test("a rule file with an unreadable Package URL is skipped", async () => {
   const detector = new TerraformDetector(async () => [rule({ purl: "not a purl" }), rule()]);
   const findings = await detector.scan({ root: await repository({ ".terraform-version": "1.5.7\n" }) });
   assert.equal(findings.length, 1);
+});
+
+test("every curated Terraform rule has migration guidance with real verification commands", async () => {
+  for (const item of await committedRules()) {
+    assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "terraform init -backend=false && terraform validate"), item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === "terraform plan"), item.id);
+  }
+});
+
+test("a migration packet for a Terraform CLI finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(await repository({ ".terraform-version": "1.12.3\n" }), [terraformDetector]);
+  const finding = result.findings.find((item) => item.id === "terraform.cli.end-of-support-1.12:.terraform-version:1");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes(".terraform-version"));
+  assert.deepEqual(
+    packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)),
+    ["raise-cli-pin", "raise-required-version", "align-ci-toolchain"],
+  );
+  assert.ok(packet.verification.some((check) => check.command === "terraform init -backend=false && terraform validate"));
 });

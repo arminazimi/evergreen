@@ -28,6 +28,26 @@ HashiCorp supports the two most recent Terraform release lines. Terraform 1.13 (
 - [hashicorp/terraform release v1.15.0](https://github.com/hashicorp/terraform/releases/tag/v1.15.0)
 - [HashiCorp Terraform support policy](https://support.hashicorp.com/hc/en-us/articles/360021185113)
 
+## Migration
+
+**Constraints**
+
+- Keep required_version in *.tf, the pin in .terraform-version or .tool-versions, and the Terraform version installed in CI and by every teammate on one supported release line.
+- Terraform state written by a newer release may not be readable by an older one, so move every place that runs plan or apply together instead of one environment at a time.
+- Do not run terraform init -upgrade as part of this change unless provider upgrades are intended: it can change provider versions and rewrite .terraform.lock.hcl.
+
+**Steps**
+
+1. **Raise the Terraform CLI pin.** Change the reported .terraform-version or terraform entry in .tool-versions to the release in the replacement.
+2. **Raise required_version.** Raise the lower bound of required_version in the terraform block of each *.tf file so it admits only supported releases, and read the upgrade notes of every line you cross.
+3. **Align CI and documentation.** Update CI workflows, Docker images, and setup documentation that install Terraform (for example hashicorp/setup-terraform) so they match the new pin.
+
+**Verification**
+
+- `terraform version`: Confirm the active Terraform CLI is the intended release.
+- `terraform init -backend=false && terraform validate`: Initialize without touching remote state and check that the configuration is valid on the new release.
+- `terraform plan`: Review the plan and confirm the upgrade introduces no unexpected changes.
+
 ## Detected by
 
 The `terraform` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
