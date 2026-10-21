@@ -1,0 +1,33 @@
+# Runtime: nodejs14.x
+Description: The Runtime key in this sentence is not a function runtime
+Parameters:
+  Runtime:
+    Type: String
+    Default: nodejs14.x
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: !Ref Runtime
+  Api:
+    OpenApiVersion: "3.0.1"
+Resources:
+  Inherited:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: !Sub "${Stage}-nodejs14.x"
+      Environment:
+        Variables:
+          Runtime: nodejs14.x
+  Mapped:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime:
+        Ref: Runtime
+      Handler: index.handler
+      Description: "Runtime: python3.8"
+  Image:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageUri: public.ecr.aws/lambda/nodejs:14

@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: API functions
+
+Globals:
+  Function:
+    Runtime: nodejs14.x
+    Timeout: 10
+
+Resources:
+  Api:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: python3.8
+      CodeUri: src/
+  Worker:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: worker.handler
+      Runtime: "dotnetcore3.1"
+      Role: arn:aws:iam::123456789012:role/worker

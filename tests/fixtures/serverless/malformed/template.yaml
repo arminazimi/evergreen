@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Globals:
+  Function:
+    Runtime: nodejs14.x
+Resources:
+  Api:
+    Type: AWS::Serverless::Function
+    Properties: [

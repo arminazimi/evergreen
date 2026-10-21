@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+
+Resources:
+  Api:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: python3.13
+  Worker:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: worker.handler
+      Runtime: java21
+      Role: arn:aws:iam::123456789012:role/worker
