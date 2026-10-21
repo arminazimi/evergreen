@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { pathToFileURL } from "node:url";
 
@@ -101,14 +103,44 @@ test("only affected dependencies produce a warning, and a failing check is repor
   assert.equal(guard.run({ tool_name: "Edit", tool_input: { file_path: "package.json", old_string: "", new_string: '"express": "^4.0.0"' } }, () => ({ check: { status: "no-data", findings: [] } })), undefined);
 });
 
-function runHook(payload: object): { status: number | null; stdout: string } {
+function runHook(payload: object, checkCommand = `"${process.execPath}" "${resolve("dist/src/cli.js")}"`): { status: number | null; stdout: string } {
   const result = spawnSync(process.execPath, [guardPath], {
     input: JSON.stringify(payload),
     encoding: "utf8",
-    env: { ...process.env, EVERGREEN_CHECK_COMMAND: `${process.execPath} ${resolve("dist/src/cli.js")}` },
+    env: { ...process.env, EVERGREEN_CHECK_COMMAND: checkCommand },
   });
   return { status: result.status, stdout: result.stdout };
 }
+
+test("EVERGREEN_CHECK_COMMAND accepts quoted, JSON-array, and space-separated forms", () => {
+  // A stand-in CLI that answers "check" with an affected status, so the test needs no network or built output.
+  const standIn = [
+    'if (process.argv[2] !== "check") process.exit(2);',
+    'process.stdout.write(JSON.stringify({ status: "affected", purl: "pkg:npm/request", version: "2.88.2", findings: [{ title: "request is deprecated", severity: "high", event: "deprecated", summary: "No new changes are expected.", sources: [{ url: "https://example.test/request" }] }] }));',
+  ].join("\n");
+  const spaced = mkdtempSync(join(tmpdir(), "evergreen guard "));
+  const plain = mkdtempSync(join(tmpdir(), "evergreen-guard-"));
+  try {
+    const fakeWithSpace = join(spaced, "fake evergreen.mjs");
+    const fakePlain = join(plain, "fake-evergreen.mjs");
+    writeFileSync(fakeWithSpace, standIn);
+    writeFileSync(fakePlain, standIn);
+    const payload = { tool_name: "Edit", cwd: process.cwd(), tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' } };
+    const forms = [
+      `"${process.execPath}" "${fakeWithSpace}"`,
+      JSON.stringify([process.execPath, fakeWithSpace]),
+      `${process.execPath} ${fakePlain}`,
+    ];
+    for (const form of forms) {
+      const result = runHook(payload, form);
+      assert.equal(result.status, 0, form);
+      assert.match(JSON.parse(result.stdout).hookSpecificOutput.additionalContext, /request is deprecated/, form);
+    }
+  } finally {
+    rmSync(spaced, { recursive: true, force: true });
+    rmSync(plain, { recursive: true, force: true });
+  }
+});
 
 test("the hook script warns for a real deprecated dependency and stays quiet otherwise", () => {
   const bad = runHook({ tool_name: "Edit", cwd: process.cwd(), tool_input: { file_path: "package.json", old_string: "", new_string: '"request": "^2.88.2"' } });
