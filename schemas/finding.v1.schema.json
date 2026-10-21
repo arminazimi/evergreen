@@ -124,7 +124,8 @@
               "toml",
               "ini",
               "php",
-              "swift"
+              "swift",
+              "dart"
             ]
           },
           "symbol": {

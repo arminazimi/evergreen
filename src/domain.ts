@@ -30,19 +30,20 @@ export const sourceLanguageValues = [
   "ini",
   "php",
   "swift",
+  "dart",
 ] as const;
 
 export type SourceLanguage = (typeof sourceLanguageValues)[number];
 
 export interface ImportUsageMatcher {
   kind: "import";
-  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby" | "php" | "swift";
+  language: "javascript" | "typescript" | "python" | "go" | "java" | "kotlin" | "rust" | "csharp" | "ruby" | "php" | "swift" | "dart";
   module: string;
 }
 
 export interface CallUsageMatcher {
   kind: "call";
-  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp" | "ruby" | "php" | "swift";
+  language: "javascript" | "typescript" | "python" | "go" | "rust" | "csharp" | "ruby" | "php" | "swift" | "dart";
   module: string;
   targets: string[];
 }
