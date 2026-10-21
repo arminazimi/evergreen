@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Ruby detector layout
 
@@ -98,6 +98,17 @@ The Dart detector follows the same layout. Its entry point, `src/detectors/dart/
 - Rules that declare usage matchers use `analyzeSourceUsage`, so those findings list the `.dart` files that import the package and the calls those matchers name. `Function.apply` and `dart:mirrors` reflection are unclassified.
 
 The user-facing list of supported forms and limits for this detector is in [Dart and Flutter](detectors/dart.md).
+
+## Terraform detector layout
+
+The Terraform detector follows the same layout. Its entry point, `src/detectors/terraform/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-terraform.ts`, `parse-lock.ts`, and `parse-version-files.ts`), on top of the shared bounded scanner in `hcl.ts`:
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/terraform.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- An exact version (a version file, a lock entry, or a constraint without an operator) uses the first rule whose `vers` range contains it. A `~> X.Y.Z` constraint matches a rule that contains both ends of that minor line. Any other constraint is matched only against rules that cover every version. A rule whose `vers` is malformed is skipped, so it does not hide a later rule.
+- The Terraform CLI is `pkg:generic/terraform` and a provider is `pkg:generic/terraform-provider/<namespace>/<name>`. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Terraform](detectors/terraform.md).
 
 ## Swift detector layout
 
