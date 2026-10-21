@@ -180,6 +180,38 @@ A complete rule, also in [`examples/registry.v2.symbol.example.json`](../example
 
 To add one: find the official deprecation notice for the symbol, copy the rule above, set `purl` and `vers` to the package versions the notice covers, write one `symbol` entry per language, and run `npm run check`.
 
+#### Walkthrough: add a symbol rule
+
+This example adds a rule for `fs.exists`, which Node.js documents as deprecated in favour of `fs.access` or `fs.stat`. Follow the same steps for any symbol.
+
+1. **Find the evidence.** Open the official documentation of the symbol and look for a deprecation notice. Here it is the `fs.exists` entry in the Node.js `fs` documentation, which carries `Stability: 0 - Deprecated`. Note the URL; the rule cites it. Without an authoritative notice for this symbol there is no rule.
+2. **Pick the module and the symbol path.** `module` is what code imports: `fs`. `symbol` is the dotted path inside it: `exists`. Do not put the module in the symbol.
+3. **Pick the shape.** `fs.exists(path, callback)` is called, so `shape` is `call`. Use `construct` for `new Buffer(size)`, `reference` when merely passing the function around is the problem, and `option` for a deprecated property of an options object.
+4. **Write one entry per language.** Node.js code is JavaScript or TypeScript, so write two `symbol` entries that differ only in `language`. Add an `import` entry for the module too if you want the regex scanner to point at the file.
+5. **Write the rule.** Copy the complete rule above, then set `purl`, `vers`, `title`, `summary`, `replacement`, `sources`, and `provenance` from the notice. `summary` states what the source says; the advice goes in `replacement`.
+6. **Write a fixture.** A fixture is a small source file with usages that must be reported and lookalikes that must not. Put the expected result in comments so a reviewer can read it without running anything:
+
+   ```js
+   const fs = require("fs");
+   const { promisify } = require("util");
+
+   fs.exists("a.txt", () => {});          // reported: call of fs.exists
+   const { exists } = require("fs");
+   exists("b.txt", () => {});             // reported: destructured binding of fs.exists
+   const check = fs.exists;
+   check("c.txt", () => {});              // reported: alias of fs.exists
+
+   fs.existsSync("a.txt");                // not reported: a different symbol
+   fs.access("a.txt", () => {});          // not reported: the replacement
+   const text = "fs.exists is deprecated"; // not reported: a string
+   // fs.exists("d.txt", () => {});       // not reported: a comment
+   const exists2 = (name) => name;
+   exists2("e.txt");                      // not reported: an unrelated function
+   ```
+
+   Cover at least one reported usage per shape the rule declares, one alias, and the lookalikes above. A lookalike that the analysis reports is a bug in the rule or the analysis; fix it before the rule merges.
+7. **Check it.** Run `npm run check`. It validates the rule against the schema, including every symbol entry, and fails when the reference pages under `docs/rules/` have drifted (run `npm run build:reference` to regenerate them). Open the pull request with `Closes #<issue>` and link the deprecation notice.
+
 ### Provenance
 
 Provenance makes a rule auditable.
