@@ -149,6 +149,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-25.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v18-and-older.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -175,6 +178,10 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.12.support-end.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.14.support-end.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -216,6 +223,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.types.sequelize.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.types.socket.io-client.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>

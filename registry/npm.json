@@ -4641,6 +4641,671 @@
       "x-npm": {
         "package": "vue2-script-setup-transform"
       }
+    },
+    {
+      "id": "npm.package.next.12.support-end",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/next",
+      "vers": "vers:npm/>=12.0.0|<13.0.0",
+      "event": "end-of-support",
+      "title": "Next.js 12 is out of support",
+      "summary": "Next.js 12 was released on 2021-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2023-10-26.",
+      "severity": "high",
+      "replacement": "Next.js 16 (Active LTS)",
+      "deadline": "2023-10-26",
+      "sources": [
+        {
+          "title": "Next.js support policy",
+          "url": "https://nextjs.org/support-policy"
+        },
+        {
+          "title": "Next.js upgrade guide: version 13",
+          "url": "https://nextjs.org/docs/pages/building-your-application/upgrading/version-13"
+        },
+        {
+          "title": "Next.js upgrade guide: version 14",
+          "url": "https://nextjs.org/docs/app/building-your-application/upgrading/version-14"
+        },
+        {
+          "title": "Next.js upgrade guide: version 15",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+        },
+        {
+          "title": "Next.js upgrade guide: version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the routes, rendering modes, data fetching, and public behavior of the application; change only what each official upgrade guide requires.",
+          "Upgrade one major at a time (13, 14, 15, then 16) and verify each step before the next."
+        ],
+        "steps": [
+          {
+            "id": "set-next-version",
+            "title": "Move next to a supported major",
+            "instructions": "Set the next dependency to the Active LTS release (16.x) in the package.json that declares it, then align react and react-dom with the versions the guides require. The 15 guide requires React 19.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-upgrade-guides",
+            "title": "Apply the upgrade guides in order",
+            "instructions": "Work through the official upgrade guides for 13, 14, 15 and 16, one major at a time, and resolve each breaking change they list before starting the next. Check the Node.js minimum each guide states.",
+            "targets": "all"
+          },
+          {
+            "id": "run-upgrade-codemods",
+            "title": "Run the official codemods",
+            "instructions": "Run the codemods the guides name (for example the upgrade codemod from @next/codemod) or make the same changes by hand, and review every change before committing.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-retired-apis",
+            "title": "Replace renamed or removed APIs",
+            "instructions": "Replace the imports, components, and configuration options that the guides rename or remove, such as the target option removed in Next.js 13 and next lint removed in Next.js 16.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application with the upgraded Next.js."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          },
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Lint with the ESLint CLI; the next lint command is removed in Next.js 16."
+          }
+        ]
+      },
+      "x-npm": {
+        "package": "next"
+      }
+    },
+    {
+      "id": "npm.package.next.13.support-end",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/next",
+      "vers": "vers:npm/>=13.0.0|<14.0.0",
+      "event": "end-of-support",
+      "title": "Next.js 13 is out of support",
+      "summary": "Next.js 13 was released on 2022-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2024-10-26.",
+      "severity": "high",
+      "replacement": "Next.js 16 (Active LTS)",
+      "deadline": "2024-10-26",
+      "sources": [
+        {
+          "title": "Next.js support policy",
+          "url": "https://nextjs.org/support-policy"
+        },
+        {
+          "title": "Next.js upgrade guide: version 14",
+          "url": "https://nextjs.org/docs/app/building-your-application/upgrading/version-14"
+        },
+        {
+          "title": "Next.js upgrade guide: version 15",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+        },
+        {
+          "title": "Next.js upgrade guide: version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the routes, rendering modes, data fetching, and public behavior of the application; change only what each official upgrade guide requires.",
+          "Upgrade one major at a time (14, 15, then 16) and verify each step before the next."
+        ],
+        "steps": [
+          {
+            "id": "set-next-version",
+            "title": "Move next to a supported major",
+            "instructions": "Set the next dependency to the Active LTS release (16.x) in the package.json that declares it, then align react and react-dom with the versions the guides require. The 15 guide requires React 19.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-upgrade-guides",
+            "title": "Apply the upgrade guides in order",
+            "instructions": "Work through the official upgrade guides for 14, 15 and 16, one major at a time, and resolve each breaking change they list before starting the next. Check the Node.js minimum each guide states.",
+            "targets": "all"
+          },
+          {
+            "id": "run-upgrade-codemods",
+            "title": "Run the official codemods",
+            "instructions": "Run the codemods the guides name (for example the upgrade codemod from @next/codemod) or make the same changes by hand, and review every change before committing.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-retired-apis",
+            "title": "Replace renamed or removed APIs",
+            "instructions": "Replace the imports, components, and configuration options that the guides rename or remove, such as the target option removed in Next.js 13 and next lint removed in Next.js 16.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application with the upgraded Next.js."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          },
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Lint with the ESLint CLI; the next lint command is removed in Next.js 16."
+          }
+        ]
+      },
+      "x-npm": {
+        "package": "next"
+      }
+    },
+    {
+      "id": "npm.package.next.14.support-end",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/next",
+      "vers": "vers:npm/>=14.0.0|<15.0.0",
+      "event": "end-of-support",
+      "title": "Next.js 14 is out of support",
+      "summary": "Next.js 14 was released on 2023-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2025-10-26.",
+      "severity": "high",
+      "replacement": "Next.js 16 (Active LTS)",
+      "deadline": "2025-10-26",
+      "sources": [
+        {
+          "title": "Next.js support policy",
+          "url": "https://nextjs.org/support-policy"
+        },
+        {
+          "title": "Next.js upgrade guide: version 15",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+        },
+        {
+          "title": "Next.js upgrade guide: version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the routes, rendering modes, data fetching, and public behavior of the application; change only what each official upgrade guide requires.",
+          "Upgrade one major at a time (15, then 16) and verify each step before the next."
+        ],
+        "steps": [
+          {
+            "id": "set-next-version",
+            "title": "Move next to a supported major",
+            "instructions": "Set the next dependency to the Active LTS release (16.x) in the package.json that declares it, then align react and react-dom with the versions the guides require. The 15 guide requires React 19.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-upgrade-guides",
+            "title": "Apply the upgrade guides in order",
+            "instructions": "Work through the official upgrade guides for 15 and 16, one major at a time, and resolve each breaking change they list before starting the next. Check the Node.js minimum each guide states.",
+            "targets": "all"
+          },
+          {
+            "id": "run-upgrade-codemods",
+            "title": "Run the official codemods",
+            "instructions": "Run the codemods the guides name (for example the upgrade codemod from @next/codemod) or make the same changes by hand, and review every change before committing.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-retired-apis",
+            "title": "Replace renamed or removed APIs",
+            "instructions": "Replace the imports, components, and configuration options that the guides rename or remove, such as the target option removed in Next.js 13 and next lint removed in Next.js 16.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application with the upgraded Next.js."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          },
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Lint with the ESLint CLI; the next lint command is removed in Next.js 16."
+          }
+        ]
+      },
+      "x-npm": {
+        "package": "next"
+      }
+    },
+    {
+      "id": "npm.package.next.15.support-end",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/next",
+      "vers": "vers:npm/>=15.0.0|<16.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Next.js 15 Maintenance LTS is scheduled to end",
+      "summary": "Next.js 15 was released on 2024-10-21 and is in Maintenance LTS, which lasts two years after release, so its support window ends on 2026-10-21. Next.js 16 is the Active LTS release.",
+      "severity": "low",
+      "replacement": "Next.js 16 (Active LTS)",
+      "deadline": "2026-10-21",
+      "sources": [
+        {
+          "title": "Next.js support policy",
+          "url": "https://nextjs.org/support-policy"
+        },
+        {
+          "title": "Next.js upgrade guide: version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the routes, rendering modes, data fetching, and public behavior of the application; change only what the Next.js 16 upgrade guide requires."
+        ],
+        "steps": [
+          {
+            "id": "set-next-version",
+            "title": "Move next to a supported major",
+            "instructions": "Set the next dependency to the Active LTS release (16.x) in the package.json that declares it, then align react and react-dom with the versions the guides require. The 15 guide requires React 19.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-upgrade-guides",
+            "title": "Apply the upgrade guides in order",
+            "instructions": "Work through the official upgrade guides for 16, one major at a time, and resolve each breaking change they list before starting the next. Check the Node.js minimum each guide states.",
+            "targets": "all"
+          },
+          {
+            "id": "run-upgrade-codemods",
+            "title": "Run the official codemods",
+            "instructions": "Run the codemods the guides name (for example the upgrade codemod from @next/codemod) or make the same changes by hand, and review every change before committing.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-retired-apis",
+            "title": "Replace renamed or removed APIs",
+            "instructions": "Replace the imports, components, and configuration options that the guides rename or remove, such as the target option removed in Next.js 13 and next lint removed in Next.js 16.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application with the upgraded Next.js."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          },
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Lint with the ESLint CLI; the next lint command is removed in Next.js 16."
+          }
+        ]
+      },
+      "x-npm": {
+        "package": "next"
+      }
+    },
+    {
+      "id": "npm.package.vue.eol-2",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/vue",
+      "vers": "vers:npm/>=2.0.0|<3.0.0",
+      "event": "end-of-life",
+      "title": "Vue 2 is end-of-life",
+      "summary": "Vue 2 has reached end of life and is no longer actively maintained. After December 31st, 2023 it receives no updates, including security and browser compatibility fixes.",
+      "severity": "high",
+      "replacement": "Vue 3 (vue@^3), following the Vue 3 migration guide",
+      "deadline": "2023-12-31",
+      "sources": [
+        {
+          "title": "Vue 2 LTS, EOL & Extended Support",
+          "url": "https://v2.vuejs.org/lts/"
+        },
+        {
+          "title": "Vue 3 Migration Guide",
+          "url": "https://v3-migration.vuejs.org/"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Migration Build",
+          "url": "https://v3-migration.vuejs.org/migration-build.html"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Breaking Changes",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Global API",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the behavior the application depends on, and check each Vue 2 behavior listed in the Vue 3 breaking changes against the reported files.",
+          "Keep a single Vue runtime in the build: when the project uses vue-template-compiler, replace it with @vue/compiler-sfc."
+        ],
+        "steps": [
+          {
+            "id": "choose-upgrade-path",
+            "title": "Choose the upgrade path",
+            "instructions": "Upgrade straight to Vue 3, or install @vue/compat at the same version as vue and alias vue to it to run Vue 2 compatible behavior first. vue-cli projects can run vue upgrade to update @vue/cli-service.",
+            "targets": "all"
+          },
+          {
+            "id": "update-vue-dependencies",
+            "title": "Update the Vue dependencies",
+            "instructions": "Set vue to a 3.x version in dependencies, and replace vue-template-compiler with @vue/compiler-sfc in devDependencies when present. Custom webpack setups upgrade vue-loader to ^16.0.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "replace-vue-global-api",
+            "title": "Replace the Vue 2 global API",
+            "instructions": "At each reported import, replace new Vue() root instances with createApp() and move global configuration onto the application instance.",
+            "targets": "usages"
+          },
+          {
+            "id": "clear-migration-warnings",
+            "title": "Clear migration build warnings",
+            "instructions": "Build and run the application, fix each compatibility warning until none remain, then remove @vue/compat and switch the compiler to Vue 3 mode.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls vue",
+            "purpose": "Confirm that one Vue 3 release resolves and no Vue 2 copy remains."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Compile the application and surface any remaining compiler warnings."
+          },
+          {
+            "command": "npm test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "vue"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "vue"
+        }
+      ],
+      "x-npm": {
+        "package": "vue"
+      }
+    },
+    {
+      "id": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40angular/core",
+      "vers": "vers:npm/>=20.0.0-0|<21.0.0-0",
+      "event": "scheduled-end-of-life",
+      "deadline": "2026-11-28",
+      "title": "@angular/core v20 reaches end of life on 2026-11-28",
+      "summary": "Angular's release schedule lists v20 as LTS with \"LTS ends 2026-11-28\". LTS receives only critical fixes and security patches until that date.",
+      "severity": "low",
+      "replacement": "@angular/core@22",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Update one major at a time. Each target major must be supported when you run ng update.",
+          "Keep @angular/core, @angular/cli, and every other @angular/* package on the same major."
+        ],
+        "steps": [
+          {
+            "id": "update-to-v21",
+            "title": "Update to Angular v21",
+            "instructions": "Run `ng update @angular/core@21 @angular/cli@21`, then apply the v21 steps in the Angular Update Guide, including the required TypeScript and Node.js versions.",
+            "targets": "all"
+          },
+          {
+            "id": "update-to-v22",
+            "title": "Update to Angular v22",
+            "instructions": "After the v21 build and tests pass, run `ng update @angular/core@22 @angular/cli@22` and apply the v22 steps in the Angular Update Guide.",
+            "targets": "all"
+          },
+          {
+            "id": "review-angular-imports",
+            "title": "Review changed Angular APIs",
+            "instructions": "Check each reported @angular/core import against the Angular Update Guide for removed, renamed, or changed APIs.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "id": "npm.package.angular.core.v19.end-of-support",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40angular/core",
+      "vers": "vers:npm/>=19.0.0-0|<20.0.0-0",
+      "event": "end-of-support",
+      "title": "@angular/core v19 is no longer supported",
+      "summary": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.",
+      "severity": "high",
+      "replacement": "@angular/core@22",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Update one major at a time. ng update accepts only a supported target major, and v20 is the only one-major target from v19.",
+          "v20 is LTS until 2026-11-28. After that date the one-major step from v19 is no longer supported by the release policy, so follow the Angular Update Guide for the path."
+        ],
+        "steps": [
+          {
+            "id": "update-to-v20",
+            "title": "Update to Angular v20",
+            "instructions": "Run `ng update @angular/core@20 @angular/cli@20` before 2026-11-28, then apply the v20 steps in the Angular Update Guide.",
+            "targets": "all"
+          },
+          {
+            "id": "update-to-v21",
+            "title": "Update to Angular v21",
+            "instructions": "After the v20 build and tests pass, run `ng update @angular/core@21 @angular/cli@21` and apply the v21 steps in the Angular Update Guide.",
+            "targets": "all"
+          },
+          {
+            "id": "update-to-v22",
+            "title": "Update to Angular v22",
+            "instructions": "After the v21 build and tests pass, run `ng update @angular/core@22 @angular/cli@22` and apply the v22 steps in the Angular Update Guide.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "id": "npm.package.angular.core.v18-and-older.end-of-support",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/%40angular/core",
+      "vers": "vers:npm/<19.0.0-0",
+      "event": "end-of-support",
+      "title": "@angular/core v18 and older are no longer supported",
+      "summary": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. Versions before v19 receive no fixes, including security fixes.",
+      "severity": "high",
+      "replacement": "@angular/core@22",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "ng update accepts only a supported target major, and v19 is no longer supported, so no single ng update step from v18 or older reaches a supported major.",
+          "Use the Angular Update Guide to plan each step, and do not skip majors without it."
+        ],
+        "steps": [
+          {
+            "id": "plan-update-path",
+            "title": "Plan the update path",
+            "instructions": "Read the Angular Update Guide for this version and list each intermediate major that the guide requires, ending at v22 (Active) or v21 (LTS). Record the Node.js and TypeScript versions each step needs.",
+            "targets": "declaration"
+          },
+          {
+            "id": "update-step-by-step",
+            "title": "Update one major at a time",
+            "instructions": "Run `ng update @angular/core@<next> @angular/cli@<next>` for each planned major, and apply that major's steps in the Angular Update Guide. Verify each step before the next.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "x-npm": {
+        "package": "@angular/core"
+      }
     }
   ]
 }

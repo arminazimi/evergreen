@@ -135,3 +135,70 @@ test("a supported resolved release takes precedence over a broad manifest range"
   const findings = await new NpmDetector().scan({ root });
   assert.equal(findings.some((finding) => finding.ruleId === "npm.package.types.glob.deprecated"), false);
 });
+
+test("reports the line of the declaration that was matched, in the section it came from", async () => {
+  const root = await repository({
+    "package.json": [
+      "{",
+      '  "overrides": {',
+      '    "request": "2.88.2"',
+      "  },",
+      '  "dependencies": {',
+      '    "request": "^2.88.0"',
+      "  },",
+      '  "devDependencies": {',
+      '    "request": "^2.88.0"',
+      "  }",
+      "}",
+    ].join("\n"),
+  });
+
+  const findings = await new NpmDetector().scan({ root });
+  const requestFindings = findings.filter((finding) => finding.ruleId === "npm.package.request.deprecated");
+
+  assert.equal(requestFindings.length, 1);
+  assert.equal(requestFindings[0]?.location.line, 9);
+  assert.match(requestFindings[0]?.summary ?? "", /declared in devDependencies as \^2\.88\.0/);
+});
+
+test("does not report a package declared only as a peer dependency, even when the lockfile resolves it", async () => {
+  for (const range of ["*", "^8.0.0 || ^9.0.0"]) {
+    const root = await repository({
+      "package.json": JSON.stringify({ peerDependencies: { "@types/glob": range } }),
+      "package-lock.json": JSON.stringify({
+        lockfileVersion: 3,
+        packages: { "node_modules/@types/glob": { version: "9.0.0" } },
+      }),
+    });
+
+    const findings = await new NpmDetector().scan({ root });
+
+    assert.deepEqual(
+      findings.filter((finding) => finding.ruleId === "npm.package.types.glob.deprecated"),
+      [],
+      range,
+    );
+  }
+});
+
+test("a package in dependencies and peerDependencies reports the dependencies line", async () => {
+  const root = await repository({
+    "package.json": [
+      "{",
+      '  "peerDependencies": {',
+      '    "@types/glob": "*"',
+      "  },",
+      '  "dependencies": {',
+      '    "@types/glob": "^9.0.0"',
+      "  }",
+      "}",
+    ].join("\n"),
+  });
+
+  const findings = await new NpmDetector().scan({ root });
+  const globFindings = findings.filter((finding) => finding.ruleId === "npm.package.types.glob.deprecated");
+
+  assert.equal(globFindings.length, 1);
+  assert.equal(globFindings[0]?.location.line, 6);
+  assert.match(globFindings[0]?.summary ?? "", /declared in dependencies as \^9\.0\.0/);
+});

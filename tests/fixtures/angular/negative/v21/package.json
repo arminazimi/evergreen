@@ -1,0 +1,7 @@
+{
+  "name": "angular-negative-v21",
+  "private": true,
+  "dependencies": {
+    "@angular/core": "^21.0.0"
+  }
+}

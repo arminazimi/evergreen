@@ -1,0 +1,7 @@
+{
+  "name": "angular-positive-v19",
+  "private": true,
+  "dependencies": {
+    "@angular/core": "^19.2.0"
+  }
+}
