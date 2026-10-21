@@ -1,0 +1,28 @@
+name: ci
+on: [push]
+jobs:
+  build-windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        shell: pwsh
+        run: ./scripts/build.ps1
+  test-pwsh-container:
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/powershell:7.4-ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        shell: pwsh
+        run: ./scripts/build.ps1
+  lint-bash:
+    runs-on: ubuntu-24.04
+    container:
+      image: bash:5.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint
+        shell: bash
+        run: ./scripts/lint.sh

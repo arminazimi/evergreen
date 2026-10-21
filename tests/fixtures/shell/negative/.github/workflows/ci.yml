@@ -1,0 +1,24 @@
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        shell: [pwsh, bash]
+    env:
+      SHELL_NAME: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test on matrix shell
+        shell: ${{ matrix.shell }}
+        run: echo "running"
+      - name: Commented shell
+        # shell: pwsh
+        run: echo "running"
+  publish:
+    runs-on: ubuntu-24.04
+    container:
+      image: ${{ inputs.powershell-image }}
+    steps:
+      - uses: actions/checkout@v4

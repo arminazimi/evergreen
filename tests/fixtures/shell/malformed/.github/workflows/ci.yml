@@ -1,0 +1,11 @@
+name: ci
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    container:
+      image: mcr.microsoft.com/powershell:7.4-ubuntu-22.04
+    steps: [
+      - name: Build
+        shell: pwsh
+        run: ./scripts/build.ps1
