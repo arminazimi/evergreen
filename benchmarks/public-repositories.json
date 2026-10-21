@@ -2906,6 +2906,96 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 6 of examples/lambda-api-gateway/serverless.yml reads `runtime: nodejs14.x` under `provider:`. The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
           }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-big-router/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of examples/next-big-router/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-edge-runtime/package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of examples/next-edge-runtime/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-formdata/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of examples/next-formdata/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-minimal-starter/package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of examples/next-minimal-starter/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-prisma-starter/package.json",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 42 of examples/next-prisma-starter/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-prisma-todomvc/package.json",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of examples/next-prisma-todomvc/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-prisma-websockets-starter/package.json",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 50 of examples/next-prisma-websockets-starter/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-sse-chat/package.json",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of examples/next-sse-chat/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "examples/next-websockets-encoder/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of examples/next-websockets-encoder/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "www/og-image/package.json",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 11 of www/og-image/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
         }
       ]
     },
@@ -2939,6 +3029,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 22 of examples/solid/solid-start-streaming/package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.14.support-end",
+          "path": "integrations/react-next-14/package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of integrations/react-next-14/package.json reads `\"next\": \"^14.2.33\"` under dependencies. Next.js 14's two-year window ended 2025-10-26 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.15.support-end",
+          "path": "integrations/react-next-15/package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of integrations/react-next-15/package.json reads `\"next\": \"^15.4.8\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
           }
         }
       ]

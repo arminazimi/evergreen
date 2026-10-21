@@ -18,7 +18,7 @@ Vue 2 has reached end of life and is no longer actively maintained. After Decemb
 | Date from the source | 2023-12-31 |
 | Replacement | Vue 3 (vue@^3), following the Vue 3 migration guide |
 | Evidence last seen | 2026-10-21 |
-| Reviewed | 2026-10-21 by kilo |
+| Reviewed | 2026-10-21 by arminazimi |
 | Review due | 2027-10-21 (365 days after the last review) |
 | Rule ID | `npm.package.vue.eol-2` |
 
