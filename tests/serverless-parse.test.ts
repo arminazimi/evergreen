@@ -4,6 +4,11 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import {
+  MAXIMUM_INPUT_BYTES as MAXIMUM_SERVERLESS_BYTES,
+  MAXIMUM_LINE_LENGTH as MAXIMUM_SERVERLESS_LINE,
+  parseServerlessYml,
+} from "../src/detectors/serverless/parse-serverless-yml.js";
+import {
   MAXIMUM_INPUT_BYTES,
   MAXIMUM_LINE_LENGTH,
   parseTemplate,
@@ -80,6 +85,75 @@ test("input over 1 MiB or a Runtime over the line bound returns nothing", () => 
   assert.deepEqual(parseTemplate("x".repeat(MAXIMUM_INPUT_BYTES + 1)), []);
   assert.deepEqual(
     parseTemplate(`Globals:\n  Function:\n    Runtime: ${"n".repeat(MAXIMUM_LINE_LENGTH + 1)}\n`),
+    [],
+  );
+});
+
+test("reads provider.runtime and per-function runtime from serverless.yml", async () => {
+  assert.deepEqual(parseServerlessYml(await fixture("positive", "serverless.yml")), [
+    { value: "nodejs14.x", line: 4 },
+    { value: "python3.8", line: 9 },
+  ]);
+});
+
+test("returns supported serverless.yml runtimes too; the registry decides what is a finding", async () => {
+  assert.deepEqual(parseServerlessYml(await fixture("zero", "serverless.yml")), [
+    { value: "nodejs22.x", line: 4 },
+    { value: "python3.13", line: 8 },
+  ]);
+});
+
+test("ignores interpolations, custom.runtime, image functions, and floating runtimes", async () => {
+  assert.deepEqual(parseServerlessYml(await fixture("negative", "serverless.yml")), []);
+});
+
+test("malformed serverless.yml returns no declarations", async () => {
+  assert.deepEqual(parseServerlessYml(await fixture("malformed", "serverless.yml")), []);
+});
+
+test("rejects non-literal serverless.yml runtime forms", () => {
+  for (const contents of [
+    "provider:\n  runtime: ${opt:runtime, 'nodejs14.x'}\n",
+    "provider:\n  runtime: latest\n",
+    "custom:\n  runtime: nodejs14.x\n",
+    "functions:\n  api:\n    runtime: ${self:custom.runtime}\n",
+    "functions:\n  api:\n    runtime: |\n      nodejs14.x\n",
+    "functions:\n  api:\n    runtime: [nodejs14.x]\n",
+    "functions:\n  api:\n    runtime: 14\n",
+    "functions:\n  api:\n    image: public.ecr.aws/lambda/nodejs:14\n",
+    "provider:\n  memorySize: 128\n",
+    "",
+    "}}}\n{{{",
+  ]) {
+    assert.deepEqual(parseServerlessYml(contents), []);
+  }
+});
+
+test("a function without its own runtime does not invent a declaration", () => {
+  assert.deepEqual(
+    parseServerlessYml("provider:\n  runtime: nodejs14.x\nfunctions:\n  worker:\n    handler: handler.worker\n"),
+    [{ value: "nodejs14.x", line: 2 }],
+  );
+});
+
+test("serverless.yml results are deterministic and use 1-based value lines", () => {
+  const input = "provider:\n  runtime: nodejs14.x\nfunctions:\n  api:\n    runtime: python3.8\n";
+  const result = parseServerlessYml(input);
+  assert.deepEqual(parseServerlessYml(input), result);
+  assert.deepEqual(result, [
+    { value: "nodejs14.x", line: 2 },
+    { value: "python3.8", line: 5 },
+  ]);
+});
+
+test("serverless.yml junk, oversize, and overlong runtime values return nothing", () => {
+  for (const input of ["", "\u0000\u0001\u0002", "runtime: nodejs14.x\n"]) {
+    assert.doesNotThrow(() => parseServerlessYml(input));
+    assert.deepEqual(parseServerlessYml(input), []);
+  }
+  assert.deepEqual(parseServerlessYml("x".repeat(MAXIMUM_SERVERLESS_BYTES + 1)), []);
+  assert.deepEqual(
+    parseServerlessYml(`provider:\n  runtime: ${"n".repeat(MAXIMUM_SERVERLESS_LINE + 1)}\n`),
     [],
   );
 });
