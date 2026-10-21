@@ -15,6 +15,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { ServerlessDetector, candidatePurls, serverlessDetector } from "../src/detectors/serverless/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -157,6 +158,27 @@ test("a repository without serverless manifests scans to nothing", async () => {
 test("the engine attributes a serverless finding to the detector", async () => {
   const result = await scanRepository(resolve(fixtures, "positive"), [serverlessDetector]);
   assert.ok(result.findings.some((finding) => finding.detector === "serverless" && finding.ruleId === "serverless.aws-lambda.nodejs14.x"));
+});
+
+test("every curated Serverless rule has migration guidance with real verification commands", async () => {
+  for (const rule of await committedRules()) {
+    assert.ok(rule.migration && rule.migration.constraints.length >= 1 && rule.migration.steps.length >= 1, rule.id);
+    assert.ok(
+      rule.migration.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"),
+      rule.id,
+    );
+  }
+});
+
+test("a migration packet for a Serverless finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [serverlessDetector]);
+  const finding = result.findings.find((item) => item.id === "serverless.aws-lambda.nodejs14.x:serverless.yml:4");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("serverless.yml"));
+  assert.ok(packet.steps.some((step) => step.id === "raise-lambda-runtime"));
+  assert.ok(packet.steps.some((step) => step.id === "align-lambda-runtime-surfaces"));
+  assert.ok(packet.verification.some((check) => check.command === "sam validate || serverless print || terraform validate"));
 });
 
 test("the detector is registered and serverless is experimental in the capability manifest", () => {

@@ -26,6 +26,22 @@ The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID
 
 - [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support)
 
+## Migration
+
+**Constraints**
+
+- Keep Terraform google_cloudfunctions*_function runtime (and any matching deploy config) on one Google Cloud Functions runtime ID that Google still supports.
+- Raising the managed runtime can require Node.js language and dependency changes; confirm handlers run on the replacement before deploying.
+
+**Steps**
+
+1. **Raise the Google Cloud Functions runtime.** Change the reported runtime from nodejs14 to a supported Google Cloud Functions Node.js runtime ID (see the replacement).
+2. **Align other runtime surfaces.** Update every other Terraform google_cloudfunctions*_function runtime and CI deploy config that still pins nodejs14.
+
+**Verification**
+
+- `sam validate || serverless print || terraform validate`: Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy.
+
 ## Detected by
 
 The `serverless` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

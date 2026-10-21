@@ -26,6 +26,22 @@ The AWS Lambda runtimes table lists dotnetcore3.1 under Deprecated runtimes with
 
 - [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
 
+## Migration
+
+**Constraints**
+
+- Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.
+- Raising the managed runtime can require .NET TFMs and package updates; confirm the project targets the replacement before deploying.
+
+**Steps**
+
+1. **Raise the AWS Lambda runtime.** Change the reported Runtime (or provider.runtime / terraform runtime) from dotnetcore3.1 to a supported AWS Lambda .NET identifier (see the replacement).
+2. **Align other runtime surfaces.** Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins dotnetcore3.1.
+
+**Verification**
+
+- `sam validate || serverless print || terraform validate`: Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy.
+
 ## Detected by
 
 The `serverless` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

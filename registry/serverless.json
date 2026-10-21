@@ -27,6 +27,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from nodejs14.x to a supported AWS Lambda Node.js identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins nodejs14.x.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
       }
     },
     {
@@ -51,6 +77,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from python3.8 to a supported AWS Lambda Python identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins python3.8.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
       }
     },
     {
@@ -75,6 +127,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Ruby language and gem changes; confirm handlers run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from ruby2.7 to a supported AWS Lambda Ruby identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins ruby2.7.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
       }
     },
     {
@@ -99,6 +177,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require .NET TFMs and package updates; confirm the project targets the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from dotnetcore3.1 to a supported AWS Lambda .NET identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins dotnetcore3.1.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
       }
     },
     {
@@ -123,6 +227,32 @@
         "observedAt": "2026-10-21",
         "reviewedAt": "2026-10-21",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep Terraform google_cloudfunctions*_function runtime (and any matching deploy config) on one Google Cloud Functions runtime ID that Google still supports.",
+          "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-gcloud-functions-runtime",
+            "title": "Raise the Google Cloud Functions runtime",
+            "instructions": "Change the reported runtime from nodejs14 to a supported Google Cloud Functions Node.js runtime ID (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-gcloud-functions-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other Terraform google_cloudfunctions*_function runtime and CI deploy config that still pins nodejs14.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
       }
     }
   ]
