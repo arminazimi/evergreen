@@ -1,0 +1,6 @@
+services:
+  db:
+    image: postgres:12
+    environment: [POSTGRES_DB=orders
+  web:
+    build: .

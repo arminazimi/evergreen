@@ -1,0 +1,14 @@
+# image: postgres:12 was the old tag, do not use
+services:
+  db:
+    image: postgres:${PG_MAJOR:-17}
+    container_name: postgres-12
+    environment:
+      POSTGRES_VERSION: "12"
+  app:
+    image: ${DB_IMAGE}
+    labels:
+      image: mysql:5.7
+  proxy:
+    image: nginx:1.27
+x-note: "image: postgres:12"
