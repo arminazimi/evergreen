@@ -57,11 +57,15 @@ interface RuntimeDeclaration {
 
 type ResolvedVersions = Map<string, Set<string>>;
 
+/**
+ * The sections that state the version a project runs. When one package appears in several of them, the later
+ * section wins. peerDependencies is deliberately absent: a peer range states which versions a library is
+ * compatible with, not the version installed, so a package declared only as a peer is never reported.
+ */
 const dependencySections = [
   "dependencies",
   "devDependencies",
   "optionalDependencies",
-  "peerDependencies",
 ] as const;
 
 async function readOptional(path: string): Promise<string | undefined> {
@@ -215,6 +219,29 @@ function propertyLine(contents: string, property: string): number {
   const pattern = new RegExp(`^[\\t ]*["']${escaped}["']\\s*:`, "m");
   const match = pattern.exec(contents);
   return match ? contents.slice(0, match.index).split(/\r?\n/).length : 1;
+}
+
+/**
+ * The line of `name` declared directly inside the top-level `section` object of a package.json. Keys are matched
+ * by nesting depth, so the same name in another section, or nested deeper (such as an overrides block), is never
+ * taken. The last occurrence wins, as it does for JSON.parse. Falls back to line 1 when the key is not found.
+ */
+function declarationLine(contents: string, section: string, name: string): number {
+  const token = /("(?:[^"\\]|\\.)*")(\s*:)?|[{}[\]]/g;
+  let depth = 0;
+  let topKey = "";
+  let found = -1;
+  for (let match = token.exec(contents); match; match = token.exec(contents)) {
+    const text = match[0];
+    if (text === "{" || text === "[") depth++;
+    else if (text === "}" || text === "]") depth--;
+    else if (match[2] !== undefined) {
+      const key = JSON.parse(match[1]!) as string;
+      if (depth === 1) topKey = key;
+      else if (depth === 2 && topKey === section && key === name) found = match.index;
+    }
+  }
+  return found >= 0 ? contents.slice(0, found).split(/\r?\n/).length : 1;
 }
 
 /** Up to this line the detector has always listed every end-of-life line a range allows. */
@@ -413,7 +440,7 @@ export class NpmDetector implements Detector {
     for (const { rule, project, range, section } of matched) {
       const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
       const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
-      const line = propertyLine(project.contents, rule.package);
+      const line = declarationLine(project.contents, section, rule.package);
       const path = relativePosix(context.root, project.manifestPath);
       // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
       const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
