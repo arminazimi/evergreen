@@ -8,6 +8,7 @@ import { test } from "node:test";
 import { promisify } from "node:util";
 
 import { registryV2Issues } from "../../src/registry.js";
+import { testProcessArgs } from "../../tools/check-pipeline.js";
 import { EXAMPLE_FEED_URL, exampleImporter } from "../../tools/importers/example.js";
 import { ImporterError, liveContext, runImporter } from "../../tools/importers/run.js";
 import { PENDING_REVIEWER } from "../../tools/importers/types.js";
@@ -165,6 +166,7 @@ test("no bundled rule is waiting for review", async () => {
 
 test("npm test runs tests in subdirectories without skipping the rest", async () => {
   const { scripts } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { scripts: Record<string, string> };
-  // An unquoted ** is expanded by the shell, which would silently run only subdirectory tests.
-  assert.match(scripts.test!, /node --test "dist\/tests\/\*\*\/\*\.test\.js"/);
+  // An unquoted ** in the npm script is expanded by the shell, which would silently run only subdirectory tests.
+  assert.doesNotMatch(scripts.test ?? "", /\*\*/);
+  assert.equal(testProcessArgs(1).at(-1), "dist/tests/**/*.test.js");
 });
