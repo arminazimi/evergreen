@@ -223,6 +223,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.types.sequelize.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.types.socket.io-client.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>

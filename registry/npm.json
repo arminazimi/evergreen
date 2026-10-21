@@ -4970,6 +4970,106 @@
       }
     },
     {
+      "id": "npm.package.vue.eol-2",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/vue",
+      "vers": "vers:npm/>=2.0.0|<3.0.0",
+      "event": "end-of-life",
+      "title": "Vue 2 is end-of-life",
+      "summary": "Vue 2 has reached end of life and is no longer actively maintained. After December 31st, 2023 it receives no updates, including security and browser compatibility fixes.",
+      "severity": "high",
+      "replacement": "Vue 3 (vue@^3), following the Vue 3 migration guide",
+      "deadline": "2023-12-31",
+      "sources": [
+        {
+          "title": "Vue 2 LTS, EOL & Extended Support",
+          "url": "https://v2.vuejs.org/lts/"
+        },
+        {
+          "title": "Vue 3 Migration Guide",
+          "url": "https://v3-migration.vuejs.org/"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Migration Build",
+          "url": "https://v3-migration.vuejs.org/migration-build.html"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Breaking Changes",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/"
+        },
+        {
+          "title": "Vue 3 Migration Guide: Global API",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the behavior the application depends on, and check each Vue 2 behavior listed in the Vue 3 breaking changes against the reported files.",
+          "Keep a single Vue runtime in the build: when the project uses vue-template-compiler, replace it with @vue/compiler-sfc."
+        ],
+        "steps": [
+          {
+            "id": "choose-upgrade-path",
+            "title": "Choose the upgrade path",
+            "instructions": "Upgrade straight to Vue 3, or install @vue/compat at the same version as vue and alias vue to it to run Vue 2 compatible behavior first. vue-cli projects can run vue upgrade to update @vue/cli-service.",
+            "targets": "all"
+          },
+          {
+            "id": "update-vue-dependencies",
+            "title": "Update the Vue dependencies",
+            "instructions": "Set vue to a 3.x version in dependencies, and replace vue-template-compiler with @vue/compiler-sfc in devDependencies when present. Custom webpack setups upgrade vue-loader to ^16.0.0.",
+            "targets": "declaration"
+          },
+          {
+            "id": "replace-vue-global-api",
+            "title": "Replace the Vue 2 global API",
+            "instructions": "At each reported import, replace new Vue() root instances with createApp() and move global configuration onto the application instance.",
+            "targets": "usages"
+          },
+          {
+            "id": "clear-migration-warnings",
+            "title": "Clear migration build warnings",
+            "instructions": "Build and run the application, fix each compatibility warning until none remain, then remove @vue/compat and switch the compiler to Vue 3 mode.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls vue",
+            "purpose": "Confirm that one Vue 3 release resolves and no Vue 2 copy remains."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Compile the application and surface any remaining compiler warnings."
+          },
+          {
+            "command": "npm test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "vue"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "vue"
+        }
+      ],
+      "x-npm": {
+        "package": "vue"
+      }
+    },
+    {
       "id": "npm.package.angular.core.v20.scheduled-end-of-life",
       "ecosystem": "npm",
       "purl": "pkg:npm/%40angular/core",

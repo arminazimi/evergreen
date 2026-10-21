@@ -261,6 +261,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [@types/sequelize is deprecated](npm.package.types.sequelize.deprecated.html) — deprecated, `npm.package.types.sequelize.deprecated`
 - [@types/socket.io-client is deprecated](npm.package.types.socket.io-client.deprecated.html) — deprecated, `npm.package.types.socket.io-client.deprecated`
 - [uglify-es is deprecated](npm.package.uglify-es.deprecated.html) — deprecated, `npm.package.uglify-es.deprecated`
+- [Vue 2 is end-of-life](npm.package.vue.eol-2.html) — end of life, `npm.package.vue.eol-2`
 - [vue2-script-setup-transform is deprecated](npm.package.vue2-script-setup-transform.deprecated.html) — deprecated, `npm.package.vue2-script-setup-transform.deprecated`
 - [w3c-hr-time is deprecated](npm.package.w3c-hr-time.deprecated.html) — deprecated, `npm.package.w3c-hr-time.deprecated`
 
