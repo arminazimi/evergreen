@@ -172,7 +172,7 @@ The initial detector reports unsupported major versions of five first-party acti
 
 Pinned commit SHAs and dynamic expressions are intentionally left unclassified until Evergreen can resolve them without guessing.
 
-The npm detector also reads `package.json`, npm/pnpm/Yarn lockfiles, Node.js runtime declarations, and a small evidence-backed registry of deprecated direct dependencies. Use `evergreen explain <finding-id>` to inspect a finding and its sources.
+The npm detector also reads `package.json`, npm/pnpm/Yarn lockfiles, Node.js runtime declarations, and a small evidence-backed registry of deprecated direct dependencies. Use `evergreen explain <finding-id>` to inspect a finding and its sources. If a finding is wrong, `evergreen report-issue <finding-id>` prints a Markdown report with the rule, its evidence, and a few redacted lines of the declaring file, and never opens an issue or uses the network.
 
 The Python detector reads PEP 621 and Poetry metadata from `pyproject.toml`, `requirements*.txt`, common runtime-version files, and uv/Poetry/PDM/Pipenv lockfiles. It reports unsupported Python declarations and lifecycle risks in direct dependencies while ignoring transitive-only lockfile entries.
 
