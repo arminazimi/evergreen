@@ -98,6 +98,20 @@ ensureDate("Start date");
 ensureDate("Target date");
 fields = getFields();
 
+// Phase options: add any phase that is missing, keeping the existing ones.
+const phaseField = fields.find((f) => f.name === "Phase");
+const missingPhases = PHASES.filter((p) => !phaseField.options.some((o) => o.name === p.name));
+if (missingPhases.length) {
+  const mutation = `mutation($f:ID!,$o:[ProjectV2SingleSelectFieldOptionInput!]!){ updateProjectV2Field(input:{fieldId:$f,singleSelectOptions:$o}){ clientMutationId } }`;
+  const keep = phaseField.options.map((o) => ({ name: o.name, color: "GRAY", description: "" }));
+  const added = missingPhases.map((p) => ({ name: p.name, color: "GRAY", description: "" }));
+  graphql(mutation, { f: phaseField.id, o: [...keep, ...added] });
+  console.log(`field ~ Phase (+${missingPhases.length} options)`);
+  fields = getFields();
+  // Options are recreated, so every item's Phase must be set again.
+  state.projectPhaseSet = [];
+}
+
 // Status: Todo, In progress, In review, Done
 const status = fields.find((f) => f.name === "Status");
 if (status && !status.options.find((o) => o.name === "In review")) {
@@ -119,7 +133,7 @@ const option = (n, o) => field(n).options.find((x) => x.name === o).id;
 const nodeIds = new Map();
 let cursor = null;
 do {
-  const page = graphql(`query($c:String){ repository(owner:"${OWNER}",name:"${REPO}"){ issues(first:100,after:$c,states:OPEN){ pageInfo{ hasNextPage endCursor } nodes{ id number } } } }`, { c: cursor }).repository.issues;
+  const page = graphql(`query($c:String){ repository(owner:"${OWNER}",name:"${REPO}"){ issues(first:100,after:$c){ pageInfo{ hasNextPage endCursor } nodes{ id number } } } }`, { c: cursor }).repository.issues;
   for (const n of page.nodes) nodeIds.set(n.number, n.id);
   cursor = page.pageInfo.hasNextPage ? page.pageInfo.endCursor : null;
 } while (cursor);
@@ -157,7 +171,8 @@ if (ghosts.length) console.log(`repaired ${ghosts.length} items missing from the
 
 // 4. Field values (batched aliases)
 state.projectFieldsSet ??= [];
-const todo = issues.filter((i) => !state.projectFieldsSet.includes(i.key));
+state.projectPhaseSet ??= [...state.projectFieldsSet];
+const todo = issues.filter((i) => !state.projectFieldsSet.includes(i.key) || !state.projectPhaseSet.includes(i.key));
 const setSelect = (item, f, o) => `updateProjectV2ItemFieldValue(input:{projectId:"${project.id}",itemId:"${item}",fieldId:"${field(f).id}",value:{singleSelectOptionId:"${o}"}}){ clientMutationId }`;
 const setDate = (item, f, d) => `updateProjectV2ItemFieldValue(input:{projectId:"${project.id}",itemId:"${item}",fieldId:"${field(f).id}",value:{date:"${d}"}}){ clientMutationId }`;
 for (let i = 0; i < todo.length; i += 3) {
@@ -169,12 +184,16 @@ for (let i = 0; i < todo.length; i += 3) {
     ops.push(setSelect(item, "Phase", option("Phase", phase.name)));
     ops.push(setDate(item, "Start date", phase.start));
     ops.push(setDate(item, "Target date", phase.end));
+    if (state.projectFieldsSet.includes(it.key)) return; // Status, Lane, and Size are already set
     ops.push(setSelect(item, "Status", option("Status", "Todo")));
     if (it.lane) ops.push(setSelect(item, "Lane", option("Lane", LANE[it.lane])));
     if (it.size) ops.push(setSelect(item, "Size", option("Size", it.size)));
   });
   graphql(`mutation{ ${ops.map((o, k) => `o${k}: ${o}`).join("\n")} }`);
-  state.projectFieldsSet.push(...chunk.map((c) => c.key));
+  for (const c of chunk) {
+    if (!state.projectFieldsSet.includes(c.key)) state.projectFieldsSet.push(c.key);
+    if (!state.projectPhaseSet.includes(c.key)) state.projectPhaseSet.push(c.key);
+  }
   save();
   if ((i / 3) % 10 === 0) console.log(`fields ${Math.min(i + 3, todo.length)}/${todo.length}`);
 }
