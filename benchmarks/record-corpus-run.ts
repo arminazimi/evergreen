@@ -1,7 +1,7 @@
 // Records a full corpus run: `npm run record:corpus-run`.
 //
 // It runs the whole corpus in verify mode and, only when the run is complete and clean, updates `lastFullRun`
-// in benchmarks/thresholds.json and regenerates docs/dashboard/data.json and docs/llms-full.txt. The changes
+// in benchmarks/thresholds.json and regenerates docs/dashboard/data.json, the accuracy table in docs/VALIDATION.md, and docs/llms-full.txt. The changes
 // are left in the working tree for review; nothing is committed. Other flags (for example --concurrency or
 // --offline) are passed to the harness; flags that narrow the run are refused.
 
@@ -66,9 +66,10 @@ try {
   const record = buildFullRunRecord(report, thresholds, { date, commit });
   await writeFile(THRESHOLDS, withLastFullRun(thresholdsText, record));
   await run(process.execPath, [resolve("dist/tools/build-dashboard-data.js"), "--today", "run-date"]);
+  await run(process.execPath, [resolve("dist/tools/coverage-matrix.js")]);
   await run(process.execPath, [resolve("dist/tools/build-llms-full.js")]);
   console.log(`Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`);
-  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, and docs/llms-full.txt. Review the diff and commit it.");
+  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, docs/VALIDATION.md, and docs/llms-full.txt. Review the diff and commit it.");
 } finally {
   await rm(directory, { recursive: true, force: true });
 }

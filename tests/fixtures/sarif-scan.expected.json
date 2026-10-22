@@ -76,6 +76,9 @@
           ],
           "partialFingerprints": {
             "evergreenFindingId/v1": "github-actions.checkout.node20:.github/workflows/ci.yml:7"
+          },
+          "properties": {
+            "confidence": "exact"
           }
         },
         {
@@ -100,6 +103,9 @@
           ],
           "partialFingerprints": {
             "evergreenFindingId/v1": "npm.package.request.deprecated:package.json:12"
+          },
+          "properties": {
+            "confidence": "exact"
           }
         }
       ]

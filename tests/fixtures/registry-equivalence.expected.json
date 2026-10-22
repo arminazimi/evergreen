@@ -7,6 +7,7 @@
    "title": "Unsupported actions/cache runtime",
    "summary": "actions/cache@v4: This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 9
@@ -56,6 +57,7 @@
    "title": "Unsupported actions/checkout runtime",
    "summary": "actions/checkout@v4: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 7
@@ -105,6 +107,7 @@
    "title": "Retired actions/download-artifact release",
    "summary": "actions/download-artifact@v5: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
    "severity": "critical",
+   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 11
@@ -154,6 +157,7 @@
    "title": "Unsupported actions/setup-node runtime",
    "summary": "actions/setup-node@v3: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 8
@@ -203,6 +207,7 @@
    "title": "Retired actions/upload-artifact release",
    "summary": "actions/upload-artifact@v4: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
    "severity": "critical",
+   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 10
@@ -252,6 +257,7 @@
    "title": "Node.js 18 is end-of-life",
    "summary": "compatibility range >=16 includes Node.js 18. Node.js 18 no longer receives security or bug fixes.",
    "severity": "medium",
+   "confidence": "range",
    "location": {
     "path": "package.json",
     "line": 3
@@ -306,6 +312,7 @@
    "title": "Node.js 18 is end-of-life",
    "summary": "pinned runtime 18.20.0 includes Node.js 18. Node.js 18 no longer receives security or bug fixes.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": "package.json",
     "line": 4
@@ -360,6 +367,7 @@
    "title": "Node.js 19 is end-of-life",
    "summary": "compatibility range >=16 includes Node.js 19. Node.js 19 no longer receives security or bug fixes.",
    "severity": "medium",
+   "confidence": "range",
    "location": {
     "path": "package.json",
     "line": 3
@@ -414,6 +422,7 @@
    "title": "Node.js 20 is end-of-life",
    "summary": "pinned runtime 20 includes Node.js 20. Node.js 20 no longer receives security or bug fixes.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": ".nvmrc",
     "line": 1
@@ -468,6 +477,7 @@
    "title": "Node.js 20 is end-of-life",
    "summary": "compatibility range >=16 includes Node.js 20. Node.js 20 no longer receives security or bug fixes.",
    "severity": "medium",
+   "confidence": "range",
    "location": {
     "path": "package.json",
     "line": 3
@@ -522,6 +532,7 @@
    "title": "Legacy Node.js runtime is end-of-life",
    "summary": "compatibility range >=16 includes Node.js 16. This Node.js release line is end-of-life and no longer receives security or bug fixes.",
    "severity": "medium",
+   "confidence": "range",
    "location": {
     "path": "package.json",
     "line": 3
@@ -581,6 +592,7 @@
   "title": "left-pad is deprecated",
   "summary": "left-pad is declared in dependencies as ^1.3.0; resolved: not found in a supported lockfile. The package author recommends the built-in String.prototype.padStart method.",
   "severity": "medium",
+  "confidence": "range",
   "location": {
     "path": "package.json",
     "line": 5
@@ -658,6 +670,7 @@
   "title": "Node Sass is end-of-life",
   "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. Node Sass is no longer maintained and its repository has been archived.",
   "severity": "high",
+  "confidence": "range",
   "location": {
     "path": "package.json",
     "line": 6
@@ -719,6 +732,7 @@
   "title": "request is deprecated",
   "summary": "request is declared in dependencies as ^2.88.0; resolved: not found in a supported lockfile. The package is fully deprecated and no new changes are expected.",
   "severity": "high",
+  "confidence": "range",
   "location": {
     "path": "package.json",
     "line": 5
@@ -803,6 +817,7 @@
    "title": "django-nose is maintenance-only",
    "summary": "django-nose is declared as >=1.4; resolved: not found in a supported lockfile. The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -867,6 +882,7 @@
    "title": "nose is maintenance-only",
    "summary": "nose is declared as ==1.3.7; resolved: 1.3.7. The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -943,6 +959,7 @@
    "title": "PyCrypto is obsolete and vulnerable",
    "summary": "pycrypto is declared as >=2.6; resolved: not found in a supported lockfile. The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
    "severity": "critical",
+   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -1023,6 +1040,7 @@
    "title": "Python 3.9 and older are end-of-life",
    "summary": "pinned runtime 3.8.10 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
    "severity": "high",
+   "confidence": "exact",
    "location": {
     "path": ".python-version",
     "line": 1
@@ -1081,6 +1099,7 @@
    "title": "Python 3.9 and older are end-of-life",
    "summary": "compatibility range >=3.8 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
    "severity": "medium",
+   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 3

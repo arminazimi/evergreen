@@ -42,6 +42,10 @@ jobs:
       - run: npm run build --silent
       # Restore only: the weekly run saves the cache, and a pull request must not write a gigabyte-scale
       # entry that could push it out. The prefix finds the newest cache the default branch saved.
+      # Offline and fast: fails when a detector expects fewer corpus findings than the committed snapshot, so a
+      # known finding cannot be dropped without updating benchmarks/corpus-snapshot.json on purpose.
+      - name: Compare the corpus expectations with the snapshot
+        run: node dist/benchmarks/corpus-snapshot.js
       - name: Restore the corpus checkout cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
