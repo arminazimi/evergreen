@@ -955,6 +955,16 @@ The host also needs one Evergreen execution path:
 
 No account or API key is required.
 
+## Use the guardrail in this repository
+
+Agents working on Evergreen itself follow the same rule the Skill teaches: run `evergreen check <purl>` before adding any dependency, runtime, or Action. Install the Skill as above, or run the check from source, which needs nothing else:
+
+```sh
+npm run dev -- check pkg:npm/request@2.88.2
+```
+
+The rule is stated for contributors in [AGENTS.md](../AGENTS.md#dependencies), and the `self-scan` CI job backs it up by failing on any finding the baseline does not cover (see [ADOPTION.md](ADOPTION.md#scanning-this-repository)).
+
 ## Discovery and host compatibility
 
 On 2026-10-15, `npx skills add arminazimi/evergreen --list` discovered exactly one Skill named `evergreen-deprecation`. A clean project installation then selected and installed that Skill for five representative skills CLI targets:

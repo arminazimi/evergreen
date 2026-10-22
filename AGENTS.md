@@ -80,6 +80,17 @@ CI fails when generated output drifts from its source.
 - Do not reformat unrelated files or add dependencies without a reason stated in the PR.
 - Public contracts (`schemas/`, `src/sdk.ts`, MCP tool shapes, CLI JSON output) change only additively unless a decision record in `docs/decisions/` says otherwise.
 
+## Dependencies
+
+Before adding any dependency, runtime, or GitHub Action to this repository (or changing its pinned version), check it with Evergreen using its Package URL:
+
+```bash
+npm run dev -- check pkg:npm/<name>@<version>      # npm package
+npm run dev -- check pkg:github/<owner>/<repo>@<ref>   # GitHub Action
+```
+
+Do not add it if the check reports an end-of-life, deprecated, or retired result; pick the replacement it names, or ask in the issue. A new dependency needs a reason in the PR (see Conventions). Hosts that support the Evergreen Agent Skill or MCP server get this check as a guardrail: setup is in [docs/AGENT_SKILLS.md](docs/AGENT_SKILLS.md#use-the-guardrail-in-this-repository). CI also scans the repository on every pull request and fails on any finding the baseline does not cover.
+
 ## More
 
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution paths and review expectations
