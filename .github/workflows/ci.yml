@@ -56,6 +56,29 @@ jobs:
           report-name: evergreen-report-${{ github.sha }}
           upload-sarif: ${{ github.event_name == 'push' }}
 
+  self-scan:
+    name: self-scan (fail on new findings)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Scan this repository with the code under test
+        run: |
+          node dist/src/cli.js scan . --baseline .evergreen-baseline.json --json > "$RUNNER_TEMP/self-scan.json"
+          node -e '
+            const result = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+            for (const f of result.findings) console.error(`::error::${f.ruleId} ${f.id}: new finding not covered by .evergreen-baseline.json`);
+            process.exit(result.findings.length ? 1 : 0);
+          ' "$RUNNER_TEMP/self-scan.json"
+
   coverage-badge:
     if: github.event_name == 'push'
     needs: check

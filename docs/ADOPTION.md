@@ -42,3 +42,16 @@ Each metric is either `ok` with a `value` and its `source`, or `unavailable` wit
 Compare snapshots of the same metric over time. A change in code-search coverage on GitHub's side can move a number without any change in adoption, so look for movement across several weeks, and never mix an `unavailable` week into a trend as if it were zero.
 
 The first snapshot is `metrics/adoption/2026-10-16.json`. At that date the package was not yet published on npm, and no public repository outside the project used the Action.
+
+## Scanning this repository
+
+The `self-scan` job in `.github/workflows/ci.yml` builds the code under test (not a published release), then runs `evergreen scan . --baseline .evergreen-baseline.json`. The job fails on any finding the baseline does not cover, so a new deprecated dependency, runtime, or Action blocks a merge like any other defect. The scan uses no network.
+
+To accept a finding a maintainer has reviewed:
+
+```bash
+npm run build
+node dist/src/cli.js baseline . --output .evergreen-baseline.json
+```
+
+Review the diff, then edit each new entry to add an `owner`, a `reason`, and an `expires` date (see [GITHUB_ACTION.md](GITHUB_ACTION.md) for the baseline format), and commit the file in the same pull request as the change that introduced the finding. Prefer fixing the finding; every accepted one should have a dated reason. Findings the scan gets wrong are product feedback: open an issue labelled `dogfood`.
