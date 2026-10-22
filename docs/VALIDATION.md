@@ -232,7 +232,7 @@ npm run validate:public-repos -- --json > corpus-result.json   # JSON on stdout;
 npm run record:corpus-run
 ```
 
-One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`) and `docs/llms-full.txt`. It leaves the changes uncommitted so you can review the diff.
+One command replaces the hand edits. It runs the whole corpus in verify mode and, only when that passes, writes the run into `lastFullRun` in `benchmarks/thresholds.json` (date, the current `HEAD` commit, repository and finding counts, precision, recall, and true positives, false positives, and false negatives for every detector, zero for one that reported nothing), then regenerates `docs/dashboard/data.json` (`npm run build:dashboard`), the accuracy table below (`npm run build:coverage`), and `docs/llms-full.txt`. It leaves the changes uncommitted so you can review the diff.
 
 It refuses, and changes nothing, when:
 
@@ -296,6 +296,38 @@ What it shows:
 - **Renovate-only** are npm deprecations Evergreen has no rule for (for example `@types/*` stubs, `babel-eslint`, `koa-router`, `socket.io-redis`, `react-beautiful-dnd`, `rollup-plugin-terser`, `@nuxt/types`). This is the real gap: the `npm-deprecated` importer only checks a candidate list, so these names are candidates to add. Each is a Renovate observation, not evidence; the importer still requires the registry's own deprecation notice.
 - **Evergreen-only** is empty here; every Evergreen finding that Renovate could look up, it also had an update for.
 - Most GitHub Action findings are `inconclusive` because Renovate cannot look up Actions without a token. Re-run with `RENOVATE_TOKEN` to turn them into comparisons.
+
+## Accuracy by detector
+
+Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
+
+<!-- accuracy-tables:start -->
+Measured on 145 pinned repositories at commit `122d612` on 2026-10-21. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+
+| Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
+| --- | --- | --- | --- | --- | --- | --- |
+| android | Experimental | 4 | 0 | 0 | 1.000 | 1.000 |
+| ci-images | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
+| container | Experimental | 19 | 0 | 0 | 1.000 | 1.000 |
+| cpp | Experimental | 11 | 0 | 0 | 1.000 | 1.000 |
+| dart | Experimental | — | — | — | — | — |
+| database | Experimental | — | — | — | — | — |
+| dotnet | Beta | 105 | 0 | 0 | 1.000 | 1.000 |
+| github-actions | Supported | 261 | 0 | 0 | 1.000 | 1.000 |
+| go | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
+| java | Experimental | 6 | 0 | 0 | 1.000 | 1.000 |
+| kubernetes | Experimental | 29 | 0 | 0 | 1.000 | 1.000 |
+| nodejs | Supported | 44 | 0 | 0 | 1.000 | 1.000 |
+| npm | Supported | 49 | 0 | 0 | 1.000 | 1.000 |
+| php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
+| python | Supported | 20 | 0 | 0 | 1.000 | 1.000 |
+| ruby | Experimental | 7 | 0 | 0 | 1.000 | 1.000 |
+| rust | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
+| serverless | Beta | 20 | 0 | 0 | 1.000 | 1.000 |
+| shell | Experimental | — | — | — | — | — |
+| swift | Beta | 15 | 0 | 0 | 1.000 | 1.000 |
+| terraform | Experimental | — | — | — | — | — |
+<!-- accuracy-tables:end -->
 
 ## Interpretation and limits
 

@@ -9,9 +9,13 @@ import {
   COMPATIBILITY_PATH,
   END_MARKER,
   START_MARKER,
+  VALIDATION_PATH,
   buildDocument,
+  buildValidationDocument,
   loadDescriptions,
+  renderAccuracyTable,
   renderCoverageTable,
+  replaceAccuracyTable,
   replaceCoverageTable,
   validateDescriptions,
 } from "../tools/coverage-matrix.js";
@@ -147,4 +151,38 @@ test("only the bytes between the markers are replaced", () => {
     `before\n${START_MARKER}\nnew\ntable\n${END_MARKER}\nafter\n`,
   );
   assert.throws(() => replaceCoverageTable("no markers", "table"), /must contain/);
+});
+
+test("the committed accuracy tables match the last recorded full corpus run", async () => {
+  const document = await readFile(resolve(VALIDATION_PATH), "utf8");
+  assert.equal(document, await buildValidationDocument());
+});
+
+test("accuracy rows compute precision and recall from counts and show dashes for unscored detectors", () => {
+  const thresholds = {
+    schemaVersion: "evergreen.corpus-thresholds.v1",
+    detectors: {
+      alpha: { level: "stable", stable: true, minPrecision: 0.95 },
+      beta: { level: "experimental", stable: false, minPrecision: 0 },
+      gamma: { level: "beta", stable: true, minPrecision: 0.95 },
+    },
+    lastFullRun: {
+      date: "2026-10-21",
+      commit: "abc1234",
+      repositories: 10,
+      findings: 9,
+      precision: 0.9,
+      recall: 0.9,
+      perDetector: {
+        alpha: { truePositives: 9, falsePositives: 1, falseNegatives: 3 },
+        beta: { truePositives: 0, falsePositives: 0, falseNegatives: 0 },
+      },
+    },
+  } as const;
+  const table = renderAccuracyTable(thresholds as never);
+  assert.match(table, /\| alpha \| Supported \| 9 \| 1 \| 3 \| 0\.900 \| 0\.750 \|/);
+  assert.match(table, /\| beta \| Experimental \| 0 \| 0 \| 0 \| n\/a \| n\/a \|/);
+  assert.match(table, /\| gamma \| Beta \| — \| — \| — \| — \| — \|/);
+  assert.throws(() => renderAccuracyTable({ ...thresholds, lastFullRun: undefined } as never), /no lastFullRun/);
+  assert.throws(() => replaceAccuracyTable("no markers", table), /accuracy-tables:start/);
 });
