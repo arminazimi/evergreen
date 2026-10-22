@@ -48,3 +48,9 @@ test("it checks out history, restores but never saves the cache, and prints the 
 test("actions are pinned to exact major versions", () => {
   for (const step of job.steps.filter((item) => item.uses)) assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
 });
+
+test("it compares the corpus expectations with the committed snapshot before any network step", () => {
+  const index = job.steps.findIndex((step) => step.run?.includes("benchmarks/corpus-snapshot.js"));
+  assert.ok(index >= 0);
+  assert.ok(index < job.steps.findIndex((step) => step.uses?.startsWith("actions/cache/restore@")));
+});

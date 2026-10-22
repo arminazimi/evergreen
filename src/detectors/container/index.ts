@@ -27,6 +27,15 @@ const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const COMPOSE_NAME = /^(?:docker-)?compose(?:\.[A-Za-z0-9_.-]+)?\.ya?ml$/;
 const VARIANT = /^(?:alpine(?:\d+(?:\.\d+)*)?|slim|bookworm|bullseye|buster|stretch|trixie|jessie|jammy|noble|focal|oracle|oraclelinux\d*|debian|ubuntu|minimal)$/;
+/** Extra suffix parts that mcr.microsoft.com/dotnet tags carry: CPU architectures, image flavors, distros, and Windows builds. */
+const DOTNET_VARIANT = /^(?:amd64|arm64v8|arm64|arm32v7|chiseled|extra|composite|distroless|cbl|mariner\d+(?:\.\d+)?|azurelinux\d+(?:\.\d+)?|nanoserver|windowsservercore|ltsc20\d\d|\d{4})$/;
+/**
+ * The .NET images Microsoft publishes on its own registry. Their tags name the .NET release line (`sdk:6.0`,
+ * `aspnet:6.0-alpine`), so they are judged with the `dotnet` runtime rules instead of a copy of them (decision in
+ * docs/detectors/container.md). `dotnet/core/*` is where the same images lived before .NET 5.
+ */
+const MICROSOFT_REGISTRY = "mcr.microsoft.com";
+const DOTNET_IMAGES = new Set(["sdk", "aspnet", "runtime", "runtime-deps"].flatMap((name) => [`dotnet/${name}`, `dotnet/core/${name}`]));
 const TAG_VERSION = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:-(.+))?$/;
 const UNBOUNDED = 999_999;
 
@@ -84,7 +93,7 @@ type TagClass =
   | { kind: "unclassified"; reason: string };
 
 /** The versions a tag can stand for, or why it cannot be read as a release line. */
-function classifyTag(tag: string | undefined, digest: string | undefined): TagClass {
+function classifyTag(tag: string | undefined, digest: string | undefined, extraVariant?: RegExp): TagClass {
   if (tag === undefined) {
     return {
       kind: "unclassified",
@@ -94,7 +103,7 @@ function classifyTag(tag: string | undefined, digest: string | undefined): TagCl
   const match = TAG_VERSION.exec(tag);
   if (!match) return { kind: "unclassified", reason: `the tag "${tag}" does not name a release line` };
   const [, major, minor, patch, suffix] = match;
-  if (suffix !== undefined && !suffix.split("-").every((part) => VARIANT.test(part))) {
+  if (suffix !== undefined && !suffix.split("-").every((part) => VARIANT.test(part) || extraVariant?.test(part) === true)) {
     return { kind: "unclassified", reason: `the tag "${tag}" has a suffix Evergreen does not recognize` };
   }
   const lowest = `${major}.${minor ?? "0"}.${patch ?? "0"}`;
@@ -109,6 +118,17 @@ function rulesByRepository(rules: readonly RegistryV2Rule[]): Map<string, Regist
     map.set(repository, [...(map.get(repository) ?? []), rule]);
   }
   return map;
+}
+
+/** The rules for a Docker Hub image, or the .NET runtime rules for a Microsoft .NET image. */
+function rulesFor(
+  image: { registry: string; repository: string },
+  dockerHub: ReadonlyMap<string, RegistryV2Rule[]>,
+  dotnet: readonly RegistryV2Rule[],
+): readonly RegistryV2Rule[] | undefined {
+  if (image.registry === "docker.io") return dockerHub.get(image.repository);
+  if (image.registry === MICROSOFT_REGISTRY && DOTNET_IMAGES.has(image.repository)) return dotnet;
+  return undefined;
 }
 
 export class ContainerDetector implements Detector {
@@ -129,6 +149,9 @@ export class ContainerDetector implements Detector {
 
     const registry = validateRegistryV2(await loadDataFile("registry/container.json"));
     const rules = rulesByRepository(registry.rules);
+    const dotnetRules = validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
+      (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
+    );
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
 
@@ -137,10 +160,11 @@ export class ContainerDetector implements Detector {
       if (candidate.dynamic) {
         // Only name a reference when its repository part is a literal tracked image, as in node:${VERSION}.
         const repository = candidate.value.split(":")[0]!;
-        const tracked = rules.has(parseImageReference(repository)?.repository ?? "");
+        const named = parseImageReference(repository);
+        const tracked = named !== undefined && rulesFor(named, rules, dotnetRules) !== undefined;
         if (tracked && !repository.includes("$")) {
           unclassified.push({
-            component: parseImageReference(repository)!.repository,
+            component: named.repository,
             reference: candidate.value,
             reason: "the tag is a build argument or variable, which Evergreen does not expand",
             location,
@@ -150,11 +174,11 @@ export class ContainerDetector implements Detector {
       }
 
       const image = parseImageReference(candidate.value);
-      if (!image || image.registry !== "docker.io") continue;
-      const imageRules = rules.get(image.repository);
+      if (!image) continue;
+      const imageRules = rulesFor(image, rules, dotnetRules);
       if (!imageRules) continue;
 
-      const tag = classifyTag(image.tag, image.digest);
+      const tag = classifyTag(image.tag, image.digest, image.registry === MICROSOFT_REGISTRY ? DOTNET_VARIANT : undefined);
       if (tag.kind === "unclassified") {
         unclassified.push({ component: image.repository, reference: candidate.value, reason: tag.reason, location });
         continue;

@@ -172,3 +172,58 @@ test("a migration packet for a container finding names the file, steps, and veri
   assert.ok(packet.steps.some((step) => step.id === "update-image-declaration"));
   assert.ok(packet.verification.some((check) => check.command === "docker build ."));
 });
+
+test("Microsoft .NET images are judged with the dotnet release-line rules", async () => {
+  const root = await repository({
+    Dockerfile: [
+      "FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base",
+      "FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim-amd64 AS build",
+      "FROM mcr.microsoft.com/dotnet/aspnet:3.1.32-alpine3.16",
+      "FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.1",
+      "FROM mcr.microsoft.com/dotnet/sdk:10.0",
+      "FROM mcr.microsoft.com/dotnet/aspnet:6.0-cbl-mariner2.0",
+      "",
+    ].join("\n"),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["dotnet.runtime.end-of-support-5.0", 1],
+      ["dotnet.runtime.end-of-support-6.0", 2],
+      ["dotnet.runtime.end-of-support-3.1", 3],
+      ["dotnet.runtime.end-of-support-2.1", 4],
+      ["dotnet.runtime.end-of-support-6.0", 6],
+    ],
+  );
+  assert.ok(analysis.findings.every((finding) => finding.sources.some((source) => source.url.includes("microsoft.com"))));
+  assert.deepEqual(analysis.unclassified, []);
+});
+
+test("Microsoft .NET images with a variable, floating, unknown, or malformed tag are never guessed", async () => {
+  const root = await repository({
+    Dockerfile: [
+      "FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}",
+      "FROM mcr.microsoft.com/dotnet/sdk:latest",
+      "FROM mcr.microsoft.com/dotnet/sdk",
+      "FROM mcr.microsoft.com/dotnet/aspnet:6.0-custom-build",
+      "FROM mcr.microsoft.com/dotnet/aspnet:6.0@sha256:short",
+      "FROM mcr.microsoft.com/dotnet/framework/sdk:4.8",
+      "FROM mcr.microsoft.com/dotnet/nightly/sdk:6.0",
+      "FROM example.azurecr.io/dotnet/sdk:5.0",
+      "FROM dotnet/sdk:5.0",
+      "",
+    ].join("\n"),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(analysis.findings, []);
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.location.line, item.reference]),
+    [
+      [1, "mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}"],
+      [2, "mcr.microsoft.com/dotnet/sdk:latest"],
+      [3, "mcr.microsoft.com/dotnet/sdk"],
+      [4, "mcr.microsoft.com/dotnet/aspnet:6.0-custom-build"],
+    ],
+  );
+});
