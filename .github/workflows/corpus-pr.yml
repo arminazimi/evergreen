@@ -30,11 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # The affected ecosystems come from the diff against the base branch, which needs its history.
           fetch-depth: 0
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: npm
@@ -43,7 +43,7 @@ jobs:
       # Restore only: the weekly run saves the cache, and a pull request must not write a gigabyte-scale
       # entry that could push it out. The prefix finds the newest cache the default branch saved.
       - name: Restore the corpus checkout cache
-        uses: actions/cache/restore@v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ${{ env.EVERGREEN_CORPUS_CACHE }}
           key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories.json') }}
@@ -81,7 +81,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Upload the result
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: corpus-pr-result-${{ github.run_id }}
           path: corpus-result.json

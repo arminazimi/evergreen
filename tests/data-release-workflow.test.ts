@@ -34,9 +34,9 @@ test("permissions are read-only except in the release job, which needs only cont
 
 test("third-party actions are pinned to exact versions", () => {
   for (const step of job.steps.filter((item) => item.uses)) {
-    assert.match(step.uses!, /^[\w./-]+@v\d+(?:\.\d+)*$/, step.uses);
+    assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
   }
-  assert.ok(job.steps.some((step) => step.uses?.startsWith("sigstore/cosign-installer@v")));
+  assert.ok(job.steps.some((step) => step.uses?.startsWith("sigstore/cosign-installer@")));
 });
 
 test("the bundle is built twice, compared, and dated by the commit, not the clock", () => {

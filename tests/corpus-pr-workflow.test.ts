@@ -38,7 +38,7 @@ test("the base branch reaches the shell only through an environment variable", (
 
 test("it checks out history, restores but never saves the cache, and prints the mismatch lines in the summary", () => {
   assert.equal(job.steps[0]!.with?.["fetch-depth"], 0);
-  assert.ok(job.steps.some((step) => step.uses?.startsWith("actions/cache/restore@v")));
+  assert.ok(job.steps.some((step) => step.uses?.startsWith("actions/cache/restore@")));
   assert.ok(!job.steps.some((step) => step.uses?.startsWith("actions/cache/save@") || step.uses?.startsWith("actions/cache@")));
   const summary = job.steps.find((step) => step.run?.includes("GITHUB_STEP_SUMMARY"))!;
   assert.equal(summary.if, "always()");
@@ -46,5 +46,5 @@ test("it checks out history, restores but never saves the cache, and prints the 
 });
 
 test("actions are pinned to exact major versions", () => {
-  for (const step of job.steps.filter((item) => item.uses)) assert.match(step.uses!, /^[\w./-]+@v\d+$/, step.uses);
+  for (const step of job.steps.filter((item) => item.uses)) assert.match(step.uses!, /^[\w./-]+@[0-9a-f]{40}$/, step.uses);
 });
