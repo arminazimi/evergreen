@@ -16,6 +16,7 @@ import { pythonDetector } from "./python.js";
 import { rubyDetector } from "./ruby/index.js";
 import { rustDetector } from "./rust/index.js";
 import { serverlessDetector } from "./serverless/index.js";
+import { shellDetector } from "./shell/index.js";
 import { swiftDetector } from "./swift/index.js";
 import { terraformDetector } from "./terraform/index.js";
 
@@ -39,4 +40,5 @@ export const builtInDetectors: readonly Detector[] = [
   dartDetector,
   terraformDetector,
   databaseDetector,
+  shellDetector,
 ];

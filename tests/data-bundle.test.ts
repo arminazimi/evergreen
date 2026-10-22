@@ -86,6 +86,7 @@ test("the bundle lists every registry and the SHA map, and matches the published
     "registry/ruby.json",
     "registry/rust.json",
     "registry/serverless.json",
+    "registry/shell.json",
     "registry/swift.json",
     "registry/terraform.json",
   ]);

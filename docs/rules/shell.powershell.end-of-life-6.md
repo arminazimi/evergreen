@@ -28,7 +28,7 @@ Microsoft's PowerShell support lifecycle lists every PowerShell 6 release (6.0, 
 
 ## Detected by
 
-No built-in detector reads `shell` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/shell.json).
+The `shell` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

@@ -28,7 +28,7 @@ Microsoft's PowerShell support lifecycle lists 7.3 (built on .NET 7.0) as retire
 
 ## Detected by
 
-No built-in detector reads `shell` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/shell.json).
+The `shell` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 
