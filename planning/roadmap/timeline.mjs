@@ -7,7 +7,9 @@ import { fileURLToPath } from "node:url";
 
 import { ECOSYSTEMS, ecosystemEpic, ecosystemTasks } from "./ecosystems.mjs";
 import { MILESTONE, MONTHS, TARGETS } from "./labels.mjs";
+import { reassign } from "./reorg.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
+import { TASKS_REORG } from "./workstreams-reorg.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const statePath = join(here, "out", "state.json");
@@ -23,8 +25,8 @@ const GROUPS = [
   ["v1", "v1 readiness", ["#60", "#61", "#62", "E-hardening", "#57"]],
 ];
 
-const epics = [...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)];
-const tasks = [...TASKS, ...ECOSYSTEMS.flatMap(ecosystemTasks)];
+const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)]);
+const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks)]);
 const num = (key) => (key.startsWith("#") ? Number(key.slice(1)) : state.numbers[key] ?? null);
 
 const grouped = new Set(GROUPS.flatMap((g) => g[2]));

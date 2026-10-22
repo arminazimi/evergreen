@@ -16,6 +16,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { RETIRED_LABELS } from "./labels.mjs";
+import { CLOSE_WHEN_EMPTY, EXTERNAL } from "./reorg.mjs";
 
 const REPO = "arminazimi/evergreen";
 const RETIRED_MILESTONES = [11]; // the single H1 milestone from the first rollout; deleted once empty
@@ -72,6 +73,8 @@ console.log(`- ensure ${labels.length} labels; delete retired labels: ${RETIRED_
 for (const p of phases) console.log(`- ensure milestone "${p.title}" (due ${p.dueOn.slice(0, 10)}, ${issues.filter((i) => i.month === p.month).length} issues)`);
 console.log(`- create ${newIssues.length} new issues`);
 console.log(`- sync title, body, labels, and phase milestone on ${issues.length} issues (unchanged ones are skipped)`);
+console.log(`- move ${Object.keys(EXTERNAL).length} issues created outside the roadmap data to their new phase`);
+console.log(`- close phases ${CLOSE_WHEN_EMPTY.join(", ")} once they have no open issues`);
 console.log(`- delete retired milestones ${RETIRED_MILESTONES.join(", ")} once empty`);
 if (!apply) {
   console.log("\nNothing was changed. Re-run with --apply after maintainer approval.");
@@ -127,6 +130,19 @@ for (const issue of issues) {
   await sleep(DELAY_MS / 2);
 }
 
+// 4b. Issues created outside the roadmap data only change milestone.
+for (const [number, month] of Object.entries(EXTERNAL)) {
+  const key = `external:${number}`;
+  const body = { milestone: state.phases[month] };
+  const d = digest(body);
+  if (state.written[key] === d) continue;
+  gh([`repos/${REPO}/issues/${number}`, "-X", "PATCH"], body);
+  state.written[key] = d;
+  save();
+  console.log(`~ #${number} → ${month}`);
+  await sleep(DELAY_MS / 2);
+}
+
 // 5. Delete retired labels (removes them from every issue) and empty retired milestones.
 for (const name of RETIRED_LABELS) {
   if (!present.has(name)) continue;
@@ -141,6 +157,18 @@ for (const n of RETIRED_MILESTONES) {
     console.log(`milestone - #${n}`);
   } else {
     console.log(`milestone #${n} still has issues; not deleted`);
+  }
+}
+// 6. Close phases whose open issues all moved on; closed issues keep their history.
+for (const month of CLOSE_WHEN_EMPTY) {
+  const n = state.phases[month];
+  if (!n) continue;
+  const open = gh([`repos/${REPO}/issues?milestone=${n}&state=open&per_page=1`]);
+  if (open.length === 0) {
+    gh([`repos/${REPO}/milestones/${n}`, "-X", "PATCH"], { state: "closed" });
+    console.log(`milestone closed #${n} (${month})`);
+  } else {
+    console.log(`milestone #${n} (${month}) still has open issues; left open`);
   }
 }
 console.log("Done.");

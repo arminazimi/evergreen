@@ -9,7 +9,9 @@ import { fileURLToPath } from "node:url";
 
 import { ECOSYSTEMS, ecosystemEpic, ecosystemTasks } from "./ecosystems.mjs";
 import { LANES, MILESTONE, MONTHS, TARGETS } from "./labels.mjs";
+import { reassign } from "./reorg.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
+import { TASKS_REORG } from "./workstreams-reorg.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..", "..");
@@ -19,8 +21,8 @@ const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")
 const projectPath = join(here, "out", "project-state.json");
 const project = existsSync(projectPath) ? JSON.parse(readFileSync(projectPath, "utf8")).project : null;
 
-const epics = [...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)];
-const tasks = [...TASKS, ...ECOSYSTEMS.flatMap(ecosystemTasks)];
+const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)]);
+const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks)]);
 
 function number(key) {
   if (key.startsWith("#")) return Number(key.slice(1));
@@ -40,7 +42,7 @@ function phaseLink(month, text) {
 const lines = [
   "# Roadmap",
   "",
-  `**${MILESTONE.title}** · 2026-10-15 → 2027-04-15 · six phases, each its own milestone, run in order${project ? ` · [project board](https://github.com/users/arminazimi/projects/${project.number})` : ""}`,
+  `**${MILESTONE.title}** · 2026-10-15 → 2027-04-15 · ${Object.keys(MONTHS).length} phases, each its own milestone, run in order${project ? ` · [project board](https://github.com/users/arminazimi/projects/${project.number})` : ""}`,
   "",
   "> This file is generated from `planning/roadmap/` by `node planning/roadmap/roadmap-md.mjs`. Edit the data, not this file.",
   "> Scope changes still require an explicit decision recorded in `docs/decisions/`.",
@@ -57,7 +59,7 @@ const lines = [
   "",
   "The long-term goal is for Evergreen to be the first lifecycle reference agents and DevOps teams reach for. This roadmap builds the foundation: open evidence, standard formats, and presence in every common pipeline.",
   "",
-  "## v1 targets (2027-04-15)",
+  "## v1 targets",
   "",
   "| Measure | Today | Target |",
   "|---|---|---|",

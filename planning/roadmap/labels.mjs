@@ -98,13 +98,152 @@ export const MONTHS = {
       "Demo video, case studies, and the v1 launch",
     ],
   },
+  // Phases 26–40 reorganize the open work by outcome. Order matters; the dates only
+  // space the phases out. Phases 22–25 keep their closed history and are closed.
+  P26: {
+    phase: 26, title: "Phase 26 — Evergreen checks itself", dueOn: "2026-11-12T12:00:00Z", first: true,
+    window: "2026-10-23 → 2026-11-12", theme: "Evergreen checks itself",
+    delivers: [
+      "Evergreen scans its own repository in CI and fails on new findings",
+      "Its own Actions and dependencies are pinned and monitored with Evergreen",
+      "Every self-scan finding is triaged, and the released CLI is smoke-tested on this repository",
+    ],
+  },
+  P27: {
+    phase: 27, title: "Phase 27 — Trust and accuracy", dueOn: "2026-12-03T12:00:00Z",
+    window: "2026-11-13 → 2026-12-03", theme: "Trust and accuracy",
+    delivers: [
+      "Detectors promoted from experimental to beta on measured recall and precision",
+      "Independent corpus, differential testing, and a regression gate on every pull request",
+      "Confidence levels, `report-issue`, and per-detector accuracy tables",
+    ],
+  },
+  P28: {
+    phase: 28, title: "Phase 28 — Data freshness", dueOn: "2026-12-24T12:00:00Z",
+    window: "2026-12-04 → 2026-12-24", theme: "Data freshness",
+    delivers: [
+      "Scheduled end-of-life rules for Node.js, Python, Go, and PostgreSQL",
+      "Importers that open reviewed rule PRs, and recorded future end-of-life dates",
+      "Curated framework rules with migration packets",
+    ],
+  },
+  P29: {
+    phase: 29, title: "Phase 29 — Agent-native", dueOn: "2027-01-14T12:00:00Z",
+    window: "2026-12-25 → 2027-01-14", theme: "Agent-native",
+    delivers: [
+      "One-command setup that configures every agent host",
+      "Compact, stable, machine-readable output with documented error codes",
+      "A repository lifecycle status file agents can read, and one focused Skill per ecosystem",
+    ],
+  },
+  P30: {
+    phase: 30, title: "Phase 30 — Personal use", dueOn: "2027-02-04T12:00:00Z",
+    window: "2027-01-15 → 2027-02-04", theme: "Personal use",
+    delivers: [
+      "Scan many projects at once, and check the tools installed on this machine",
+      "A standalone binary, a friendly first run, a terminal browser, and an HTML report",
+      "A global pre-push hook and a weekly digest for personal projects",
+    ],
+  },
+  P31: {
+    phase: 31, title: "Phase 31 — Forecast and planning", dueOn: "2027-02-25T12:00:00Z",
+    window: "2027-02-05 → 2027-02-25", theme: "Forecast and planning",
+    delivers: [
+      "`evergreen forecast` and `--as-of` show what becomes end of life next",
+      "Upgrade paths, replacement compatibility checks, and a lifecycle risk score",
+      "Transitive dependencies with the path that pulls them in, and an exposure timeline from git history",
+    ],
+  },
+  P32: {
+    phase: 32, title: "Phase 32 — Fix and automation", dueOn: "2027-03-18T12:00:00Z",
+    window: "2027-02-26 → 2027-03-18", theme: "Fix and automation",
+    delivers: [
+      "`evergreen fix --dry-run` prints deterministic patches",
+      "Fixers for Actions versions and runtime pins, and codemod packs for common replacements",
+      "Verify-after-fix, and tested playbooks for CLI, agents, GitHub, and GitLab",
+    ],
+  },
+  P33: {
+    phase: 33, title: "Phase 33 — Team and DevOps", dueOn: "2027-04-08T12:00:00Z",
+    window: "2027-03-19 → 2027-04-08", theme: "Team and DevOps",
+    delivers: [
+      "GitLab CI/CD component in the Catalog, with Code Quality reports",
+      "Pre-commit, MegaLinter, trunk, and starter-workflow integrations",
+      "Pull-request summaries, `evergreen diff`, owner routing, and scheduled lifecycle-watch workflows",
+    ],
+  },
+  P34: {
+    phase: 34, title: "Phase 34 — Editor and guard", dueOn: "2027-04-29T12:00:00Z",
+    window: "2027-04-09 → 2027-04-29", theme: "Editor and guard",
+    delivers: [
+      "VS Code extension on the Marketplace and Open VSX",
+      "A language server that shows lifecycle diagnostics in any editor, and a JetBrains plugin",
+      "`evergreen guard` blocks end-of-life packages before npm, pip, or uv installs them",
+    ],
+  },
+  P35: {
+    phase: 35, title: "Phase 35 — Coverage: cloud, OS, and runtimes", dueOn: "2027-05-20T12:00:00Z",
+    window: "2027-04-30 → 2027-05-20", theme: "Coverage: cloud, OS, and runtimes",
+    delivers: [
+      "Scan built container images, `kubectl` dumps, Terraform plan JSON, and rendered Helm output",
+      "Managed Kubernetes and Azure and Google Cloud database engines",
+      "Elixir, Scala, Deno, and Bun detection, and runtime pins in Dockerfile `RUN` lines",
+    ],
+  },
+  P36: {
+    phase: 36, title: "Phase 36 — Interop and standards", dueOn: "2027-06-10T12:00:00Z",
+    window: "2027-05-21 → 2027-06-10", theme: "Interop and standards",
+    delivers: [
+      "CLE (ECMA-428) export and validation, CycloneDX enrichment, and CycloneDX and SPDX input",
+      "Maintainer-declared lifecycle read from dependencies",
+      "Renovate presets and OSV cross-reference for unpatched exposure",
+    ],
+  },
+  P37: {
+    phase: 37, title: "Phase 37 — Evergreen v1 hardening", dueOn: "2027-07-01T12:00:00Z",
+    window: "2027-06-11 → 2027-07-01", theme: "Evergreen v1 hardening",
+    delivers: [
+      "Contract and surface audit, compatibility guarantees, and v1 release notes",
+      "Threat model, parser fuzzing, bounded parser input, and SLSA provenance",
+      "Reproducible builds and an enforced performance budget on a large-monorepo benchmark",
+    ],
+  },
+  P38: {
+    phase: 38, title: "Phase 38 — Proof", dueOn: "2027-07-22T12:00:00Z",
+    window: "2027-07-02 → 2027-07-22", theme: "Proof",
+    delivers: [
+      "Agent migration benchmark with published results",
+      "A public \"State of EOL\" page and an example gallery",
+      "Three real migration case studies",
+    ],
+  },
+  P39: {
+    phase: 39, title: "Phase 39 — Growth", dueOn: "2027-08-12T12:00:00Z",
+    window: "2027-07-23 → 2027-08-12", theme: "Growth",
+    delivers: [
+      "Mini-launches, outreach, the launch kit, the demo video, and the v1 launch",
+      "RSS feed, weekly \"what just went end of life\" posts, and a public lookup page",
+      "Adoption funnel in the monthly report, and translated docs",
+    ],
+  },
+  P40: {
+    phase: 40, title: "Phase 40 — Open data and contributors", dueOn: "2027-09-02T12:00:00Z",
+    window: "2027-08-13 → 2027-09-02", theme: "Open data and contributors",
+    delivers: [
+      "Open lifecycle dataset with a static JSON API and a documented license",
+      "Governance, RFC process, detector owners, and Code of Conduct",
+      "Rule candidates become good-first-issues automatically",
+    ],
+  },
 };
 
 export function phaseDescription(month) {
   const m = MONTHS[month];
   const keys = Object.keys(MONTHS);
   const prev = keys[keys.indexOf(month) - 1];
-  const start = prev ? `Starts when ${MONTHS[prev].title.split(" — ")[0]} is complete.` : "First phase of the H1 roadmap.";
+  const start = m.first
+    ? "First phase of the reorganized roadmap; earlier phases are closed."
+    : prev ? `Starts when ${MONTHS[prev].title.split(" — ")[0]} is complete.` : "First phase of the H1 roadmap.";
   return [
     `${m.window}. ${start}`,
     "",
