@@ -16,6 +16,7 @@ const finding: Finding = {
   title: "Example",
   summary: "A stable finding summary",
   severity: "high",
+  confidence: "exact",
   location: { path: "package.json", line: 1 },
   sources: [{ title: "Source", url: "https://example.com" }],
 };

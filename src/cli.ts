@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
+import { writeFile } from "node:fs/promises";
 import http from "node:http";
 import process from "node:process";
 import { resolve } from "node:path";
@@ -22,6 +23,7 @@ import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
+import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderFindingText, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { VERSION } from "./version.js";
 
@@ -40,6 +42,7 @@ Usage:
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
   evergreen doctor [path] [--json]
+  evergreen report-issue <finding-id> [path] [--output <file>]
   evergreen capabilities [--json]
   evergreen --help
   evergreen --version
@@ -144,7 +147,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
     process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
     return 2;
   }
@@ -260,12 +263,13 @@ async function main(args: string[]): Promise<number> {
       throw error;
     }
   }
-  const findingId = command === "explain" || command === "context" ? positional[0] : undefined;
-  if ((command === "explain" || command === "context") && !findingId) {
+  const takesFindingId = command === "explain" || command === "context" || command === "report-issue";
+  const findingId = takesFindingId ? positional[0] : undefined;
+  if (takesFindingId && !findingId) {
     process.stderr.write(`Missing finding ID.\n\n${HELP}`);
     return 2;
   }
-  const pathArgument = command === "explain" || command === "context"
+  const pathArgument = takesFindingId
     ? (positional[1] ?? ".")
     : (positional[0] ?? ".");
   if (command === "doctor") {
@@ -303,6 +307,29 @@ async function main(args: string[]): Promise<number> {
     } catch (error) {
       process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
       return 1;
+    }
+  } else if (command === "report-issue") {
+    const finding = result.findings.find((candidate) => candidate.id === findingId);
+    if (!finding) {
+      process.stderr.write(`Finding not found: ${findingId}\n`);
+      return 1;
+    }
+    try {
+      const report = await createIssueReport(pathArgument, finding);
+      const output = optionValue("--output");
+      if (output) {
+        const destination = resolve(output);
+        await writeFile(destination, report);
+        process.stdout.write(`Wrote the report to ${destination}. Review it before you open an issue; Evergreen never opens one.\n`);
+      } else {
+        process.stdout.write(`${report}\n`);
+      }
+    } catch (error) {
+      if (error instanceof ReportIssueError) {
+        process.stderr.write(`${error.message}\n`);
+        return 1;
+      }
+      throw error;
     }
   } else if (command === "explain") {
     const finding = result.findings.find((candidate) => candidate.id === findingId);

@@ -1,10 +1,19 @@
+import { basename } from "node:path/posix";
 import { resolve } from "node:path";
 
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
-import type { ScanResult } from "./domain.js";
+import type { Confidence, ScanResult } from "./domain.js";
 import { assertDetectorCompatible } from "./sdk.js";
-import type { Detector } from "./sdk.js";
+import type { Detector, DetectorFinding } from "./sdk.js";
+
+/** Lockfiles whose entries are resolved versions rather than declarations. */
+const LOCKFILE_NAME = /(^|[-.])(lock|lockfile)(\.[a-z]+)?$|\.lock$|^(go\.sum|pubspec\.lock|packages\.lock\.json|gemfile\.lock|composer\.lock|cargo\.lock|poetry\.lock|uv\.lock|pipfile\.lock|npm-shrinkwrap\.json)$/i;
+
+/** What a finding is worth when its detector did not say: a lockfile entry is inferred-from-lock, any other read is exact. */
+export function defaultConfidence(finding: DetectorFinding): Confidence {
+  return finding.confidence ?? (LOCKFILE_NAME.test(basename(finding.location.path)) ? "inferred-from-lock" : "exact");
+}
 
 export async function scanRepository(
   root: string,
@@ -18,7 +27,11 @@ export async function scanRepository(
           ? await detector.analyze({ root: resolvedRoot })
           : { findings: await detector.scan({ root: resolvedRoot }), unclassified: [] };
         return {
-          findings: analysis.findings.map((finding) => ({ ...finding, detector: detector.id })),
+          findings: analysis.findings.map((finding) => ({
+            ...finding,
+            detector: detector.id,
+            confidence: defaultConfidence(finding),
+          })),
           unclassified: analysis.unclassified.map((reference) => ({
             ...reference,
             detector: detector.id,

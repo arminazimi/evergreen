@@ -11,6 +11,7 @@
       "title": "request is deprecated",
       "summary": "The package is fully deprecated and no new changes are expected.",
       "severity": "high",
+      "confidence": "exact",
       "location": { "path": "package.json", "line": 12 },
       "replacement": "Native fetch or a maintained HTTP client",
       "deadline": "2020-02-11",
@@ -32,6 +33,7 @@
       "title": "Unsupported actions/checkout runtime",
       "summary": "actions/checkout@v3: This release predates the action's Node.js 24 runtime.",
       "severity": "medium",
+      "confidence": "exact",
       "location": { "path": ".github/workflows/ci.yml", "line": 7 },
       "sources": []
     }
