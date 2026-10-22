@@ -38,7 +38,7 @@ The interface guarantees:
 
 See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.ts) for a complete minimal adapter.
 
-Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
+Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
 ## Ruby detector layout
 
@@ -109,6 +109,17 @@ The database detector reuses what the container and Terraform detectors already 
 - Each product maps to one Package URL (`pkg:generic/postgresql`, `mysql`, `mariadb`, `redis`, `mongodb`). There is no source-usage pass.
 
 The user-facing list of supported forms and limits for this detector is in [Database runtimes](detectors/database.md).
+
+## Shell and PowerShell detector layout
+
+The shell detector reads PowerShell declarations and the PowerShell image tags in workflow files. Its entry point, `src/detectors/shell/index.ts`, finds `*.ps1`, `*.psm1`, `*.psd1`, and `.github/workflows` files, reads them, and matches each declaration to a rule. Two pure parsers sit beside it: `parse-powershell.ts` is a bounded lexical reader for `#Requires -Version` and `PowerShellVersion`, and `parse-workflow.ts` reads `shell:` values and pinned PowerShell or Bash images from workflow YAML.
+
+- A parser returns nothing, not an error, for a form it does not support, and never returns part of a malformed file.
+- Rules come from `registry/shell.json`, loaded through the bundled data. The detector takes a rule loader so tests can supply their own rules.
+- Matching works as in the database detector: a full version uses the first rule whose `vers` range contains it, and a partial version matches only when the rule contains both ends of what it could mean.
+- All rules use one Package URL, `pkg:generic/powershell`. Shell names and Bash images are parsed but produce no findings. There is no source-usage pass.
+
+The user-facing list of supported forms and limits for this detector is in [Shell and PowerShell](detectors/shell.md).
 
 ## Terraform detector layout
 
