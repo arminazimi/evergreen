@@ -26,6 +26,26 @@ Microsoft's PowerShell support lifecycle lists 7.0 LTS (built on .NET Core 3.1) 
 
 - [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)
 
+## Migration
+
+**Constraints**
+
+- Raising a minimum version in `#Requires -Version` or `PowerShellVersion` stops the script or module from loading on any host that still runs PowerShell 7.0. Confirm every runner, container, and developer machine that executes it can run the target first.
+- Scripts written for Windows PowerShell 5.1 often rely on Windows-only modules and cmdlets. Test them on PowerShell 7 before dropping 5.1 support, and keep a separate minimum for modules that must still load on Windows PowerShell.
+- Update the declaration to a supported release from the replacement. Evergreen suggests these changes and never runs them.
+
+**Steps**
+
+1. **Find where the script runs.** List the CI jobs, container images, scheduled tasks, and developer setups that execute the reported file, and note which of them still provide PowerShell 7.0.
+2. **Install the target PowerShell.** Install a supported PowerShell 7 release (the replacement) on those hosts, or change the pinned mcr.microsoft.com/powershell image tag in the workflow to a supported tag.
+3. **Raise the declared version.** Change `#Requires -Version` or `PowerShellVersion` on the reported line to the minimum release the code truly needs, and no lower than a supported release. Do this in every script, module manifest, and workflow image that states the old version.
+4. **Run the scripts and tests on the new release.** Run the script, its Pester tests, and any module import on the target release, and fix breaking changes in cmdlet behavior or removed APIs.
+
+**Verification**
+
+- `pwsh -NoProfile -Command "$PSVersionTable"`: Show the PowerShell version and edition that will run the script, and confirm it is a supported release.
+- `pwsh -NoProfile -Command "Get-Module -ListAvailable | Select-Object Name, Version, PowerShellVersion"`: List installed modules and the PowerShell versions they require, to confirm none still demands the old release.
+
 ## Detected by
 
 The `shell` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).

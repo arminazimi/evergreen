@@ -14,6 +14,7 @@ import { runDetectorConformance } from "../src/conformance/index.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { ShellDetector, shellDetector } from "../src/detectors/shell/index.js";
 import { scanRepository } from "../src/engine.js";
+import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 import type { DetectorFinding } from "../src/sdk.js";
@@ -205,4 +206,24 @@ test("ignores vendored and fixture directories, and a repository without PowerSh
     }),
     [],
   );
+});
+
+test("every curated shell rule has migration guidance with real verification commands", async () => {
+  for (const item of await committedRules()) {
+    assert.ok(item.migration && item.migration.constraints.length >= 1 && item.migration.steps.length >= 1, item.id);
+    assert.ok(item.migration.verification.some((check) => check.command === 'pwsh -NoProfile -Command "$PSVersionTable"'), item.id);
+  }
+});
+
+test("a migration packet for a PowerShell finding names the file, steps, and verification", async () => {
+  const result = await scanRepository(await repository({ "scripts/build.ps1": "#Requires -Version 7.0\nWrite-Host hi\n" }), [shellDetector]);
+  const finding = result.findings.find((item) => item.id === "shell.powershell.end-of-life-7.0:scripts/build.ps1:1");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("scripts/build.ps1"));
+  assert.deepEqual(
+    packet.steps.map((step) => step.id).filter((id) => !["review-evidence", "verify-migration"].includes(id)),
+    ["inventory-hosts", "install-target", "raise-declared-version", "run-tests"],
+  );
+  assert.ok(packet.verification.some((check) => check.command === 'pwsh -NoProfile -Command "$PSVersionTable"'));
 });
