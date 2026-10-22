@@ -176,7 +176,7 @@ The `database` detector is **experimental**: its level is recorded as `experimen
 
 ## Shell and PowerShell detector
 
-The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. No public repositories are pinned for it yet, so its precision is not measured. Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
+The `shell` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Five public repositories are pinned in `benchmarks/public-repositories.json`: four targeted cases and one blind, zero-finding repository. Each expected finding was checked by reading its line at the pinned commit against Microsoft's PowerShell support lifecycle, independently of Evergreen output. Its lifecycle rules are in `registry/shell.json` and ship in the [data bundle](DATA.md).
 
 ## Terraform detector
 

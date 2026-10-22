@@ -7217,6 +7217,207 @@
       "ecosystem": "database",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "ayamir/nvimdots",
+      "commit": "5e2eb61fe95788a82fece844a18097f7be91bdb2",
+      "ecosystem": "shell",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "shell.powershell.end-of-life-7.1",
+          "path": "scripts/install.ps1",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of scripts/install.ps1 reads `#Requires -Version 7.1`, which requires PowerShell 7.1 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.1 as retired, with support ended on 2022-05-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "FFXIVAPP/sharlayan",
+      "commit": "80617fb948a560daeb15ba93d959f013b31a76a0",
+      "ecosystem": "shell",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "shell.powershell.end-of-life-7.0",
+          "path": "build.ps1",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of build.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.0",
+          "path": "harness.ps1",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of harness.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.0",
+          "path": "test.ps1",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of test.ps1 reads `#Requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "stuncloud/UWSCR",
+      "commit": "a06db5f9da291892d2fb056b30a3c88e6ea8a682",
+      "ecosystem": "shell",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "shell.powershell.end-of-life-7.0",
+          "path": "CmakeOpencv.ps1",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of CmakeOpencv.ps1 reads `#requires -Version 7.0`, which requires PowerShell 7.0 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.0 as retired, with support ended on 2022-12-03 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "godot-jolt/godot-jolt",
+      "commit": "7f225894706bb923e9ab9e9c73152b71880c5a83",
+      "ecosystem": "shell",
+      "selection": "targeted",
+      "expected": [
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 64 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 123,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 123 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 195,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 195 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 245,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 245 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 299,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 299 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 409,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 409 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/package.yml",
+          "line": 416,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 416 of .github/workflows/package.yml reads `uses: actions/upload-artifact@v6`, a release of actions/upload-artifact older than v7, which the GitHub changelog lists as running on a retired artifact service or Node.js runtime (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/ci_setup_linux.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/ci_setup_linux.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/ci_setup_macos.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/ci_setup_macos.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/ci_setup_windows.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/ci_setup_windows.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/ci_sign_macos.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/ci_sign_macos.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/run_clang_format.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/run_clang_format.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "ruleId": "shell.powershell.end-of-life-7.2",
+          "path": "scripts/run_clang_tidy.ps1",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of scripts/run_clang_tidy.ps1 reads `#Requires -Version 7.2`, which requires PowerShell 7.2 or later. Microsoft's PowerShell support lifecycle lists PowerShell 7.2 as retired, with support ended on 2024-11-08 (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "yegors/deGDID",
+      "commit": "3a5d5a90f1c90e2a99900d1fc9bd6884ee1f17fe",
+      "ecosystem": "shell",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }
