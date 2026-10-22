@@ -28,13 +28,24 @@ Each finding carries its rule's source, replacement, migration steps, and verifi
 ## What it intentionally does not judge
 
 - `netstandard2.0` and `netstandard2.1` are API specifications, not runtimes, and have no end of life. They are ignored.
-- .NET Framework targets (`net48`, `net472`, ...) follow the Windows lifecycle, not the .NET policy. They are listed as unclassified.
+- .NET Framework targets (`net48`, `net472`, ...) follow the Windows lifecycle, not the .NET policy. They are listed as unclassified; see [Decisions for the forms outside the project files](#decisions-for-the-forms-outside-the-project-files).
 - An MSBuild property (`$(TargetFramework)`, `Version="$(Ver)"`), a floating version (`1.*`), and a version range (`[1.0,2.0)`) cannot be decided without evaluating MSBuild. They are listed as unclassified with their file and line, never guessed.
 - Anything under an element or group with a `Condition`, and anything set through `<Import>` or inherited from a file Evergreen is not looking at, is skipped.
 - A `PackageReference` with no version is unclassified, unless central package management (`ManagePackageVersionsCentrally` set to `true`) is enabled in its directory or above, where the version is judged in `Directory.Packages.props`.
 - A `global.json` without `sdk.version`, a version that is not a number, and a version under `msbuild-sdks` (which belongs to a build SDK package, not to .NET) pin no SDK.
 - Malformed or oversized files (over 1 MiB) produce nothing, not partial results. A `global.json` may contain comments but not a trailing comma.
 - A `dotnet-version` given to `actions/setup-dotnet` and a `mcr.microsoft.com/dotnet/*` base image in a Dockerfile name a runtime too, but this detector does not read workflows or Dockerfiles, so an end-of-support line that appears only there is not reported. The finding for the project file or `global.json` of the same repository is.
+
+## Decisions for the forms outside the project files
+
+[#827](https://github.com/arminazimi/evergreen/issues/827) listed the .NET forms that got no verdict. Each one is now either judged or recorded as out of scope, with the reason:
+
+| Form | Decision | Reason |
+| --- | --- | --- |
+| .NET Framework targets (`net48`, `net472`, `v4.x` in `TargetFrameworkVersion`) | **Out of scope.** Still listed as unclassified. | Framework is supported as part of Windows, so each version follows the lifecycle of the Windows releases it ships with, not the .NET release policy that every rule here cites. A rule needs an authoritative Microsoft lifecycle source per version and a statement of which Windows releases it assumes; the releases index the `dotnet-1` importer reads has no Framework data. Judging it from the .NET policy would be a guess. A future decision may add a Framework rule set with its own source. |
+| MSBuild properties, `<Import>` chains, and `Condition`s | **Out of scope.** Properties are unclassified; imported and conditional values are skipped. | A target set in an imported file or a property needs MSBuild evaluation: resolving the import graph, property functions, and conditions. Evergreen parses repository files and never evaluates them or runs `dotnet`, so a verdict would be a guess. A repository can put the target where it is read: a literal `TargetFramework` in the project, or a `global.json` pin. |
+| `dotnet-version` of `actions/setup-dotnet` | **Judged**, by the `github-actions` detector with this detector's rules. | The version lives in a workflow, which this detector does not read. See [the GitHub Actions detector](../DETECTORS.md#the-runtime-a-setup--action-installs) ([#845](https://github.com/arminazimi/evergreen/issues/845)). |
+| `mcr.microsoft.com/dotnet/*` base images | **Judged**, by the `container` detector with this detector's rules. | The tag lives in a Dockerfile or Compose file. See [Container base images](container.md#what-it-matches) ([#846](https://github.com/arminazimi/evergreen/issues/846)). |
 
 ## Known limits and false-positive boundaries
 
