@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "evergreen.corpus-snapshot.v1",
+  "detectors": {
+    "android": {
+      "findings": 4,
+      "repositories": 4
+    },
+    "ci-images": {
+      "findings": 8,
+      "repositories": 4
+    },
+    "container": {
+      "findings": 23,
+      "repositories": 9
+    },
+    "cpp": {
+      "findings": 11,
+      "repositories": 7
+    },
+    "dart": {
+      "findings": 8,
+      "repositories": 4
+    },
+    "database": {
+      "findings": 8,
+      "repositories": 6
+    },
+    "dotnet": {
+      "findings": 105,
+      "repositories": 10
+    },
+    "github-actions": {
+      "findings": 295,
+      "repositories": 55
+    },
+    "go": {
+      "findings": 8,
+      "repositories": 5
+    },
+    "java": {
+      "findings": 6,
+      "repositories": 4
+    },
+    "kubernetes": {
+      "findings": 29,
+      "repositories": 4
+    },
+    "nodejs": {
+      "findings": 44,
+      "repositories": 13
+    },
+    "npm": {
+      "findings": 49,
+      "repositories": 13
+    },
+    "php": {
+      "findings": 5,
+      "repositories": 4
+    },
+    "python": {
+      "findings": 20,
+      "repositories": 17
+    },
+    "ruby": {
+      "findings": 7,
+      "repositories": 7
+    },
+    "rust": {
+      "findings": 5,
+      "repositories": 4
+    },
+    "serverless": {
+      "findings": 20,
+      "repositories": 9
+    },
+    "shell": {
+      "findings": 11,
+      "repositories": 4
+    },
+    "swift": {
+      "findings": 16,
+      "repositories": 11
+    },
+    "terraform": {
+      "findings": 7,
+      "repositories": 5
+    }
+  }
+}
