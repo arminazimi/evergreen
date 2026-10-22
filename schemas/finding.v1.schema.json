@@ -40,6 +40,13 @@
         "critical"
       ]
     },
+    "confidence": {
+      "enum": [
+        "exact",
+        "range",
+        "inferred-from-lock"
+      ]
+    },
     "location": {
       "type": "object",
       "required": [
