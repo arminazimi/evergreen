@@ -509,6 +509,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [AWS Lambda Ruby 2.7 runtime is end-of-life](serverless.aws-lambda.ruby2.7.html) — end of life, `serverless.aws-lambda.ruby2.7`
 - [Google Cloud Functions Node.js 14 runtime is end-of-life](serverless.google-cloud-functions.nodejs14.html) — end of life, `serverless.google-cloud-functions.nodejs14`
 
+## shell
+
+- [PowerShell 6.x is no longer supported](shell.powershell.end-of-life-6.html) — end of life, `shell.powershell.end-of-life-6`
+- [PowerShell 7.0 (LTS) is no longer supported](shell.powershell.end-of-life-7.0.html) — end of life, `shell.powershell.end-of-life-7.0`
+- [PowerShell 7.1 is no longer supported](shell.powershell.end-of-life-7.1.html) — end of life, `shell.powershell.end-of-life-7.1`
+- [PowerShell 7.2 (LTS) is no longer supported](shell.powershell.end-of-life-7.2.html) — end of life, `shell.powershell.end-of-life-7.2`
+- [PowerShell 7.3 is no longer supported](shell.powershell.end-of-life-7.3.html) — end of life, `shell.powershell.end-of-life-7.3`
+
 ## swift
 
 - [iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads](swift.app-store.ios-below-13.html) — end of support, `swift.app-store.ios-below-13`

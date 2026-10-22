@@ -449,6 +449,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs14.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.0.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.2.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.3.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html</loc><lastmod>2026-10-19</lastmod></url>
