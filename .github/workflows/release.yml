@@ -130,6 +130,40 @@ jobs:
           git push origin "refs/tags/$MAJOR_TAG" --force-with-lease="refs/tags/$MAJOR_TAG:$OLD_TARGET"
           echo "$MAJOR_TAG now points to $RELEASE_TAG ($RELEASE_SHA)." >> "$GITHUB_STEP_SUMMARY"
 
+  published-scan:
+    # The publish workflow smoke-tests the package on a small fixture. This job scans this repository with the
+    # published package and with the build that passed CI, and fails the release workflow if the summaries differ.
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Select release
+        id: release
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          git tag --points-at HEAD | grep -Fx "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Scan with the build that passed CI
+        run: node dist/src/cli.js scan . --json > "$RUNNER_TEMP/built.json"
+      - name: Scan with the published package
+        # Run from a temporary directory: inside the checkout, npx would resolve this repository's own bin.
+        working-directory: ${{ runner.temp }}
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: npx --yes "evergreen-deprecation@$VERSION" scan "$GITHUB_WORKSPACE" --json > "$RUNNER_TEMP/published.json"
+      - name: Compare the summaries
+        run: node .github/scripts/release-smoke.mjs "$RUNNER_TEMP/built.json" "$RUNNER_TEMP/published.json"
+
   container:
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
