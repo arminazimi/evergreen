@@ -280,6 +280,8 @@ The two tools answer different questions. Renovate says a newer version exists a
 
 Outcomes: `agree`, `evergreen-only`, `renovate-only`, and `inconclusive` (Renovate skipped the lookup, for example `github-token-required` for Actions when run without a GitHub token, so it says nothing either way). Runtime findings (`nodejs.runtime.*`, `python.runtime.*`) have no Renovate counterpart and are listed as not comparable. Matching is by file and dependency name because Renovate gives no line numbers.
 
+The committed reports are combined into one reviewable page, [differential-report.md](differential-report.md) (and [differential-report.json](differential-report.json)), which lists every disagreement with links to the declaration at the pinned commit and to each tool's evidence. Regenerate it with `npm run differential:report` after adding or refreshing a report; a test fails when it drifts from the reports.
+
 Results for the five container corpus repositories, with Renovate 44.164 run without a GitHub token on 2026-10-16 (reports in [`benchmarks/differential/reports/`](../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
 
 | Repository | Agree | Evergreen-only | Renovate-only | Inconclusive |
