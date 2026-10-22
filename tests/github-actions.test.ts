@@ -271,3 +271,61 @@ test("every bundled action rule flags the release below its supported major and 
     );
   }
 });
+
+const setupDotnetWorkflow = (versions: string): string => `name: CI
+jobs:
+  build:
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+${versions}
+`;
+
+test("a literal dotnet-version for actions/setup-dotnet is judged with the dotnet runtime rules", async () => {
+  const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: '6.0.x'"));
+  const analysis = await new GitHubActionsDetector().analyze({ root });
+  const found = analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime."));
+  assert.deepEqual(found.map((finding) => [finding.ruleId, finding.location.line]), [["dotnet.runtime.end-of-support-6.0", 9]]);
+  assert.match(found[0]!.summary, /installs \.NET 6\.0\.x/);
+  assert.ok(found[0]!.sources.some((source) => source.url.includes("microsoft.com")));
+  assert.deepEqual(analysis.unclassified, []);
+});
+
+test("a multi-line dotnet-version is judged per entry at the entry's own line", async () => {
+  const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: |\n            5.0.x\n            6.0.100\n            10.0.x"));
+  const analysis = await new GitHubActionsDetector().analyze({ root });
+  assert.deepEqual(
+    analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
+    [["dotnet.runtime.end-of-support-5.0", 10], ["dotnet.runtime.end-of-support-6.0", 11]],
+  );
+});
+
+test("an expression, a floating major, or a pre-release dotnet-version is unclassified, never guessed", async () => {
+  const root = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: |\n            ${{ matrix.dotnet }}\n            6.x\n            7.0.100-preview.1"));
+  const analysis = await new GitHubActionsDetector().analyze({ root });
+  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("dotnet.runtime.")), []);
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.location.line, item.reference]),
+    [[10, "dotnet-version: ${{ matrix.dotnet }}"], [11, "dotnet-version: 6.x"], [12, "dotnet-version: 7.0.100-preview.1"]],
+  );
+});
+
+test("dotnet-version is read only for actions/setup-dotnet, and malformed workflows are skipped", async () => {
+  const other = await repositoryWithWorkflow(`jobs:
+  build:
+    steps:
+      - uses: example/setup-dotnet-clone@v1
+        with:
+          dotnet-version: 5.0.x
+      - run: echo
+        with:
+          dotnet-version: 5.0.x
+`);
+  assert.deepEqual((await new GitHubActionsDetector().analyze({ root: other })).findings, []);
+  const malformed = await repositoryWithWorkflow("jobs: [\n  - uses: actions/setup-dotnet@v5\n    with: {dotnet-version: 5.0.x\n");
+  assert.deepEqual(await new GitHubActionsDetector().scan({ root: malformed }), []);
+  const supported = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: 10.0.x"));
+  assert.deepEqual((await new GitHubActionsDetector().analyze({ root: supported })).findings, []);
+});

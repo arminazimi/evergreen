@@ -5,7 +5,10 @@ import { relativePosix } from "../paths.js";
 import type { DeprecationRule } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
 import { DETECTOR_API_VERSION, isDeprecationRule } from "../sdk.js";
-import { loadRegistryRules } from "../registry.js";
+import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
+import type { RegistryV2Rule } from "../registry.js";
+import { versContains } from "../vers.js";
+import { classifyDotnetVersion, setupDotnetVersions } from "./github-actions-dotnet.js";
 import type {
   Detector,
   DetectorAnalysis,
@@ -180,6 +183,49 @@ function resolveReference(
   return VERSION_PATTERN.test(ref) ? { version: ref, source: "tag" } : undefined;
 }
 
+/**
+ * Judges the `dotnet-version` input of `actions/setup-dotnet` with the `dotnet` runtime rules (the same reuse the
+ * `container` detector makes for Microsoft base images). A floating or non-literal entry is unclassified, never guessed.
+ */
+function judgeSetupDotnet(
+  contents: string,
+  path: string,
+  rules: readonly RegistryV2Rule[],
+  findings: DetectorFinding[],
+  unclassified: DetectorUnclassifiedReference[],
+): void {
+  for (const entry of setupDotnetVersions(contents)) {
+    const location = { path, line: entry.line };
+    const reference = `dotnet-version: ${entry.value}`;
+    if (entry.expression) {
+      unclassified.push({ component: "actions/setup-dotnet", reference, reason: "the version is an expression, which Evergreen does not evaluate", location });
+      continue;
+    }
+    const version = classifyDotnetVersion(entry.value);
+    if (version.kind === "unclassified") {
+      unclassified.push({ component: "actions/setup-dotnet", reference, reason: version.reason, location });
+      continue;
+    }
+    const rule = rules.find((item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest));
+    if (rule) {
+      findings.push({
+        id: `${rule.id}:${path}:${entry.line}`,
+        ruleId: rule.id,
+        title: rule.title,
+        summary: `${path} installs .NET ${entry.value} with actions/setup-dotnet. ${rule.summary}`,
+        severity: rule.severity,
+        location,
+        ...(rule.replacement ? { replacement: rule.replacement } : {}),
+        ...(rule.deadline ? { deadline: rule.deadline } : {}),
+        ...(rule.migration ? { migration: rule.migration } : {}),
+        sources: rule.sources,
+      });
+    } else if (rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))) {
+      unclassified.push({ component: "actions/setup-dotnet", reference, reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`, location });
+    }
+  }
+}
+
 export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
@@ -192,12 +238,19 @@ export class GitHubActionsDetector implements Detector {
       loadShaRegistry(),
       findWorkflowFiles(context.root),
     ]);
+    let dotnetRules: RegistryV2Rule[] | undefined;
     const rulesByAction = new Map(rules.map((rule) => [rule.action.toLowerCase(), rule]));
     const findings: DetectorFinding[] = [];
     const unclassified: DetectorUnclassifiedReference[] = [];
 
     for (const workflowFile of workflowFiles) {
       const contents = await readFile(workflowFile, "utf8");
+      if (/setup-dotnet/i.test(contents)) {
+        dotnetRules ??= validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
+          (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
+        );
+        judgeSetupDotnet(contents, relativePosix(context.root, workflowFile), dotnetRules, findings, unclassified);
+      }
 
       for (const reference of parseActionReferences(contents)) {
         const rule = rulesByAction.get(reference.action);
