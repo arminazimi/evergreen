@@ -49,6 +49,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   ruby: ["ruby"],
   rust: ["rust"],
   serverless: ["serverless"],
+  shell: [],
   swift: ["swift"],
   terraform: ["terraform"],
 };
