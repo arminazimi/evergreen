@@ -4881,6 +4881,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 3 of global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
           }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksServer/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksServer/Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
         }
       ]
     },

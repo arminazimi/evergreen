@@ -13,7 +13,9 @@ It walks the repository up to eight directories deep (at most 2,000 matching fil
 
 ## What it matches
 
-Docker Hub official images only: `node`, `python`, `postgres`, `mysql`, and `ruby` (`node`, `library/node`, and `docker.io/library/node` are the same image). Images from other registries or organizations (`ghcr.io/acme/node`, `myorg/node`) are never matched.
+Docker Hub official images: `node`, `python`, `postgres`, `mysql`, and `ruby` (`node`, `library/node`, and `docker.io/library/node` are the same image). Images from other registries or organizations (`ghcr.io/acme/node`, `myorg/node`) are never matched, with one exception.
+
+**Microsoft .NET images.** `mcr.microsoft.com/dotnet/sdk`, `aspnet`, `runtime`, and `runtime-deps` (and `dotnet/core/*`, where the same images lived before .NET 5) are matched, because their tags name a .NET release line: `sdk:6.0` is .NET 6. They are judged with the [`dotnet` runtime rules](dotnet.md) (`dotnet.runtime.end-of-support-*`, with Microsoft's support policy and releases index as sources), not with a copy of them, so a rule changes in one place. A tag `X.Y` or `X.Y.Z` is the line `X.Y`; the variant suffixes Microsoft publishes (`-alpine3.19`, `-bookworm-slim`, `-jammy-chiseled`, `-cbl-mariner2.0`, `-azurelinux3.0`, `-amd64`, `-nanoserver-1809`) are accepted. A variable, `latest`, no tag, or an unrecognized suffix is unclassified. `dotnet/framework/*`, `dotnet/nightly/*`, and `dotnet/monitor` are never matched, and no other registry is.
 
 A tag is read as a release line when it starts with a version and carries only a known variant suffix (`alpine`, `slim`, `bookworm`, `bullseye`, `jammy`, and similar). `node:18`, `node:18.20.4-alpine`, and `postgres:11.5-bullseye` are classified. A finding is reported only when **every** version the tag can stand for is inside the rule's range.
 
@@ -42,3 +44,5 @@ The rules are in `registry/container.json` and ship in the [data bundle](../DATA
 ## Validation
 
 Five public repositories at pinned commits are in the corpus (four with end-of-life images, one with none). Their expected findings were reviewed by hand against the files at that commit, and where the maintainers later moved off the image the note links their commit.
+
+The .NET images are checked against SharpSocks, whose `SharpSocksServer/Dockerfile` uses `mcr.microsoft.com/dotnet/runtime:5.0` and `dotnet/sdk:5.0`; both lines are expected findings in the corpus.
