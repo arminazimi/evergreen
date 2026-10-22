@@ -122,6 +122,7 @@ export function renderSarif(result: ScanResult): string {
             },
           ],
           partialFingerprints: { "evergreenFindingId/v1": finding.id },
+          properties: { confidence: finding.confidence },
         })),
       },
     ],
@@ -175,6 +176,7 @@ export function renderText(result: ScanResult): string {
     const line = finding.location.line ? `:${finding.location.line}` : "";
     lines.push("", `${finding.severity.toUpperCase()} ${finding.title}`);
     lines.push(`${finding.location.path}${line}`);
+    lines.push(`Confidence: ${finding.confidence}`);
     lines.push(finding.summary);
     if (finding.replacement) {
       lines.push(`Replacement: ${finding.replacement}`);

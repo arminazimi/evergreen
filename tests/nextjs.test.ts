@@ -56,6 +56,7 @@ function expectedFinding(rule: RegistryV2Rule, path: string, line: number, summa
     title: rule.title,
     summary,
     severity: rule.severity,
+    confidence: summary.includes("not found in a supported lockfile") ? "range" : "inferred-from-lock",
     location: { path, line },
     replacement: rule.replacement!,
     deadline: rule.deadline!,

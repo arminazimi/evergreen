@@ -14,7 +14,8 @@ export interface DetectorContext {
   readonly root: string;
 }
 
-export type DetectorFinding = Omit<Finding, "detector">;
+/** A detector may state `confidence`; when it does not, the engine derives it from where the finding was read. */
+export type DetectorFinding = Omit<Finding, "detector" | "confidence"> & { confidence?: Finding["confidence"] };
 export type DetectorUnclassifiedReference = Omit<UnclassifiedReference, "detector">;
 
 export interface DetectorAnalysis {
