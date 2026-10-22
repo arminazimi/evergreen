@@ -1,0 +1,48 @@
+#!/bin/sh
+# Opt-in pre-push hook: scans this repository with the local Evergreen build when a push changes
+# a manifest, lockfile, workflow, or Dockerfile, and blocks the push on any finding that
+# .evergreen-baseline.json does not cover. The scan uses no network.
+#
+# Enable:   git config core.hooksPath .githooks
+# Bypass:   git push --no-verify
+# Testing:  EVERGREEN_PRE_PUSH_SKIP_BUILD=1 skips the build; EVERGREEN_CLI overrides dist/src/cli.js.
+
+set -eu
+
+zero=0000000000000000000000000000000000000000
+pattern='(^|/)(package(-lock)?\.json|npm-shrinkwrap\.json|pnpm-lock\.yaml|yarn\.lock|requirements[^/]*\.txt|pyproject\.toml|poetry\.lock|uv\.lock|Pipfile(\.lock)?|go\.(mod|sum)|Cargo\.(toml|lock)|Gemfile(\.lock)?|composer\.(json|lock)|pom\.xml|build\.gradle(\.kts)?|[^/]*\.csproj|Directory\.Packages\.props|pubspec\.(yaml|lock)|Package\.swift|Podfile(\.lock)?|mix\.(exs|lock)|\.nvmrc|\.node-version|\.python-version|\.tool-versions|Dockerfile[^/]*|\.github/workflows/[^/]+\.ya?ml)$'
+
+root=$(git rev-parse --show-toplevel)
+changed=""
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "$zero" ] && continue # deleting a branch
+  if [ "$remote_sha" = "$zero" ]; then
+    base=$(git merge-base "$local_sha" origin/main 2>/dev/null || true)
+    [ -n "$base" ] || base=$(git hash-object -t tree /dev/null)
+  else
+    base=$remote_sha
+  fi
+  changed="$changed
+$(git diff --name-only "$base" "$local_sha" 2>/dev/null || true)"
+done
+
+if ! printf '%s\n' "$changed" | grep -Eq "$pattern"; then
+  exit 0
+fi
+
+cd "$root"
+echo "pre-push: a manifest changed; scanning with Evergreen..." >&2
+if [ "${EVERGREEN_PRE_PUSH_SKIP_BUILD:-}" != "1" ]; then
+  npm run build --silent
+fi
+
+baseline=""
+[ -f .evergreen-baseline.json ] && baseline="--baseline .evergreen-baseline.json"
+# shellcheck disable=SC2086
+output=$(node "${EVERGREEN_CLI:-dist/src/cli.js}" scan . $baseline --json)
+count=$(printf '%s' "$output" | node -e 'process.stdout.write(String(JSON.parse(require("fs").readFileSync(0, "utf8")).findings.length))')
+if [ "$count" != "0" ]; then
+  printf '%s' "$output" | node -e 'for (const f of JSON.parse(require("fs").readFileSync(0, "utf8")).findings) console.error(`  ${f.ruleId} (${f.id})`)'
+  echo "pre-push: $count finding(s) not covered by the baseline. Fix them, accept them (see docs/ADOPTION.md), or push with --no-verify." >&2
+  exit 1
+fi

@@ -42,6 +42,16 @@ npm run check
 
 CI also enforces test coverage floors (93% lines, 87% branches, 93% functions) with `npm run test:coverage`. New code should come with tests so the number stays up; raise the floors in `package.json` when coverage rises, never lower them to make a change pass.
 
+### Optional pre-push hook
+
+The repository ships an opt-in hook that runs Evergreen on this repository before you push. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). Pushes that touch none of those files are not slowed down.
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Bypass it once with `git push --no-verify`; undo it with `git config --unset core.hooksPath`.
+
 ## Your first contribution: add a lifecycle rule
 
 Lifecycle rules are the most valuable contribution and the easiest place to start. This walkthrough adds an npm package deprecation; other ecosystems follow the same shape.
