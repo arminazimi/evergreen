@@ -55,6 +55,7 @@ jobs:
           - { importer: rust-1, ecosystem: rust }
           - { importer: serverless-1, ecosystem: serverless }
           - { importer: serverless-2, ecosystem: serverless }
+          - { importer: shell-1, ecosystem: shell }
           - { importer: swift-1, ecosystem: swift }
           - { importer: terraform-1, ecosystem: terraform }
     steps:
@@ -131,6 +132,7 @@ jobs:
           - rust-1
           - serverless-1
           - serverless-2
+          - shell-1
           - swift-1
           - terraform-1
     steps:
