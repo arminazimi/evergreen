@@ -20,6 +20,7 @@ function finding(ruleId: string, path: string, line: number | undefined, severit
     title: `Title of ${ruleId}`,
     summary: `Summary at ${path}`,
     severity,
+    confidence: "exact",
     location: line === undefined ? { path } : { path, line },
     sources: [{ title: "Source", url: "https://example.com/source" }],
   };

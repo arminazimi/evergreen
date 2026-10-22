@@ -206,6 +206,7 @@ const finding = (id: string, severity: Finding["severity"], title: string, path:
   title,
   summary: "s",
   severity,
+  confidence: "exact",
   location: line === undefined ? { path } : { path, line },
   sources: [{ title: "Vendor | notice", url: "https://example.com/notice" }],
 });

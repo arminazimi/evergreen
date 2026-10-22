@@ -19,6 +19,7 @@ const result: ScanResult = {
       title: "Deprecated request package",
       summary: "request is deprecated.",
       severity: "high",
+      confidence: "exact",
       location: { path: "package.json", line: 3 },
       replacement: "Native fetch",
       deadline: "2020-02-11",
