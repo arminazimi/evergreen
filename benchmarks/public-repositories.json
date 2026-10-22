@@ -4156,6 +4156,33 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 9 of src/xunit.analyzers.tests/xunit.analyzers.tests.csproj reads `<TargetFrameworks>net8.0;net472</TargetFrameworks>`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity (net472 is .NET Framework and is not judged). There is no maintainer migration yet; the source is the vendor's announced date."
           }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": ".github/workflows/ci-signed.yaml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/ci-signed.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": ".github/workflows/ci-unsigned.yaml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/ci-unsigned.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-8.0",
+          "path": ".github/workflows/pull-request.yaml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/pull-request.yaml reads `8.0.x` in the `dotnet-version` input of `actions/setup-dotnet`; Microsoft's releases index lists .NET 8 as ending support on 2026-11-10, so Evergreen reports it as a scheduled end of life at low severity. There is no maintainer migration yet; the source is the vendor's announced date."
+          }
         }
       ]
     },
@@ -4784,6 +4811,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 5 of ChromeDllInjectorBuildZipper/ChromeDllInjectorBuildZipper.csproj reads `<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
           }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": ".github/workflows/buildandrelease.yml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 44 of .github/workflows/buildandrelease.yml reads `dotnet-version: '6.0.x'` for `actions/setup-dotnet`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
         }
       ]
     },
@@ -4880,6 +4916,33 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 3 of global.json reads `\"version\": \"5.0\",`; the 5.0 line is an SDK pin on a release line whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-6.0",
+          "path": ".github/workflows/sharpsocks-server.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/sharpsocks-server.yml reads `dotnet-version: 6.0.x` for `actions/setup-dotnet`; the 6.0 line is a release line whose support ended on 2024-11-12 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksServer/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
+          }
+        },
+        {
+          "ruleId": "dotnet.runtime.end-of-support-5.0",
+          "path": "SharpSocksServer/Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of SharpSocksServer/Dockerfile reads `FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build`; the 5.0 tag names the .NET 5 release line, whose support ended on 2022-05-10 according to Microsoft's releases index."
           }
         }
       ]

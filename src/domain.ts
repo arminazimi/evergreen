@@ -2,6 +2,14 @@ export const severityValues = ["info", "low", "medium", "high", "critical"] as c
 
 export type Severity = (typeof severityValues)[number];
 
+/**
+ * How the version behind a finding was read: `exact` from a pinned declaration, `range` from a compatibility
+ * range that merely allows it, `inferred-from-lock` from a lockfile entry.
+ */
+export const confidenceValues = ["exact", "range", "inferred-from-lock"] as const;
+
+export type Confidence = (typeof confidenceValues)[number];
+
 export interface EvidenceSource {
   title: string;
   url: string;
@@ -143,6 +151,7 @@ export interface Finding {
   title: string;
   summary: string;
   severity: Severity;
+  confidence: Confidence;
   location: SourceLocation;
   replacement?: string;
   deadline?: string;
