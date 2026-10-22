@@ -55,3 +55,19 @@ node dist/src/cli.js baseline . --output .evergreen-baseline.json
 ```
 
 Review the diff, then edit each new entry to add an `owner`, a `reason`, and an `expires` date (see [GITHUB_ACTION.md](GITHUB_ACTION.md) for the baseline format), and commit the file in the same pull request as the change that introduced the finding. Prefer fixing the finding; every accepted one should have a dated reason. Findings the scan gets wrong are product feedback: open an issue labelled `dogfood`.
+
+## Triaging self-scan findings
+
+Every finding the self-scan produces is product feedback, so each one is triaged before it is accepted or fixed:
+
+| Outcome | Meaning | What to do |
+| --- | --- | --- |
+| False positive | The finding is wrong | Open an issue labelled `dogfood` for the detector or rule, with the finding ID and the evidence; fix the product, not the baseline |
+| Missing rule | The scan misses a lifecycle risk we know about | Open an issue labelled `dogfood` asking for the rule, with an authoritative source |
+| Real debt | The finding is right | Fix it, or accept it in `.evergreen-baseline.json` with an owner, reason, and expiry, and open an issue labelled `dogfood` to track it |
+
+The `dogfood` label is defined in `.github/labels.yml`. Apply it to every issue that came from the self-scan, whatever the outcome.
+
+## Monthly self-scan report
+
+Once a month a maintainer adds `reports/self-scan-YYYY-MM.md` using the template in [reports/README.md](../reports/README.md): the counts from a scan of `main` and the outcome of each finding triaged that month. The numbers are reproducible with `node dist/src/cli.js scan . --json` on the commit the report names. Like the adoption snapshot, the report is committed; nothing about it is collected from users.
