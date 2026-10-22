@@ -64,6 +64,8 @@ test("PowerShell parsing is bounded and never throws on arbitrary text", () => {
   assert.deepEqual(parsePowerShell(""), []);
   assert.deepEqual(parsePowerShell("@{ Description = 'it''s a module'; PowerShellVersion = '7.4' }"), [declaration("7.4", 1)]);
   assert.deepEqual(parsePowerShell("Write-Host `\n#Requires -Version 5.1"), []);
+  assert.deepEqual(parsePowerShell("#Requires -Version 7.0\ncmake -S . `\n  -D A=B `\n  -D C=D\n"), [declaration("7.0", 1)]);
+  assert.deepEqual(parsePowerShell("@{ Description = 'x'\nPowerShellVersion = `\n'7.4' }"), [declaration("7.4", 3)]);
   assert.deepEqual(parsePowerShell('@{ PowerShellVersion = "7`n.4" }'), []);
   assert.deepEqual(parsePowerShell('@{ Description = "a""b"; PowerShellVersion = "7.4" }'), [declaration("7.4", 1)]);
   assert.deepEqual(parsePowerShell("@{\nPowerShellVersion =\n" + " ".repeat(MAXIMUM_LINE_LENGTH) + "'7.4'\n}"), []);

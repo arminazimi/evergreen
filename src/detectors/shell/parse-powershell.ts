@@ -27,6 +27,7 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
   const directives: PowerShellVersionDeclaration[] = [];
   const stack: string[] = [];
   let line = 1;
+  let continuedLine = 0;
   let i = 0;
   while (i < source.length) {
     const c = source[i]!;
@@ -48,7 +49,7 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
       const text = source.slice(i, end < 0 ? source.length : end);
       const whole = lines[line - 1]!;
       const match = /^\s*#requires\s+-version\s+(\d+\.\d+(?:\.\d+){0,2})\s*$/i.exec(whole);
-      if (whole.length <= MAXIMUM_LINE_LENGTH && match && whole.trimStart() === text) {
+      if (line !== continuedLine && whole.length <= MAXIMUM_LINE_LENGTH && match && whole.trimStart() === text) {
         directives.push({ kind: "powershell-version", value: match[1]!, line });
       }
       i = end < 0 ? source.length : end;
@@ -94,9 +95,9 @@ export function parsePowerShell(contents: string): PowerShellVersionDeclaration[
       continue;
     }
     if (c === "`") {
-      // A continued line can turn the following # into part of a command.
-      // Leave such inputs unclassified rather than manufacturing a directive.
-      if (source[i + 1] === "\n") return [];
+      // A continued line can turn the following # into part of a command, so a
+      // comment that starts the continued line is never read as a directive.
+      if (source[i + 1] === "\n") { line++; continuedLine = line; i += 2; continue; }
       tokens.push({ text: "<escaped>", line }); i += 2; continue;
     }
     if ("([{".includes(c)) stack.push(c);
