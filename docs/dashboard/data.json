@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-21",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 177
+    "repositories": 189
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -87,8 +87,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 9,
-        "expectedFindings": 23,
+        "repositoriesWithFindings": 14,
+        "expectedFindings": 39,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -190,8 +190,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 59,
-        "expectedFindings": 321,
+        "repositoriesWithFindings": 66,
+        "expectedFindings": 379,
         "zeroFindingRepositories": 2,
         "repositories": 11,
         "blindRepositories": 0
@@ -213,8 +213,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 5,
-        "expectedFindings": 8,
+        "repositoriesWithFindings": 9,
+        "expectedFindings": 14,
         "zeroFindingRepositories": 1,
         "repositories": 5,
         "blindRepositories": 0
@@ -245,11 +245,11 @@
     },
     {
       "id": "kubernetes",
-      "level": "experimental",
-      "earnedLevel": "experimental",
+      "level": "beta",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": {
         "truePositives": 29,
@@ -259,11 +259,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 29,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 10,
+        "expectedFindings": 67,
+        "zeroFindingRepositories": 2,
+        "repositories": 17,
+        "blindRepositories": 12
       }
     },
     {

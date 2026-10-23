@@ -50,9 +50,19 @@ The review tool (`benchmarks/mining/review.ts`) now accepts npm package, Python 
 
 ## Kubernetes corpus
 
-Five public repositories at pinned commits cover the `kubernetes` detector: `argoproj/argocd-example-apps` (Helm and kustomize applications, no findings), `kelseyhightower/ingress-with-static-ip`, `unixhot/salt-kubebin` (a CronJob and three Ingresses), `kubernetes/examples` (two PodSecurityPolicy documents, plus the two end-of-life base images the container detector reports there), and `lusyoe/springboot-k8s-example` (a Helm template and a plain manifest).
+Seventeen public repositories at pinned commits cover the `kubernetes` detector. Targeted (chosen knowing their result): `argoproj/argocd-example-apps` (Helm and kustomize applications, no findings), `kelseyhightower/ingress-with-static-ip`, `unixhot/salt-kubebin` (a CronJob and three Ingresses), `kubernetes/examples` (two PodSecurityPolicy documents, plus the two end-of-life base images the container detector reports there), and `lusyoe/springboot-k8s-example` (a Helm template and a plain manifest).
 
-Because the corpus scans every detector, every finding in these repositories is recorded, not only the Kubernetes ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a migration commit for the finding, so none is cited. The rules' dates and removal releases come from the Kubernetes migration guide, not from these repositories. A full run on 2026-10-17 over all 74 corpus entries (including the Java entries added in the next change) reported no false positives or false negatives, with nine expected `kubernetes` findings, all true.
+Blind (rule below): `kelseyhightower/kubernetes-cluster-federation` (extensions/v1beta1 Deployments, ReplicaSets, and an Ingress), `motiv-labs/janus` (a PodDisruptionBudget and an Ingress, plus Go and Action findings), `FairwindsOps/pluto` (two extensions/v1beta1 Deployments outside its test directories), `luksa/kubernetes-in-action` (thirty-odd manifests across extensions, apps/v1beta1 and v1beta2, PodSecurityPolicy, CronJob, StatefulSet, CRD, and Ingress), `ossf/package-analysis` (an autoscaling/v2beta2 HorizontalPodAutoscaler), `knrt10/kubernetes-basicLearning` (a networking.k8s.io/v1beta1 Ingress), and five with no Kubernetes finding: `hasura/skor` (the removed version appears only as a `kind: List` item), `stefanprodan/gitops-istio` (the removed version appears only as a Flagger `autoscalerRef`), `doitintl/kube-no-trouble` (the removed versions are in `fixtures/`), `elastic/crd-ref-docs`, and `yaml-schema/yaml-schema`, `shepherd44/helm-charts` (current API versions).
+
+Because the corpus scans every detector, every finding in these repositories is recorded, not only the Kubernetes ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a migration commit for the finding, so none is cited. The rules' dates and removal releases come from the Kubernetes migration guide, not from these repositories. A run of `npm run validate:public-repos -- --ecosystem kubernetes` on 2026-10-23 over the seventeen Kubernetes entries reported no false positives or false negatives, with 67 expected `kubernetes` findings, all true.
+
+## Kubernetes blind selection
+
+The five earliest Kubernetes repositories were chosen knowing their result, so each records `selection: "targeted"`; the twelve below record `selection: "blind"`.
+
+The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub code search restricted to `--extension yaml` (`gh search code <query> --limit 60`) for each of `extensions/v1beta1`, `policy/v1beta1`, `batch/v1beta1`, `autoscaling/v2beta2`, and `networking.k8s.io/v1beta1` (removed API groups, expected to produce findings), and `apps/v1 Deployment` (current API, expected to produce none). Per query, walk the results in order and keep the first two unique repositories, skipping forks, archives, repositories already in the corpus or chosen by an earlier query, and repositories larger than 5,000 KB on GitHub. Pin each at its default-branch commit on that date. The twelve are `hasura/skor`, `kelseyhightower/kubernetes-cluster-federation`, `motiv-labs/janus`, `FairwindsOps/pluto`, `luksa/kubernetes-in-action`, `doitintl/kube-no-trouble`, `ossf/package-analysis`, `stefanprodan/gitops-istio`, `knrt10/kubernetes-basicLearning`, `elastic/crd-ref-docs`, `yaml-schema/yaml-schema`, and `shepherd44/helm-charts`. The query returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Ground truth: for each repository every `apiVersion` line naming a removed group and version was listed with `grep` over the pinned YAML files and compared with the report, independently of Evergreen's own output, and each reported finding's `kind` was read from its manifest. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the kind.
 
 ## Java and Kotlin corpus
 
@@ -134,7 +144,7 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 ## Precision thresholds
 
-[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
+[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `kubernetes`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
 
 ```text
 THRESHOLD  npm: precision 0.9 is below the required 0.95
@@ -330,7 +340,7 @@ Measured on 145 pinned repositories at commit `122d612` on 2026-10-21. Regenerat
 | github-actions | Supported | 261 | 0 | 0 | 1.000 | 1.000 |
 | go | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | java | Beta | 6 | 0 | 0 | 1.000 | 1.000 |
-| kubernetes | Experimental | 29 | 0 | 0 | 1.000 | 1.000 |
+| kubernetes | Beta | 29 | 0 | 0 | 1.000 | 1.000 |
 | nodejs | Supported | 44 | 0 | 0 | 1.000 | 1.000 |
 | npm | Supported | 49 | 0 | 0 | 1.000 | 1.000 |
 | php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |

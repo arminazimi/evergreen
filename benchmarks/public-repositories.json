@@ -8295,6 +8295,1163 @@
       "ecosystem": "java",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "hasura/skor",
+      "commit": "b3f02e3ec7202ae086c08e4f88c611821531af60",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "kelseyhightower/kubernetes-cluster-federation",
+      "commit": "0606fbe0348530ed45c9f69fd5fd5c7bd1632018",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "deployments/federation-apiserver.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of deployments/federation-apiserver.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "deployments/federation-controller-manager.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of deployments/federation-controller-manager.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "ingress/nginx.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of ingress/nginx.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+          "path": "rs/nginx-us.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of rs/nginx-us.yaml reads `apiVersion: extensions/v1beta1` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+          "path": "rs/nginx.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of rs/nginx.yaml reads `apiVersion: extensions/v1beta1` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "motiv-labs/janus",
+      "commit": "ce8de8183c6751e5c07d39b4c582e71e95e0d637",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "Dockerfile",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of Dockerfile reads `FROM golang:1.13.6-buster as builder`, a release the GitHub Actions rule container.golang.eol-1.25-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "Dockerfile.dev",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 2 of Dockerfile.dev reads `FROM golang:1.14-alpine AS build-debug-common`, a release the GitHub Actions rule container.golang.eol-1.25-and-older covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/testing.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/testing.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/testing.yml",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 51 of .github/workflows/testing.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-go.node20",
+          "path": ".github/workflows/testing.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 49 of .github/workflows/testing.yml reads `uses: actions/setup-go@v2`, a release the GitHub Actions rule github-actions.setup-go.node20 covers."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.20-and-older",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.15`, a release the GitHub Actions rule go.runtime.end-of-support-1.20-and-older covers."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "janus/templates/ingress.yaml",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of janus/templates/ingress.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+          "path": "janus/templates/pdb.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of janus/templates/pdb.yaml reads `apiVersion: policy/v1beta1` on a `kind: poddisruptionbudget` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "FairwindsOps/pluto",
+      "commit": "9495152d614581a988e31414fa64e8b82474d956",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.stale.node20",
+          "path": ".github/workflows/stale.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/stale.yml reads `- uses: actions/stale@v4`, a release the GitHub Actions rule github-actions.stale.node20 covers."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "e2e/tests/assets/chart/templates/deployment-deprecated.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of e2e/tests/assets/chart/templates/deployment-deprecated.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "luksa/kubernetes-in-action",
+      "commit": "d15844af7b4153eb8d10ba56c5925a21205f490e",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter02/kubia/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter02/kubia/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter04/kubia-unhealthy/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter04/kubia-unhealthy/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter09/v1/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/v1/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter09/v2/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/v2/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter09/v3/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/v3/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter09/v4/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/v4/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter10/kubia-pet-image/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter10/kubia-pet-image/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter10/kubia-pet-peers-image/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter10/kubia-pet-peers-image/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter13/kubia-run-as-user-5/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/kubia-run-as-user-5/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Chapter17/kubia/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter17/kubia/Dockerfile reads `FROM node:7`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+          "path": "Chapter18/website-crd.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter18/website-crd.yaml reads `apiVersion: apiextensions.k8s.io/v1beta1` on a `kind: customresourcedefinition` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.daemonset.v1beta2.removed",
+          "path": "Chapter04/ssd-monitor-daemonset.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter04/ssd-monitor-daemonset.yaml reads `apiVersion: apps/v1beta2` on a `kind: daemonset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "Chapter09/kubia-deployment-and-service-v1.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/kubia-deployment-and-service-v1.yaml reads `apiVersion: apps/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "Chapter09/kubia-deployment-v2.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/kubia-deployment-v2.yaml reads `apiVersion: apps/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "Chapter09/kubia-deployment-v3-with-readinesscheck.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/kubia-deployment-v3-with-readinesscheck.yaml reads `apiVersion: apps/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "Chapter09/kubia-deployment-v3.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter09/kubia-deployment-v3.yaml reads `apiVersion: apps/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+          "path": "Chapter18/website-controller.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter18/website-controller.yaml reads `apiVersion: apps/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.deployment.v1beta2.removed",
+          "path": "Chapter15/deployment-apps-v1beta2.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter15/deployment-apps-v1beta2.yaml reads `apiVersion: apps/v1beta2` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+          "path": "Chapter04/kubia-replicaset-matchexpressions.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter04/kubia-replicaset-matchexpressions.yaml reads `apiVersion: apps/v1beta2` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+          "path": "Chapter04/kubia-replicaset.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter04/kubia-replicaset.yaml reads `apiVersion: apps/v1beta2` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.apps.statefulset.v1beta1.removed",
+          "path": "Chapter10/kubia-statefulset-peers.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter10/kubia-statefulset-peers.yaml reads `apiVersion: apps/v1beta1` on a `kind: statefulset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+          "path": "Chapter04/cronjob.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter04/cronjob.yaml reads `apiVersion: batch/v1beta1` on a `kind: cronjob` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter15/deployment.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter15/deployment.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/frontend-podaffinity-host.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/frontend-podaffinity-host.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/frontend-podaffinity-preferred-host.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/frontend-podaffinity-preferred-host.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/frontend-podaffinity-rack.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/frontend-podaffinity-rack.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/frontend-podantiaffinity-host.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/frontend-podantiaffinity-host.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/preferred-deployment.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/preferred-deployment.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "Chapter16/production-deployment.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter16/production-deployment.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "Chapter05/kubia-ingress-tls.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter05/kubia-ingress-tls.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "Chapter05/kubia-ingress.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter05/kubia-ingress.yaml reads `apiVersion: extensions/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+          "path": "Chapter13/pod-security-policy.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/pod-security-policy.yaml reads `apiVersion: extensions/v1beta1` on a `kind: podsecuritypolicy` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+          "path": "Chapter13/psp-capabilities.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/psp-capabilities.yaml reads `apiVersion: extensions/v1beta1` on a `kind: podsecuritypolicy` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+          "path": "Chapter13/psp-must-run-as.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/psp-must-run-as.yaml reads `apiVersion: extensions/v1beta1` on a `kind: podsecuritypolicy` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+          "path": "Chapter13/psp-privileged.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/psp-privileged.yaml reads `apiVersion: extensions/v1beta1` on a `kind: podsecuritypolicy` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+          "path": "Chapter13/psp-volumes.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter13/psp-volumes.yaml reads `apiVersion: extensions/v1beta1` on a `kind: podsecuritypolicy` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+          "path": "Chapter17/replicaset-crashingpods.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Chapter17/replicaset-crashingpods.yaml reads `apiVersion: extensions/v1beta1` on a `kind: replicaset` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "doitintl/kube-no-trouble",
+      "commit": "2366d92156c0cf94c31453593368077f13c183b7",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.golang.eol-1.25-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Dockerfile reads `FROM --platform=$BUILDPLATFORM golang:1.23-alpine3.20 AS builder`, a release the GitHub Actions rule container.golang.eol-1.25-and-older covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 81,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 81 of .github/workflows/main.yaml reads `uses: docker/build-push-action@v6`, a release the GitHub Actions rule github-actions.build-push-action.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.build-push-action.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 194,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 194 of .github/workflows/main.yaml reads `uses: docker/build-push-action@v6`, a release the GitHub Actions rule github-actions.build-push-action.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/main.yaml reads `- uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 54 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 75,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 75 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 115,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 115 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 144,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 144 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 184,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 184 of .github/workflows/main.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/nightly.yaml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 11 of .github/workflows/nightly.yaml reads `uses: actions/checkout@v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/main.yaml",
+          "line": 118,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 118 of .github/workflows/main.yaml reads `- uses: actions/download-artifact@v4`, a release the GitHub Actions rule github-actions.download-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/main.yaml",
+          "line": 155,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 155 of .github/workflows/main.yaml reads `- uses: actions/download-artifact@v4`, a release the GitHub Actions rule github-actions.download-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/main.yaml",
+          "line": 223,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 223 of .github/workflows/main.yaml reads `- uses: actions/download-artifact@v4`, a release the GitHub Actions rule github-actions.download-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.login-action.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 186,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 186 of .github/workflows/main.yaml reads `uses: docker/login-action@v3`, a release the GitHub Actions rule github-actions.login-action.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 79,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 79 of .github/workflows/main.yaml reads `uses: docker/setup-buildx-action@v3`, a release the GitHub Actions rule github-actions.setup-buildx-action.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-buildx-action.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 192,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 192 of .github/workflows/main.yaml reads `uses: docker/setup-buildx-action@v3`, a release the GitHub Actions rule github-actions.setup-buildx-action.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/main.yaml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/main.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.stale.node20",
+          "path": ".github/workflows/stale.yaml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 10 of .github/workflows/stale.yaml reads `- uses: actions/stale@v9`, a release the GitHub Actions rule github-actions.stale.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/main.yaml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/main.yaml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.23",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.23.0`, a release the GitHub Actions rule go.runtime.end-of-support-1.23 covers."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "ossf/package-analysis",
+      "commit": "c5c45008da694036d701ba76fe9567fc8a5b9675",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "sample_packages/sample_python_package/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of sample_packages/sample_python_package/Dockerfile reads `FROM python:3.9@sha256:edee3d665aba1d84f5344eca825d0de34b38dbf77a776cafd9df65c67e240866`, a release the GitHub Actions rule container.python.eol-3.10-and-older covers."
+          }
+        },
+        {
+          "ruleId": "go.module.cloud.google.com.go.pubsub.deprecated",
+          "path": "go.mod",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 6 of go.mod reads `cloud.google.com/go/pubsub v1.50.2`, a release the GitHub Actions rule go.module.cloud.google.com.go.pubsub.deprecated covers."
+          }
+        },
+        {
+          "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+          "path": "infra/worker/scaler.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of infra/worker/scaler.yaml reads `apiVersion: autoscaling/v2beta2` on a `kind: horizontalpodautoscaler` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "stefanprodan/gitops-istio",
+      "commit": "3851e1802537cd5f7f833b05502f6db1f4528f47",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/analyze.yaml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/analyze.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/e2e.yaml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/e2e.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/inject-sidecar.yaml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/inject-sidecar.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/update-istio.yaml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/update-istio.yaml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/inject-sidecar.yaml",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 34 of .github/workflows/inject-sidecar.yaml reads `- uses: \"actions/setup-python@v2\"`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "knrt10/kubernetes-basicLearning",
+      "commit": "5a50f7cc6100f210e7b8211aa56e5a459a807cc7",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Dockerfile reads `FROM node:8`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "kubia-unhealthy/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of kubia-unhealthy/Dockerfile reads `FROM node:8`, a release the GitHub Actions rule container.node.eol-21-and-older covers."
+          }
+        },
+        {
+          "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+          "path": "kubia-ingress.yaml",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of kubia-ingress.yaml reads `apiVersion: networking.k8s.io/v1beta1` on a `kind: ingress` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "elastic/crd-ref-docs",
+      "commit": "fdfed81f54d565946e44564623a57ac2c11f3b06",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of .github/workflows/release.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 14 of .github/workflows/build.yml reads `- uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of .github/workflows/release.yml reads `uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.20-and-older",
+          "path": "test/go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of test/go.mod reads `go 1.20`, a release the GitHub Actions rule go.runtime.end-of-support-1.20-and-older covers."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of go.mod reads `go 1.25.0`, a release the GitHub Actions rule go.runtime.end-of-support-1.25 covers."
+          }
+        },
+        {
+          "ruleId": "go.runtime.end-of-support-1.25",
+          "path": "go.mod",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of go.mod reads `toolchain go1.25.6`, a release the GitHub Actions rule go.runtime.end-of-support-1.25 covers."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "yaml-schema/yaml-schema",
+      "commit": "d7b7e16f9e8aae9016aa7f3fc71d8559945c2380",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/build.yaml",
+          "line": 146,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 146 of .github/workflows/build.yaml reads `uses: softprops/action-gh-release@v2`, a release the GitHub Actions rule github-actions.action-gh-release.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yaml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/build.yaml reads `uses: actions/cache@v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yaml",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of .github/workflows/build.yaml reads `uses: actions/cache@v4`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yaml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/build.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yaml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/build.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci-tests.yaml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci-tests.yaml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci-tests.yaml",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 47 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci-tests.yaml",
+          "line": 59,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 59 of .github/workflows/ci-tests.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/claude-code-review.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/claude-code-review.yml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/claude.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 29 of .github/workflows/claude.yml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish-crates.yaml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 27 of .github/workflows/publish-crates.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/update-homebrew-tap.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of .github/workflows/update-homebrew-tap.yaml reads `uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/build.yaml",
+          "line": 140,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 140 of .github/workflows/build.yaml reads `uses: actions/download-artifact@v4`, a release the GitHub Actions rule github-actions.download-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/build.yaml",
+          "line": 127,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 127 of .github/workflows/build.yaml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/claude-code-review.yml",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 60 of .github/workflows/claude-code-review.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/claude.yml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of .github/workflows/claude.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "shepherd44/helm-charts",
+      "commit": "760766f9d968cef10a1e76ffdc1f82ea92f9028f",
+      "ecosystem": "kubernetes",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 97,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 97 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 165,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 165 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 198,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 198 of .github/workflows/ci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release-oci.yaml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of .github/workflows/release-oci.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release-verify.yaml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/release-verify.yaml reads `- uses: actions/checkout@v4`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 43 of .github/workflows/ci.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 205,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 205 of .github/workflows/ci.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release-verify.yaml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/release-verify.yaml reads `- uses: actions/setup-python@v5`, a release the GitHub Actions rule github-actions.setup-python.node20 covers."
+          }
+        }
+      ]
     }
   ]
 }
