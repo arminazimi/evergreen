@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-21",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 189
+    "repositories": 300
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -41,11 +41,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 4,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 1
+        "repositoriesWithFindings": 7,
+        "expectedFindings": 9,
+        "zeroFindingRepositories": 4,
+        "repositories": 12,
+        "blindRepositories": 8
       }
     },
     {
@@ -64,17 +64,17 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 8,
+        "repositoriesWithFindings": 7,
+        "expectedFindings": 13,
         "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
       "id": "container",
       "level": "experimental",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -87,11 +87,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 14,
-        "expectedFindings": 39,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 25,
+        "expectedFindings": 57,
+        "zeroFindingRepositories": 3,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
@@ -110,11 +110,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 7,
-        "expectedFindings": 11,
+        "repositoriesWithFindings": 13,
+        "expectedFindings": 18,
         "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 1
+        "repositories": 12,
+        "blindRepositories": 8
       }
     },
     {
@@ -129,32 +129,32 @@
       "evidence": {
         "repositoriesWithFindings": 4,
         "expectedFindings": 8,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "zeroFindingRepositories": 3,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
       "id": "database",
       "level": "experimental",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 6,
-        "expectedFindings": 8,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 1
+        "repositoriesWithFindings": 11,
+        "expectedFindings": 16,
+        "zeroFindingRepositories": 2,
+        "repositories": 12,
+        "blindRepositories": 8
       }
     },
     {
       "id": "dotnet",
       "level": "beta",
-      "earnedLevel": "beta",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -167,8 +167,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 10,
-        "expectedFindings": 112,
+        "repositoriesWithFindings": 20,
+        "expectedFindings": 304,
         "zeroFindingRepositories": 9,
         "repositories": 18,
         "blindRepositories": 12
@@ -190,17 +190,17 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 66,
-        "expectedFindings": 379,
-        "zeroFindingRepositories": 2,
-        "repositories": 11,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 110,
+        "expectedFindings": 662,
+        "zeroFindingRepositories": 5,
+        "repositories": 20,
+        "blindRepositories": 9
       }
     },
     {
       "id": "go",
       "level": "experimental",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -213,11 +213,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 9,
-        "expectedFindings": 14,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 20,
+        "expectedFindings": 51,
+        "zeroFindingRepositories": 3,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
@@ -282,8 +282,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 13,
-        "expectedFindings": 44,
+        "repositoriesWithFindings": 20,
+        "expectedFindings": 64,
         "zeroFindingRepositories": 8,
         "repositories": 26,
         "blindRepositories": 0
@@ -305,8 +305,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 13,
-        "expectedFindings": 49,
+        "repositoriesWithFindings": 15,
+        "expectedFindings": 54,
         "zeroFindingRepositories": 8,
         "repositories": 26,
         "blindRepositories": 0
@@ -330,9 +330,9 @@
       "evidence": {
         "repositoriesWithFindings": 4,
         "expectedFindings": 5,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "zeroFindingRepositories": 7,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
@@ -351,8 +351,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 17,
-        "expectedFindings": 20,
+        "repositoriesWithFindings": 21,
+        "expectedFindings": 24,
         "zeroFindingRepositories": 2,
         "repositories": 17,
         "blindRepositories": 0
@@ -361,7 +361,7 @@
     {
       "id": "ruby",
       "level": "experimental",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -374,11 +374,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 7,
-        "expectedFindings": 7,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 14,
+        "expectedFindings": 24,
+        "zeroFindingRepositories": 3,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
@@ -397,11 +397,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 5,
+        "repositoriesWithFindings": 12,
+        "expectedFindings": 18,
         "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositories": 12,
+        "blindRepositories": 7
       }
     },
     {
@@ -420,11 +420,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 9,
-        "expectedFindings": 20,
-        "zeroFindingRepositories": 2,
-        "repositories": 10,
-        "blindRepositories": 5
+        "repositoriesWithFindings": 14,
+        "expectedFindings": 26,
+        "zeroFindingRepositories": 3,
+        "repositories": 19,
+        "blindRepositories": 14
       }
     },
     {
@@ -437,11 +437,11 @@
       },
       "run": null,
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 11,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 1
+        "repositoriesWithFindings": 5,
+        "expectedFindings": 12,
+        "zeroFindingRepositories": 2,
+        "repositories": 12,
+        "blindRepositories": 8
       }
     },
     {
@@ -462,9 +462,9 @@
       "evidence": {
         "repositoriesWithFindings": 11,
         "expectedFindings": 16,
-        "zeroFindingRepositories": 2,
-        "repositories": 13,
-        "blindRepositories": 7
+        "zeroFindingRepositories": 5,
+        "repositories": 22,
+        "blindRepositories": 16
       }
     },
     {
@@ -479,9 +479,9 @@
       "evidence": {
         "repositoriesWithFindings": 5,
         "expectedFindings": 7,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "zeroFindingRepositories": 3,
+        "repositories": 12,
+        "blindRepositories": 7
       }
     }
   ],

@@ -2,80 +2,80 @@
   "schemaVersion": "evergreen.corpus-snapshot.v1",
   "detectors": {
     "android": {
-      "findings": 4,
-      "repositories": 4
+      "findings": 9,
+      "repositories": 7
     },
     "ci-images": {
-      "findings": 8,
-      "repositories": 4
+      "findings": 13,
+      "repositories": 7
     },
     "container": {
-      "findings": 23,
-      "repositories": 9
+      "findings": 57,
+      "repositories": 25
     },
     "cpp": {
-      "findings": 11,
-      "repositories": 7
+      "findings": 18,
+      "repositories": 13
     },
     "dart": {
       "findings": 8,
       "repositories": 4
     },
     "database": {
-      "findings": 8,
-      "repositories": 6
+      "findings": 16,
+      "repositories": 11
     },
     "dotnet": {
-      "findings": 105,
-      "repositories": 10
+      "findings": 304,
+      "repositories": 20
     },
     "github-actions": {
-      "findings": 295,
-      "repositories": 55
+      "findings": 662,
+      "repositories": 110
     },
     "go": {
-      "findings": 8,
-      "repositories": 5
+      "findings": 51,
+      "repositories": 20
     },
     "java": {
-      "findings": 6,
-      "repositories": 4
+      "findings": 60,
+      "repositories": 13
     },
     "kubernetes": {
-      "findings": 29,
-      "repositories": 4
+      "findings": 67,
+      "repositories": 10
     },
     "nodejs": {
-      "findings": 44,
-      "repositories": 13
+      "findings": 64,
+      "repositories": 20
     },
     "npm": {
-      "findings": 49,
-      "repositories": 13
+      "findings": 54,
+      "repositories": 15
     },
     "php": {
       "findings": 5,
       "repositories": 4
     },
     "python": {
-      "findings": 20,
-      "repositories": 17
+      "findings": 24,
+      "repositories": 21
     },
     "ruby": {
-      "findings": 7,
-      "repositories": 7
+      "findings": 24,
+      "repositories": 14
     },
     "rust": {
-      "findings": 5,
-      "repositories": 4
+      "findings": 18,
+      "repositories": 12
     },
     "serverless": {
-      "findings": 20,
-      "repositories": 9
+      "findings": 26,
+      "repositories": 14
     },
     "shell": {
-      "findings": 11,
-      "repositories": 4
+      "findings": 12,
+      "repositories": 5
     },
     "swift": {
       "findings": 16,
