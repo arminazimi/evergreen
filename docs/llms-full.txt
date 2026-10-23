@@ -618,7 +618,7 @@ Matrix version: **2026-10-15 / v1**
 | Container base images | Experimental | `FROM` lines in Dockerfiles and Containerfiles and `services.*.image` in Compose files, for Docker Hub official images with a vendor lifecycle. See [Container base images](detectors/container.md). |
 | .NET | Beta | `global.json`, project files, `Directory.Build.props`, `Directory.Packages.props`, and `packages.lock.json`, for .NET release lines past end of support and deprecated NuGet packages. See [.NET](detectors/dotnet.md). |
 | Go | Experimental | `go` and `toolchain` directives in `go.mod` and `go.work`, and direct `require` entries, for Go release lines past end of support. See [Go](detectors/go.md). |
-| Java and Kotlin (JVM) | Experimental | JDK declarations in `pom.xml`, Gradle build scripts, `.java-version`, `.sdkmanrc`, and `.tool-versions`, and direct Maven dependencies, for non-LTS JDK releases past end of support and moved artifacts. See [Java and Kotlin](detectors/java.md). |
+| Java and Kotlin (JVM) | Beta | JDK declarations in `pom.xml`, Gradle build scripts, `.java-version`, `.sdkmanrc`, and `.tool-versions`, and direct Maven dependencies, for non-LTS JDK releases past end of support and moved artifacts. See [Java and Kotlin](detectors/java.md). |
 | Kubernetes APIs | Experimental | The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served. See [Kubernetes APIs](detectors/kubernetes.md). |
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
@@ -1517,9 +1517,19 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 ## Java and Kotlin corpus
 
-Five public repositories at pinned commits cover the `java` detector: `kagkarlsson/db-scheduler` (a multi-module Maven build, no findings), `piomin/sample-spring-reactive` (a `java.version` of 19), `danvega/loom` (`java.version`, `source`, and `target` of 19), `krakowski/jextract-demo` (a Gradle Kotlin DSL toolchain of 22), and `Descended/Henesys` (a `mysql:mysql-connector-java` 8.0.33 dependency, which the artifact's own POM relocates).
+Seventeen public repositories at pinned commits cover the `java` detector. Targeted (chosen knowing their result): `kagkarlsson/db-scheduler` (a multi-module Maven build, no findings), `piomin/sample-spring-reactive` (a `java.version` of 19), `danvega/loom` (`java.version`, `source`, and `target` of 19), `krakowski/jextract-demo` (a Gradle Kotlin DSL toolchain of 22), and `Descended/Henesys` (a `mysql:mysql-connector-java` 8.0.33 dependency, which the artifact's own POM relocates).
 
-Every finding in these repositories is recorded, not only the Java ones, and each was checked by reading its line at the pinned commit. The ground truth is a `maintainer-review` note naming the path and line; none of the repositories has a migration commit for the finding. The JDK dates come from the Oracle Java SE Support Roadmap and the Temurin support page, and the relocation from the Maven Central POM, not from these repositories. A full run on 2026-10-17 over the 74 corpus entries then in the file reported no false positives or false negatives, with six expected `java` findings, all true.
+Blind (rule below): `jzyong/GameServer4j` (JDK 13 and 14 compile levels across nine modules), `latexdraw/latexdraw` (`java.version` 14), `amigoscode/login-registration-backend` and `TechPrimers/spring-batch-example-1` (`java.version` 15), `moditect/jfrunit` (`java.version` 16, plus `actions/cache`, `actions/checkout`, and `actions/setup-java` at v2), `advanced-security/monorepo-filtering-workaround` (`java.version` 18, plus `actions/checkout@v3`), `ChristianAA/selenium-springboot-example` (JDK 18, plus Action pins), `stepstone-tech/doom-graalvm` (`java.version` 19), `vladannovi1234/ecommerce-springboot-react` (JDK 19 compile levels in ten modules), and three with no Java finding: `neo4j-examples/movies-java-spring-data-neo4j` and `stirante/RuneChanger` (JDK 17 and 11, both LTS; the first also has SHA-pinned Action findings), and `eh3rrera/graphql-java-spring-boot-example` (JDK 11 in the project, JDK 16 only inside a Maven profile, which the detector does not judge).
+
+Every finding in these repositories is recorded, not only the Java ones, and each was checked by reading its line at the pinned commit. The ground truth is a `maintainer-review` note naming the path and line; none of the repositories has a migration commit for the finding. The JDK dates come from the Oracle Java SE Support Roadmap and the Temurin support page, and the relocation from the Maven Central POM, not from these repositories. A run of `npm run validate:public-repos -- --ecosystem java` on 2026-10-23 over the seventeen Java entries reported no false positives or false negatives, with 66 expected `java` findings, all true.
+
+## Java and Kotlin blind selection
+
+The five earliest Java repositories were chosen knowing their result, so each records `selection: "targeted"`; the twelve below record `selection: "blind"`.
+
+The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub code search `<java.version>N</java.version>` restricted to `filename:pom.xml`, for N in 14, 15, 16, 18, 19 (non-LTS, expected to produce findings) and 17 (LTS, expected to produce none), `gh search code --limit 60`. Per N, walk the results in order and keep the first two unique repositories whose matching path is exactly the root `pom.xml`, skipping forks, archives, repositories already in the corpus, and repositories larger than 50,000 KB on GitHub. Pin each at its default-branch commit on that date. The twelve are, in order: `jzyong/GameServer4j`, `latexdraw/latexdraw`, `amigoscode/login-registration-backend`, `TechPrimers/spring-batch-example-1`, `moditect/jfrunit`, `eh3rrera/graphql-java-spring-boot-example`, `advanced-security/monorepo-filtering-workaround`, `ChristianAA/selenium-springboot-example`, `stepstone-tech/doom-graalvm`, `vladannovi1234/ecommerce-springboot-react`, `neo4j-examples/movies-java-spring-data-neo4j`, and `stirante/RuneChanger`. `piomin/sample-spring-reactive` was skipped (already pinned). The query returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Ground truth: for each repository every JDK declaration (`java.version`, `maven.compiler.*`, compiler-plugin `source`, `target`, and `release`, Gradle compatibility and toolchain settings, and `.java-version`, `.sdkmanrc`, `.tool-versions`) was listed with `grep` over the pinned files and compared with the report, independently of Evergreen's own output. Every expected finding has a `maintainer-review` note naming the path, the exact line, and the Oracle roadmap fact the rule rests on.
 
 ## Ruby corpus
 
@@ -1585,7 +1595,7 @@ Because the corpus scans every detector, every finding in these repositories is 
 
 ## Precision thresholds
 
-[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
+[`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
 
 ```text
 THRESHOLD  npm: precision 0.9 is below the required 0.95
@@ -1780,7 +1790,7 @@ Measured on 145 pinned repositories at commit `122d612` on 2026-10-21. Regenerat
 | dotnet | Beta | 105 | 0 | 0 | 1.000 | 1.000 |
 | github-actions | Supported | 261 | 0 | 0 | 1.000 | 1.000 |
 | go | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
-| java | Experimental | 6 | 0 | 0 | 1.000 | 1.000 |
+| java | Beta | 6 | 0 | 0 | 1.000 | 1.000 |
 | kubernetes | Experimental | 29 | 0 | 0 | 1.000 | 1.000 |
 | nodejs | Supported | 44 | 0 | 0 | 1.000 | 1.000 |
 | npm | Supported | 49 | 0 | 0 | 1.000 | 1.000 |

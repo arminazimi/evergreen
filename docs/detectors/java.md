@@ -1,6 +1,6 @@
 # Java and Kotlin (JVM)
 
-The `java` detector reports JDK feature releases that are out of support, as pinned or targeted in a project, and Maven dependencies whose own POM says they moved. It is **experimental**: it is scored on the [public corpus](../VALIDATION.md) but not yet held to the precision floor that stable detectors are. The reasoning is in [Decision 0009](../decisions/0009-java-detector.md).
+The `java` detector reports JDK feature releases that are out of support, as pinned or targeted in a project, and Maven dependencies whose own POM says they moved. It is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#java-and-kotlin-corpus) (seventeen repositories, twelve chosen blind). The reasoning is in [Decision 0009](../decisions/0009-java-detector.md).
 
 ## What it reads
 
@@ -44,4 +44,4 @@ The rules are in `registry/java.json` and ship in the [data bundle](../DATA.md).
 
 ## Validation
 
-The corpus entries for this detector are tracked in [Validation](../VALIDATION.md); until they are added the detector is scored only on its own fixtures.
+Seventeen public repositories at pinned commits cover this detector: five targeted and twelve chosen blind by the rule in [Validation](../VALIDATION.md#java-and-kotlin-blind-selection). Every expected finding has a `maintainer-review` note naming the path and line. Recall was checked by hand over the blind repositories by searching every `pom.xml`, Gradle script, and version pin for JDK declarations and comparing the hits with the report. The one declaration not reported is a `java.version` inside a Maven `<profile>` (`eh3rrera/graphql-java-spring-boot-example`), which the detector intentionally does not judge (see above), so that repository is a zero-finding entry.

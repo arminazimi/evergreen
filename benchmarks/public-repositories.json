@@ -7481,6 +7481,820 @@
       "ecosystem": "shell",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "jzyong/GameServer4j",
+      "commit": "a8bb3edfe065292f3f2497a9185188f03936210f",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "docs/archive/game-cluster/pom.xml",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 60 of docs/archive/game-cluster/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "docs/archive/game-cluster/pom.xml",
+          "line": 61,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 61 of docs/archive/game-cluster/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "docs/archive/game-engine/pom.xml",
+          "line": 84,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 84 of docs/archive/game-engine/pom.xml reads `<source>13</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "docs/archive/game-engine/pom.xml",
+          "line": 85,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 85 of docs/archive/game-engine/pom.xml reads `<target>13</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-api/pom.xml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of game-api/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-api/pom.xml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 36 of game-api/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-gate/pom.xml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of game-gate/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-gate/pom.xml",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 34 of game-gate/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-hall/pom.xml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of game-hall/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-hall/pom.xml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of game-hall/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-manage/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of game-manage/pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-manage/pom.xml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of game-manage/pom.xml reads `<maven.compiler.source>14</maven.compiler.source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-manage/pom.xml",
+          "line": 101,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 101 of game-manage/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-manage/pom.xml",
+          "line": 102,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 102 of game-manage/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-message/pom.xml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 44 of game-message/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-message/pom.xml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 45 of game-message/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-res/archive/game-cluster/pom.xml",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 60 of game-res/archive/game-cluster/pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-res/archive/game-cluster/pom.xml",
+          "line": 61,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 61 of game-res/archive/game-cluster/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-res/archive/game-engine/pom.xml",
+          "line": 84,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 84 of game-res/archive/game-engine/pom.xml reads `<source>13</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "game-res/archive/game-engine/pom.xml",
+          "line": 85,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 85 of game-res/archive/game-engine/pom.xml reads `<target>13</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of pom.xml reads `<maven.compiler.source>14</maven.compiler.source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 74,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 74 of pom.xml reads `<source>14</source>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 75,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 75 of pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "latexdraw/latexdraw",
+      "commit": "ce5ef5c681cf264d386263b8c6d8569d10318aed",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of pom.xml reads `<java.version>14</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "amigoscode/login-registration-backend",
+      "commit": "cdcda175982e23a3607e76ed9e7e80adeeafb5e4",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>15</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "TechPrimers/spring-batch-example-1",
+      "commit": "56fba9e92976a177b34a978032353874c7084166",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of pom.xml reads `<java.version>15</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "moditect/jfrunit",
+      "commit": "b676511be0506a8653358060eb2fdb4fe27873a3",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 26 of .github/workflows/build.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/release.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/trigger.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 58,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 58 of .github/workflows/trigger.yml reads `uses: actions/cache@v2`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of .github/workflows/build.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 19 of .github/workflows/release.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of .github/workflows/trigger.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 46,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 46 of .github/workflows/trigger.yml reads `uses: actions/checkout@v2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of .github/workflows/build.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 31 of .github/workflows/release.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 24 of .github/workflows/trigger.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/trigger.yml",
+          "line": 52,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 52 of .github/workflows/trigger.yml reads `uses: actions/setup-java@v2`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": "pom.xml",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 50 of pom.xml reads `<java.version>16</java.version>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "eh3rrera/graphql-java-spring-boot-example",
+      "commit": "6e03098cd329a705ffd9e62211216034cee2ae4d",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "advanced-security/monorepo-filtering-workaround",
+      "commit": "83f69819df41b9a046a568d5d7eaba9cff7bb51c",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql_1.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/codeql_1.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql_2.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/codeql_2.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql_3.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/codeql_3.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql_4.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 28 of .github/workflows/codeql_4.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of pom.xml reads `<java.version>18</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "ChristianAA/selenium-springboot-example",
+      "commit": "ddff135b662affb350288451b8195516554ffd19",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/daily-test.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of .github/workflows/daily-test.yml reads `uses: actions/checkout@v3`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/daily-test.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 18 of .github/workflows/daily-test.yml reads `uses: actions/setup-java@v3`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/daily-test.yml",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 34 of .github/workflows/daily-test.yml reads `uses: actions/upload-artifact@v4`, a release the GitHub Actions rule github-actions.upload-artifact.retired covers."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of pom.xml reads `<java.version>18</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of pom.xml reads `<source>18</source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 34 of pom.xml reads `<target>18</target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "stepstone-tech/doom-graalvm",
+      "commit": "e8517e7e307580336c0eac51dfc75fdea6bc46a1",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of pom.xml reads `<java.version>19</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "vladannovi1234/ecommerce-springboot-react",
+      "commit": "d71a50af1c30d0faa3a2028c76e5c79e560ae80d",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "api-gateway/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of api-gateway/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "api-gateway/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of api-gateway/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "auth-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of auth-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "auth-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of auth-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "cart-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of cart-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "cart-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of cart-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "catalog-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of catalog-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "catalog-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of catalog-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "commons/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of commons/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "commons/pom.xml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of commons/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "config-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of config-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "config-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of config-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "customer-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of customer-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "customer-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of customer-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "discovery-server/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of discovery-server/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "discovery-server/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of discovery-server/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "image-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of image-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "image-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of image-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "order-service/pom.xml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 15 of order-service/pom.xml reads `<maven.compiler.source>19</maven.compiler.source>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "order-service/pom.xml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 16 of order-service/pom.xml reads `<maven.compiler.target>19</maven.compiler.target>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-18-20",
+          "path": "pom.xml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 35 of pom.xml reads `<java.version>19</java.version>`, a non-LTS JDK 18 to 20 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "neo4j-examples/movies-java-spring-data-neo4j",
+      "commit": "e009df722b0d085e31b4cc4e7f84b12b16fb8925",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 30 of .github/workflows/build.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 68,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 68 of .github/workflows/build.yml reads `uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0`, a release the GitHub Actions rule github-actions.cache.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 23 of .github/workflows/build.yml reads `- uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 79,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 79 of .github/workflows/build.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 81,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 81 of .github/workflows/build.yml reads `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`, a release the GitHub Actions rule github-actions.checkout.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 25 of .github/workflows/build.yml reads `uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00  # v4.7.1`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-java.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 63,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 63 of .github/workflows/build.yml reads `uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00  # v4.7.1`, a release the GitHub Actions rule github-actions.setup-java.node20 covers."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "stirante/RuneChanger",
+      "commit": "29eed9f735e01c41e799f81c9a223b112ae6a3b7",
+      "ecosystem": "java",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }

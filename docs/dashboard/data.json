@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-21",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 165
+    "repositories": 177
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -190,8 +190,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 55,
-        "expectedFindings": 295,
+        "repositoriesWithFindings": 59,
+        "expectedFindings": 321,
         "zeroFindingRepositories": 2,
         "repositories": 11,
         "blindRepositories": 0
@@ -222,11 +222,11 @@
     },
     {
       "id": "java",
-      "level": "experimental",
-      "earnedLevel": "experimental",
+      "level": "beta",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
-        "enforced": false
+        "enforced": true
       },
       "run": {
         "truePositives": 6,
@@ -236,11 +236,11 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 4,
-        "expectedFindings": 6,
-        "zeroFindingRepositories": 1,
-        "repositories": 5,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 13,
+        "expectedFindings": 60,
+        "zeroFindingRepositories": 3,
+        "repositories": 17,
+        "blindRepositories": 12
       }
     },
     {

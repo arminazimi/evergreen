@@ -93,7 +93,7 @@ const manifest = {
     { id: "dotnet", status: "supported", maturity: "beta", detectorIds: ["dotnet"] },
     { id: "github-actions", status: "supported", maturity: "stable", detectorIds: ["github-actions"] },
     { id: "go", status: "experimental", maturity: "experimental", detectorIds: ["go"] },
-    { id: "java", status: "experimental", maturity: "experimental", detectorIds: ["java"] },
+    { id: "java", status: "supported", maturity: "beta", detectorIds: ["java"] },
     { id: "kubernetes", status: "experimental", maturity: "experimental", detectorIds: ["kubernetes"] },
     // nodejs and npm share the npm detector, so both take its level.
     { id: "nodejs", status: "supported", maturity: "stable", detectorIds: ["npm"] },
