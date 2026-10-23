@@ -1,0 +1,56 @@
+name: Record the full corpus run
+
+# Decision 0013 requires a full corpus run on the current main, recorded in benchmarks/thresholds.json, within
+# 30 days. This workflow records one twice a month and opens a pull request with the result, so `lastFullRun`
+# never ages past the limit. A maintainer reviews and merges that pull request. The record is not committed to
+# main directly, and nothing is recorded when the run has a false positive, a false negative, or a missed floor.
+on:
+  schedule:
+    - cron: "41 5 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  EVERGREEN_CORPUS_CACHE: ${{ github.workspace }}/.corpus-cache
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore the corpus checkout cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ${{ env.EVERGREEN_CORPUS_CACHE }}
+          key: corpus-checkouts-${{ hashFiles('benchmarks/public-repositories.json') }}
+          restore-keys: |
+            corpus-checkouts-
+      # Refuses to record a partial or failing run; the step then fails and no pull request is opened.
+      - name: Run the full corpus and record it
+        run: npm run record:corpus-run
+      - name: Open a pull request with the record
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then
+            echo "Nothing changed; the recorded run is already current."
+            exit 0
+          fi
+          branch="chore/corpus-run-$(date -u +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -am "chore(validation): record the full corpus run"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "chore(validation): record the full corpus run" \
+            --body "Recorded by the scheduled full-run workflow so \`lastFullRun\` in \`benchmarks/thresholds.json\` stays within 30 days (decision 0013). The run was complete and clean; review the numbers before merging."

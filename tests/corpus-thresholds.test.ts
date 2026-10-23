@@ -2,9 +2,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
+import { parse } from "yaml";
 
 import { maturityLabels } from "../benchmarks/maturity.js";
-import { detectorOf, findingKey, scoreDetectors, violations } from "../benchmarks/thresholds.js";
+import { FULL_RUN_MAX_AGE_DAYS, detectorOf, findingKey, fullRunAgeDays, scoreDetectors, violations } from "../benchmarks/thresholds.js";
 import type { Thresholds } from "../benchmarks/thresholds.js";
 
 const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json", line });
@@ -159,4 +160,23 @@ test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental a
 test("every corpus entry records whether it was chosen blind or targeted", async () => {
   const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Array<{ repository: string; selection?: string }> }).repositories;
   for (const entry of corpus) assert.ok(entry.selection === "blind" || entry.selection === "targeted", `${entry.repository} must record selection: "blind" or "targeted"`);
+});
+
+test("the age of a recorded full run is counted in whole days against the 30-day limit", () => {
+  assert.equal(FULL_RUN_MAX_AGE_DAYS, 30);
+  assert.equal(fullRunAgeDays({ date: "2026-10-23" }, "2026-10-23"), 0);
+  assert.equal(fullRunAgeDays({ date: "2026-10-23" }, "2026-11-22"), 30);
+  assert.equal(fullRunAgeDays({ date: "2026-10-23" }, "2026-11-23"), 31);
+});
+
+test("the scheduled record workflow runs at least twice a month, records only a clean full run, and opens a pull request", async () => {
+  const text = await readFile(resolve(".github/workflows/corpus-record.yml"), "utf8");
+  const workflow = parse(text) as { on: { schedule: Array<{ cron: string }> }; jobs: { record: { steps: Array<{ run?: string }> } } };
+  const [, , day] = workflow.on.schedule[0]!.cron.split(" ");
+  const days = day!.split(",").map(Number);
+  assert.ok(days.length >= 2 && Math.max(...days.slice(1).map((d, i) => d - days[i]!), 31 - Math.max(...days) + Math.min(...days)) < FULL_RUN_MAX_AGE_DAYS);
+  const runs = workflow.jobs.record.steps.map((step) => step.run ?? "");
+  assert.ok(runs.includes("npm run record:corpus-run"));
+  assert.ok(runs.some((run) => run.includes("gh pr create")));
+  assert.ok(!/git push origin main|--base main --head main/.test(text));
 });

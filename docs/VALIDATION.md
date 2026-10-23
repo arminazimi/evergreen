@@ -298,6 +298,10 @@ Before it fetches anything, the workflow also runs `node dist/benchmarks/corpus-
 
 The job summary lists the chosen ecosystems and every `UNEXPECTED` and `MISSING` line; the full report is attached as the `corpus-pr-result-<run id>` artifact. If nothing maps, it says so and fetches nothing. The workflow is **not a required check**: keep it out of branch protection, because it needs the network and GitHub's availability. It has `contents: read` only, no secrets, and no `pull_request_target`, and the base branch reaches the shell through an environment variable, never an inline expression. Treat a red run as a finding to explain in the pull request, using the rules in "Weekly run and refreshing pins" above.
 
+## Keeping `lastFullRun` current
+
+Decision 0013 requires a recorded full run within 30 days for `beta` and `stable`. [`.github/workflows/corpus-record.yml`](../.github/workflows/corpus-record.yml) runs `npm run record:corpus-run` on the 1st and 15th of each month (and on demand) and opens a pull request with the result. It records nothing when the run has a false positive, a false negative, or a missed floor, so a failed run leaves the old record and a red workflow. A maintainer reviews and merges that pull request; the record is never pushed to `main` directly.
+
 ## Weekly run and refreshing pins
 
 Pull request CI never touches the network, so the corpus is checked by [`.github/workflows/corpus.yml`](../.github/workflows/corpus.yml) every Monday and on demand (Actions → Public corpus → Run workflow). The result is uploaded as the `corpus-result-<run id>` artifact even when the comparison fails. A failing run prints one line per mismatch, for example:

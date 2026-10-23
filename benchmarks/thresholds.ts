@@ -178,3 +178,11 @@ export function countEvidence(
   }
   return { repositoriesWithFindings: withFindings.size, expectedFindings, zeroFindingRepositories, repositories, blindRepositories };
 }
+
+/** The longest a recorded full run may stand before a level claim loses its evidence (decision 0013). */
+export const FULL_RUN_MAX_AGE_DAYS = 30;
+
+/** Whole days from the recorded run to `today` (both `YYYY-MM-DD`). */
+export function fullRunAgeDays(record: Pick<FullRunRecord, "date">, today: string): number {
+  return Math.floor((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${record.date}T00:00:00Z`)) / 86_400_000);
+}
