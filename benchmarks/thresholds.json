@@ -113,9 +113,9 @@
   },
   "lastFullRun": {
     "date": "2026-10-23",
-    "commit": "1d3e43f",
-    "repositories": 300,
-    "findings": 1515,
+    "commit": "6823000",
+    "repositories": 399,
+    "findings": 1766,
     "precision": 1,
     "recall": 1,
     "perDetector": {
@@ -130,7 +130,7 @@
         "falseNegatives": 0
       },
       "container": {
-        "truePositives": 57,
+        "truePositives": 60,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -155,7 +155,7 @@
         "falseNegatives": 0
       },
       "github-actions": {
-        "truePositives": 662,
+        "truePositives": 778,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -175,12 +175,12 @@
         "falseNegatives": 0
       },
       "nodejs": {
-        "truePositives": 64,
+        "truePositives": 147,
         "falsePositives": 0,
         "falseNegatives": 0
       },
       "npm": {
-        "truePositives": 54,
+        "truePositives": 99,
         "falsePositives": 0,
         "falseNegatives": 0
       },
@@ -190,7 +190,7 @@
         "falseNegatives": 0
       },
       "python": {
-        "truePositives": 24,
+        "truePositives": 28,
         "falsePositives": 0,
         "falseNegatives": 0
       },

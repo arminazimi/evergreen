@@ -207,9 +207,11 @@ test("a level above the counted evidence is marked, not hidden", () => {
   assert.equal(api.isAboveEvidence("unknown", "experimental"), false);
   assert.equal(api.isAboveEvidence(undefined, "experimental"), false);
   const flagged = data.detectors.filter((detector) => api.rowModel(detector, data.sources).cells.find((cell) => cell.key === "level")!.flag);
-  assert.deepEqual(flagged.map((detector) => detector.id), ["github-actions", "nodejs", "npm", "python"]);
-  const npm = api.rowModel(data.detectors.find((detector) => detector.id === "npm")!, data.sources);
-  const level = npm.cells.find((cell) => cell.key === "level")!;
+  assert.deepEqual(flagged.map((detector) => detector.id), []);
+  // No shipped detector is above its evidence any more, so the marker is checked on a detector made to be.
+  const real = data.detectors.find((detector) => detector.id === "npm")!;
+  const above = api.rowModel({ ...real, level: "stable", earnedLevel: "beta" }, data.sources);
+  const level = above.cells.find((cell) => cell.key === "level")!;
   assert.equal(level.text, "stable");
   assert.equal(level.note, api.ABOVE_EVIDENCE_NOTE);
   assert.equal(level.noteHref, api.BLOB_URL + "docs/decisions/0013-detector-maturity.md");
