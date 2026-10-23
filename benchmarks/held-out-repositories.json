@@ -1,0 +1,495 @@
+{
+  "schemaVersion": "evergreen.held-out.v1",
+  "scope": [
+    "github-actions.checkout",
+    "github-actions.setup-node",
+    "github-actions.cache",
+    "nodejs.runtime"
+  ],
+  "repositories": [
+    {
+      "repository": "hapijs/catbox",
+      "commit": "a234a68e528480ab29dbc83ab588e045a75bb010",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "davidchambers/Base64.js",
+      "commit": "22192690552ba07bf035f95a5d2d1a0e2f0ced46",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/test.yml",
+          "line": 12
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/test.yml",
+          "line": 14
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/test.yml",
+          "line": 16
+        }
+      ]
+    },
+    {
+      "repository": "williamnie/netSend",
+      "commit": "877f7167b4ee539c7777ea62ea784832b2f5418d",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/main.yml",
+          "line": 36
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/main.yml",
+          "line": 38
+        }
+      ]
+    },
+    {
+      "repository": "afcapel/stimulus-autocomplete",
+      "commit": "e2115d641cb1d212573476cda602d69b62f483b5",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 8
+        }
+      ]
+    },
+    {
+      "repository": "reid/node-jslint",
+      "commit": "1eefcc48116fe4fbc3b585ebd2922b3509f4f4de",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/test.yml",
+          "line": 14
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/test.yml",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "repository": "xpgo/obsidian-folder-note-plugin",
+      "commit": "272bbdc9a674fd333e6a97b02611868797648585",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/release.yml",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "repository": "komodojp/tinyld",
+      "commit": "c5f382f045c73e028eec5c5e24bb1e67d6c89def",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/main.yml",
+          "line": 13
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/main.yml",
+          "line": 15
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/main.yml",
+          "line": 17
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/playground.yml",
+          "line": 32
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/playground.yml",
+          "line": 33
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/playground.yml",
+          "line": 35
+        }
+      ]
+    },
+    {
+      "repository": "ridafkih/schemix",
+      "commit": "a8ca9ab6e879dcb0164eba283299e99b862a8227",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/check-lint.yml",
+          "line": 11
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/check-lint.yml",
+          "line": 13
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/check-lint.yml",
+          "line": 15
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/npm-publish.yml",
+          "line": 12
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/npm-publish.yml",
+          "line": 14
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/npm-publish.yml",
+          "line": 16
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/unit-test.yml",
+          "line": 11
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/unit-test.yml",
+          "line": 13
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/unit-test.yml",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "repository": "nirsky/figma-plugin-react-template",
+      "commit": "158144e8ed0bd6da014f34a0f160881268f8bbb3",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 11
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 12
+        }
+      ]
+    },
+    {
+      "repository": "Barrior/JParticles",
+      "commit": "82d82f9fcaacf077bceafd6aa37bddb606b83280",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/testing.yml",
+          "line": 10
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/testing.yml",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "repository": "mobxjs/mobx-angular",
+      "commit": "30a4b44bd153486f1ac25e4fd022db21cc2cd96e",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/main.yml",
+          "line": 13
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/main.yml",
+          "line": 18
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/main.yml",
+          "line": 20
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".nvmrc",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "repository": "mattieha/slider-button-card",
+      "commit": "877bc94e55b14c1dea0e1e419fb60255a4b1e9a3",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/build.yml",
+          "line": 16
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/release.yml",
+          "line": 12
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/validate.yaml",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "repository": "DataV-Team/DataV-Vue3",
+      "commit": "f968ef287710665db45b2f01cf2cd6e090ffcc77",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 12
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 17
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/ci.yml",
+          "line": 19
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/ci.yml",
+          "line": 22
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 42
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 47
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/ci.yml",
+          "line": 49
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/ci.yml",
+          "line": 52
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 75
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 80
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/ci.yml",
+          "line": 82
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/ci.yml",
+          "line": 85
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 105
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 110
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/ci.yml",
+          "line": 112
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/ci.yml",
+          "line": 115
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/ci.yml",
+          "line": 135
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/ci.yml",
+          "line": 140
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/ci.yml",
+          "line": 142
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/ci.yml",
+          "line": 145
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/deploy-docs.yml",
+          "line": 13
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/deploy-docs.yml",
+          "line": 18
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/deploy-docs.yml",
+          "line": 20
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/deploy-docs.yml",
+          "line": 23
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/release-test.yml",
+          "line": 13
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/release-test.yml",
+          "line": 18
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/release-test.yml",
+          "line": 20
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/release-test.yml",
+          "line": 25
+        },
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/release.yml",
+          "line": 14
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/release.yml",
+          "line": 19
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/release.yml",
+          "line": 21
+        },
+        {
+          "family": "github-actions.cache",
+          "path": ".github/workflows/release.yml",
+          "line": 26
+        }
+      ]
+    },
+    {
+      "repository": "iamcco/coc-flutter",
+      "commit": "883c269eaacbeddbd4fb08e32e6a05051933429d",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/blank.yml",
+          "line": 17
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/blank.yml",
+          "line": 19
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/blank.yml",
+          "line": 21
+        }
+      ]
+    },
+    {
+      "repository": "antfu/vscode-vite",
+      "commit": "57f6c6b6978b635bd25ab511744a8b5219fcf2f1",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "family": "github-actions.checkout",
+          "path": ".github/workflows/release.yml",
+          "line": 12
+        },
+        {
+          "family": "github-actions.setup-node",
+          "path": ".github/workflows/release.yml",
+          "line": 15
+        },
+        {
+          "family": "nodejs.runtime",
+          "path": ".github/workflows/release.yml",
+          "line": 17
+        }
+      ]
+    }
+  ]
+}
