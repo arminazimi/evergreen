@@ -10,8 +10,8 @@
        "deps": [
         {
          "depName": "squidfunk/mkdocs-material",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         }
        ]
       },
@@ -109,8 +109,8 @@
         },
         {
          "depName": "hkotel/crfpp",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "curl",
@@ -134,8 +134,8 @@
         {
          "depName": "caddy",
          "currentValue": "alpine",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         }
        ]
       },
@@ -170,26 +170,38 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-qemu-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -210,31 +222,39 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-python",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "snok/install-poetry",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/cache",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "postgres",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "ubuntu",
@@ -245,12 +265,15 @@
         {
          "depName": "python",
          "currentValue": "3.9",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
-         "skipReason": "unspecified-version",
          "depName": "poetry",
+         "skipReason": "unspecified-version",
          "updates": []
         }
        ]
@@ -261,8 +284,11 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "mhausenblas/mkdocs-deploy-gh-pages",
@@ -283,26 +309,38 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-qemu-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -328,19 +366,31 @@
         {
          "depName": "actions/setup-node",
          "currentValue": "v2.1.5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/cache",
          "currentValue": "v2.1.4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "patch"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "node",
          "currentValue": "${{ matrix.node }}",
-         "skipReason": "github-token-required",
+         "skipReason": "invalid-value",
          "updates": []
         }
        ]
@@ -504,22 +554,22 @@
         {
          "depName": "@nuxt/types",
          "currentValue": "^2.15.7",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/types` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "minor"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/types` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintained. See http"
+         ]
         },
         {
          "depName": "@nuxt/typescript-build",
          "currentValue": "^2.1.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/typescript-build` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@nuxt/typescript-build` has the following deprecation notice:\n\n`Nuxt 2 has reached EOL and is no longer actively maintaine"
+         ]
         },
         {
          "depName": "@nuxtjs/composition-api",
@@ -598,12 +648,12 @@
         {
          "depName": "eslint-plugin-nuxt",
          "currentValue": "^2.0.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `eslint-plugin-nuxt` has the following deprecation notice:\n\n`eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `eslint-plugin-nuxt` has the following deprecation notice:\n\n`eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plug"
+         ]
         },
         {
          "depName": "eslint-plugin-prettier",
@@ -659,12 +709,12 @@
         {
          "depName": "vue2-script-setup-transform",
          "currentValue": "^0.2.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `vue2-script-setup-transform` has the following deprecation notice:\n\n`renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "minor"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `vue2-script-setup-transform` has the following deprecation notice:\n\n`renamed to `unplugin-vue2-script-setup`, see https://"
+         ]
         },
         {
          "depName": "vite",

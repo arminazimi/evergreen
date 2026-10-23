@@ -68,8 +68,8 @@
         {
          "depName": "docker/dockerfile",
          "currentValue": "latest",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "docker.io/node",
@@ -90,14 +90,16 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "crowdin/github-action",
          "currentValue": "v3.3.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -113,61 +115,73 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/cache",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          },
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "pnpm/action-setup",
          "currentValue": "v6.1.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          },
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "docker/setup-qemu-action",
          "currentValue": "v4.4.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v7",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -180,8 +194,8 @@
          ]
         },
         {
-         "currentValue": "10",
          "depName": "pnpm",
+         "currentValue": "10",
          "updates": [
           {
            "updateType": "major"
@@ -191,7 +205,6 @@
         {
          "depName": "node",
          "currentValue": "24",
-         "skipReason": "github-token-required",
          "updates": []
         }
        ]
@@ -202,55 +215,62 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-python",
          "currentValue": "v7.0.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "astral-sh/setup-uv",
          "currentValue": "v10.2.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "actions/configure-pages",
          "currentValue": "v6.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-python",
          "currentValue": "v7.0.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "astral-sh/setup-uv",
          "currentValue": "v10.2.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "actions/upload-pages-artifact",
          "currentValue": "v5.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/deploy-pages",
          "currentValue": "v5.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -283,13 +303,11 @@
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -312,32 +330,38 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-python",
          "currentValue": "v7.0.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "pre-commit/action",
          "currentValue": "v3.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "pnpm/action-setup",
          "currentValue": "v6.1.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          },
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -351,12 +375,11 @@
         {
          "depName": "python",
          "currentValue": "3.x",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
-         "currentValue": "10",
          "depName": "pnpm",
+         "currentValue": "10",
          "updates": [
           {
            "updateType": "major"
@@ -366,7 +389,6 @@
         {
          "depName": "node",
          "currentValue": "24",
-         "skipReason": "github-token-required",
          "updates": []
         }
        ]
@@ -377,7 +399,6 @@
         {
          "depName": "peakoss/anti-slop",
          "currentValue": "v0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -394,7 +415,6 @@
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -411,7 +431,6 @@
         {
          "depName": "dessant/reaction-comments",
          "currentValue": "v5.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -428,13 +447,11 @@
         {
          "depName": "release-drafter/release-drafter",
          "currentValue": "v7",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "release-drafter/release-drafter",
          "currentValue": "v7",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -462,31 +479,30 @@
         {
          "depName": "actions/stale",
          "currentValue": "v10",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "dessant/lock-threads",
          "currentValue": "v6.0.2",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/github-script",
          "currentValue": "v9.0.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -527,25 +543,28 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v7.0.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "pnpm/action-setup",
          "currentValue": "v6.1.0",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          },
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "codecov/codecov-action",
          "currentValue": "v7.1.1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -555,8 +574,8 @@
          "updates": []
         },
         {
-         "currentValue": "9",
          "depName": "pnpm",
+         "currentValue": "9",
          "updates": [
           {
            "updateType": "major"
@@ -566,7 +585,6 @@
         {
          "depName": "node",
          "currentValue": "24",
-         "skipReason": "github-token-required",
          "updates": []
         }
        ]
@@ -584,7 +602,11 @@
         {
          "depName": "@kubernetes/client-node",
          "currentValue": "^2.0.0",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "patch"
+          }
+         ]
         },
         {
          "depName": "classnames",
@@ -620,7 +642,7 @@
          "currentValue": "^26.4.2",
          "updates": [
           {
-           "updateType": "patch"
+           "updateType": "minor"
           }
          ]
         },
@@ -727,7 +749,7 @@
          "currentValue": "^17.0.15",
          "updates": [
           {
-           "updateType": "patch"
+           "updateType": "minor"
           }
          ]
         },

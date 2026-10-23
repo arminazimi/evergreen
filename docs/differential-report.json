@@ -5,10 +5,10 @@
       "repository": "excalidraw/excalidraw",
       "commit": "1caec99b290c75cda05385e637138998807a65ae",
       "summary": {
-        "agree": 3,
-        "evergreen-only": 0,
+        "agree": 23,
+        "evergreen-only": 2,
         "renovate-only": 2,
-        "inconclusive": 20
+        "inconclusive": 0
       }
     },
     {
@@ -25,40 +25,62 @@
       "repository": "mealie-recipes/mealie",
       "commit": "50a341ed3febc98a5a20b61fad5e74a290394f16",
       "summary": {
-        "agree": 3,
+        "agree": 17,
         "evergreen-only": 0,
         "renovate-only": 4,
-        "inconclusive": 14
+        "inconclusive": 0
       }
     },
     {
       "repository": "outline/outline",
       "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
       "summary": {
-        "agree": 2,
-        "evergreen-only": 0,
-        "renovate-only": 17,
-        "inconclusive": 15
+        "agree": 22,
+        "evergreen-only": 5,
+        "renovate-only": 13,
+        "inconclusive": 0
       }
     },
     {
       "repository": "umami-software/umami",
       "commit": "43499eb4fd0b1d617f6f052174f1da6f21653892",
       "summary": {
-        "agree": 2,
-        "evergreen-only": 0,
-        "renovate-only": 2,
-        "inconclusive": 4
+        "agree": 8,
+        "evergreen-only": 1,
+        "renovate-only": 0,
+        "inconclusive": 0
       }
     }
   ],
   "totals": {
-    "agree": 10,
-    "evergreen-only": 0,
-    "renovate-only": 25,
-    "inconclusive": 53
+    "agree": 70,
+    "evergreen-only": 8,
+    "renovate-only": 19,
+    "inconclusive": 0
   },
   "disagreements": [
+    {
+      "repository": "excalidraw/excalidraw",
+      "outcome": "evergreen-only",
+      "family": "deprecated-package",
+      "path": "examples/with-nextjs/package.json",
+      "name": "next.14",
+      "evergreen": [
+        "npm.package.next.14.support-end"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
+      "evidence": [
+        {
+          "label": "examples/with-nextjs/package.json at 1caec99",
+          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/examples/with-nextjs/package.json"
+        },
+        {
+          "label": "Evergreen rule npm.package.next.14.support-end",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.next.14.support-end.md"
+        }
+      ]
+    },
     {
       "repository": "excalidraw/excalidraw",
       "outcome": "renovate-only",
@@ -81,6 +103,28 @@
     },
     {
       "repository": "excalidraw/excalidraw",
+      "outcome": "evergreen-only",
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.socket.io-client",
+      "evergreen": [
+        "npm.package.types.socket.io-client.deprecated"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
+      "evidence": [
+        {
+          "label": "package.json at 1caec99",
+          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/package.json"
+        },
+        {
+          "label": "Evergreen rule npm.package.types.socket.io-client.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.socket.io-client.deprecated.md"
+        }
+      ]
+    },
+    {
+      "repository": "excalidraw/excalidraw",
       "outcome": "renovate-only",
       "family": "deprecated-package",
       "path": "packages/excalidraw/package.json",
@@ -96,526 +140,6 @@
         {
           "label": "npm deprecation notice for @types/pako",
           "url": "https://www.npmjs.com/package/@types/pako"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/autorelease-excalidraw.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/autorelease-excalidraw.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/autorelease-excalidraw.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/autorelease-excalidraw.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/autorelease-excalidraw.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/autorelease-excalidraw.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/build-docker.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/build-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/build-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/lint.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/lint.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/lint.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/lint.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/locales-coverage.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/locales-coverage.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/locales-coverage.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/locales-coverage.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/locales-coverage.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/locales-coverage.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/publish-docker.yml",
-      "name": "build-push-action",
-      "evergreen": [
-        "github-actions.build-push-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/publish-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/publish-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.build-push-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.build-push-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/publish-docker.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/publish-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/publish-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/publish-docker.yml",
-      "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/publish-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/publish-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.login-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.login-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/publish-docker.yml",
-      "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/publish-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/publish-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-buildx-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-buildx-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/publish-docker.yml",
-      "name": "setup-qemu-action",
-      "evergreen": [
-        "github-actions.setup-qemu-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/publish-docker.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/publish-docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-qemu-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-qemu-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/sentry-production.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/sentry-production.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/sentry-production.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/sentry-production.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/sentry-production.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/sentry-production.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/size-limit.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/size-limit.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/size-limit.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/size-limit.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/size-limit.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/size-limit.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/test-coverage-pr.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/test-coverage-pr.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/test-coverage-pr.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/test-coverage-pr.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/test-coverage-pr.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/test-coverage-pr.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/test.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/test.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/test.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "excalidraw/excalidraw",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/test.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/test.yml at 1caec99",
-          "url": "https://github.com/excalidraw/excalidraw/blob/1caec99b290c75cda05385e637138998807a65ae/.github/workflows/test.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
         }
       ]
     },
@@ -696,370 +220,6 @@
         {
           "label": "npm deprecation notice for vue2-script-setup-transform",
           "url": "https://www.npmjs.com/package/vue2-script-setup-transform"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-docker-nightly.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-docker-nightly.yml",
-      "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.login-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.login-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-docker-nightly.yml",
-      "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-buildx-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-buildx-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-docker-nightly.yml",
-      "name": "setup-qemu-action",
-      "evergreen": [
-        "github-actions.setup-qemu-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-qemu-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-qemu-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-tests.yml",
-      "name": "cache",
-      "evergreen": [
-        "github-actions.cache.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-tests.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-tests.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.cache.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.cache.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-tests.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-tests.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-tests.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/backend-tests.yml",
-      "name": "setup-python",
-      "evergreen": [
-        "github-actions.setup-python.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/backend-tests.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/backend-tests.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-python.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-python.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/build-docs.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/build-docs.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/build-docs.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-docker-nightly.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-docker-nightly.yml",
-      "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.login-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.login-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-docker-nightly.yml",
-      "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-buildx-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-buildx-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-docker-nightly.yml",
-      "name": "setup-qemu-action",
-      "evergreen": [
-        "github-actions.setup-qemu-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-docker-nightly.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-docker-nightly.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-qemu-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-qemu-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-lint.yml",
-      "name": "cache",
-      "evergreen": [
-        "github-actions.cache.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-lint.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.cache.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.cache.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "mealie-recipes/mealie",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/frontend-lint.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/frontend-lint.yml at 50a341e",
-          "url": "https://github.com/mealie-recipes/mealie/blob/50a341ed3febc98a5a20b61fad5e74a290394f16/.github/workflows/frontend-lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
         }
       ]
     },
@@ -1308,7 +468,7 @@
       "outcome": "renovate-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "babel-eslint",
+      "name": "react-waypoint",
       "evergreen": [],
       "renovate": "deprecated",
       "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
@@ -1318,622 +478,140 @@
           "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "npm deprecation notice for babel-eslint",
-          "url": "https://www.npmjs.com/package/babel-eslint"
+          "label": "npm deprecation notice for react-waypoint",
+          "url": "https://www.npmjs.com/package/react-waypoint"
         }
       ]
     },
     {
       "repository": "outline/outline",
-      "outcome": "renovate-only",
+      "outcome": "evergreen-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "crypto-js",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
+      "name": "types.dotenv",
+      "evergreen": [
+        "npm.package.types.dotenv.deprecated"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
           "label": "package.json at 879c568",
           "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "npm deprecation notice for crypto-js",
-          "url": "https://www.npmjs.com/package/crypto-js"
+          "label": "Evergreen rule npm.package.types.dotenv.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.dotenv.deprecated.md"
         }
       ]
     },
     {
       "repository": "outline/outline",
-      "outcome": "renovate-only",
+      "outcome": "evergreen-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "i18next-parser",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
+      "name": "types.emoji-regex",
+      "evergreen": [
+        "npm.package.types.emoji-regex.deprecated"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
           "label": "package.json at 879c568",
           "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "npm deprecation notice for i18next-parser",
-          "url": "https://www.npmjs.com/package/i18next-parser"
+          "label": "Evergreen rule npm.package.types.emoji-regex.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.emoji-regex.deprecated.md"
         }
       ]
     },
     {
       "repository": "outline/outline",
-      "outcome": "renovate-only",
+      "outcome": "evergreen-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "koa-router",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
+      "name": "types.form-data",
+      "evergreen": [
+        "npm.package.types.form-data.deprecated"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
           "label": "package.json at 879c568",
           "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "npm deprecation notice for koa-router",
-          "url": "https://www.npmjs.com/package/koa-router"
+          "label": "Evergreen rule npm.package.types.form-data.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.form-data.deprecated.md"
         }
       ]
     },
     {
       "repository": "outline/outline",
-      "outcome": "renovate-only",
+      "outcome": "evergreen-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "socket.io-redis",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
+      "name": "types.koa-useragent",
+      "evergreen": [
+        "npm.package.types.koa-useragent.deprecated"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
           "label": "package.json at 879c568",
           "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "npm deprecation notice for socket.io-redis",
-          "url": "https://www.npmjs.com/package/socket.io-redis"
+          "label": "Evergreen rule npm.package.types.koa-useragent.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.koa-useragent.deprecated.md"
         }
       ]
     },
     {
       "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/auto_close_prs.yml",
-      "name": "github-script",
+      "outcome": "evergreen-only",
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.sanitize-filename",
       "evergreen": [
-        "github-actions.github-script.node20"
+        "npm.package.types.sanitize-filename.deprecated"
       ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
-          "label": ".github/workflows/auto_close_prs.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/auto_close_prs.yml"
+          "label": "package.json at 879c568",
+          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/package.json"
         },
         {
-          "label": "Evergreen rule github-actions.github-script.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.github-script.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/calibreapp-image-actions.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/calibreapp-image-actions.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/calibreapp-image-actions.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/ci.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/ci.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/ci.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/ci.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/ci.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/ci.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/codeql-analysis.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/codeql-analysis.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/codeql-analysis.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "build-push-action",
-      "evergreen": [
-        "github-actions.build-push-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.build-push-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.build-push-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "download-artifact",
-      "evergreen": [
-        "github-actions.download-artifact.retired"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.download-artifact.retired",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.download-artifact.retired.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "login-action",
-      "evergreen": [
-        "github-actions.login-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.login-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.login-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "metadata-action",
-      "evergreen": [
-        "github-actions.metadata-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.metadata-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.metadata-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "setup-buildx-action",
-      "evergreen": [
-        "github-actions.setup-buildx-action.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-buildx-action.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-buildx-action.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/docker.yml",
-      "name": "upload-artifact",
-      "evergreen": [
-        "github-actions.upload-artifact.retired"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/docker.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/docker.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.upload-artifact.retired",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.upload-artifact.retired.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/lint.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/lint.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/lint.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/lint.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/lint.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "outline/outline",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/stale.yml",
-      "name": "stale",
-      "evergreen": [
-        "github-actions.stale.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/stale.yml at 879c568",
-          "url": "https://github.com/outline/outline/blob/879c568a2ce55b0462651fa580de7f65faae026c/.github/workflows/stale.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.stale.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.stale.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
+          "label": "Evergreen rule npm.package.types.sanitize-filename.deprecated",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.types.sanitize-filename.deprecated.md"
         }
       ]
     },
     {
       "repository": "umami-software/umami",
-      "outcome": "renovate-only",
+      "outcome": "evergreen-only",
       "family": "deprecated-package",
       "path": "package.json",
-      "name": "react-beautiful-dnd",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
+      "name": "next.13",
+      "evergreen": [
+        "npm.package.next.13.support-end"
+      ],
+      "renovate": "not-seen",
+      "note": "Renovate did not list this npm package at all.",
       "evidence": [
         {
           "label": "package.json at 43499eb",
           "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/package.json"
         },
         {
-          "label": "npm deprecation notice for react-beautiful-dnd",
-          "url": "https://www.npmjs.com/package/react-beautiful-dnd"
-        }
-      ]
-    },
-    {
-      "repository": "umami-software/umami",
-      "outcome": "renovate-only",
-      "family": "deprecated-package",
-      "path": "package.json",
-      "name": "rollup-plugin-terser",
-      "evergreen": [],
-      "renovate": "deprecated",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package.",
-      "evidence": [
-        {
-          "label": "package.json at 43499eb",
-          "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/package.json"
-        },
-        {
-          "label": "npm deprecation notice for rollup-plugin-terser",
-          "url": "https://www.npmjs.com/package/rollup-plugin-terser"
-        }
-      ]
-    },
-    {
-      "repository": "umami-software/umami",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/cd-manual.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/cd-manual.yml at 43499eb",
-          "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/.github/workflows/cd-manual.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "umami-software/umami",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/cd.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/cd.yml at 43499eb",
-          "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/.github/workflows/cd.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "umami-software/umami",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/ci.yml",
-      "name": "checkout",
-      "evergreen": [
-        "github-actions.checkout.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/ci.yml at 43499eb",
-          "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/.github/workflows/ci.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.checkout.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.checkout.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
-        }
-      ]
-    },
-    {
-      "repository": "umami-software/umami",
-      "outcome": "inconclusive",
-      "family": "github-action",
-      "path": ".github/workflows/ci.yml",
-      "name": "setup-node",
-      "evergreen": [
-        "github-actions.setup-node.node20"
-      ],
-      "renovate": "skipped",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way.",
-      "evidence": [
-        {
-          "label": ".github/workflows/ci.yml at 43499eb",
-          "url": "https://github.com/umami-software/umami/blob/43499eb4fd0b1d617f6f052174f1da6f21653892/.github/workflows/ci.yml"
-        },
-        {
-          "label": "Evergreen rule github-actions.setup-node.node20",
-          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/github-actions.setup-node.node20.md"
-        },
-        {
-          "label": "Why Renovate skips GitHub lookups without a token",
-          "url": "https://docs.renovatebot.com/getting-started/running/#githubcom-token-for-changelogs-and-github-actions"
+          "label": "Evergreen rule npm.package.next.13.support-end",
+          "url": "https://github.com/arminazimi/evergreen/blob/main/docs/rules/npm.package.next.13.support-end.md"
         }
       ]
     }

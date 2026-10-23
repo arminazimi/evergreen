@@ -2,10 +2,10 @@
   "schemaVersion": "evergreen.differential.renovate.v1",
   "repository": "outline/outline",
   "summary": {
-    "agree": 2,
-    "evergreen-only": 0,
-    "renovate-only": 17,
-    "inconclusive": 15
+    "agree": 22,
+    "evergreen-only": 5,
+    "renovate-only": 13,
+    "inconclusive": 0
   },
   "comparisons": [
     {
@@ -142,33 +142,50 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "babel-eslint",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.babel-eslint.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
     },
     {
       "family": "deprecated-package",
       "path": "package.json",
       "name": "crypto-js",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.crypto-js.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
     },
     {
       "family": "deprecated-package",
       "path": "package.json",
       "name": "i18next-parser",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.i18next-parser.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
     },
     {
       "family": "deprecated-package",
       "path": "package.json",
       "name": "koa-router",
+      "evergreen": [
+        "npm.package.koa-router.deprecated"
+      ],
+      "renovate": "deprecated",
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "react-waypoint",
       "evergreen": [],
       "renovate": "deprecated",
       "outcome": "renovate-only",
@@ -178,10 +195,67 @@
       "family": "deprecated-package",
       "path": "package.json",
       "name": "socket.io-redis",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.socket.io-redis.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.dotenv",
+      "evergreen": [
+        "npm.package.types.dotenv.deprecated"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.emoji-regex",
+      "evergreen": [
+        "npm.package.types.emoji-regex.deprecated"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.form-data",
+      "evergreen": [
+        "npm.package.types.form-data.deprecated"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.koa-useragent",
+      "evergreen": [
+        "npm.package.types.koa-useragent.deprecated"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
+      "name": "types.sanitize-filename",
+      "evergreen": [
+        "npm.package.types.sanitize-filename.deprecated"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
     },
     {
       "family": "github-action",
@@ -190,9 +264,9 @@
       "evergreen": [
         "github-actions.github-script.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -201,9 +275,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -212,9 +286,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -223,9 +297,9 @@
       "evergreen": [
         "github-actions.setup-node.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -234,9 +308,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -245,9 +319,9 @@
       "evergreen": [
         "github-actions.build-push-action.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -256,9 +330,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -267,9 +341,9 @@
       "evergreen": [
         "github-actions.download-artifact.retired"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -278,9 +352,9 @@
       "evergreen": [
         "github-actions.login-action.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -289,9 +363,9 @@
       "evergreen": [
         "github-actions.metadata-action.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -300,9 +374,9 @@
       "evergreen": [
         "github-actions.setup-buildx-action.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -311,9 +385,9 @@
       "evergreen": [
         "github-actions.upload-artifact.retired"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -322,9 +396,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -333,9 +407,9 @@
       "evergreen": [
         "github-actions.setup-node.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -344,9 +418,9 @@
       "evergreen": [
         "github-actions.stale.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     }
   ],
   "notComparable": [

@@ -287,9 +287,10 @@ To move an entry to a newer commit, change its `commit` to the full 40-character
 
 ## Differential testing against Renovate
 
-Renovate is the closest widely used tool, so the report compares Evergreen's findings with Renovate's for the same repository, by rule family. A maintainer runs Renovate (it needs the network and a large download; it is not part of `npm run check` or any scan):
+Renovate is the closest widely used tool, so the report compares Evergreen's findings with Renovate's for the same repository, by rule family. A maintainer runs Renovate (it needs the network and a large download; it is not part of `npm run check` or any scan). Give it a read-only GitHub token, or it cannot look up GitHub Actions:
 
 ```bash
+export RENOVATE_TOKEN=<token> GITHUB_COM_TOKEN=<token>
 npx renovate --platform=local --dry-run=lookup --report-type=file --report-path=renovate.json
 npm run differential:renovate -- --renovate renovate.json --repository . --name owner/repo --out report.json
 ```
@@ -306,22 +307,22 @@ Outcomes: `agree`, `evergreen-only`, `renovate-only`, and `inconclusive` (Renova
 
 The committed reports are combined into one reviewable page, [differential-report.md](differential-report.md) (and [differential-report.json](differential-report.json)), which lists every disagreement with links to the declaration at the pinned commit and to each tool's evidence. Regenerate it with `npm run differential:report` after adding or refreshing a report; a test fails when it drifts from the reports.
 
-Results for the five container corpus repositories, with Renovate 44.164 run without a GitHub token on 2026-10-16 (reports in [`benchmarks/differential/reports/`](../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
+Results for the five container corpus repositories, with Renovate 44.164 run with a read-only GitHub token on 2026-10-23 (reports in [`benchmarks/differential/reports/`](../benchmarks/differential/reports/), trimmed Renovate output in `tests/fixtures/differential/`):
 
 | Repository | Agree | Evergreen-only | Renovate-only | Inconclusive |
 | --- | --- | --- | --- | --- |
-| outline/outline | 2 | 0 | 17 | 15 |
-| excalidraw/excalidraw | 3 | 0 | 2 | 20 |
-| mealie-recipes/mealie | 3 | 0 | 4 | 14 |
-| umami-software/umami | 2 | 0 | 2 | 4 |
+| outline/outline | 22 | 5 | 13 | 0 |
+| excalidraw/excalidraw | 23 | 2 | 2 | 0 |
+| mealie-recipes/mealie | 17 | 0 | 4 | 0 |
+| umami-software/umami | 8 | 1 | 0 | 0 |
 | gethomepage/homepage | 0 | 0 | 0 | 0 |
 
 What it shows:
 
-- **Agreements** are all base images: where Evergreen calls `node` or `postgres` end-of-life, Renovate offers a major update. Renovate does not say the old line is unsupported; only Evergreen does.
-- **Renovate-only** are npm deprecations Evergreen has no rule for (for example `@types/*` stubs, `babel-eslint`, `koa-router`, `socket.io-redis`, `react-beautiful-dnd`, `rollup-plugin-terser`, `@nuxt/types`). This is the real gap: the `npm-deprecated` importer only checks a candidate list, so these names are candidates to add. Each is a Renovate observation, not evidence; the importer still requires the registry's own deprecation notice.
-- **Evergreen-only** is empty here; every Evergreen finding that Renovate could look up, it also had an update for.
-- Most GitHub Action findings are `inconclusive` because Renovate cannot look up Actions without a token. Re-run with `RENOVATE_TOKEN` to turn them into comparisons.
+- **Agreements** are 10 base images, 53 GitHub Action findings, and 7 npm deprecations. Where Evergreen calls `node` or `postgres` end-of-life, or flags `actions/checkout` on Node 20, Renovate offers a newer major version. Renovate does not say the old line is unsupported; only Evergreen does.
+- **No comparison is inconclusive.** With a token Renovate looks up every GitHub Action, so the Action findings that were `inconclusive` in the 2026-10-16 run are now comparisons, and all of them agree.
+- **Renovate-only** are npm deprecations Evergreen has no rule for (for example `@types/diff`, `@types/glob`, `@nuxt/types`, `react-waypoint`). This is the real gap: the `npm-deprecated` importer only checks a candidate list, so these names are candidates to add. Each is a Renovate observation, not evidence; the importer still requires the registry's own deprecation notice.
+- **Evergreen-only** is not a real disagreement yet. All eight entries are packages Renovate does list, under a different spelling: the comparison reads the package name from the rule id, so `@types/dotenv` becomes `types.dotenv` and `next` with a version-line rule becomes `next.14`. Six of the Renovate-only `@types/*` entries are the same packages seen from the other side. Matching by the rule's package name is a follow-up to this comparison.
 
 
 ## Differential testing against xeol

@@ -2,10 +2,10 @@
   "schemaVersion": "evergreen.differential.renovate.v1",
   "repository": "umami-software/umami",
   "summary": {
-    "agree": 2,
-    "evergreen-only": 0,
-    "renovate-only": 2,
-    "inconclusive": 4
+    "agree": 8,
+    "evergreen-only": 1,
+    "renovate-only": 0,
+    "inconclusive": 0
   },
   "comparisons": [
     {
@@ -33,20 +33,35 @@
     {
       "family": "deprecated-package",
       "path": "package.json",
+      "name": "next.13",
+      "evergreen": [
+        "npm.package.next.13.support-end"
+      ],
+      "renovate": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Renovate did not list this npm package at all."
+    },
+    {
+      "family": "deprecated-package",
+      "path": "package.json",
       "name": "react-beautiful-dnd",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.react-beautiful-dnd.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
     },
     {
       "family": "deprecated-package",
       "path": "package.json",
       "name": "rollup-plugin-terser",
-      "evergreen": [],
+      "evergreen": [
+        "npm.package.rollup-plugin-terser.deprecated"
+      ],
       "renovate": "deprecated",
-      "outcome": "renovate-only",
-      "note": "Renovate prints a deprecation notice; Evergreen has no rule for this package."
+      "outcome": "agree",
+      "note": "Both report the package as deprecated."
     },
     {
       "family": "github-action",
@@ -55,9 +70,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -66,9 +81,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -77,9 +92,9 @@
       "evergreen": [
         "github-actions.checkout.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     },
     {
       "family": "github-action",
@@ -88,10 +103,12 @@
       "evergreen": [
         "github-actions.setup-node.node20"
       ],
-      "renovate": "skipped",
-      "outcome": "inconclusive",
-      "note": "Renovate did not look this GitHub Action up (github-token-required), so it says nothing either way."
+      "renovate": "major-update",
+      "outcome": "agree",
+      "note": "Evergreen says the GitHub Action is past end of life; Renovate offers an update. Renovate does not say the old line is unsupported."
     }
   ],
-  "notComparable": []
+  "notComparable": [
+    "database.postgresql"
+  ]
 }

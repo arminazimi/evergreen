@@ -80,14 +80,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -98,8 +104,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -109,8 +118,11 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -126,8 +138,11 @@
         {
          "depName": "styfle/cancel-workflow-action",
          "currentValue": "0.6.0",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -143,14 +158,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -161,8 +182,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -172,20 +196,32 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "kt3k/update-pr-description",
          "currentValue": "v1.0.1",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          },
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -196,8 +232,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -207,32 +246,47 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-qemu-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -248,8 +302,11 @@
         {
          "depName": "amannn/action-semantic-pull-request",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -265,14 +322,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -283,8 +346,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -294,19 +360,24 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "andresz1/size-limit-action",
          "currentValue": "v1",
-         "skipReason": "github-token-required",
          "updates": []
         },
         {
@@ -318,8 +389,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -329,20 +403,29 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "davelosert/vitest-coverage-report-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "digest"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -353,8 +436,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -364,14 +450,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -382,8 +474,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       }
@@ -646,8 +741,8 @@
         {
          "depName": "@excalidraw/excalidraw",
          "currentValue": "*",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         },
         {
          "depName": "browser-fs-access",
@@ -908,8 +1003,8 @@
         {
          "depName": "@types/socket.io-client",
          "currentValue": "3.0.0",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/socket.io-client` has the following deprecation notice:\n\n`This is a stub types definition. socket.io-client provide"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/socket.io-client` has the following deprecation notice:\n\n`This is a stub types definition. socket.io-client provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@vitejs/plugin-react",
@@ -1205,14 +1300,14 @@
         {
          "depName": "@excalidraw/common",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         },
         {
          "depName": "@excalidraw/math",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         }
        ]
       },
@@ -1279,14 +1374,14 @@
         {
          "depName": "@excalidraw/common",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         },
         {
          "depName": "@excalidraw/element",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         },
         {
          "depName": "@excalidraw/laser-pointer",
@@ -1300,13 +1395,17 @@
         {
          "depName": "@excalidraw/math",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         },
         {
          "depName": "@excalidraw/mermaid-to-excalidraw",
          "currentValue": "2.2.2",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "minor"
+          }
+         ]
         },
         {
          "depName": "@excalidraw/random-username",
@@ -1560,6 +1659,7 @@
         {
          "depName": "@types/pako",
          "currentValue": "2.0.3",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/pako` has the following deprecation notice:\n\n`This is a stub types definition. pako provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "patch"
@@ -1567,8 +1667,7 @@
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/pako` has the following deprecation notice:\n\n`This is a stub types definition. pako provides its own type definitio"
+         ]
         },
         {
          "depName": "@types/pica",
@@ -1722,8 +1821,8 @@
         {
          "depName": "@excalidraw/common",
          "currentValue": "0.18.0",
-         "updates": [],
-         "skipReason": "internal-package"
+         "skipReason": "internal-package",
+         "updates": []
         }
        ]
       },
@@ -1967,13 +2066,43 @@
   },
   {
    "ruleId": "nodejs.runtime.eol-18",
+   "path": "excalidraw-app/package.json",
+   "line": 26
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-18",
+   "path": "package.json",
+   "line": 47
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-19",
+   "path": "excalidraw-app/package.json",
+   "line": 26
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-19",
    "path": "package.json",
    "line": 47
   },
   {
    "ruleId": "nodejs.runtime.eol-20",
+   "path": "excalidraw-app/package.json",
+   "line": 26
+  },
+  {
+   "ruleId": "nodejs.runtime.eol-20",
    "path": "package.json",
    "line": 47
+  },
+  {
+   "ruleId": "npm.package.next.14.support-end",
+   "path": "examples/with-nextjs/package.json",
+   "line": 15
+  },
+  {
+   "ruleId": "npm.package.types.socket.io-client.deprecated",
+   "path": "package.json",
+   "line": 19
   }
  ]
 }

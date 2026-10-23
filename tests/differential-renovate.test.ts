@@ -17,16 +17,23 @@ async function fixtures(): Promise<Fixture[]> {
   return Promise.all((await readdir(directory)).filter((name) => name.endsWith(".json")).sort().map(async (name) => JSON.parse(await readFile(resolve(directory, name), "utf8")) as Fixture));
 }
 
-test("umami: image findings agree with Renovate updates, deprecations are Renovate-only, and skipped lookups are inconclusive", async () => {
+test("umami: image and action findings agree with Renovate updates, deprecations agree, and no lookup is skipped", async () => {
   const umami = (await fixtures()).find((item) => item.repository === "umami-software/umami")!;
   const result = report(umami.repository, umami.findings, renovateDependencies(umami.renovate));
-  assert.deepEqual(result.summary, { agree: 2, "evergreen-only": 0, "renovate-only": 2, inconclusive: 4 });
+  assert.deepEqual(result.summary, { agree: 8, "evergreen-only": 1, "renovate-only": 0, inconclusive: 0 });
   const byName = (name: string) => result.comparisons.filter((item) => item.name === name);
   assert.deepEqual(byName("node").map((item) => [item.outcome, item.renovate]), [["agree", "major-update"]]);
   assert.deepEqual(byName("postgres").map((item) => [item.outcome, item.renovate]), [["agree", "major-update"]]);
-  assert.deepEqual(byName("checkout").map((item) => item.renovate), ["skipped", "skipped", "skipped"]);
-  assert.match(byName("checkout")[0]!.note, /github-token-required/);
-  assert.deepEqual(result.comparisons.filter((item) => item.outcome === "renovate-only").map((item) => item.name), ["react-beautiful-dnd", "rollup-plugin-terser"]);
+  assert.deepEqual(byName("checkout").map((item) => item.renovate), ["major-update", "major-update", "major-update"]);
+  assert.deepEqual(byName("checkout").map((item) => item.outcome), ["agree", "agree", "agree"]);
+  assert.deepEqual(byName("react-beautiful-dnd").map((item) => [item.outcome, item.renovate]), [["agree", "deprecated"]]);
+});
+
+test("a Renovate dependency skipped for a missing token is inconclusive, not a disagreement", () => {
+  const dependencies = renovateDependencies({ repositories: { local: { packageFiles: { "github-actions": [{ packageFile: "ci.yml", deps: [{ depName: "actions/checkout", currentValue: "v3", skipReason: "github-token-required", updates: [] }] }] } } } });
+  const result = compare([{ ruleId: "github-actions.checkout.node20", path: "ci.yml" }], dependencies);
+  assert.deepEqual(result.comparisons.map((item) => [item.outcome, item.renovate]), [["inconclusive", "skipped"]]);
+  assert.match(result.comparisons[0]!.note, /github-token-required/);
 });
 
 test("every committed comparison accounts for each Evergreen finding family exactly once and is deterministic", async () => {

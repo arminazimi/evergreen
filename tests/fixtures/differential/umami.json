@@ -11,8 +11,8 @@
         {
          "depName": "ghcr.io/umami-software/umami",
          "currentValue": "postgresql-latest",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "postgres",
@@ -72,14 +72,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "mr-smithers-excellent/docker-build-push",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -95,14 +101,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "mr-smithers-excellent/docker-build-push",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -118,14 +130,20 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -136,7 +154,7 @@
         {
          "depName": "node",
          "currentValue": "${{ matrix.node-version }}",
-         "skipReason": "github-token-required",
+         "skipReason": "invalid-value",
          "updates": []
         }
        ]
@@ -483,8 +501,8 @@
         {
          "depName": "react-beautiful-dnd",
          "currentValue": "^13.1.0",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `react-beautiful-dnd` has the following deprecation notice:\n\n`react-beautiful-dnd is now deprecated. Context and options: h"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `react-beautiful-dnd` has the following deprecation notice:\n\n`react-beautiful-dnd is now deprecated. Context and options: https://github.com/atlassian/react-beautiful-dnd/issues/2672`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "react-dom",
@@ -866,8 +884,8 @@
         {
          "depName": "rollup-plugin-terser",
          "currentValue": "^7.0.2",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `rollup-plugin-terser` has the following deprecation notice:\n\n`This package has been deprecated and is no longer maintained"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `rollup-plugin-terser` has the following deprecation notice:\n\n`This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "stylelint",
@@ -960,6 +978,11 @@
    "line": 16
   },
   {
+   "ruleId": "database.postgresql.end-of-life-12",
+   "path": "docker-compose.yml",
+   "line": 16
+  },
+  {
    "ruleId": "github-actions.checkout.node20",
    "path": ".github/workflows/cd-manual.yml",
    "line": 21
@@ -978,6 +1001,21 @@
    "ruleId": "github-actions.setup-node.node20",
    "path": ".github/workflows/ci.yml",
    "line": 31
+  },
+  {
+   "ruleId": "npm.package.next.13.support-end",
+   "path": "package.json",
+   "line": 92
+  },
+  {
+   "ruleId": "npm.package.react-beautiful-dnd.deprecated",
+   "path": "package.json",
+   "line": 98
+  },
+  {
+   "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+   "path": "package.json",
+   "line": 140
   }
  ]
 }

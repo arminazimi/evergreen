@@ -10,13 +10,13 @@
        "deps": [
         {
          "depName": "redis",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "postgres",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         }
        ]
       }
@@ -27,8 +27,8 @@
        "deps": [
         {
          "depName": "outlinewiki/outline-base",
-         "updates": [],
-         "skipReason": "invalid-value"
+         "skipReason": "invalid-value",
+         "updates": []
         },
         {
          "depName": "node",
@@ -73,8 +73,11 @@
         {
          "depName": "actions/github-script",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -90,8 +93,11 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "calibreapp/image-actions",
@@ -101,8 +107,11 @@
         {
          "depName": "peter-evans/create-pull-request",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -118,92 +127,137 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "dorny/paths-filter",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "relative-ci/agent-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -214,7 +268,7 @@
         {
          "depName": "node",
          "currentValue": "${{ matrix.node-version }}",
-         "skipReason": "github-token-required",
+         "skipReason": "invalid-value",
          "updates": []
         },
         {
@@ -226,7 +280,31 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
+         "updates": []
+        },
+        {
+         "depName": "node",
+         "currentValue": "20.x",
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
+        },
+        {
+         "depName": "ubuntu",
+         "currentValue": "latest",
+         "skipReason": "invalid-version",
          "updates": []
         },
         {
@@ -238,26 +316,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
-        },
-        {
-         "depName": "ubuntu",
-         "currentValue": "latest",
-         "skipReason": "invalid-version",
-         "updates": []
-        },
-        {
-         "depName": "ubuntu",
-         "currentValue": "latest",
-         "skipReason": "invalid-version",
-         "updates": []
-        },
-        {
-         "depName": "node",
-         "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "postgres",
@@ -289,8 +352,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -301,8 +367,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -312,26 +381,38 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "github/codeql-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "github/codeql-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "github/codeql-action",
          "currentValue": "v2",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -347,122 +428,182 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/upload-artifact",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/build-push-action",
          "currentValue": "v6",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/upload-artifact",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/download-artifact",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/login-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/setup-buildx-action",
          "currentValue": "v3",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "docker/metadata-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -472,20 +613,29 @@
         {
          "depName": "actions/checkout",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "actions/setup-node",
          "currentValue": "v4",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "stefanzweifel/git-auto-commit-action",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -496,8 +646,11 @@
         {
          "depName": "node",
          "currentValue": "20.x",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         }
        ]
       },
@@ -507,8 +660,11 @@
         {
          "depName": "actions/stale",
          "currentValue": "v5",
-         "skipReason": "github-token-required",
-         "updates": []
+         "updates": [
+          {
+           "updateType": "major"
+          }
+         ]
         },
         {
          "depName": "ubuntu",
@@ -994,8 +1150,8 @@
         {
          "depName": "@types/form-data",
          "currentValue": "^2.5.2",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/form-data` has the following deprecation notice:\n\n`This is a stub types definition. form-data provides its own type"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/form-data` has the following deprecation notice:\n\n`This is a stub types definition. form-data provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@types/mailparser",
@@ -1009,8 +1165,8 @@
         {
          "depName": "@types/sanitize-filename",
          "currentValue": "^1.6.3",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sanitize-filename` has the following deprecation notice:\n\n`This is a stub types definition. sanitize-filename provi"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sanitize-filename` has the following deprecation notice:\n\n`This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@vitejs/plugin-react",
@@ -1126,8 +1282,8 @@
         {
          "depName": "crypto-js",
          "currentValue": "^4.2.0",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `crypto-js` has the following deprecation notice:\n\n`Active development of CryptoJS has been discontinued. This library is n"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `crypto-js` has the following deprecation notice:\n\n`Active development of CryptoJS has been discontinued. This library is no longer maintained.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "datadog-metrics",
@@ -1450,12 +1606,12 @@
         {
          "depName": "koa-router",
          "currentValue": "7.4.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `koa-router` has the following deprecation notice:\n\n`Please use @koa/router instead, starting from v9! `\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `koa-router` has the following deprecation notice:\n\n`Please use @koa/router instead, starting from v9! `\n\nMarking the lates"
+         ]
         },
         {
          "depName": "koa-send",
@@ -1970,6 +2126,7 @@
         {
          "depName": "react-waypoint",
          "currentValue": "^10.3.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `react-waypoint` has the following deprecation notice:\n\n`Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": []
         },
         {
@@ -2123,8 +2280,8 @@
         {
          "depName": "socket.io-redis",
          "currentValue": "^6.1.1",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `socket.io-redis` has the following deprecation notice:\n\n`This package has been renamed to '@socket.io/redis-adapter', plea"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `socket.io-redis` has the following deprecation notice:\n\n`This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here: https://socket.io/docs/v4/redis-adapter/#migrating-from-socketio-redis`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "sonner",
@@ -2406,6 +2563,7 @@
         {
          "depName": "@types/diff",
          "currentValue": "^5.0.9",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/diff` has the following deprecation notice:\n\n`This is a stub types definition. diff provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "minor"
@@ -2413,20 +2571,19 @@
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/diff` has the following deprecation notice:\n\n`This is a stub types definition. diff provides its own type definitio"
+         ]
         },
         {
          "depName": "@types/dotenv",
          "currentValue": "^8.2.3",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/dotenv` has the following deprecation notice:\n\n`This is a stub types definition. dotenv provides its own type defin"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/dotenv` has the following deprecation notice:\n\n`This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@types/emoji-regex",
          "currentValue": "^9.2.2",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/emoji-regex` has the following deprecation notice:\n\n`This is a stub types definition. emoji-regex provides its own "
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/emoji-regex` has the following deprecation notice:\n\n`This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@types/escape-html",
@@ -2460,6 +2617,7 @@
         {
          "depName": "@types/glob",
          "currentValue": "^8.0.1",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/glob` has the following deprecation notice:\n\n`This is a stub types definition. glob provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "minor"
@@ -2467,8 +2625,7 @@
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/glob` has the following deprecation notice:\n\n`This is a stub types definition. glob provides its own type definitio"
+         ]
         },
         {
          "depName": "@types/google.analytics",
@@ -2531,12 +2688,12 @@
         {
          "depName": "@types/koa-helmet",
          "currentValue": "^6.0.8",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-helmet` has the following deprecation notice:\n\n`This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "minor"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-helmet` has the following deprecation notice:\n\n`This is a stub types definition. koa-helmet provides its own ty"
+         ]
         },
         {
          "depName": "@types/koa-logger",
@@ -2570,8 +2727,8 @@
         {
          "depName": "@types/koa-useragent",
          "currentValue": "^2.1.2",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-useragent` has the following deprecation notice:\n\n`This is a stub types definition. koa-useragent provides its "
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/koa-useragent` has the following deprecation notice:\n\n`This is a stub types definition. koa-useragent provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "@types/markdown-it",
@@ -2738,22 +2895,22 @@
         {
          "depName": "@types/react-virtualized-auto-sizer",
          "currentValue": "^1.0.4",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-virtualized-auto-sizer` has the following deprecation notice:\n\n`This is a stub types definition. react-virtualized-auto-sizer provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "patch"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-virtualized-auto-sizer` has the following deprecation notice:\n\n`This is a stub types definition. react-virtua"
+         ]
         },
         {
          "depName": "@types/react-window",
          "currentValue": "^1.8.8",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-window` has the following deprecation notice:\n\n`This is a stub types definition. react-window provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/react-window` has the following deprecation notice:\n\n`This is a stub types definition. react-window provides its ow"
+         ]
         },
         {
          "depName": "@types/readable-stream",
@@ -2772,12 +2929,12 @@
         {
          "depName": "@types/refractor",
          "currentValue": "^3.4.1",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/refractor` has the following deprecation notice:\n\n`This is a stub types definition. refractor provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/refractor` has the following deprecation notice:\n\n`This is a stub types definition. refractor provides its own type"
+         ]
         },
         {
          "depName": "@types/resolve-path",
@@ -2796,12 +2953,12 @@
         {
          "depName": "@types/sequelize",
          "currentValue": "^4.28.20",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sequelize` has the following deprecation notice:\n\n`This is a stub types definition. sequelize provides its own type definitions, so you do not need this installed.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `@types/sequelize` has the following deprecation notice:\n\n`This is a stub types definition. sequelize provides its own type"
+         ]
         },
         {
          "depName": "@types/slug",
@@ -2889,8 +3046,8 @@
         {
          "depName": "babel-eslint",
          "currentValue": "^10.1.0",
-         "updates": [],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `babel-eslint` has the following deprecation notice:\n\n`babel-eslint is now @babel/eslint-parser. This package will no longe"
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `babel-eslint` has the following deprecation notice:\n\n`babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
+         "updates": []
         },
         {
          "depName": "babel-jest",
@@ -3052,12 +3209,12 @@
         {
          "depName": "i18next-parser",
          "currentValue": "^8.13.0",
+         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `i18next-parser` has the following deprecation notice:\n\n`Project is deprecated, use i18next-cli instead`\n\nMarking the latest version of an npm package as deprecated results in the entire package being considered deprecated, so contact the package author you think this is a mistake.",
          "updates": [
           {
            "updateType": "major"
           }
-         ],
-         "deprecationMessage": "On registry `https://registry.npmjs.org`, the \"latest\" version of dependency `i18next-parser` has the following deprecation notice:\n\n`Project is deprecated, use i18next-cli instead`\n\nMarking the lates"
+         ]
         },
         {
          "depName": "jest-cli",
@@ -3486,9 +3643,64 @@
    "line": 42
   },
   {
+   "ruleId": "nodejs.runtime.eol-19",
+   "path": "package.json",
+   "line": 42
+  },
+  {
    "ruleId": "nodejs.runtime.eol-20",
    "path": "package.json",
    "line": 42
+  },
+  {
+   "ruleId": "npm.package.babel-eslint.deprecated",
+   "path": "package.json",
+   "line": 341
+  },
+  {
+   "ruleId": "npm.package.crypto-js.deprecated",
+   "path": "package.json",
+   "line": 119
+  },
+  {
+   "ruleId": "npm.package.i18next-parser.deprecated",
+   "path": "package.json",
+   "line": 361
+  },
+  {
+   "ruleId": "npm.package.koa-router.deprecated",
+   "path": "package.json",
+   "line": 157
+  },
+  {
+   "ruleId": "npm.package.socket.io-redis.deprecated",
+   "path": "package.json",
+   "line": 242
+  },
+  {
+   "ruleId": "npm.package.types.dotenv.deprecated",
+   "path": "package.json",
+   "line": 280
+  },
+  {
+   "ruleId": "npm.package.types.emoji-regex.deprecated",
+   "path": "package.json",
+   "line": 281
+  },
+  {
+   "ruleId": "npm.package.types.form-data.deprecated",
+   "path": "package.json",
+   "line": 101
+  },
+  {
+   "ruleId": "npm.package.types.koa-useragent.deprecated",
+   "path": "package.json",
+   "line": 301
+  },
+  {
+   "ruleId": "npm.package.types.sanitize-filename.deprecated",
+   "path": "package.json",
+   "line": 103
   }
  ]
 }
