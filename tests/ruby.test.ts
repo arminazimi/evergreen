@@ -110,7 +110,6 @@ test("reports a yanked resolved gem from Gemfile.lock", async () => {
 
 test("reports curated Rails lifecycle rules and leaves Rails 8.1 clean", async () => {
   const cases = [
-    ["unsupported", "ruby.gem.rails-7.1-and-older.end-of-life", "high", undefined],
     ["eol", "ruby.gem.rails-7.2.end-of-life", "high", "2026-08-09"],
     ["scheduled", "ruby.gem.rails-8.0.scheduled-end-of-life", "low", "2026-11-07"],
     ["supported", undefined, undefined, undefined],

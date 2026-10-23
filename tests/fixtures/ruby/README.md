@@ -21,7 +21,6 @@ These fixtures define the parser boundary for Ruby declarations in [epic #54](ht
 | `zero/example.gemspec` | `required_ruby_version = ">= 3.1.0"` (line 5): a valid declaration, no lifecycle finding. |
 | `malformed/.ruby-version` | An empty file: no declaration, no error. |
 | `malformed/.tool-versions` | `ruby` with no version (line 1): no declaration, no error. |
-| `rails/unsupported/Gemfile.lock` | Rails 7.1.5.2: an unsupported release series covered by the Rails 7.1-and-older rule. |
 | `rails/eol/Gemfile.lock` | Rails 7.2.4: the recently retired release series. |
 | `rails/scheduled/Gemfile.lock` | Rails 8.0.5.1: a supported series with an announced security-support deadline. |
 | `rails/supported/Gemfile.lock` | Rails 8.1.4: the current supported series, so no lifecycle finding. |

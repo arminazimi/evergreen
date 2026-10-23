@@ -427,7 +427,6 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/python.symbol.webbrowser.macosx.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html</loc><lastmod>2026-10-18</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.1-and-older.end-of-life.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-1.9.3.html</loc><lastmod>2026-10-20</lastmod></url>
