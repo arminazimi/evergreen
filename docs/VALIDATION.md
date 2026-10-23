@@ -449,25 +449,25 @@ Every difference has one of three causes, none of them a wrong finding:
 Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
 
 <!-- accuracy-tables:start -->
-Measured on 399 pinned repositories at commit `6823000` on 2026-10-23. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on 455 pinned repositories at commit `a2d1d07` on 2026-10-23. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
 | android | Experimental | 9 | 0 | 0 | 1.000 | 1.000 |
 | ci-images | Experimental | 13 | 0 | 0 | 1.000 | 1.000 |
-| container | Experimental | 60 | 0 | 0 | 1.000 | 1.000 |
+| container | Experimental | 74 | 0 | 0 | 1.000 | 1.000 |
 | cpp | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 16 | 0 | 0 | 1.000 | 1.000 |
 | dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
-| github-actions | Supported | 778 | 0 | 0 | 1.000 | 1.000 |
-| go | Experimental | 51 | 0 | 0 | 1.000 | 1.000 |
-| java | Beta | 60 | 0 | 0 | 1.000 | 1.000 |
-| kubernetes | Beta | 67 | 0 | 0 | 1.000 | 1.000 |
-| nodejs | Supported | 147 | 0 | 0 | 1.000 | 1.000 |
-| npm | Supported | 99 | 0 | 0 | 1.000 | 1.000 |
+| github-actions | Supported | 986 | 0 | 0 | 1.000 | 1.000 |
+| go | Experimental | 54 | 0 | 0 | 1.000 | 1.000 |
+| java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
+| kubernetes | Beta | 71 | 0 | 0 | 1.000 | 1.000 |
+| nodejs | Supported | 148 | 0 | 0 | 1.000 | 1.000 |
+| npm | Supported | 100 | 0 | 0 | 1.000 | 1.000 |
 | php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
-| python | Beta | 28 | 0 | 0 | 1.000 | 1.000 |
+| python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
 | ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
 | rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
 | serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |
