@@ -430,9 +430,9 @@ test("run status reads the recorded age and the reference day", () => {
   assert.deepEqual({ ...api.runStatus({ ...data, referenceDay: "2026-11-02", run: { ...data.run, runAgeDays: 15 } }, new Date(2026, 10, 3)) }, {
     stale: true,
     ageDays: 15,
-    runDate: "2026-10-21",
+    runDate: "2026-10-23",
     referenceDay: "2026-11-02",
-    visitorAgeDays: 13,
+    visitorAgeDays: 11,
     staleAfterDays: 14,
   });
   assert.equal(api.runStatus({ run: null, referenceDay: "2026-11-02" }, new Date()).stale, false);

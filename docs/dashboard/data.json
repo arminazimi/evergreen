@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.dashboard-data.v1",
-  "referenceDay": "2026-10-21",
+  "referenceDay": "2026-10-23",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
     "repositories": 300
@@ -11,10 +11,10 @@
     "decision": "docs/decisions/0013-detector-maturity.md"
   },
   "run": {
-    "date": "2026-10-21",
-    "commit": "122d612",
-    "repositories": 145,
-    "findings": 616,
+    "date": "2026-10-23",
+    "commit": "1d3e43f",
+    "repositories": 300,
+    "findings": 1515,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -34,7 +34,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 4,
+        "truePositives": 9,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -57,7 +57,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 8,
+        "truePositives": 13,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -80,7 +80,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 19,
+        "truePositives": 57,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -103,7 +103,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 11,
+        "truePositives": 18,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -125,7 +125,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 8,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1
+      },
       "evidence": {
         "repositoriesWithFindings": 4,
         "expectedFindings": 8,
@@ -142,7 +148,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 16,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1
+      },
       "evidence": {
         "repositoriesWithFindings": 11,
         "expectedFindings": 16,
@@ -160,7 +172,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 105,
+        "truePositives": 304,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -183,7 +195,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 261,
+        "truePositives": 662,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -206,7 +218,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 8,
+        "truePositives": 51,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -229,7 +241,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 6,
+        "truePositives": 60,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -252,7 +264,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 29,
+        "truePositives": 67,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -275,7 +287,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 44,
+        "truePositives": 64,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -298,7 +310,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 49,
+        "truePositives": 54,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -344,7 +356,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 20,
+        "truePositives": 24,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -367,7 +379,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 7,
+        "truePositives": 24,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -390,7 +402,7 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 5,
+        "truePositives": 18,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -413,7 +425,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 20,
+        "truePositives": 26,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -435,7 +447,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 12,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1
+      },
       "evidence": {
         "repositoriesWithFindings": 5,
         "expectedFindings": 12,
@@ -453,7 +471,7 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 15,
+        "truePositives": 16,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
@@ -475,7 +493,13 @@
         "value": 0.95,
         "enforced": false
       },
-      "run": null,
+      "run": {
+        "truePositives": 7,
+        "falsePositives": 0,
+        "falseNegatives": 0,
+        "precision": 1,
+        "recall": 1
+      },
       "evidence": {
         "repositoriesWithFindings": 5,
         "expectedFindings": 7,
