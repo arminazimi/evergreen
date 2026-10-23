@@ -50,7 +50,7 @@ test("a stable detector below its floor is a violation; an experimental one or a
   assert.deepEqual(violations({ npm: { truePositives: 19, falsePositives: 1, falseNegatives: 0, precision: 0.95 } }, thresholds), []);
 });
 
-import { countEvidence, earnedLevel, evidenceMinimums } from "../benchmarks/thresholds.js";
+import { countEvidence, earnedLevel, evidenceMinimums, recallViolations } from "../benchmarks/thresholds.js";
 
 // Decision 0013. The corpus ecosystems each detector reads, and the label its row has in docs/COMPATIBILITY.md.
 const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
@@ -138,4 +138,25 @@ test("the thresholds file records the full corpus run its levels rest on", async
   // A detector added after the recorded run has no per-detector numbers yet; the record never names a detector that does not exist.
   const known = Object.keys(thresholds.detectors);
   for (const name of Object.keys(run.perDetector)) assert.ok(known.includes(name), `${name} is in lastFullRun but not in the detectors`);
+});
+
+test("a beta detector needs recall of 0.80 and a stable one 0.90; experimental and unmeasured detectors are not checked", () => {
+  const thresholds: Thresholds = {
+    schemaVersion: "evergreen.corpus-thresholds.v1",
+    detectors: {
+      a: { level: "beta", stable: true, minPrecision: 0.95 },
+      b: { level: "stable", stable: true, minPrecision: 0.95 },
+      c: { level: "experimental", stable: false, minPrecision: 0.95 },
+      d: { level: "stable", stable: true, minPrecision: 0.95 },
+    },
+  };
+  const score = (truePositives: number, falseNegatives: number) => ({ truePositives, falsePositives: 0, falseNegatives, precision: 1 });
+  const found = recallViolations({ a: score(8, 2), b: score(17, 3), c: score(1, 9) }, thresholds);
+  assert.deepEqual(found, [{ detector: "b", recall: 0.85, minRecall: 0.9 }]);
+  assert.deepEqual(recallViolations({ a: score(4, 1), b: score(9, 1) }, thresholds), []);
+});
+
+test("every corpus entry records whether it was chosen blind or targeted", async () => {
+  const corpus = (JSON.parse(await readFile(resolve("benchmarks/public-repositories.json"), "utf8")) as { repositories: Array<{ repository: string; selection?: string }> }).repositories;
+  for (const entry of corpus) assert.ok(entry.selection === "blind" || entry.selection === "targeted", `${entry.repository} must record selection: "blind" or "targeted"`);
 });

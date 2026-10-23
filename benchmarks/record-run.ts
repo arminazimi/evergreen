@@ -9,6 +9,7 @@ export interface RecordableReport {
   repositories?: unknown[];
   detectors?: Record<string, { truePositives: number; falsePositives: number; falseNegatives: number }>;
   thresholdViolations?: unknown[];
+  recallViolations?: unknown[];
   summary?: {
     repositoryCount: number;
     findingCount: number;
@@ -41,6 +42,7 @@ export function assertRecordable(report: RecordableReport, corpusSize: number): 
     throw new Error(`Refusing to record: the run has ${report.summary.falsePositives} false positives and ${report.summary.falseNegatives} false negatives.`);
   }
   if ((report.thresholdViolations ?? []).length > 0) throw new Error("Refusing to record: a detector is below its precision floor.");
+  if ((report.recallViolations ?? []).length > 0) throw new Error("Refusing to record: a detector is below its recall floor.");
 }
 
 /** The `lastFullRun` entry for `report`; every detector in `thresholds` appears, with zeros when it reported nothing. */

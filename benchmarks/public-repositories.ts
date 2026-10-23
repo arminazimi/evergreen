@@ -18,7 +18,7 @@ import { affectedEcosystems, changedPaths, describeAffected, parseChangedFlag } 
 import { compareRuns, loadBaseline, parseComparePath } from "./corpus-compare.js";
 import { formatSummaryTables, mismatchLines, parseOutputPath, progressLine } from "./corpus-report.js";
 import { parseCorpusFilter, readFailedRepositories, selectCorpusEntries } from "./corpus-filter.js";
-import { scoreDetectors, violations } from "./thresholds.js";
+import { recallViolations, scoreDetectors, violations } from "./thresholds.js";
 import type { Thresholds } from "./thresholds.js";
 
 
@@ -183,6 +183,7 @@ try {
   const detectors = scoreDetectors(results);
   // Precision floors are calibrated for the whole corpus, so a filtered run never enforces them.
   const regressions = selection.full ? violations(detectors, thresholds) : [];
+  const recallRegressions = selection.full ? recallViolations(detectors, thresholds) : [];
   const cost = costTracker.finish({ wallMs: performance.now() - runStartedAt, checkoutMs: checkoutDurations });
   const warnings = thresholds.budget ? budgetWarnings(cost, thresholds.budget) : [];
   const report = {
@@ -193,6 +194,7 @@ try {
     repositories: results,
     detectors,
     thresholdViolations: regressions,
+    recallViolations: recallRegressions,
     summary: {
       repositoryCount: results.length,
       findingCount: results.reduce((total, result) => total + result.findings.length, 0),
@@ -238,7 +240,10 @@ try {
   for (const regression of regressions) {
     console.error(`THRESHOLD  ${regression.detector}: precision ${regression.precision} is below the required ${regression.minPrecision}`);
   }
-  if (!observeOnly && (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0)) process.exitCode = 1;
+  for (const regression of recallRegressions) {
+    console.error(`THRESHOLD  ${regression.detector}: recall ${regression.recall} is below the required ${regression.minRecall}`);
+  }
+  if (!observeOnly && (falsePositives > 0 || falseNegatives > 0 || regressions.length > 0 || recallRegressions.length > 0)) process.exitCode = 1;
 } finally {
   await rm(root, { recursive: true, force: true });
 }

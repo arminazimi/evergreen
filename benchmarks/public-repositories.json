@@ -5,6 +5,7 @@
       "repository": "expressjs/express",
       "commit": "a419aa7350389a275ab45fde2e849ed1f02449ef",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -37,6 +38,7 @@
       "repository": "sindresorhus/got",
       "commit": "05b4476913da39a47dd8e20d29e250f28b0a6dca",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "npm.package.request.deprecated",
@@ -52,12 +54,14 @@
       "repository": "fastify/fastify",
       "commit": "f736849a10a9b2ca57fb09437feb8294cda76234",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "koajs/koa",
       "commit": "2fecd029c6ce6b79d65158d28a76538f7f6b0378",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -90,24 +94,28 @@
       "repository": "axios/axios",
       "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "chalk/chalk",
       "commit": "47fc05abd46171b235e24174cd2dba83d25bf037",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "tj/commander.js",
       "commit": "ba6d13ddb4243e5913367734f8c159089ffe7834",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "actions/toolkit",
       "commit": "7e25f67e8fd17369aa21e6e816ac99654106e0dc",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.github-script.node20",
@@ -124,6 +132,7 @@
       "repository": "vercel/ms",
       "commit": "4ff48cec099f0514c3e9bbca18706c9c21122bfb",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -187,6 +196,7 @@
       "repository": "npm/node-semver",
       "commit": "6e05b7637396ac66522cff8731f07cfe0ef49a29",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -254,6 +264,7 @@
       "repository": "psf/requests",
       "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.10-and-older",
@@ -270,12 +281,14 @@
       "repository": "pallets/flask",
       "commit": "d086db856be187255b8ec61ef409357393020f32",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "encode/httpx",
       "commit": "b5addb64f0161ff6bfe94c124ef76f6a1fba5254",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -307,6 +320,7 @@
       "repository": "pypa/sampleproject",
       "commit": "621e4974ca25ce531773def586ba3ed8e736b3fc",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -356,6 +370,7 @@
       "repository": "pytest-dev/pytest",
       "commit": "c9c19f8e62c12834ad83193a1869cc82fe9c700e",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.10-and-older",
@@ -372,6 +387,7 @@
       "repository": "cookiecutter/cookiecutter",
       "commit": "c88fbe921c97c58b65f1883ba90a0ab53cc91b34",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.upload-artifact.retired",
@@ -406,6 +422,7 @@
       "repository": "Textualize/rich",
       "commit": "9d8f9a372cc5916fd4781fec207ced7ddac2f08f",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -470,6 +487,7 @@
       "repository": "fastapi/fastapi",
       "commit": "4dda4625bdc19ce5ae946c152298f70d4d4fc5ed",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.10-and-older",
@@ -486,6 +504,7 @@
       "repository": "pydantic/pydantic",
       "commit": "44d5e1e8fc8198ecd0083a00a05e099aba0423ab",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.10-and-older",
@@ -511,6 +530,7 @@
       "repository": "pallets/click",
       "commit": "2247b35ea1c47c727d7a06e51fa280e12a863ff6",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.10-and-older",
@@ -527,6 +547,7 @@
       "repository": "Akenon-Studio/.github",
       "commit": "4ec1ebe0faa961d26c84406fd3c1a5ca1af00311",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.setup-node.node20",
@@ -687,6 +708,7 @@
       "repository": "concept7/filament-deepl-translations",
       "commit": "0633cdc97ffd6c74e6f3fd32d1c1e6c0364739eb",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -730,6 +752,7 @@
       "repository": "CuteSurtr/NeedlemanWunschLean",
       "commit": "7aaff9d59b1ce98fca3ee6e55899c558e2c01d46",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -746,6 +769,7 @@
       "repository": "GongSunFangYun/mcauth3",
       "commit": "769857cab1e0fef95e84d0685df3a8d28333b241",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -798,6 +822,7 @@
       "repository": "homelabdude/spire-federation-lab",
       "commit": "99ff647c15fb6a56e3044a57f940ed87f1c1b222",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -841,6 +866,7 @@
       "repository": "ohmygodashish/nakatsu",
       "commit": "cf9995a41163c761250b2b69d34457b6fa9ef640",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -866,6 +892,7 @@
       "repository": "pipe-cd/docs-mcp-server",
       "commit": "b34cde6b925cd00e024e92f4b3e3521ecf35c6e5",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -927,6 +954,7 @@
       "repository": "smartcrabai/paperhanger",
       "commit": "2bb7ab4c344692f8549aef8441edafc9af614450",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.setup-node.node20",
@@ -961,18 +989,21 @@
       "repository": "openmcp-project/crossplane-headlamp-plugin",
       "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "phmatray/claude-deck",
       "commit": "d1325af2d9d883d86288312079d1bca012ee10c2",
       "ecosystem": "node-actions",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "edwardm/ECORE-JS-Page-Down-Progress",
       "commit": "66b9c59bf6ea9775e960c365f96bb62cc523114b",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "npm.package.node-sass.eol",
@@ -989,6 +1020,7 @@
       "repository": "marcelomarkus/b-fast",
       "commit": "819baed5d20420ca8d2935945300f1536d3f8783",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.9-and-older",
@@ -1131,6 +1163,7 @@
       "repository": "simonsobs/ocs",
       "commit": "11991a2c5a098b6e82068ab81328b2134ceb2866",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.9-and-older",
@@ -1147,6 +1180,7 @@
       "repository": "simonsobs/socs",
       "commit": "4413b27a567feee21a9e331bc60497c8458448aa",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.9-and-older",
@@ -1163,6 +1197,7 @@
       "repository": "strambc/fof-ct-linkml",
       "commit": "6ebc7d01cae21ebb816756727ef9f356cc9bb4c9",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "python.runtime.eol-3.9-and-older",
@@ -1179,6 +1214,7 @@
       "repository": "warengonzaga/fork-corner",
       "commit": "996156beb522c2cbb10f735d8a92d884178e1a42",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "npm.package.node-sass.eol",
@@ -1195,6 +1231,7 @@
       "repository": "auth0/db-connections-templates",
       "commit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -1220,6 +1257,7 @@
       "repository": "collective/collective.sidebar",
       "commit": "eac7dcfd929aa9fe86ac3b6c11f56d5ddb68d1e8",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.cache.node20",
@@ -1263,6 +1301,7 @@
       "repository": "Dimi20cen/peario",
       "commit": "18ed1e0550a5bd4dc6905344bf99ed6a5b9e2841",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -1306,6 +1345,7 @@
       "repository": "jmanteau/fastapi-topaz",
       "commit": "a78c9caa3db515ac018991d99754b12c83e8e69b",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -1403,6 +1443,7 @@
       "repository": "lv10/amazonapi",
       "commit": "d925670fbd81bb91892df8cafd1b78da44b25d38",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -1455,6 +1496,7 @@
       "repository": "polyswarm/ppdns-chrome-extension",
       "commit": "bd6b101b3897b1133db84370deeff32803b1f7ff",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -1507,6 +1549,7 @@
       "repository": "cloudfour/lighthouse-parade",
       "commit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -1532,6 +1575,7 @@
       "repository": "connectrpc/connect-playwright-es",
       "commit": "1fc1442b31f3104122b919f959cfe55d15338cca",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -1584,6 +1628,7 @@
       "repository": "connectrpc/connect-query-es",
       "commit": "584732abf870b5561ba50052d02caf0c85635204",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-20",
@@ -1609,6 +1654,7 @@
       "repository": "Fdawgs/ice-barrage",
       "commit": "d842b983d031675de736bfdbdb28798c071ebba5",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-20",
@@ -1634,6 +1680,7 @@
       "repository": "withastro/astro",
       "commit": "c2c43a99f4d50676456c137ff88359579f78bf5c",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.labeler.node20",
@@ -1650,24 +1697,28 @@
       "repository": "vitest-dev/vitest",
       "commit": "7a825db43e2beca0b219d2eadaec334cb81af0c7",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "lerna/lerna",
       "commit": "b00fa0321a42947bb4113bc7906021f04131d0db",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "changesets/changesets",
       "commit": "c73949ba7b3160a4aa5729223335c190de1528f8",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "outline/outline",
       "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
       "ecosystem": "container",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.node.eol-21-and-older",
@@ -2161,6 +2212,7 @@
       "repository": "excalidraw/excalidraw",
       "commit": "1caec99b290c75cda05385e637138998807a65ae",
       "ecosystem": "container",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.node.eol-21-and-older",
@@ -2447,6 +2499,7 @@
       "repository": "mealie-recipes/mealie",
       "commit": "50a341ed3febc98a5a20b61fad5e74a290394f16",
       "ecosystem": "container",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.python.eol-3.10-and-older",
@@ -2634,6 +2687,7 @@
       "repository": "umami-software/umami",
       "commit": "43499eb4fd0b1d617f6f052174f1da6f21653892",
       "ecosystem": "container",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.node.eol-21-and-older",
@@ -2749,12 +2803,14 @@
       "repository": "gethomepage/homepage",
       "commit": "89b0d20655ca521e55ae65097c2da4285c87a403",
       "ecosystem": "container",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "jesseduffield/lazygit",
       "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
       "ecosystem": "go",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "go.runtime.end-of-support-1.25",
@@ -2780,6 +2836,7 @@
       "repository": "charmbracelet/bubbletea",
       "commit": "73b6d91ac1c3854dd4af046ab5f9e51d3b3b4290",
       "ecosystem": "go",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "go.runtime.end-of-support-1.25",
@@ -2823,6 +2880,7 @@
       "repository": "caddyserver/caddy",
       "commit": "5ee9a2d424dc37ea20911026b7bf876de8f122a8",
       "ecosystem": "go",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "go.runtime.end-of-support-1.25",
@@ -2839,6 +2897,7 @@
       "repository": "prometheus/node_exporter",
       "commit": "baf644aaa87148ab0068cd334730a6c9737cfb46",
       "ecosystem": "go",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "go.runtime.end-of-support-1.25",
@@ -2855,12 +2914,14 @@
       "repository": "helm/helm",
       "commit": "9b88efd62a6908fb11215f8e8b50c3c62a246df0",
       "ecosystem": "go",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "trpc/trpc",
       "commit": "10e2ef98f7842b94eb3026e4f9bcfe62cc39b088",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.postgres.eol-13-and-older",
@@ -3039,6 +3100,7 @@
       "repository": "TanStack/query",
       "commit": "a636462b853438903567c9907c188a068021c633",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "nodejs.runtime.eol-18",
@@ -3199,18 +3261,21 @@
       "repository": "facebook/docusaurus",
       "commit": "7b6826b8476167008640cfb71105b9bb6c4f99f9",
       "ecosystem": "node",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "pydantic/pydantic-ai",
       "commit": "11025a1f395d29dbe50af2b30f7429574b9a79c1",
       "ecosystem": "python",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "sharkdp/hyperfine",
       "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
       "ecosystem": "rust",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "rust.crate.atty.unmaintained",
@@ -3281,6 +3346,7 @@
       "repository": "rustwasm/wasm-pack",
       "commit": "62ab39cf82ec4d358c1f08f348cd0dc44768f412",
       "ecosystem": "rust",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "rust.crate.atty.unmaintained",
@@ -3396,6 +3462,7 @@
       "repository": "casey/just",
       "commit": "0363b25013c193ea67ed7fea87946142393e2b21",
       "ecosystem": "rust",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "rust.crate.ansi-term.unmaintained",
@@ -3439,6 +3506,7 @@
       "repository": "bootandy/dust",
       "commit": "6c20fae3e8bc63922e2f97dae1bdcf1512b1a255",
       "ecosystem": "rust",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "rust.crate.ansi-term.unmaintained",
@@ -3491,18 +3559,21 @@
       "repository": "sharkdp/fd",
       "commit": "b6ca4e02167833c2c492de6ae9d06b56488d4696",
       "ecosystem": "rust",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "argoproj/argocd-example-apps",
       "commit": "8088f4c0d970abb09e250248cc97e35623447cb5",
       "ecosystem": "kubernetes",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "kelseyhightower/ingress-with-static-ip",
       "commit": "a1100ac69885e91fd89045f73dfdbe1026e5de3f",
       "ecosystem": "kubernetes",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
@@ -3519,6 +3590,7 @@
       "repository": "unixhot/salt-kubebin",
       "commit": "9f545ee1f3115b3ff6fa8390cf74e85caf244aa1",
       "ecosystem": "kubernetes",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
@@ -3661,6 +3733,7 @@
       "repository": "kubernetes/examples",
       "commit": "d6b8cd27eacb51e651a1aa6f7c190a28713eff6e",
       "ecosystem": "kubernetes",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "container.node.eol-21-and-older",
@@ -3803,6 +3876,7 @@
       "repository": "lusyoe/springboot-k8s-example",
       "commit": "ae5fbede35012c6db258a51835d8f09ad42380fb",
       "ecosystem": "kubernetes",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
@@ -3828,12 +3902,14 @@
       "repository": "kagkarlsson/db-scheduler",
       "commit": "466ff4b458b971470b16cfaf4fb840b60d0266fa",
       "ecosystem": "java",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "piomin/sample-spring-reactive",
       "commit": "a3338559767512f932c8439d96ec0d5cd2449fbb",
       "ecosystem": "java",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "java.jdk.end-of-support-18-20",
@@ -3850,6 +3926,7 @@
       "repository": "danvega/loom",
       "commit": "ea1d482d08c9564aae128ac193247545ff5664de",
       "ecosystem": "java",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "java.jdk.end-of-support-18-20",
@@ -3884,6 +3961,7 @@
       "repository": "krakowski/jextract-demo",
       "commit": "f439799e5de999b50161db125fd06e584c073e60",
       "ecosystem": "java",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "java.jdk.end-of-support-22-24",
@@ -3900,6 +3978,7 @@
       "repository": "Descended/Henesys",
       "commit": "b10f1bd910c227b546727fb71c7239a636807b18",
       "ecosystem": "java",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "java.maven.mysql.mysql-connector-java.relocated",
@@ -4951,12 +5030,14 @@
       "repository": "rack/rack",
       "commit": "a9833c8f3bd6b6d1e0ab35de00a1f1a16b5095f5",
       "ecosystem": "ruby",
+      "selection": "targeted",
       "expected": []
     },
     {
       "repository": "Shopify/packwerk",
       "commit": "75ce7c728fcba075eb939a7af194fc4287513a75",
       "ecosystem": "ruby",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -5000,6 +5081,7 @@
       "repository": "thoughtbot/suspenders",
       "commit": "484729486cc986af84ab43b1ffd20793ded7537a",
       "ecosystem": "ruby",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "github-actions.checkout.node20",
@@ -5025,6 +5107,7 @@
       "repository": "github/view_component",
       "commit": "98f060fa7429b7dbb3f6f16a65cd92d02717cfd2",
       "ecosystem": "ruby",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "ruby.runtime.eol-2.7",
@@ -5041,6 +5124,7 @@
       "repository": "puma/puma",
       "commit": "d53529399bc250915374eebe3ae54dd9fd9a6cb0",
       "ecosystem": "ruby",
+      "selection": "targeted",
       "expected": [
         {
           "ruleId": "ruby.runtime.eol-3.2",

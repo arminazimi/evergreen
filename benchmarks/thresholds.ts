@@ -97,6 +97,29 @@ export function violations(scores: Record<string, DetectorScore>, thresholds: Th
   return found;
 }
 
+/** The recall a detector at each enforced level must keep on the whole corpus (decision 0013). */
+export const recallFloors: Record<Exclude<MaturityLevel, "experimental">, number> = { beta: 0.8, stable: 0.9 };
+
+export interface RecallViolation {
+  detector: string;
+  recall: number;
+  minRecall: number;
+}
+
+/** Detectors at `beta` or `stable` whose recall, true positives over true positives plus false negatives, is below the floor of their level. */
+export function recallViolations(scores: Record<string, DetectorScore>, thresholds: Thresholds): RecallViolation[] {
+  const found: RecallViolation[] = [];
+  for (const [detector, threshold] of Object.entries(thresholds.detectors)) {
+    if (threshold.level === "experimental") continue;
+    const score = scores[detector];
+    if (!score || score.truePositives + score.falseNegatives === 0) continue;
+    const recall = Number((score.truePositives / (score.truePositives + score.falseNegatives)).toFixed(4));
+    const minRecall = recallFloors[threshold.level];
+    if (recall < minRecall) found.push({ detector, recall, minRecall });
+  }
+  return found;
+}
+
 /** What a corpus has to show for a detector to hold a level (decision 0013). */
 export interface Evidence {
   repositoriesWithFindings: number;
