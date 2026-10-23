@@ -1,0 +1,7 @@
+{
+  "name": "example-malformed-native-app",
+  "private": true,
+  "dependencies": {
+    "react-native": "not-a-version"
+  }
+}

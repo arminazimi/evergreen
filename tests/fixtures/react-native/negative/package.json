@@ -1,0 +1,11 @@
+{
+  "name": "example-lookalike-native-app",
+  "private": true,
+  "dependencies": {
+    "react-native": "latest",
+    "react-native-web": "0.21.0"
+  },
+  "devDependencies": {
+    "@react-native-community/cli": "20.0.2"
+  }
+}

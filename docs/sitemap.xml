@@ -280,6 +280,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.react-beautiful-dnd.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html</loc><lastmod>2026-10-23</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.request-promise.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>

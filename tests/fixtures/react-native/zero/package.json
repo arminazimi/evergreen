@@ -1,0 +1,8 @@
+{
+  "name": "example-current-native-app",
+  "private": true,
+  "dependencies": {
+    "react": "19.1.1",
+    "react-native": "^0.87.1"
+  }
+}

@@ -324,6 +324,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [q is deprecated](npm.package.q.deprecated.html) — deprecated, `npm.package.q.deprecated`
 - [querystring is deprecated](npm.package.querystring.deprecated.html) — deprecated, `npm.package.querystring.deprecated`
 - [react-beautiful-dnd is deprecated](npm.package.react-beautiful-dnd.deprecated.html) — deprecated, `npm.package.react-beautiful-dnd.deprecated`
+- [React Native 0.77 through 0.84 are unsupported](npm.package.react-native.0.77-to-0.84.end-of-support.html) — end of support, `npm.package.react-native.0.77-to-0.84.end-of-support`
 - [read-package-json is no longer supported](npm.package.read-package-json.eol.html) — end of life, `npm.package.read-package-json.eol`
 - [request-promise-native is deprecated](npm.package.request-promise-native.deprecated.html) — deprecated, `npm.package.request-promise-native.deprecated`
 - [request-promise is deprecated](npm.package.request-promise.deprecated.html) — deprecated, `npm.package.request-promise.deprecated`

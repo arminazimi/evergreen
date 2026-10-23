@@ -4970,6 +4970,102 @@
       }
     },
     {
+      "id": "npm.package.react-native.0.77-to-0.84.end-of-support",
+      "ecosystem": "npm",
+      "purl": "pkg:npm/react-native",
+      "vers": "vers:npm/>=0.77.0-0|<0.85.0-0",
+      "event": "end-of-support",
+      "title": "React Native 0.77 through 0.84 are unsupported",
+      "summary": "The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported. No new releases are expected, except possible fixes for very important regressions, and the Release Crew recommends upgrading as soon as possible.",
+      "severity": "high",
+      "replacement": "React Native 0.87 (Active)",
+      "sources": [
+        {
+          "title": "React Native Releases Working Group support policy",
+          "url": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md"
+        },
+        {
+          "title": "React Native releases overview",
+          "url": "https://reactnative.dev/releases/overview"
+        },
+        {
+          "title": "React Native upgrading guide",
+          "url": "https://reactnative.dev/docs/upgrading"
+        },
+        {
+          "title": "React Native Upgrade Helper",
+          "url": "https://react-native-community.github.io/upgrade-helper/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-23",
+        "reviewedAt": "2026-10-23",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve the application's JavaScript behavior and its Android and iOS native customizations while applying the official template changes.",
+          "Upgrade incrementally and review the Upgrade Helper diff and release notes for every intervening React Native minor series.",
+          "For Expo projects, upgrade Expo SDK versions one at a time and use the React Native version supported by each SDK."
+        ],
+        "steps": [
+          {
+            "id": "choose-upgrade-path",
+            "title": "Choose the React Native or Expo upgrade path",
+            "instructions": "For a React Native Community CLI application, plan an incremental path to an Active release. For an Expo application, follow Expo's SDK upgrade walkthrough one SDK at a time instead of setting react-native independently.",
+            "targets": "all"
+          },
+          {
+            "id": "update-react-native-dependencies",
+            "title": "Update React Native and its peer dependencies",
+            "instructions": "For each step, use the package.json diff in Upgrade Helper to update react-native, react, and the related @react-native packages to the versions required by that release.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-template-changes",
+            "title": "Apply the native project template changes",
+            "instructions": "Use Upgrade Helper for each intervening minor series and manually apply its Android, iOS, Metro, Babel, CocoaPods, and Gradle template changes while preserving project-specific native code.",
+            "targets": "all"
+          },
+          {
+            "id": "review-react-native-apis",
+            "title": "Review changed React Native APIs",
+            "instructions": "Check each reported react-native import against the intervening release notes and replace APIs that were removed, renamed, or changed before moving to the next release.",
+            "targets": "usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls react-native react",
+            "purpose": "Confirm that React Native and React resolve to the versions required by the target release."
+          },
+          {
+            "command": "npm run lint --if-present",
+            "purpose": "Check JavaScript and TypeScript code after applying API changes."
+          },
+          {
+            "command": "npm test --if-present",
+            "purpose": "Run the repository tests after each incremental upgrade."
+          }
+        ]
+      },
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "react-native"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "react-native"
+        }
+      ],
+      "x-npm": {
+        "package": "react-native"
+      }
+    },
+    {
       "id": "npm.package.vue.eol-2",
       "ecosystem": "npm",
       "purl": "pkg:npm/vue",
