@@ -1,0 +1,104 @@
+{
+  "repository": "kelseyhightower/kubernetes-cluster-federation",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/deployments/federation-apiserver.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/deployments/federation-controller-manager.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/ingress/nginx.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/rs/nginx-us.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "ReplicaSet",
+          "deprecated-in": "",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": false,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/rs/nginx.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "ReplicaSet",
+          "deprecated-in": "",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": false,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "deployments/federation-apiserver.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "deployments/federation-controller-manager.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "ingress/nginx.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "path": "rs/nginx-us.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "path": "rs/nginx.yaml",
+      "line": 1
+    }
+  ]
+}

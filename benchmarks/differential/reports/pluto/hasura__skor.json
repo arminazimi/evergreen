@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "hasura/skor",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 1,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "k8s.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    }
+  ],
+  "notComparable": []
+}

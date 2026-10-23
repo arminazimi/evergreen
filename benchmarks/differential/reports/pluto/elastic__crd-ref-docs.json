@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "elastic/crd-ref-docs",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [],
+  "notComparable": [
+    "github-actions.cache",
+    "github-actions.checkout",
+    "go.runtime"
+  ]
+}

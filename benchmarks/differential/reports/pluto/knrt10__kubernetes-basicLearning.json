@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "knrt10/kubernetes-basicLearning",
+  "summary": {
+    "agree": 1,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "kubia-ingress.yaml",
+      "kind": "Ingress",
+      "version": "networking.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.networking-k8s-io.ingress.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    }
+  ],
+  "notComparable": [
+    "container.node"
+  ]
+}

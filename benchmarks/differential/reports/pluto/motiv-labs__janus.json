@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "motiv-labs/janus",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 2,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "janus/templates/ingress.yaml",
+      "kind": "ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.ingress.v1beta1.removed"
+      ],
+      "pluto": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
+    },
+    {
+      "path": "janus/templates/pdb.yaml",
+      "kind": "poddisruptionbudget",
+      "version": "policy/v1beta1",
+      "evergreen": [
+        "kubernetes.policy.poddisruptionbudget.v1beta1.removed"
+      ],
+      "pluto": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
+    }
+  ],
+  "notComparable": [
+    "container.golang",
+    "github-actions.checkout",
+    "github-actions.setup-go",
+    "go.runtime"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "repository": "ossf/package-analysis",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/infra/worker/scaler.yaml",
+        "api": {
+          "version": "autoscaling/v2beta2",
+          "kind": "HorizontalPodAutoscaler",
+          "deprecated-in": "v1.23.0",
+          "removed-in": "v1.26.0",
+          "replacement-api": "autoscaling/v2",
+          "replacement-available-in": "",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+      "path": "infra/worker/scaler.yaml",
+      "line": 1
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "kubernetes/examples",
+  "summary": {
+    "agree": 10,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "_archived/cockroachdb/cockroachdb-statefulset.yaml",
+      "kind": "PodDisruptionBudget",
+      "version": "policy/v1beta1",
+      "evergreen": [
+        "kubernetes.policy.poddisruptionbudget.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/newrelic-infrastructure/newrelic-infra-daemonset.yaml",
+      "kind": "DaemonSet",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.daemonset.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/podsecuritypolicy/rbac/policies.yaml",
+      "kind": "PodSecurityPolicy",
+      "version": "policy/v1beta1",
+      "evergreen": [
+        "kubernetes.policy.podsecuritypolicy.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/account-specified-hdd/storageclass-account-hdd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/dedicated-hdd/storageclass-dedicated-hdd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-hdd/storageclass-shared-hdd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/blob-based-disk/shared-ssd/storageclass-shared-ssd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-hdd/storageclass-managed-hdd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/azure_disk/claim/managed-disk/managed-ssd/storageclass-managed-ssd.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [
+        "kubernetes.storage-k8s-io.storageclass.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "_archived/volumes/flexvolume/deploy/ds.yaml",
+      "kind": "DaemonSet",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.daemonset.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    }
+  ],
+  "notComparable": [
+    "container.golang",
+    "container.node",
+    "container.python",
+    "container.redis"
+  ]
+}

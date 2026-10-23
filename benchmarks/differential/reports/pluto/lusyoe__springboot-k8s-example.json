@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "lusyoe/springboot-k8s-example",
+  "summary": {
+    "agree": 1,
+    "evergreen-only": 1,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "charts/templates/ingress.yaml",
+      "kind": "ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.ingress.v1beta1.removed"
+      ],
+      "pluto": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
+    },
+    {
+      "path": "k8s-example.yaml",
+      "kind": "Ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.ingress.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    }
+  ],
+  "notComparable": []
+}

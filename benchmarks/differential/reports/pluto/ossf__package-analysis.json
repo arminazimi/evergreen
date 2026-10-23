@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "ossf/package-analysis",
+  "summary": {
+    "agree": 1,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "infra/worker/scaler.yaml",
+      "kind": "HorizontalPodAutoscaler",
+      "version": "autoscaling/v2beta2",
+      "evergreen": [
+        "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    }
+  ],
+  "notComparable": [
+    "container.python",
+    "go.module"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "argoproj/argocd-example-apps",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [],
+  "notComparable": []
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "FairwindsOps/pluto",
+  "summary": {
+    "agree": 1,
+    "evergreen-only": 1,
+    "pluto-only": 3,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "e2e/tests/assets/chart/templates/deployment-deprecated.yaml",
+      "kind": "deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.deployment.v1beta1.removed"
+      ],
+      "pluto": "not-seen",
+      "outcome": "evergreen-only",
+      "note": "Pluto did not list this manifest (a Helm template or a form it does not parse)."
+    },
+    {
+      "path": "e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.deployment.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "pkg/finder/testdata/deployment-extensions-v1beta1.json",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "pkg/finder/testdata/deployment-extensions-v1beta1.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    }
+  ],
+  "notComparable": [
+    "github-actions.stale"
+  ]
+}

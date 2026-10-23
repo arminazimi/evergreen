@@ -1,0 +1,522 @@
+{
+  "repository": "luksa/kubernetes-in-action",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/Chapter04/cronjob.yaml",
+        "api": {
+          "version": "batch/v1beta1",
+          "kind": "CronJob",
+          "deprecated-in": "v1.21.0",
+          "removed-in": "v1.25.0",
+          "replacement-api": "batch/v1",
+          "replacement-available-in": "v1.21.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter04/kubia-replicaset-matchexpressions.yaml",
+        "api": {
+          "version": "apps/v1beta2",
+          "kind": "ReplicaSet",
+          "deprecated-in": "",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": false,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter04/kubia-replicaset.yaml",
+        "api": {
+          "version": "apps/v1beta2",
+          "kind": "ReplicaSet",
+          "deprecated-in": "",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": false,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter04/ssd-monitor-daemonset.yaml",
+        "api": {
+          "version": "apps/v1beta2",
+          "kind": "DaemonSet",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter05/kubia-ingress-tls.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter05/kubia-ingress.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter09/kubia-deployment-and-service-v1.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter09/kubia-deployment-v2.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter09/kubia-deployment-v3-with-readinesscheck.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter09/kubia-deployment-v3.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter10/kubia-statefulset-peers.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "StatefulSet",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter13/pod-security-policy.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "PodSecurityPolicy",
+          "deprecated-in": "v1.10.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "policy/v1beta1",
+          "replacement-available-in": "v1.10.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter13/psp-capabilities.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "PodSecurityPolicy",
+          "deprecated-in": "v1.10.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "policy/v1beta1",
+          "replacement-available-in": "v1.10.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter13/psp-must-run-as.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "PodSecurityPolicy",
+          "deprecated-in": "v1.10.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "policy/v1beta1",
+          "replacement-available-in": "v1.10.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter13/psp-privileged.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "PodSecurityPolicy",
+          "deprecated-in": "v1.10.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "policy/v1beta1",
+          "replacement-available-in": "v1.10.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter13/psp-volumes.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "PodSecurityPolicy",
+          "deprecated-in": "v1.10.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "policy/v1beta1",
+          "replacement-available-in": "v1.10.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter15/deployment-apps-v1beta2.yaml",
+        "api": {
+          "version": "apps/v1beta2",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter15/deployment.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/frontend-podaffinity-host.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/frontend-podaffinity-preferred-host.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/frontend-podaffinity-rack.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/frontend-podantiaffinity-host.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/preferred-deployment.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter16/production-deployment.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter17/replicaset-crashingpods.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "ReplicaSet",
+          "deprecated-in": "",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": false,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter18/website-controller.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/Chapter18/website-crd.yaml",
+        "api": {
+          "version": "apiextensions.k8s.io/v1beta1",
+          "kind": "CustomResourceDefinition",
+          "deprecated-in": "v1.16.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "apiextensions.k8s.io/v1",
+          "replacement-available-in": "v1.16.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.apiextensions-k8s-io.customresourcedefinition.v1beta1.removed",
+      "path": "Chapter18/website-crd.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.daemonset.v1beta2.removed",
+      "path": "Chapter04/ssd-monitor-daemonset.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "Chapter09/kubia-deployment-and-service-v1.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "Chapter09/kubia-deployment-v2.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "Chapter09/kubia-deployment-v3-with-readinesscheck.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "Chapter09/kubia-deployment-v3.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "Chapter18/website-controller.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta2.removed",
+      "path": "Chapter15/deployment-apps-v1beta2.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+      "path": "Chapter04/kubia-replicaset-matchexpressions.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.replicaset.v1beta2.removed",
+      "path": "Chapter04/kubia-replicaset.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.apps.statefulset.v1beta1.removed",
+      "path": "Chapter10/kubia-statefulset-peers.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "Chapter04/cronjob.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter15/deployment.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/frontend-podaffinity-host.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/frontend-podaffinity-preferred-host.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/frontend-podaffinity-rack.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/frontend-podantiaffinity-host.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/preferred-deployment.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "Chapter16/production-deployment.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "Chapter05/kubia-ingress-tls.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "Chapter05/kubia-ingress.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "path": "Chapter13/pod-security-policy.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "path": "Chapter13/psp-capabilities.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "path": "Chapter13/psp-must-run-as.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "path": "Chapter13/psp-privileged.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+      "path": "Chapter13/psp-volumes.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.replicaset.v1beta1.removed",
+      "path": "Chapter17/replicaset-crashingpods.yaml",
+      "line": 1
+    }
+  ]
+}

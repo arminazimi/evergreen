@@ -1,0 +1,294 @@
+{
+  "repository": "unixhot/salt-kubebin",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/addons/Ingress-traefic/traefik-deployment.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/Ingress-traefic/traefik-ds.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "DaemonSet",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/Ingress-traefic/traefik-rbac.yaml",
+        "api": {
+          "version": "rbac.authorization.k8s.io/v1beta1",
+          "kind": "ClusterRole",
+          "deprecated-in": "v1.17.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "rbac.authorization.k8s.io/v1",
+          "replacement-available-in": "",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/Ingress-traefic/traefik-rbac.yaml",
+        "api": {
+          "version": "rbac.authorization.k8s.io/v1beta1",
+          "kind": "ClusterRoleBinding",
+          "deprecated-in": "v1.17.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "rbac.authorization.k8s.io/v1",
+          "replacement-available-in": "",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/Ingress-traefic/ui.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/Kube-dns/kube-dns.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/coredns/coredns.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/heapster/grafana.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/heapster/heapster.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/heapster/influxdb.yaml",
+        "api": {
+          "version": "apps/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/ingress/daemonset.yml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "DaemonSet",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/ingress/ingress-rbac.yml",
+        "api": {
+          "version": "rbac.authorization.k8s.io/v1beta1",
+          "kind": "ClusterRoleBinding",
+          "deprecated-in": "v1.17.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "rbac.authorization.k8s.io/v1",
+          "replacement-available-in": "",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/addons/ingress/traefik-ui.yml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/example/cronjob.yaml",
+        "api": {
+          "version": "batch/v1beta1",
+          "kind": "CronJob",
+          "deprecated-in": "v1.21.0",
+          "removed-in": "v1.25.0",
+          "replacement-api": "batch/v1",
+          "replacement-available-in": "v1.21.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/example/nginx-ingress.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/grafana.yaml",
+      "line": 2
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/heapster.yaml",
+      "line": 23
+    },
+    {
+      "ruleId": "kubernetes.apps.deployment.v1beta1.removed",
+      "path": "addons/heapster/influxdb.yaml",
+      "line": 2
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "example/cronjob.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-ds.yaml",
+      "line": 9
+    },
+    {
+      "ruleId": "kubernetes.extensions.daemonset.v1beta1.removed",
+      "path": "addons/ingress/daemonset.yml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/coredns/coredns.yaml",
+      "line": 69
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-deployment.yaml",
+      "line": 9
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "addons/Kube-dns/kube-dns.yaml",
+      "line": 59
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "addons/Ingress-traefic/ui.yaml",
+      "line": 15
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "addons/ingress/traefik-ui.yml",
+      "line": 14
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "example/nginx-ingress.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrole.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+      "line": 3
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "addons/Ingress-traefic/traefik-rbac.yaml",
+      "line": 27
+    },
+    {
+      "ruleId": "kubernetes.rbac-authorization-k8s-io.clusterrolebinding.v1beta1.removed",
+      "path": "addons/ingress/ingress-rbac.yml",
+      "line": 10
+    }
+  ]
+}

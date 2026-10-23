@@ -1,0 +1,28 @@
+{
+  "repository": "knrt10/kubernetes-basicLearning",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/kubia-ingress.yaml",
+        "api": {
+          "version": "networking.k8s.io/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.19.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "kubia-ingress.yaml",
+      "line": 1
+    }
+  ]
+}

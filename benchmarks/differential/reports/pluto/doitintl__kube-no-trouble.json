@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "doitintl/kube-no-trouble",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 38,
+    "pluto-deprecated-only": 1
+  },
+  "comparisons": [
+    {
+      "path": "fixtures/apiservice-v1beta1.yaml",
+      "kind": "APIService",
+      "version": "apiregistration.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/autoscaler-v2beta1.yaml",
+      "kind": "HorizontalPodAutoscaler",
+      "version": "autoscaling/v2beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/autoscaler-v2beta2.yaml",
+      "kind": "HorizontalPodAutoscaler",
+      "version": "autoscaling/v2beta2",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/certificatesigningrequest-v1beta1.yaml",
+      "kind": "CertificateSigningRequest",
+      "version": "certificates.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/clusterrole-v1beta1.yaml",
+      "kind": "ClusterRole",
+      "version": "rbac.authorization.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/clusterrolebinding-v1beta1.yaml",
+      "kind": "ClusterRoleBinding",
+      "version": "rbac.authorization.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/cronjob-v1beta1.yaml",
+      "kind": "CronJob",
+      "version": "batch/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/csidriver-v1beta1.yaml",
+      "kind": "CSIDriver",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/csinode-v1beta1.yaml",
+      "kind": "CSINode",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/csistoragecapacity-v1beta1.yaml",
+      "kind": "CSIStorageCapacity",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/customresourcedefinition-v1beta1.yaml",
+      "kind": "CustomResourceDefinition",
+      "version": "apiextensions.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/deployment-v1beta1-and-ingress-v1beta1.yaml",
+      "kind": "Deployment",
+      "version": "apps/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/deployment-v1beta1-and-ingress-v1beta1.yaml",
+      "kind": "Ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/deployment-v1beta1-labels.yaml",
+      "kind": "Deployment",
+      "version": "apps/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/deployment-v1beta1.json",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/deployment-v1beta1.yaml",
+      "kind": "Deployment",
+      "version": "apps/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/endpointslice-v1beta1.yaml",
+      "kind": "EndpointSlice",
+      "version": "discovery.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/fake-tokenReview-deprecated.yaml",
+      "kind": "TokenReview",
+      "version": "authentication.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/flowschema-v1beta1.yaml",
+      "kind": "FlowSchema",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/flowschema-v1beta2.yaml",
+      "kind": "FlowSchema",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta2",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/flowschema-v1beta3.yaml",
+      "kind": "FlowSchema",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta3",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/ingress-v1beta1.yaml",
+      "kind": "Ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/ingressclass-v1beta1.yaml",
+      "kind": "IngressClass",
+      "version": "networking.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/issuer-v1alpha2.yaml",
+      "kind": "Issuer",
+      "version": "cert-manager.io/v1alpha2",
+      "evergreen": [],
+      "pluto": "deprecated",
+      "outcome": "pluto-deprecated-only",
+      "note": "Pluto reports a deprecated API version that is still served; Evergreen judges only removed ones."
+    },
+    {
+      "path": "fixtures/lease-v1beta1.yaml",
+      "kind": "Lease",
+      "version": "coordination.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/mutatingwebhookconfiguration-v1beta1.yaml",
+      "kind": "MutatingWebhookConfiguration",
+      "version": "admissionregistration.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/poddisruptionbudget-v1beta1.yaml",
+      "kind": "PodDisruptionBudget",
+      "version": "policy/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/podsecuritypolicy-v1beta1.yaml",
+      "kind": "PodSecurityPolicy",
+      "version": "policy/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/priorityclass-v1beta1.yaml",
+      "kind": "PriorityClass",
+      "version": "scheduling.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/prioritylevelconfiguration-v1beta1.yaml",
+      "kind": "PriorityLevelConfiguration",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/prioritylevelconfiguration-v1beta2.yaml",
+      "kind": "PriorityLevelConfiguration",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta2",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/prioritylevelconfiguration-v1beta3.yaml",
+      "kind": "PriorityLevelConfiguration",
+      "version": "flowcontrol.apiserver.k8s.io/v1beta3",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/role-v1beta1.yaml",
+      "kind": "Role",
+      "version": "rbac.authorization.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/rolebinding-v1beta1.yaml",
+      "kind": "RoleBinding",
+      "version": "rbac.authorization.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/runtimeclass-v1beta1.yaml",
+      "kind": "RuntimeClass",
+      "version": "node.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/storageclass-v1beta1.yaml",
+      "kind": "StorageClass",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/tokenreview-v1beta1.yaml",
+      "kind": "TokenReview",
+      "version": "authentication.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/validatingwebhookconfiguration-v1beta1.yaml",
+      "kind": "ValidatingWebhookConfiguration",
+      "version": "admissionregistration.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    },
+    {
+      "path": "fixtures/volumeattachment-v1beta1.yaml",
+      "kind": "VolumeAttachment",
+      "version": "storage.k8s.io/v1beta1",
+      "evergreen": [],
+      "pluto": "removed",
+      "outcome": "pluto-only",
+      "note": "Pluto reports the API version as removed; Evergreen has no rule for this kind and version."
+    }
+  ],
+  "notComparable": [
+    "container.golang",
+    "github-actions.build-push-action",
+    "github-actions.checkout",
+    "github-actions.download-artifact",
+    "github-actions.login-action",
+    "github-actions.setup-buildx-action",
+    "github-actions.setup-python",
+    "github-actions.stale",
+    "github-actions.upload-artifact",
+    "go.runtime"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "repository": "motiv-labs/janus",
+  "pluto": {
+    "items": []
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "janus/templates/ingress.yaml",
+      "line": 3
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "janus/templates/pdb.yaml",
+      "line": 1
+    }
+  ]
+}

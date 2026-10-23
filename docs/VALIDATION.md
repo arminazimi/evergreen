@@ -350,6 +350,40 @@ What the numbers say:
 - **Agreement is rare because the tools read different files.** `xeol dir:` resolves versions from lockfiles; it does not read Dockerfiles, workflow files, `.nvmrc`, or `engines`. Every Evergreen runtime and image finding here is therefore Evergreen-only, and not a sign that xeol disagrees. Where both read the same dependency, they agree: both call `next` 13 end of life in umami.
 - **xeol-only** are npm packages whose release line endoflife.date lists as ended (`vue` 2.6 and 3.2, `vuetify` 2). Evergreen has no rule for them; each is a candidate for the `npm-support-end` importer, not evidence by itself.
 - **Not compared:** GitHub Actions findings, which are the largest Evergreen family in these repositories and which xeol does not model.
+## Differential testing against Pluto
+
+[Pluto](https://github.com/FairwindsOps/pluto) reads `apiVersion` and `kind` from manifests and says whether the Kubernetes project still serves them, which is the question the `kubernetes` detector answers. A maintainer runs it (it is not part of `npm run check` or any scan). Run it from inside the checkout, because Pluto joins `--directory` to the working directory:
+
+```bash
+(cd <checkout> && pluto detect-files -d . -o json -t k8s=v1.36.0 > pluto.json)
+npm run differential:pluto -- --pluto pluto.json --repository <checkout> --name owner/repo --out report.json
+```
+
+Findings are compared by file, kind, API group, and version. Outcomes: `agree` (Pluto reports the version as removed at the target version), `evergreen-only`, `pluto-only`, and `pluto-deprecated-only` (deprecated but still served; Evergreen judges only removed versions, so this is not a disagreement). Non-Kubernetes findings are listed as not comparable.
+
+Results for the seventeen Kubernetes corpus repositories, with Pluto 5.24.4 at target `k8s=v1.36.0` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/pluto/`](../benchmarks/differential/reports/pluto/), trimmed Pluto output in `tests/fixtures/pluto/`; repositories with no Kubernetes finding from either tool are left out of the table):
+
+| Repository | Agree | Evergreen-only | Pluto-only | Pluto deprecated-only |
+| --- | --- | --- | --- | --- |
+| FairwindsOps/pluto | 1 | 1 | 3 | 0 |
+| doitintl/kube-no-trouble | 0 | 0 | 38 | 1 |
+| hasura/skor | 0 | 0 | 1 | 0 |
+| kelseyhightower/ingress-with-static-ip | 1 | 0 | 0 | 0 |
+| kelseyhightower/kubernetes-cluster-federation | 5 | 0 | 0 | 0 |
+| knrt10/kubernetes-basicLearning | 1 | 0 | 0 | 0 |
+| kubernetes/examples | 10 | 0 | 0 | 0 |
+| luksa/kubernetes-in-action | 27 | 0 | 0 | 0 |
+| lusyoe/springboot-k8s-example | 1 | 1 | 0 | 0 |
+| motiv-labs/janus | 0 | 2 | 0 | 0 |
+| ossf/package-analysis | 1 | 0 | 0 | 0 |
+| unixhot/salt-kubebin | 15 | 0 | 0 | 0 |
+| **Total** | **62** | **4** | **42** | **1** |
+
+Every difference has one of three causes, none of them a wrong finding:
+
+- **Evergreen-only** are Helm templates (`charts/templates/ingress.yaml`, `janus/templates/*.yaml`, a test chart). Pluto cannot parse files with template actions and skips them; Evergreen reads the `apiVersion` and `kind` lines of a template. This is Evergreen finding more.
+- **Pluto-only** are `kind: List` items (`hasura/skor`, one Pluto test asset), JSON manifests, and files under `fixtures/` and `testdata/` directories (`doitintl/kube-no-trouble` has 38, `FairwindsOps/pluto` three). The detector page lists these as not judged. Pluto finding more here is the known cost of Evergreen's conservative scope, and the same forms are why the blind repositories were rechecked by hand.
+- **Disagreement on a version Evergreen does judge** is zero: all 62 manifests that both tools read agree on removed.
 
 ## Accuracy by detector
 

@@ -1,0 +1,75 @@
+{
+  "repository": "FairwindsOps/pluto",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/pkg/finder/testdata/deployment-extensions-v1beta1.json",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      },
+      {
+        "filePath": "/repo/pkg/finder/testdata/deployment-extensions-v1beta1.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Deployment",
+          "deprecated-in": "v1.9.0",
+          "removed-in": "v1.16.0",
+          "replacement-api": "apps/v1",
+          "replacement-available-in": "v1.9.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "e2e/tests/assets/chart/templates/deployment-deprecated.yaml",
+      "line": 1
+    },
+    {
+      "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+      "path": "e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml",
+      "line": 1
+    }
+  ]
+}

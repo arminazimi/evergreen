@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "yaml-schema/yaml-schema",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [],
+  "notComparable": [
+    "github-actions.action-gh-release",
+    "github-actions.cache",
+    "github-actions.checkout",
+    "github-actions.download-artifact",
+    "github-actions.upload-artifact"
+  ]
+}

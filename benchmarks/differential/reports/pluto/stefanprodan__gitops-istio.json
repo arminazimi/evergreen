@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "stefanprodan/gitops-istio",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [],
+  "notComparable": [
+    "github-actions.checkout",
+    "github-actions.setup-python"
+  ]
+}

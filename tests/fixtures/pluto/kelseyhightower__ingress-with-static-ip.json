@@ -1,0 +1,28 @@
+{
+  "repository": "kelseyhightower/ingress-with-static-ip",
+  "pluto": {
+    "items": [
+      {
+        "filePath": "/repo/nginx-ing.yaml",
+        "api": {
+          "version": "extensions/v1beta1",
+          "kind": "Ingress",
+          "deprecated-in": "v1.14.0",
+          "removed-in": "v1.22.0",
+          "replacement-api": "networking.k8s.io/v1",
+          "replacement-available-in": "v1.19.0",
+          "component": "k8s"
+        },
+        "deprecated": true,
+        "removed": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "nginx-ing.yaml",
+      "line": 1
+    }
+  ]
+}

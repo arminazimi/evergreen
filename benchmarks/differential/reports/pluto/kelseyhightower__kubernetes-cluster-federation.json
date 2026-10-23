@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "evergreen.differential.pluto.v1",
+  "repository": "kelseyhightower/kubernetes-cluster-federation",
+  "summary": {
+    "agree": 5,
+    "evergreen-only": 0,
+    "pluto-only": 0,
+    "pluto-deprecated-only": 0
+  },
+  "comparisons": [
+    {
+      "path": "deployments/federation-apiserver.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.deployment.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "deployments/federation-controller-manager.yaml",
+      "kind": "Deployment",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.deployment.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "ingress/nginx.yaml",
+      "kind": "Ingress",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.ingress.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "rs/nginx-us.yaml",
+      "kind": "ReplicaSet",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.replicaset.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    },
+    {
+      "path": "rs/nginx.yaml",
+      "kind": "ReplicaSet",
+      "version": "extensions/v1beta1",
+      "evergreen": [
+        "kubernetes.extensions.replicaset.v1beta1.removed"
+      ],
+      "pluto": "removed",
+      "outcome": "agree",
+      "note": "Both report the API version as removed."
+    }
+  ],
+  "notComparable": []
+}
