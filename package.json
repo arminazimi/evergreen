@@ -89,6 +89,7 @@
     "differential:pluto": "npm run build --silent && node dist/benchmarks/differential/pluto.js",
     "differential:renovate": "npm run build --silent && node dist/benchmarks/differential/renovate.js",
     "differential:xeol": "npm run build --silent && node dist/benchmarks/differential/xeol.js",
+    "validate:held-out": "npm run build --silent && node dist/benchmarks/held-out.js",
     "record:corpus-run": "npm run build --silent && node dist/benchmarks/record-corpus-run.js",
     "corpus:warm": "npm run build --silent && node dist/benchmarks/public-repositories.js --warm",
     "corpus:cache": "npm run build --silent && node dist/benchmarks/corpus-cache-cli.js",
