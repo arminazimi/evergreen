@@ -20963,6 +20963,983 @@
           }
         }
       ]
+    },
+    {
+      "repository": "alibaba/tidevice",
+      "commit": "7bfd4d64da636500db688befbb64851078913589",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:45 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:50 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:21 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rachpt/lanzou-gui",
+      "commit": "e776633ee80a690994f08908cddbd4714896a2c7",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "Hsury/BiliDrive",
+      "commit": "a00799051d801b639910752b2347042e0e24d60e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "malinkang/weread2notion-pro",
+      "commit": "b3c1e9fcc85a6249e1fc173b541122dcae995b9e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/read_time.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/read_time.yml:37 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/read_time.yml",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/read_time.yml:39 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/weread.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/weread.yml:35 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/weread.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/weread.yml:37 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "maxhumber/gazpacho",
+      "commit": "7cc94880d3c967c7fb4321eee22f3cfb83615484",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/black.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/black.yml:9 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/black.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/black.yml:10 at this commit: `- uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bee-san/pyWhat",
+      "commit": "dfa9372694ce1ce234b78abd623bfe4c13e03d9c",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:1 at this commit: `FROM python:3.10-alpine`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:11 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Gerapy/Gerapy",
+      "commit": "f2c2a9772a718cb7879e0b6db002b7cfda7c4156",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:24 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:26 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build_docker_image_master.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_docker_image_master.yml:14 at this commit: `uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/build_docker_image_master.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_docker_image_master.yml:18 at this commit: `uses: actions/setup-node@v2.3.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build_docker_image_release.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_docker_image_release.yml:11 at this commit: `uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/build_docker_image_release.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_docker_image_release.yml:15 at this commit: `uses: actions/setup-node@v2.3.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql-analysis.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/codeql-analysis.yml:41 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:1 at this commit: `FROM python:3.10-slim AS build`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:17 at this commit: `FROM python:3.10-slim`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.package.django-2.2.eol",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"Distributed Crawler Management Framework Based on Scrapy, Scrapyd, Scrapyd-Client, Scrapyd-API, Django and Vue.js.\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:13 at this commit: `# Trove classifiers - https://packaging.python.org/specifications/core-metadata/#metadata-classifier`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "jayfk/statuspage",
+      "commit": "d750aba1fbfd45c5c8168c2cb19eadd7f629ffc5",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:19 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:20 at this commit: `- uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:9 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "python-gino/gino",
+      "commit": "6218b902cc8a31198f1a0b42d67e689140b68c8b",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:17 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:20 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:51 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:54 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 110,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:110 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 114,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:114 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:24 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:27 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:57 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:60 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 90,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:90 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 93,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:93 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 140,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:140 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 143,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:143 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 176,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:176 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 179,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:179 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 206,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:206 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 209,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:209 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 242,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:242 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 245,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:245 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 269,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:269 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 273,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:273 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 292,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:292 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"GINO Is Not ORM - a Python asyncio ORM on SQLAlchemy core.\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "wustho/epr",
+      "commit": "723c77d34d7f149a2c1bcadd99d288d26f66531d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release-pypi.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-pypi.yml:13 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release-pypi.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-pypi.yml:14 at this commit: `- uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release-win.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-win.yml:13 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release-win.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-win.yml:14 at this commit: `- uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/release-win.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-win.yml:23 at this commit: `uses: softprops/action-gh-release@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:17 at this commit: `python = \"^3.7\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "doableware/djongo",
+      "commit": "2753c066e03b8b6d68c783a4a28ae02b9b934623",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:19 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "python273/vk_api",
+      "commit": "ceaeca0ea9cfe72041a2d0d4afb9e7428ce2ef8d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/python-publish.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/python-publish.yml:11 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/python-publish.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/python-publish.yml:13 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:10 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "miguelgrinberg/Flask-Migrate",
+      "commit": "bce4d35a0c61d2516c76744a1f168bc6af26d55e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:15 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "vinifmor/bauh",
+      "commit": "b1ea479a3aed504e0ddc329f2474e9a93331927c",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:9 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "cvg/glue-factory",
+      "commit": "2d17e3b3bd7d30f0c828d4c4d3eac4ecefbf283d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/code-quality.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/code-quality.yml:15 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/code-quality.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/code-quality.yml:16 at this commit: `- uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/python-tests.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/python-tests.yml:13 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/python-tests.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/python-tests.yml:14 at this commit: `- uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:12 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "leosussan/fastapi-gino-arq-uvicorn",
+      "commit": "dd4213f4113825ddce3d3a6a39e54ef77df6014f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".tool-versions",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:1 at this commit: `python 3.8.2 2.7.16`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile.worker",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile.worker:1 at this commit: `FROM python:3.8-alpine`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"High-performance Async REST API, in Python. FastAPI + GINO + Arq + Uvicorn (w/ Redis and PostgreSQL).\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "muxinc/mux-python",
+      "commit": "496f62c3a3e395715a2905fbd6fc40415130838d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:15 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:17 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yaml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yaml:15 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release.yaml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yaml:17 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".tool-versions",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:1 at this commit: `python 3.8.13`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "java.jdk.end-of-support-12-16",
+          "path": ".tool-versions",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:2 at this commit: `java zulu-16.32.15`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "ozzs/monobox",
+      "commit": "2a79ece91316e573f69baa983e852e08d0ef4b5f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/backend.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/backend.yml:14 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/backend.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/backend.yml:16 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".tool-versions",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:3 at this commit: `python 3.8.15`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "backend/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read backend/Dockerfile:1 at this commit: `FROM python:3.9`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "crflynn/skranger",
+      "commit": "2467f43f118177c68e3eba4100aa6d3c6eee5ba6",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build_and_test.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_and_test.yml:23 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build_and_test.yml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_and_test.yml:44 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/build_and_test.yml",
+          "line": 58,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_and_test.yml:58 at this commit: `uses: actions/cache@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:26 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:47 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:66 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:72 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".tool-versions",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:2 at this commit: `python 3.8.2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": "Dockerfile",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:2 at this commit: `FROM python:3.8.3-slim`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"Python bindings for C++ ranger random forests\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "verypossible/very_plot",
+      "commit": "7fafb3bd5d26a2ec7dea98b6edfb392658e589ea",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".tool-versions",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .tool-versions:1 at this commit: `python 3.8.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"Python plotting tools for Very\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
     }
   ]
 }

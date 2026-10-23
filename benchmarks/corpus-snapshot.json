@@ -10,8 +10,8 @@
       "repositories": 7
     },
     "container": {
-      "findings": 60,
-      "repositories": 28
+      "findings": 74,
+      "repositories": 38
     },
     "cpp": {
       "findings": 18,
@@ -30,36 +30,36 @@
       "repositories": 20
     },
     "github-actions": {
-      "findings": 778,
-      "repositories": 138
+      "findings": 986,
+      "repositories": 172
     },
     "go": {
-      "findings": 51,
-      "repositories": 20
+      "findings": 54,
+      "repositories": 21
     },
     "java": {
-      "findings": 60,
-      "repositories": 13
+      "findings": 61,
+      "repositories": 14
     },
     "kubernetes": {
-      "findings": 67,
-      "repositories": 10
+      "findings": 71,
+      "repositories": 12
     },
     "nodejs": {
-      "findings": 147,
-      "repositories": 42
+      "findings": 148,
+      "repositories": 43
     },
     "npm": {
-      "findings": 99,
-      "repositories": 44
+      "findings": 100,
+      "repositories": 45
     },
     "php": {
       "findings": 5,
       "repositories": 4
     },
     "python": {
-      "findings": 28,
-      "repositories": 25
+      "findings": 74,
+      "repositories": 64
     },
     "ruby": {
       "findings": 24,
