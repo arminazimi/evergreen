@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "evergreen.differential.xeol.v1",
+  "repository": "gethomepage/homepage",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 0,
+    "xeol-only": 0
+  },
+  "comparisons": [],
+  "notComparable": []
+}

@@ -1,0 +1,90 @@
+{
+  "repository": "umami-software/umami",
+  "xeol": {
+    "matches": [
+      {
+        "Cycle": {
+          "ProductName": "next",
+          "ProductPermalink": "https://www.npmjs.com/package/next",
+          "ReleaseCycle": "13",
+          "Eol": "2024-12-21",
+          "LatestRelease": "",
+          "LatestReleaseDate": "2022-12-15",
+          "ReleaseDate": "2022-12-15"
+        },
+        "artifact": {
+          "name": "next",
+          "version": "13.2.4",
+          "type": "npm",
+          "locations": [
+            {
+              "path": "/yarn.lock"
+            }
+          ]
+        }
+      },
+      {
+        "Cycle": {
+          "ProductName": "vue",
+          "ProductPermalink": "https://www.npmjs.com/package/vue",
+          "ReleaseCycle": "3.2",
+          "Eol": "2023-05-11",
+          "LatestRelease": "",
+          "LatestReleaseDate": "2022-11-11",
+          "ReleaseDate": "2022-11-11"
+        },
+        "artifact": {
+          "name": "vue",
+          "version": "3.2.36",
+          "type": "npm",
+          "locations": [
+            {
+              "path": "/yarn.lock"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 10
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 2
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 26
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "docker-compose.yml",
+      "line": 16
+    },
+    {
+      "ruleId": "npm.package.next.13.support-end",
+      "path": "package.json",
+      "line": 92
+    },
+    {
+      "ruleId": "npm.package.react-beautiful-dnd.deprecated",
+      "path": "package.json",
+      "line": 98
+    },
+    {
+      "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+      "path": "package.json",
+      "line": 140
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "docker-compose.yml"
+    }
+  ]
+}

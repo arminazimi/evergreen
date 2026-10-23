@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "evergreen.differential.xeol.v1",
+  "repository": "outline/outline",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 11,
+    "xeol-only": 0
+  },
+  "comparisons": [
+    {
+      "product": "babel-eslint",
+      "evergreen": [
+        "npm.package.babel-eslint.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "crypto-js",
+      "evergreen": [
+        "npm.package.crypto-js.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "i18next-parser",
+      "evergreen": [
+        "npm.package.i18next-parser.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "koa-router",
+      "evergreen": [
+        "npm.package.koa-router.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "nodejs",
+      "evergreen": [
+        "container.node.eol-21-and-older",
+        "nodejs.runtime.eol-18",
+        "nodejs.runtime.eol-19",
+        "nodejs.runtime.eol-20"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "socket.io-redis",
+      "evergreen": [
+        "npm.package.socket.io-redis.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.dotenv",
+      "evergreen": [
+        "npm.package.types.dotenv.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.emoji-regex",
+      "evergreen": [
+        "npm.package.types.emoji-regex.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.form-data",
+      "evergreen": [
+        "npm.package.types.form-data.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.koa-useragent",
+      "evergreen": [
+        "npm.package.types.koa-useragent.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.sanitize-filename",
+      "evergreen": [
+        "npm.package.types.sanitize-filename.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    }
+  ],
+  "notComparable": [
+    "github-actions.build-push-action",
+    "github-actions.checkout",
+    "github-actions.download-artifact",
+    "github-actions.github-script",
+    "github-actions.login-action",
+    "github-actions.metadata-action",
+    "github-actions.setup-buildx-action",
+    "github-actions.setup-node",
+    "github-actions.stale",
+    "github-actions.upload-artifact"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "evergreen.differential.xeol.v1",
+  "repository": "excalidraw/excalidraw",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 3,
+    "xeol-only": 0
+  },
+  "comparisons": [
+    {
+      "product": "next",
+      "evergreen": [
+        "npm.package.next.14.support-end"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "nodejs",
+      "evergreen": [
+        "container.node.eol-21-and-older",
+        "nodejs.runtime.eol-18",
+        "nodejs.runtime.eol-19",
+        "nodejs.runtime.eol-20"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "types.socket.io-client",
+      "evergreen": [
+        "npm.package.types.socket.io-client.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    }
+  ],
+  "notComparable": [
+    "github-actions.build-push-action",
+    "github-actions.checkout",
+    "github-actions.login-action",
+    "github-actions.setup-buildx-action",
+    "github-actions.setup-node",
+    "github-actions.setup-qemu-action"
+  ]
+}

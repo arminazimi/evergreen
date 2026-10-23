@@ -1,0 +1,67 @@
+{
+  "repository": "excalidraw/excalidraw",
+  "xeol": {
+    "matches": []
+  },
+  "findings": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": ".codesandbox/Dockerfile",
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/with-script-in-browser/.codesandbox/Dockerfile",
+      "line": 1
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "excalidraw-app/package.json",
+      "line": 26
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 47
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "excalidraw-app/package.json",
+      "line": 26
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 47
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "excalidraw-app/package.json",
+      "line": 26
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 47
+    },
+    {
+      "ruleId": "npm.package.next.14.support-end",
+      "path": "examples/with-nextjs/package.json",
+      "line": 15
+    },
+    {
+      "ruleId": "npm.package.types.socket.io-client.deprecated",
+      "path": "package.json",
+      "line": 19
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/publish-docker.yml"
+    }
+  ]
+}

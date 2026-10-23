@@ -1,0 +1,87 @@
+{
+  "repository": "outline/outline",
+  "xeol": {
+    "matches": []
+  },
+  "findings": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "line": 9
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile.base",
+      "line": 2
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-18",
+      "path": "package.json",
+      "line": 42
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-19",
+      "path": "package.json",
+      "line": 42
+    },
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": "package.json",
+      "line": 42
+    },
+    {
+      "ruleId": "npm.package.babel-eslint.deprecated",
+      "path": "package.json",
+      "line": 341
+    },
+    {
+      "ruleId": "npm.package.crypto-js.deprecated",
+      "path": "package.json",
+      "line": 119
+    },
+    {
+      "ruleId": "npm.package.i18next-parser.deprecated",
+      "path": "package.json",
+      "line": 361
+    },
+    {
+      "ruleId": "npm.package.koa-router.deprecated",
+      "path": "package.json",
+      "line": 157
+    },
+    {
+      "ruleId": "npm.package.socket.io-redis.deprecated",
+      "path": "package.json",
+      "line": 242
+    },
+    {
+      "ruleId": "npm.package.types.dotenv.deprecated",
+      "path": "package.json",
+      "line": 280
+    },
+    {
+      "ruleId": "npm.package.types.emoji-regex.deprecated",
+      "path": "package.json",
+      "line": 281
+    },
+    {
+      "ruleId": "npm.package.types.form-data.deprecated",
+      "path": "package.json",
+      "line": 101
+    },
+    {
+      "ruleId": "npm.package.types.koa-useragent.deprecated",
+      "path": "package.json",
+      "line": 301
+    },
+    {
+      "ruleId": "npm.package.types.sanitize-filename.deprecated",
+      "path": "package.json",
+      "line": 103
+    },
+    {
+      "ruleId": "github-actions.build-push-action.node20",
+      "path": ".github/workflows/docker.yml"
+    }
+  ]
+}

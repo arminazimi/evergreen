@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "evergreen.differential.xeol.v1",
+  "repository": "mealie-recipes/mealie",
+  "summary": {
+    "agree": 0,
+    "evergreen-only": 2,
+    "xeol-only": 2
+  },
+  "comparisons": [
+    {
+      "product": "nodejs",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "python",
+      "evergreen": [
+        "container.python.eol-3.10-and-older",
+        "python.runtime.eol-3.9-and-older"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "vue",
+      "evergreen": [],
+      "xeol": [
+        {
+          "cycle": "2.6",
+          "version": "2.6.14",
+          "eol": "2022-07-01",
+          "path": "frontend/yarn.lock"
+        }
+      ],
+      "outcome": "xeol-only",
+      "note": "xeol reports a release of this product as past end of life; Evergreen has no rule for it."
+    },
+    {
+      "product": "vuetify",
+      "evergreen": [],
+      "xeol": [
+        {
+          "cycle": "2",
+          "version": "2.5.8",
+          "eol": "2025-01-23",
+          "path": "frontend/yarn.lock"
+        },
+        {
+          "cycle": "2",
+          "version": "2.6.2",
+          "eol": "2025-01-23",
+          "path": "frontend/yarn.lock"
+        }
+      ],
+      "outcome": "xeol-only",
+      "note": "xeol reports a release of this product as past end of life; Evergreen has no rule for it."
+    }
+  ],
+  "notComparable": [
+    "github-actions.cache",
+    "github-actions.checkout",
+    "github-actions.login-action",
+    "github-actions.setup-buildx-action",
+    "github-actions.setup-node",
+    "github-actions.setup-python",
+    "github-actions.setup-qemu-action"
+  ]
+}

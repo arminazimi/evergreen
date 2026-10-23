@@ -323,6 +323,34 @@ What it shows:
 - **Evergreen-only** is empty here; every Evergreen finding that Renovate could look up, it also had an update for.
 - Most GitHub Action findings are `inconclusive` because Renovate cannot look up Actions without a token. Re-run with `RENOVATE_TOKEN` to turn them into comparisons.
 
+
+## Differential testing against xeol
+
+[xeol](https://github.com/xeol-io/xeol) reports release cycles of products (runtimes, databases, npm packages) that endoflife.date lists as past end of life, for versions it finds in lockfiles and image filesystems. A maintainer runs it (it downloads an EOL database; it is not part of `npm run check` or any scan):
+
+```bash
+xeol dir:<checkout> -o json > xeol.json
+npm run differential:xeol -- --xeol xeol.json --repository <checkout> --name owner/repo --out report.json
+```
+
+The report compares by product, not by file: xeol names the lockfile that resolved a version, Evergreen names the manifest that declares it. Evergreen runtime, container image, and npm package findings are compared with the xeol product of the same name (`node` images with `nodejs`, `golang` with `go`, `postgres` with `postgresql`). Outcomes: `agree` (both report the product), `evergreen-only`, and `xeol-only`. GitHub Actions, CI images, and the other families xeol has no product for are listed as not comparable.
+
+Results for the five repositories of the Renovate comparison, with xeol 0.10.8 run with `dir:` on the pinned checkouts on 2026-10-23 (reports in [`benchmarks/differential/reports/xeol/`](../benchmarks/differential/reports/xeol/), trimmed xeol output in `tests/fixtures/xeol/`):
+
+| Repository | Agree | Evergreen-only | xeol-only |
+| --- | --- | --- | --- |
+| excalidraw/excalidraw | 0 | 3 | 0 |
+| gethomepage/homepage | 0 | 0 | 0 |
+| mealie-recipes/mealie | 0 | 2 | 2 |
+| outline/outline | 0 | 11 | 0 |
+| umami-software/umami | 1 | 4 | 1 |
+
+What the numbers say:
+
+- **Agreement is rare because the tools read different files.** `xeol dir:` resolves versions from lockfiles; it does not read Dockerfiles, workflow files, `.nvmrc`, or `engines`. Every Evergreen runtime and image finding here is therefore Evergreen-only, and not a sign that xeol disagrees. Where both read the same dependency, they agree: both call `next` 13 end of life in umami.
+- **xeol-only** are npm packages whose release line endoflife.date lists as ended (`vue` 2.6 and 3.2, `vuetify` 2). Evergreen has no rule for them; each is a candidate for the `npm-support-end` importer, not evidence by itself.
+- **Not compared:** GitHub Actions findings, which are the largest Evergreen family in these repositories and which xeol does not model.
+
 ## Accuracy by detector
 
 Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.

@@ -1,0 +1,106 @@
+{
+  "repository": "mealie-recipes/mealie",
+  "xeol": {
+    "matches": [
+      {
+        "Cycle": {
+          "ProductName": "vue",
+          "ProductPermalink": "https://www.npmjs.com/package/vue",
+          "ReleaseCycle": "2.6",
+          "Eol": "2022-07-01",
+          "LatestRelease": "",
+          "LatestReleaseDate": "2021-06-07",
+          "ReleaseDate": "2021-06-07"
+        },
+        "artifact": {
+          "name": "vue",
+          "version": "2.6.14",
+          "type": "npm",
+          "locations": [
+            {
+              "path": "/frontend/yarn.lock"
+            }
+          ]
+        }
+      },
+      {
+        "Cycle": {
+          "ProductName": "vuetify",
+          "ProductPermalink": "https://www.npmjs.com/package/vuetify",
+          "ReleaseCycle": "2",
+          "Eol": "2025-01-23",
+          "LatestRelease": "",
+          "LatestReleaseDate": "2020-06-08",
+          "ReleaseDate": "2020-06-08"
+        },
+        "artifact": {
+          "name": "vuetify",
+          "version": "2.5.8",
+          "type": "npm",
+          "locations": [
+            {
+              "path": "/frontend/yarn.lock"
+            }
+          ]
+        }
+      },
+      {
+        "Cycle": {
+          "ProductName": "vuetify",
+          "ProductPermalink": "https://www.npmjs.com/package/vuetify",
+          "ReleaseCycle": "2",
+          "Eol": "2025-01-23",
+          "LatestRelease": "",
+          "LatestReleaseDate": "2020-06-08",
+          "ReleaseDate": "2020-06-08"
+        },
+        "artifact": {
+          "name": "vuetify",
+          "version": "2.6.2",
+          "type": "npm",
+          "locations": [
+            {
+              "path": "/frontend/yarn.lock"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "findings": [
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "frontend/Dockerfile",
+      "line": 1
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "frontend/Dockerfile",
+      "line": 24
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "line": 4
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "docs/Dockerfile",
+      "line": 1
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "pyproject.toml",
+      "line": 12
+    },
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": "runtime.txt",
+      "line": 1
+    },
+    {
+      "ruleId": "github-actions.cache.node20",
+      "path": ".github/workflows/backend-tests.yml"
+    }
+  ]
+}

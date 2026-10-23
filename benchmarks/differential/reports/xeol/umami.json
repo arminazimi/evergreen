@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "evergreen.differential.xeol.v1",
+  "repository": "umami-software/umami",
+  "summary": {
+    "agree": 1,
+    "evergreen-only": 4,
+    "xeol-only": 1
+  },
+  "comparisons": [
+    {
+      "product": "next",
+      "evergreen": [
+        "npm.package.next.13.support-end"
+      ],
+      "xeol": [
+        {
+          "cycle": "13",
+          "version": "13.2.4",
+          "eol": "2024-12-21",
+          "path": "yarn.lock"
+        }
+      ],
+      "outcome": "agree",
+      "note": "Both report a release of this product as past end of life."
+    },
+    {
+      "product": "nodejs",
+      "evergreen": [
+        "container.node.eol-21-and-older"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "postgresql",
+      "evergreen": [
+        "container.postgres.eol-13-and-older"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "react-beautiful-dnd",
+      "evergreen": [
+        "npm.package.react-beautiful-dnd.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "rollup-plugin-terser",
+      "evergreen": [
+        "npm.package.rollup-plugin-terser.deprecated"
+      ],
+      "xeol": [],
+      "outcome": "evergreen-only",
+      "note": "xeol reports nothing for this product; it did not read the file Evergreen read, or its database has no entry."
+    },
+    {
+      "product": "vue",
+      "evergreen": [],
+      "xeol": [
+        {
+          "cycle": "3.2",
+          "version": "3.2.36",
+          "eol": "2023-05-11",
+          "path": "yarn.lock"
+        }
+      ],
+      "outcome": "xeol-only",
+      "note": "xeol reports a release of this product as past end of life; Evergreen has no rule for it."
+    }
+  ],
+  "notComparable": [
+    "database.postgresql",
+    "github-actions.checkout",
+    "github-actions.setup-node"
+  ]
+}
