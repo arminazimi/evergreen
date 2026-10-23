@@ -15985,6 +15985,3018 @@
       "ecosystem": "terraform",
       "selection": "blind",
       "expected": []
+    },
+    {
+      "repository": "lucasbento/graphql-pokemon",
+      "commit": "7b9506ca2eea27201cad754333e3b867dab2644a",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:21 at this commit: `\"babel-eslint\": \"^7.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-preset-es2015.deprecated",
+          "path": "package.json",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:23 at this commit: `\"babel-preset-es2015\": \"^6.9.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "adobe-photoshop/generator-assets",
+      "commit": "c6873deebc995e91fa1df180337feabce0c09845",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.q.deprecated",
+          "path": "package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:18 at this commit: `\"q\": \"~1.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "gruntjs/grunt-contrib-requirejs",
+      "commit": "0c3e99f689a95102deb76a7e86daf4737f791afc",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mathiasbynens/CSS.escape",
+      "commit": "4b25c283eaf4dd443f44a7096463e973d56dd1b2",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.istanbul.deprecated",
+          "path": "package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:36 at this commit: `\"istanbul\": \"^0.4.1\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bitpay/bitauth",
+      "commit": "68cf0353bf517a7e5293478608839fa904351eb6",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "cloudinary/cloudinary-react",
+      "commit": "cf7b68bc3a71f3d94992a26fd557e3eaf3f89766",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 47,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:47 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "discordjs/RPC",
+      "commit": "9e7de2a6d917591f10a66389e62e1dc053c04fec",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/docs.yml:10 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/docs.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/docs.yml:11 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:39 at this commit: `\"babel-eslint\": \"^10.0.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "pilwon/node-yahoo-finance",
+      "commit": "b220c2e80c2d9cbab599bd25426136d339dd63f4",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.request.deprecated",
+          "path": "package.json",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:35 at this commit: `\"request\": \"^2.88.2\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.request-promise.deprecated",
+          "path": "package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:36 at this commit: `\"request-promise\": \"^4.2.6\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rpl/flow-coverage-report",
+      "commit": "835f0a6c978525747055419930ee97ec90505d57",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:16 at this commit: `\"node\": \">=10.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 69,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:69 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "sourcecred/sourcecred",
+      "commit": "3da222ebe44c110f265063cfa99316ed5c1fa0b3",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/generate-docs.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/generate-docs.yml:12 at this commit: `- uses: actions/checkout@v2.3.4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "packages/grainIntegration-merkle/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/grainIntegration-merkle/package.json:18 at this commit: `\"babel-eslint\": \"^10.0.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "packages/sourcecred/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/Dockerfile:1 at this commit: `FROM node:12`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.lodash-isequal.deprecated",
+          "path": "packages/sourcecred/package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:51 at this commit: `\"lodash.isequal\": \"^4.5.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "packages/sourcecred/package.json",
+          "line": 82,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:82 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "packages/sourcecred/package.json",
+          "line": 146,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "packages/sourcecred/package.json",
+          "line": 146,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "packages/sourcecred/package.json",
+          "line": 146,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "packages/sourcecred/package.json",
+          "line": 146,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/sourcecred/package.json:146 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Brainfock/Brainfock",
+      "commit": "0474cae83902539012afc22ab148f6b1ef4bbf82",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".nvmrc",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .nvmrc:1 at this commit: `v4.0.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:35 at this commit: `\"node\": \"^4.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:41 at this commit: `\"babel-eslint\": \"^7.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-preset-es2015.deprecated",
+          "path": "package.json",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:49 at this commit: `\"babel-preset-es2015\": \"^6.3.13\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.gulp-util.deprecated",
+          "path": "package.json",
+          "line": 90,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:90 at this commit: `\"gulp-util\": \"^3.0.7\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "manifoldfinance/defi-threat",
+      "commit": "0b625b290aa1137299436782978da5ecda9d1fd3",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/lint.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/lint.yml:33 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "remarkjs/remark-toc",
+      "commit": "9d0e2764ce3b5a8276e3cdee36c56ff6eecf7477",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:10 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:11 at this commit: `- uses: actions/setup-node@v3`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "fstirlitz/luaparse",
+      "commit": "0f525b152516bc8afa34564de2423b039aa83bc1",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:15 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:17 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:31 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:33 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 46,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:46 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 62,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:62 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 87,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:87 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 108,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:108 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 127,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:127 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 139,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:139 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 144,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:144 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:11 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:12 at this commit: `- uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:22 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:23 at this commit: `- uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mobxjs/mobx-react-todomvc",
+      "commit": "1cba503dbbd55cb172eec3b53f1c3edb2afd84aa",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-preset-es2015.deprecated",
+          "path": "package.json",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:33 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "dxxzst/OfflineMap",
+      "commit": "0d387de9297e5b3052c1f094f59b28c7a6a3c578",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "ElementUI/element-theme",
+      "commit": "6b2a112c6ba47893e7a4b6fb736fbe5d073b0dd5",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "algorithm-visualizer/algorithms",
+      "commit": "fe3adcf890da652e5cda842d7f90b50fa7242e3a",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "d3/d3-interpolate",
+      "commit": "2eeffc0d02f2947552cf0a0b73bdf26fe90e1c28",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:21 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:23 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+          "path": "package.json",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:43 at this commit: `\"rollup-plugin-terser\": \"7\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "twilio-labs/call-gpt",
+      "commit": "db0aecda0058f222bfc26ad626d831c365ecfcea",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "jiayisheji/blog",
+      "commit": "34654ea812fee947ccb7e7a49d074bc97641648b",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "svrxjs/svrx",
+      "commit": "7abfdc3331fbbf5d06d8fd04eb4f82d00e3c683e",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cov.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cov.yml:14 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/cov.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cov.yml:16 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:10 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:14 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/testOnLinux.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnLinux.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/testOnLinux.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnLinux.yml:20 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/testOnMac.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnMac.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/testOnMac.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnMac.yml:20 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/testOnWin.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnWin.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/testOnWin.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnWin.yml:20 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "packages/svrx/package.json",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/svrx/package.json:67 at this commit: `\"node\": \">=8.9.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "packages/svrx/package.json",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/svrx/package.json:67 at this commit: `\"node\": \">=8.9.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "packages/svrx/package.json",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/svrx/package.json:67 at this commit: `\"node\": \">=8.9.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "packages/svrx/package.json",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/svrx/package.json:67 at this commit: `\"node\": \">=8.9.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "wix-incubator/react-native-keyboard-aware-scrollview",
+      "commit": "16b47bc33c6331dcd8f128b9aac8663c8081ea39",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "malte-wessel/react-textfit",
+      "commit": "fc7aa18e61a2397fcef838dc8b16c8dc027dce26",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:34 at this commit: `\"babel-eslint\": \"^4.1.5\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-preset-es2015.deprecated",
+          "path": "package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:36 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bartve/disconnect",
+      "commit": "8fca4310c283b41e2eade7bfdb9e3a6bd0b3e905",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:29 at this commit: `\"node\": \">= 0.12.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "insodoc/insomnia-documenter",
+      "commit": "700aa024ca75f7faa4600bf7f83817ffaf25ca0a",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:15 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:17 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:45 at this commit: `\"node-sass\": \"^6.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+          "path": "package.json",
+          "line": 54,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:54 at this commit: `\"rollup-plugin-terser\": \"^5.1.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "whoisandy/react-blocks",
+      "commit": "662d2f2608dba5c58c9ccf8724a2a9fa5d5f5950",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:30 at this commit: `\"babel-eslint\": \"^4.1.2\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.karma-phantomjs-launcher.deprecated",
+          "path": "package.json",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:45 at this commit: `\"karma-phantomjs-launcher\": \"^0.2.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "o2team/elf",
+      "commit": "ae49a2afd6ee03d82ee688b6d1c5ad8b5d1936fb",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:12 at this commit: `\"node\": \">=6\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:51 at this commit: `\"node-sass\": \"4.14.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "standard/ts-standard",
+      "commit": "5e45a1e2780f720de1328bf15bf71255881ffa7f",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/nodejs.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/nodejs.yml:18 at this commit: `- uses: 'actions/checkout@v3.0.2'`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/nodejs.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/nodejs.yml:21 at this commit: `uses: 'actions/setup-node@v3.5.0'`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \"^12.22.0 || ^14.17.0 || >=16.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \"^12.22.0 || ^14.17.0 || >=16.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \"^12.22.0 || ^14.17.0 || >=16.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \"^12.22.0 || ^14.17.0 || >=16.0.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "briancavalier/slides",
+      "commit": "ef8f2fe726e401f4f00ddad349b5c164e8c77bb9",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "YataoZhang/my-single-spa",
+      "commit": "91ac5195aa9b4ef03693810da97935feebd22751",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.rollup-plugin-babel.deprecated",
+          "path": "package.json",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:25 at this commit: `\"rollup-plugin-babel\": \"^4.3.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "parmsang/gatsby-starter-ecommerce",
+      "commit": "989b595f8c71b74cdb3f927942df95ce476f0642",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "acode/copenhagen",
+      "commit": "a7f288047e24a1aad719ed4b30ffc495831013c8",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.node-sass.eol",
+          "path": "package.json",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:9 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "snorpey/triangulation",
+      "commit": "720f6786c5dd410431698518ea914f05efcb32af",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "bchiang7/octoprofile",
+      "commit": "18712864fc106f04f6079b16891a0f5e3e81fca8",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".nvmrc",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .nvmrc:1 at this commit: `v10.13.0`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"babel-eslint\": \"^10.0.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mahnunchik/gulp-responsive",
+      "commit": "8091ebc2fd9d8fe757201600f63c3653446147bd",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:14 at this commit: `\"node\": \">=8.5.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "cferdinandi/build-tool-boilerplate",
+      "commit": "a77c58dbd1a036b1e3914f88a2c4bca5d6624bd4",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.rollup-plugin-terser.deprecated",
+          "path": "package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:36 at this commit: `\"rollup-plugin-terser\": \"^7.0.2\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mixtur/webpack-spritesmith",
+      "commit": "be950b3ce0d7f76ae6cc7b02a23dcf8578315926",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "wzpan/hexo-generator-search",
+      "commit": "9c3b73c75caa72071aa7a06061187dcbf6e39555",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">= 0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">= 0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">= 0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:10 at this commit: `\"node\": \">= 0.10.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "dai-shi/react-hooks-async",
+      "commit": "ad5801e151feff216e622e64cf004c85f1ae80d2",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "lazd/gulp-replace",
+      "commit": "474b1e71e3b13ba16a64c199ec4679dff63969eb",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:40 at this commit: `\"node\": \">=10\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mapmeld/profanity-pgp",
+      "commit": "9929cb78b74941b82dc2b7590f3e3b53e8b0dbde",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "lbovet/docson",
+      "commit": "70649ed5b35901c25420bf9bf52285c151f148b7",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "lexich/redux-api",
+      "commit": "e92b171dda6b1586777a0caacb0308b9f7d5039a",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:39 at this commit: `\"babel-eslint\": \"10.0.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "smartcontractkit/defi-minimal",
+      "commit": "d25b2b4fa4fbc0968162aab4fe0808fd2f75452f",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "allegro/node-worker-nodes",
+      "commit": "ad3c86730e8bf70bfad8d6d18a6fc5bf584c9443",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:17 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:18 at this commit: `- uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:9 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:10 at this commit: `- uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:20 at this commit: `\"node\": \">=11.7.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:20 at this commit: `\"node\": \">=11.7.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:20 at this commit: `\"node\": \">=11.7.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:20 at this commit: `\"node\": \">=11.7.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "drawcall/AgileJS",
+      "commit": "f6c46d25d0566456cb0c0c9a93a531d876b797b4",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:26 at this commit: `\"babel-eslint\": \"^8.2.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-preset-es2015.deprecated",
+          "path": "package.json",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:27 at this commit: `\"babel-preset-es2015\": \"^6.24.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.rollup-plugin-babel.deprecated",
+          "path": "package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:36 at this commit: `\"rollup-plugin-babel\": \"^3.0.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.uglify-es.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:41 at this commit: `\"uglify-es\": \"^3.3.9\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "tani/cheeriogs",
+      "commit": "129e0949ac277e8896226bc6763b43f3b04c9135",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:11 at this commit: `- uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:13 at this commit: `uses: actions/setup-node@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:16 at this commit: `- uses: actions/cache@v4`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Semantic-Org/Semantic-UI-CSS",
+      "commit": "4049ee43af2613c62252f42b13addd737adf6420",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "uncleLian/vue2-news",
+      "commit": "1c198d96059b6c51d78259d45ce2bc563df305b7",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.vue.eol-2",
+          "path": "package.json",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:20 at this commit: `\"vue\": \"^2.5.13\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:28 at this commit: `\"babel-eslint\": \"^7.1.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:72 at this commit: `\"node\": \">= 4.0.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "abramenal/cypress-file-upload",
+      "commit": "bc87212d6377b274c70a8ab9b42b3e97623f7ebb",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:15 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:16 at this commit: `- uses: actions/setup-node@v2.5.1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:41 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 117,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:117 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql-analysis.yml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/codeql-analysis.yml:36 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:11 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:12 at this commit: `- uses: actions/setup-node@v2.5.1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/publish.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:18 at this commit: `- uses: actions/upload-artifact@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:27 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:28 at this commit: `- uses: actions/setup-node@v2.5.1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/publish.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:32 at this commit: `- uses: actions/download-artifact@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:7 at this commit: `\"node\": \">=8.2.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:7 at this commit: `\"node\": \">=8.2.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:7 at this commit: `\"node\": \">=8.2.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:7 at this commit: `\"node\": \">=8.2.1\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "CoreyGinnivan/whocanuse",
+      "commit": "0471f5209f05cd32464ecc9955366128fe24e987",
+      "ecosystem": "node",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.next.12.support-end",
+          "path": "package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:18 at this commit: `\"next\": \"^12.1.5\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "NTMC-Community/MatchZoo-py",
+      "commit": "0e5c04e1e948aa9277abd5c85ff99d9950d8527f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "layer8secure/SilentHound",
+      "commit": "f04746aaca29e377c8badcbd6d8f6584deb9e919",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "LAION-AI/natural_voice_assistant",
+      "commit": "c12a1a71e16f8433f3f32e2bc5840f1d5f04099e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.package.typing.archived",
+          "path": "requirements.txt",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read requirements.txt:14 at this commit: `typing`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "caserec/CaseRecommender",
+      "commit": "779bc5dd91ff704ce60c0f3fafd07e2eba689dd7",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "SqueezeAILab/TinyAgent",
+      "commit": "cc45c0e842f5d163c3df1c8f41d60e90e005867d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "jarus/flask-testing",
+      "commit": "5107691011fa891835c01547e73e991c484fa07f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "Deadpool2000/Paybag",
+      "commit": "0e595bcd39c8a438411cecc504db6bc7589dfdb7",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "alxschwrz/codex_py2cpp",
+      "commit": "dcbdd59cba6e692320da2d7211163c432e2db70c",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "harperreed/photo-similarity-search",
+      "commit": "bf277be0f3837c328661d47aa5f274ae1ffb4032",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "FranxYao/Long-Context-Data-Engineering",
+      "commit": "2b38d528a98d61a846fbeacc9d9754e0a59cc3ff",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "DougDougGithub/Babagaboosh",
+      "commit": "725614473a72658057bea184542412577186010f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "aryanvikash/Youtube-Downloader-Bot",
+      "commit": "9910023d39d39b5f44963be43f0d5f40f7905d8d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "runtime.txt",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read runtime.txt:1 at this commit: `python-3.8.7`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "tappi287/openvr_fsr_app",
+      "commit": "af0fdc2f835fab414e7c0e892ca039821a41f08d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "npm.package.vue.eol-2",
+          "path": "package.json",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:16 at this commit: `\"vue\": \"^2.6.11\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:23 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "microsoft/powerbi-jupyter",
+      "commit": "b929f2fc4e280017add902d126dece0ec107018d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "JPCERTCC/MalConfScan",
+      "commit": "19ec0d145535a6a4cfd37c0960114f455a8c343e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "python.package.pycrypto.obsolete",
+          "path": "requirements.txt",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read requirements.txt:2 at this commit: `pycrypto`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "msight-tech/research-ms-loss",
+      "commit": "b68507d4e22d8a6d3d3c0e6c31be708f9dcd20ee",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "HazyResearch/evaporate",
+      "commit": "59eda5d34415f71ffb3a72bb902e1505d1f59e83",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "achembarpu/pockyt",
+      "commit": "85e71e1a1eb498412462d231171fb1db3a49a001",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "blacknbunny/CVE-2018-10933",
+      "commit": "c55af2d3c86052bf88d244a9cd05991991376747",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "peract/peract",
+      "commit": "02fb87681c5a47be9dbf20141bedb836ee2d3ef9",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "sweetcocoa/pop2piano",
+      "commit": "f218c094c3e185d43fa700ed5724cc616be5608f",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "shichao-an/leetcode-python",
+      "commit": "6c523ef4759a57433e10271b584eece16f9f05f3",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "simonw/db-to-sqlite",
+      "commit": "b7c95fcfe853ca5fc2236bfbf7e4a80ca9239969",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:35 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:37 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 40,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:40 at this commit: `- uses: actions/cache@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 62,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:62 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:64 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:67 at this commit: `- uses: actions/cache@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:33 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:35 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 38,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:38 at this commit: `- uses: actions/cache@v3`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "alexdelorenzo/cast_control",
+      "commit": "fe920403c48da028de77ccd64d30b5bd9864f152",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:14 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:17 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.action-gh-release.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:41 at this commit: `uses: softprops/action-gh-release@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.upload-artifact.retired",
+          "path": ".github/workflows/build.yml",
+          "line": 52,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:52 at this commit: `uses: actions/upload-artifact@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.download-artifact.retired",
+          "path": ".github/workflows/build.yml",
+          "line": 71,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:71 at this commit: `uses: actions/download-artifact@v3`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "prateekiiest/Code-Sleep-Python",
+      "commit": "067b467cb1cb4629297ad7799e9a0fdf78c28796",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "SourceCode-AI/aura",
+      "commit": "1981c139dd14db0be6306bd345e1e7113d0624a6",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "container.python.eol-3.10-and-older",
+          "path": ".gitpod.Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .gitpod.Dockerfile:1 at this commit: `FROM python:3.9-buster`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "pyproject.toml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read pyproject.toml:4 at this commit: `description = \"Security auditing and static analysis for python\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "szc19990412/TransMIL",
+      "commit": "9d6aee57c7c72375fb9132dc58cd8c9b0f0a949c",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "PrithivirajDamodaran/Styleformer",
+      "commit": "02c9a7fd6798bf5bbbb04456e5068566d6caef55",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "elbayadm/attn2d",
+      "commit": "982653439dedc7306e484e00b3dfb90e2cd7c9e1",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:22 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:24 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/build_windows.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_windows.yml:22 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/build_windows.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build_windows.yml:24 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "CryptoGnome/Limit-Sniper",
+      "commit": "88bf87f178100f154bd88ee15fa9a705f8780067",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "kturung/langgraph_streamlit_codeassistant",
+      "commit": "84388ea431ff81654766b1295fad24b011df500e",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "busimus/cutelog",
+      "commit": "231523057a2e110e92ac927e6e0a0b393a930b9d",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "flopp/GpxTrackPoster",
+      "commit": "1ca04e9f2fb4a5ee33e2fb0863e6169ecb2c99a0",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql-analysis.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/codeql-analysis.yml:41 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:13 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-python.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:15 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "corenel/pytorch-adda",
+      "commit": "96f2689dd418ef275fcd0b057e5dff89be5762c5",
+      "ecosystem": "python",
+      "selection": "blind",
+      "expected": []
+    },
+    {
+      "repository": "iamraphson/react-paystack",
+      "commit": "8b4a6ba16fc3a064ca8c4096567bbfa1ad904368",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:22 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:24 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.babel-eslint.deprecated",
+          "path": "package.json",
+          "line": 60,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:60 at this commit: `\"babel-eslint\": \"^10.1.0\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.rollup-plugin-babel.deprecated",
+          "path": "package.json",
+          "line": 76,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:76 at this commit: `\"rollup-plugin-babel\": \"^4.4.0\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "dai-shi/reactive-react-redux",
+      "commit": "868a2b267751a518f6e496172e1b3126bdeb63b3",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:12 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:15 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/cd.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:25 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:11 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:14 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/ci.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:23 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "mgmeyers/obsidian-list-callouts",
+      "commit": "afc7d317d6c02b2737ef485a74028595a60fa5c9",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:13 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/release.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:16 at this commit: `uses: actions/setup-node@v3`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rubenspgcavalcante/webpack-extension-reloader",
+      "commit": "4f9aa5e80142709d83c9f20570072d432835cee7",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/audit-and-lint.yml",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/audit-and-lint.yml:8 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/audit-and-lint.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/audit-and-lint.yml:11 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:13 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:16 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/tests.yml:8 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.cache.node20",
+          "path": ".github/workflows/tests.yml",
+          "line": 11,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/tests.yml:11 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "innocenzi/tailwindcss-theming",
+      "commit": "d8e7e97ec0db3cc0cbdbed1e67281d9e07efe0d4",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:19 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:22 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "lbdremy/solr-node-client",
+      "commit": "c1a2f2a3ec233a19f84b061eb01ff4ae718d14ef",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/integration-tests.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/integration-tests.yml:26 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/integration-tests.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/integration-tests.yml:31 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/linting.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/linting.yml:25 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/linting.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/linting.yml:30 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/solr-legacy.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/solr-legacy.yml:26 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/solr-legacy.yml",
+          "line": 31,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/solr-legacy.yml:31 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 24,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:24 at this commit: `\"node\": \">= 12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.request.deprecated",
+          "path": "package.json",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:32 at this commit: `\"request\": \"^2.88.2\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "galnir/Master-Bot",
+      "commit": "cb023bee70d6d96b4692b35c4dc49051f58e9fba",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/main.yml",
+          "line": 8,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:8 at this commit: `- uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-21-and-older",
+          "path": "Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Dockerfile:1 at this commit: `FROM --platform=linux/amd64 node:18-slim`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "apps/bot/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "apps/bot/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "apps/bot/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read apps/bot/package.json:18 at this commit: `\"node\": \">=v18.16.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.14.support-end",
+          "path": "apps/dashboard/package.json",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read apps/dashboard/package.json:36 at this commit: `\"next\": \"^14.0.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:5 at this commit: `\"node\": \">=v20.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.next.14.support-end",
+          "path": "packages/auth/package.json",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read packages/auth/package.json:18 at this commit: `\"next\": \"^14.0.3\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "ericnorris/striptags",
+      "commit": "f890951e540f532ee2a1979711e7de66977f6351",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:20 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "xmindltd/xmind-sdk-js",
+      "commit": "d35e820a2d09995c69bbb452d4edc42b09a13946",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/codeql.yml",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/codeql.yml:41 at this commit: `uses: actions/checkout@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.istanbul.deprecated",
+          "path": "package.json",
+          "line": 73,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:73 at this commit: `\"istanbul\": \"^0.4.5\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "rametta/pratica",
+      "commit": "f9a438a26a29514fa07a939dd666680b7bab4539",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/test.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:15 at this commit: `uses: actions/checkout@v4`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "wessberg/rollup-plugin-ts",
+      "commit": "b37a459bfb5dcf740a1319748574147c55276cb7",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "package.json",
+          "line": 179,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:179 at this commit: `\"node\": \">=16.15.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "package.json",
+          "line": 179,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:179 at this commit: `\"node\": \">=16.15.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "package.json",
+          "line": 179,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:179 at this commit: `\"node\": \">=16.15.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "package.json",
+          "line": 179,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read package.json:179 at this commit: `\"node\": \">=16.15.1\",`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "Ff00ff/mammoth",
+      "commit": "8122afe43425c135a1dd8f0cd22606fb0e0a994d",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/automerge.yml",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/automerge.yml:7 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/feature.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/feature.yml:18 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/feature.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/feature.yml:20 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/master.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/master.yml:14 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/master.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/master.yml:15 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": "workspaces/mammoth-cli/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": "workspaces/mammoth-cli/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": "workspaces/mammoth-cli/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": "workspaces/mammoth-cli/package.json",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
+    },
+    {
+      "repository": "bryanmylee/svelte-headless-table",
+      "commit": "f431f683a0b028f8b17225c17300d53e7b89f3dc",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": [
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/coverage.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/coverage.yml:16 at this commit: `- uses: actions/checkout@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/coverage.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/coverage.yml:17 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:14 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:15 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.checkout.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:25 at this commit: `- uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "github-actions.setup-node.node20",
+          "path": ".github/workflows/publish.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:26 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        }
+      ]
     }
   ]
 }

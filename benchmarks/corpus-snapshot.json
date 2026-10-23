@@ -10,8 +10,8 @@
       "repositories": 7
     },
     "container": {
-      "findings": 57,
-      "repositories": 25
+      "findings": 60,
+      "repositories": 28
     },
     "cpp": {
       "findings": 18,
@@ -30,8 +30,8 @@
       "repositories": 20
     },
     "github-actions": {
-      "findings": 662,
-      "repositories": 110
+      "findings": 778,
+      "repositories": 138
     },
     "go": {
       "findings": 51,
@@ -46,20 +46,20 @@
       "repositories": 10
     },
     "nodejs": {
-      "findings": 64,
-      "repositories": 20
+      "findings": 147,
+      "repositories": 42
     },
     "npm": {
-      "findings": 54,
-      "repositories": 15
+      "findings": 99,
+      "repositories": 44
     },
     "php": {
       "findings": 5,
       "repositories": 4
     },
     "python": {
-      "findings": 24,
-      "repositories": 21
+      "findings": 28,
+      "repositories": 25
     },
     "ruby": {
       "findings": 24,

@@ -77,10 +77,6 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   terraform: { corpus: ["terraform"], row: "Terraform" },
   android: { corpus: ["android"], row: "Android" },
 };
-// Detectors that held the `Supported` label before the evidence rules existed. They keep it until the corpus
-// grows (#141, #142); the test fails if one of them starts to meet its level, so the entry is removed.
-const GRANDFATHERED = new Set(["github-actions", "nodejs", "npm", "python"]);
-
 test("earnedLevel follows the evidence minimums", () => {
   const none = { repositoriesWithFindings: 0, expectedFindings: 0, zeroFindingRepositories: 0, repositories: 0, blindRepositories: 0 };
   const enough = (level: "beta" | "stable") => {
@@ -120,11 +116,7 @@ test("each detector's level agrees with its enforcement flag, its documented sta
     assert.ok(info, `${name} is missing from the table in this test`);
     assert.ok(compatibility.includes(`| ${info.row} | ${maturityLabels[threshold.level]} |`), `docs/COMPATIBILITY.md must show ${info.row} as ${maturityLabels[threshold.level]}`);
     const earned = earnedLevel(countEvidence(corpus, name, info.corpus));
-    if (GRANDFATHERED.has(name)) {
-      assert.ok(rank[earned] < rank[threshold.level], `${name} now earns ${threshold.level}; remove it from GRANDFATHERED`);
-    } else {
       assert.ok(rank[earned] >= rank[threshold.level], `${name} is ${threshold.level} but its corpus evidence only supports ${earned}`);
-    }
   }
 });
 

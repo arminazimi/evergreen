@@ -76,7 +76,7 @@
       "minPrecision": 0.95
     },
     "python": {
-      "level": "stable",
+      "level": "beta",
       "stable": true,
       "minPrecision": 0.95
     },
