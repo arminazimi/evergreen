@@ -480,6 +480,9 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 ## ruby
 
 - [json 2.17.1.1 is yanked](ruby.gem.json.yanked-2.17.1.1.html) — removed, `ruby.gem.json.yanked-2.17.1.1`
+- [Rails 7.1 and older release series are end-of-life](ruby.gem.rails-7.1-and-older.end-of-life.html) — end of life, `ruby.gem.rails-7.1-and-older.end-of-life`
+- [Rails 7.2 is end-of-life](ruby.gem.rails-7.2.end-of-life.html) — end of life, `ruby.gem.rails-7.2.end-of-life`
+- [Rails 8.0 security support is scheduled to end](ruby.gem.rails-8.0.scheduled-end-of-life.html) — scheduled end of life, `ruby.gem.rails-8.0.scheduled-end-of-life`
 - [Ruby 1.9.3 is end-of-life](ruby.runtime.eol-1.9.3.html) — end of life, `ruby.runtime.eol-1.9.3`
 - [Ruby 2.0.0 is end-of-life](ruby.runtime.eol-2.0.0.html) — end of life, `ruby.runtime.eol-2.0.0`
 - [Ruby 2.1 is end-of-life](ruby.runtime.eol-2.1.html) — end of life, `ruby.runtime.eol-2.1`

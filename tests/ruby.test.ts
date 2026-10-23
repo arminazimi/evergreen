@@ -108,6 +108,34 @@ test("reports a yanked resolved gem from Gemfile.lock", async () => {
   ]);
 });
 
+test("reports curated Rails lifecycle rules and leaves Rails 8.1 clean", async () => {
+  const cases = [
+    ["unsupported", "ruby.gem.rails-7.1-and-older.end-of-life", "high", undefined],
+    ["eol", "ruby.gem.rails-7.2.end-of-life", "high", "2026-08-09"],
+    ["scheduled", "ruby.gem.rails-8.0.scheduled-end-of-life", "low", "2026-11-07"],
+    ["supported", undefined, undefined, undefined],
+  ] as const;
+
+  for (const [fixture, ruleId, severity, deadline] of cases) {
+    const result = await scanRepository(resolve(fixtures, "rails", fixture), [rubyDetector]);
+    assert.deepEqual(result.findings.map((finding) => [finding.ruleId, finding.severity, finding.deadline]), ruleId ? [[ruleId, severity, deadline]] : [], fixture);
+  }
+});
+
+test("a Rails migration packet follows the official incremental upgrade process", async () => {
+  const result = await scanRepository(resolve(fixtures, "rails", "eol"), [rubyDetector]);
+  const finding = result.findings.find((item) => item.ruleId === "ruby.gem.rails-7.2.end-of-life");
+  assert.ok(finding);
+
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.deepEqual(packet.affectedFiles, ["Gemfile.lock"]);
+  assert.ok(packet.steps.some((step) => step.id === "update-rails-declaration"));
+  assert.ok(packet.steps.some((step) => step.id === "apply-rails-upgrade-guide"));
+  assert.ok(packet.steps.some((step) => step.id === "update-framework-defaults"));
+  assert.ok(packet.verification.some((check) => check.command === "bin/rails test"));
+  assert.ok(packet.sources.some((source) => source.url === "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"));
+});
+
 test("reports a Gemfile gem covered by a whole-version rule", async () => {
   const rule: RegistryV2Rule = {
     id: "ruby.gem.abandoned.eol",
