@@ -196,6 +196,17 @@ The search returns different results on another day, so the pinned list above, n
 
 Effect on the levels: `github-actions`, `nodejs`, `npm`, and `python` now meet `stable` on the corpus evidence, so none of them is grandfathered any more.
 
+## The held-out set
+
+The main corpus is circular: its expected findings were written by reviewing the same commits Evergreen is scored on, so 1.0 shows that nothing regressed and not that Evergreen generalizes (issue #740, decision 0013). The held-out set (`benchmarks/held-out-repositories.json`) is separate: it is never used to write or tune a rule, and its ground truth was committed before Evergreen scanned it.
+
+- **Rule, fixed on 2026-10-23.** The two repository searches behind the node and GitHub Actions entries above (JavaScript and TypeScript, 100 to 500 stars, last pushed 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars) were walked past the last repository they had already supplied. The first repositories after that point that are not in the corpus, are at most 50,000 KB, and have a workflow file are held out: 15 (five from the JavaScript list at ranks 76 to 97, ten from the TypeScript list at ranks 65 to 81; the lists ended at 100 results).
+- **Ground truth first.** `benchmarks/held-out/label.ts` labels the set from the text alone (it imports no detector and reads no registry): `uses: actions/checkout`, `actions/setup-node`, and `actions/cache` at major version 4 or lower, and workflow `node-version:` lines or `.nvmrc` naming Node.js 20 or lower. The labels were committed (`test(validation): write the held-out ground truth before any scan`) before the first scan.
+- **Scope.** The comparison covers only the families `github-actions.checkout`, `github-actions.setup-node`, `github-actions.cache`, and `nodejs.runtime`, by family, path, and line. A rule that is outside the labeller is not judged here.
+- **Run.** `npm run validate:held-out` (add `-- --output benchmarks/held-out-result.json` to record). It reports and never fails the build.
+
+First result: 15 repositories, 55 true positives, 2 false positives, 18 false negatives, precision 0.9649, recall 0.7534. The 18 misses are all `nodejs.runtime` lines in workflows that pin Node.js 14 or 16 (for example `node-version: 16`): Evergreen's runtime rules do not report those lines. The 2 "false positives" are `engines.node` declarations in `package.json` that Evergreen reports and the labeller does not read, so they are a labeller blind spot rather than errors. The main corpus never exercised the Node.js 14 and 16 workflow case, which is what a held-out set is for. The gap is tracked as a follow-up to #740, not hidden by adding the lines to the main corpus.
+
 ## Precision thresholds
 
 [`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `kubernetes`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:

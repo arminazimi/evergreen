@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "evergreen.held-out-result.v1",
+  "scope": [
+    "github-actions.checkout",
+    "github-actions.setup-node",
+    "github-actions.cache",
+    "nodejs.runtime"
+  ],
+  "summary": {
+    "repositories": 15,
+    "truePositives": 55,
+    "falsePositives": 2,
+    "falseNegatives": 18,
+    "precision": 0.9649,
+    "recall": 0.7534
+  },
+  "repositories": [
+    {
+      "repository": "hapijs/catbox",
+      "commit": "a234a68e528480ab29dbc83ab588e045a75bb010",
+      "truePositives": 0,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "davidchambers/Base64.js",
+      "commit": "22192690552ba07bf035f95a5d2d1a0e2f0ced46",
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 1,
+      "precision": 1,
+      "recall": 0.6667,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/test.yml:12"
+      ]
+    },
+    {
+      "repository": "williamnie/netSend",
+      "commit": "877f7167b4ee539c7777ea62ea784832b2f5418d",
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 1,
+      "precision": 1,
+      "recall": 0.5,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/main.yml:38"
+      ]
+    },
+    {
+      "repository": "afcapel/stimulus-autocomplete",
+      "commit": "e2115d641cb1d212573476cda602d69b62f483b5",
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "reid/node-jslint",
+      "commit": "1eefcc48116fe4fbc3b585ebd2922b3509f4f4de",
+      "truePositives": 2,
+      "falsePositives": 1,
+      "falseNegatives": 0,
+      "precision": 0.6667,
+      "recall": 1,
+      "unexpected": [
+        "nodejs.runtime:package.json:49"
+      ],
+      "missing": []
+    },
+    {
+      "repository": "xpgo/obsidian-folder-note-plugin",
+      "commit": "272bbdc9a674fd333e6a97b02611868797648585",
+      "truePositives": 1,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "komodojp/tinyld",
+      "commit": "c5f382f045c73e028eec5c5e24bb1e67d6c89def",
+      "truePositives": 4,
+      "falsePositives": 1,
+      "falseNegatives": 2,
+      "precision": 0.8,
+      "recall": 0.6667,
+      "unexpected": [
+        "nodejs.runtime:package.json:123"
+      ],
+      "missing": [
+        "nodejs.runtime:.github/workflows/main.yml:17",
+        "nodejs.runtime:.github/workflows/playground.yml:35"
+      ]
+    },
+    {
+      "repository": "ridafkih/schemix",
+      "commit": "a8ca9ab6e879dcb0164eba283299e99b862a8227",
+      "truePositives": 6,
+      "falsePositives": 0,
+      "falseNegatives": 3,
+      "precision": 1,
+      "recall": 0.6667,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/check-lint.yml:15",
+        "nodejs.runtime:.github/workflows/npm-publish.yml:16",
+        "nodejs.runtime:.github/workflows/unit-test.yml:15"
+      ]
+    },
+    {
+      "repository": "nirsky/figma-plugin-react-template",
+      "commit": "158144e8ed0bd6da014f34a0f160881268f8bbb3",
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "Barrior/JParticles",
+      "commit": "82d82f9fcaacf077bceafd6aa37bddb606b83280",
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "mobxjs/mobx-angular",
+      "commit": "30a4b44bd153486f1ac25e4fd022db21cc2cd96e",
+      "truePositives": 3,
+      "falsePositives": 0,
+      "falseNegatives": 1,
+      "precision": 1,
+      "recall": 0.75,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/main.yml:20"
+      ]
+    },
+    {
+      "repository": "mattieha/slider-button-card",
+      "commit": "877bc94e55b14c1dea0e1e419fb60255a4b1e9a3",
+      "truePositives": 3,
+      "falsePositives": 0,
+      "falseNegatives": 0,
+      "precision": 1,
+      "recall": 1,
+      "unexpected": [],
+      "missing": []
+    },
+    {
+      "repository": "DataV-Team/DataV-Vue3",
+      "commit": "f968ef287710665db45b2f01cf2cd6e090ffcc77",
+      "truePositives": 24,
+      "falsePositives": 0,
+      "falseNegatives": 8,
+      "precision": 1,
+      "recall": 0.75,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/ci.yml:112",
+        "nodejs.runtime:.github/workflows/ci.yml:142",
+        "nodejs.runtime:.github/workflows/ci.yml:19",
+        "nodejs.runtime:.github/workflows/ci.yml:49",
+        "nodejs.runtime:.github/workflows/ci.yml:82",
+        "nodejs.runtime:.github/workflows/deploy-docs.yml:20",
+        "nodejs.runtime:.github/workflows/release-test.yml:20",
+        "nodejs.runtime:.github/workflows/release.yml:21"
+      ]
+    },
+    {
+      "repository": "iamcco/coc-flutter",
+      "commit": "883c269eaacbeddbd4fb08e32e6a05051933429d",
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 1,
+      "precision": 1,
+      "recall": 0.6667,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/blank.yml:21"
+      ]
+    },
+    {
+      "repository": "antfu/vscode-vite",
+      "commit": "57f6c6b6978b635bd25ab511744a8b5219fcf2f1",
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 1,
+      "precision": 1,
+      "recall": 0.6667,
+      "unexpected": [],
+      "missing": [
+        "nodejs.runtime:.github/workflows/release.yml:17"
+      ]
+    }
+  ]
+}

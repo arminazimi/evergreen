@@ -111,3 +111,7 @@ The Kubernetes corpus grew from five repositories to seventeen: five targeted an
 ## Update 2026-10-23: recall floors and recorded selection (#740)
 
 Every corpus entry now records `selection`: the 84 entries that predate the field were chosen from reviewed migration commits or known findings and record `targeted`. The corpus test fails for an entry without it. A full corpus run enforces the recall floors of the table above (0.80 for `beta`, 0.90 for `stable`) next to the precision floor and refuses to record a run below either. Still open under #740: a held-out, blind-selected set with ground truth written before the scan, and the grandfathered detectors.
+
+## Update 2026-10-23 (issue #740)
+
+The corpus has 455 repositories, 155 of them added blind in this pass, and `github-actions`, `nodejs`, `npm`, and `python` each meet `stable` on the counted evidence, so no detector is grandfathered. A separate held-out set (`benchmarks/held-out-repositories.json`) has ground truth committed before the scan; its first result (recall 0.75, precision 0.96 on its scope) is in [VALIDATION.md](../VALIDATION.md#the-held-out-set). The full run is recorded twice a month by `.github/workflows/corpus-record.yml`.

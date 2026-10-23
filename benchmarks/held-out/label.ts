@@ -36,7 +36,7 @@ export function labelFile(path: string, text: string): HeldOutExpected[] {
     const uses = /^\s*-?\s*uses:\s*['"]?actions\/([a-z-]+)@([^\s'"]+)/.exec(line);
     if (uses && ACTIONS.includes(uses[1]!)) {
       const ref = uses[2]!;
-      const major = /^v?(\d+)(?:[.\d]*)$/.exec(ref)?.[1] ?? (/^[0-9a-f]{40}$/.test(ref) ? /#\s*v?(\d+)/.exec(line)?.[1] : undefined);
+      const major = /^[0-9a-f]{40}$/.test(ref) ? /#\s*v?(\d+)/.exec(line)?.[1] : /^v?(\d+)(?:[.\d]*)$/.exec(ref)?.[1];
       if (major !== undefined && Number(major) <= 4) found.push({ family: `github-actions.${uses[1]}`, path, line: index + 1 });
     }
     const node = /^\s*-?\s*node-version:\s*(.+)$/.exec(code);
