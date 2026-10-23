@@ -433,6 +433,161 @@
       }
     },
     {
+      "id": "php.package.laravel.framework-10.end-of-support",
+      "ecosystem": "php",
+      "purl": "pkg:composer/laravel/framework",
+      "vers": "vers:composer/>=10.0.0|<11.0.0",
+      "event": "end-of-support",
+      "title": "Laravel 10 is no longer supported",
+      "summary": "Laravel's support policy states that security fixes for Laravel 10 ended on 2025-02-04; the release no longer receives security or bug fixes from the Laravel project.",
+      "severity": "high",
+      "replacement": "Laravel 13",
+      "deadline": "2025-02-04",
+      "sources": [
+        {
+          "title": "Laravel support policy",
+          "url": "https://laravel.com/docs/releases#support-policy",
+          "accessedAt": "2026-10-23"
+        },
+        {
+          "title": "Laravel 11 upgrade guide",
+          "url": "https://laravel.com/docs/11.x/upgrade",
+          "accessedAt": "2026-10-23"
+        },
+        {
+          "title": "Laravel 12 upgrade guide",
+          "url": "https://laravel.com/docs/12.x/upgrade",
+          "accessedAt": "2026-10-23"
+        },
+        {
+          "title": "Laravel 13 upgrade guide",
+          "url": "https://laravel.com/docs/13.x/upgrade",
+          "accessedAt": "2026-10-23"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-23",
+        "reviewedAt": "2026-10-23",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve routes, middleware, authentication, authorization, queues, scheduled jobs, database migrations, and externally visible application behavior while changing the Laravel major.",
+          "Upgrade one major at a time and apply each official Laravel upgrade guide in order; do not skip a major when moving to Laravel 13.",
+          "Confirm the target Laravel release supports the project's PHP version and align first-party Laravel packages before regenerating composer.lock."
+        ],
+        "steps": [
+          {
+            "id": "raise-laravel-requirement",
+            "title": "Raise the Laravel requirement",
+            "instructions": "Change laravel/framework from 10.x one major at a time (11, 12, and 13) and update the related first-party package constraints named by each official upgrade guide.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-laravel-upgrade-guides",
+            "title": "Apply each Laravel upgrade guide",
+            "instructions": "Work through the official upgrade guides for 11, 12, and 13, in order. Review every high-, medium-, and low-impact change that applies to the application and update configuration and code before continuing.",
+            "targets": "all"
+          },
+          {
+            "id": "regenerate-composer-lock",
+            "title": "Regenerate the Composer lockfile",
+            "instructions": "Run Composer with dependency updates enabled for laravel/framework and its related packages, review the resolved versions, and keep composer.json and composer.lock together.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "composer validate",
+            "purpose": "Validate composer.json and composer.lock after updating the framework and related packages."
+          },
+          {
+            "command": "php artisan about",
+            "purpose": "Confirm the application boots and reports the intended Laravel and PHP versions."
+          },
+          {
+            "command": "php artisan test",
+            "purpose": "Run the Laravel application test suite on the upgraded framework."
+          }
+        ]
+      }
+    },
+    {
+      "id": "php.package.laravel.framework-11.end-of-support",
+      "ecosystem": "php",
+      "purl": "pkg:composer/laravel/framework",
+      "vers": "vers:composer/>=11.0.0|<12.0.0",
+      "event": "end-of-support",
+      "title": "Laravel 11 is no longer supported",
+      "summary": "Laravel's support policy states that security fixes for Laravel 11 ended on 2026-03-12; the release no longer receives security or bug fixes from the Laravel project.",
+      "severity": "high",
+      "replacement": "Laravel 13",
+      "deadline": "2026-03-12",
+      "sources": [
+        {
+          "title": "Laravel support policy",
+          "url": "https://laravel.com/docs/releases#support-policy",
+          "accessedAt": "2026-10-23"
+        },
+        {
+          "title": "Laravel 12 upgrade guide",
+          "url": "https://laravel.com/docs/12.x/upgrade",
+          "accessedAt": "2026-10-23"
+        },
+        {
+          "title": "Laravel 13 upgrade guide",
+          "url": "https://laravel.com/docs/13.x/upgrade",
+          "accessedAt": "2026-10-23"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-23",
+        "reviewedAt": "2026-10-23",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Preserve routes, middleware, authentication, authorization, queues, scheduled jobs, database migrations, and externally visible application behavior while changing the Laravel major.",
+          "Upgrade one major at a time and apply each official Laravel upgrade guide in order; do not skip a major when moving to Laravel 13.",
+          "Confirm the target Laravel release supports the project's PHP version and align first-party Laravel packages before regenerating composer.lock."
+        ],
+        "steps": [
+          {
+            "id": "raise-laravel-requirement",
+            "title": "Raise the Laravel requirement",
+            "instructions": "Change laravel/framework from 11.x one major at a time (12 and 13) and update the related first-party package constraints named by each official upgrade guide.",
+            "targets": "declaration"
+          },
+          {
+            "id": "apply-laravel-upgrade-guides",
+            "title": "Apply each Laravel upgrade guide",
+            "instructions": "Work through the official upgrade guides for 12 and 13, in order. Review every high-, medium-, and low-impact change that applies to the application and update configuration and code before continuing.",
+            "targets": "all"
+          },
+          {
+            "id": "regenerate-composer-lock",
+            "title": "Regenerate the Composer lockfile",
+            "instructions": "Run Composer with dependency updates enabled for laravel/framework and its related packages, review the resolved versions, and keep composer.json and composer.lock together.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "composer validate",
+            "purpose": "Validate composer.json and composer.lock after updating the framework and related packages."
+          },
+          {
+            "command": "php artisan about",
+            "purpose": "Confirm the application boots and reports the intended Laravel and PHP versions."
+          },
+          {
+            "command": "php artisan test",
+            "purpose": "Run the Laravel application test suite on the upgraded framework."
+          }
+        ]
+      }
+    },
+    {
       "id": "php.package.swiftmailer.swiftmailer.abandoned",
       "ecosystem": "php",
       "purl": "pkg:composer/swiftmailer/swiftmailer",

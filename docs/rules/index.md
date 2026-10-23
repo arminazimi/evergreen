@@ -360,6 +360,8 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 - [doctrine/cache is abandoned](php.package.doctrine.cache.abandoned.html) — deprecated, `php.package.doctrine.cache.abandoned`
 - [fzaninotto/faker is abandoned](php.package.fzaninotto.faker.abandoned.html) — deprecated, `php.package.fzaninotto.faker.abandoned`
+- [Laravel 10 is no longer supported](php.package.laravel.framework-10.end-of-support.html) — end of support, `php.package.laravel.framework-10.end-of-support`
+- [Laravel 11 is no longer supported](php.package.laravel.framework-11.end-of-support.html) — end of support, `php.package.laravel.framework-11.end-of-support`
 - [sensiolabs/security-checker is abandoned](php.package.sensiolabs.security-checker.abandoned.html) — deprecated, `php.package.sensiolabs.security-checker.abandoned`
 - [swiftmailer/swiftmailer is abandoned](php.package.swiftmailer.swiftmailer.abandoned.html) — deprecated, `php.package.swiftmailer.swiftmailer.abandoned`
 - [zendframework/zend-stdlib is abandoned](php.package.zendframework.zend-stdlib.abandoned.html) — deprecated, `php.package.zendframework.zend-stdlib.abandoned`
