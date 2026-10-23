@@ -168,9 +168,9 @@ Ground truth: for each repository the harness report was read line by line at th
 
 Scope boundaries seen while checking, none of which is a finding in this corpus: the GitHub Actions detector reads only the root `.github/workflows` directory, so nested workflows (`pkg/cli/init-templates/base/.github/workflows` in `replicate/cog`, a `fixtures` directory in `webpro-nl/knip`) and composite `action.yml` files (`realabbas/Github-Actions-React-Native`, `awslabs/aws-config-rdklib`, `sarthak-behl/Signal-iOS`) are not scanned; the CI image detector reads files named `azure-pipelines.yml`, not `azure-pipelines-full.yml` (`microsoft/FASTER`); and the Android detector does not report a Play Billing pin written as `"gplayImplementation"("...")` (`d4rken-org/octi`) or inside an `androidTestImplementation` call (`BranchMetrics/android-branch-deep-linking-attribution`). These are candidates for follow-up issues, not corpus entries.
 
-## The 399-repository corpus
+## The 455-repository corpus
 
-Issue #740 added 99 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
+Issue #740 added 155 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
 
 The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub repository search for a language, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language <language> --stars 100..500 --updated 2021-01-01..2024-12-31 --archived=false --include-forks=false --sort stars --order desc --limit 100`). Walk the results in order and keep a repository unless it is already in the corpus, is larger than 50,000 KB, or lacks the file the ecosystem needs. Pin each at its default-branch commit on that date. Each expected finding is the scan result with the line read at the pinned commit, recorded as a `maintainer-review` note.
 
@@ -178,9 +178,23 @@ The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: Git
 - `python` (34, language Python, a root `pyproject.toml`, `setup.py`, `setup.cfg`, `Pipfile`, or `requirements.txt`): `NTMC-Community/MatchZoo-py`, `layer8secure/SilentHound`, `LAION-AI/natural_voice_assistant`, `caserec/CaseRecommender`, `SqueezeAILab/TinyAgent`, `jarus/flask-testing`, `Deadpool2000/Paybag`, `alxschwrz/codex_py2cpp`, `harperreed/photo-similarity-search`, `FranxYao/Long-Context-Data-Engineering`, `DougDougGithub/Babagaboosh`, `aryanvikash/Youtube-Downloader-Bot`, `tappi287/openvr_fsr_app`, `microsoft/powerbi-jupyter`, `JPCERTCC/MalConfScan`, `msight-tech/research-ms-loss`, `HazyResearch/evaporate`, `achembarpu/pockyt`, `blacknbunny/CVE-2018-10933`, `peract/peract`, `sweetcocoa/pop2piano`, `shichao-an/leetcode-python`, `simonw/db-to-sqlite`, `alexdelorenzo/cast_control`, `prateekiiest/Code-Sleep-Python`, `SourceCode-AI/aura`, `szc19990412/TransMIL`, `PrithivirajDamodaran/Styleformer`, `elbayadm/attn2d`, `CryptoGnome/Limit-Sniper`, `kturung/langgraph_streamlit_codeassistant`, `busimus/cutelog`, `flopp/GpxTrackPoster`, `corenel/pytorch-adda`.
 - `node-actions` (13, language TypeScript, at least one workflow file in `.github/workflows`): `iamraphson/react-paystack`, `dai-shi/reactive-react-redux`, `mgmeyers/obsidian-list-callouts`, `rubenspgcavalcante/webpack-extension-reloader`, `innocenzi/tailwindcss-theming`, `lbdremy/solr-node-client`, `galnir/Master-Bot`, `ericnorris/striptags`, `xmindltd/xmind-sdk-js`, `rametta/pratica`, `wessberg/rollup-plugin-ts`, `Ff00ff/mammoth`, `bryanmylee/svelte-headless-table`.
 
+A second Python pass followed, because the 34 repositories above held only 4 Python findings and `stable` needs 60. The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: for each query below, run `gh search code <query> --filename <file> --limit 60`, walk the results in the order returned that day, and keep the first five or six unique repositories whose matching path is exactly that file at the root, skipping forks, archives, repositories larger than 50,000 KB, and repositories already in the corpus. Pin each at its default-branch commit on that date. The queries look for old Python declarations, so they are expected to produce findings, but the repository is chosen by the query result and not by any Evergreen output.
+
+- `python` (56 more):
+  - `gh search code requires-python = ">=3.8" --filename pyproject.toml`: `cobrateam/splinter`, `pallets-eco/flask-debugtoolbar`, `Aiven-Open/pghoard`, `epfl-lts2/pygsp`, `isaiahbjork/Auto-GPT-Crypto-Plugin`, `widgetti/ipyvuetify`.
+  - `gh search code python_requires=">=3.7" --filename setup.py`: `shenweichen/GraphEmbedding`, `Overv/outrun`, `BasicProtein/AugmentCode-Free`, `machow/siuba`, `LAMDA-NJU/Deep-Forest`, `drunkdream/weread-exporter`.
+  - `gh search code 3.8 --filename .python-version`: `bndr/pipreqs`, `login-securite/lsassy`, `Lawouach/WebSocket-for-Python`, `n8henrie/pycookiecheat`, `DarrenOfficial/dpaste`, `psevensas/DjangoChannelsGraphqlWs`.
+  - `gh search code python-3.8 --filename runtime.txt`: `AnimeKaizoku/EnterpriseALRobot`, `weareasterisk/gavel2`, `AbirHasan2005/TG-String-Session`, `IceKirby/NaTrave`, `urschrei/hexagrams`, `zolabar/trendPy`.
+  - `gh search code python_version = "3.7" --filename Pipfile`: `hustlei/QssStylesheetEditor`, `DanMcInerney/pymetasploit3`, `donsheehy/datastructures`, `CodeForPhilly/chime`, `mozilla/crlite`, `prideout/svg3d`.
+  - `gh search code requires-python = ">=3.7" --filename pyproject.toml`: `LAION-AI/CLAP`, `ncclient/ncclient`, `nschloe/tiptop`, `nschloe/perfplot`, `huggingface/hf_transfer`, `zu1k/Good-MITM`.
+  - `gh search code python_requires=">=3.6" --filename setup.py`: `alibaba/tidevice`, `rachpt/lanzou-gui`, `Hsury/BiliDrive`, `malinkang/weread2notion-pro`, `maxhumber/gazpacho`.
+  - `gh search code python = "^3.7" --filename pyproject.toml`: `bee-san/pyWhat`, `Gerapy/Gerapy`, `jayfk/statuspage`, `python-gino/gino`, `wustho/epr`.
+  - `gh search code requires-python = ">=3.6" --filename pyproject.toml`: `doableware/djongo`, `python273/vk_api`, `miguelgrinberg/Flask-Migrate`, `vinifmor/bauh`, `cvg/glue-factory`.
+  - `gh search code python 3.8 --filename .tool-versions`: `leosussan/fastapi-gino-arq-uvicorn`, `muxinc/mux-python`, `ozzs/monobox`, `crflynn/skranger`, `verypossible/very_plot`.
+
 The search returns different results on another day, so the pinned list above, not a re-run, is the record.
 
-Effect on the levels: `github-actions`, `nodejs`, and `npm` now meet `stable` on the corpus evidence, so they leave the grandfathered list. `python` earns `beta` and no more: its 34 blind repositories added only 4 Python findings (28 in total, and `stable` needs 60), so it is labelled Beta until more Python findings are verified. No detector is grandfathered any more.
+Effect on the levels: `github-actions`, `nodejs`, `npm`, and `python` now meet `stable` on the corpus evidence, so none of them is grandfathered any more.
 
 ## Precision thresholds
 
