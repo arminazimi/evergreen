@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-23",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 300
+    "repositories": 399
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -12,9 +12,9 @@
   },
   "run": {
     "date": "2026-10-23",
-    "commit": "1d3e43f",
-    "repositories": 300,
-    "findings": 1515,
+    "commit": "6823000",
+    "repositories": 399,
+    "findings": 1766,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -80,15 +80,15 @@
         "enforced": false
       },
       "run": {
-        "truePositives": 57,
+        "truePositives": 60,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 25,
-        "expectedFindings": 57,
+        "repositoriesWithFindings": 28,
+        "expectedFindings": 60,
         "zeroFindingRepositories": 3,
         "repositories": 12,
         "blindRepositories": 7
@@ -189,24 +189,24 @@
     {
       "id": "github-actions",
       "level": "stable",
-      "earnedLevel": "experimental",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
       },
       "run": {
-        "truePositives": 662,
+        "truePositives": 778,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 110,
-        "expectedFindings": 662,
+        "repositoriesWithFindings": 138,
+        "expectedFindings": 778,
         "zeroFindingRepositories": 5,
-        "repositories": 20,
-        "blindRepositories": 9
+        "repositories": 33,
+        "blindRepositories": 22
       }
     },
     {
@@ -281,47 +281,47 @@
     {
       "id": "nodejs",
       "level": "stable",
-      "earnedLevel": "experimental",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
       },
       "run": {
-        "truePositives": 64,
+        "truePositives": 147,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 20,
-        "expectedFindings": 64,
-        "zeroFindingRepositories": 8,
-        "repositories": 26,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 42,
+        "expectedFindings": 147,
+        "zeroFindingRepositories": 22,
+        "repositories": 78,
+        "blindRepositories": 52
       }
     },
     {
       "id": "npm",
       "level": "stable",
-      "earnedLevel": "experimental",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
       },
       "run": {
-        "truePositives": 54,
+        "truePositives": 99,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 15,
-        "expectedFindings": 54,
-        "zeroFindingRepositories": 8,
-        "repositories": 26,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 44,
+        "expectedFindings": 99,
+        "zeroFindingRepositories": 22,
+        "repositories": 78,
+        "blindRepositories": 52
       }
     },
     {
@@ -349,25 +349,25 @@
     },
     {
       "id": "python",
-      "level": "stable",
-      "earnedLevel": "experimental",
+      "level": "beta",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
       },
       "run": {
-        "truePositives": 24,
+        "truePositives": 28,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 21,
-        "expectedFindings": 24,
-        "zeroFindingRepositories": 2,
-        "repositories": 17,
-        "blindRepositories": 0
+        "repositoriesWithFindings": 25,
+        "expectedFindings": 28,
+        "zeroFindingRepositories": 27,
+        "repositories": 51,
+        "blindRepositories": 34
       }
     },
     {

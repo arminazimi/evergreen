@@ -623,7 +623,7 @@ Matrix version: **2026-10-15 / v1**
 | GitHub Actions | Supported | Selected first-party Action lifecycle rules and exact workflow locations. |
 | Node.js and npm | Supported | Runtime declarations, direct dependencies, lockfiles, and supported source usages. |
 | PHP | Experimental | Pinned runtime declarations in `.php-version`, `.tool-versions`, `composer.json`, and `composer.lock`, for PHP release lines past end of support and abandoned Composer packages. See [PHP](#php-detector). |
-| Python | Supported | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
+| Python | Beta | Runtime declarations, direct dependencies, common lockfiles, and supported source usages. |
 | Ruby | Experimental | Pinned runtime declarations in `.ruby-version`, `.tool-versions`, the Gemfile `ruby` directive, and Gemfile.lock `RUBY VERSION`, plus direct gems, for Ruby release lines past end of support and yanked gems. Gem rules can list source usages in Ruby files. |
 | Rust | Experimental | The pinned toolchain in `rust-toolchain(.toml)` and direct dependencies in `Cargo.toml` and `Cargo.lock`, for toolchains older than the newest stable release and unmaintained crates. See [Rust](detectors/rust.md). |
 | Swift | Beta | `.swift-version` and `.xcode-version` pins, the `swift-tools-version` line and literal `from:` / `exact:` dependencies in `Package.swift`, and resolved pin versions in `Package.resolved`, for Xcode releases App Store Connect no longer accepts and Swift toolchain lines with a lifecycle rule. The iOS deployment target (`IPHONEOS_DEPLOYMENT_TARGET`) of an application target in an `.xcodeproj` `project.pbxproj`, for iOS releases App Store Connect no longer accepts. Libraries and `platforms:` minimums in `Package.swift` are not read for it. See [Swift](detectors/swift.md). |
@@ -1629,6 +1629,20 @@ Ground truth: for each repository the harness report was read line by line at th
 
 Scope boundaries seen while checking, none of which is a finding in this corpus: the GitHub Actions detector reads only the root `.github/workflows` directory, so nested workflows (`pkg/cli/init-templates/base/.github/workflows` in `replicate/cog`, a `fixtures` directory in `webpro-nl/knip`) and composite `action.yml` files (`realabbas/Github-Actions-React-Native`, `awslabs/aws-config-rdklib`, `sarthak-behl/Signal-iOS`) are not scanned; the CI image detector reads files named `azure-pipelines.yml`, not `azure-pipelines-full.yml` (`microsoft/FASTER`); and the Android detector does not report a Play Billing pin written as `"gplayImplementation"("...")` (`d4rken-org/octi`) or inside an `androidTestImplementation` call (`BranchMetrics/android-branch-deep-linking-attribution`). These are candidates for follow-up issues, not corpus entries.
 
+## The 399-repository corpus
+
+Issue #740 added 99 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
+
+The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub repository search for a language, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language <language> --stars 100..500 --updated 2021-01-01..2024-12-31 --archived=false --include-forks=false --sort stars --order desc --limit 100`). Walk the results in order and keep a repository unless it is already in the corpus, is larger than 50,000 KB, or lacks the file the ecosystem needs. Pin each at its default-branch commit on that date. Each expected finding is the scan result with the line read at the pinned commit, recorded as a `maintainer-review` note.
+
+- `node` (52, language JavaScript, a root `package.json`): `lucasbento/graphql-pokemon`, `adobe-photoshop/generator-assets`, `gruntjs/grunt-contrib-requirejs`, `mathiasbynens/CSS.escape`, `bitpay/bitauth`, `cloudinary/cloudinary-react`, `discordjs/RPC`, `pilwon/node-yahoo-finance`, `rpl/flow-coverage-report`, `sourcecred/sourcecred`, `Brainfock/Brainfock`, `manifoldfinance/defi-threat`, `remarkjs/remark-toc`, `fstirlitz/luaparse`, `mobxjs/mobx-react-todomvc`, `dxxzst/OfflineMap`, `ElementUI/element-theme`, `algorithm-visualizer/algorithms`, `d3/d3-interpolate`, `twilio-labs/call-gpt`, `jiayisheji/blog`, `svrxjs/svrx`, `wix-incubator/react-native-keyboard-aware-scrollview`, `malte-wessel/react-textfit`, `bartve/disconnect`, `insodoc/insomnia-documenter`, `whoisandy/react-blocks`, `o2team/elf`, `standard/ts-standard`, `briancavalier/slides`, `YataoZhang/my-single-spa`, `parmsang/gatsby-starter-ecommerce`, `acode/copenhagen`, `snorpey/triangulation`, `bchiang7/octoprofile`, `mahnunchik/gulp-responsive`, `cferdinandi/build-tool-boilerplate`, `mixtur/webpack-spritesmith`, `wzpan/hexo-generator-search`, `dai-shi/react-hooks-async`, `lazd/gulp-replace`, `mapmeld/profanity-pgp`, `lbovet/docson`, `lexich/redux-api`, `smartcontractkit/defi-minimal`, `allegro/node-worker-nodes`, `drawcall/AgileJS`, `tani/cheeriogs`, `Semantic-Org/Semantic-UI-CSS`, `uncleLian/vue2-news`, `abramenal/cypress-file-upload`, `CoreyGinnivan/whocanuse`.
+- `python` (34, language Python, a root `pyproject.toml`, `setup.py`, `setup.cfg`, `Pipfile`, or `requirements.txt`): `NTMC-Community/MatchZoo-py`, `layer8secure/SilentHound`, `LAION-AI/natural_voice_assistant`, `caserec/CaseRecommender`, `SqueezeAILab/TinyAgent`, `jarus/flask-testing`, `Deadpool2000/Paybag`, `alxschwrz/codex_py2cpp`, `harperreed/photo-similarity-search`, `FranxYao/Long-Context-Data-Engineering`, `DougDougGithub/Babagaboosh`, `aryanvikash/Youtube-Downloader-Bot`, `tappi287/openvr_fsr_app`, `microsoft/powerbi-jupyter`, `JPCERTCC/MalConfScan`, `msight-tech/research-ms-loss`, `HazyResearch/evaporate`, `achembarpu/pockyt`, `blacknbunny/CVE-2018-10933`, `peract/peract`, `sweetcocoa/pop2piano`, `shichao-an/leetcode-python`, `simonw/db-to-sqlite`, `alexdelorenzo/cast_control`, `prateekiiest/Code-Sleep-Python`, `SourceCode-AI/aura`, `szc19990412/TransMIL`, `PrithivirajDamodaran/Styleformer`, `elbayadm/attn2d`, `CryptoGnome/Limit-Sniper`, `kturung/langgraph_streamlit_codeassistant`, `busimus/cutelog`, `flopp/GpxTrackPoster`, `corenel/pytorch-adda`.
+- `node-actions` (13, language TypeScript, at least one workflow file in `.github/workflows`): `iamraphson/react-paystack`, `dai-shi/reactive-react-redux`, `mgmeyers/obsidian-list-callouts`, `rubenspgcavalcante/webpack-extension-reloader`, `innocenzi/tailwindcss-theming`, `lbdremy/solr-node-client`, `galnir/Master-Bot`, `ericnorris/striptags`, `xmindltd/xmind-sdk-js`, `rametta/pratica`, `wessberg/rollup-plugin-ts`, `Ff00ff/mammoth`, `bryanmylee/svelte-headless-table`.
+
+The search returns different results on another day, so the pinned list above, not a re-run, is the record.
+
+Effect on the levels: `github-actions`, `nodejs`, and `npm` now meet `stable` on the corpus evidence, so they leave the grandfathered list. `python` earns `beta` and no more: its 34 blind repositories added only 4 Python findings (28 in total, and `stable` needs 60), so it is labelled Beta until more Python findings are verified. No detector is grandfathered any more.
+
 ## Precision thresholds
 
 [`benchmarks/thresholds.json`](../benchmarks/thresholds.json) sets a precision floor per detector (`github-actions`, `nodejs`, `npm`, `python`, `dotnet`, `java`, `kubernetes`, `serverless`, and `swift` enforce it; a detector is named by the first segment of its rule ids). The harness scores each detector, prints the figures under `detectors` in its JSON, and reports `thresholdViolations`. A stable detector below its `minPrecision` (0.95 today) fails the run with a line such as:
@@ -1882,25 +1896,25 @@ Every difference has one of three causes, none of them a wrong finding:
 Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
 
 <!-- accuracy-tables:start -->
-Measured on 300 pinned repositories at commit `1d3e43f` on 2026-10-23. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on 399 pinned repositories at commit `6823000` on 2026-10-23. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
 | android | Experimental | 9 | 0 | 0 | 1.000 | 1.000 |
 | ci-images | Experimental | 13 | 0 | 0 | 1.000 | 1.000 |
-| container | Experimental | 57 | 0 | 0 | 1.000 | 1.000 |
+| container | Experimental | 60 | 0 | 0 | 1.000 | 1.000 |
 | cpp | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 16 | 0 | 0 | 1.000 | 1.000 |
 | dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
-| github-actions | Supported | 662 | 0 | 0 | 1.000 | 1.000 |
+| github-actions | Supported | 778 | 0 | 0 | 1.000 | 1.000 |
 | go | Experimental | 51 | 0 | 0 | 1.000 | 1.000 |
 | java | Beta | 60 | 0 | 0 | 1.000 | 1.000 |
 | kubernetes | Beta | 67 | 0 | 0 | 1.000 | 1.000 |
-| nodejs | Supported | 64 | 0 | 0 | 1.000 | 1.000 |
-| npm | Supported | 54 | 0 | 0 | 1.000 | 1.000 |
+| nodejs | Supported | 147 | 0 | 0 | 1.000 | 1.000 |
+| npm | Supported | 99 | 0 | 0 | 1.000 | 1.000 |
 | php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
-| python | Supported | 24 | 0 | 0 | 1.000 | 1.000 |
+| python | Beta | 28 | 0 | 0 | 1.000 | 1.000 |
 | ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
 | rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
 | serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |

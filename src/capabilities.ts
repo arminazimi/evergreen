@@ -99,7 +99,7 @@ const manifest = {
     { id: "nodejs", status: "supported", maturity: "stable", detectorIds: ["npm"] },
     { id: "npm", status: "supported", maturity: "stable", detectorIds: ["npm"] },
     { id: "php", status: "experimental", maturity: "experimental", detectorIds: ["php"] },
-    { id: "python", status: "supported", maturity: "stable", detectorIds: ["python"] },
+    { id: "python", status: "supported", maturity: "beta", detectorIds: ["python"] },
     { id: "ruby", status: "experimental", maturity: "experimental", detectorIds: ["ruby"] },
     { id: "rust", status: "experimental", maturity: "experimental", detectorIds: ["rust"] },
     { id: "serverless", status: "supported", maturity: "beta", detectorIds: ["serverless"] },
