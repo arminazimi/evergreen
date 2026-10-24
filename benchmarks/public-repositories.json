@@ -23115,6 +23115,13 @@
           }
         }
       ]
+    },
+    {
+      "repository": "asciimoo/hister",
+      "commit": "5f04dd9352cdeefdc9602f0dba14045aad710a11",
+      "ecosystem": "node-actions",
+      "selection": "blind",
+      "expected": []
     }
   ]
 }

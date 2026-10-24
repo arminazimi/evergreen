@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.dashboard-data.v1",
-  "referenceDay": "2026-10-23",
+  "referenceDay": "2026-10-24",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
     "repositories": 455
@@ -11,10 +11,10 @@
     "decision": "docs/decisions/0013-detector-maturity.md"
   },
   "run": {
-    "date": "2026-10-23",
-    "commit": "a2d1d07",
+    "date": "2026-10-24",
+    "commit": "a6464f7",
     "repositories": 455,
-    "findings": 2044,
+    "findings": 2201,
     "runAgeDays": 0,
     "recordedPrecision": 1,
     "recordedRecall": 1,
@@ -89,7 +89,7 @@
       "evidence": {
         "repositoriesWithFindings": 38,
         "expectedFindings": 74,
-        "zeroFindingRepositories": 3,
+        "zeroFindingRepositories": 2,
         "repositories": 12,
         "blindRepositories": 7
       }
@@ -189,7 +189,7 @@
     {
       "id": "github-actions",
       "level": "stable",
-      "earnedLevel": "stable",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -204,7 +204,7 @@
       "evidence": {
         "repositoriesWithFindings": 172,
         "expectedFindings": 986,
-        "zeroFindingRepositories": 5,
+        "zeroFindingRepositories": 3,
         "repositories": 33,
         "blindRepositories": 22
       }
@@ -287,16 +287,16 @@
         "enforced": true
       },
       "run": {
-        "truePositives": 148,
+        "truePositives": 305,
         "falsePositives": 0,
         "falseNegatives": 0,
         "precision": 1,
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 43,
-        "expectedFindings": 148,
-        "zeroFindingRepositories": 22,
+        "repositoriesWithFindings": 66,
+        "expectedFindings": 278,
+        "zeroFindingRepositories": 20,
         "repositories": 78,
         "blindRepositories": 52
       }
@@ -319,7 +319,7 @@
       "evidence": {
         "repositoriesWithFindings": 45,
         "expectedFindings": 100,
-        "zeroFindingRepositories": 22,
+        "zeroFindingRepositories": 20,
         "repositories": 78,
         "blindRepositories": 52
       }

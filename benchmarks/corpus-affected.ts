@@ -42,6 +42,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   "github-actions-dotnet": ["node-actions", "dotnet"],
+  "github-actions-node": ["node-actions", "node"],
   go: ["go"],
   java: ["java"],
   kubernetes: ["kubernetes"],

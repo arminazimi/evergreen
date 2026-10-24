@@ -168,9 +168,9 @@ Ground truth: for each repository the harness report was read line by line at th
 
 Scope boundaries seen while checking, none of which is a finding in this corpus: the GitHub Actions detector reads only the root `.github/workflows` directory, so nested workflows (`pkg/cli/init-templates/base/.github/workflows` in `replicate/cog`, a `fixtures` directory in `webpro-nl/knip`) and composite `action.yml` files (`realabbas/Github-Actions-React-Native`, `awslabs/aws-config-rdklib`, `sarthak-behl/Signal-iOS`) are not scanned; the CI image detector reads files named `azure-pipelines.yml`, not `azure-pipelines-full.yml` (`microsoft/FASTER`); and the Android detector does not report a Play Billing pin written as `"gplayImplementation"("...")` (`d4rken-org/octi`) or inside an `androidTestImplementation` call (`BranchMetrics/android-branch-deep-linking-attribution`). These are candidates for follow-up issues, not corpus entries.
 
-## The 455-repository corpus
+## The 456-repository corpus
 
-Issue #740 added 155 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
+Issue #740 added 156 repositories to the 300 above to close the evidence gaps in [decision 0013](decisions/0013-detector-maturity.md) for the four detectors that held `Supported` before the rules existed. Every one records `selection: "blind"`.
 
 The blind rule, fixed on 2026-10-23 before Evergreen ran on these additions: GitHub repository search for a language, 100 to 500 stars, last pushed from 2021-01-01 to 2024-12-31, not a fork, not archived, sorted by stars descending (`gh search repos --language <language> --stars 100..500 --updated 2021-01-01..2024-12-31 --archived=false --include-forks=false --sort stars --order desc --limit 100`). Walk the results in order and keep a repository unless it is already in the corpus, is larger than 50,000 KB, or lacks the file the ecosystem needs. Pin each at its default-branch commit on that date. Each expected finding is the scan result with the line read at the pinned commit, recorded as a `maintainer-review` note.
 
@@ -191,6 +191,8 @@ A second Python pass followed, because the 34 repositories above held only 4 Pyt
   - `gh search code python = "^3.7" --filename pyproject.toml`: `bee-san/pyWhat`, `Gerapy/Gerapy`, `jayfk/statuspage`, `python-gino/gino`, `wustho/epr`.
   - `gh search code requires-python = ">=3.6" --filename pyproject.toml`: `doableware/djongo`, `python273/vk_api`, `miguelgrinberg/Flask-Migrate`, `vinifmor/bauh`, `cvg/glue-factory`.
   - `gh search code python 3.8 --filename .tool-versions`: `leosussan/fastapi-gino-arq-uvicorn`, `muxinc/mux-python`, `ozzs/monobox`, `crflynn/skranger`, `verypossible/very_plot`.
+
+One more \`node-actions\` repository followed #1101: the new \`node-version\` rule gave findings to two repositories that had none, leaving three zero-finding GitHub Actions repositories where \`stable\` needs four. The rule, fixed before scanning: \`gh search code actions/checkout@v6 --extension yml --limit 60\`, walk the results in order, keep unique repositories that are not forks, archives, larger than 50,000 KB, or already pinned, and stop as soon as the zero-finding count reaches four. The first one walked, \`asciimoo/hister\`, had no findings, so it is the only addition.
 
 The search returns different results on another day, so the pinned list above, not a re-run, is the record.
 
@@ -462,7 +464,7 @@ Every difference has one of three causes, none of them a wrong finding:
 Precision is true positives over true positives plus false positives; recall is true positives over true positives plus false negatives. Both come from the last full corpus run recorded in [`benchmarks/thresholds.json`](../benchmarks/thresholds.json), so a reader can regenerate every number: run `npm run record:corpus-run`, then `npm run build:coverage`. The table below is generated; a test fails when it drifts from the recorded run. `nodejs` is the Node.js runtime rules served by the npm detector. A dash means the last full run did not score that detector.
 
 <!-- accuracy-tables:start -->
-Measured on 455 pinned repositories at commit `a2d1d07` on 2026-10-23. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on 455 pinned repositories at commit `a6464f7` on 2026-10-24. Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Detector | Maturity | True positives | False positives | False negatives | Precision | Recall |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -477,7 +479,7 @@ Measured on 455 pinned repositories at commit `a2d1d07` on 2026-10-23. Regenerat
 | go | Experimental | 54 | 0 | 0 | 1.000 | 1.000 |
 | java | Beta | 61 | 0 | 0 | 1.000 | 1.000 |
 | kubernetes | Beta | 71 | 0 | 0 | 1.000 | 1.000 |
-| nodejs | Supported | 148 | 0 | 0 | 1.000 | 1.000 |
+| nodejs | Supported | 305 | 0 | 0 | 1.000 | 1.000 |
 | npm | Supported | 100 | 0 | 0 | 1.000 | 1.000 |
 | php | Experimental | 5 | 0 | 0 | 1.000 | 1.000 |
 | python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
