@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-24",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 455
+    "repositories": 456
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -12,8 +12,8 @@
   },
   "run": {
     "date": "2026-10-24",
-    "commit": "a6464f7",
-    "repositories": 455,
+    "commit": "c7b4e14",
+    "repositories": 456,
     "findings": 2201,
     "runAgeDays": 0,
     "recordedPrecision": 1,
@@ -189,7 +189,7 @@
     {
       "id": "github-actions",
       "level": "stable",
-      "earnedLevel": "beta",
+      "earnedLevel": "stable",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -204,9 +204,9 @@
       "evidence": {
         "repositoriesWithFindings": 172,
         "expectedFindings": 986,
-        "zeroFindingRepositories": 3,
-        "repositories": 33,
-        "blindRepositories": 22
+        "zeroFindingRepositories": 4,
+        "repositories": 34,
+        "blindRepositories": 23
       }
     },
     {

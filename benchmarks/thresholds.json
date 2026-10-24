@@ -113,8 +113,8 @@
   },
   "lastFullRun": {
     "date": "2026-10-24",
-    "commit": "a6464f7",
-    "repositories": 455,
+    "commit": "c7b4e14",
+    "repositories": 456,
     "findings": 2201,
     "precision": 1,
     "recall": 1,

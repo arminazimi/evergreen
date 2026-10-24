@@ -46,8 +46,8 @@
       "repositories": 12
     },
     "nodejs": {
-      "findings": 148,
-      "repositories": 43
+      "findings": 278,
+      "repositories": 66
     },
     "npm": {
       "findings": 100,
