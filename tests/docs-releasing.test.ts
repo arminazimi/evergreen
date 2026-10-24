@@ -52,6 +52,15 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   await access(resolve(".github/workflows/publish.yml"));
 });
 
+test("the release steps include publishing to the MCP Registry, after npm", async () => {
+  const docs = await read("docs/RELEASING.md");
+  const npmStep = docs.indexOf("**Publish to npm.**");
+  const registryStep = docs.indexOf("**Publish to the MCP Registry.**");
+  assert.ok(npmStep !== -1 && registryStep > npmStep, "registry step comes after the npm step");
+  assert.match(docs, /mcp-publisher login github/);
+  assert.match(docs, /mcp-publisher publish/);
+});
+
 test("every place that carries the release version agrees with package.json", async () => {
   const version = (JSON.parse(await read("package.json")) as { version: string }).version;
   const { VERSION } = await import("../src/version.js");
