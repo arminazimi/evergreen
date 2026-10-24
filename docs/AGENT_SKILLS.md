@@ -1,6 +1,6 @@
 # Evergreen Agent Skill
 
-Evergreen ships one portable skill at `skills/evergreen-deprecation/SKILL.md`. It follows the open Agent Skills directory format: standard YAML frontmatter plus Markdown instructions. There is no vendor-specific manifest, invocation policy, tool allowlist, script, or generated prompt.
+Evergreen ships its general portable skill at `skills/evergreen-deprecation/SKILL.md`, plus focused ecosystem Skills. It follows the open Agent Skills directory format: standard YAML frontmatter plus Markdown instructions. There is no vendor-specific manifest, invocation policy, tool allowlist, script, or generated prompt.
 
 ## Design
 
@@ -16,13 +16,13 @@ The skills CLI discovers the Skill directly from the Evergreen monorepo. No dedi
 npx skills add arminazimi/evergreen
 ```
 
-The repository currently exposes one Skill. For a non-interactive or explicitly selected install, use:
+The repository exposes five Skills: the general `evergreen-deprecation` and one focused Skill per ecosystem (see [Ecosystem Skills](#ecosystem-skills)). For a non-interactive or explicitly selected install, use:
 
 ```sh
 npx skills add arminazimi/evergreen --skill evergreen-deprecation --yes
 ```
 
-Update it with:
+Install a focused Skill the same way, for example `--skill evergreen-python`. Update one with:
 
 ```sh
 npx skills update evergreen-deprecation
@@ -36,6 +36,19 @@ The host also needs one Evergreen execution path:
 - the `evergreen` CLI available on `PATH`.
 
 No account or API key is required.
+
+## Ecosystem Skills
+
+A narrow Skill triggers more reliably and is easier to find than one general Skill. Each ecosystem Skill is a thin entry point to the same workflow: it tells the agent which findings to keep (by rule prefix), then calls the existing `evergreen` CLI or MCP tools. It adds no detector logic, scripts, or permissions.
+
+| Skill | Covers | Finding filter |
+| --- | --- | --- |
+| `evergreen-nodejs` | Node.js runtimes and npm packages | `nodejs.`, `npm.` |
+| `evergreen-python` | Python versions and PyPI packages | `python.` |
+| `evergreen-github-actions` | Deprecated Actions and workflow runtimes | `github-actions.` |
+| `evergreen-containers` | End-of-life base images (experimental detector) | `container.` |
+
+They are canonical in `skills/` and are copied into both plugins by `npm run build:plugins`, so a plugin install carries all five. `tests/skill.test.ts` checks each one against the portable contract and `tests/plugin-packaging.test.ts` checks the generated copies.
 
 ## Use the guardrail in this repository
 

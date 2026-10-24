@@ -35,6 +35,15 @@ test("generated plugin packages match canonical shared assets", async () => {
   );
 });
 
+test("every canonical Skill is packaged into both plugins", async () => {
+  const expected = await expectedPluginFiles();
+  for (const name of ["evergreen-deprecation", "evergreen-nodejs", "evergreen-python", "evergreen-github-actions", "evergreen-containers"]) {
+    const canonical = await readFile(resolve("skills", name, "SKILL.md"), "utf8");
+    assert.equal(expected.get(`plugins/codex/skills/${name}/SKILL.md`), canonical, name);
+    assert.equal(expected.get(`plugins/claude/skills/${name}/SKILL.md`), canonical, name);
+  }
+});
+
 test("host manifests stay thin and share one pinned runtime", async () => {
   const expected = await expectedPluginFiles();
   const portableCodex = JSON.parse(

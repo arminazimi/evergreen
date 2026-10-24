@@ -166,3 +166,31 @@ test("the dependency classifier also holds on prompts that are not in the corpus
     "Add retries to the upload function.",
   ]) assert.equal(classifyDependencyAddition(prompt), false, prompt);
 });
+
+test("each ecosystem Skill is portable, thin, and calls the existing CLI for its own rules", async () => {
+  const skills = [
+    { name: "evergreen-nodejs", prefixes: ["nodejs.", "npm."], check: "pkg:npm/" },
+    { name: "evergreen-python", prefixes: ["python."], check: "pkg:pypi/" },
+    { name: "evergreen-github-actions", prefixes: ["github-actions."], check: "pkg:github/" },
+    { name: "evergreen-containers", prefixes: ["container."], check: undefined },
+  ];
+
+  for (const skill of skills) {
+    const contents = await readFile(resolve("skills", skill.name, "SKILL.md"), "utf8");
+    const { frontmatter, body } = parseSkill(contents);
+
+    assert.equal(frontmatter.name, skill.name);
+    assert.ok(String(frontmatter.description).length <= 1024, skill.name);
+    assert.doesNotMatch(String(frontmatter.description), /[<>]/);
+    assert.match(String(frontmatter.description), /Do not use for/);
+    assert.deepEqual(Object.keys(frontmatter).sort(), ["description", "license", "metadata", "name"]);
+    assert.ok(body.split("\n").length < 100, `${skill.name} should stay thin`);
+    assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
+    for (const prefix of skill.prefixes) assert.ok(body.includes(`\`${prefix}`), `${skill.name} filters ${prefix}`);
+    for (const command of ["evergreen scan", "evergreen explain", "evergreen context"]) {
+      assert.ok(body.includes(command), `${skill.name} uses ${command}`);
+    }
+    if (skill.check) assert.ok(body.includes(skill.check), `${skill.name} checks before adding`);
+    assert.match(body, /unknown ID after a rescan is not proof of success/);
+  }
+});

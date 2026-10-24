@@ -86,16 +86,24 @@ async function listFiles(directory: string): Promise<string[]> {
   return files.flat().sort();
 }
 
+/** Every Skill under `skills/` as [directory name, SKILL.md contents], sorted by name. */
+async function readSkills(root: string): Promise<Array<readonly [string, string]>> {
+  const entries = await readdir(resolve(root, "skills"), { withFileTypes: true });
+  const names = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
+  return Promise.all(
+    names.map(
+      async (name) => [name, await readFile(resolve(root, "skills", name, "SKILL.md"), "utf8")] as const,
+    ),
+  );
+}
+
 export async function expectedPluginFiles(
   root = process.cwd(),
 ): Promise<Map<string, string>> {
   const packageMetadata = JSON.parse(
     await readFile(resolve(root, "package.json"), "utf8"),
   ) as PackageMetadata;
-  const skill = await readFile(
-    resolve(root, "skills/evergreen-deprecation/SKILL.md"),
-    "utf8",
-  );
+  const skills = await readSkills(root);
   const identity = {
     name: "evergreen",
     version: packageMetadata.version,
@@ -332,7 +340,7 @@ export async function expectedPluginFiles(
     ["plugins/codex/assets/evergreen-mark-dark.svg", darkMark],
     ["plugins/codex/assets/review-walkthrough.svg", reviewWalkthrough],
     ["plugins/codex/review/submission.json", codexReview],
-    ["plugins/codex/skills/evergreen-deprecation/SKILL.md", skill],
+    ...skills.map(([name, contents]) => [`plugins/codex/skills/${name}/SKILL.md`, contents] as const),
     ["plugins/codex/hooks/hooks.json", codexHooks],
     ["plugins/codex/hooks/dependency-guard.mjs", guard],
     ...demoFiles,
@@ -340,7 +348,7 @@ export async function expectedPluginFiles(
     ["plugins/claude/.mcp.json", mcp],
     ["plugins/claude/LICENSE", license],
     ["plugins/claude/README.md", claudeReadme],
-    ["plugins/claude/skills/evergreen-deprecation/SKILL.md", skill],
+    ...skills.map(([name, contents]) => [`plugins/claude/skills/${name}/SKILL.md`, contents] as const),
     ["plugins/claude/hooks/hooks.json", claudeHooks],
     ["plugins/claude/hooks/dependency-guard.mjs", guard],
   ]);
