@@ -16,6 +16,7 @@ import { configureActiveData, DataPinError, getActiveData } from "./data-source.
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { initAgents } from "./init-agents.js";
+import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
@@ -37,6 +38,7 @@ Usage:
   evergreen scan [path] --write-status
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
+  evergreen usage [--file <path>] [--json]
   evergreen mcp
   evergreen data status [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
@@ -173,6 +175,23 @@ async function setup(args: string[]): Promise<number> {
   }
 }
 
+/** `usage`: summarizes the local check log, which exists only when `EVERGREEN_USAGE_LOG` turned it on. */
+async function usage(args: string[]): Promise<number> {
+  const usageText = "Usage: evergreen usage [--file <path>] [--json]";
+  const fileIndex = args.indexOf("--file");
+  const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
+  const rest = fileIndex === -1 ? args : args.filter((argument, index) => index !== fileIndex && index !== fileIndex + 1);
+  if ((fileIndex !== -1 && (!fileValue || fileValue.startsWith("-"))) || rest.some((argument) => argument !== "--json")) return fail("usage", usageText);
+  const file = fileValue ?? usageLogPath();
+  if (!file) {
+    process.stdout.write("Usage logging is off. Set EVERGREEN_USAGE_LOG=1 (or a file path) to record dependency checks locally, then run `evergreen usage`. Nothing leaves this machine.\n");
+    return 0;
+  }
+  const summary = await summarizeUsage(file);
+  process.stdout.write(`${args.includes("--json") ? JSON.stringify(summary, null, 2) : renderUsageText(summary)}\n`);
+  return 0;
+}
+
 /** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
 async function newDetector(args: string[]): Promise<number> {
   const ecosystemIndex = args.indexOf("--ecosystem");
@@ -214,7 +233,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -226,6 +245,7 @@ async function main(args: string[]): Promise<number> {
   if (command === "new-detector") return newDetector(args.slice(1));
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
+  if (command === "usage") return usage(args.slice(1));
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {

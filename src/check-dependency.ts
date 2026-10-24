@@ -2,6 +2,7 @@ import type { DataInfo, EvidenceSource, MigrationGuidance, Severity } from "./do
 import { severityValues } from "./domain.js";
 import { getActiveData, loadDataFile } from "./data-source.js";
 import { dataInfoFrom } from "./data-status.js";
+import { recordCheck } from "./usage-log.js";
 import { parsePurl, PurlError, purlIdentity } from "./purl.js";
 import { validateRegistryV2 } from "./registry.js";
 import type { LifecycleEvent, RegistryV2Rule } from "./registry.js";
@@ -188,5 +189,7 @@ export async function bundledRules(): Promise<RegistryV2Rule[]> {
 export async function checkDependency(input: CheckDependencyInput | string): Promise<DependencyCheck> {
   const rules = await bundledRules();
   const check = checkAgainst(rules, typeof input === "string" ? { purl: input } : input);
-  return { ...check, data: dataInfoFrom(await getActiveData()) };
+  const result = { ...check, data: dataInfoFrom(await getActiveData()) };
+  await recordCheck(result);
+  return result;
 }
