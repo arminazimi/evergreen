@@ -25,6 +25,7 @@ import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
+import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { VERSION } from "./version.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
@@ -32,6 +33,7 @@ const HELP = `Evergreen — local-first deprecation intelligence
 Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
+  evergreen scan [path] --write-status
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen mcp
@@ -200,6 +202,9 @@ async function main(args: string[]): Promise<number> {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   const json = args.includes("--json") || format === "json";
+  if (args.includes("--write-status") && command !== "scan") {
+    return fail("usage", "--write-status is only available for the scan command.");
+  }
   if (command === "capabilities") {
     const manifest = getCapabilityManifest();
     process.stdout.write(`${json ? JSON.stringify(manifest, null, 2) : renderCapabilitiesText(manifest)}\n`);
@@ -336,6 +341,11 @@ async function main(args: string[]): Promise<number> {
   } else {
     const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : json ? renderJson(result) : renderText(result);
     process.stdout.write(`${output}\n`);
+    if (args.includes("--write-status")) {
+      const statusRoot = resolve(pathArgument);
+      await writeStatusFile(statusRoot, result);
+      process.stderr.write(`Wrote ${STATUS_FILE_NAME} in ${statusRoot}.\n`);
+    }
   }
   if (baselineExpiredFailure) {
     return fail("policy", "Failing because a baseline suppression has expired (--on-expired fail).");
