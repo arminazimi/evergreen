@@ -16,6 +16,7 @@ test("drafts the Node.js and Python image rules from the vendors' schedules, off
     drafts.rules.map((rule) => [rule.id, rule.purl, rule.vers, rule.deadline]),
     [
       ["container.node.eol-21-and-older", "pkg:docker/library/node", "vers:semver/<22.0.0", "2026-04-30"],
+      ["container.node.eol-22-and-older", "pkg:docker/library/node", "vers:semver/>=22.0.0|<23.0.0", "2027-04-30"],
       ["container.python.eol-3.10-and-older", "pkg:docker/library/python", "vers:semver/<3.11.0", "2026-10-01"],
     ],
   );

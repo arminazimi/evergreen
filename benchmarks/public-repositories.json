@@ -3683,7 +3683,26 @@
       "commit": "89b0d20655ca521e55ae65097c2da4285c87a403",
       "ecosystem": "container",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "container.node.eol-22-and-older",
+          "path": "Dockerfile",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of Dockerfile reads FROM node:22-alpine AS runner, an image on Node.js 22, which is scheduled to reach end-of-life on 2027-04-30."
+          }
+        },
+        {
+          "ruleId": "container.node.eol-22-and-older",
+          "path": "Dockerfile",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 4 of Dockerfile reads FROM node:22-slim AS builder, an image on Node.js 22, which is scheduled to reach end-of-life on 2027-04-30."
+          }
+        }
+      ]
     },
     {
       "repository": "jesseduffield/lazygit",
@@ -13887,6 +13906,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read hack/postgres/96/Dockerfile:1 at this commit: `FROM postgres:9.6-alpine`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.postgres.eol-14-and-older",
+          "path": "hack/postgres/14/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of hack/postgres/14/Dockerfile reads FROM postgres:14-alpine, an image on PostgreSQL 14, which is scheduled to reach end-of-life on 2026-11-12."
           }
         }
       ]

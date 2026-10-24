@@ -52,8 +52,9 @@ function addDays(day: string, days: number): string {
 
 /**
  * Reads the PostgreSQL versioning policy table and drafts one `end-of-life` rule for each major
- * (10 and later) that the page marks unsupported and whose final release date has passed. A major
- * still marked supported is never drafted, and neither is one whose final release is in the future.
+ * (10 and later) that the page marks unsupported and whose final release date has passed. A supported
+ * major whose final release is within twelve months is drafted as a `scheduled-end-of-life` rule (decision
+ * 0010); a later one is only noted, and neither is an unsupported one whose final release is in the future.
  */
 export const postgresqlVersioningImporter: Importer = {
   id: "database-1",
@@ -71,6 +72,7 @@ export const postgresqlVersioningImporter: Importer = {
 
     const today = isoDate(context.now);
     const horizon = addDays(today, REPLACEMENT_HORIZON_DAYS);
+    const scheduledHorizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
     const oldestLongLived = releases
       .filter((release) => release.supported && release.finalRelease > horizon)
       .sort((left, right) => left.major - right.major)[0];
@@ -80,7 +82,24 @@ export const postgresqlVersioningImporter: Importer = {
     const notes: string[] = [];
     for (const release of releases.filter((candidate) => candidate.major >= FIRST_DRAFTED_MAJOR).sort((a, b) => a.major - b.major)) {
       if (release.supported) {
-        notes.push(`Skipped PostgreSQL ${release.major}: still supported until ${release.finalRelease}.`);
+        // An announced final release within a year becomes a scheduled rule (decision 0010); a later one is only noted.
+        if (release.finalRelease > today && release.finalRelease <= scheduledHorizon) {
+          rules.push({
+            id: `database.postgresql.end-of-life-${release.major}`,
+            ecosystem: "database",
+            purl: "pkg:generic/postgresql",
+            vers: `vers:semver/>=${release.major}.0.0|<${release.major + 1}.0.0`,
+            event: "scheduled-end-of-life",
+            title: `PostgreSQL ${release.major} reaches the end of its support on ${release.finalRelease}`,
+            summary: `The PostgreSQL Global Development Group lists ${release.major} as supported until its final release on ${release.finalRelease}, after which it receives no further bug or security fixes.`,
+            severity: "low",
+            ...(replacement ? { replacement } : {}),
+            deadline: release.finalRelease,
+            sources: [{ title: "PostgreSQL versioning policy", url: POSTGRESQL_VERSIONING_URL }],
+          });
+        } else {
+          notes.push(`Skipped PostgreSQL ${release.major}: still supported until ${release.finalRelease}.`);
+        }
         continue;
       }
       if (release.finalRelease > today) {

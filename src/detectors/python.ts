@@ -20,6 +20,8 @@ import { parseVersLenient, versContains } from "../vers/index.js";
 interface PythonRuntimeRule extends DeprecationRule {
   kind: "runtime";
   maximumVersion: string;
+  /** A line with an announced end that has not happened yet (decision 0010): it names exactly that line, not "and older". */
+  scheduled?: boolean;
 }
 
 interface PythonPackageRule extends DeprecationRule {
@@ -278,6 +280,16 @@ function unsupportedVersion(
     : undefined;
 }
 
+/**
+ * A scheduled line is reported only for a declaration that stays on exactly that line: a pinned runtime, or a
+ * range with an upper bound. `>=3.11` merely allows it, so it is not a problem with the declaration.
+ */
+export function staysOnScheduledLine(declaration: { kind: string; value: string }, line: [number, number]): boolean {
+  const pair = versionPair(declaration.value);
+  if (!pair || pair[0] !== line[0] || pair[1] !== line[1]) return false;
+  return declaration.kind === "pinned runtime" || /(?:<|==)/.test(declaration.value);
+}
+
 function collectPyprojectRuntime(
   path: string,
   contents: string,
@@ -430,7 +442,10 @@ export class PythonDetector implements Detector {
     const findings: DetectorFinding[] = [];
     for (const declaration of declarations) {
       for (const runtimeRule of runtimeRules) {
-        const version = unsupportedVersion(declaration.value, runtimeRule.maximumVersion);
+        const line = versionPair(runtimeRule.maximumVersion);
+        const version = runtimeRule.scheduled
+          ? (line && staysOnScheduledLine(declaration, line) ? line : undefined)
+          : unsupportedVersion(declaration.value, runtimeRule.maximumVersion);
         if (!version) continue;
         const severity: Severity =
           declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";

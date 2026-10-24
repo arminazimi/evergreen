@@ -54,7 +54,10 @@ export const goReleasePolicyImporter: Importer = {
       .map((line) => rule(line, byMinor.get(line.minor + 2)!.released, supportedMinor));
     return {
       rules: ended,
-      notes: [`Supported release lines: Go 1.${supportedMinor} and Go 1.${newest.minor}.`],
+      notes: [
+        `Supported release lines: Go 1.${supportedMinor} and Go 1.${newest.minor}.`,
+        `No scheduled rule was drafted: Go announces no end date for Go 1.${supportedMinor} or Go 1.${newest.minor}; each ends when a release two majors newer ships.`,
+      ],
     };
   },
 };

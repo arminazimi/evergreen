@@ -71,7 +71,33 @@ export const containerOfficialImagesImporter: Importer = {
     const firstSupported = majors.find((line) => line.end === undefined || line.end > today);
     const ended = majors.filter((line) => firstSupported !== undefined && line.major < firstSupported.major);
     const newest = ended[ended.length - 1];
+    // An announced end within a year becomes a scheduled rule for that one line (decision 0010); a later one is only noted.
+    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
     const supportedLts = majors.find((line) => line.end !== undefined && line.end > today && isIsoDate(line.lts) && line.lts <= today);
+    for (const line of majors.filter((candidate) => candidate.end !== undefined && candidate.end > today && candidate.end <= horizon)) {
+      const replacement = majors.find((candidate) => candidate.major > line.major && candidate.end !== undefined && candidate.end > today && isIsoDate(candidate.lts) && candidate.lts <= today)?.major;
+      rules.push({
+        id: `container.node.eol-${line.major}-and-older`,
+        ecosystem: "container",
+        purl: "pkg:docker/library/node",
+        vers: `vers:semver/>=${line.major}.0.0|<${line.major + 1}.0.0`,
+        event: "scheduled-end-of-life",
+        title: `Node.js image release line ${line.major} reaches end-of-life on ${line.end}`,
+        summary: `Node.js ${line.major} is scheduled to stop receiving security and bug fixes on ${line.end}, so images tagged with it will then be built on an unsupported runtime.`,
+        severity: "low",
+        replacement: `A node image on a later supported release line${replacement === undefined ? "" : `, such as node:${replacement}`}`,
+        deadline: line.end!,
+        sources: NODE_SOURCES,
+        migration: {
+          constraints: [
+            "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+            "Confirm native modules and production dependencies support the target Node.js major.",
+          ],
+          steps: MIGRATION_STEPS,
+          verification: [BUILD, { command: "docker run --rm IMAGE node --version", purpose: "Confirm the container runs the intended Node.js version." }],
+        },
+      });
+    }
     if (newest && firstSupported && ended.every((line) => line.end !== undefined)) {
       const deadline = ended.map((line) => line.end!).sort().at(-1)!;
       rules.push({
@@ -114,6 +140,32 @@ export const containerOfficialImagesImporter: Importer = {
     const endedPython = lines.filter((line) => firstLive !== undefined && (line.major < firstLive.major || (line.major === firstLive.major && line.minor < firstLive.minor)));
     const newestPython = endedPython[endedPython.length - 1];
     const pythonEnd = newestPython?.entry?.end_of_life;
+    for (const line of lines) {
+      const end = line.entry?.end_of_life;
+      const monthEnd = typeof end === "string" && /^\d{4}-\d{2}$/.test(end) ? isoDate(new Date(Date.UTC(Number(end.slice(0, 4)), Number(end.slice(5, 7)), 0))) : isIsoDate(end) ? end : undefined;
+      if (isEnded(line) || monthEnd === undefined || monthEnd <= today || monthEnd > horizon) continue;
+      rules.push({
+        id: `container.python.eol-${line.name}-and-older`,
+        ecosystem: "container",
+        purl: "pkg:docker/library/python",
+        vers: `vers:semver/>=${line.major}.${line.minor}.0|<${line.major}.${line.minor + 1}.0`,
+        event: "scheduled-end-of-life",
+        title: `Python image release line ${line.name} reaches end-of-life on ${monthEnd}`,
+        summary: `Python ${line.name} is scheduled to stop receiving security fixes from the Python core team on ${monthEnd}, so images tagged with it will then be built on an unsupported runtime.`,
+        severity: "low",
+        replacement: "A python image on a later supported release line",
+        deadline: monthEnd,
+        sources: PYTHON_SOURCES,
+        migration: {
+          constraints: [
+            "Keep the base image, requires-python, CI matrices, and deployment runtimes on one supported Python release.",
+            "Confirm binary wheels and dependencies support the target Python release; rebuild any virtual environment or wheel cache inside the image.",
+          ],
+          steps: MIGRATION_STEPS,
+          verification: [BUILD, { command: "docker run --rm IMAGE python --version", purpose: "Confirm the container runs the intended Python version." }],
+        },
+      });
+    }
     if (newestPython && firstLive && isIsoDate(pythonEnd)) {
       rules.push({
         id: `container.python.eol-${newestPython.name}-and-older`,

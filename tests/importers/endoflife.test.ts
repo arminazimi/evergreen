@@ -23,7 +23,8 @@ test("drafts at least twenty products from the recording, each evidenced by the 
     assert.ok(rest.every((source) => /^https:\/\/endoflife\.date\//.test(source.url) && /index/.test(source.title)), `${rule.id} labels endoflife.date as an index`);
   }
   assert.ok(drafts.notes.some((note) => /^Skipped clear-linux: no release-policy link to the vendor/.test(note)));
-  assert.equal(drafts.rules.length + drafts.notes.filter((note) => note.startsWith("Skipped")).length, ENDOFLIFE_CANDIDATES.length);
+  const ended = drafts.rules.filter((rule) => rule.event !== "scheduled-end-of-life");
+  assert.equal(ended.length + drafts.notes.filter((note) => note.startsWith("Skipped")).length, ENDOFLIFE_CANDIDATES.length);
 });
 
 test("agrees with the hand-reviewed PostgreSQL and Python rules", async () => {
@@ -57,11 +58,20 @@ const base = { label: "PostgreSQL", identifiers: [{ type: "purl", id: "pkg:docke
 
 test("cuts at the oldest supported release and uses the calendar, not a fixed day", async () => {
   const now = await endoflifeDateImporter.import(inline(base));
-  const draft = now.rules.find((rule) => rule.id.startsWith("container.postgres."));
+  const draft = now.rules.find((rule) => rule.id.startsWith("container.postgres.") && rule.event === "end-of-life");
   assert.equal(draft?.id, "container.postgres.eol-13-and-older");
   assert.equal(draft?.vers, "vers:semver/<14.0.0");
   const later = await endoflifeDateImporter.import(inline(base, "2026-11-13"));
   assert.equal(later.rules.find((rule) => rule.id.startsWith("container.postgres."))?.id, "container.postgres.eol-14-and-older");
+});
+
+test("a release line that ends within twelve months is drafted as a scheduled rule for exactly that line, with the id of its later end-of-life rule", async () => {
+  const output = await endoflifeDateImporter.import(inline(base));
+  const scheduled = output.rules.filter((rule) => rule.event === "scheduled-end-of-life");
+  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"]]);
+  // The day the line ends the same id becomes the end-of-life rule.
+  const promoted = await endoflifeDateImporter.import(inline(base, "2026-11-12"));
+  assert.deepEqual(promoted.rules.filter((rule) => rule.id === "container.postgres.eol-14-and-older").map((rule) => [rule.event, rule.severity]), [["end-of-life", "high"]]);
 });
 
 test("rejects a product without a vendor link, an archive snapshot, or an image", async () => {

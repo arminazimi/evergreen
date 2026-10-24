@@ -21,7 +21,10 @@ test("drafts the five newest unsupported Go release lines from the real recordin
   ]);
   assert.deepEqual(drafts.rules.map((rule) => rule.deadline), ["2024-08-13", "2025-02-11", "2025-08-12", "2026-02-10", "2026-08-19"]);
   assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "go-1" && rule.provenance.observedAt === "2026-10-16"));
-  assert.deepEqual(drafts.notes, ["Supported release lines: Go 1.26 and Go 1.27."]);
+  assert.deepEqual(drafts.notes, [
+    "Supported release lines: Go 1.26 and Go 1.27.",
+    "No scheduled rule was drafted: Go announces no end date for Go 1.26 or Go 1.27; each ends when a release two majors newer ships.",
+  ]);
 });
 
 test("recorded drafts match the reviewed Go registry", async () => {

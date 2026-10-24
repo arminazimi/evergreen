@@ -21,8 +21,10 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.node.eol-21-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
@@ -43,6 +45,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-11.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-13.html</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-14.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-servicebus.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-storage-blob.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>

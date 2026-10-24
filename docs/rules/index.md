@@ -35,8 +35,10 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [MariaDB image release lines 10.10 and older are end-of-life](container.mariadb.eol-10.10-and-older.html) — end of life, `container.mariadb.eol-10.10-and-older`
 - [MySQL image release lines 8.0 and older are past end-of-life](container.mysql.eol-8.0-and-older.html) — end of life, `container.mysql.eol-8.0-and-older`
 - [Node.js image release lines 21 and older are end-of-life](container.node.eol-21-and-older.html) — end of life, `container.node.eol-21-and-older`
+- [Node.js image release line 22 reaches end-of-life on 2027-04-30](container.node.eol-22-and-older.html) — scheduled end of life, `container.node.eol-22-and-older`
 - [phpMyAdmin image release lines 4.8 and older are end-of-life](container.phpmyadmin.eol-4.8-and-older.html) — end of life, `container.phpmyadmin.eol-4.8-and-older`
 - [PostgreSQL image major versions 13 and older are end-of-life](container.postgres.eol-13-and-older.html) — end of life, `container.postgres.eol-13-and-older`
+- [PostgreSQL image release line 14 reaches end-of-life on 2026-11-12](container.postgres.eol-14-and-older.html) — scheduled end of life, `container.postgres.eol-14-and-older`
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
@@ -66,6 +68,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html) — end of life, `database.postgresql.end-of-life-11`
 - [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html) — end of life, `database.postgresql.end-of-life-12`
 - [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`
+- [PostgreSQL 14 reaches the end of its support on 2026-11-12](database.postgresql.end-of-life-14.html) — scheduled end of life, `database.postgresql.end-of-life-14`
 
 ## dotnet
 

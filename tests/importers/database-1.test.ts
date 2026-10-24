@@ -106,3 +106,23 @@ test("a page with no version rows or an oversized page stops the run", async () 
     /returned more than/,
   );
 });
+
+test("a supported major that ends within twelve months is drafted as a scheduled rule with the id of the later end-of-life rule", async () => {
+  const rows = [
+    ["16", "16.1", "Yes", "September 14, 2023", "November 9, 2028"],
+    ["15", "15.1", "Yes", "October 13, 2022", "November 11, 2027"],
+    ["14", "14.1", "Yes", "September 30, 2021", "November 12, 2026"],
+  ];
+  const scheduled = (await runImporter(postgresqlVersioningImporter, page(rows, "2026-10-24"))).rules;
+  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.event, rule.severity, rule.deadline]), [["database.postgresql.end-of-life-14", "scheduled-end-of-life", "low", "2026-11-12"]]);
+  assert.equal(scheduled[0]!.vers, "vers:semver/>=14.0.0|<15.0.0");
+
+  // The day after the final release the same id is the end-of-life rule.
+  const ended = [["14", "14.1", "No", "September 30, 2021", "November 12, 2026"]];
+  const promoted = (await runImporter(postgresqlVersioningImporter, page(ended, "2026-11-12"))).rules;
+  assert.deepEqual(promoted.map((rule) => [rule.id, rule.event, rule.severity]), [["database.postgresql.end-of-life-14", "end-of-life", "high"]]);
+
+  // A final release more than twelve months away is only noted.
+  const far = await runImporter(postgresqlVersioningImporter, page(rows, "2026-10-24"));
+  assert.ok(far.notes.some((note) => /^Skipped PostgreSQL 15: still supported until 2027-11-11/.test(note)));
+});

@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
-import { PythonDetector } from "../src/detectors/python.js";
+import { PythonDetector, staysOnScheduledLine } from "../src/detectors/python.js";
 import { versContains } from "../src/vers/index.js";
 
 const temporaryRoots: string[] = [];
@@ -309,4 +309,19 @@ resolution-markers = ["python_full_version >= '3.10'"]
     [["python.package.django-4.2.eol", "pyproject.toml", 6]],
   );
   assert.ok(findings[0]?.summary.includes("resolved: 4.2.30, 5.2.17"));
+});
+
+test("a scheduled Python line is reported only for a declaration that stays on exactly that line", () => {
+  const pinned = (value: string) => ({ kind: "pinned runtime", value });
+  const range = (value: string) => ({ kind: "compatibility range", value });
+  assert.equal(staysOnScheduledLine(pinned("3.11.4"), [3, 11]), true);
+  assert.equal(staysOnScheduledLine(pinned("python-3.11"), [3, 11]), true);
+  assert.equal(staysOnScheduledLine(range(">=3.11,<3.12"), [3, 11]), true);
+  assert.equal(staysOnScheduledLine(range("==3.11.*"), [3, 11]), true);
+  // A range that merely allows the line, a different line, or a lower floor is not a problem with the declaration.
+  assert.equal(staysOnScheduledLine(range(">=3.11"), [3, 11]), false);
+  assert.equal(staysOnScheduledLine(range("~=3.11"), [3, 11]), false);
+  assert.equal(staysOnScheduledLine(range(">=3.9,<3.12"), [3, 11]), false);
+  assert.equal(staysOnScheduledLine(pinned("3.12"), [3, 11]), false);
+  assert.equal(staysOnScheduledLine(pinned("3.10"), [3, 11]), false);
 });

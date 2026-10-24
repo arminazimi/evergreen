@@ -61,6 +61,64 @@
       }
     },
     {
+      "id": "container.node.eol-22-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/node",
+      "vers": "vers:semver/>=22.0.0|<23.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Node.js image release line 22 reaches end-of-life on 2027-04-30",
+      "summary": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.",
+      "severity": "low",
+      "replacement": "A node image on a later supported release line, such as node:24",
+      "deadline": "2027-04-30",
+      "sources": [
+        {
+          "title": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        },
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi",
+        "importer": "container-official-images"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE node --version",
+            "purpose": "Confirm the container runs the intended Node.js version."
+          }
+        ]
+      }
+    },
+    {
       "id": "container.python.eol-3.10-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/python",
@@ -139,6 +197,60 @@
         "observedAt": "2026-10-16",
         "reviewedAt": "2026-10-16",
         "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+          "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Validate the Compose file after changing the image tag."
+          },
+          {
+            "command": "docker compose run --rm db postgres --version",
+            "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.postgres.eol-14-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/postgres",
+      "vers": "vers:semver/>=14.0.0|<15.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
+      "summary": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
+      "severity": "low",
+      "replacement": "A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+      "deadline": "2026-11-12",
+      "sources": [
+        {
+          "title": "PostgreSQL release policy (vendor)",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
       },
       "migration": {
         "constraints": [

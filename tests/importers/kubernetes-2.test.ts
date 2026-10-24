@@ -12,7 +12,8 @@ const recording = resolve("tests/importers/recordings/kubernetes-2.json");
 
 test("drafts the five newest end-of-life lines from the real recording, using the end-of-life column", async () => {
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
-  assert.deepEqual(drafts.rules.map((rule) => rule.id), [
+  const ended = { ...drafts, rules: drafts.rules.filter((rule) => rule.event === "end-of-life") };
+  assert.deepEqual(ended.rules.map((rule) => rule.id), [
     "kubernetes.release.end-of-life-1.29",
     "kubernetes.release.end-of-life-1.30",
     "kubernetes.release.end-of-life-1.31",
@@ -20,16 +21,16 @@ test("drafts the five newest end-of-life lines from the real recording, using th
     "kubernetes.release.end-of-life-1.33",
   ]);
   // The table is "Minor | Final patch | End of life": 1.33's final patch is 1.33.13, its end of life 2026-06-28.
-  assert.deepEqual(drafts.rules.map((rule) => rule.deadline), ["2025-02-28", "2025-07-15", "2025-11-11", "2026-02-28", "2026-06-28"]);
-  assert.deepEqual(drafts.rules.map((rule) => rule.vers), [
+  assert.deepEqual(ended.rules.map((rule) => rule.deadline), ["2025-02-28", "2025-07-15", "2025-11-11", "2026-02-28", "2026-06-28"]);
+  assert.deepEqual(ended.rules.map((rule) => rule.vers), [
     "vers:semver/>=1.29.0|<1.30.0",
     "vers:semver/>=1.30.0|<1.31.0",
     "vers:semver/>=1.31.0|<1.32.0",
     "vers:semver/>=1.32.0|<1.33.0",
     "vers:semver/>=1.33.0|<1.34.0",
   ]);
-  assert.ok(drafts.rules.every((rule) => rule.event === "end-of-life" && rule.purl === "pkg:generic/kubernetes"));
-  assert.ok(drafts.rules.every((rule) => rule.replacement === "Kubernetes 1.34 or later"));
+  assert.ok(ended.rules.every((rule) => rule.purl === "pkg:generic/kubernetes"));
+  assert.ok(ended.rules.every((rule) => rule.replacement === "Kubernetes 1.34 or later"));
   assert.ok(drafts.rules.every((rule) => rule.provenance.importer === "kubernetes-2" && rule.provenance.observedAt === "2026-10-17"));
   assert.deepEqual(drafts.notes, [
     "Supported release lines: 1.34, 1.35, 1.36, 1.37.",
@@ -42,7 +43,7 @@ test("drafts are additions to the reviewed registry, never changes to its API ru
   const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
   const diff = diffDrafts(drafts, registry);
   assert.deepEqual([diff.changed, diff.removed, diff.duplicates], [[], [], []]);
-  assert.equal(diff.added.length, 5);
+  assert.equal(diff.added.length, 8);
 });
 
 const page = (header: string, rows: string, maintained = "<p>1.37 Latest Release: 1.37.1 (released: 2026-09-15 ) End of Life: 2027-10-28</p>") =>
@@ -84,4 +85,14 @@ test("without a maintained line the drafts carry no replacement", async () => {
   assert.equal(result.rules.length, 2);
   assert.ok(result.rules.every((rule) => rule.replacement === undefined));
   assert.equal(result.notes[0], "No maintained release lines were found; the drafts have no replacement.");
+});
+
+test("a maintained line that ends within twelve months is drafted as a scheduled rule for exactly that line, with the id of its later end-of-life rule", async () => {
+  const drafts = await execute(kubernetesReleasesImporter, { replay: recording });
+  const scheduled = drafts.rules.filter((rule) => rule.event === "scheduled-end-of-life");
+  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline, rule.replacement]), [
+    ["kubernetes.release.end-of-life-1.34", "vers:semver/>=1.34.0|<1.35.0", "low", "2026-10-27", "Kubernetes 1.37 or later"],
+    ["kubernetes.release.end-of-life-1.35", "vers:semver/>=1.35.0|<1.36.0", "low", "2027-02-28", "Kubernetes 1.37 or later"],
+    ["kubernetes.release.end-of-life-1.36", "vers:semver/>=1.36.0|<1.37.0", "low", "2027-06-28", "Kubernetes 1.37 or later"],
+  ]);
 });

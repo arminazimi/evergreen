@@ -219,3 +219,13 @@ test("a migration packet for a Compose finding names the file, steps, and verifi
   );
   assert.ok(packet.verification.some((check) => check.command === "docker compose config"));
 });
+
+test("a scheduled PostgreSQL line is reported at low severity, for the tag that names it and not for a newer one", async () => {
+  const rule = (await committedRules()).find((item) => item.id === "database.postgresql.end-of-life-14")!;
+  assert.equal(rule.event, "scheduled-end-of-life");
+  const root = await repository({
+    "compose.yaml": "services:\n  a:\n    image: postgres:14\n  b:\n    image: postgres:14.5-alpine\n  c:\n    image: postgres:15\n  d:\n    image: postgres:latest\n",
+  });
+  const findings = (await databaseDetector.scan({ root })).filter((finding) => finding.ruleId === rule.id);
+  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]), [[3, "low", "2026-11-12"], [5, "low", "2026-11-12"]]);
+});

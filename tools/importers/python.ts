@@ -59,6 +59,24 @@ function endDate(value: unknown): { date: string; exact: boolean } | undefined {
   return isIsoDate(date) ? { date, exact: false } : undefined;
 }
 
+function scheduledRule(entry: { name: string; major: number; minor: number; line: ReleaseLine }, end: string): DraftRule {
+  return {
+    id: `python.runtime.eol-${entry.name}-and-older`,
+    ecosystem: "python",
+    purl: "pkg:generic/python",
+    vers: `vers:pypi/>=${entry.major}.${entry.minor}|<${entry.major}.${entry.minor + 1}`,
+    event: "scheduled-end-of-life",
+    title: `Python ${entry.name} reaches end-of-life on ${end}`,
+    summary: `Python ${entry.name} is scheduled to stop receiving security fixes from the Python core team on ${end}.`,
+    severity: "low",
+    replacement: "A supported Python release",
+    deadline: end,
+    sources: SOURCES(entry.line?.pep, entry.name),
+    migration: MIGRATION,
+    "x-python": { kind: "runtime", maximumVersion: entry.name, scheduled: true },
+  };
+}
+
 export const pythonReleaseCycleImporter: Importer = {
   id: "python-release-cycle",
   ecosystem: "python",
@@ -94,25 +112,34 @@ export const pythonReleaseCycleImporter: Importer = {
     const newest = endedLines[endedLines.length - 1];
     const notYet = lines.filter((entry) => !endedLines.includes(entry));
 
-    if (notYet.length > 0) {
-      notes.push(`Not yet end-of-life: ${notYet.map((entry) => `${entry.name} (ends ${entry.line?.end_of_life ?? "unknown"})`).join(", ")}.`);
+    // An announced end within a year becomes a scheduled rule for that one line (decision 0010); a later one is only noted.
+    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+    const scheduled: DraftRule[] = [];
+    const later: typeof notYet = [];
+    for (const entry of notYet) {
+      const end = endDate(entry.line?.end_of_life);
+      if (!end || end.date > horizon || end.date <= today) later.push(entry);
+      else scheduled.push(scheduledRule(entry, end.date));
+    }
+    if (later.length > 0) {
+      notes.push(`Not yet end-of-life: ${later.map((entry) => `${entry.name} (ends ${entry.line?.end_of_life ?? "unknown"})`).join(", ")}.`);
     }
     if (!newest) {
       notes.push("No Python release line has reached end of life, so there is nothing to draft.");
-      return { rules: [], notes };
+      return { rules: scheduled, notes };
     }
 
     // "and older" is only true if every older line has ended too.
     const stillSupportedBelow = notYet.filter((entry) => entry.major < newest.major || (entry.major === newest.major && entry.minor < newest.minor));
     if (stillSupportedBelow.length > 0) {
       notes.push(`Not drafted: Python ${newest.name} has ended but ${stillSupportedBelow.map((entry) => entry.name).join(", ")} has not, so "and older" would be wrong.`);
-      return { rules: [], notes };
+      return { rules: scheduled, notes };
     }
 
     const end = endDate(newest.line?.end_of_life);
     if (!end) {
       notes.push(`Not drafted: the schedule gives no usable end date for Python ${newest.name}.`);
-      return { rules: [], notes };
+      return { rules: scheduled, notes };
     }
     if (!end.exact) notes.push(`Python ${newest.name} has no exact end date yet; the deadline is the last day of its end month.`);
 
@@ -132,7 +159,7 @@ export const pythonReleaseCycleImporter: Importer = {
         sources: SOURCES(newest.line?.pep, version),
         migration: MIGRATION,
         "x-python": { kind: "runtime", maximumVersion: version },
-      }],
+      }, ...scheduled],
       notes,
     };
   },

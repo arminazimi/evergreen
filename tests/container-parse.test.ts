@@ -33,10 +33,10 @@ test("reports dynamic references and skips comments, scratch, stages, and RUN st
     { kind: "image", value: "node:latest", line: 4 },
     { kind: "image", value: "node", line: 5 },
     { kind: "image", value: "node@sha256:0000000000000000000000000000000000000000000000000000000000000000", line: 6 },
-    { kind: "image", value: "node:22", line: 8 },
+    { kind: "image", value: "node:24", line: 8 },
   ]);
   assert.deepEqual(parseDockerfile(await fixture("zero", "Dockerfile")), [
-    { kind: "image", value: "node:22-alpine", line: 1 },
+    { kind: "image", value: "node:24-alpine", line: 1 },
   ]);
 });
 
@@ -103,7 +103,7 @@ test("compose ignores lookalike keys and reports interpolation as dynamic", asyn
   assert.deepEqual(parseCompose(await fixture("negative", "compose.yaml")), [
     { kind: "dynamic", value: "${APP_IMAGE}", line: 3 },
     { kind: "image", value: "node:latest", line: 8 },
-    { kind: "image", value: "node:22", line: 10 },
+    { kind: "image", value: "node:24", line: 10 },
   ]);
   assert.deepEqual(parseCompose(await fixture("zero", "compose.yaml")), []);
 });

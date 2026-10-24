@@ -74,7 +74,7 @@
     {
       "id": "container",
       "level": "experimental",
-      "earnedLevel": "beta",
+      "earnedLevel": "experimental",
       "precisionFloor": {
         "value": 0.95,
         "enforced": false
@@ -87,9 +87,9 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 38,
-        "expectedFindings": 74,
-        "zeroFindingRepositories": 2,
+        "repositoriesWithFindings": 39,
+        "expectedFindings": 77,
+        "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
       }

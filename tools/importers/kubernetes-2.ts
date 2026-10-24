@@ -46,6 +46,16 @@ function maintainedLines(text: string): ReleaseLine[] {
   return [...lines].map(([minor, endOfLife]) => ({ minor, endOfLife })).sort((left, right) => minorNumber(left.minor) - minorNumber(right.minor));
 }
 
+function scheduledRule(line: ReleaseLine, oldest: string | undefined): DraftRule {
+  return {
+    ...rule(line, oldest),
+    event: "scheduled-end-of-life",
+    title: `Kubernetes ${line.minor} reaches end-of-life on ${line.endOfLife}`,
+    summary: `The Kubernetes release history lists Kubernetes ${line.minor} as supported until its end-of-life date of ${line.endOfLife}; after that the release no longer receives security updates or bug fixes.`,
+    severity: "low",
+  };
+}
+
 function rule(line: ReleaseLine, oldest: string | undefined): DraftRule {
   const next = `1.${minorNumber(line.minor) + 1}`;
   return {
@@ -81,6 +91,9 @@ export const kubernetesReleasesImporter: Importer = {
     const ended = table.filter((line) => line.endOfLife <= today).slice(-RULES_TO_DRAFT);
     const maintained = maintainedLines(text).filter((line) => line.endOfLife > today);
     const oldest = maintained[0]?.minor;
+    // An announced end within a year becomes a scheduled rule (decision 0010); a later one is only noted.
+    const horizon = new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())).toISOString().slice(0, 10);
+    const scheduled = maintained.filter((line) => line.endOfLife <= horizon);
 
     const notes: string[] = [];
     notes.push(
@@ -89,6 +102,6 @@ export const kubernetesReleasesImporter: Importer = {
         : "No maintained release lines were found; the drafts have no replacement.",
     );
     notes.push("The drafts describe Kubernetes releases, not API versions; no detector reads them yet.");
-    return { rules: ended.map((line) => rule(line, oldest)), notes };
+    return { rules: [...ended.map((line) => rule(line, oldest)), ...scheduled.map((line) => scheduledRule(line, maintained.find((candidate) => candidate.endOfLife > horizon)?.minor ?? maintained.at(-1)?.minor))], notes };
   },
 };

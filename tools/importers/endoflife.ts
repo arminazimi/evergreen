@@ -101,6 +101,30 @@ export const endoflifeDateImporter: Importer = {
       }
 
       const repository = image[1]!;
+      // An announced end within a year becomes a scheduled rule for that one line (decision 0010); a later one is only noted.
+      const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
+      const sources = [
+        { title: `${product.label ?? name} release policy (vendor)`, url: vendor },
+        ...(product.links?.html ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: product.links.html }] : []),
+      ];
+      for (const release of releases.filter((candidate) => candidate.end !== undefined && candidate.end > today && candidate.end <= horizon)) {
+        const parts = release.name.split(".").map(Number);
+        const triple = (numbers: number[]) => [...numbers, 0, 0, 0].slice(0, 3).join(".");
+        const upper = triple([...parts.slice(0, -1), parts[parts.length - 1]! + 1]);
+        rules.push({
+          id: `container.${repository}.eol-${release.name}-and-older`,
+          ecosystem: "container",
+          purl: `pkg:docker/library/${repository}`,
+          vers: `vers:semver/>=${triple(parts)}|<${upper}`,
+          event: "scheduled-end-of-life",
+          title: `${product.label ?? name} image release line ${release.name} reaches end-of-life on ${release.end}`,
+          summary: `The ${product.label ?? name} ${release.name} release line is scheduled to stop receiving fixes from the vendor on ${release.end}.`,
+          severity: "low",
+          replacement: `A ${repository} image on a later supported release line`,
+          deadline: release.end!,
+          sources,
+        });
+      }
       rules.push({
         id: `container.${repository}.eol-${newest.name}-and-older`,
         ecosystem: "container",
@@ -112,10 +136,7 @@ export const endoflifeDateImporter: Importer = {
         severity: "high",
         replacement: `A ${repository} image on a supported release line`,
         deadline,
-        sources: [
-          { title: `${product.label ?? name} release policy (vendor)`, url: vendor },
-          ...(product.links?.html ? [{ title: "endoflife.date (index; the vendor page above is the evidence)", url: product.links.html }] : []),
-        ],
+        sources,
       });
     }
 
