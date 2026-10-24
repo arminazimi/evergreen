@@ -137,6 +137,14 @@ npx evergreen-deprecation init --agents --dry-run   # show the change
 npx evergreen-deprecation init --agents
 ```
 
+To do this for every coding agent a repository is already set up for, run `setup`. It detects Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, and Kilo Code configuration, shows the change for each host's instruction file, and writes only after you confirm (or pass `--yes`). It uses the same marked section as `init --agents`, so existing rules are never overwritten:
+
+```bash
+npx evergreen-deprecation setup --dry-run   # print the plan
+npx evergreen-deprecation setup             # ask, then write
+npx evergreen-deprecation setup --yes       # no prompt (CI, scripts)
+```
+
 Connect a coding agent through the local MCP server:
 
 ```bash

@@ -16,6 +16,7 @@ import { configureActiveData, DataPinError, getActiveData } from "./data-source.
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { initAgents } from "./init-agents.js";
+import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
@@ -39,6 +40,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
+  evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
@@ -122,6 +124,55 @@ async function init(args: string[]): Promise<number> {
   }
 }
 
+/** `setup`: adds the Evergreen section to the instruction file of every detected agent host. */
+async function setup(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen setup [path] [--yes] [--dry-run]";
+  const flags = new Set(["--yes", "-y", "--dry-run"]);
+  const positional = args.filter((argument) => !argument.startsWith("-"));
+  if (args.some((argument) => argument.startsWith("-") && !flags.has(argument)) || positional.length > 1) return fail("usage", usage);
+  const dryRun = args.includes("--dry-run");
+  const yes = args.includes("--yes") || args.includes("-y");
+  const root = positional[0] ?? ".";
+  try {
+    const plan = await planSetup(root);
+    if (plan.entries.length === 0) {
+      process.stdout.write("No agent host configuration found (looked for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, and Kilo Code).\nRun `evergreen init --agents` to add the section to AGENTS.md or CLAUDE.md.\n");
+      return 0;
+    }
+    process.stdout.write(`Detected: ${plan.detected.join(", ")}\n\n`);
+    for (const entry of plan.entries) {
+      const verb = { created: "create", added: "add the Evergreen section to", updated: "update the Evergreen section in", unchanged: "leave unchanged" }[entry.change];
+      process.stdout.write(`${verb === "leave unchanged" ? "Already current:" : `Would ${verb}`} ${entry.file} (${entry.hosts.join(", ")})\n`);
+      if (entry.diff) process.stdout.write(`\n${entry.diff}\n\n`);
+    }
+    if (plan.entries.every((entry) => entry.change === "unchanged")) {
+      process.stdout.write("Nothing to change.\n");
+      return 0;
+    }
+    if (dryRun) {
+      process.stdout.write("Dry run: nothing was written.\n");
+      return 0;
+    }
+    if (!yes) {
+      if (!process.stdin.isTTY) return fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
+      const readline = await import("node:readline/promises");
+      const prompt = readline.createInterface({ input: process.stdin, output: process.stdout });
+      const answer = await prompt.question("Apply these changes? [y/N] ");
+      prompt.close();
+      if (!/^y(es)?$/i.test(answer.trim())) {
+        process.stdout.write("Nothing was written.\n");
+        return 0;
+      }
+    }
+    const written = await applySetup(root, plan);
+    process.stdout.write(`Updated ${written.join(", ")}.\n`);
+    return 0;
+  } catch (error) {
+    if (error instanceof AgentFileError) return fail("parse", error.message);
+    throw error;
+  }
+}
+
 /** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
 async function newDetector(args: string[]): Promise<number> {
   const ecosystemIndex = args.indexOf("--ecosystem");
@@ -163,7 +214,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -174,6 +225,7 @@ async function main(args: string[]): Promise<number> {
   }
   if (command === "new-detector") return newDetector(args.slice(1));
   if (command === "init") return init(args.slice(1));
+  if (command === "setup") return setup(args.slice(1));
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
