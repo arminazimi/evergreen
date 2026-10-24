@@ -49,6 +49,29 @@ Usage:
 `;
 
 /**
+ * The stable failure classes. `policy` (1) and `usage` (2) keep the exit codes Evergreen has always used; the rest are
+ * distinct so a caller can branch on the exit code alone. Documented in docs/CAPABILITIES.md.
+ */
+const EXIT_CODES = { policy: 1, usage: 2, data: 3, parse: 4, internal: 5 } as const;
+type FailureClass = keyof typeof EXIT_CODES;
+
+let jsonErrors = false;
+
+/**
+ * Reports a failure and returns its exit code. The message always goes to stderr; with `--json` it is also written to
+ * stdout as an `evergreen.error.v1` document. A `policy` failure is a verdict on a result that was already printed, so
+ * it writes no second document.
+ */
+function fail(kind: FailureClass, message: string, appendix = ""): number {
+  process.stderr.write(`${message}\n${appendix}`);
+  if (jsonErrors && kind !== "policy") {
+    const document = { schemaVersion: "evergreen.error.v1", error: { code: kind, exitCode: EXIT_CODES[kind], message } };
+    process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
+  }
+  return EXIT_CODES[kind];
+}
+
+/**
  * `data update` is the one command that uses the network, and it must honor the standard proxy variables. Node does
  * that for `fetch` only when started with NODE_USE_ENV_PROXY, so when a proxy is configured the command runs again
  * in a child process that has it (Node 22.21 and later). Returns that child's exit code, or undefined to carry on.
@@ -69,21 +92,18 @@ function relaunchWithEnvironmentProxy(): number | undefined {
 async function init(args: string[]): Promise<number> {
   const usage = "Usage: evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
   if (!args.includes("--agents")) {
-    process.stderr.write(usage);
-    return 2;
+    return fail("usage", usage.trimEnd());
   }
   const fileIndex = args.indexOf("--file");
   const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
   if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
-    process.stderr.write(`--file must be AGENTS.md or CLAUDE.md.\n${usage}`);
-    return 2;
+    return fail("usage", "--file must be AGENTS.md or CLAUDE.md.", usage);
   }
   const flags = new Set(["--agents", "--dry-run", "--file"]);
   const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && !argument.startsWith("-"));
   const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
   if (unknown.length > 0 || positional.length > 1) {
-    process.stderr.write(usage);
-    return 2;
+    return fail("usage", usage.trimEnd());
   }
   const dryRun = args.includes("--dry-run");
   try {
@@ -95,10 +115,7 @@ async function init(args: string[]): Promise<number> {
     }
     return 0;
   } catch (error) {
-    if (error instanceof AgentFileError) {
-      process.stderr.write(`${error.message}\n`);
-      return 1;
-    }
+    if (error instanceof AgentFileError) return fail("parse", error.message);
     throw error;
   }
 }
@@ -110,16 +127,14 @@ async function newDetector(args: string[]): Promise<number> {
   const ecosystemValueIndex = ecosystemIndex === -1 ? -1 : ecosystemIndex + 1;
   const id = args.find((argument, index) => !argument.startsWith("-") && index !== ecosystemValueIndex);
   if (!id || (ecosystemIndex !== -1 && (!ecosystem || ecosystem.startsWith("-")))) {
-    process.stderr.write(`Usage: evergreen new-detector <id> [--ecosystem <slug>]\n`);
-    return 2;
+    return fail("usage", "Usage: evergreen new-detector <id> [--ecosystem <slug>]");
   }
   let scaffold: typeof import("../tools/scaffold/index.js");
   try {
     scaffold = await import("../tools/scaffold/index.js");
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ERR_MODULE_NOT_FOUND") {
-      process.stderr.write("new-detector is for contributors: run it from a checkout of the Evergreen repository after npm run build.\n");
-      return 2;
+      return fail("usage", "new-detector is for contributors: run it from a checkout of the Evergreen repository after npm run build.");
     }
     throw error;
   }
@@ -127,15 +142,14 @@ async function newDetector(args: string[]): Promise<number> {
     process.stdout.write(`${scaffold.renderScaffoldResult(await scaffold.scaffoldDetector(id, ecosystem ? { ecosystem } : {}))}\n`);
     return 0;
   } catch (error) {
-    if (error instanceof scaffold.ScaffoldError) {
-      process.stderr.write(`${error.message}\n`);
-      return 2;
-    }
+    if (error instanceof scaffold.ScaffoldError) return fail("usage", error.message);
     throw error;
   }
 }
 
 async function main(args: string[]): Promise<number> {
+  const formatValue = args[args.indexOf("--format") + 1];
+  jsonErrors = args.includes("--json") || (args.includes("--format") && formatValue === "json");
   if (args.includes("--help") || args.includes("-h") || args.length === 0) {
     process.stdout.write(HELP);
     return 0;
@@ -148,8 +162,7 @@ async function main(args: string[]): Promise<number> {
 
   const [command] = args;
   if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
-    process.stderr.write(`Unknown command: ${command ?? ""}\n\n${HELP}`);
-    return 2;
+    return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
   if (command === "mcp") {
@@ -162,8 +175,7 @@ async function main(args: string[]): Promise<number> {
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
-    process.stderr.write("--data-version needs a version, for example 2026.10.01, or \"bundled\".\n");
-    return 2;
+    return fail("usage", "--data-version needs a version, for example 2026.10.01, or \"bundled\".");
   }
   const isUpdate = command === "data" && args[1] === "update";
   const dataPin = isUpdate ? undefined : (dataVersionFlag ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
@@ -172,26 +184,20 @@ async function main(args: string[]): Promise<number> {
     try {
       await getActiveData();
     } catch (error) {
-      if (error instanceof DataPinError) {
-        process.stderr.write(`${error.message}\n`);
-        return 2;
-      }
+      if (error instanceof DataPinError) return fail(error.malformed ? "usage" : "data", error.message);
       throw error;
     }
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
   if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif" && format !== "rdjson") {
-    process.stderr.write(`Unknown format: ${format ?? ""} (expected text, json, sarif, or rdjson).\n`);
-    return 2;
+    return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, sarif, or rdjson).`);
   }
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
-    process.stderr.write("check supports --json and --format text|json only.\n");
-    return 2;
+    return fail("usage", "check supports --json and --format text|json only.");
   }
   if ((format === "sarif" || format === "rdjson") && command !== "scan") {
-    process.stderr.write(`--format ${format} is only available for the scan command.\n`);
-    return 2;
+    return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   const json = args.includes("--json") || format === "json";
   if (command === "capabilities") {
@@ -209,16 +215,12 @@ async function main(args: string[]): Promise<number> {
         process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDataUpdateText(result)}\n`);
         return 0;
       } catch (error) {
-        if (error instanceof DataUpdateError) {
-          process.stderr.write(`${error.message}\n`);
-          return 1;
-        }
+        if (error instanceof DataUpdateError) return fail("data", error.message);
         throw error;
       }
     }
     if (subcommand !== "status") {
-      process.stderr.write(`Unknown data command: ${subcommand ?? ""}\n\n${HELP}`);
-      return 2;
+      return fail("usage", `Unknown data command: ${subcommand ?? ""}`, `\n${HELP}`);
     }
     const status = await getDataStatus();
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
@@ -242,32 +244,26 @@ async function main(args: string[]): Promise<number> {
   if (command === "check") {
     const purl = positional[0];
     if (!purl) {
-      process.stderr.write(`Missing package URL, for example pkg:npm/request@2.88.2.\n\n${HELP}`);
-      return 2;
+      return fail("usage", "Missing package URL, for example pkg:npm/request@2.88.2.", `\n${HELP}`);
     }
     const gate = optionValue("--fail-on") ?? "high";
     if (gate !== "none" && !severityValues.includes(gate as Severity)) {
-      process.stderr.write(`Unknown severity for --fail-on: ${gate} (expected none, ${severityValues.join(", ")}).\n`);
-      return 2;
+      return fail("usage", `Unknown severity for --fail-on: ${gate} (expected none, ${severityValues.join(", ")}).`);
     }
     try {
       const check = await checkDependency(purl);
       process.stdout.write(`${json ? JSON.stringify(check, null, 2) : renderCheckText(check)}\n`);
       const rank = (severity: Severity) => severityValues.indexOf(severity);
-      return check.status === "affected" && gate !== "none" && rank(check.severity!) >= rank(gate as Severity) ? 1 : 0;
+      return check.status === "affected" && gate !== "none" && rank(check.severity!) >= rank(gate as Severity) ? EXIT_CODES.policy : 0;
     } catch (error) {
-      if (error instanceof CheckDependencyError) {
-        process.stderr.write(`${error.message}\n`);
-        return 2;
-      }
+      if (error instanceof CheckDependencyError) return fail("parse", error.message);
       throw error;
     }
   }
   const takesFindingId = command === "explain" || command === "context" || command === "report-issue";
   const findingId = takesFindingId ? positional[0] : undefined;
   if (takesFindingId && !findingId) {
-    process.stderr.write(`Missing finding ID.\n\n${HELP}`);
-    return 2;
+    return fail("usage", "Missing finding ID.", `\n${HELP}`);
   }
   const pathArgument = takesFindingId
     ? (positional[1] ?? ".")
@@ -275,7 +271,7 @@ async function main(args: string[]): Promise<number> {
   if (command === "doctor") {
     const result = await diagnoseEnvironment(pathArgument);
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
-    return result.summary.failed > 0 ? 1 : 0;
+    return result.summary.failed > 0 ? EXIT_CODES.policy : 0;
   }
   let result = await scanRepository(pathArgument, builtInDetectors);
   if (command === "baseline") {
@@ -293,10 +289,15 @@ async function main(args: string[]): Promise<number> {
     const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
     const onExpired = (optionValue("--on-expired") ?? "resurface") as ExpiredPolicy;
     if (!isIsoDate(today) || !Number.isInteger(warnWithinDays) || warnWithinDays < 0 || warnWithinDays > 365 || !expiredPolicies.includes(onExpired)) {
-      process.stderr.write(`--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.\n`);
-      return 2;
+      return fail("usage", `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`);
     }
-    const evaluated = evaluateBaseline(result, await readBaseline(resolve(baselinePath)), { today, warnWithinDays, onExpired });
+    let baseline: Awaited<ReturnType<typeof readBaseline>>;
+    try {
+      baseline = await readBaseline(resolve(baselinePath));
+    } catch (error) {
+      return fail("parse", error instanceof Error ? error.message : String(error));
+    }
+    const evaluated = evaluateBaseline(result, baseline, { today, warnWithinDays, onExpired });
     result = evaluated.result;
     baselineExpiredFailure = expiredSuppressionsFail(onExpired, evaluated.expired);
   }
@@ -305,14 +306,12 @@ async function main(args: string[]): Promise<number> {
       const packet = createMigrationPacket(result, findingId!);
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
-      process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n`);
-      return 1;
+      return fail("data", error instanceof Error ? error.message : String(error));
     }
   } else if (command === "report-issue") {
     const finding = result.findings.find((candidate) => candidate.id === findingId);
     if (!finding) {
-      process.stderr.write(`Finding not found: ${findingId}\n`);
-      return 1;
+      return fail("data", `Finding not found: ${findingId}`);
     }
     try {
       const report = await createIssueReport(pathArgument, finding);
@@ -325,17 +324,13 @@ async function main(args: string[]): Promise<number> {
         process.stdout.write(`${report}\n`);
       }
     } catch (error) {
-      if (error instanceof ReportIssueError) {
-        process.stderr.write(`${error.message}\n`);
-        return 1;
-      }
+      if (error instanceof ReportIssueError) return fail("data", error.message);
       throw error;
     }
   } else if (command === "explain") {
     const finding = result.findings.find((candidate) => candidate.id === findingId);
     if (!finding) {
-      process.stderr.write(`Finding not found: ${findingId}\n`);
-      return 1;
+      return fail("data", `Finding not found: ${findingId}`);
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else {
@@ -343,10 +338,13 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${output}\n`);
   }
   if (baselineExpiredFailure) {
-    process.stderr.write("Failing because a baseline suppression has expired (--on-expired fail).\n");
-    return 1;
+    return fail("policy", "Failing because a baseline suppression has expired (--on-expired fail).");
   }
   return 0;
 }
 
-process.exitCode = await main(process.argv.slice(2));
+try {
+  process.exitCode = await main(process.argv.slice(2));
+} catch (error) {
+  process.exitCode = fail("internal", `Evergreen failed unexpectedly: ${error instanceof Error ? error.message : String(error)}`);
+}

@@ -59,8 +59,12 @@ export interface DataSourceOptions {
 }
 
 export class DataPinError extends Error {
-  constructor(message: string) {
+  /** True when the pin is not a data version at all (a usage error), false when it names data that cannot be used. */
+  readonly malformed: boolean;
+
+  constructor(message: string, malformed = false) {
     super(message);
+    this.malformed = malformed;
     this.name = "DataPinError";
   }
 }
@@ -167,7 +171,7 @@ async function bundledData(warnings: string[], evergreenVersion: string): Promis
 async function pinnedData(pin: string, cache: string, evergreenVersion: string, options: DataSourceOptions): Promise<ActiveData> {
   if (pin === "bundled") return bundledData([], evergreenVersion);
   if (!/^\d{4}\.\d{2}\.\d{2}(?:\.\d+)?$/.test(pin)) {
-    throw new DataPinError(`"${pin}" is not a data version. Use a version such as 2026.10.01, or "bundled".`);
+    throw new DataPinError(`"${pin}" is not a data version. Use a version such as 2026.10.01, or "bundled".`, true);
   }
   const directory = cachedBundleDirectory(cache, pin);
   let files: [Buffer, string];

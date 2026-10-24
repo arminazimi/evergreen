@@ -223,7 +223,7 @@ test("with the real signature check, an unsigned or foreign signature is refused
 
   fixture.publish({ version: bundle.manifest.version, bundle, signature: foreign });
   const result = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env: { ...process.env, EVERGREEN_DATA_DIR: cache, EVERGREEN_DATA_URL: fixture.url } }).catch((error: { code: number; stderr: string }) => error);
-  assert.equal((result as { code: number }).code, 1);
+  assert.equal((result as { code: number }).code, 3);
   assert.match((result as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/);
 });
 
@@ -357,7 +357,7 @@ for (const [name, withoutHelper] of [
     };
     delete (env as Record<string, unknown>).NODE_USE_ENV_PROXY;
     const failure = await execute(process.execPath, [resolve("dist/src/cli.js"), "data", "update"], { env }).catch((error: { stderr: string; code: number }) => error);
-    assert.equal((failure as { code: number }).code, 1);
+    assert.equal((failure as { code: number }).code, 3);
     assert.match((failure as { stderr: string }).stderr, /Refusing data bundle 2999\.01\.01: The signature/, "the bundle was fetched, then refused for lack of a signature");
     assert.ok(proxied.length > 0, "the traffic went through the proxy");
     const fixturePort = new URL(fixture.url).port;

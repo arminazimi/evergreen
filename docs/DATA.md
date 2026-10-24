@@ -32,7 +32,7 @@ Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or ne
 
 ### Pinning
 
-`--data-version X` or `EVERGREEN_DATA_VERSION=X` (the flag wins) makes Evergreen use exactly bundle `X` from your cache, or `bundled` for the data shipped with the release. Unlike the automatic choice, a pin that cannot be met **stops the run** with exit code 2 instead of quietly using something else, so a CI job that pins its data either uses it or fails. The message tells you how to fetch it: `evergreen data update --data-version X`. A pinned bundle is verified just like any other, and is used whatever its age (the stale warning still appears).
+`--data-version X` or `EVERGREEN_DATA_VERSION=X` (the flag wins) makes Evergreen use exactly bundle `X` from your cache, or `bundled` for the data shipped with the release. Unlike the automatic choice, a pin that cannot be met **stops the run** with exit code 3 (a data failure) instead of quietly using something else, so a CI job that pins its data either uses it or fails. The message tells you how to fetch it: `evergreen data update --data-version X`. A pinned bundle is verified just like any other, and is used whatever its age (the stale warning still appears).
 
 ### Where the data is stored
 

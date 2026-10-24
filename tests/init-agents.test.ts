@@ -179,7 +179,7 @@ test("the command line reports each outcome with the right exit code", async () 
 
   const broken = await repository({ "AGENTS.md": `${SECTION_BEGIN}\n` });
   const refused = await run(["init", "--agents", broken]);
-  assert.equal(refused.code, 1);
+  assert.equal(refused.code, 4);
   assert.match(refused.stderr, /Nothing was changed/);
 
   for (const args of [["init"], ["init", root], ["init", "--agents", "--file", "README.md"], ["init", "--agents", "--bogus"], ["init", "--agents", root, root]]) {

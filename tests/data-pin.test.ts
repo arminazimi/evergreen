@@ -140,11 +140,11 @@ test("the CLI takes the pin from --data-version or EVERGREEN_DATA_VERSION, and t
   const env = { EVERGREEN_DATA_DIR: cache };
 
   const missing = await cli(["scan", project, "--data-version", "2999.01.01"], env);
-  assert.equal(missing.code, 2);
+  assert.equal(missing.code, 3);
   assert.match(missing.stderr, /2999\.01\.01 is pinned but is not in .*evergreen data update --data-version 2999\.01\.01/s);
 
   const fromEnvironment = await cli(["scan", project], { ...env, EVERGREEN_DATA_VERSION: "2999.01.01" });
-  assert.equal(fromEnvironment.code, 2);
+  assert.equal(fromEnvironment.code, 3);
   assert.match(fromEnvironment.stderr, /2999\.01\.01 is pinned/);
 
   const flagWins = await cli(["scan", project, "--data-version", "bundled"], { ...env, EVERGREEN_DATA_VERSION: "2999.01.01" });
@@ -166,6 +166,6 @@ test("a pin applies to checks and explanations too, and an empty variable means 
   const env = { EVERGREEN_DATA_DIR: cache };
   assert.equal((await cli(["check", "pkg:npm/request"], { ...env, EVERGREEN_DATA_VERSION: "" })).code, 1, "an empty variable is no pin");
   const pinned = await cli(["check", "pkg:npm/request", "--data-version", "2999.01.01"], env);
-  assert.equal(pinned.code, 2);
+  assert.equal(pinned.code, 3);
   assert.match(pinned.stderr, /is pinned but is not in/);
 });

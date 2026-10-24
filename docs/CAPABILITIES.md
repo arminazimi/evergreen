@@ -80,3 +80,34 @@ request, telemetry, or configuration write. Identical Evergreen versions produce
 byte-for-byte identical JSON output. The package's contract tests validate both the
 CLI output and committed example against the public JSON Schema and ensure every
 surface references registered capability identifiers.
+
+## Exit codes and error codes
+
+Every CLI failure belongs to one class. The class decides the exit code, and with
+`--json` (or `--format json`) the same class is written to stdout as an
+`evergreen.error.v1` document, so an agent can branch without parsing messages.
+
+| Class (`error.code`) | Exit code | Meaning |
+| --- | --- | --- |
+| *(none)* | 0 | The command succeeded. |
+| `policy` | 1 | A gate you configured failed: `check` found an affected dependency at or above `--fail-on`, `doctor` reported a failed check, or `--on-expired fail` met an expired suppression. |
+| `usage` | 2 | The command line is wrong: unknown command, flag, or value, or a missing argument. |
+| `data` | 3 | The input is well formed but the data is not there: a finding ID that was not found, a pinned data version that is not available, or a data update that was refused. |
+| `parse` | 4 | An input could not be parsed: an invalid Package URL, an unreadable or unsupported baseline, or an `AGENTS.md` section that is damaged. |
+| `internal` | 5 | Evergreen failed unexpectedly. This is a bug; please report it. |
+
+```json
+{
+  "schemaVersion": "evergreen.error.v1",
+  "error": {
+    "code": "usage",
+    "exitCode": 2,
+    "message": "Unknown command: frobnicate"
+  }
+}
+```
+
+The message is also written to stderr in every mode. A `policy` failure is a
+verdict on a result that was already printed, so stdout stays that single result
+document and no error document is added. The set of classes and their exit codes
+is stable; new classes would be added with new numbers, never by renumbering.

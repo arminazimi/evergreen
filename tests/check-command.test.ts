@@ -59,13 +59,13 @@ test("--fail-on sets the gate", async () => {
   assert.match(bad.stderr, /Unknown severity/);
 });
 
-test("usage errors exit 2 with a message", async () => {
+test("usage errors exit 2 and unparseable input exits 4", async () => {
   const missing = await check();
   assert.equal(missing.code, 2);
   assert.match(missing.stderr, /Missing package URL/);
   const invalid = await check("request");
-  assert.equal(invalid.code, 2);
+  assert.equal(invalid.code, 4);
   assert.match(invalid.stderr, /PURL must start with "pkg:"/);
-  assert.equal((await check("pkg:github/actions/checkout@latest")).code, 2);
+  assert.equal((await check("pkg:github/actions/checkout@latest")).code, 4);
   assert.equal((await check("pkg:npm/request", "--format", "sarif")).code, 2);
 });
