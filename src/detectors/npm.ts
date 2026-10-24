@@ -37,6 +37,8 @@ interface PackageRule extends DeprecationRule {
 interface NodeRule extends DeprecationRule {
   major?: number;
   maximumMajor?: number;
+  /** A line with an announced end that has not happened yet (decision 0010). */
+  scheduled?: boolean;
 }
 
 interface PackageManifest {
@@ -252,9 +254,11 @@ const LEGACY_MAXIMUM_MAJOR = 20;
  * Node.js 20 lists every line up to 20, as it always has. A range whose lowest version is a newer line is
  * checked against the newer lines too (up to `newestRuleMajor`) only if that floor line is itself end-of-life:
  * `>=21` is a problem, but `>=22` and `>=24` have supported floors, so the end-of-life lines 23 and 25 they
- * also allow are not a problem with the declaration.
+ * also allow are not a problem with the declaration. A scheduled line (announced end, not yet reached) is
+ * reported only for a declaration whose lowest allowed version is that line and that allows nothing newer
+ * (`^22`, `22.x`, a pinned `22`), never for a range such as `>=22` that merely allows it, and never extends the end-of-life candidates (`hasRule` and `newestRuleMajor` ignore it).
  */
-function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: number) => boolean): number[] {
+function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: number) => boolean, scheduledMajors: number[] = []): number[] {
   const range = semver.validRange(value);
   if (!range) {
     const direct = /^(?:v)?(\d+)(?:\.\d+){0,2}$/.exec(value.trim());
@@ -264,7 +268,8 @@ function runtimeMajors(value: string, newestRuleMajor: number, hasRule: (major: 
   // Past Node.js 20 only a floor that is itself end-of-life (a line with a rule) makes the declaration a problem.
   const maximum = floor > LEGACY_MAXIMUM_MAJOR ? (hasRule(floor) ? newestRuleMajor : LEGACY_MAXIMUM_MAJOR) : LEGACY_MAXIMUM_MAJOR;
   const candidates = Array.from({ length: maximum + 1 }, (_, index) => index);
-  return candidates.filter((major) => semver.intersects(range, `${major}.x`));
+  const ended = candidates.filter((major) => semver.intersects(range, `${major}.x`));
+  return [...ended, ...scheduledMajors.filter((major) => major === floor && !ended.includes(major) && semver.intersects(range, `${major}.x`) && !semver.intersects(range, `>=${major + 1}.0.0`))];
 }
 
 function ruleForMajor(rules: NodeRule[], major: number): NodeRule | undefined {
@@ -279,7 +284,7 @@ function declarationFinding(
   rule: NodeRule,
   detectedMajor: number,
 ): DetectorFinding {
-  const severity: Severity = declaration.kind === "pinned runtime" ? rule.severity : "medium";
+  const severity: Severity = declaration.kind === "pinned runtime" || rule.scheduled ? rule.severity : "medium";
   return {
     id: `${rule.id}:${relativePosix(root, declaration.path)}:${declaration.line}`,
     ruleId: rule.id,
@@ -386,7 +391,9 @@ export class NpmDetector implements Detector {
     for (const directory of workspaceDirectories) await load(directory);
 
     const findings: DetectorFinding[] = [];
-    const newestRuleMajor = Math.max(0, ...nodeRules.map((rule) => rule.major ?? 0));
+    const endedRules = nodeRules.filter((rule) => !rule.scheduled);
+    const scheduledMajors = nodeRules.flatMap((rule) => (rule.scheduled && rule.major !== undefined ? [rule.major] : []));
+    const newestRuleMajor = Math.max(0, ...endedRules.map((rule) => rule.major ?? 0));
     const seenRuntimeRules = new Set<string>();
     const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string }> = [];
 
@@ -398,7 +405,7 @@ export class NpmDetector implements Detector {
         if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
       }
       for (const declaration of declarations) {
-        for (const major of runtimeMajors(declaration.value, newestRuleMajor, (major) => ruleForMajor([...nodeRules], major) !== undefined)) {
+        for (const major of runtimeMajors(declaration.value, newestRuleMajor, (major) => ruleForMajor(endedRules, major) !== undefined, scheduledMajors)) {
           const rule = ruleForMajor([...nodeRules], major);
           const key = rule ? `${rule.id}:${declaration.path}:${declaration.line}` : "";
           if (rule && !seenRuntimeRules.has(key)) {

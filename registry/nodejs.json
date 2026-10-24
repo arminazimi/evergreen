@@ -4790,6 +4790,67 @@
           "shape": "reference"
         }
       ]
+    },
+    {
+      "id": "nodejs.runtime.eol-22",
+      "ecosystem": "nodejs",
+      "purl": "pkg:generic/nodejs",
+      "vers": "vers:semver/>=22.0.0|<23.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Node.js 22 reaches end-of-life on 2027-04-30",
+      "summary": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, according to the Node.js Release Working Group schedule.",
+      "severity": "low",
+      "replacement": "Node.js 24 LTS or later",
+      "deadline": "2027-04-30",
+      "sources": [
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-runtime-declaration",
+            "title": "Update the Node.js declaration",
+            "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 24 LTS or later.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-runtime-surfaces",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "node --version",
+            "purpose": "Confirm the active Node.js runtime is supported."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository test suite on the target runtime when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify the project builds on the target runtime."
+          }
+        ]
+      },
+      "x-nodejs": {
+        "major": 22,
+        "scheduled": true
+      }
     }
   ]
 }

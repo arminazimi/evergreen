@@ -29,6 +29,7 @@ test("drafts one end-of-life rule per release line whose end date has passed, fr
     ["nodejs.runtime.eol-19", "2023-06-01"],
     ["nodejs.runtime.eol-20", "2026-04-30"],
     ["nodejs.runtime.eol-21", "2024-06-01"],
+    ["nodejs.runtime.eol-22", "2027-04-30"],
     ["nodejs.runtime.eol-23", "2025-06-01"],
     ["nodejs.runtime.eol-25", "2026-06-01"],
   ]);
@@ -47,13 +48,42 @@ test("explains what it left out", async () => {
   const { notes } = await execute(nodejsScheduleImporter, { replay: recording });
   assert.deepEqual(notes, [
     `Skipped 17 release lines older than v${FIRST_DRAFTED_MAJOR} (v0.8 to v17); the hand-written nodejs.runtime.legacy rule covers them.`,
-    "Not yet end-of-life: v22 (ends 2027-04-30), v24 (ends 2028-04-30), v26 (ends 2029-04-30), v27 (ends 2030-04-30).",
+    "Not yet end-of-life: v24 (ends 2028-04-30), v26 (ends 2029-04-30), v27 (ends 2030-04-30).",
   ]);
+});
+
+test("drafts a scheduled rule for a line that ends within twelve months, with the id of the later end-of-life rule", async () => {
+  const drafts = await execute(nodejsScheduleImporter, { replay: recording });
+  const scheduled = drafts.rules.find((rule) => rule.id === "nodejs.runtime.eol-22")!;
+  assert.equal(scheduled.event, "scheduled-end-of-life");
+  assert.equal(scheduled.severity, "low");
+  assert.equal(scheduled.deadline, "2027-04-30");
+  assert.equal(scheduled.vers, "vers:semver/>=22.0.0|<23.0.0");
+  assert.equal(scheduled.replacement, "Node.js 24 LTS or later");
+  assert.deepEqual(scheduled["x-nodejs"], { major: 22, scheduled: true });
+  assert.match(scheduled.migration!.steps[0]!.instructions, /Node\.js 24 LTS or later/);
+
+  // The day it ends the same id becomes the end-of-life rule.
+  const promoted = await execute(nodejsScheduleImporter, { replay: recording, now: "2027-04-30" });
+  const ended = promoted.rules.find((rule) => rule.id === "nodejs.runtime.eol-22")!;
+  assert.equal(ended.event, "end-of-life");
+  assert.equal(ended.severity, "high");
+  assert.deepEqual(ended["x-nodejs"], { major: 22 });
+});
+
+test("a line that ends more than twelve months away is only noted", async () => {
+  const schedule = { v22: { start: "2024-04-24", lts: "2024-10-29", end: "2027-04-30" } };
+  const early = await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-30"));
+  assert.deepEqual(early.rules.map((rule) => rule.event), ["scheduled-end-of-life"]);
+  const far = await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-29"));
+  assert.equal(far.rules.length, 0);
+  assert.ok(far.notes.includes("Not yet end-of-life: v22 (ends 2027-04-30)."));
 });
 
 test("follows the calendar: a later run drafts more lines and moves the recommended LTS", async () => {
   const before = await execute(nodejsScheduleImporter, { replay: recording, now: "2025-01-01" });
-  assert.deepEqual(before.rules.map((rule) => rule.id), ["nodejs.runtime.eol-19", "nodejs.runtime.eol-21"]);
+  assert.deepEqual(before.rules.map((rule) => rule.id), ["nodejs.runtime.eol-18", "nodejs.runtime.eol-19", "nodejs.runtime.eol-21", "nodejs.runtime.eol-23"]);
+  assert.deepEqual(before.rules.map((rule) => rule.event), ["scheduled-end-of-life", "end-of-life", "end-of-life", "scheduled-end-of-life"]);
 
   const later = await execute(nodejsScheduleImporter, { replay: recording, now: "2027-05-01" });
   assert.ok(later.rules.some((rule) => rule.id === "nodejs.runtime.eol-22"), "v22 ends 2027-04-30");
@@ -63,8 +93,8 @@ test("follows the calendar: a later run drafts more lines and moves the recommen
 
 test("a line ends on its end date", async () => {
   const schedule = { v20: { start: "2023-04-18", lts: "2023-10-24", end: "2026-04-30" }, v22: { start: "2024-04-24", lts: "2024-10-29", end: "2027-04-30" } };
-  assert.equal((await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-29"))).rules.length, 0);
-  assert.equal((await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-30"))).rules.length, 1);
+  assert.deepEqual((await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-29"))).rules.map((rule) => rule.event), ["scheduled-end-of-life"]);
+  assert.deepEqual((await runImporter(nodejsScheduleImporter, inline(schedule, "2026-04-30"))).rules.map((rule) => rule.event), ["end-of-life", "scheduled-end-of-life"]);
 });
 
 test("agrees with the hand-written rules on everything except what the official schedule disputes", async () => {
@@ -95,7 +125,7 @@ test("skips entries it cannot use and says so", async () => {
     vnext: { end: "2026-01-01" },
   };
   const result = await runImporter(nodejsScheduleImporter, inline(schedule));
-  assert.deepEqual(result.rules.map((rule) => rule.id), ["nodejs.runtime.eol-18"]);
+  assert.deepEqual(result.rules.map((rule) => rule.id), ["nodejs.runtime.eol-18", "nodejs.runtime.eol-22"]);
   assert.deepEqual(result.notes, [
     "Skipped v18.1: not a release line name this importer understands.",
     "Skipped v19: the schedule has no valid end date for it.",
@@ -103,7 +133,6 @@ test("skips entries it cannot use and says so", async () => {
     "Skipped v21: the schedule has no valid end date for it.",
     "Skipped vnext: not a release line name this importer understands.",
     "Skipped 1 release line older than v18 (v16); the hand-written nodejs.runtime.legacy rule covers it.",
-    "Not yet end-of-life: v22 (ends 2027-04-30).",
   ]);
 });
 

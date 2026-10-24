@@ -199,6 +199,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Node.js 19 is end-of-life](nodejs.runtime.eol-19.html) — end of life, `nodejs.runtime.eol-19`
 - [Node.js 20 is end-of-life](nodejs.runtime.eol-20.html) — end of life, `nodejs.runtime.eol-20`
 - [Node.js 21 is end-of-life](nodejs.runtime.eol-21.html) — end of life, `nodejs.runtime.eol-21`
+- [Node.js 22 reaches end-of-life on 2027-04-30](nodejs.runtime.eol-22.html) — scheduled end of life, `nodejs.runtime.eol-22`
 - [Node.js 23 is end-of-life](nodejs.runtime.eol-23.html) — end of life, `nodejs.runtime.eol-23`
 - [Node.js 25 is end-of-life](nodejs.runtime.eol-25.html) — end of life, `nodejs.runtime.eol-25`
 - [Legacy Node.js runtime is end-of-life](nodejs.runtime.legacy.html) — end of life, `nodejs.runtime.legacy`

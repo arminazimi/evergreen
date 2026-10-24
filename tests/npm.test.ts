@@ -202,3 +202,26 @@ test("a package in dependencies and peerDependencies reports the dependencies li
   assert.equal(globFindings[0]?.location.line, 6);
   assert.match(globFindings[0]?.summary ?? "", /declared in dependencies as \^9\.0\.0/);
 });
+
+test("a scheduled Node.js line is reported only for a declaration that stays on it", async () => {
+  const reported = async (files: Record<string, string>) => (await new NpmDetector().scan({ root: await repository(files) })).filter((finding) => finding.ruleId === "nodejs.runtime.eol-22");
+
+  for (const value of ["22", "22.x", "^22.1.0", "~22.4.0", ">=22.0.0 <23"]) {
+    const findings = await reported({ "package.json": JSON.stringify({ engines: { node: value } }) });
+    assert.equal(findings.length, 1, value);
+    assert.equal(findings[0]!.severity, "low", value);
+    assert.equal(findings[0]!.deadline, "2027-04-30", value);
+  }
+  const pinned = await reported({ "package.json": "{}", ".nvmrc": "v22.11.0\n" });
+  assert.deepEqual(pinned.map((finding) => [finding.severity, finding.location.path]), [["low", ".nvmrc"]]);
+
+  // A range that merely allows Node.js 22 is not a problem with the declaration, and neither is one that starts below it.
+  for (const value of [">=22", ">=22.0.0", "^20 || ^22", ">=20", "24", "*"]) {
+    assert.deepEqual(await reported({ "package.json": JSON.stringify({ engines: { node: value } }) }), [], value);
+  }
+});
+
+test("a scheduled Node.js line does not make a range report the ended lines it allows", async () => {
+  const root = await repository({ "package.json": JSON.stringify({ engines: { node: ">=22" } }) });
+  assert.deepEqual(await new NpmDetector().scan({ root }), []);
+});

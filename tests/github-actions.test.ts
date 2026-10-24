@@ -348,18 +348,27 @@ test("a literal node-version for actions/setup-node is judged with the nodejs ru
     const analysis = await new GitHubActionsDetector().analyze({ root });
     assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]), [[rule, 10]], written);
   }
-  const supported = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: 22")) });
+  const supported = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: 24")) });
   assert.deepEqual(supported.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")), []);
 });
 
 test("a node-version that names a matrix key is judged per entry at the entry's own line", async () => {
-  const matrix = "    strategy:\n      matrix:\n        node:\n          - 14\n          - 22\n          - 20\n";
+  const matrix = "    strategy:\n      matrix:\n        node:\n          - 14\n          - 24\n          - 20\n";
   const root = await repositoryWithWorkflow(setupNodeWorkflow(matrix, "          node-version: ${{ matrix.node }}"));
   const analysis = await new GitHubActionsDetector().analyze({ root });
   assert.deepEqual(
     analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
     [["nodejs.runtime.legacy", 9], ["nodejs.runtime.eol-20", 11]],
   );
+});
+
+test("a scheduled Node.js line is a low-severity note on a pinned node-version, and not a range", async () => {
+  const pinned = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '22.x'")) });
+  const found = pinned.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime."));
+  assert.deepEqual(found.map((finding) => [finding.ruleId, finding.severity, finding.deadline]), [["nodejs.runtime.eol-22", "low", "2027-04-30"]]);
+
+  const range = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: '>=22'")) });
+  assert.deepEqual(range.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")), []);
 });
 
 test("an expression, a range, or an alias node-version is unclassified, never guessed", async () => {

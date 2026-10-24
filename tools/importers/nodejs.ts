@@ -79,9 +79,13 @@ export const nodejsScheduleImporter: Importer = {
 
     // The oldest line that is still supported and has long-term support is the safest upgrade target.
     const supportedLts = lines.find(({ major, minor, entry }) => major !== undefined && minor === undefined && isDate(entry?.lts) && entry.lts <= today && isDate(entry.end) && entry.end > today);
-    const replacementMajor = supportedLts?.major;
-    if (replacementMajor === undefined) notes.push("No supported long-term-support line was found, so drafts have no replacement or migration steps.");
+    const supportedLtsMajor = supportedLts?.major;
+    // A line that has not ended yet must not recommend itself: its replacement is the next supported long-term-support line.
+    const laterLts = (number: number) => lines.find(({ major, minor, entry }) => major !== undefined && major > number && minor === undefined && isDate(entry?.lts) && entry.lts <= today && isDate(entry.end) && entry.end > today)?.major;
+    if (supportedLtsMajor === undefined) notes.push("No supported long-term-support line was found, so drafts have no replacement or migration steps.");
 
+    // An announced end within a year becomes a scheduled rule (decision 0010); a later one is only noted.
+    const horizon = isoDate(new Date(Date.UTC(context.now.getUTCFullYear() + 1, context.now.getUTCMonth(), context.now.getUTCDate())));
     const older: string[] = [];
     const notYet: string[] = [];
     const rules: DraftRule[] = [];
@@ -98,12 +102,28 @@ export const nodejsScheduleImporter: Importer = {
         notes.push(`Skipped ${name}: the schedule has no valid end date for it.`);
         continue;
       }
-      if (entry.end > today) {
+      const scheduled = entry.end > today;
+      if (scheduled && entry.end > horizon) {
         notYet.push(`${name} (ends ${entry.end})`);
         continue;
       }
       const number = major;
-      rules.push({
+      const replacementMajor = scheduled ? laterLts(number) : supportedLtsMajor;
+      rules.push(scheduled ? {
+        id: `nodejs.runtime.eol-${number}`,
+        ecosystem: "nodejs",
+        purl: "pkg:generic/nodejs",
+        vers: `vers:semver/>=${number}.0.0|<${number + 1}.0.0`,
+        event: "scheduled-end-of-life",
+        title: `Node.js ${number} reaches end-of-life on ${entry.end}`,
+        summary: `Node.js ${number} is scheduled to stop receiving security and bug fixes on ${entry.end}, according to the Node.js Release Working Group schedule.`,
+        severity: "low",
+        ...(replacementMajor !== undefined ? { replacement: `Node.js ${replacementMajor} LTS or later` } : {}),
+        deadline: entry.end,
+        sources: [SOURCE],
+        ...(replacementMajor !== undefined ? { migration: migration(replacementMajor) } : {}),
+        "x-nodejs": { major: number, scheduled: true },
+      } : {
         id: `nodejs.runtime.eol-${number}`,
         ecosystem: "nodejs",
         purl: "pkg:generic/nodejs",
