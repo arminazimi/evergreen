@@ -65,6 +65,12 @@ Requirements: Node.js 22 or newer.
 npx evergreen-deprecation scan .
 ```
 
+Give an agent a short answer instead of the full report: one line per finding with its id, location, severity, and replacement, most severe first, capped at 25 findings (the rest are counted) and under 8 KiB:
+
+```bash
+npx evergreen-deprecation scan . --format compact
+```
+
 Verify that the CLI, local MCP server, Agent Skill, plugin foundations, and CI
 workspace are ready without changing configuration or uploading repository data:
 
