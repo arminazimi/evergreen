@@ -47,6 +47,7 @@
 - Add migration steps and verification commands. (#944)
 - Add the first five curated Azure hosted-image rules. (#940)
 - Promote the detector to beta with a blind-selected corpus. (#936)
+- Add Angular v21 and v22 lifecycle rules. (#932)
 - Add @angular/core lifecycle rules and fixtures. (#928)
 - Add Vue 2 end-of-life rule with fixtures and migration packet. (#927)
 - Add lifecycle rules for Next.js 12 to 15. (#929)

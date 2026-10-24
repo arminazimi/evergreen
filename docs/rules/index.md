@@ -281,6 +281,8 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [@angular/core v18 and older are no longer supported](npm.package.angular.core.v18-and-older.end-of-support.html) — end of support, `npm.package.angular.core.v18-and-older.end-of-support`
 - [@angular/core v19 is no longer supported](npm.package.angular.core.v19.end-of-support.html) — end of support, `npm.package.angular.core.v19.end-of-support`
 - [@angular/core v20 reaches end of life on 2026-11-28](npm.package.angular.core.v20.scheduled-end-of-life.html) — scheduled end of life, `npm.package.angular.core.v20.scheduled-end-of-life`
+- [@angular/core v21 reaches end of life on 2027-06-30](npm.package.angular.core.v21.scheduled-end-of-life.html) — scheduled end of life, `npm.package.angular.core.v21.scheduled-end-of-life`
+- [@angular/core v22 reaches end of life on 2028-06-30](npm.package.angular.core.v22.scheduled-end-of-life.html) — scheduled end of life, `npm.package.angular.core.v22.scheduled-end-of-life`
 - [are-we-there-yet is no longer supported](npm.package.are-we-there-yet.eol.html) — end of life, `npm.package.are-we-there-yet.eol`
 - [babel-eslint is deprecated](npm.package.babel-eslint.deprecated.html) — deprecated, `npm.package.babel-eslint.deprecated`
 - [babel-preset-es2015 is deprecated](npm.package.babel-preset-es2015.deprecated.html) — deprecated, `npm.package.babel-preset-es2015.deprecated`
