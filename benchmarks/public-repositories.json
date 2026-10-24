@@ -31,6 +31,69 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 83 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-19",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-21",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-23",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-25",
+          "path": ".github/workflows/ci.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:49 at this commit: `node-version: [18, 19, 20, 21, 22, 23, 24, 25, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/legacy.yml",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/legacy.yml:33 at this commit: `node-version: [16, 17]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -55,7 +118,17 @@
       "commit": "f736849a10a9b2ca57fb09437feb8294cda76234",
       "ecosystem": "node",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 133,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:133 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        }
+      ]
     },
     {
       "repository": "koajs/koa",
@@ -95,7 +168,116 @@
       "commit": "43968f294eaf79dabf0fcc2c05fd9add6a4faf12",
       "ecosystem": "node",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 150,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:150 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:72 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 148,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:148 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:70 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 111,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:111 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 189,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:189 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 109,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:109 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 187,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:187 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 150,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:150 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/release-branch.yml",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-branch.yml:72 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 148,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:148 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/run-ci.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/run-ci.yml:70 at this commit: `node-version: [12, 14, 16, 18]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        }
+      ]
     },
     {
       "repository": "chalk/chalk",
@@ -124,6 +306,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 33 of .github/workflows/update-github.yaml reads uses: actions/github-script@v6, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/unit-tests.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/unit-tests.yml:23 at this commit: `node-version: [20.x, 24.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -188,6 +379,15 @@
           "line": 23,
           "groundTruthSource": {
             "kind": "maintainer-review"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/test.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:16 at this commit: `node: [20, 22, 24]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -256,6 +456,132 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 50 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 99,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:99 at this commit: `- 18.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yml",
+          "line": 76,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:76 at this commit: `- 18.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 100,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:100 at this commit: `- 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 77,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:77 at this commit: `- 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 94,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:94 at this commit: `- 10.0.0`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 95,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:95 at this commit: `- 10.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 96,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:96 at this commit: `- 12.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 97,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:97 at this commit: `- 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci-release.yml",
+          "line": 98,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-release.yml:98 at this commit: `- 16.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 71,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:71 at this commit: `- 10.0.0`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 72,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:72 at this commit: `- 10.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 73,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:73 at this commit: `- 12.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 74,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:74 at this commit: `- 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 75,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:75 at this commit: `- 16.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -990,14 +1316,61 @@
       "commit": "f2d63ccf2f535aa6e6d40a0e660ee909b08d98b3",
       "ecosystem": "node-actions",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/e2e-tests.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/e2e-tests.yml:22 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/release.yml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:37 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/unit-tests.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/unit-tests.yml:17 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        }
+      ]
     },
     {
       "repository": "phmatray/claude-deck",
       "commit": "d1325af2d9d883d86288312079d1bca012ee10c2",
       "ecosystem": "node-actions",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:32 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/release-please.yml",
+          "line": 80,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release-please.yml:80 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        }
+      ]
     },
     {
       "repository": "edwardm/ECORE-JS-Page-Down-Progress",
@@ -1156,6 +1529,33 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 86 of .github/workflows/tests.yml reads uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4, a SHA pin of a release below the supported major."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/tests.yml",
+          "line": 171,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/tests.yml:171 at this commit: `node-version: '18'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/tests.yml",
+          "line": 88,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/tests.yml:88 at this commit: `node-version: '18'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/release.yml",
+          "line": 91,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:91 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -1249,6 +1649,24 @@
           "groundTruthSource": {
             "kind": "migration-commit",
             "url": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/node-tests.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node-tests.yml:17 at this commit: `node-version: [12, 16, 18, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/node-tests.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node-tests.yml:17 at this commit: `node-version: [12, 16, 18, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -1542,6 +1960,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 30 of package.json declares `\"babel-eslint\": \"^10.1.0\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/webpack.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/webpack.yml:16 at this commit: `node-version: [16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -1567,6 +1994,24 @@
           "groundTruthSource": {
             "kind": "migration-commit",
             "url": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:18 at this commit: `node-version: [18.x, 20.x, 22.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:18 at this commit: `node-version: [18.x, 20.x, 22.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -1621,6 +2066,24 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: the Node.js range on line 25 of package.json also allows release line 19, which has ended; the same declaration is already listed for lines 18 and 20."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yaml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:14 at this commit: `node-version: [18, 20, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:14 at this commit: `node-version: [18, 20, 22]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -1647,6 +2110,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 20 of packages/protoc-gen-connect-query/package.json reads `\"node\": \">=20\"` under engines.node in a workspace package, a range that includes a Node.js release line that has ended. Found once workspace packages were scanned."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:57 at this commit: `node-version: [24.x, 22.x, 20.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -1672,6 +2144,15 @@
           "groundTruthSource": {
             "kind": "migration-commit",
             "url": "https://github.com/Fdawgs/ice-barrage/commit/62ca3d3af48c6e329581a1849c5f4b15481e8cea"
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:43 at this commit: `node-version: [20, 22, 24, 26]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -2205,6 +2686,69 @@
             "kind": "maintainer-review",
             "note": "Reviewed 2026-10-19 at this pinned commit, package.json line 103: @types/sanitize-filename is declared as ^1.6.3; npm explicitly deprecates matching version 1.6.3 (https://registry.npmjs.org/@types%2fsanitize-filename/1.6.3)."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 137,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:137 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 154,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:154 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:25 at this commit: `node-version: [20.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:45 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:57 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 95,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:95 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/lint.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/lint.yml:22 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -2492,6 +3036,69 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 15 of examples/with-nextjs/package.json reads `\"next\": \"14.1\"` under dependencies. Next.js 14 is listed under Unsupported Versions in the support policy (https://nextjs.org/support-policy)."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/autorelease-excalidraw.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/autorelease-excalidraw.yml:18 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/lint.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/lint.yml:15 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/locales-coverage.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/locales-coverage.yml:20 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/sentry-production.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/sentry-production.yml:16 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/size-limit.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/size-limit.yml:17 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/test-coverage-pr.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test-coverage-pr.yml:17 at this commit: `node-version: \"20.x\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/test.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/test.yml:15 at this commit: `node-version: 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -2679,6 +3286,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of runtime.txt reads `3.8`, which python.runtime.eol-3.9-and-older reports."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/frontend-lint.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/frontend-lint.yml:18 at this commit: `node: [16]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -3092,6 +3708,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 11 of www/og-image/package.json reads `\"next\": \"^15.5.25\"` under dependencies. Next.js 15 is in Maintenance LTS, whose window ends 2026-10-21 (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/main.yml",
+          "line": 259,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:259 at this commit: `node-start: ['20.x', '22.x']`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -5992,6 +6617,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 24 of .github/workflows/nodejs.yaml reads uses: actions/setup-node@v1, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/nodejs.yaml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/nodejs.yaml:14 at this commit: `node-version: [14.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -10559,6 +11193,15 @@
             "kind": "maintainer-review",
             "note": "Read Gemfile.lock:369 at this commit: `ruby 3.1.4p223`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/linters.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/linters.yml:30 at this commit: `node-version: \"18.x\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -12178,6 +12821,15 @@
             "kind": "maintainer-review",
             "note": "Read src/Jackett.Updater/Jackett.Updater.csproj:4 at this commit: `<TargetFrameworks>net9.0;net471</TargetFrameworks>`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/issuebot.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/issuebot.yml:29 at this commit: `node-version: '18.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -12715,6 +13367,60 @@
             "kind": "maintainer-review",
             "note": "Read packages/round-manager/package.json:8 at this commit: `\"node\": \">=20.1.0\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/builder.yml",
+          "line": 27,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/builder.yml:27 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/common.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/common.yml:26 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/data-layer.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/data-layer.yml:26 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/grant-explorer.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/grant-explorer.yml:26 at this commit: `node-version: '20'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/round-manager.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/round-manager.yml:26 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/verify-env.yml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/verify-env.yml:26 at this commit: `node-version: \"20\"`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -13039,7 +13745,35 @@
       "commit": "67231f373deac3db29f685985a5632b6c0eb0f08",
       "ecosystem": "container",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "nodejs.runtime.eol-25",
+          "path": ".github/workflows/ci.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:22 at this commit: `node-version: [24, 25]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-25",
+          "path": ".github/workflows/daily-summary.yml",
+          "line": 44,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/daily-summary.yml:44 at this commit: `node-version: '25'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-25",
+          "path": ".github/workflows/readme-whats-new.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/readme-whats-new.yml:49 at this commit: `node-version: '25'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        }
+      ]
     },
     {
       "repository": "navikt/security-playbook",
@@ -13113,6 +13847,42 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/CI.yml:77 at this commit: `uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/CI.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/CI.yml:29 at this commit: `node-version: 18`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/CI.yml",
+          "line": 53,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/CI.yml:53 at this commit: `node-version: 18`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/CI.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/CI.yml:70 at this commit: `node-version: [14.x, 18.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/CI.yml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/CI.yml:70 at this commit: `node-version: [14.x, 18.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -15333,6 +16103,33 @@
             "kind": "maintainer-review",
             "note": "Read package.json:24 at this commit: `\"node\": \">=20\",`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci-build.yml",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-build.yml:23 at this commit: `- 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/samples.yml",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/samples.yml:20 at this commit: `- 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/samples.yml",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/samples.yml:50 at this commit: `- 20.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -15394,6 +16191,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read packages/mcp-server/package.json:40 at this commit: `\"node\": \"^20.19.0 || >=22.12.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci-legacy-5.0.4.yml",
+          "line": 42,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci-legacy-5.0.4.yml:42 at this commit: `- 20`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -16182,6 +16988,15 @@
             "kind": "maintainer-review",
             "note": "Read package.json:39 at this commit: `\"babel-eslint\": \"^10.0.3\",`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/docs.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/docs.yml:13 at this commit: `node-version: '15'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -16589,6 +17404,42 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/release.yml:23 at this commit: `- uses: actions/setup-node@v2`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:19 at this commit: `node-version: 15.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 29,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:29 at this commit: `version: [10.x, 12.x, 14.x, 15.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/release.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:14 at this commit: `node-version: 12`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/release.yml",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:25 at this commit: `node-version: 12`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -16734,6 +17585,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:51 at this commit: `\"node\": \">=12\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/node.js.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:18 at this commit: `node-version: [14.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -16883,6 +17743,51 @@
             "kind": "maintainer-review",
             "note": "Read packages/svrx/package.json:67 at this commit: `\"node\": \">=8.9.0\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/cov.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cov.yml:18 at this commit: `node-version: '12.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/release.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:16 at this commit: `node-version: '12.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/testOnLinux.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnLinux.yml:15 at this commit: `node-version: [8.9.x, 12.x, 15.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/testOnMac.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnMac.yml:15 at this commit: `node-version: [8.9.x, 12.x, 15.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/testOnWin.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/testOnWin.yml:15 at this commit: `node-version: [8.9.x, 12.x, 15.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -17003,6 +17908,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:54 at this commit: `\"rollup-plugin-terser\": \"^5.1.3\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:12 at this commit: `node-version: [10.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -17144,6 +18058,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:14 at this commit: `\"node\": \"^12.22.0 || ^14.17.0 || >=16.0.0\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/nodejs.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/nodejs.yml:15 at this commit: `node-version: [12.x, 14.x, 16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -17517,6 +18440,33 @@
             "kind": "maintainer-review",
             "note": "Read package.json:20 at this commit: `\"node\": \">=11.7.0\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:13 at this commit: `node-version: [14.x, 16.x, 18.x, 20.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/ci.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:13 at this commit: `node-version: [14.x, 16.x, 18.x, 20.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 13,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:13 at this commit: `node-version: [14.x, 16.x, 18.x, 20.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -17595,6 +18545,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/node.js.yml:16 at this commit: `- uses: actions/cache@v4`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/node.js.yml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:15 at this commit: `node-version: 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -17807,6 +18766,33 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:7 at this commit: `\"node\": \">=8.2.1\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/build.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/build.yml:18 at this commit: `node-version: 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/publish.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:14 at this commit: `node-version: 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/publish.yml",
+          "line": 30,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:30 at this commit: `node-version: 14.x`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -18368,6 +19354,24 @@
             "kind": "maintainer-review",
             "note": "Read package.json:76 at this commit: `\"rollup-plugin-babel\": \"^4.4.0\",`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/node.js.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:19 at this commit: `node-version: [18.x, 20.x, 22.*]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/node.js.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/node.js.yml:19 at this commit: `node-version: [18.x, 20.x, 22.*]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -18430,6 +19434,24 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/ci.yml:23 at this commit: `uses: actions/cache@v1`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/cd.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/cd.yml:17 at this commit: `node-version: '12.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yml",
+          "line": 16,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yml:16 at this commit: `node-version: '12.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -18455,6 +19477,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/release.yml:16 at this commit: `uses: actions/setup-node@v3`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/release.yml",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/release.yml:18 at this commit: `node-version: '18.x'`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -18543,6 +19574,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/main.yml:22 at this commit: `uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/main.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/main.yml:14 at this commit: `node: [12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -18651,6 +19691,33 @@
             "kind": "maintainer-review",
             "note": "Read package.json:32 at this commit: `\"request\": \"^2.88.2\",`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/integration-tests.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/integration-tests.yml:22 at this commit: `node-version: [16.x, 14.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/linting.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/linting.yml:21 at this commit: `node-version: [16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/solr-legacy.yml",
+          "line": 22,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/solr-legacy.yml:22 at this commit: `node-version: [16.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -18757,6 +19824,24 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/ci.yaml:20 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/ci.yaml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:15 at this commit: `node-version: [12.x, 14.x, 16.x, 18.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/ci.yaml",
+          "line": 15,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/ci.yaml:15 at this commit: `node-version: [12.x, 14.x, 16.x, 18.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -18843,6 +19928,60 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:179 at this commit: `\"node\": \">=16.15.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/workflow.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:14 at this commit: `node: [16.14.0, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/workflow.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:49 at this commit: `node: [16.15.1, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/workflow.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:14 at this commit: `node: [16.14.0, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-20",
+          "path": ".github/workflows/workflow.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:49 at this commit: `node: [16.15.1, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/workflow.yml",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:14 at this commit: `node: [16.14.0, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/workflow.yml",
+          "line": 49,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/workflow.yml:49 at this commit: `node: [16.15.1, 18, 20]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]
@@ -18933,6 +20072,15 @@
             "kind": "maintainer-review",
             "note": "Read workspaces/mammoth-cli/package.json:26 at this commit: `\"node\": \">=8.0.0\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "nodejs.runtime.legacy",
+          "path": ".github/workflows/master.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/master.yml:17 at this commit: `node-version: 16`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
         }
       ]
     },
@@ -18994,6 +20142,33 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/publish.yml:26 at this commit: `- uses: actions/setup-node@v1`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/coverage.yml",
+          "line": 19,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/coverage.yml:19 at this commit: `node-version: 18`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/publish.yml",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:17 at this commit: `node-version: 18`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
+          }
+        },
+        {
+          "ruleId": "nodejs.runtime.eol-18",
+          "path": ".github/workflows/publish.yml",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .github/workflows/publish.yml:28 at this commit: `node-version: 18`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
         }
       ]

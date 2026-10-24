@@ -329,3 +329,44 @@ test("dotnet-version is read only for actions/setup-dotnet, and malformed workfl
   const supported = await repositoryWithWorkflow(setupDotnetWorkflow("          dotnet-version: 10.0.x"));
   assert.deepEqual((await new GitHubActionsDetector().analyze({ root: supported })).findings, []);
 });
+
+const setupNodeWorkflow = (matrix: string, version: string): string => `name: CI
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+${matrix}    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+${version}
+`;
+
+test("a literal node-version for actions/setup-node is judged with the nodejs runtime rules", async () => {
+  for (const [written, rule] of [["16", "nodejs.runtime.legacy"], ["'18.x'", "nodejs.runtime.eol-18"], ["20.11.1", "nodejs.runtime.eol-20"]] as const) {
+    const root = await repositoryWithWorkflow(setupNodeWorkflow("", `          node-version: ${written}`));
+    const analysis = await new GitHubActionsDetector().analyze({ root });
+    assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]), [[rule, 10]], written);
+  }
+  const supported = await new GitHubActionsDetector().analyze({ root: await repositoryWithWorkflow(setupNodeWorkflow("", "          node-version: 22")) });
+  assert.deepEqual(supported.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")), []);
+});
+
+test("a node-version that names a matrix key is judged per entry at the entry's own line", async () => {
+  const matrix = "    strategy:\n      matrix:\n        node:\n          - 14\n          - 22\n          - 20\n";
+  const root = await repositoryWithWorkflow(setupNodeWorkflow(matrix, "          node-version: ${{ matrix.node }}"));
+  const analysis = await new GitHubActionsDetector().analyze({ root });
+  assert.deepEqual(
+    analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
+    [["nodejs.runtime.legacy", 9], ["nodejs.runtime.eol-20", 11]],
+  );
+});
+
+test("an expression, a range, or an alias node-version is unclassified, never guessed", async () => {
+  for (const written of ["${{ inputs.node }}", "lts/*", ">=18", "latest"]) {
+    const root = await repositoryWithWorkflow(setupNodeWorkflow("", `          node-version: '${written}'`));
+    const analysis = await new GitHubActionsDetector().analyze({ root });
+    assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.")), [], written);
+    assert.ok(analysis.unclassified.some((item) => item.component === "actions/setup-node"), written);
+  }
+});

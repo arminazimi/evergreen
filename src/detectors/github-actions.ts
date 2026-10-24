@@ -9,6 +9,7 @@ import { loadRegistryRules, validateRegistryV2 } from "../registry.js";
 import type { RegistryV2Rule } from "../registry.js";
 import { versContains } from "../vers.js";
 import { classifyDotnetVersion, setupDotnetVersions } from "./github-actions-dotnet.js";
+import { classifyNodeVersion, setupNodeVersions } from "./github-actions-node.js";
 import type {
   Detector,
   DetectorAnalysis,
@@ -226,6 +227,49 @@ function judgeSetupDotnet(
   }
 }
 
+/**
+ * Judges the `node-version` input of `actions/setup-node` with the `nodejs` runtime rules, the same reuse as
+ * `judgeSetupDotnet`. A floating, range, or non-literal entry is unclassified, never guessed.
+ */
+function judgeSetupNode(
+  contents: string,
+  path: string,
+  rules: readonly RegistryV2Rule[],
+  findings: DetectorFinding[],
+  unclassified: DetectorUnclassifiedReference[],
+): void {
+  for (const entry of setupNodeVersions(contents)) {
+    const location = { path, line: entry.line };
+    const reference = `node-version: ${entry.value}`;
+    if (entry.expression) {
+      unclassified.push({ component: "actions/setup-node", reference, reason: "the version is an expression, which Evergreen does not evaluate", location });
+      continue;
+    }
+    const version = classifyNodeVersion(entry.value);
+    if (version.kind === "unclassified") {
+      unclassified.push({ component: "actions/setup-node", reference, reason: version.reason, location });
+      continue;
+    }
+    const rule = rules.find((item) => versContains(item.vers, version.lowest) && versContains(item.vers, version.highest));
+    if (rule) {
+      findings.push({
+        id: `${rule.id}:${path}:${entry.line}`,
+        ruleId: rule.id,
+        title: rule.title,
+        summary: `${path} installs Node.js ${entry.value} with actions/setup-node. ${rule.summary}`,
+        severity: rule.severity,
+        location,
+        ...(rule.replacement ? { replacement: rule.replacement } : {}),
+        ...(rule.deadline ? { deadline: rule.deadline } : {}),
+        ...(rule.migration ? { migration: rule.migration } : {}),
+        sources: rule.sources,
+      });
+    } else if (rules.some((item) => versContains(item.vers, version.lowest) || versContains(item.vers, version.highest))) {
+      unclassified.push({ component: "actions/setup-node", reference, reason: `"${entry.value}" is a floating release line that spans supported and unsupported versions`, location });
+    }
+  }
+}
+
 export class GitHubActionsDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "github-actions";
@@ -239,6 +283,7 @@ export class GitHubActionsDetector implements Detector {
       findWorkflowFiles(context.root),
     ]);
     let dotnetRules: RegistryV2Rule[] | undefined;
+    let nodeRules: RegistryV2Rule[] | undefined;
     const rulesByAction = new Map(rules.map((rule) => [rule.action.toLowerCase(), rule]));
     const findings: DetectorFinding[] = [];
     const unclassified: DetectorUnclassifiedReference[] = [];
@@ -250,6 +295,13 @@ export class GitHubActionsDetector implements Detector {
           (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
         );
         judgeSetupDotnet(contents, relativePosix(context.root, workflowFile), dotnetRules, findings, unclassified);
+      }
+
+      if (/setup-node/i.test(contents)) {
+        nodeRules ??= validateRegistryV2(await loadDataFile("registry/nodejs.json")).rules.filter(
+          (rule) => rule.purl === "pkg:generic/nodejs" && rule.id.startsWith("nodejs.runtime."),
+        );
+        judgeSetupNode(contents, relativePosix(context.root, workflowFile), nodeRules, findings, unclassified);
       }
 
       for (const reference of parseActionReferences(contents)) {
