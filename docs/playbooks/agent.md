@@ -84,7 +84,7 @@ Treat the agent's change like any contributor's pull request:
 1. The diff touches only files named in the packet.
 2. The cited source supports the claim in the PR description.
 3. Project tests pass, and a fresh `evergreen scan` no longer reports the finding.
-4. In CI, the [GitHub Action](../GITHUB_ACTION.md) with `fail-on` keeps the finding from coming back.
+4. In CI, the [GitHub Action](../GITHUB_ACTION.md) with `fail-on-severity` keeps the finding from coming back.
 
 ## Prompt template
 
