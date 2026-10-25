@@ -35,6 +35,7 @@ import { findRepositories, renderMultiScanText, scanProjects, scanRepository } f
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
+import { RollupError, renderRollupText, rollupFiles } from "./rollup.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
@@ -56,6 +57,7 @@ Usage:
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
+  evergreen rollup <report.json>... [--owners <file>] [--json]   # merge saved scan reports by product and owner; reads files only
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
@@ -347,7 +349,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -423,7 +425,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--min-support-days", "--baseline-warn-days", "--on-expired", "--all", "--months"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--min-support-days", "--baseline-warn-days", "--on-expired", "--all", "--months", "--owners"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -469,6 +471,19 @@ async function main(args: string[]): Promise<number> {
     const result = await diagnoseEnvironment(pathArgument, { system: args.includes("--system") });
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
     return result.summary.failed > 0 ? EXIT_CODES.policy : 0;
+  }
+  if (command === "rollup") {
+    const ownersIndex = args.indexOf("--owners");
+    const ownersFile = ownersIndex === -1 ? undefined : args[ownersIndex + 1];
+    if (ownersIndex !== -1 && (!ownersFile || ownersFile.startsWith("-"))) return fail("usage", "--owners needs a file.");
+    try {
+      const result = await rollupFiles(positional.map((path) => resolve(path)), ownersFile && resolve(ownersFile));
+      process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderRollupText(result)}\n`);
+      return 0;
+    } catch (error) {
+      if (error instanceof RollupError) return fail("usage", error.message);
+      throw error;
+    }
   }
   if (command === "diff") {
     const range = positional[0];

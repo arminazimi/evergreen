@@ -71,3 +71,17 @@ The `dogfood` label is defined in `.github/labels.yml`. Apply it to every issue 
 ## Monthly self-scan report
 
 Once a month a maintainer adds `reports/self-scan-YYYY-MM.md` using the template in [reports/README.md](../reports/README.md): the counts from a scan of `main` and the outcome of each finding triaged that month. The numbers are reproducible with `node dist/src/cli.js scan . --json` on the commit the report names. Like the adoption snapshot, the report is committed; nothing about it is collected from users.
+
+## Rolling up many repositories
+
+A platform team can merge saved scan reports from many repositories into one summary. Each repository writes its report with `evergreen scan --json > reports/<repository>.json`; the rollup then reads those files and nothing else, so it uses no network and does not touch the repositories.
+
+```bash
+node dist/src/cli.js rollup reports/*.json --owners owners.json --json
+```
+
+- **Repository** is the report file's name without its extension, so `reports/payments.json` is `payments`.
+- **Product** is the part of a finding's rule ID before the first dot: `nodejs.runtime.eol-18` counts under `nodejs`.
+- **Owner** comes from the optional `owners.json`, a JSON object such as `{ "payments": "platform-team" }`. A repository it does not list is grouped under `unowned`.
+
+The result (`evergreen.rollup.v1`) gives total findings and severities, then groups by product and by owner, largest first with ties broken by name. Each group lists its findings by severity and the repositories they come from. The same reports always produce the same output, whatever order the files are given in.
