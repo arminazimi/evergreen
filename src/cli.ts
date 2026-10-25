@@ -22,7 +22,7 @@ import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
-import { scanRepository } from "./engine.js";
+import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
@@ -36,6 +36,7 @@ Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --write-status
+  evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -303,7 +304,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--baseline-warn-days", "--on-expired"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--baseline-warn-days", "--on-expired", "--all"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -349,6 +350,34 @@ async function main(args: string[]): Promise<number> {
     const result = await diagnoseEnvironment(pathArgument);
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
     return result.summary.failed > 0 ? EXIT_CODES.policy : 0;
+  }
+  const allIndex = args.indexOf("--all");
+  const allDirectory = allIndex === -1 ? undefined : args[allIndex + 1];
+  if (allIndex !== -1 && (command !== "scan" || !allDirectory || allDirectory.startsWith("-"))) {
+    return fail("usage", "--all needs a directory of repositories and is only available for the scan command.");
+  }
+  if (command === "scan" && (positional.length > 1 || allDirectory !== undefined)) {
+    if (format !== undefined && format !== "text" && format !== "json") {
+      return fail("usage", "Scanning several paths supports --json and --format text|json only.");
+    }
+    if (args.includes("--baseline") || args.includes("--write-status")) {
+      return fail("usage", "--baseline and --write-status are not available when scanning several paths.");
+    }
+    let found: string[] = [];
+    if (allDirectory !== undefined) {
+      try {
+        found = await findRepositories(allDirectory);
+      } catch (error) {
+        return fail("usage", `Cannot read ${allDirectory}: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+    const paths = [...positional, ...found];
+    if (paths.length === 0) {
+      return fail("usage", `No Git repositories found in ${allDirectory}.`);
+    }
+    const multi = await scanProjects(paths, builtInDetectors);
+    process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
+    return 0;
   }
   let result = await scanRepository(pathArgument, builtInDetectors);
   if (command === "baseline") {

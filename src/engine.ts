@@ -1,5 +1,6 @@
 import { basename } from "node:path/posix";
-import { resolve } from "node:path";
+import { readdir, stat } from "node:fs/promises";
+import { join, resolve } from "node:path";
 
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
@@ -66,4 +67,52 @@ export async function scanRepository(
     diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : dataWarnings,
     ...(data ? { data } : {}),
   };
+}
+
+export interface ProjectScan {
+  path: string;
+  result: ScanResult;
+}
+
+export interface MultiScanResult {
+  schemaVersion: "evergreen.multi-scan.v1";
+  projects: Array<{ path: string; findings: number; result: ScanResult }>;
+  total: { projects: number; findings: number };
+}
+
+/** The immediate subdirectories of `directory` that are Git repositories, sorted by name. */
+export async function findRepositories(directory: string): Promise<string[]> {
+  const root = resolve(directory);
+  const entries = await readdir(root, { withFileTypes: true });
+  const repositories: string[] = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const candidate = join(root, entry.name);
+    if (await stat(join(candidate, ".git")).then(() => true, () => false)) repositories.push(candidate);
+  }
+  return repositories.sort((left, right) => left.localeCompare(right));
+}
+
+/** Scans each path in turn; projects come back sorted by path so the output is deterministic. */
+export async function scanProjects(
+  paths: readonly string[],
+  detectors: readonly Detector[] = [],
+): Promise<MultiScanResult> {
+  const unique = [...new Set(paths.map((path) => resolve(path)))].sort((left, right) => left.localeCompare(right));
+  const projects: MultiScanResult["projects"] = [];
+  for (const path of unique) {
+    const result = await scanRepository(path, detectors);
+    projects.push({ path, findings: result.findings.length, result });
+  }
+  return {
+    schemaVersion: "evergreen.multi-scan.v1",
+    projects,
+    total: { projects: projects.length, findings: projects.reduce((sum, project) => sum + project.findings, 0) },
+  };
+}
+
+export function renderMultiScanText(scan: MultiScanResult): string {
+  const lines = scan.projects.map((project) => `${project.path}: ${project.findings} ${project.findings === 1 ? "finding" : "findings"}`);
+  lines.push("", `Total: ${scan.total.findings} ${scan.total.findings === 1 ? "finding" : "findings"} across ${scan.total.projects} ${scan.total.projects === 1 ? "project" : "projects"}`);
+  return lines.join("\n");
 }
