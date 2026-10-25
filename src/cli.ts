@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { stat, writeFile } from "node:fs/promises";
 import http from "node:http";
 import process from "node:process";
 import { resolve } from "node:path";
@@ -114,6 +114,15 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   }
   const child = spawnSync(process.execPath, [...process.execArgv, ...process.argv.slice(1)], { stdio: "inherit", env: { ...process.env, NODE_USE_ENV_PROXY: "1" } });
   return child.status ?? 1;
+}
+
+/** Returns why `path` cannot be scanned as a repository root, or undefined when it is an existing directory. */
+async function repositoryRootProblem(path: string): Promise<string | undefined> {
+  try {
+    return (await stat(path)).isDirectory() ? undefined : `Not a directory: ${path}`;
+  } catch {
+    return `Path does not exist: ${path}`;
+  }
 }
 
 async function confirmOnTerminal(summary: string): Promise<boolean> {
@@ -481,6 +490,10 @@ async function main(args: string[]): Promise<number> {
     const multi = await scanProjects(paths, builtInDetectors);
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
+  }
+  const rootProblem = await repositoryRootProblem(pathArgument);
+  if (rootProblem) {
+    return fail("usage", rootProblem);
   }
   const scanGate = optionValue("--fail-on") ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
