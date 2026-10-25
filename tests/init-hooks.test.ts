@@ -34,7 +34,7 @@ test("a repository without a pre-push hook gets an executable one with the gate 
   const text = await readFile(hookPath(root), "utf8");
   assert.ok(text.startsWith("#!/bin/sh\n"));
   assert.ok(text.includes("--fail-on high"));
-  assert.ok(((await stat(hookPath(root))).mode & 0o111) !== 0, "the hook is executable");
+  if (process.platform !== "win32") assert.ok(((await stat(hookPath(root))).mode & 0o111) !== 0, "the hook is executable");
 });
 
 test("running it again changes nothing, and a new gate updates the block in place", async () => {
