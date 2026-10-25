@@ -25,6 +25,12 @@ inputs:
       fail (also fail the job).
     required: false
     default: resurface
+  min-support-days:
+    description: >-
+      Warn (medium severity) on lines whose support ends within this many days. Leave empty to report only
+      what the data already marks.
+    required: false
+    default: ""
   fail-on-severity:
     description: Lowest severity that fails the job (none, info, low, medium, high, or critical).
     required: false
@@ -83,6 +89,7 @@ runs:
         INPUT_BASELINE: ${{ inputs.baseline }}
         INPUT_BASELINE-WARN-DAYS: ${{ inputs.baseline-warn-days }}
         INPUT_ON-EXPIRED: ${{ inputs.on-expired }}
+        INPUT_MIN-SUPPORT-DAYS: ${{ inputs.min-support-days }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}

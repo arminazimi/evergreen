@@ -63,6 +63,7 @@ async function main(): Promise<void> {
       ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
       ...(process.env["INPUT_BASELINE-WARN-DAYS"] ? { baselineWarnDays: Number(process.env["INPUT_BASELINE-WARN-DAYS"]) } : {}),
       ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
+      ...(process.env["INPUT_MIN-SUPPORT-DAYS"] ? { minSupportDays: Number(process.env["INPUT_MIN-SUPPORT-DAYS"]) } : {}),
       failOnSeverity: (process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
     });
 

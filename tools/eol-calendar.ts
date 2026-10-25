@@ -8,6 +8,7 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { addDays, addMonths } from "../src/forecast.js";
 import { isIsoDate, validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2Rule } from "../src/registry.js";
 
@@ -26,18 +27,6 @@ export interface Calendar {
   since: string;
   upcoming: CalendarEntry[];
   recent: CalendarEntry[];
-}
-
-function addDays(date: string, days: number): string {
-  const result = new Date(`${date}T00:00:00Z`);
-  result.setUTCDate(result.getUTCDate() + days);
-  return result.toISOString().slice(0, 10);
-}
-
-function addMonths(date: string, months: number): string {
-  const result = new Date(`${date}T00:00:00Z`);
-  result.setUTCMonth(result.getUTCMonth() + months);
-  return result.toISOString().slice(0, 10);
 }
 
 const order = (left: CalendarEntry, right: CalendarEntry) => left.date.localeCompare(right.date) || left.ruleId.localeCompare(right.ruleId);

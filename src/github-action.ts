@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { evaluateBaseline, expiredSuppressionsFail, readBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { badgeState, renderBadgeSvg } from "./badge.js";
+import { applyMinSupport } from "./min-support.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js";
 import { severityValues } from "./domain.js";
@@ -35,6 +36,8 @@ export interface GitHubActionOptions {
   baselineWarnDays?: number;
   /** What an expired suppression does: `resurface` (default) or `fail`. */
   onExpired?: ExpiredPolicy;
+  /** Warn on lines whose support ends within this many days; off when unset. */
+  minSupportDays?: number;
   failOnSeverity?: SeverityGate;
 }
 
@@ -92,6 +95,9 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);
   let result = await scanRepository(root, builtInDetectors);
+  if (options.minSupportDays !== undefined) {
+    result = applyMinSupport(result, options.minSupportDays, options.today ?? new Date().toISOString().slice(0, 10));
+  }
   let expiredFailure = false;
   if (options.baselinePath) {
     const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
