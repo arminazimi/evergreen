@@ -7,6 +7,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
+import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
 import { DEFAULT_WARN_DAYS, createBaseline, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
@@ -42,6 +43,7 @@ Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
+  evergreen scan [path] --min-support-days <n>   # warn on lines whose support ends within n days
   evergreen scan [path] --write-status
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
@@ -402,7 +404,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--baseline-warn-days", "--on-expired", "--all"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--min-support-days", "--baseline-warn-days", "--on-expired", "--all"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -485,8 +487,14 @@ async function main(args: string[]): Promise<number> {
   if (asOfValue !== undefined && !isIsoDate(asOfValue)) {
     return fail("usage", "--as-of (or --today) must be a date (YYYY-MM-DD).");
   }
+  const minSupportValue = optionValue("--min-support-days");
+  const minSupportDays = minSupportValue === undefined ? undefined : parseMinSupportDays(minSupportValue);
+  if (minSupportValue !== undefined && minSupportDays === undefined) {
+    return fail("usage", "--min-support-days must be a whole number of days (0 to 3650).");
+  }
   let result = await scanRepository(pathArgument, builtInDetectors);
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
+  if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
     const baseline = createBaseline(result);
