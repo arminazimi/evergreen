@@ -72,3 +72,12 @@ test("fix --branch does not combine with --dry-run", async () => {
   const root = await repository();
   await assert.rejects(execute(process.execPath, [cli, "fix", root, "--branch", "--dry-run"], { env: identity }), /Usage: evergreen fix/);
 });
+
+test("fix --branch re-scans and prints the verification commands without running them", async () => {
+  const root = await repository();
+  const { stderr } = await execute(process.execPath, [cli, "fix", root, "--branch"], { env: identity });
+
+  assert.match(stderr, /Re-scan: 1 resolved, 0 remaining, 0 new\./);
+  assert.match(stderr, /Evergreen did not run these/);
+  assert.equal((await git(root, "status", "--porcelain")).trim(), "");
+});

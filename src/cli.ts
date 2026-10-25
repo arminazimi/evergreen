@@ -30,6 +30,7 @@ import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { applyOnBranch } from "./fix/git.js";
 import { planFixes, renderPatches } from "./fix/index.js";
+import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -521,7 +522,8 @@ async function main(args: string[]): Promise<number> {
     // Patches are printed unless --branch asks for a local, reviewable commit; nothing is ever pushed.
     const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--branch" && argument !== "--data-version");
     if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch"))) return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch]");
-    const patches = await planFixes(await scanRepository(pathArgument, builtInDetectors));
+    const scanned = await scanRepository(pathArgument, builtInDetectors);
+    const patches = await planFixes(scanned);
     if (patches.length === 0) {
       process.stderr.write("No deterministic fixes found.\n");
       return 0;
@@ -529,6 +531,7 @@ async function main(args: string[]): Promise<number> {
     if (args.includes("--branch")) {
       const applied = await applyOnBranch(pathArgument, patches);
       process.stderr.write(`Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`);
+      process.stderr.write(renderVerification(verifyFix(scanned, await scanRepository(pathArgument, builtInDetectors))));
       return 0;
     }
     process.stdout.write(renderPatches(patches));
