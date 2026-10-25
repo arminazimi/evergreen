@@ -76,6 +76,7 @@ async function main(): Promise<void> {
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
+    if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
     await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);

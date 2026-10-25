@@ -11,6 +11,7 @@ import { createBaseline, writeBaseline } from "../src/baseline.js";
 import { builtInDetectors } from "../src/detectors/index.js";
 import { scanRepository } from "../src/engine.js";
 import type { Finding } from "../src/domain.js";
+import { renderBadgeSvg } from "../src/badge.js";
 import { renderBadge, renderFailure, runGitHubAction } from "../src/github-action.js";
 
 const temporaryRoots: string[] = [];
@@ -348,21 +349,33 @@ test("the job summary shows the baseline counts and the suppressions that are ex
 
 
 test("badge endpoints count remaining findings, warn about stale data, and honor expiry failures", () => {
-  for (const [severity, color] of [["critical", "red"], ["high", "red"], ["medium", "orange"], ["low", "yellow"], ["info", "blue"]] as const) {
+  for (const [severity, color] of [["critical", "#B84A3E"], ["high", "#B84A3E"], ["medium", "#C9822F"], ["low", "#B89B3C"], ["info", "#4C7C6D"]] as const) {
     const findings = [finding("a:p:1", "info", "Info", "secret.json"), finding("b:p:1", severity, "Title", "private.json")];
     assert.deepEqual(JSON.parse(renderBadge({ findings })), {
-      schemaVersion: 1, label: "evergreen", message: `2 findings (${severity})`, color,
+      schemaVersion: 1, label: "evergreen", message: `2 ${severity}`, color, labelColor: "#23423A",
     });
   }
   assert.deepEqual(JSON.parse(renderBadge({ findings: [] })), {
-    schemaVersion: 1, label: "evergreen", message: "0 findings", color: "brightgreen",
+    schemaVersion: 1, label: "evergreen", message: "clean", color: "#2F7D5B", labelColor: "#23423A",
   });
   assert.deepEqual(JSON.parse(renderBadge({ findings: [], data: { ...data, stale: true } })), {
-    schemaVersion: 1, label: "evergreen", message: "0 findings; stale data", color: "orange",
+    schemaVersion: 1, label: "evergreen", message: "stale", color: "#4C7C6D", labelColor: "#23423A",
   });
+  assert.equal(JSON.parse(renderBadge({ findings: [finding("r:p:1", "low", "Low", "package.json")], data: { ...data, stale: true } })).message, "1 low · stale");
   assert.deepEqual(JSON.parse(renderBadge({ findings: [finding("r:p:1", "low", "Low", "package.json")] }, true)), {
-    schemaVersion: 1, label: "evergreen", message: "1 finding (low); baseline expired", color: "red",
+    schemaVersion: 1, label: "evergreen", message: "1 low · expired", color: "#8E3B34", labelColor: "#23423A",
   });
+  assert.equal(JSON.parse(renderBadge({ findings: [] }, true)).message, "expired");
+});
+
+test("the SVG badge carries the same message and color, with a fixed-width layout", () => {
+  const svg = renderBadgeSvg({ findings: [finding("r:p:1", "high", "High", "package.json")] });
+  assert.match(svg, /^<svg [^>]*role="img" aria-label="evergreen: 1 high"/);
+  assert.match(svg, /<title>evergreen: 1 high<\/title>/);
+  assert.match(svg, /fill="#B84A3E"/);
+  assert.match(svg, /textLength="54"[^>]*>evergreen<\/text>/);
+  assert.match(renderBadgeSvg({ findings: [] }), /fill="#2F7D5B"[^>]*\/>/);
+  assert.equal(renderBadgeSvg({ findings: [] }).includes("package.json"), false, "no paths or titles leak into the badge");
 });
 
 test("the badge is opt-in and is generated after baseline comparison even when the gate fails", async () => {
@@ -374,12 +387,15 @@ test("the badge is opt-in and is generated after baseline comparison even when t
   assert.equal(enabled.code, 1);
   const badgePath = join(root, ".runner", "evergreen-badge.json");
   assert.ok(enabled.outputs.includes(`badge-path=${badgePath}`));
-  assert.match(JSON.parse(await readFile(badgePath, "utf8")).message, /^1 finding \(medium\)/);
+  assert.match(JSON.parse(await readFile(badgePath, "utf8")).message, /^1 medium/);
+  const svgPath = join(root, ".runner", "evergreen-badge.svg");
+  assert.ok(enabled.outputs.includes(`badge-svg-path=${svgPath}`));
+  assert.match(await readFile(svgPath, "utf8"), /aria-label="evergreen: 1 medium"/);
   const baselinePath = join(root, "baseline.json");
   await writeBaseline(baselinePath, createBaseline(await scanRepository(root, builtInDetectors)));
   const outcome = await runGitHubAction({ root, reportPath: join(root, "report.json"), baselinePath, badgePath });
   assert.equal(outcome.badgePath, badgePath);
-  assert.match(JSON.parse(await readFile(badgePath, "utf8")).message, /^0 findings/);
+  assert.match(JSON.parse(await readFile(badgePath, "utf8")).message, /^clean$/);
 });
 
 test("badge upload is opt-in and skips scans that produced no endpoint", async () => {
@@ -394,5 +410,6 @@ test("badge upload is opt-in and skips scans that produced no endpoint", async (
   const upload = action.runs.steps.find((step) => step.name === "Upload README badge endpoint");
   assert.equal(upload?.if, "always() && inputs.upload-badge == 'true' && steps.scan.outputs.badge-path != ''");
   assert.equal(upload?.uses, "actions/upload-artifact@v7");
-  assert.equal(upload?.with?.path, "${{ steps.scan.outputs.badge-path }}");
+  assert.equal(upload?.with?.path, "${{ steps.scan.outputs.badge-path }}\n${{ steps.scan.outputs.badge-svg-path }}\n");
+  assert.equal(action.outputs["badge-svg-path"]?.value, "${{ steps.scan.outputs.badge-svg-path }}");
 });

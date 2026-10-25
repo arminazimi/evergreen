@@ -311,7 +311,7 @@ does not provide a `with` entry.
 | `report-name` | `evergreen-report` | Artifact name for the JSON report when `upload-report` is `true`. |
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
-| `upload-badge` | `false` | Generate a Shields.io endpoint JSON and upload it as the `evergreen-badge` artifact (14 days). |
+| `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
@@ -319,6 +319,7 @@ does not provide a `with` entry.
 | `report-path` | Always | Absolute runner path to the generated JSON report, whether or not `upload-report` is enabled. |
 | `finding-count` | Always | Number of findings remaining after baseline comparison, encoded as a decimal string. |
 | `badge-path` | When `upload-badge` is `true` | Absolute runner path to `evergreen-badge.json`; otherwise empty. |
+| `badge-svg-path` | When `upload-badge` is `true` | Absolute runner path to `evergreen-badge.svg`, next to the JSON; otherwise empty. |
 | `sarif-path` | When `upload-sarif` is `true` | Absolute runner path to the generated SARIF file; otherwise empty. |
 
 The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
@@ -335,19 +336,25 @@ Forked pull requests receive the same read-only scan behavior; no repository sec
 
 ## README badge
 
-Set `upload-badge: true` to generate `evergreen-badge.json` and upload the
+Set `upload-badge: true` to generate `evergreen-badge.json` and `evergreen-badge.svg` and upload the
 `evergreen-badge` artifact, even when the severity gate fails. The `badge-path`
 output lets a later step publish the same file. This is opt-in and does not grant
 the Action write access or make network requests during the scan.
 
-The [Shields.io endpoint format](https://shields.io/badges/endpoint-badge) contains
-only `schemaVersion`, `label`, `message`, and `color`. The message counts findings
-**after baseline comparison** and names the highest remaining severity. It does
-not say a repository is risk-free: suppressed findings are excluded, and the
-severity gate can pass while lower-severity findings remain. High/critical are
-red, medium orange, low yellow, info blue, and zero findings bright green. An
-expired baseline under `on-expired: fail` makes the badge red. Stale lifecycle data
-is named in the message and prevents a zero-findings badge from being green.
+The badge reads `evergreen | clean`, or `evergreen | 3 high` when findings remain.
+The message counts findings **after baseline comparison** and names the highest
+remaining severity. It does not say a repository is risk-free: suppressed findings
+are excluded, and the severity gate can pass while lower-severity findings remain.
+`stale` means the lifecycle data is old (appended as `· stale` when findings remain),
+and `expired` means a baseline suppression expired under `on-expired: fail`. Colors
+come from the Evergreen palette: Verified Green for clean, muted amber for low and
+medium, red for high and critical.
+
+`evergreen-badge.svg` is the finished badge with the Evergreen mark. The
+[Shields.io endpoint format](https://shields.io/badges/endpoint-badge) file,
+`evergreen-badge.json`, holds `schemaVersion`, `label`, `message`, `color`, and
+`labelColor`, for use with `img.shields.io/endpoint` when you want a different
+Shields style.
 
 Actions artifacts require authentication, so their download URLs cannot be used
 as public Shields endpoints. For a public README, publish the JSON to a public
@@ -382,6 +389,7 @@ jobs:
         if: always() && steps.scan.outputs.badge-path != ''
         env:
           BADGE_PATH: ${{ steps.scan.outputs.badge-path }}
+          BADGE_SVG_PATH: ${{ steps.scan.outputs.badge-svg-path }}
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
@@ -397,9 +405,10 @@ jobs:
             git -C "$publish" checkout --orphan evergreen-badge
           fi
           cp "$BADGE_PATH" "$publish/evergreen-badge.json"
+          cp "$BADGE_SVG_PATH" "$publish/evergreen-badge.svg"
           git -C "$publish" config user.name github-actions[bot]
           git -C "$publish" config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git -C "$publish" add evergreen-badge.json
+          git -C "$publish" add evergreen-badge.json evergreen-badge.svg
           if ! git -C "$publish" diff --cached --quiet; then
             git -C "$publish" commit -m "chore: update Evergreen badge"
             git -C "$publish" push origin HEAD:evergreen-badge
@@ -409,7 +418,7 @@ jobs:
 Then add this to the README, replacing `OWNER` and `REPO`:
 
 ```markdown
-[![Evergreen lifecycle findings](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FOWNER%2FREPO%2Fevergreen-badge%2Fevergreen-badge.json)](https://github.com/OWNER/REPO/actions)
+[![Evergreen lifecycle findings](https://raw.githubusercontent.com/OWNER/REPO/evergreen-badge/evergreen-badge.svg)](https://github.com/OWNER/REPO/actions)
 ```
 
 Shields and GitHub cache badge images, so updates can take time to appear. The
