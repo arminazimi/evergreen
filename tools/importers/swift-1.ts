@@ -65,7 +65,8 @@ function decodeEntities(value: string): string {
  * so a wall of "<" collapses to empty text; a comparison like `a < b` is kept.
  */
 function plainText(html: string): string {
-  return decodeEntities(html.replace(/<[^<>]*>|<(?=[<]|$)/g, " "))
+  // Every "<" in a run but the last is dropped anyway, so collapsing runs first turns a wall of "<" into one match.
+  return decodeEntities(html.replace(/<{2,}/g, "<").replace(/<[^<>]*>|<(?=<|$)/g, " "))
     .replace(/\s+/g, " ")
     .replace(/\s+([,.;:!?])/g, "$1")
     .trim();
