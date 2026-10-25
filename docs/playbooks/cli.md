@@ -91,7 +91,19 @@ evergreen scan . --as-of 2027-07-01
 
 `--as-of <YYYY-MM-DD>` answers "will this repository be clean on 1 July?". Every announced end of life (a `scheduled-end-of-life` rule) whose deadline is on or before that day is reported as ended, at end-of-life severity, so `--fail-on high` fails on what will break by then. Finding IDs do not change, so a baseline still matches. `--today` is an alias, and with `--baseline` the same day also decides which suppressions have expired. The result carries `asOf`. The scan itself still reads no clock and no network.
 
+`--min-support-days <n>` warns before a line expires instead of after: a finding whose deadline falls within the next `n` days (from today, or from `--as-of`) is raised to `medium`, so the default `--fail-on high` gate stays green while the warning shows up. It is off unless given, and the same window is the `min-support-days` Action input.
+
 This is not a forecast: `--as-of` projects the findings you have onto one day, while `evergreen forecast` lists what becomes end of life in the next 6 and 12 months.
+
+## Forecasting what breaks next
+
+```bash
+evergreen forecast .                       # the next 12 months
+evergreen forecast . --months 6 --json
+evergreen forecast . --as-of 2027-01-01    # count from another day
+```
+
+`forecast` lists the dated end-of-life events in the window, grouped by month, and shows where your repository is affected. Text output shows only events that touch a finding; `--json` (`evergreen.forecast.v1`) lists every dated event, with an empty `findings` list for those that do not affect you. Events without a date are never listed or estimated, and the same date always gives the same output. `--months` takes 1 to 36 and defaults to 12. The scan reads no network.
 
 ## Gating a push or CI
 

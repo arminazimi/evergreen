@@ -7,12 +7,13 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
+import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
 import { DEFAULT_WARN_DAYS, createBaseline, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { isCompletionShell, renderCompletions, renderExamples } from "./completions.js";
-import { checkDependency, CheckDependencyError } from "./check-dependency.js";
+import { bundledRules, checkDependency, CheckDependencyError } from "./check-dependency.js";
 import { AgentFileError } from "./agent-instructions.js";
 import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
@@ -26,6 +27,7 @@ import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -43,10 +45,12 @@ Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
+  evergreen scan [path] --min-support-days <n>   # warn on lines whose support ends within n days
   evergreen scan [path] --write-status
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
+  evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -327,7 +331,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -403,7 +407,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--baseline-warn-days", "--on-expired", "--all"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--min-support-days", "--baseline-warn-days", "--on-expired", "--all", "--months"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -486,8 +490,24 @@ async function main(args: string[]): Promise<number> {
   if (asOfValue !== undefined && !isIsoDate(asOfValue)) {
     return fail("usage", "--as-of (or --today) must be a date (YYYY-MM-DD).");
   }
+  if (command === "forecast") {
+    const monthsValue = optionValue("--months");
+    const months = monthsValue === undefined ? DEFAULT_FORECAST_MONTHS : Number(monthsValue);
+    if (!Number.isInteger(months) || months < 1 || months > MAX_FORECAST_MONTHS) {
+      return fail("usage", `--months must be a whole number from 1 to ${MAX_FORECAST_MONTHS}.`);
+    }
+    const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
+    process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
+    return 0;
+  }
+  const minSupportValue = optionValue("--min-support-days");
+  const minSupportDays = minSupportValue === undefined ? undefined : parseMinSupportDays(minSupportValue);
+  if (minSupportValue !== undefined && minSupportDays === undefined) {
+    return fail("usage", "--min-support-days must be a whole number of days (0 to 3650).");
+  }
   let result = await scanRepository(pathArgument, builtInDetectors);
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
+  if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
     const baseline = createBaseline(result);
@@ -517,7 +537,7 @@ async function main(args: string[]): Promise<number> {
   }
   if (command === "context") {
     try {
-      const packet = createMigrationPacket(result, findingId!, await readPinnedRuntimes(result.root));
+      const packet = createMigrationPacket(result, findingId!, await bundledRules(), await readPinnedRuntimes(result.root));
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
       return fail("data", error instanceof Error ? error.message : String(error));

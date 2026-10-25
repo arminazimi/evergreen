@@ -12,7 +12,33 @@ import type {
 import { runtimeConflicts } from "./runtime-pin.js";
 import type { PinnedRuntimes } from "./runtime-pin.js";
 
+import { addDays } from "./forecast.js";
+import type { RegistryV2Rule } from "./registry.js";
+import { parseVers, versionScheme } from "./vers/index.js";
+
 export type { VerificationCommand } from "./domain.js";
+
+/** A line is passed over rather than landed on when its support ends within this many days. */
+export const UPGRADE_PATH_HORIZON_DAYS = 180;
+
+export interface UpgradePathLine {
+  ruleId: string;
+  /** The VERS range of the release line. */
+  versions: string;
+  title: string;
+  status: "ended" | "ending-soon";
+  /** When support ends or ended, if the rule carries a date. */
+  endsOn?: string;
+}
+
+export interface UpgradePath {
+  /** The release line the repository is on. */
+  from: UpgradePathLine;
+  /** Later lines the upgrade passes over because they are unsupported or about to be, in release order. */
+  skipped: UpgradePathLine[];
+  /** Where to land: a supported line named by a rule, else the rule's replacement. */
+  target: { versions?: string; title?: string; endsOn?: string; replacement?: string };
+}
 
 export interface MigrationStep extends MigrationGuidanceStep {
   paths: string[];
@@ -29,6 +55,7 @@ export interface MigrationPacket {
   steps: MigrationStep[];
   sources: EvidenceSource[];
   verification: VerificationCommand[];
+  upgradePath?: UpgradePath;
 }
 
 export class MigrationPacketValidationError extends Error {
@@ -105,6 +132,26 @@ function isGuidance(value: unknown): value is MigrationGuidance {
   );
 }
 
+function isUpgradeLine(value: unknown): value is UpgradePathLine {
+  return (
+    isRecord(value) &&
+    [value.ruleId, value.versions, value.title].every(isNonEmptyString) &&
+    (value.status === "ended" || value.status === "ending-soon") &&
+    (value.endsOn === undefined || isNonEmptyString(value.endsOn))
+  );
+}
+
+function isUpgradePath(value: unknown): value is UpgradePath {
+  return (
+    isRecord(value) &&
+    isUpgradeLine(value.from) &&
+    Array.isArray(value.skipped) &&
+    value.skipped.every(isUpgradeLine) &&
+    isRecord(value.target) &&
+    (isNonEmptyString(value.target.replacement) || (isNonEmptyString(value.target.versions) && isNonEmptyString(value.target.title)))
+  );
+}
+
 function isFinding(value: unknown): value is Finding {
   return (
     isRecord(value) &&
@@ -159,6 +206,9 @@ export function validateMigrationPacket(value: unknown): MigrationPacket {
     JSON.stringify(value.affectedFiles) !== JSON.stringify(expectedFiles)
   ) {
     throw new MigrationPacketValidationError("Migration packet evidence is inconsistent with its finding.");
+  }
+  if (value.upgradePath !== undefined && !isUpgradePath(value.upgradePath)) {
+    throw new MigrationPacketValidationError("Invalid upgrade path.");
   }
   const stepIds = new Set<string>();
   const affected = new Set(value.affectedFiles);
@@ -287,11 +337,85 @@ function verificationFor(finding: Finding): VerificationCommand[] {
   return [...new Map(commands.map((command) => [command.command, command])).values()];
 }
 
-/** `pinned` is what the repository pins; pass it so the packet can warn when a replacement needs a newer runtime. */
-export function createMigrationPacket(result: ScanResult, findingId: string, pinned: PinnedRuntimes = {}): MigrationPacket {
+function lowerBound(rule: RegistryV2Rule): { scheme: string; version: string | undefined } | undefined {
+  const range = parseVers(rule.vers);
+  if (range.all) return undefined;
+  const lower = range.constraints.find((constraint) => [">", ">=", "="].includes(constraint.comparator));
+  return { scheme: range.scheme, version: lower?.version };
+}
+
+function lineFor(rule: RegistryV2Rule, today: string): UpgradePathLine | undefined {
+  const status = !rule.deadline || rule.deadline <= today
+    ? "ended"
+    : rule.deadline <= addDays(today, UPGRADE_PATH_HORIZON_DAYS) ? "ending-soon" : undefined;
+  if (!status) return undefined;
+  return {
+    ruleId: rule.id,
+    versions: rule.vers,
+    title: rule.title,
+    status,
+    ...(rule.deadline ? { endsOn: rule.deadline } : {}),
+  };
+}
+
+/**
+ * Orders the release lines the registry knows for the finding's product and walks forward from the one in use. It
+ * never lands on a line that has ended or ends within the horizon, and lands on the first line after that which is
+ * still supported. Lines the registry says nothing about are not invented: past the last known line the target is
+ * the rule's replacement. Returns undefined when the registry knows no later line to order against.
+ */
+export function planUpgradePath(finding: Finding, rules: readonly RegistryV2Rule[], today: string): UpgradePath | undefined {
+  const rule = rules.find((candidate) => candidate.id === finding.ruleId);
+  if (!rule) return undefined;
+  let start: ReturnType<typeof lowerBound>;
+  try {
+    start = lowerBound(rule);
+  } catch {
+    return undefined;
+  }
+  if (!start?.version) return undefined;
+  const scheme = versionScheme(start.scheme);
+  const later: Array<{ rule: RegistryV2Rule; version: string }> = [];
+  for (const candidate of rules) {
+    if (candidate.purl !== rule.purl || candidate.id === rule.id) continue;
+    try {
+      const bound = lowerBound(candidate);
+      if (bound?.version && bound.scheme === start.scheme && scheme.compare(bound.version, start.version) > 0) {
+        later.push({ rule: candidate, version: bound.version });
+      }
+    } catch {
+      continue;
+    }
+  }
+  if (later.length === 0) return undefined;
+  later.sort((left, right) => scheme.compare(left.version, right.version) || left.rule.id.localeCompare(right.rule.id));
+  const from = lineFor(rule, today) ?? { ruleId: rule.id, versions: rule.vers, title: rule.title, status: "ending-soon" as const };
+  const skipped: UpgradePathLine[] = [];
+  for (const { rule: candidate } of later) {
+    const line = lineFor(candidate, today);
+    if (!line) {
+      return {
+        from,
+        skipped,
+        target: { versions: candidate.vers, title: candidate.title, ...(candidate.deadline ? { endsOn: candidate.deadline } : {}) },
+      };
+    }
+    skipped.push(line);
+  }
+  return { from, skipped, target: { replacement: rule.replacement ?? "the newest supported release" } };
+}
+
+export function createMigrationPacket(
+  result: ScanResult,
+  findingId: string,
+  rules: readonly RegistryV2Rule[] = [],
+  /** What the repository pins; lets the packet warn when a replacement needs a newer runtime. */
+  pinned: PinnedRuntimes = {},
+): MigrationPacket {
   const finding = result.findings.find((candidate) => candidate.id === findingId);
   if (!finding) throw new Error(`Finding not found: ${findingId}`);
   const paths = affectedFiles(finding);
+  const upgradePath = planUpgradePath(finding, rules, result.scannedAt.slice(0, 10));
   return validateMigrationPacket({
     schemaVersion: "evergreen.context.v1",
     generatedAt: result.scannedAt,
@@ -303,5 +427,6 @@ export function createMigrationPacket(result: ScanResult, findingId: string, pin
     steps: stepsFor(finding, paths),
     sources: finding.sources,
     verification: verificationFor(finding),
+    ...(upgradePath ? { upgradePath } : {}),
   });
 }
