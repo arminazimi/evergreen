@@ -8,15 +8,11 @@
   </picture>
 </p>
 
-[![CI](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml/badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg)](https://www.npmjs.com/package/evergreen-deprecation)
+[![CI](https://img.shields.io/github/actions/workflow/status/arminazimi/evergreen/ci.yml?branch=main&label=CI&logo=github&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json&labelColor=0C1110&style=flat)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg?logo=npm&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat)](https://www.npmjs.com/package/evergreen-deprecation)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
 [![Evergreen](https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D22-3c873a.svg)](docs/COMPATIBILITY.md)
-[![SARIF](https://img.shields.io/badge/SARIF-2.1.0-blue.svg)](docs/GITHUB_ACTION.md#code-scanning)
-[![MCP](https://img.shields.io/badge/MCP-server-8a2be2.svg)](docs/MCP.md)
-[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 Evergreen finds **end-of-life and deprecated** runtimes, packages, and GitHub Actions in your repository, shows the exact file and line, and backs every finding with an authoritative source, a replacement, and migration steps. It runs on your machine as a CLI, a local MCP server, a GitHub Action (with SARIF for code scanning), and an Agent Skill, so people and coding agents can find lifecycle risk before it breaks a build, and check a dependency before adding it. Scans are deterministic and offline, and need no account.
 

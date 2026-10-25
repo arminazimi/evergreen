@@ -38,9 +38,9 @@ export function badgeState(result: Pick<ScanResult, "findings" | "data">, expire
 }
 
 const LABEL = "evergreen";
-const HEIGHT = 22;
+const HEIGHT = 20;
 const PAD = 8;
-const ICON = 15;
+const ICON = 14;
 const LABEL_TEXT_WIDTH = 54;
 const GLYPH_WIDTH = 6.4;
 const FONT = "Inter,-apple-system,Segoe UI,Verdana,sans-serif";
@@ -75,18 +75,17 @@ export function renderBadgeSvg(result: Pick<ScanResult, "findings" | "data">, ex
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${HEIGHT}" viewBox="0 0 ${width} ${HEIGHT}" role="img" aria-label="${label}">`,
     `<title>${label}</title>`,
-    '<linearGradient id="g" x2="0" y2="1"><stop offset="0" stop-color="#23423A"/><stop offset="1" stop-color="#122620"/></linearGradient>',
-    `<clipPath id="r"><rect width="${width}" height="${HEIGHT}" rx="6"/></clipPath>`,
+    `<clipPath id="r"><rect width="${width}" height="${HEIGHT}" rx="3"/></clipPath>`,
     '<g clip-path="url(#r)">',
-    `<rect width="${labelWidth}" height="${HEIGHT}" fill="url(#g)"/>`,
+    `<rect width="${labelWidth}" height="${HEIGHT}" fill="#0C1110"/>`,
     `<rect x="${labelWidth}" width="${messageWidth}" height="${HEIGHT}" fill="${color}"/>`,
     `<rect x="${labelWidth}" width="1" height="${HEIGHT}" fill="#fff" opacity=".12"/>`,
     "</g>",
-    `<rect width="${width}" height="${HEIGHT}" rx="6" fill="none" stroke="#000" stroke-opacity=".12"/>`,
-    mark(PAD, 3.5),
+    `<rect width="${width}" height="${HEIGHT}" rx="3" fill="none" stroke="#000" stroke-opacity=".12"/>`,
+    mark(PAD, 3),
     `<g fill="#fff" font-family="${FONT}" font-size="11" font-weight="600" text-rendering="geometricPrecision">`,
-    `<text x="${PAD + ICON}" y="15.2" textLength="${LABEL_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs">${LABEL}</text>`,
-    `<text x="${labelWidth + PAD}" y="15.2" textLength="${messageText}" lengthAdjust="spacingAndGlyphs">${message}</text>`,
+    `<text x="${PAD + ICON}" y="14" textLength="${LABEL_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs">${LABEL}</text>`,
+    `<text x="${labelWidth + PAD}" y="14" textLength="${messageText}" lengthAdjust="spacingAndGlyphs">${message}</text>`,
     "</g>",
     "</svg>",
   ].join("");
