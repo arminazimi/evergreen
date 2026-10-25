@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add `--format html` to scan: one self-contained HTML file with no external requests, every value escaped, and the full JSON report embedded. (#1022)
+- Add `evergreen completions <bash|zsh|fish>` to print a shell completion script, and one example per command to `--help`. (#1021)
 
 ## 0.5.0 - 2026-10-22
 

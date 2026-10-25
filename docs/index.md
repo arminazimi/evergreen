@@ -47,6 +47,8 @@ hosted service.
 npx evergreen-deprecation scan .
 ```
 
+Shell completions: `source <(evergreen completions bash)`, `source <(evergreen completions zsh)`, or `evergreen completions fish | source`. `evergreen --help` lists one example per command.
+
 Evergreen runs on Node.js 22 or newer. Repository analysis stays on the local machine or CI runner.
 
 [Source code](https://github.com/arminazimi/evergreen) · [Report an issue](https://github.com/arminazimi/evergreen/issues) · [npm package](https://www.npmjs.com/package/evergreen-deprecation)

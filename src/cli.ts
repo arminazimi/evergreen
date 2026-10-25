@@ -10,6 +10,7 @@ import { DEFAULT_WARN_DAYS, createBaseline, evaluateBaseline, expiredPolicies, e
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
+import { isCompletionShell, renderCompletions, renderExamples } from "./completions.js";
 import { checkDependency, CheckDependencyError } from "./check-dependency.js";
 import { AgentFileError } from "./agent-instructions.js";
 import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
@@ -62,9 +63,11 @@ Usage:
   evergreen doctor [path] [--system] [--json]
   evergreen report-issue <finding-id> [path] [--output <file>]
   evergreen capabilities [--json]
+  evergreen completions <bash|zsh|fish>   # print a shell completion script
   evergreen --help
   evergreen --version
-`;
+
+${renderExamples()}`;
 
 /**
  * The stable failure classes. `policy` (1) and `usage` (2) keep the exit codes Evergreen has always used; the rest are
@@ -321,7 +324,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -329,6 +332,11 @@ async function main(args: string[]): Promise<number> {
     // The MCP server owns stdin and stdout until the host disconnects, so there is no exit code to return.
     (await import("./mcp-server.js")).startMcpServer();
     return await new Promise<number>(() => undefined);
+  }
+  if (command === "completions") {
+    if (args.length !== 2 || !isCompletionShell(args[1])) return fail("usage", "Usage: evergreen completions <bash|zsh|fish>");
+    process.stdout.write(renderCompletions(args[1]));
+    return 0;
   }
   if (command === "new-detector") return newDetector(args.slice(1));
   if (command === "init") return init(args.slice(1));
