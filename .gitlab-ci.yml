@@ -1,0 +1,35 @@
+# Runs on the GitLab mirror of this repository, which hosts the CI/CD Catalog resource.
+# See docs/GITLAB_CATALOG.md.
+stages: [test, release]
+
+# Dogfood the component at the commit being tested, against the pass fixture.
+include:
+  - component: $CI_SERVER_FQDN/$CI_PROJECT_PATH/evergreen@$CI_COMMIT_SHA
+    inputs:
+      path: tests/gitlab/fixtures/pass
+    rules:
+      - if: $CI_COMMIT_TAG == null
+
+# The Catalog requires plain semantic versions, while GitHub tags carry a "v" prefix.
+release-version:
+  stage: release
+  image: alpine:3
+  script:
+    - echo "VERSION=${CI_COMMIT_TAG#v}" > version.env
+  artifacts:
+    reports:
+      dotenv: version.env
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+
+publish:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs: [release-version]
+  script: echo "Publishing $VERSION to the CI/CD Catalog"
+  release:
+    tag_name: $VERSION
+    ref: $CI_COMMIT_SHA
+    description: "Evergreen GitLab component $VERSION. See CHANGELOG.md."
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
