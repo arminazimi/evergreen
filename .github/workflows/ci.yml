@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   check:
     name: check (${{ matrix.os }}, node ${{ matrix.node }})
@@ -38,6 +42,16 @@ jobs:
       - name: Enforce coverage thresholds
         if: runner.os == 'Linux' && matrix.node == 22
         run: npm run test:coverage | tee coverage.txt
+      - name: Render the coverage badge data
+        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 22
+        run: node dist/tools/coverage-badge.js < coverage.txt > "$RUNNER_TEMP/coverage.json"
+      - name: Upload the coverage badge data
+        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 22
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: coverage-badge
+          path: ${{ runner.temp }}/coverage.json
+          retention-days: 1
       - name: Generate the lifecycle calendar
         if: runner.os == 'Linux' && matrix.node == 22
         run: node dist/tools/eol-calendar.js --out-dir "$RUNNER_TEMP/eol-calendar"
@@ -87,17 +101,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build --silent
-      - name: Measure coverage
-        run: npm run test:coverage | tee coverage.txt
+          name: coverage-badge
+          path: ${{ runner.temp }}/badge
       - name: Publish the badge to the badges branch
         run: |
-          node dist/tools/coverage-badge.js < coverage.txt > "$RUNNER_TEMP/coverage.json"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git ls-remote --exit-code --heads origin badges >/dev/null 2>&1; then
@@ -107,6 +116,6 @@ jobs:
             git checkout --orphan badges
             git rm -rfq .
           fi
-          cp "$RUNNER_TEMP/coverage.json" coverage.json
+          cp "$RUNNER_TEMP/badge/coverage.json" coverage.json
           git add coverage.json
           git diff --cached --quiet || { git commit -qm "chore: update the coverage badge"; git push origin badges; }
