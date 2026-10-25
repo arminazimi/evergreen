@@ -39,8 +39,8 @@ jobs:
       - name: Check the reference pages against the registry
         if: runner.os == 'Linux' && matrix.node == 22
         run: node dist/tools/build-reference-pages.js --check
-      - name: Enforce coverage thresholds
-        if: runner.os == 'Linux' && matrix.node == 22
+      - name: Enforce coverage thresholds (main only)
+        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 22
         run: npm run test:coverage | tee coverage.txt
       - name: Render the coverage badge data
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 22
