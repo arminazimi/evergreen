@@ -30,6 +30,9 @@ spec:
     report_name:
       description: File name of the JSON report that is kept as a job artifact.
       default: evergreen-report.json
+    code_quality_report_name:
+      description: File name of the GitLab Code Quality report that shows findings in merge requests.
+      default: gl-code-quality-report.json
     version:
       description: Version of the evergreen-deprecation npm package to run.
       default: 0.6.0
@@ -49,6 +52,7 @@ evergreen:
     EVERGREEN_MIN_SUPPORT_DAYS: $[[ inputs.min_support_days ]]
     EVERGREEN_FAIL_ON_SEVERITY: $[[ inputs.fail_on_severity ]]
     EVERGREEN_REPORT: $[[ inputs.report_name ]]
+    EVERGREEN_CODE_QUALITY_REPORT: $[[ inputs.code_quality_report_name ]]
   script:
     - |
       set -u
@@ -65,10 +69,13 @@ evergreen:
       evergreen scan "$@" --json --fail-on "$EVERGREEN_FAIL_ON_SEVERITY" > "$EVERGREEN_REPORT"
       status=$?
       set -e
+      evergreen scan "$@" --format codequality > "$EVERGREEN_CODE_QUALITY_REPORT" || true
       evergreen scan "$@" || true
       exit "$status"
   artifacts:
     when: always
     paths:
       - $[[ inputs.report_name ]]
+    reports:
+      codequality: $[[ inputs.code_quality_report_name ]]
     expire_in: 14 days

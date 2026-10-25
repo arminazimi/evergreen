@@ -30,7 +30,8 @@ async function runJob(fixture: string, inputs: Record<string, string> = {}) {
     await cp(join(fixtures, fixture), dir, { recursive: true });
     const result = spawnSync("sh", ["-c", script], { cwd: dir, env: { ...process.env, ...env }, encoding: "utf8" });
     const report = await readFile(join(dir, env.EVERGREEN_REPORT!), "utf8").catch(() => undefined);
-    return { status: result.status, stdout: result.stdout, stderr: result.stderr, report: report === undefined ? undefined : (JSON.parse(report) as { findings: unknown[] }) };
+    const codeQuality = await readFile(join(dir, env.EVERGREEN_CODE_QUALITY_REPORT!), "utf8").then((text) => JSON.parse(text) as { check_name: string }[], () => undefined);
+    return { codeQuality, status: result.status, stdout: result.stdout, stderr: result.stderr, report: report === undefined ? undefined : (JSON.parse(report) as { findings: unknown[] }) };
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
@@ -47,6 +48,13 @@ test("a pipeline on a repository with a high-severity finding fails but still ke
   assert.equal(run.status, 1);
   assert.match(run.stderr, /--fail-on high/);
   assert.ok((run.report?.findings.length ?? 0) > 0, "the report must be written before the gate is applied");
+});
+
+test("a failing pipeline also keeps a Code Quality report that lists the finding", async () => {
+  const run = await runJob("fail");
+  assert.equal(run.status, 1);
+  assert.ok((run.codeQuality?.length ?? 0) > 0);
+  assert.equal(run.codeQuality![0]!.check_name, (run.report!.findings[0] as { ruleId: string }).ruleId);
 });
 
 test("the severity input decides whether the same finding fails the pipeline", async () => {

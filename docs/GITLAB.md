@@ -20,7 +20,7 @@ The job needs nothing beyond the default pipeline permissions:
 
 - It reads the files GitLab checks out for the job. It uses a shallow clone (`GIT_DEPTH: "1"`).
 - It uses no access token, project or group variable, or secret, and does not call the GitLab API.
-- It writes one file, the report (`evergreen-report.json` unless you set `report_name`), kept as a job artifact for 14 days even when the gate fails.
+- It writes two files, kept as job artifacts for 14 days even when the gate fails: the JSON report (`evergreen-report.json` unless you set `report_name`) and a [Code Quality](https://docs.gitlab.com/ci/testing/code_quality/) report (`gl-code-quality-report.json` unless you set `code_quality_report_name`), which GitLab shows as findings in merge requests. The same report is available locally with `evergreen scan --format codequality`.
 - It never edits the repository, opens a merge request, or runs a migration command.
 
 ## Network behavior
