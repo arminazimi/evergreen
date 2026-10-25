@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 
 import { applyBaseline, findingFingerprint, readBaseline } from "./baseline.js";
+import { bundledRules } from "./check-dependency.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { scanRepository } from "./engine.js";
@@ -107,7 +108,7 @@ export class EvergreenAgentTools {
 
   async context(findingId: string, repositoryPath = "."): Promise<MigrationPacket> {
     const result = await this.scan(repositoryPath);
-    return createMigrationPacket(result, findingId);
+    return createMigrationPacket(result, findingId, await bundledRules());
   }
 
   async verify(findingId: string, repositoryPath = "."): Promise<MigrationVerification> {

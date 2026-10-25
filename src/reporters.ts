@@ -1,7 +1,7 @@
 import type { DependencyCheck } from "./check-dependency.js";
 import type { DataInfo, Finding, ScanResult, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
-import type { MigrationPacket } from "./migration-packet.js";
+import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
 import { VERSION } from "./version.js";
 
 export function renderJson(result: ScanResult): string {
@@ -391,6 +391,18 @@ export function renderFindingText(finding: ScanResult["findings"][number]): stri
   return lines.join("\n");
 }
 
+function renderUpgradePath(path: UpgradePath): string[] {
+  const target = path.target.replacement
+    ? path.target.replacement
+    : `${path.target.title} (${path.target.versions}${path.target.endsOn ? `, supported until ${path.target.endsOn}` : ""})`;
+  return [
+    "Upgrade path:",
+    `- From: ${path.from.title} (${path.from.versions})`,
+    ...path.skipped.map((line) => `- Skip: ${line.title} (${line.versions}) — ${line.status === "ended" ? "support has ended" : `support ends ${line.endsOn}`}`),
+    `- Land on: ${target}`,
+  ];
+}
+
 export function renderMigrationPacketText(packet: MigrationPacket): string {
   const lines = [
     `Migration context: ${packet.finding.title}`,
@@ -405,6 +417,7 @@ export function renderMigrationPacketText(packet: MigrationPacket): string {
     "",
     "Migration steps:",
     ...packet.steps.map((step, index) => `${index + 1}. ${step.title}: ${step.instructions}`),
+    ...(packet.upgradePath ? ["", ...renderUpgradePath(packet.upgradePath)] : []),
     "",
     "Verification:",
     ...packet.verification.map((verification) =>

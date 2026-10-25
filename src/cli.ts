@@ -528,7 +528,7 @@ async function main(args: string[]): Promise<number> {
   }
   if (command === "context") {
     try {
-      const packet = createMigrationPacket(result, findingId!);
+      const packet = createMigrationPacket(result, findingId!, await bundledRules());
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
       return fail("data", error instanceof Error ? error.message : String(error));
