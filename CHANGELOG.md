@@ -2,7 +2,22 @@
 
 ## Unreleased
 
+## 0.6.1 - 2026-10-25
+
 - Add `evergreen fix --dry-run` to print `git apply` patches for deterministic fixes, starting with outdated GitHub Actions `uses:` versions. Nothing is written. (#1032)
+- Add `--format codequality` to emit a GitLab Code Quality report, which the GitLab component keeps as a job artifact. (#1173)
+- Add a scheduled workflow that opens an issue when an end-of-life date nears. (#1169)
+- Post one summary comment on pull requests. (#1168)
+- Group scan findings by CODEOWNERS owner with `--by-owner`. (#1167)
+- Merge scan reports from many repositories by product and owner. (#1166)
+- Add `evergreen diff <base>..<head>` for findings a change introduced or fixed. (#1165)
+- Ship a pre-commit framework hook. (#1164)
+- Add the GitLab CI/CD component, `templates/evergreen.yml`. (#1163)
+- Re-scan after `fix --branch` and print the verification commands. (#1160)
+- Add `evergreen fix --branch` to apply fixes on a local git branch. (#1159)
+- Add rename codemods for five deprecated npm packages. (#1158)
+- Move exact runtime pins to the lowest supported line. (#1157)
+- Reject a path that does not exist or is not a directory. (#1153)
 
 ## 0.6.0 - 2026-10-25
 

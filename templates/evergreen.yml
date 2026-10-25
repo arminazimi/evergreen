@@ -35,7 +35,7 @@ spec:
       default: gl-code-quality-report.json
     version:
       description: Version of the evergreen-deprecation npm package to run.
-      default: 0.6.0
+      default: 0.6.1
     image:
       description: Node.js 22 or newer image the job runs in.
       default: node:24-trixie-slim

@@ -6,7 +6,7 @@
       "args": [
         "--yes",
         "--package",
-        "evergreen-deprecation@0.6.0",
+        "evergreen-deprecation@0.6.1",
         "evergreen-mcp"
       ]
     }
