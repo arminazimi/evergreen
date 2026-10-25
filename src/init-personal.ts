@@ -46,7 +46,7 @@ async function globalHooksPath(env: NodeJS.ProcessEnv): Promise<string | undefin
   }
 }
 
-function personalDirectory(env: NodeJS.ProcessEnv): string {
+export function personalDirectory(env: NodeJS.ProcessEnv): string {
   const home = env.HOME ?? env.USERPROFILE ?? homedir();
   return join(env.XDG_CONFIG_HOME ?? join(home, ".config"), "evergreen");
 }

@@ -63,3 +63,19 @@ npx evergreen-deprecation init --personal --yes       # confirm without asking
 It asks before writing anything; without a terminal it needs `--yes`. `--fail-on <severity>` sets the gate (default `high`). Running it again changes nothing when the setup is current.
 
 A global hooks path replaces each repository's own `.git/hooks`, so the personal hook runs the repository's own `pre-push` afterwards, if it has one. Evergreen stops without changes when Git already uses a different global hooks path, or when the hook file there is not its own. Bypass and removal work as above; to remove it, run `git config --global --unset core.hooksPath`.
+
+## A digest for your personal projects
+
+`evergreen watch` re-scans the projects you register and prints only what is new since the last digest, so a new end-of-life date shows up once.
+
+```bash
+npx evergreen-deprecation watch add ~/code/my-app     # register a project
+npx evergreen-deprecation watch list                  # show registered projects
+npx evergreen-deprecation watch                       # re-scan and print what changed
+npx evergreen-deprecation watch --weekly              # do nothing unless a week has passed since the last digest
+npx evergreen-deprecation watch remove ~/code/my-app  # stop watching
+```
+
+The project list and what each digest already reported live in `~/.config/evergreen/watch.json` (honoring `XDG_CONFIG_HOME`). A finding is reported again only when its deadline changes. A project that cannot be scanned is named in the digest and keeps its history. Scans stay offline.
+
+For a weekly reminder, run it from cron or a login script, for example `0 9 * * 1 npx evergreen-deprecation watch --weekly`. `--json` prints an `evergreen.watch.v1` document.

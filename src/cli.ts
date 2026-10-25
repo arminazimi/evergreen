@@ -31,6 +31,7 @@ import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { VERSION } from "./version.js";
+import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
 
@@ -45,6 +46,9 @@ Usage:
   evergreen usage [--file <path>] [--json]
   evergreen mcp
   evergreen data status [--json]
+  evergreen watch add|remove <path>   # register a project for the digest
+  evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
+  evergreen watch list [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
@@ -268,6 +272,39 @@ async function newDetector(args: string[]): Promise<number> {
   }
 }
 
+/** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */
+async function watch(args: string[], json: boolean): Promise<number> {
+  const usageText = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
+  const rest = args.filter((argument, index) => argument !== "--json" && argument !== "--format" && args[index - 1] !== "--format");
+  const [subcommand = "run", ...operands] = rest;
+  try {
+    if (subcommand === "add" || subcommand === "remove") {
+      const [path] = operands;
+      if (!path || operands.length > 1 || path.startsWith("-")) return fail("usage", usageText);
+      const changed = subcommand === "add" ? await addWatched(path) : await removeWatched(path);
+      const done = subcommand === "add" ? "Now watching" : "Stopped watching";
+      const already = subcommand === "add" ? "Already watching" : "Was not watching";
+      const project = resolve(path);
+      process.stdout.write(`${changed ? done : already} ${project}\n`);
+      return 0;
+    }
+    if (subcommand === "list") {
+      if (operands.length > 0) return fail("usage", usageText);
+      const projects = await listWatched();
+      process.stdout.write(json ? `${JSON.stringify({ projects }, null, 2)}\n` : `${projects.length === 0 ? "No projects are watched. Add one with `evergreen watch add <path>`." : projects.join("\n")}\n`);
+      return 0;
+    }
+    const weekly = operands.includes("--weekly");
+    if (subcommand !== "run" || operands.some((argument) => argument !== "--weekly")) return fail("usage", usageText);
+    const digest = await runWatch(builtInDetectors, { weekly });
+    process.stdout.write(`${json ? JSON.stringify(digest, null, 2) : renderWatchText(digest)}\n`);
+    return 0;
+  } catch (error) {
+    if (error instanceof Error && !(error instanceof TypeError)) return fail("parse", error.message);
+    throw error;
+  }
+}
+
 async function main(args: string[]): Promise<number> {
   const formatValue = args[args.indexOf("--format") + 1];
   jsonErrors = args.includes("--json") || (args.includes("--format") && formatValue === "json");
@@ -282,7 +319,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -326,6 +363,7 @@ async function main(args: string[]): Promise<number> {
   if (args.includes("--write-status") && command !== "scan") {
     return fail("usage", "--write-status is only available for the scan command.");
   }
+  if (command === "watch") return watch(args.slice(1), json);
   if (command === "capabilities") {
     const manifest = getCapabilityManifest();
     process.stdout.write(`${json ? JSON.stringify(manifest, null, 2) : renderCapabilitiesText(manifest)}\n`);
