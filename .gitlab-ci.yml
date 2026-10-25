@@ -10,6 +10,12 @@ include:
     rules:
       - if: $CI_COMMIT_TAG == null
 
+# This repository is itself named evergreen-deprecation, so npx would resolve that package to the checkout
+# (whose bin is not linked) instead of downloading it. Hide the manifest from npx for the dogfood job only.
+evergreen:
+  before_script:
+    - mv package.json package.json.repo
+
 # The Catalog requires plain semantic versions, while GitHub tags carry a "v" prefix.
 release-version:
   stage: release
