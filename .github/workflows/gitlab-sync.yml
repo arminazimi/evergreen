@@ -31,5 +31,6 @@ jobs:
           GITLAB_TOKEN: ${{ secrets.GITLAB_SYNC_TOKEN }}
         run: |
           git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/arminazimi/evergreen.git"
-          git push gitlab "${GITHUB_SHA}:refs/heads/main"
-          git push gitlab --tags
+          # GitLab is a mirror and GitHub is the source of truth, so history rewritten here (squash merges) must win.
+          git push --force gitlab "${GITHUB_SHA}:refs/heads/main"
+          git push --force gitlab --tags
