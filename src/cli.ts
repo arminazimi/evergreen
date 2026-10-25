@@ -28,6 +28,7 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
+import { applyOnBranch } from "./fix/git.js";
 import { planFixes, renderPatches } from "./fix/index.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
@@ -53,6 +54,7 @@ Usage:
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
+  evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -516,12 +518,17 @@ async function main(args: string[]): Promise<number> {
     return 0;
   }
   if (command === "fix") {
-    // Patches are printed, never applied: --dry-run is the default and the only mode.
-    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--data-version");
-    if (unknownFlag !== undefined || positional.length > 1) return fail("usage", "Usage: evergreen fix [path] [--dry-run]");
+    // Patches are printed unless --branch asks for a local, reviewable commit; nothing is ever pushed.
+    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--branch" && argument !== "--data-version");
+    if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch"))) return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch]");
     const patches = await planFixes(await scanRepository(pathArgument, builtInDetectors));
     if (patches.length === 0) {
       process.stderr.write("No deterministic fixes found.\n");
+      return 0;
+    }
+    if (args.includes("--branch")) {
+      const applied = await applyOnBranch(pathArgument, patches);
+      process.stderr.write(`Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`);
       return 0;
     }
     process.stdout.write(renderPatches(patches));
