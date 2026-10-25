@@ -1,25 +1,25 @@
 ---
-title: "Next.js 15 Maintenance LTS is scheduled to end — dates, impact, migration"
-description: "Next.js 15 was released on 2024-10-21 and is in Maintenance LTS, which lasts two years after release, so its support window ends on 2026-10-21. Next.js 16 is the Active LTS release."
+title: "Next.js 15 is out of support — dates, impact, migration"
+description: "Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html"
 ---
 
-# Next.js 15 Maintenance LTS is scheduled to end
+# Next.js 15 is out of support
 
-Next.js 15 was released on 2024-10-21 and is in Maintenance LTS, which lasts two years after release, so its support window ends on 2026-10-21. Next.js 16 is the Active LTS release.
+Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under Supported Versions on 2026-10-25. Next.js 16 is the Active LTS release.
 
 | | |
 | --- | --- |
-| Status | Scheduled end of life |
-| Severity | low |
+| Status | End of support |
+| Severity | high |
 | Ecosystem | `npm` |
 | Component | `pkg:npm/next` |
 | Affected versions | `vers:npm/>=15.0.0\|<16.0.0` |
 | Date from the source | 2026-10-21 |
 | Replacement | Next.js 16 (Active LTS) |
-| Evidence last seen | 2026-10-21 |
-| Reviewed | 2026-10-21 by arminazimi |
-| Review due | 2027-10-21 (365 days after the last review) |
+| Evidence last seen | 2026-10-25 |
+| Reviewed | 2026-10-25 by arminazimi |
+| Review due | 2027-10-25 (365 days after the last review) |
 | Rule ID | `npm.package.next.15.support-end` |
 
 ## Sources
@@ -61,18 +61,18 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
   "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html",
   "url": "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html",
   "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html",
-  "headline": "Next.js 15 Maintenance LTS is scheduled to end — dates, impact, migration",
-  "description": "Next.js 15 was released on 2024-10-21 and is in Maintenance LTS, which lasts two years after release, so its support window ends on 2026-10-21. Next.js 16 is the Active LTS release.",
+  "headline": "Next.js 15 is out of support — dates, impact, migration",
+  "description": "Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under…",
   "inLanguage": "en",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-25",
   "keywords": [
-    "scheduled-end-of-life",
+    "end-of-support",
     "npm",
-    "low"
+    "high"
   ],
   "about": {
     "@type": "Thing",
-    "name": "Next.js 15 Maintenance LTS is scheduled to end",
+    "name": "Next.js 15 is out of support",
     "identifier": "pkg:npm/next"
   },
   "citation": [

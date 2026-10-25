@@ -316,7 +316,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Next.js 12 is out of support](npm.package.next.12.support-end.html) — end of support, `npm.package.next.12.support-end`
 - [Next.js 13 is out of support](npm.package.next.13.support-end.html) — end of support, `npm.package.next.13.support-end`
 - [Next.js 14 is out of support](npm.package.next.14.support-end.html) — end of support, `npm.package.next.14.support-end`
-- [Next.js 15 Maintenance LTS is scheduled to end](npm.package.next.15.support-end.html) — scheduled end of life, `npm.package.next.15.support-end`
+- [Next.js 15 is out of support](npm.package.next.15.support-end.html) — end of support, `npm.package.next.15.support-end`
 - [node-pre-gyp is deprecated](npm.package.node-pre-gyp.deprecated.html) — deprecated, `npm.package.node-pre-gyp.deprecated`
 - [Node Sass is end-of-life](npm.package.node-sass.eol.html) — end of life, `npm.package.node-sass.eol`
 - [nomnom is deprecated](npm.package.nomnom.deprecated.html) — deprecated, `npm.package.nomnom.deprecated`

@@ -108,7 +108,7 @@ test("covers every unsupported and recently retired major, with the dates from t
     { major: 12, released: "2021-10-26", event: "end-of-support", severity: "high" },
     { major: 13, released: "2022-10-26", event: "end-of-support", severity: "high" },
     { major: 14, released: "2023-10-26", event: "end-of-support", severity: "high" },
-    { major: 15, released: "2024-10-21", event: "scheduled-end-of-life", severity: "low" },
+    { major: 15, released: "2024-10-21", event: "end-of-support", severity: "high" },
   ] as const;
   const rules = await nextRules();
 

@@ -2,7 +2,7 @@
 
 These fixtures exercise the Next.js lifecycle rules in `registry/npm.json`, which the npm detector matches against the `next` package. The rules come from the [Next.js support policy](https://nextjs.org/support-policy). Line numbers below are 1-based. A lifecycle finding needs a reviewed rule with an authoritative source (see [Lifecycle rules](../../../docs/RULES.md#evidence-policy)).
 
-Next.js 16 is Active LTS and Next.js 15 is in Maintenance LTS at the time of writing, so the fixtures use 14.x as the unsupported example and 16.x as the supported one. The per-major dates and coverage are tested in `tests/nextjs.test.ts`.
+Next.js 16 is Active LTS and Next.js 15 passed the end of its Maintenance LTS window on 2026-10-21, so the fixtures keep 14.x as the unsupported example and 16.x as the supported one. The per-major dates and coverage are tested in `tests/nextjs.test.ts`.
 
 | Fixture file | Expected case |
 | --- | --- |

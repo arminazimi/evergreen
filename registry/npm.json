@@ -4913,10 +4913,10 @@
       "ecosystem": "npm",
       "purl": "pkg:npm/next",
       "vers": "vers:npm/>=15.0.0|<16.0.0",
-      "event": "scheduled-end-of-life",
-      "title": "Next.js 15 Maintenance LTS is scheduled to end",
-      "summary": "Next.js 15 was released on 2024-10-21 and is in Maintenance LTS, which lasts two years after release, so its support window ends on 2026-10-21. Next.js 16 is the Active LTS release.",
-      "severity": "low",
+      "event": "end-of-support",
+      "title": "Next.js 15 is out of support",
+      "summary": "Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under Supported Versions on 2026-10-25. Next.js 16 is the Active LTS release.",
+      "severity": "high",
       "replacement": "Next.js 16 (Active LTS)",
       "deadline": "2026-10-21",
       "sources": [
@@ -4930,8 +4930,8 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-21",
-        "reviewedAt": "2026-10-21",
+        "observedAt": "2026-10-25",
+        "reviewedAt": "2026-10-25",
         "reviewer": "arminazimi"
       },
       "migration": {
