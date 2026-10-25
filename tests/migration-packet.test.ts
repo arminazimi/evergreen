@@ -107,15 +107,15 @@ test("warns when the pinned runtime is below what the replacement requires", () 
   };
   const id = withRequirement.findings[0]!.id;
 
-  const warned = createMigrationPacket(withRequirement, id, { node: "v16.20.0", python: "3.12.1" });
+  const warned = createMigrationPacket(withRequirement, id, [], { node: "v16.20.0", python: "3.12.1" });
   const warnings = warned.constraints.filter((line) => line.startsWith("Warning:"));
   assert.deepEqual(warnings, [
     "Warning: Native fetch requires Node.js 18.0.0 or newer, but this repository pins Node.js v16.20.0. Upgrade the runtime first or choose another replacement.",
   ]);
 
   for (const pinned of [{ node: "18" }, { node: "lts/*" }, {}]) {
-    const quiet = createMigrationPacket(withRequirement, id, pinned);
+    const quiet = createMigrationPacket(withRequirement, id, [], pinned);
     assert.equal(quiet.constraints.some((line) => line.startsWith("Warning:")), false);
   }
-  assert.equal(createMigrationPacket(result, result.findings[0]!.id, { node: "12" }).constraints.some((line) => line.startsWith("Warning:")), false);
+  assert.equal(createMigrationPacket(result, result.findings[0]!.id, [], { node: "12" }).constraints.some((line) => line.startsWith("Warning:")), false);
 });
