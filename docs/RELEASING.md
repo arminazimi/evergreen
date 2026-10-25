@@ -67,10 +67,21 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
    ```
 
    The response lists `io.github.arminazimi/evergreen` with the new `version`. The name is owned by the `arminazimi` GitHub account, and `package.json`'s `mcpName` ties the npm package to it.
-8. **Create the GitHub release** for the tag, with the changelog section as the body.
+8. **Create the GitHub release** for the tag, with the changelog section as the body. If the [standalone binaries](#standalone-binaries) have already been attached, the release exists: edit its body instead of creating it.
 9. **Move the major tag** only if the project publishes one (for example `v1`), as a force-updated lightweight tag pointing at the new release. Do not move it for a pre-1.0 version. The `Release notes` workflow does this by itself after a successful `Publish to npm` run, for stable tags from `v1.0.0` on: the decision is in `.github/scripts/major-tag.mjs` (unit-tested), the tag only moves forward, and a pre-release or `0.x` tag changes nothing. To see what it would do for a tag without pushing anything, run the `Release notes` workflow by hand with `release_tag` set (a manual run is always a dry run).
 10. **Package the plugins.** For Codex, `npm run package:codex-plugin` writes `artifacts/evergreen-codex-plugin-<version>.zip`; follow [Codex submission](CODEX_SUBMISSION.md) to submit it. The Claude plugin is served from the repository marketplace, so the merged change in step 4 is its release; see [Claude plugin](CLAUDE_PLUGIN.md).
 11. **Announce** only after the npm package, tag, and release are live.
+
+## Standalone binaries
+
+Each stable or pre-release tag also produces binaries that need no Node.js, for Linux (x64, arm64), macOS (x64, arm64), and Windows (x64). The `binary` and `binary-release` jobs in [`release.yml`](../.github/workflows/release.yml) start after a successful `Publish to npm` run, so they build the commit that passed every gate. Nothing needs to be done by hand.
+
+- **What they are.** [`build-sea.mjs`](../.github/scripts/build-sea.mjs) stages exactly the files `npm pack` would publish, installs the production dependencies from `package-lock.json`, and embeds them in a Node.js [single executable application](https://nodejs.org/api/single-executable-applications.html) (built with `node --build-sea`, so the build runner uses Node.js 26). On first run, [`sea-boot.cjs`](../.github/scripts/sea-boot.cjs) unpacks the embedded package into the user's cache directory (`~/.cache/evergreen`, `~/Library/Caches/evergreen`, or `%LOCALAPPDATA%\evergreen`; `EVERGREEN_SEA_CACHE` overrides it) and runs the same CLI as the npm package. Scans still use no network.
+- **Gate.** Every binary runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`) before it is uploaded; on Linux and macOS this runs with `PATH=/usr/bin:/bin`, so a binary that secretly needs Node.js fails the release.
+- **What is attached.** The release gets `evergreen-<version>-<os>-<arch>` files (`.exe` on Windows) and `SHA256SUMS`. Each binary carries a build provenance attestation: `gh attestation verify evergreen-<version>-<os>-<arch> --repo arminazimi/evergreen`, or compare `sha256sum -c SHA256SUMS`. If no release exists for the tag yet, the job creates one with a placeholder body; replace it in step 8.
+- **macOS.** The binaries are signed ad hoc, not notarized. Downloaded with `curl` or `gh release download` they run as they are; a browser download is quarantined, and `xattr -d com.apple.quarantine <file>` clears it.
+- **If a binary job fails.** The npm package is already published and is not affected. Fix the cause, then re-run the failed jobs of the `Release notes` workflow run that followed the publish; `gh release upload --clobber` replaces files that were already attached.
+- **Trying it before a release.** From a built checkout with Node.js 25.5 or newer, `node .github/scripts/build-sea.mjs evergreen-test`, then `node .github/scripts/smoke.mjs tests/fixtures/smoke -- ./evergreen-test` (on macOS run `codesign --force --sign - evergreen-test` first). Use an official Node.js build; some distributions (Homebrew's, for one) are built without single-executable support.
 
 ## Rule data
 

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Attach standalone binaries that need no Node.js (Linux, macOS, Windows) to each GitHub release, with `SHA256SUMS` and build provenance. (#1016)
 - Add `--format html` to scan: one self-contained HTML file with no external requests, every value escaped, and the full JSON report embedded. (#1022)
 - Add `evergreen completions <bash|zsh|fish>` to print a shell completion script, and one example per command to `--help`. (#1021)
 
