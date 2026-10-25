@@ -70,6 +70,13 @@
     "replacement": {
       "type": "string"
     },
+    "dependencyPath": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2
+    },
     "deadline": {
       "type": "string",
       "format": "date"

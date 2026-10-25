@@ -58,6 +58,12 @@ interface RuntimeDeclaration {
 }
 
 type ResolvedVersions = Map<string, Set<string>>;
+/** Package name -> the names it depends on, read from a lockfile. Names, not versions: the path is for people to follow. */
+type DependencyGraph = Map<string, Set<string>>;
+interface LockData {
+  versions: ResolvedVersions;
+  graph: DependencyGraph;
+}
 
 /**
  * The sections that state the version a project runs. When one package appears in several of them, the later
@@ -129,22 +135,31 @@ function packageNameFromNodeModulesPath(path: string): string | undefined {
   return index === -1 ? undefined : path.slice(index + marker.length);
 }
 
-function parsePackageLock(contents: string, target: ResolvedVersions): void {
+function addEdges(graph: DependencyGraph, from: string, ...sections: Array<Record<string, unknown> | undefined>): void {
+  const edges = graph.get(from) ?? new Set<string>();
+  for (const section of sections) for (const name of Object.keys(section ?? {})) edges.add(name);
+  graph.set(from, edges);
+}
+
+function parsePackageLock(contents: string, { versions: target, graph }: LockData): void {
   const lock = JSON.parse(contents) as {
-    packages?: Record<string, { name?: string; version?: string }>;
+    packages?: Record<string, { name?: string; version?: string; dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> }>;
     dependencies?: Record<string, unknown>;
   };
 
   for (const [path, metadata] of Object.entries(lock.packages ?? {})) {
     const name = metadata.name ?? packageNameFromNodeModulesPath(path);
-    if (name) addResolved(target, name, metadata.version);
+    if (!name) continue;
+    addResolved(target, name, metadata.version);
+    addEdges(graph, name, metadata.dependencies, metadata.optionalDependencies);
   }
 
   const visit = (dependencies: Record<string, unknown> | undefined): void => {
     for (const [name, rawMetadata] of Object.entries(dependencies ?? {})) {
       if (!rawMetadata || typeof rawMetadata !== "object") continue;
-      const metadata = rawMetadata as { version?: string; dependencies?: Record<string, unknown> };
+      const metadata = rawMetadata as { version?: string; requires?: Record<string, unknown>; dependencies?: Record<string, unknown> };
       addResolved(target, name, metadata.version);
+      addEdges(graph, name, metadata.requires);
       visit(metadata.dependencies);
     }
   };
@@ -165,13 +180,18 @@ function packageFromPnpmKey(rawKey: string): { name: string; version: string } |
  * lockfile first and the project lockfile after a `---`), so every document is read. A document that does
  * not parse is skipped: an unreadable lockfile means unresolved versions, never a failed scan.
  */
-function parsePnpmLock(contents: string, target: ResolvedVersions): void {
+function parsePnpmLock(contents: string, { versions: target, graph }: LockData): void {
   for (const document of parseAllDocuments(contents)) {
     if (document.errors.length > 0) continue;
     const lock = document.toJS() as { packages?: Record<string, unknown>; snapshots?: Record<string, unknown> } | null;
-    for (const key of [...Object.keys(lock?.packages ?? {}), ...Object.keys(lock?.snapshots ?? {})]) {
-      const parsed = packageFromPnpmKey(key);
-      if (parsed) addResolved(target, parsed.name, parsed.version);
+    for (const entries of [lock?.packages ?? {}, lock?.snapshots ?? {}]) {
+      for (const [key, entry] of Object.entries(entries)) {
+        const parsed = packageFromPnpmKey(key);
+        if (!parsed) continue;
+        addResolved(target, parsed.name, parsed.version);
+        const edges = entry && typeof entry === "object" ? (entry as { dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> }) : {};
+        addEdges(graph, parsed.name, edges.dependencies, edges.optionalDependencies);
+      }
     }
   }
 }
@@ -182,8 +202,9 @@ function packageNameFromYarnSelector(selector: string): string | undefined {
   return separator > 0 ? clean.slice(0, separator) : undefined;
 }
 
-function parseYarnLock(contents: string, target: ResolvedVersions): void {
+function parseYarnLock(contents: string, { versions: target, graph }: LockData): void {
   let names: string[] = [];
+  let inDependencies = false;
   for (const line of contents.split(/\r?\n/)) {
     if (line && !/^\s/.test(line) && line.endsWith(":")) {
       names = line
@@ -191,8 +212,12 @@ function parseYarnLock(contents: string, target: ResolvedVersions): void {
         .split(",")
         .map(packageNameFromYarnSelector)
         .filter((name): name is string => Boolean(name));
+      inDependencies = false;
       continue;
     }
+    if (/^ {2}\S/.test(line)) inDependencies = /^ {2}(?:dependencies|optionalDependencies):\s*$/.test(line);
+    const dependency = inDependencies ? /^ {4}"?([^"\s:]+)"?/.exec(line)?.[1] : undefined;
+    if (dependency) for (const name of names) addEdges(graph, name, { [dependency]: true });
     const match = /^\s+version\s+["']?([^"'\s]+)["']?/.exec(line);
     if (match?.[1]) {
       for (const name of names) addResolved(target, name, match[1]);
@@ -200,8 +225,8 @@ function parseYarnLock(contents: string, target: ResolvedVersions): void {
   }
 }
 
-async function collectResolvedVersions(root: string): Promise<ResolvedVersions> {
-  const resolved: ResolvedVersions = new Map();
+async function collectLockData(root: string): Promise<LockData> {
+  const resolved: LockData = { versions: new Map(), graph: new Map() };
   const lockfiles = await Promise.all([
     readOptional(resolve(root, "package-lock.json")),
     readOptional(resolve(root, "npm-shrinkwrap.json")),
@@ -214,6 +239,32 @@ async function collectResolvedVersions(root: string): Promise<ResolvedVersions> 
   if (lockfiles[2]) parsePnpmLock(lockfiles[2], resolved);
   if (lockfiles[3]) parseYarnLock(lockfiles[3], resolved);
   return resolved;
+}
+
+/**
+ * The shortest chain of package names from a directly declared dependency to `target`, both ends included, or
+ * undefined when the lockfile graph does not reach it. Neighbours are visited in name order so the same lockfile
+ * always yields the same path.
+ */
+function shortestDependencyPath(graph: DependencyGraph, direct: Iterable<string>, target: string): string[] | undefined {
+  const parent = new Map<string, string | undefined>();
+  let frontier = [...direct].sort();
+  for (const name of frontier) parent.set(name, undefined);
+  while (frontier.length > 0 && !parent.has(target)) {
+    const next: string[] = [];
+    for (const name of frontier) {
+      for (const dependency of [...(graph.get(name) ?? [])].sort()) {
+        if (parent.has(dependency)) continue;
+        parent.set(dependency, name);
+        next.push(dependency);
+      }
+    }
+    frontier = next;
+  }
+  if (!parent.has(target)) return undefined;
+  const path: string[] = [];
+  for (let name: string | undefined = target; name !== undefined; name = parent.get(name)) path.unshift(name);
+  return path;
 }
 
 function propertyLine(contents: string, property: string): number {
@@ -342,7 +393,7 @@ export class NpmDetector implements Detector {
     const workspaceDirectories = await discoverNpmWorkspaces(context.root);
     if (!rootManifest && workspaceDirectories.length === 0) return [];
 
-    const [packageRules, nodeRules, rootVersions] = await Promise.all([
+    const [packageRules, nodeRules, rootLock] = await Promise.all([
       loadRegistry(
         "registry/npm.json",
         {
@@ -364,12 +415,12 @@ export class NpmDetector implements Detector {
               typeof (value as Partial<NodeRule>).maximumMajor === "number"),
         },
       ),
-      collectResolvedVersions(context.root),
+      collectLockData(context.root),
     ]);
 
     // The root project is "", each workspace is its relative directory. A workspace without its own lockfile
     // resolves against the root's, which is where npm, pnpm, and Yarn put the one shared lockfile.
-    const projects: Array<{ directory: string; manifestPath: string; contents: string; manifest: PackageManifest; resolved: ResolvedVersions }> = [];
+    const projects: Array<{ directory: string; manifestPath: string; contents: string; manifest: PackageManifest; resolved: ResolvedVersions; graph: DependencyGraph }> = [];
     const load = async (directory: string): Promise<void> => {
       const manifestPath = resolve(context.root, directory, "package.json");
       const contents = directory === "" ? rootManifest : await readOptional(manifestPath);
@@ -382,10 +433,12 @@ export class NpmDetector implements Detector {
         if (directory === "") throw error;
         return;
       }
-      const own = directory === "" ? new Map<string, Set<string>>() : await collectResolvedVersions(resolve(context.root, directory));
-      const resolved: ResolvedVersions = new Map(rootVersions);
-      for (const [name, versions] of own) resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
-      projects.push({ directory, manifestPath, contents, manifest, resolved });
+      const own = directory === "" ? { versions: new Map<string, Set<string>>(), graph: new Map<string, Set<string>>() } : await collectLockData(resolve(context.root, directory));
+      const resolved: ResolvedVersions = new Map(rootLock.versions);
+      for (const [name, versions] of own.versions) resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
+      const graph: DependencyGraph = new Map(rootLock.graph);
+      for (const [name, edges] of own.graph) graph.set(name, new Set([...(graph.get(name) ?? []), ...edges]));
+      projects.push({ directory, manifestPath, contents, manifest, resolved, graph });
     };
     await load("");
     for (const directory of workspaceDirectories) await load(directory);
@@ -395,7 +448,7 @@ export class NpmDetector implements Detector {
     const scheduledMajors = nodeRules.flatMap((rule) => (rule.scheduled && rule.major !== undefined ? [rule.major] : []));
     const newestRuleMajor = Math.max(0, ...endedRules.map((rule) => rule.major ?? 0));
     const seenRuntimeRules = new Set<string>();
-    const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string }> = [];
+    const matched: Array<{ rule: PackageRule; project: (typeof projects)[number]; range: string; section: string; via?: string[] }> = [];
 
     for (const project of projects) {
       const declarations = manifestRuntimeDeclarations(context.root, project.manifestPath, project.contents, project.manifest);
@@ -423,7 +476,16 @@ export class NpmDetector implements Detector {
       }
       for (const rule of packageRules) {
         const dependency = declared.get(rule.package);
-        if (!dependency) continue;
+        if (!dependency) {
+          // Not declared here: report it when a lockfile shows a declared dependency pulling it in, with that path.
+          const via = shortestDependencyPath(project.graph, declared.keys(), rule.package);
+          const versions = [...(project.resolved.get(rule.package) ?? [])];
+          if (!via || versions.length === 0) continue;
+          if (rule.vers && !parseVers(rule.vers).all && !versions.some((version) => versContains(rule.vers!, version))) continue;
+          const root = declared.get(via[0]!)!;
+          matched.push({ rule, project, range: root.range, section: root.section, via });
+          continue;
+        }
         if (rule.vers && !parseVers(rule.vers).all) {
           const declaredRange = semver.validRange(dependency.range);
           if (!declaredRange) continue;
@@ -445,10 +507,10 @@ export class NpmDetector implements Detector {
     const usageByRule = new Map(usageAnalyses.map((analysis) => [analysis.contractId, analysis]));
     const projectDirectories = projects.map((project) => project.directory);
 
-    for (const { rule, project, range, section } of matched) {
+    for (const { rule, project, range, section, via } of matched) {
       const resolved = [...(project.resolved.get(rule.package) ?? [])].sort(semver.compare);
       const resolvedText = resolved.length > 0 ? resolved.join(", ") : "not found in a supported lockfile";
-      const line = declarationLine(project.contents, section, rule.package);
+      const line = declarationLine(project.contents, section, via ? via[0]! : rule.package);
       const path = relativePosix(context.root, project.manifestPath);
       // Each project reports the usages inside its own directory; the root keeps the ones outside every workspace.
       const usages = usagesOwnedBy(usageByRule.get(rule.id)!.usages, project.directory, projectDirectories);
@@ -456,10 +518,13 @@ export class NpmDetector implements Detector {
         id: `${rule.id}:${path}:${line}`,
         ruleId: rule.id,
         title: rule.title,
-        summary: `${rule.package} is declared in ${section} as ${range}; resolved: ${resolvedText}. ${rule.summary}`,
+        summary: via
+          ? `${rule.package} is not declared directly; ${via[0]} (declared in ${section} as ${range}) pulls it in; resolved: ${resolvedText}. ${rule.summary}`
+          : `${rule.package} is declared in ${section} as ${range}; resolved: ${resolvedText}. ${rule.summary}`,
         severity: rule.severity,
         confidence: resolved.length > 0 ? "inferred-from-lock" : "range",
         location: { path, line },
+        ...(via ? { dependencyPath: via } : {}),
         ...(rule.replacement ? { replacement: rule.replacement } : {}),
         ...(rule.requires ? { requires: rule.requires } : {}),
         ...(rule.deadline ? { deadline: rule.deadline } : {}),

@@ -160,6 +160,8 @@ export interface Finding {
   severity: Severity;
   confidence: Confidence;
   location: SourceLocation;
+  /** For a package that is pulled in rather than declared: the shortest chain from a declared dependency to it. */
+  dependencyPath?: string[];
   replacement?: string;
   requires?: ReplacementRequirements;
   deadline?: string;

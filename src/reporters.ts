@@ -190,6 +190,7 @@ function htmlFinding(finding: Finding): string {
     ["Rule", `<code>${escapeHtml(finding.ruleId)}</code> (detector ${escapeHtml(finding.detector)})`],
     ["Confidence", escapeHtml(finding.confidence)],
   ];
+  if (finding.dependencyPath) rows.push(["Path", escapeHtml(finding.dependencyPath.join(" > "))]);
   if (finding.replacement) rows.push(["Replacement", escapeHtml(finding.replacement)]);
   if (finding.deadline) rows.push(["Deadline", escapeHtml(finding.deadline)]);
   if (finding.impact) rows.push(["Impact", escapeHtml(`${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`)]);
@@ -308,6 +309,9 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
     lines.push(`${finding.location.path}${line}`);
     lines.push(`Confidence: ${finding.confidence}`);
     lines.push(finding.summary);
+    if (finding.dependencyPath) {
+      lines.push(`Path: ${finding.dependencyPath.join(" > ")}`);
+    }
     if (finding.replacement) {
       lines.push(`Replacement: ${finding.replacement}`);
     }
@@ -370,6 +374,7 @@ export function renderFindingText(finding: ScanResult["findings"][number]): stri
     "",
     finding.summary,
   ];
+  if (finding.dependencyPath) lines.push("", `Path: ${finding.dependencyPath.join(" > ")}`);
   if (finding.replacement) lines.push("", `Replacement: ${finding.replacement}`);
   if (finding.deadline) lines.push(`Deadline: ${finding.deadline}`);
   if (finding.impact) {
