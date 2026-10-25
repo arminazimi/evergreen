@@ -236,3 +236,47 @@ export interface ScanResult {
   /** The day the scan was projected onto with `--as-of`. Present only when one was given. */
   asOf?: string;
 }
+
+/** The most points each input of a risk score can add; they sum to 100. */
+export const RISK_SCORE_CAPS = { endOfLife: 50, usage: 25, advisories: 25 } as const;
+
+/** What a risk score was computed from. Every field is data Evergreen already holds. */
+export interface RiskInputs {
+  /** Whole days between the finding's `deadline` and the day scored; 0 before the deadline or when it has none. */
+  daysPastEndOfLife: number;
+  /** Source usages reported for the finding; 0 when none were found or usage analysis did not run. */
+  usageCount: number;
+  /** Imported advisories that apply to the finding; 0 when none were imported. */
+  advisories: number;
+}
+
+export interface RiskScore {
+  /** 0 to 100, higher means fix sooner. */
+  score: number;
+  inputs: RiskInputs;
+  /** The points each input contributed; they add up to `score`. */
+  points: { endOfLife: number; usage: number; advisories: number };
+}
+
+const DAY_MS = 86_400_000;
+
+/**
+ * Scores how urgent a finding is from three inputs: time since its end of life (1 point per 14.6 days, up to
+ * 50, reached at two years), source usages (5 points each, up to 25), and imported advisories (5 points each,
+ * up to 25). Popularity is never an input. Reads no clock: the caller passes `today` (YYYY-MM-DD), so the same
+ * finding scores the same everywhere. Documented in docs/RULES.md.
+ */
+export function riskScore(finding: Pick<Finding, "deadline" | "usages" | "impact">, today: string, advisories = 0): RiskScore {
+  const todayMs = Date.parse(`${today}T00:00:00Z`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(today) || Number.isNaN(todayMs)) throw new Error(`"${today}" is not a date (YYYY-MM-DD).`);
+  const deadlineMs = finding.deadline === undefined ? Number.NaN : Date.parse(`${finding.deadline}T00:00:00Z`);
+  const daysPastEndOfLife = Number.isNaN(deadlineMs) ? 0 : Math.max(0, Math.floor((todayMs - deadlineMs) / DAY_MS));
+  const usageCount = finding.impact?.usageCount ?? finding.usages?.length ?? 0;
+  const inputs: RiskInputs = { daysPastEndOfLife, usageCount, advisories: Math.max(0, Math.floor(advisories)) };
+  const points = {
+    endOfLife: Math.min(RISK_SCORE_CAPS.endOfLife, Math.floor((daysPastEndOfLife * RISK_SCORE_CAPS.endOfLife) / 730)),
+    usage: Math.min(RISK_SCORE_CAPS.usage, usageCount * 5),
+    advisories: Math.min(RISK_SCORE_CAPS.advisories, inputs.advisories * 5),
+  };
+  return { score: points.endOfLife + points.usage + points.advisories, inputs, points };
+}

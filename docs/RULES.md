@@ -250,6 +250,18 @@ Every finding carries a `confidence` that says how the version behind it was rea
 
 A detector sets `confidence` when it knows better. Otherwise the engine uses `inferred-from-lock` for a finding located in a lockfile and `exact` for any other. The value appears in JSON output, in text output as a `Confidence:` line, and in SARIF as `properties.confidence`. It is additive: no existing field changes.
 
+## Risk score
+
+`riskScore` in `src/domain.ts` ranks findings so the riskiest are fixed first. It is a number from 0 to 100 built from three inputs and nothing else; popularity and download counts are never used.
+
+| Input | Where it comes from | Points | Cap |
+|---|---|---|---|
+| Time since end of life | Whole days from the finding's `deadline` to the day scored (0 before the deadline or without one) | `floor(days × 50 / 730)` | 50, reached at two years |
+| Usage | The finding's `impact.usageCount`, or its number of `usages` | 5 per usage | 25 |
+| Advisories | The count of imported advisories that apply to the finding, passed by the caller | 5 per advisory | 25 |
+
+`score` is the sum of the three point values, and the result also returns the inputs and the points so the number can be checked by hand. The function reads no clock: the caller passes `today` (`YYYY-MM-DD`), so the same finding on the same day always scores the same. Evergreen does not fetch advisories during a scan; the caller supplies the count it imported.
+
 ## Evidence policy
 
 - Every rule needs an authoritative, versioned source: maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation.
