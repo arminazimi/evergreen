@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
 import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
-import { DEFAULT_WARN_DAYS, createBaseline, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
+import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
@@ -510,9 +510,15 @@ async function main(args: string[]): Promise<number> {
   if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
-    const baseline = createBaseline(result);
+    // A missing or unreadable earlier file just means there is no history to carry forward.
+    const previous = await readBaseline(output).catch(() => undefined);
+    const baseline = createBaseline(result, {}, previous ?? {
+      schemaVersion: "evergreen.baseline.v1",
+      createdAt: "",
+      findings: [],
+    });
     await writeBaseline(output, baseline);
-    process.stdout.write(`Wrote ${baseline.findings.length} findings to ${output}\n`);
+    process.stdout.write(`Wrote ${baseline.findings.length} findings to ${output}\n${debtTrendLine(baseline.history ?? [])}\n`);
     return 0;
   }
   let baselineExpiredFailure = false;
