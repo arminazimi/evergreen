@@ -1,4 +1,5 @@
 import type { ScanResult } from "../domain.js";
+import { renameCodemodsFixer } from "./codemods/index.js";
 import { githubActionsUsesFixer } from "./github-actions.js";
 import { runtimePinsFixer } from "./runtime-pins.js";
 
@@ -17,10 +18,10 @@ export interface Fixer {
   plan(result: ScanResult): Promise<FilePatch[]>;
 }
 
-export { githubActionsUsesFixer, runtimePinsFixer };
+export { githubActionsUsesFixer, renameCodemodsFixer, runtimePinsFixer };
 
 /** Every fixer Evergreen ships, in the order their patches are printed. */
-export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer];
+export const fixers: Fixer[] = [githubActionsUsesFixer, runtimePinsFixer, renameCodemodsFixer];
 
 /** Plans every fixer over a scan and returns the patches ordered by file, then fixer. */
 export async function planFixes(result: ScanResult, available: Fixer[] = fixers): Promise<FilePatch[]> {
