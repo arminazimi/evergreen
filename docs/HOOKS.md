@@ -41,6 +41,36 @@ pre-push:
       run: npx --no-install evergreen-deprecation scan . --fail-on high --format compact
 ```
 
+## The pre-commit framework
+
+Teams that use [pre-commit](https://pre-commit.com) add Evergreen with three lines of config. Pin `rev` to a release tag so everyone runs the same scanner:
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/arminazimi/evergreen
+    rev: v0.6.0
+    hooks:
+      - id: evergreen
+```
+
+The repository defines two hooks in `.pre-commit-hooks.yaml`, both `language: node`:
+
+| Hook | Runs |
+|---|---|
+| `evergreen` | On every commit. |
+| `evergreen-changed-manifests` | Only when a manifest, lockfile, or CI workflow file is part of the commit. |
+
+Both run `evergreen scan . --fail-on high --format compact`, so a commit is blocked by a `high` or `critical` finding. The scan reads the whole repository, because a finding depends on more than the staged files, and it stays offline. To change the gate, override `entry` in your config:
+
+```yaml
+    hooks:
+      - id: evergreen-changed-manifests
+        entry: evergreen scan . --fail-on critical --format compact
+```
+
+Use `SKIP=evergreen git commit` to skip only Evergreen, or `git commit --no-verify` to skip every hook.
+
 ## Bypass
 
 ```bash

@@ -98,3 +98,26 @@ test("CLI doctor reports the local environment in text and JSON", async () => {
     ["runtime", "package", "mcp", "skill", "plugin", "ci"],
   );
 });
+
+async function runFailing(args: string[]): Promise<{ code: number; stdout: string; stderr: string }> {
+  try {
+    await execute(process.execPath, [cli, ...args]);
+  } catch (error) {
+    return error as { code: number; stdout: string; stderr: string };
+  }
+  assert.fail(`expected "evergreen ${args.join(" ")}" to fail`);
+}
+
+test("CLI rejects a scan path that does not exist or is not a directory", async () => {
+  const root = await fixtureRepository();
+  const missingScan = await runFailing(["scan", join(root, "missing"), "--json"]);
+  assert.equal(missingScan.code, 2);
+  assert.match(missingScan.stderr, /Path does not exist/);
+  const document = JSON.parse(missingScan.stdout) as { schemaVersion: string; error: { code: string } };
+  assert.equal(document.schemaVersion, "evergreen.error.v1");
+  assert.equal(document.error.code, "usage");
+
+  const fileScan = await runFailing(["scan", join(root, "package.json")]);
+  assert.equal(fileScan.code, 2);
+  assert.match(fileScan.stderr, /Not a directory/);
+});

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { stat, writeFile } from "node:fs/promises";
 import http from "node:http";
 import process from "node:process";
 import { resolve } from "node:path";
@@ -28,6 +28,9 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
+import { applyOnBranch } from "./fix/git.js";
+import { planFixes, renderPatches } from "./fix/index.js";
+import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -53,6 +56,8 @@ Usage:
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
+  evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
+  evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -116,6 +121,15 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   }
   const child = spawnSync(process.execPath, [...process.execArgv, ...process.argv.slice(1)], { stdio: "inherit", env: { ...process.env, NODE_USE_ENV_PROXY: "1" } });
   return child.status ?? 1;
+}
+
+/** Returns why `path` cannot be scanned as a repository root, or undefined when it is an existing directory. */
+async function repositoryRootProblem(path: string): Promise<string | undefined> {
+  try {
+    return (await stat(path)).isDirectory() ? undefined : `Not a directory: ${path}`;
+  } catch {
+    return `Path does not exist: ${path}`;
+  }
 }
 
 async function confirmOnTerminal(summary: string): Promise<boolean> {
@@ -333,7 +347,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -496,6 +510,10 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
   }
+  const rootProblem = await repositoryRootProblem(pathArgument);
+  if (rootProblem) {
+    return fail("usage", rootProblem);
+  }
   const scanGate = optionValue("--fail-on") ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
     return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
@@ -512,6 +530,26 @@ async function main(args: string[]): Promise<number> {
     }
     const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
     process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
+    return 0;
+  }
+  if (command === "fix") {
+    // Patches are printed unless --branch asks for a local, reviewable commit; nothing is ever pushed.
+    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--branch" && argument !== "--data-version");
+    if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch"))) return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch]");
+    const scanned = await scanRepository(pathArgument, builtInDetectors);
+    const patches = await planFixes(scanned);
+    if (patches.length === 0) {
+      process.stderr.write("No deterministic fixes found.\n");
+      return 0;
+    }
+    if (args.includes("--branch")) {
+      const applied = await applyOnBranch(pathArgument, patches);
+      process.stderr.write(`Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`);
+      process.stderr.write(renderVerification(verifyFix(scanned, await scanRepository(pathArgument, builtInDetectors))));
+      return 0;
+    }
+    process.stdout.write(renderPatches(patches));
+    process.stderr.write(`${patches.length} patch${patches.length === 1 ? "" : "es"} printed; nothing was written. Apply with: evergreen fix | git apply\n`);
     return 0;
   }
   const minSupportValue = optionValue("--min-support-days");

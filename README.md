@@ -102,7 +102,7 @@ npx evergreen-deprecation check pkg:npm/request@2.88.2
 npx evergreen-deprecation check pkg:github/actions/checkout@v4 --json
 ```
 
-The command prints the lifecycle problem, replacement, and evidence, and exits `1` when a rule at or above `--fail-on` (default `high`) applies, `0` otherwise, and `2` for invalid input. A package Evergreen has no rule for reports `no-data`, which is not a claim that it is safe. Without a version, a package whose rules only cover some versions reports `version-dependent`; add a version to get a definite answer.
+The command prints the lifecycle problem, replacement, and evidence, and exits `1` when a rule at or above `--fail-on` (default `high`) applies, `0` otherwise, `2` for a wrong command line, and `4` for a Package URL that cannot be parsed (see [exit codes](docs/CAPABILITIES.md#exit-codes-and-error-codes)). A package Evergreen has no rule for reports `no-data`, which is not a claim that it is safe. Without a version, a package whose rules only cover some versions reports `version-dependent`; add a version to get a definite answer.
 
 Lifecycle rules can be refreshed between releases from signed bundles, and scans stay offline unless you ask:
 
