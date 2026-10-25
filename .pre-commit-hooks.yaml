@@ -1,0 +1,15 @@
+- id: evergreen
+  name: Evergreen deprecation scan
+  description: Scan the repository for end-of-life and deprecated runtimes, packages, and actions. Blocks on high or critical findings.
+  entry: evergreen scan . --fail-on high --format compact
+  language: node
+  pass_filenames: false
+  always_run: true
+
+- id: evergreen-changed-manifests
+  name: Evergreen deprecation scan (changed manifests)
+  description: Run the Evergreen scan only when a manifest, lockfile, or workflow file changes. Blocks on high or critical findings.
+  entry: evergreen scan . --fail-on high --format compact
+  language: node
+  pass_filenames: false
+  files: '(^|/)(package(-lock)?\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|\.nvmrc|\.node-version|\.tool-versions|Dockerfile[^/]*|requirements[^/]*\.txt|pyproject\.toml|Pipfile(\.lock)?|poetry\.lock|go\.mod|Cargo\.(toml|lock)|Gemfile(\.lock)?|composer\.(json|lock)|pom\.xml|build\.gradle(\.kts)?|[^/]+\.csproj|global\.json|pubspec\.yaml|Package\.swift|\.github/workflows/[^/]+\.ya?ml|\.gitlab-ci\.yml|\.circleci/config\.yml|azure-pipelines\.yml)$'
