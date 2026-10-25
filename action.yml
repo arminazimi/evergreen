@@ -44,7 +44,7 @@ inputs:
     required: false
     default: "false"
   upload-badge:
-    description: Generate and upload aggregate lifecycle counts as a Shields.io endpoint JSON artifact.
+    description: Generate and upload aggregate lifecycle counts as a Shields.io endpoint JSON and a branded SVG badge artifact.
     required: false
     default: "false"
   attribution:
@@ -64,6 +64,9 @@ outputs:
   badge-path:
     description: Absolute runner path to the Shields.io endpoint JSON, or empty when upload-badge is false.
     value: ${{ steps.scan.outputs.badge-path }}
+  badge-svg-path:
+    description: Absolute runner path to the SVG badge, or empty when upload-badge is false.
+    value: ${{ steps.scan.outputs.badge-svg-path }}
   sarif-path:
     description: Absolute runner path to the generated SARIF file, or empty when upload-sarif is false.
     value: ${{ steps.scan.outputs.sarif-path }}
@@ -97,7 +100,9 @@ runs:
       uses: actions/upload-artifact@v7
       with:
         name: evergreen-badge
-        path: ${{ steps.scan.outputs.badge-path }}
+        path: |
+          ${{ steps.scan.outputs.badge-path }}
+          ${{ steps.scan.outputs.badge-svg-path }}
         if-no-files-found: error
         retention-days: 14
     - name: Upload findings to code scanning

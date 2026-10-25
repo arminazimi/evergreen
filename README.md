@@ -12,6 +12,7 @@
 [![Coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Farminazimi%2Fevergreen%2Fbadges%2Fcoverage.json)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg)](https://www.npmjs.com/package/evergreen-deprecation)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
+[![Evergreen](https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D22-3c873a.svg)](docs/COMPATIBILITY.md)
 [![SARIF](https://img.shields.io/badge/SARIF-2.1.0-blue.svg)](docs/GITHUB_ACTION.md#code-scanning)
 [![MCP](https://img.shields.io/badge/MCP-server-8a2be2.svg)](docs/MCP.md)
