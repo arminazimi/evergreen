@@ -22,7 +22,8 @@ export function lineCoverage(report: string): number {
 }
 
 export function badge(percent: number): Badge {
-  const color = percent >= 90 ? "brightgreen" : percent >= 80 ? "green" : percent >= 70 ? "yellow" : percent >= 60 ? "orange" : "red";
+  // Brand palette (brand/tokens.css) and the severity colors in src/badge.ts, so the row looks like one set.
+  const color = percent >= 90 ? "2F7D5B" : percent >= 80 ? "4C7C6D" : percent >= 70 ? "B89B3C" : percent >= 60 ? "C9822F" : "B84A3E";
   return { schemaVersion: 1, label: "coverage", message: `${Math.round(percent * 10) / 10}%`, color };
 }
 

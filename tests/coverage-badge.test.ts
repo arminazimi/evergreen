@@ -9,9 +9,9 @@ test("reads the line percentage from the coverage table", () => {
 });
 
 test("colors the badge by threshold", () => {
-  assert.deepEqual(badge(94.33), { schemaVersion: 1, label: "coverage", message: "94.3%", color: "brightgreen" });
-  assert.equal(badge(85).color, "green");
-  assert.equal(badge(75).color, "yellow");
-  assert.equal(badge(65).color, "orange");
-  assert.equal(badge(10).color, "red");
+  assert.deepEqual(badge(94.33), { schemaVersion: 1, label: "coverage", message: "94.3%", color: "2F7D5B" });
+  assert.equal(badge(85).color, "4C7C6D");
+  assert.equal(badge(75).color, "B89B3C");
+  assert.equal(badge(65).color, "C9822F");
+  assert.equal(badge(10).color, "B84A3E");
 });
