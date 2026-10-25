@@ -9,6 +9,8 @@ import type {
   SourceUsage,
   VerificationCommand,
 } from "./domain.js";
+import { runtimeConflicts } from "./runtime-pin.js";
+import type { PinnedRuntimes } from "./runtime-pin.js";
 
 import { addDays } from "./forecast.js";
 import type { RegistryV2Rule } from "./registry.js";
@@ -244,9 +246,10 @@ function affectedFiles(finding: Finding): string[] {
     .sort((left, right) => left.localeCompare(right));
 }
 
-function constraintsFor(finding: Finding): string[] {
+function constraintsFor(finding: Finding, pinned: PinnedRuntimes): string[] {
   return [...new Set([
     finding.replacement ? `Target replacement: ${finding.replacement}.` : undefined,
+    ...(finding.replacement && finding.requires ? runtimeConflicts(finding.replacement, finding.requires, pinned) : []),
     finding.deadline ? `Migration deadline: ${finding.deadline}.` : undefined,
     ...(finding.migration?.constraints ?? []),
     finding.usages?.length
@@ -406,6 +409,8 @@ export function createMigrationPacket(
   result: ScanResult,
   findingId: string,
   rules: readonly RegistryV2Rule[] = [],
+  /** What the repository pins; lets the packet warn when a replacement needs a newer runtime. */
+  pinned: PinnedRuntimes = {},
 ): MigrationPacket {
   const finding = result.findings.find((candidate) => candidate.id === findingId);
   if (!finding) throw new Error(`Finding not found: ${findingId}`);
@@ -418,7 +423,7 @@ export function createMigrationPacket(
     finding,
     affectedFiles: paths,
     usages: finding.usages ?? [],
-    constraints: constraintsFor(finding),
+    constraints: constraintsFor(finding, pinned),
     steps: stepsFor(finding, paths),
     sources: finding.sources,
     verification: verificationFor(finding),

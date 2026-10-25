@@ -12,6 +12,7 @@ npx evergreen-deprecation context '<finding-id>' . --json
 - The complete lifecycle finding and authoritative sources.
 - The declaration file plus exact import, call, and configuration usages.
 - Rule-specific behavioral and compatibility constraints.
+- A warning when the replacement needs a newer Node.js or Python than the repository pins in `.nvmrc`, `.node-version`, `.python-version`, or `.tool-versions`.
 - Ordered migration steps resolved to declaration, usage, or all affected paths.
 - Suggested ecosystem verification commands and a final Evergreen re-scan.
 

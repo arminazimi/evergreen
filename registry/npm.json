@@ -1355,6 +1355,9 @@
       "summary": "npm states that request-promise is deprecated because it extends the deprecated request package.",
       "severity": "high",
       "replacement": "Native fetch or a maintained promise-based HTTP client",
+      "requires": {
+        "node": "18.0.0"
+      },
       "sources": [
         {
           "title": "request-promise package deprecation notice",
@@ -1363,6 +1366,10 @@
         {
           "title": "request-promise registry metadata",
           "url": "https://registry.npmjs.org/request-promise/latest"
+        },
+        {
+          "title": "Node.js 18 release announcement: global fetch",
+          "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
         }
       ],
       "provenance": {
@@ -1422,6 +1429,9 @@
       "summary": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
       "severity": "high",
       "replacement": "Native fetch or a maintained promise-based HTTP client",
+      "requires": {
+        "node": "18.0.0"
+      },
       "sources": [
         {
           "title": "request-promise-native package deprecation notice",
@@ -1430,6 +1440,10 @@
         {
           "title": "request-promise-native registry metadata",
           "url": "https://registry.npmjs.org/request-promise-native/latest"
+        },
+        {
+          "title": "Node.js 18 release announcement: global fetch",
+          "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
         }
       ],
       "provenance": {

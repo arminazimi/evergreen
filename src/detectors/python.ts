@@ -499,6 +499,7 @@ export class PythonDetector implements Detector {
             line: dependency.line,
           },
           ...(rule.replacement ? { replacement: rule.replacement } : {}),
+          ...(rule.requires ? { requires: rule.requires } : {}),
           ...(rule.deadline ? { deadline: rule.deadline } : {}),
           ...(rule.migration ? { migration: rule.migration } : {}),
           sources: rule.sources,
