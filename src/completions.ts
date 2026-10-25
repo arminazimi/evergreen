@@ -15,6 +15,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "scan", flags: ["--json", "--format", "--baseline", "--baseline-warn-days", "--on-expired", "--today", "--write-status", "--interactive", "--fail-on", "--all", "--data-version"], example: "evergreen scan . --fail-on high" },
   { name: "baseline", flags: ["--output", "--data-version"], example: "evergreen baseline . --output evergreen-baseline.json" },
   { name: "forecast", flags: ["--months", "--as-of", "--today", "--json", "--data-version"], example: "evergreen forecast . --months 6" },
+  { name: "diff", flags: ["--json", "--data-version"], example: "evergreen diff main..HEAD" },
   { name: "check", flags: ["--fail-on", "--json", "--format", "--data-version"], example: "evergreen check pkg:npm/request@2.88.2" },
   { name: "usage", flags: ["--file", "--json"], example: "evergreen usage --json" },
   { name: "mcp", flags: [], example: "evergreen mcp" },

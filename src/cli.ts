@@ -31,6 +31,7 @@ import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderFore
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
+import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
@@ -51,6 +52,7 @@ Usage:
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
+  evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -331,7 +333,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -453,6 +455,18 @@ async function main(args: string[]): Promise<number> {
     const result = await diagnoseEnvironment(pathArgument, { system: args.includes("--system") });
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
     return result.summary.failed > 0 ? EXIT_CODES.policy : 0;
+  }
+  if (command === "diff") {
+    const range = positional[0];
+    if (!range) return fail("usage", "Missing range. Use evergreen diff <base>..<head>.", `\n${HELP}`);
+    try {
+      const result = await diffRefs(resolve(positional[1] ?? "."), range, builtInDetectors);
+      process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDiffText(result)}\n`);
+      return result.introduced.length > 0 ? EXIT_CODES.policy : 0;
+    } catch (error) {
+      if (error instanceof DiffError) return fail("usage", error.message);
+      throw error;
+    }
   }
   const allIndex = args.indexOf("--all");
   const allDirectory = allIndex === -1 ? undefined : args[allIndex + 1];
