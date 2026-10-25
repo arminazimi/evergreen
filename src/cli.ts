@@ -35,6 +35,7 @@ import { findRepositories, renderMultiScanText, scanProjects, scanRepository } f
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
+import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupText, rollupFiles } from "./rollup.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
@@ -57,6 +58,7 @@ Usage:
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
+  evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json]   # merge saved scan reports by product and owner; reads files only
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
@@ -642,6 +644,10 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else if (args.includes("--interactive") && !json && format === "text" && canBrowse(process.stdin, process.stdout)) {
     await browseFindings(result, { input: process.stdin, output: process.stdout });
+  } else if (command === "scan" && args.includes("--by-owner")) {
+    if (format !== undefined && format !== "text" && format !== "json") return fail("usage", "--by-owner supports --json and --format text|json only.");
+    const groups = await groupScanByOwner(result);
+    process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
   } else {
     const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
