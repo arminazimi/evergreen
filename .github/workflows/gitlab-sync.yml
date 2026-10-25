@@ -1,0 +1,35 @@
+name: GitLab sync
+
+# Copies main and the v* tags to the GitLab project that hosts the CI/CD Catalog resource. GitLab's free
+# tier cannot pull-mirror, so this pushes instead. See docs/GITLAB_CATALOG.md.
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitlab-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.repository == 'arminazimi/evergreen'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_SYNC_TOKEN }}
+        run: |
+          git remote add gitlab "https://oauth2:${GITLAB_TOKEN}@gitlab.com/arminazimi/evergreen.git"
+          git push gitlab "${GITHUB_SHA}:refs/heads/main"
+          git push gitlab --tags
