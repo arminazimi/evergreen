@@ -28,6 +28,7 @@ import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
+import { readPinnedRuntimes } from "./runtime-pin.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
@@ -516,7 +517,7 @@ async function main(args: string[]): Promise<number> {
   }
   if (command === "context") {
     try {
-      const packet = createMigrationPacket(result, findingId!);
+      const packet = createMigrationPacket(result, findingId!, await readPinnedRuntimes(result.root));
       process.stdout.write(`${json ? JSON.stringify(packet, null, 2) : renderMigrationPacketText(packet)}\n`);
     } catch (error) {
       return fail("data", error instanceof Error ? error.message : String(error));

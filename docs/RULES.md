@@ -73,6 +73,7 @@ A second, smaller example lives in [`examples/registry.v2.example.json`](../exam
 | `summary` | yes | One or two sentences stating what the source says, without advice. |
 | `severity` | yes | `info`, `low`, `medium`, `high`, or `critical`. |
 | `replacement` | no | What to move to. |
+| `requires` | no | The lowest runtime versions the replacement works on, such as `{ "node": "18.0.0" }`. Only `node` and `python` are known. A migration packet warns when the repository pins an older runtime. |
 | `deadline` | no | The date from the source, as `YYYY-MM-DD`. Omit it when the source gives none. |
 | `sources` | yes | At least one authoritative source, each with a `title` and an `https` `url` (and optionally `accessedAt`). |
 | `provenance` | yes | See below. |

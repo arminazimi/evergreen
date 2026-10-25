@@ -1,4 +1,4 @@
-import type { EvidenceSource, MigrationGuidance, Severity, UsageMatcher } from "./domain.js";
+import type { EvidenceSource, MigrationGuidance, ReplacementRequirements, Severity, UsageMatcher } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { parsePurl, purlIdentity } from "./purl.js";
 import { isMigrationGuidance, isUsageMatcher, RegistryValidationError, validateRegistry } from "./sdk.js";
@@ -33,6 +33,8 @@ export interface RegistryV2Rule {
   summary: string;
   severity: Severity;
   replacement?: string;
+  /** Lowest runtime versions the replacement works on, such as `{ "node": "18.0.0" }`. */
+  requires?: ReplacementRequirements;
   deadline?: string;
   sources: EvidenceSource[];
   provenance: Provenance;
@@ -58,12 +60,13 @@ export interface StaleRule {
 
 type UnknownRecord = Record<string, unknown>;
 
+const REQUIRES_RUNTIMES: readonly string[] = ["node", "python"];
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RULE_ID = /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/;
 const EXTENSION = /^x-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const RULE_FIELDS = new Set([
   "id", "ecosystem", "purl", "vers", "event", "title", "summary", "severity", "replacement",
-  "deadline", "sources", "provenance", "migration", "usage",
+  "requires", "deadline", "sources", "provenance", "migration", "usage",
 ]);
 
 /** Version schemes each PURL type may use. Types not listed accept any registered scheme. */
@@ -124,6 +127,16 @@ function ruleIssues(rule: unknown, index: number, ecosystem: string | undefined)
   if (!severityValues.includes(rule.severity as Severity)) problem(`severity must be one of ${severityValues.join(", ")}`);
   if (!lifecycleEvents.includes(rule.event as LifecycleEvent)) problem(`event must be one of ${lifecycleEvents.join(", ")}`);
   if (rule.replacement !== undefined && !isNonEmptyString(rule.replacement)) problem("replacement must be a non-empty string");
+  if (rule.requires !== undefined) {
+    if (!isRecord(rule.requires) || Object.keys(rule.requires).length === 0) {
+      problem("requires must be an object with at least one runtime");
+    } else {
+      for (const [runtime, minimum] of Object.entries(rule.requires)) {
+        if (!REQUIRES_RUNTIMES.includes(runtime)) problem(`requires has unknown runtime "${runtime}"`);
+        else if (typeof minimum !== "string" || !/^\d+(?:\.\d+){0,2}$/.test(minimum)) problem(`requires.${runtime} must be a version such as "18.0.0"`);
+      }
+    }
+  }
   if (rule.deadline !== undefined && !isIsoDate(rule.deadline)) problem("deadline must be a valid date (YYYY-MM-DD)");
   // An announced end of life that has not happened yet: it needs the announced date, and it must not fail a severity gate (decision 0010).
   if (rule.event === "scheduled-end-of-life") {

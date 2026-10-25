@@ -461,6 +461,7 @@ export class NpmDetector implements Detector {
         confidence: resolved.length > 0 ? "inferred-from-lock" : "range",
         location: { path, line },
         ...(rule.replacement ? { replacement: rule.replacement } : {}),
+        ...(rule.requires ? { requires: rule.requires } : {}),
         ...(rule.deadline ? { deadline: rule.deadline } : {}),
         ...(rule.migration ? { migration: rule.migration } : {}),
         sources: rule.sources,

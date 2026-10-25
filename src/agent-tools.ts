@@ -6,6 +6,7 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
+import { readPinnedRuntimes } from "./runtime-pin.js";
 import type { MigrationPacket } from "./migration-packet.js";
 
 export interface DeprecationSummary {
@@ -107,7 +108,7 @@ export class EvergreenAgentTools {
 
   async context(findingId: string, repositoryPath = "."): Promise<MigrationPacket> {
     const result = await this.scan(repositoryPath);
-    return createMigrationPacket(result, findingId);
+    return createMigrationPacket(result, findingId, await readPinnedRuntimes(result.root));
   }
 
   async verify(findingId: string, repositoryPath = "."): Promise<MigrationVerification> {

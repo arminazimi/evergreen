@@ -132,6 +132,12 @@ export interface MigrationGuidance {
   verification: VerificationCommand[];
 }
 
+/** The lowest runtime versions a rule's replacement works on. */
+export interface ReplacementRequirements {
+  node?: string;
+  python?: string;
+}
+
 export interface DeprecationRule {
   id: string;
   ecosystem: string;
@@ -139,6 +145,7 @@ export interface DeprecationRule {
   summary: string;
   severity: Severity;
   replacement?: string;
+  requires?: ReplacementRequirements;
   deadline?: string;
   sources: EvidenceSource[];
   migration?: MigrationGuidance;
@@ -154,6 +161,7 @@ export interface Finding {
   confidence: Confidence;
   location: SourceLocation;
   replacement?: string;
+  requires?: ReplacementRequirements;
   deadline?: string;
   sources: EvidenceSource[];
   usages?: SourceUsage[];

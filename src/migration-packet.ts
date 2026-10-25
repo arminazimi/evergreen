@@ -9,6 +9,8 @@ import type {
   SourceUsage,
   VerificationCommand,
 } from "./domain.js";
+import { runtimeConflicts } from "./runtime-pin.js";
+import type { PinnedRuntimes } from "./runtime-pin.js";
 
 export type { VerificationCommand } from "./domain.js";
 
@@ -194,9 +196,10 @@ function affectedFiles(finding: Finding): string[] {
     .sort((left, right) => left.localeCompare(right));
 }
 
-function constraintsFor(finding: Finding): string[] {
+function constraintsFor(finding: Finding, pinned: PinnedRuntimes): string[] {
   return [...new Set([
     finding.replacement ? `Target replacement: ${finding.replacement}.` : undefined,
+    ...(finding.replacement && finding.requires ? runtimeConflicts(finding.replacement, finding.requires, pinned) : []),
     finding.deadline ? `Migration deadline: ${finding.deadline}.` : undefined,
     ...(finding.migration?.constraints ?? []),
     finding.usages?.length
@@ -284,7 +287,8 @@ function verificationFor(finding: Finding): VerificationCommand[] {
   return [...new Map(commands.map((command) => [command.command, command])).values()];
 }
 
-export function createMigrationPacket(result: ScanResult, findingId: string): MigrationPacket {
+/** `pinned` is what the repository pins; pass it so the packet can warn when a replacement needs a newer runtime. */
+export function createMigrationPacket(result: ScanResult, findingId: string, pinned: PinnedRuntimes = {}): MigrationPacket {
   const finding = result.findings.find((candidate) => candidate.id === findingId);
   if (!finding) throw new Error(`Finding not found: ${findingId}`);
   const paths = affectedFiles(finding);
@@ -295,7 +299,7 @@ export function createMigrationPacket(result: ScanResult, findingId: string): Mi
     finding,
     affectedFiles: paths,
     usages: finding.usages ?? [],
-    constraints: constraintsFor(finding),
+    constraints: constraintsFor(finding, pinned),
     steps: stepsFor(finding, paths),
     sources: finding.sources,
     verification: verificationFor(finding),
