@@ -46,11 +46,21 @@ async function globalHooksPath(env: NodeJS.ProcessEnv): Promise<string | undefin
   }
 }
 
+function personalDirectory(env: NodeJS.ProcessEnv): string {
+  const home = env.HOME ?? env.USERPROFILE ?? homedir();
+  return join(env.XDG_CONFIG_HOME ?? join(home, ".config"), "evergreen");
+}
+
+/** True once `evergreen init --personal` has written the global config. */
+export async function hasPersonalConfig(env: NodeJS.ProcessEnv = process.env): Promise<boolean> {
+  return (await read(join(personalDirectory(env), "config.json"))) !== undefined;
+}
+
 /** Writes a global config and a global pre-push hook, then points `core.hooksPath` at it, so every repository on this machine is protected. */
 export async function initPersonal(options: InitPersonalOptions): Promise<InitPersonalResult> {
   const env = options.env ?? process.env;
   const home = env.HOME ?? env.USERPROFILE ?? homedir();
-  const base = join(env.XDG_CONFIG_HOME ?? join(home, ".config"), "evergreen");
+  const base = personalDirectory(env);
   const configFile = join(base, "config.json");
   const hooksDirectory = join(base, "git-hooks");
   const hookFile = join(hooksDirectory, "pre-push");

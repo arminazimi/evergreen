@@ -17,7 +17,7 @@ import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
-import { initPersonal } from "./init-personal.js";
+import { hasPersonalConfig, initPersonal } from "./init-personal.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
@@ -492,7 +492,7 @@ async function main(args: string[]): Promise<number> {
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else {
-    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : json ? renderJson(result) : renderText(result);
+    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
     if (args.includes("--write-status")) {
       const statusRoot = resolve(pathArgument);

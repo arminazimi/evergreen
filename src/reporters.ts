@@ -186,8 +186,30 @@ export function renderCompact(result: ScanResult): string {
   return lines.join("\n");
 }
 
-export function renderText(result: ScanResult): string {
+export interface TextOptions {
+  /** No Evergreen config exists yet: lead with a short summary and the next command to run. */
+  firstRun?: boolean;
+}
+
+/** A headline, the top three findings, and the next command, for a user who has not set Evergreen up yet. */
+export function renderFirstRunSummary(result: ScanResult): string[] {
+  const count = result.findings.length;
+  if (count === 0) {
+    return ["No lifecycle risks found. Evergreen checked this repository and it looks healthy.", "Next: run `evergreen init --personal` to check every repository before you push.", ""];
+  }
+  const lines = [`Found ${count} lifecycle risk${count === 1 ? "" : "s"}. The most urgent:`];
+  for (const finding of result.findings.slice(0, 3)) {
+    const line = finding.location.line ? `:${finding.location.line}` : "";
+    lines.push(`  ${finding.severity.toUpperCase()} ${finding.title} (${finding.location.path}${line})`);
+  }
+  if (count > 3) lines.push(`  …and ${count - 3} more below.`);
+  lines.push("Next: run `evergreen init --personal` to check every repository before you push.", "");
+  return lines;
+}
+
+export function renderText(result: ScanResult, options: TextOptions = {}): string {
   const lines = [
+    ...(options.firstRun ? renderFirstRunSummary(result) : []),
     "Evergreen scan",
     `Repository: ${result.root}`,
     `Findings: ${result.findings.length}`,
