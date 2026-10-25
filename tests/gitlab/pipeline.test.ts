@@ -9,7 +9,8 @@ import { parse, parseAllDocuments } from "yaml";
 
 interface Job { variables: Record<string, string>; script: string[] }
 
-const cli = resolve("dist/src/cli.js");
+// Forward slashes keep the path intact inside a POSIX shell script on Windows too.
+const cli = resolve("dist/src/cli.js").replaceAll("\\", "/");
 const fixtures = resolve("tests/gitlab/fixtures");
 
 // Runs the component's job script the way a GitLab runner would: inputs substituted, variables exported,
@@ -20,8 +21,9 @@ async function runJob(fixture: string, inputs: Record<string, string> = {}) {
   const substitute = (text: string) =>
     text.replace(/\$\[\[\s*inputs\.(\w+)\s*\]\]/g, (_, name: string) => inputs[name] ?? String(declared[name]!.default));
   const job = (body!.toJS() as { evergreen: Job }).evergreen;
-  const script = substitute(job.script.join("\n")).replace(/npx --yes "evergreen-deprecation@[^"]*"/, `node ${JSON.stringify(cli)}`);
-  assert.ok(script.includes(cli), "the job script no longer calls the published package through npx");
+  const published = substitute(job.script.join("\n"));
+  const script = published.replace(/npx --yes "evergreen-deprecation@[^"]*"/, `node "${cli}"`);
+  assert.notEqual(script, published, "the job script no longer calls the published package through npx");
   const env = Object.fromEntries(Object.entries(job.variables).map(([key, value]) => [key, substitute(String(value))]));
   const dir = await mkdtemp(join(tmpdir(), "evergreen-gitlab-"));
   try {
