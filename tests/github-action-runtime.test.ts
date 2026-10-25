@@ -373,7 +373,7 @@ test("the SVG badge carries the same message and color, with a fixed-width layou
   assert.match(svg, /^<svg [^>]*role="img" aria-label="evergreen: 1 high"/);
   assert.match(svg, /<title>evergreen: 1 high<\/title>/);
   assert.match(svg, /fill="#B84A3E"/);
-  assert.match(svg, /textLength="54"[^>]*>evergreen<\/text>/);
+  assert.match(svg, /textLength="52"[^>]*>evergreen<\/text>/);
   assert.match(renderBadgeSvg({ findings: [] }), /fill="#2F7D5B"[^>]*\/>/);
   assert.equal(renderBadgeSvg({ findings: [] }).includes("package.json"), false, "no paths or titles leak into the badge");
 });

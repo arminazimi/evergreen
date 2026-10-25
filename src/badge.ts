@@ -39,11 +39,12 @@ export function badgeState(result: Pick<ScanResult, "findings" | "data">, expire
 
 const LABEL = "evergreen";
 const HEIGHT = 20;
-const PAD = 8;
-const ICON = 14;
-const LABEL_TEXT_WIDTH = 54;
+const PAD = 7;
+const ICON = 12;
+const GAP = 4;
+const LABEL_TEXT_WIDTH = 52;
 const GLYPH_WIDTH = 6.4;
-const FONT = "Inter,-apple-system,Segoe UI,Verdana,sans-serif";
+const FONT = "Verdana,Geneva,DejaVu Sans,sans-serif";
 
 /** The Version Notches mark (brand/assets) in the badge's light-on-dark colors. */
 function mark(x: number, y: number): string {
@@ -67,7 +68,7 @@ function mark(x: number, y: number): string {
  */
 export function renderBadgeSvg(result: Pick<ScanResult, "findings" | "data">, expiredFailure = false): string {
   const { message, color } = badgeState(result, expiredFailure);
-  const labelWidth = PAD + ICON + LABEL_TEXT_WIDTH + PAD;
+  const labelWidth = PAD + ICON + GAP + LABEL_TEXT_WIDTH + PAD;
   const messageText = Math.round(message.length * GLYPH_WIDTH);
   const messageWidth = messageText + 2 * PAD;
   const width = labelWidth + messageWidth;
@@ -79,13 +80,11 @@ export function renderBadgeSvg(result: Pick<ScanResult, "findings" | "data">, ex
     '<g clip-path="url(#r)">',
     `<rect width="${labelWidth}" height="${HEIGHT}" fill="#0C1110"/>`,
     `<rect x="${labelWidth}" width="${messageWidth}" height="${HEIGHT}" fill="${color}"/>`,
-    `<rect x="${labelWidth}" width="1" height="${HEIGHT}" fill="#fff" opacity=".12"/>`,
     "</g>",
-    `<rect width="${width}" height="${HEIGHT}" rx="3" fill="none" stroke="#000" stroke-opacity=".12"/>`,
-    mark(PAD, 3),
-    `<g fill="#fff" font-family="${FONT}" font-size="11" font-weight="600" text-rendering="geometricPrecision">`,
-    `<text x="${PAD + ICON}" y="14" textLength="${LABEL_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs">${LABEL}</text>`,
-    `<text x="${labelWidth + PAD}" y="14" textLength="${messageText}" lengthAdjust="spacingAndGlyphs">${message}</text>`,
+    mark(PAD, 4),
+    `<g fill="#fff" font-family="${FONT}" font-size="11" font-weight="400" text-rendering="geometricPrecision">`,
+    `<text x="${PAD + ICON + GAP}" y="13.8" textLength="${LABEL_TEXT_WIDTH}" lengthAdjust="spacingAndGlyphs">${LABEL}</text>`,
+    `<text x="${labelWidth + PAD}" y="13.8" textLength="${messageText}" lengthAdjust="spacingAndGlyphs">${message}</text>`,
     "</g>",
     "</svg>",
   ].join("");
