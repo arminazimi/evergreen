@@ -83,6 +83,16 @@ evergreen scan . --baseline evergreen-baseline.json --on-expired fail
 
 Findings in the baseline are suppressed and counted (`Baseline: 4 findings suppressed`). Suppressions expire; `--baseline-warn-days <n>` warns before they do, and `--on-expired fail` makes the scan exit `1` once one has, so acceptance cannot quietly become permanent. Commit the baseline file so the decision is reviewable. Do not baseline a finding you have not read.
 
+## Scanning as of a date
+
+```bash
+evergreen scan . --as-of 2027-07-01
+```
+
+`--as-of <YYYY-MM-DD>` answers "will this repository be clean on 1 July?". Every announced end of life (a `scheduled-end-of-life` rule) whose deadline is on or before that day is reported as ended, at end-of-life severity, so `--fail-on high` fails on what will break by then. Finding IDs do not change, so a baseline still matches. `--today` is an alias, and with `--baseline` the same day also decides which suppressions have expired. The result carries `asOf`. The scan itself still reads no clock and no network.
+
+This is not a forecast: `--as-of` projects the findings you have onto one day, while `evergreen forecast` lists what becomes end of life in the next 6 and 12 months.
+
 ## Gating a push or CI
 
 ```bash

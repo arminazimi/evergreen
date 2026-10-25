@@ -6,6 +6,7 @@ import http from "node:http";
 import process from "node:process";
 import { resolve } from "node:path";
 
+import { applyAsOf } from "./as-of.js";
 import { DEFAULT_WARN_DAYS, createBaseline, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
@@ -40,6 +41,7 @@ const HELP = `Evergreen — local-first deprecation intelligence
 Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
+  evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
   evergreen scan [path] --write-status
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
@@ -400,7 +402,7 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--baseline-warn-days", "--on-expired", "--all"]);
+  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--baseline-warn-days", "--on-expired", "--all"]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
     const argument = args[index];
@@ -479,7 +481,12 @@ async function main(args: string[]): Promise<number> {
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
     return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
   }
+  const asOfValue = optionValue("--as-of") ?? optionValue("--today");
+  if (asOfValue !== undefined && !isIsoDate(asOfValue)) {
+    return fail("usage", "--as-of (or --today) must be a date (YYYY-MM-DD).");
+  }
   let result = await scanRepository(pathArgument, builtInDetectors);
+  if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
     const baseline = createBaseline(result);
@@ -490,7 +497,7 @@ async function main(args: string[]): Promise<number> {
   let baselineExpiredFailure = false;
   const baselinePath = optionValue("--baseline");
   if (baselinePath) {
-    const today = optionValue("--today") ?? new Date().toISOString().slice(0, 10);
+    const today = asOfValue ?? new Date().toISOString().slice(0, 10);
     const warnValue = optionValue("--baseline-warn-days");
     const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
     const onExpired = (optionValue("--on-expired") ?? "resurface") as ExpiredPolicy;

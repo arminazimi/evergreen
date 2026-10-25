@@ -225,4 +225,6 @@ export interface ScanResult {
   diagnostics: string[];
   data?: DataInfo;
   suppressions?: SuppressionState;
+  /** The day the scan was projected onto with `--as-of`. Present only when one was given. */
+  asOf?: string;
 }

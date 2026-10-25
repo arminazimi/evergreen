@@ -229,7 +229,7 @@ test("the CLI warns about a suppression that is about to expire, for the day it 
     assert.equal((await warnings("--today", "2026-10-25")).length, 4, "ten days before: all four suppressions");
     assert.deepEqual(await warnings("--today", "2026-10-01"), [], "five weeks before: outside the default window");
     assert.equal((await warnings("--today", "2026-10-01", "--baseline-warn-days", "60")).length, 4, "a window of sixty days");
-    await assert.rejects(run("--today", "yesterday"), (error: { code: number; stderr: string }) => error.code === 2 && /--today must be a date/.test(error.stderr));
+    await assert.rejects(run("--today", "yesterday"), (error: { code: number; stderr: string }) => error.code === 2 && /--as-of \(or --today\) must be a date/.test(error.stderr));
     await assert.rejects(run("--baseline-warn-days", "-3"), (error: { code: number }) => error.code === 2);
   } finally {
     await rm(directory, { recursive: true, force: true });
