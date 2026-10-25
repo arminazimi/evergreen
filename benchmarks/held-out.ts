@@ -62,7 +62,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         ? (await ensureCorpusCacheEntry(cacheDir, entry as never, fetchInto, (existing) => isCheckoutUsable(existing, strategy))).path
         : await (async () => { const target = join(root, String(index)); await fetchInto(target); return target; })();
       const scan = await scanRepository(path, builtInDetectors);
-      const findings = scan.findings.map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, ...(finding.location.line === undefined ? {} : { line: finding.location.line }) }));
+      const findings = scan.findings.filter((finding) => finding.dependencyPath === undefined).map((finding) => ({ ruleId: finding.ruleId, path: finding.location.path, ...(finding.location.line === undefined ? {} : { line: finding.location.line }) }));
       return { repository: entry.repository, commit: entry.commit, ...scoreHeldOut(findings, entry.expected, file.scope) };
     });
     const total = rows.reduce((sum, row) => ({ tp: sum.tp + row.truePositives, fp: sum.fp + row.falsePositives, fn: sum.fn + row.falseNegatives }), { tp: 0, fp: 0, fn: 0 });

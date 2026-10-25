@@ -164,7 +164,8 @@ try {
     },
     scan: async (path) => {
       const scan = await scanRepository(path, builtInDetectors);
-      return scan.findings;
+      // Transitive findings (those with a dependency path) have no reviewed ground truth, so the corpus scores only declared dependencies.
+      return scan.findings.filter((finding) => finding.dependencyPath === undefined);
     },
   });
 
