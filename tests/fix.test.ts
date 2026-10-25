@@ -49,7 +49,8 @@ test("fix prints a patch that git apply accepts and writes nothing", async () =>
   await writeFile(patch, stdout);
   await execute("git", ["apply", "--check", patch], { cwd: root });
   await execute("git", ["apply", patch], { cwd: root });
-  const fixed = await readFile(join(root, ".github", "workflows", "ci.yml"), "utf8");
+  // git apply on Windows may convert line endings to CRLF.
+  const fixed = (await readFile(join(root, ".github", "workflows", "ci.yml"), "utf8")).replace(/\r\n/g, "\n");
   assert.match(fixed, /actions\/checkout@v5\n/);
   assert.match(fixed, /@0123456789abcdef0123456789abcdef01234567 # v4\.1\.1/);
 
