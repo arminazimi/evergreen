@@ -1,11 +1,11 @@
 name: GitLab sync
 
-# Copies main and the v* tags to the GitLab project that hosts the CI/CD Catalog resource. GitLab's free
+# Copies a release to the GitLab project that hosts the CI/CD Catalog resource: the tagged commit becomes
+# main there and the v* tags follow. It runs on release tags only, never on ordinary merges. GitLab's free
 # tier cannot pull-mirror, so this pushes instead. See docs/GITLAB_CATALOG.md.
 
 on:
   push:
-    branches: [main]
     tags: ["v*"]
   workflow_dispatch:
 
