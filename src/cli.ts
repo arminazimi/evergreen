@@ -28,6 +28,7 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
+import { planFixes, renderPatches } from "./fix/index.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -51,6 +52,7 @@ Usage:
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
+  evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen usage [--file <path>] [--json]
@@ -331,7 +333,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -498,6 +500,19 @@ async function main(args: string[]): Promise<number> {
     }
     const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
     process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
+    return 0;
+  }
+  if (command === "fix") {
+    // Patches are printed, never applied: --dry-run is the default and the only mode.
+    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--data-version");
+    if (unknownFlag !== undefined || positional.length > 1) return fail("usage", "Usage: evergreen fix [path] [--dry-run]");
+    const patches = await planFixes(await scanRepository(pathArgument, builtInDetectors));
+    if (patches.length === 0) {
+      process.stderr.write("No deterministic fixes found.\n");
+      return 0;
+    }
+    process.stdout.write(renderPatches(patches));
+    process.stderr.write(`${patches.length} patch${patches.length === 1 ? "" : "es"} printed; nothing was written. Apply with: evergreen fix | git apply\n`);
     return 0;
   }
   const minSupportValue = optionValue("--min-support-days");

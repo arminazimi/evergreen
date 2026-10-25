@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `evergreen fix --dry-run` to print `git apply` patches for deterministic fixes, starting with outdated GitHub Actions `uses:` versions. Nothing is written. (#1032)
+
 ## 0.6.0 - 2026-10-25
 
 ### Forecast and planning
