@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-import { appendFile } from "node:fs/promises";
+import { appendFile, readFile } from "node:fs/promises";
 import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo, Finding, SuppressionState } from "./domain.js";
-import { renderFailure, renderSummary, runGitHubAction } from "./github-action.js";
+import { renderComment, renderFailure, renderSummary, runGitHubAction } from "./github-action.js";
+import { upsertPullRequestComment } from "./pr-comment.js";
 import type { GitHubAnnotation, SeverityGate } from "./github-action.js";
 import type { ExpiredPolicy } from "./baseline.js";
 
@@ -39,6 +40,30 @@ async function writeSummary(findings: readonly Finding[], failed: boolean, gate:
   const attribution = process.env.INPUT_ATTRIBUTION !== "false";
   const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
   await appendFile(summary, `${renderSummary(findings, failed, gate, data, attribution, suppressions)}${note}`, "utf8");
+}
+
+/** Posts or updates the one summary comment. A comment that cannot be posted (a fork's read-only token) warns; it never fails the scan. */
+async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>): Promise<void> {
+  if (process.env["INPUT_PR-COMMENT"] !== "true") return;
+  try {
+    const eventPath = process.env.GITHUB_EVENT_PATH;
+    const event = eventPath ? (JSON.parse(await readFile(eventPath, "utf8")) as { pull_request?: { number?: number } }) : {};
+    const pullRequest = event.pull_request?.number;
+    const token = process.env["INPUT_GITHUB-TOKEN"];
+    const repository = process.env.GITHUB_REPOSITORY;
+    if (!pullRequest || !token || !repository) {
+      console.log("::notice title=Evergreen pull request comment skipped::pr-comment needs a pull_request event, a token, and GITHUB_REPOSITORY.");
+      return;
+    }
+    const { result, gateFailed, gate, expiredFailure } = outcome;
+    const body = renderComment(result.findings, gateFailed, gate, result.data, process.env.INPUT_ATTRIBUTION !== "false", result.suppressions);
+    const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
+    const done = await upsertPullRequestComment({ apiUrl: process.env.GITHUB_API_URL ?? "https://api.github.com", repository, pullRequest, token }, `${body}${note}`);
+    console.log(`Evergreen ${done} its pull request comment.`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`::warning title=Evergreen could not post the pull request comment::${commandValue(message)}`);
+  }
 }
 
 async function main(): Promise<void> {
@@ -79,6 +104,7 @@ async function main(): Promise<void> {
     if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
     await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions);
+    await postComment(outcome);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,

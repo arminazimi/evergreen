@@ -312,6 +312,8 @@ does not provide a `with` entry.
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
+| `pr-comment` | `false` | Set to `true` to post one summary comment on pull requests (counts and the top findings). Re-runs update the same comment. Needs `pull-requests: write`. |
+| `github-token` | `${{ github.token }}` | Token used to post the comment when `pr-comment` is `true`. |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
@@ -326,9 +328,26 @@ The job summary shows how many findings there are per severity, the ten most sev
 
 High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
 
+### Pull request comment
+
+Set `pr-comment: true` to get one comment on the pull request with the counts per severity and the top findings, instead of reading every annotation. The same comment is updated on each re-run. The scan itself stays offline; only posting the comment calls the GitHub API.
+
+```yaml
+permissions:
+  contents: read
+  pull-requests: write
+steps:
+  - uses: actions/checkout@v6
+  - uses: arminazimi/evergreen@v0
+    with:
+      pr-comment: "true"
+```
+
+Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
+
 ## Permissions and privacy
 
-Only `contents: read` is required. Evergreen does not need `pull-requests: write`, does not post comments, and does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
+Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`; it then posts one comment on the pull request, found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
 
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 

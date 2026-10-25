@@ -53,6 +53,16 @@ inputs:
     description: Generate and upload aggregate lifecycle counts as a Shields.io endpoint JSON and a branded SVG badge artifact.
     required: false
     default: "false"
+  pr-comment:
+    description: >-
+      Post one summary comment on pull requests and update it on every re-run. Needs the
+      pull-requests: write permission on the job; leave it off for pull requests from forks, whose token is read-only.
+    required: false
+    default: "false"
+  github-token:
+    description: Token used to post the pull request comment when pr-comment is true.
+    required: false
+    default: ${{ github.token }}
   attribution:
     description: >-
       Add one line to the job summary that says the scan was done by Evergreen and links to it.
@@ -93,6 +103,8 @@ runs:
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
+        INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
+        INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
       if: always() && inputs.upload-report == 'true'

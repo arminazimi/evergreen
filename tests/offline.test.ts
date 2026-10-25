@@ -39,10 +39,10 @@ async function sourceFiles(directory: string): Promise<string[]> {
 
 const NETWORK_USE = /node:(?:https?|net|tls|dns|dgram|http2)\b|from ["'](?:https?|net|tls|dns|dgram|http2)["']|\bfetch\(|undici|WebSocket|XMLHttpRequest/;
 
-test("only the update command and the CLI entry point can reach the network in the source tree", async () => {
+test("only the update command, the CLI entry point, and the Action pull request comment can reach the network in the source tree", async () => {
   const using: string[] = [];
   for (const file of await sourceFiles(resolve("src"))) if (NETWORK_USE.test(await readFile(file, "utf8"))) using.push(relative(process.cwd(), file).replaceAll("\\", "/"));
-  assert.deepEqual(using.sort(), ["src/cli.ts", "src/data-update.ts"]);
+  assert.deepEqual(using.sort(), ["src/cli.ts", "src/data-update.ts", "src/pr-comment.ts"]);
   // The CLI only imports `http` to configure proxy support inside the update command.
   const cli = await readFile(resolve("src/cli.ts"), "utf8");
   assert.equal((cli.match(/fetch\(/g) ?? []).length, 0);

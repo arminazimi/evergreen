@@ -225,3 +225,11 @@ export function renderSummary(findings: readonly Finding[], failed: boolean, gat
   if (attribution) lines.push(ATTRIBUTION_LINE, "");
   return lines.join("\n");
 }
+
+/** Hidden marker that identifies the one comment Evergreen owns on a pull request, so re-runs update it. */
+export const PR_COMMENT_MARKER = "<!-- evergreen-pr-comment -->";
+
+/** The pull-request comment: the marker, then the same counts and top findings as the job summary. */
+export function renderComment(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState): string {
+  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions)}`;
+}

@@ -413,3 +413,41 @@ test("badge upload is opt-in and skips scans that produced no endpoint", async (
   assert.equal(upload?.with?.path, "${{ steps.scan.outputs.badge-path }}\n${{ steps.scan.outputs.badge-svg-path }}\n");
   assert.equal(action.outputs["badge-svg-path"]?.value, "${{ steps.scan.outputs.badge-svg-path }}");
 });
+
+test("the pull request comment starts with the marker and re-runs update that comment instead of adding another", async () => {
+  const { PR_COMMENT_MARKER, renderComment } = await import("../src/github-action.js");
+  const { upsertPullRequestComment } = await import("../src/pr-comment.js");
+  const body = renderComment([finding("a.high:p:1", "high", "High one", "package.json", 1)], true, "high", data, false);
+  assert.ok(body.startsWith(`${PR_COMMENT_MARKER}\n## Evergreen`));
+
+  const calls: Array<{ method: string; url: string; auth: string | null }> = [];
+  let existing: Array<{ id: number; body: string }> = [{ id: 1, body: "unrelated" }];
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
+    const method = init?.method ?? "GET";
+    calls.push({ method, url: String(url), auth: new Headers(init?.headers).get("authorization") });
+    if (method === "POST") existing = [...existing, { id: 2, body: JSON.parse(String(init?.body)).body }];
+    return new Response(JSON.stringify(method === "GET" ? existing : {}), { status: 200 });
+  }) as typeof fetch;
+  try {
+    const target = { apiUrl: "https://api.github.com", repository: "o/r", pullRequest: 7, token: "t" };
+    assert.equal(await upsertPullRequestComment(target, body), "created");
+    assert.equal(await upsertPullRequestComment(target, body), "updated");
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+  assert.deepEqual(calls.map((call) => `${call.method} ${new URL(call.url).pathname}`), [
+    "GET /repos/o/r/issues/7/comments",
+    "POST /repos/o/r/issues/7/comments",
+    "GET /repos/o/r/issues/7/comments",
+    "PATCH /repos/o/r/issues/comments/2",
+  ]);
+  assert.ok(calls.every((call) => call.auth === "Bearer t"));
+});
+
+test("action.yml declares pr-comment off by default and passes it and the token to the scan step", async () => {
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs["pr-comment"]?.default, "false");
+  assert.equal(action.runs.steps[0]?.env?.["INPUT_PR-COMMENT"], "${{ inputs.pr-comment }}");
+  assert.equal(action.runs.steps[0]?.env?.["INPUT_GITHUB-TOKEN"], "${{ inputs.github-token }}");
+});
