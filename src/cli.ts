@@ -30,6 +30,7 @@ import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
+import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 
@@ -39,6 +40,7 @@ Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --write-status
+  evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen baseline [path] [--output <file>]
@@ -529,6 +531,8 @@ async function main(args: string[]): Promise<number> {
       return fail("data", `Finding not found: ${findingId}`);
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
+  } else if (args.includes("--interactive") && !json && format === "text" && canBrowse(process.stdin, process.stdout)) {
+    await browseFindings(result, { input: process.stdin, output: process.stdout });
   } else {
     const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
