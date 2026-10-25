@@ -1,0 +1,74 @@
+# Copy to .github/workflows/lifecycle-watch.yml.
+# Weekly, scans the repository and keeps one open issue listing every line whose
+# support ends within WINDOW_DAYS. The issue is updated in place and closed when
+# nothing is near its deadline. See docs/GITHUB_ACTION.md#end-of-life-reminder-issue.
+name: Evergreen lifecycle watch
+
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: evergreen-lifecycle-watch
+  cancel-in-progress: false
+
+env:
+  WINDOW_DAYS: "90"
+  ISSUE_TITLE: "Evergreen: end-of-life dates are near"
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: arminazimi/evergreen@v0.6.0
+        id: scan
+        with:
+          min-support-days: ${{ env.WINDOW_DAYS }}
+          fail-on-severity: none # the issue is the signal; do not fail the schedule
+          upload-report: "false"
+      - name: Open, update, or close the reminder issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_PATH: ${{ steps.scan.outputs.report-path }}
+        shell: bash
+        run: |
+          today=$(date -u +%F)
+          limit=$(date -u -d "+${WINDOW_DAYS} days" +%F)
+          jq -r --arg today "$today" --arg limit "$limit" '
+            [.findings[] | select(.deadline != null and .deadline <= $limit)]
+            | sort_by(.deadline, .location.path)
+            | .[]
+            | "| \(.deadline)\(if .deadline < $today then " (past)" else "" end) | \(.title) | `\(.location.path)\(if .location.line then ":\(.location.line)" else "" end)` | \(.replacement // "") |"
+          ' "$REPORT_PATH" > rows.md
+
+          number=$(gh issue list --state open --search "\"$ISSUE_TITLE\" in:title" \
+            --json number,title --jq "map(select(.title == \"$ISSUE_TITLE\")) | first | .number // empty")
+
+          if [ ! -s rows.md ]; then
+            if [ -n "$number" ]; then
+              gh issue close "$number" --comment "Nothing reaches its end-of-life date within ${WINDOW_DAYS} days as of $today."
+            fi
+            exit 0
+          fi
+
+          {
+            echo "These lines reach end of life within ${WINDOW_DAYS} days (checked $today). Updated weekly by the Evergreen lifecycle watch workflow."
+            echo
+            echo "| Deadline | Finding | Location | Replacement |"
+            echo "| --- | --- | --- | --- |"
+            cat rows.md
+            echo
+            echo "Run \`npx evergreen-deprecation scan .\` for evidence and migration steps."
+          } > body.md
+
+          if [ -n "$number" ]; then
+            gh issue edit "$number" --body-file body.md
+          else
+            gh issue create --title "$ISSUE_TITLE" --body-file body.md
+          fi

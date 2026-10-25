@@ -127,6 +127,12 @@ steps:
 
 Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
 
+## End-of-life reminder issue
+
+[`examples/lifecycle-watch.yml`](https://github.com/arminazimi/evergreen/blob/main/examples/lifecycle-watch.yml) is a copyable starter that reminds a team before a deadline without anyone running a scan. Copy it to `.github/workflows/lifecycle-watch.yml`. Every Monday (and on demand) it scans with `min-support-days`, then opens one issue listing each line whose support ends within `WINDOW_DAYS` (default 90). The next run updates that same issue instead of opening another, and closes it when nothing is near its deadline.
+
+The scan stays offline; only the final step calls the GitHub API. The job needs `contents: read` and `issues: write`, and sets `fail-on-severity: none` so the schedule does not fail. Change `WINDOW_DAYS` or the cron line to taste.
+
 ## Permissions and privacy
 
 Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`; it then posts one comment on the pull request, found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
