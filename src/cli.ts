@@ -48,7 +48,7 @@ Usage:
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
-  evergreen doctor [path] [--json]
+  evergreen doctor [path] [--system] [--json]
   evergreen report-issue <finding-id> [path] [--output <file>]
   evergreen capabilities [--json]
   evergreen --help
@@ -347,7 +347,7 @@ async function main(args: string[]): Promise<number> {
     ? (positional[1] ?? ".")
     : (positional[0] ?? ".");
   if (command === "doctor") {
-    const result = await diagnoseEnvironment(pathArgument);
+    const result = await diagnoseEnvironment(pathArgument, { system: args.includes("--system") });
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
     return result.summary.failed > 0 ? EXIT_CODES.policy : 0;
   }

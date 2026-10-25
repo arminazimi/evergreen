@@ -182,6 +182,17 @@ export async function bundledRules(): Promise<RegistryV2Rule[]> {
   return loaded.rules;
 }
 
+const SYSTEM_REGISTRIES = ["nodejs", "python", "go", "java", "dotnet", "terraform"] as const;
+
+/** The rules for the runtimes and tools installed on a machine, which `check` itself does not look up. */
+export async function systemToolRules(): Promise<RegistryV2Rule[]> {
+  const rules: RegistryV2Rule[] = [];
+  for (const name of SYSTEM_REGISTRIES) {
+    rules.push(...validateRegistryV2(await loadDataFile(`registry/${name}.json`)).rules);
+  }
+  return rules;
+}
+
 /**
  * Checks a single package (and optionally one version) against Evergreen's bundled lifecycle rules,
  * without scanning a repository. Deterministic and offline.

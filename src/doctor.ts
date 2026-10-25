@@ -1,3 +1,4 @@
+import { execFile } from "node:child_process";
 import { access, readFile, stat } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import process from "node:process";
@@ -5,7 +6,10 @@ import { fileURLToPath } from "node:url";
 
 import { satisfies } from "semver";
 
-export const doctorCategories = ["runtime", "package", "mcp", "skill", "plugin", "ci"] as const;
+import { checkAgainst, systemToolRules } from "./check-dependency.js";
+import type { RegistryV2Rule } from "./registry.js";
+
+export const doctorCategories = ["runtime", "package", "mcp", "skill", "plugin", "ci", "system"] as const;
 export type DoctorCategory = (typeof doctorCategories)[number];
 export type DoctorStatus = "pass" | "warning" | "fail";
 export type DoctorContext = "local" | "github-actions" | "gitlab-ci";
@@ -34,13 +38,34 @@ export interface DoctorResult {
     failed: number;
   };
   checks: DoctorCheck[];
+  /** The tools found on this machine; present only when `--system` was requested. */
+  system?: SystemTool[];
   privacy: {
     repositoryDataUploaded: false;
     configurationMutated: false;
   };
 }
 
+export interface SystemTool {
+  /** The executable that was asked for its version. */
+  tool: string;
+  version: string;
+  /** The release line the version belongs to, such as `22` or `3.12`. */
+  line: string;
+  status: "supported" | "end-of-life" | "scheduled-end-of-life";
+  ruleId?: string;
+  deadline?: string;
+  replacement?: string;
+}
+
+/** Runs `command` with fixed arguments and returns what it printed, or undefined when it is missing or fails. */
+export type VersionRunner = (command: string, args: readonly string[]) => Promise<string | undefined>;
+
 export interface DoctorOptions {
+  /** Also report the runtimes and tools installed on this machine. */
+  system?: boolean;
+  versionRunner?: VersionRunner;
+  systemRules?: readonly RegistryV2Rule[];
   environment?: Readonly<Record<string, string | undefined>>;
   installationRoot?: string;
   nodeVersion?: string;
@@ -247,6 +272,104 @@ async function ciCheck(
   };
 }
 
+interface SystemToolSpec {
+  tool: string;
+  /** The name rules are written against: `pkg:generic/<purl>`. */
+  purl: string;
+  args: readonly string[];
+  /** Pulls the version out of the output; undefined when the output is not recognisable. */
+  parse: (output: string) => string | undefined;
+  /** Reduces a version to its release line. */
+  line: (version: string) => string;
+}
+
+const lifecycleEvents: ReadonlySet<string> = new Set(["end-of-life", "end-of-support", "scheduled-end-of-life"]);
+
+function numeric(match: RegExpMatchArray | null): string | undefined {
+  if (!match) return undefined;
+  const parts = [match[1], match[2] ?? "0", match[3] ?? "0"];
+  return parts.join(".");
+}
+
+const major = (version: string): string => version.split(".")[0]!;
+const majorMinor = (version: string): string => version.split(".").slice(0, 2).join(".");
+
+const systemToolSpecs: readonly SystemToolSpec[] = [
+  { tool: "node", purl: "pkg:generic/nodejs", args: ["--version"], parse: (o) => numeric(o.match(/v?(\d+)\.(\d+)\.(\d+)/)), line: major },
+  { tool: "python3", purl: "pkg:generic/python", args: ["--version"], parse: (o) => numeric(o.match(/Python (\d+)\.(\d+)(?:\.(\d+))?/)), line: majorMinor },
+  { tool: "go", purl: "pkg:generic/golang", args: ["version"], parse: (o) => numeric(o.match(/go version go(\d+)\.(\d+)(?:\.(\d+))?/)), line: majorMinor },
+  {
+    tool: "java",
+    purl: "pkg:generic/java",
+    // `java --version` only exists from Java 9; `-version` works on every release and prints to stderr.
+    args: ["-version"],
+    parse: (o) => {
+      const match = o.match(/version "(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
+      if (!match) return undefined;
+      // Java 8 and older call themselves 1.8.0_x.
+      return match[1] === "1" && match[2] ? `${match[2]}.0.0` : numeric(match);
+    },
+    line: major,
+  },
+  { tool: "dotnet", purl: "pkg:generic/dotnet", args: ["--version"], parse: (o) => numeric(o.match(/^(\d+)\.(\d+)\.(\d+)/m)), line: majorMinor },
+  { tool: "terraform", purl: "pkg:generic/terraform", args: ["--version"], parse: (o) => numeric(o.match(/Terraform v(\d+)\.(\d+)\.(\d+)/)), line: majorMinor },
+];
+
+const runVersionCommand: VersionRunner = (command, args) =>
+  new Promise((resolveOutput) => {
+    execFile(command, [...args], { timeout: 5000, windowsHide: true }, (error, stdout, stderr) => {
+      resolveOutput(error ? undefined : `${stdout}${stderr}`);
+    });
+  });
+
+/** Asks each known tool for its version and matches it against the bundled lifecycle rules. Missing tools are skipped. */
+export async function diagnoseSystem(options: DoctorOptions = {}): Promise<SystemTool[]> {
+  const run = options.versionRunner ?? runVersionCommand;
+  const found = await Promise.all(systemToolSpecs.map(async (spec) => {
+    const output = await run(spec.tool, spec.args);
+    const version = output === undefined ? undefined : spec.parse(output);
+    return version === undefined ? undefined : { spec, version };
+  }));
+  const present = found.filter((entry) => entry !== undefined);
+  if (present.length === 0) return [];
+
+  const rules = (options.systemRules ?? await systemToolRules()).filter((rule) => lifecycleEvents.has(rule.event));
+  return present.map(({ spec, version }) => {
+    const finding = checkAgainst(rules, { purl: spec.purl, version }).findings[0];
+    const base = { tool: spec.tool, version, line: spec.line(version) };
+    if (!finding) return { ...base, status: "supported" as const };
+    return {
+      ...base,
+      status: finding.event === "scheduled-end-of-life" ? "scheduled-end-of-life" as const : "end-of-life" as const,
+      ruleId: finding.ruleId,
+      ...(finding.deadline ? { deadline: finding.deadline } : {}),
+      ...(finding.replacement ? { replacement: finding.replacement } : {}),
+    };
+  });
+}
+
+function systemCheck(entry: SystemTool): DoctorCheck {
+  const label = `${entry.tool} ${entry.version} (line ${entry.line})`;
+  if (entry.status === "supported") {
+    return {
+      id: `system.${entry.tool}`,
+      category: "system",
+      status: "pass",
+      summary: `${label} is supported.`,
+      details: "No end-of-life or end-of-support rule covers this release line.",
+    };
+  }
+  const when = entry.deadline ? ` ${entry.status === "scheduled-end-of-life" ? "on" : "since"} ${entry.deadline}` : "";
+  return {
+    id: `system.${entry.tool}`,
+    category: "system",
+    status: "warning",
+    summary: `${label} ${entry.status === "scheduled-end-of-life" ? "reaches end of support" : "is out of support"}${when}.`,
+    details: `Matched rule ${entry.ruleId}.`,
+    ...(entry.replacement ? { remediation: `Replacement: ${entry.replacement}.` } : {}),
+  };
+}
+
 export async function diagnoseEnvironment(root = ".", options: DoctorOptions = {}): Promise<DoctorResult> {
   const environment = options.environment ?? process.env;
   const installationRoot = resolve(options.installationRoot ?? defaultInstallationRoot);
@@ -262,6 +385,8 @@ export async function diagnoseEnvironment(root = ".", options: DoctorOptions = {
   ];
   checks.push(pluginCheck(checks));
   checks.push(await ciCheck(context, environment));
+  const system = options.system ? await diagnoseSystem(options) : undefined;
+  if (system) checks.push(...system.map(systemCheck));
 
   return {
     schemaVersion: "evergreen.doctor.v1",
@@ -269,6 +394,7 @@ export async function diagnoseEnvironment(root = ".", options: DoctorOptions = {
     context: { kind: context, platform, nodeVersion },
     summary: resultStatus(checks),
     checks,
+    ...(system ? { system } : {}),
     privacy: {
       repositoryDataUploaded: false,
       configurationMutated: false,

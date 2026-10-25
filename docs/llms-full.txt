@@ -632,6 +632,13 @@ server, portable Agent Skill, shared plugin prerequisites, and local or CI
 workspace. It is read-only: it does not change configuration, execute suggested
 repairs, start a network listener, or upload repository data.
 
+`evergreen doctor --system` also asks `node`, `python3`, `go`, `java`, `dotnet`, and
+`terraform` for their version (`--version`, or `-version` for Java, which works on
+every release) and matches each against the bundled end-of-life and end-of-support
+rules. The report lists each tool, its release line, and its status in a `system`
+array; tools that are not installed are skipped. A tool that is out of support is a
+warning, not a failure. Nothing else is run and nothing uses the network.
+
 Text and JSON are generated from the same deterministic result. The JSON contract
 is `evergreen.doctor.v1`; its schema is
 [`schemas/doctor.v1.schema.json`](../schemas/doctor.v1.schema.json). A failed check

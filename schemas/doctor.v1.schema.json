@@ -37,11 +37,28 @@
         "required": ["id", "category", "status", "summary", "details"],
         "properties": {
           "id": { "type": "string" },
-          "category": { "enum": ["runtime", "package", "mcp", "skill", "plugin", "ci"] },
+          "category": { "enum": ["runtime", "package", "mcp", "skill", "plugin", "ci", "system"] },
           "status": { "enum": ["pass", "warning", "fail"] },
           "summary": { "type": "string" },
           "details": { "type": "string" },
           "remediation": { "type": "string" }
+        }
+      }
+    },
+    "system": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tool", "version", "line", "status"],
+        "properties": {
+          "tool": { "type": "string" },
+          "version": { "type": "string" },
+          "line": { "type": "string" },
+          "status": { "enum": ["supported", "end-of-life", "scheduled-end-of-life"] },
+          "ruleId": { "type": "string" },
+          "deadline": { "type": "string" },
+          "replacement": { "type": "string" }
         }
       }
     },
