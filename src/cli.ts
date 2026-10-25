@@ -28,14 +28,14 @@ import { findRepositories, renderMultiScanText, scanProjects, scanRepository } f
 import { createMigrationPacket } from "./migration-packet.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
-import { renderCheckText, renderCompact, renderFindingText, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
+import { renderCheckText, renderCompact, renderFindingText, renderHtml, renderJson, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { VERSION } from "./version.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
-  evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact>]
+  evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --write-status
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
@@ -313,13 +313,13 @@ async function main(args: string[]): Promise<number> {
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
-  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif" && format !== "rdjson" && format !== "compact") {
-    return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, sarif, rdjson, or compact).`);
+  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "sarif" && format !== "rdjson" && format !== "compact" && format !== "html") {
+    return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, sarif, rdjson, compact, or html).`);
   }
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return fail("usage", "check supports --json and --format text|json only.");
   }
-  if ((format === "sarif" || format === "rdjson" || format === "compact") && command !== "scan") {
+  if ((format === "sarif" || format === "rdjson" || format === "compact" || format === "html") && command !== "scan") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   const json = args.includes("--json") || format === "json";
@@ -492,7 +492,7 @@ async function main(args: string[]): Promise<number> {
     }
     process.stdout.write(`${json ? JSON.stringify(finding, null, 2) : renderFindingText(finding)}\n`);
   } else {
-    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
     if (args.includes("--write-status")) {
       const statusRoot = resolve(pathArgument);

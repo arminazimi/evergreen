@@ -159,6 +159,86 @@ export function renderRdjson(result: ScanResult): string {
   return JSON.stringify(rdjson, null, 2);
 }
 
+const HTML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+
+/** Escapes a value for HTML text or a quoted attribute. Every value in the HTML report goes through this. */
+export function escapeHtml(value: string | number): string {
+  return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char]!);
+}
+
+const HTML_STYLE = `body{font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:56rem;padding:1.5rem;color:#1b1f24;background:#fff}
+h1{margin:0 0 .25rem}.meta{color:#57606a;margin:0 0 1.5rem}
+article{border:1px solid #d0d7de;border-left-width:6px;border-radius:6px;padding:.75rem 1rem;margin:0 0 1rem}
+article h2{font-size:1.05rem;margin:0 0 .25rem}.critical,.high{border-left-color:#cf222e}.medium{border-left-color:#bf8700}.low,.info{border-left-color:#0969da}
+.badge{font-size:.75rem;font-weight:600;text-transform:uppercase;margin-right:.5rem}dl{margin:.5rem 0 0}dt{font-weight:600}dd{margin:0 0 .25rem}
+code{font-family:ui-monospace,monospace;background:#f6f8fa;padding:0 .25rem;border-radius:3px}
+@media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117}.meta{color:#8b949e}article{border-color:#30363d}code{background:#161b22}}`;
+
+function htmlLocation(location: { path: string; line?: number }): string {
+  return `${location.path}${location.line ? `:${location.line}` : ""}`;
+}
+
+/** An evidence link is clickable only for http(s) URLs; any other value is shown as plain text. */
+function htmlSource(source: { title: string; url: string }): string {
+  const title = escapeHtml(source.title);
+  return /^https?:\/\//i.test(source.url) ? `<a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${title}</a> <code>${escapeHtml(source.url)}</code>` : `${title} <code>${escapeHtml(source.url)}</code>`;
+}
+
+function htmlFinding(finding: Finding): string {
+  const rows: Array<[string, string]> = [
+    ["Location", `<code>${escapeHtml(htmlLocation(finding.location))}</code>`],
+    ["Rule", `<code>${escapeHtml(finding.ruleId)}</code> (detector ${escapeHtml(finding.detector)})`],
+    ["Confidence", escapeHtml(finding.confidence)],
+  ];
+  if (finding.replacement) rows.push(["Replacement", escapeHtml(finding.replacement)]);
+  if (finding.deadline) rows.push(["Deadline", escapeHtml(finding.deadline)]);
+  if (finding.impact) rows.push(["Impact", escapeHtml(`${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`)]);
+  for (const usage of finding.usages ?? []) rows.push(["Usage", `<code>${escapeHtml(htmlLocation(usage.location))}</code> ${escapeHtml(usage.kind)} ${escapeHtml(usage.symbol)}`]);
+  for (const step of finding.migration?.steps ?? []) rows.push(["Migration", `${escapeHtml(step.title)}: ${escapeHtml(step.instructions)}`]);
+  for (const item of finding.migration?.verification ?? []) rows.push(["Verify", `<code>${escapeHtml(item.command)}</code> ${escapeHtml(item.purpose)}`]);
+  for (const source of finding.sources) rows.push(["Source", htmlSource(source)]);
+  return [
+    `<article class="${escapeHtml(finding.severity)}" id="${escapeHtml(finding.id)}">`,
+    `<h2><span class="badge">${escapeHtml(finding.severity)}</span>${escapeHtml(finding.title)}</h2>`,
+    `<p>${escapeHtml(finding.summary)}</p>`,
+    `<dl>${rows.map(([name, value]) => `<dt>${name}</dt><dd>${value}</dd>`).join("")}</dl>`,
+    "</article>",
+  ].join("\n");
+}
+
+/**
+ * Renders a scan as one self-contained HTML file for sharing without a terminal or Code Scanning: inline styles, no
+ * scripts, and no external requests (a CSP forbids them). Every value is escaped. The full JSON report is embedded as an
+ * inert data block, so the page and `--format json` always describe the same scan. Findings keep the JSON order.
+ */
+export function renderHtml(result: ScanResult): string {
+  // "<" is escaped so no value can close the data block; JSON.parse reads the text back to the exact JSON report.
+  const data = renderJson(result).replace(/</g, "\\u003c");
+  const count = result.findings.length;
+  const meta = [`Repository: ${result.root}`, `Scanned: ${result.scannedAt}`, ...(result.data ? [describeData(result.data)] : [])];
+  const notes = result.diagnostics.map((diagnostic) => `<p class="meta">Note: ${escapeHtml(diagnostic)}</p>`);
+  return [
+    "<!doctype html>",
+    '<html lang="en">',
+    "<head>",
+    '<meta charset="utf-8">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">`,
+    "<title>Evergreen report</title>",
+    `<style>${HTML_STYLE}</style>`,
+    "</head>",
+    "<body>",
+    "<h1>Evergreen report</h1>",
+    `<p class="meta">${meta.map(escapeHtml).join("<br>")}</p>`,
+    `<p><strong>${count} finding${count === 1 ? "" : "s"}</strong></p>`,
+    ...result.findings.map(htmlFinding),
+    ...notes,
+    `<script type="application/json" id="evergreen-report">${data}</script>`,
+    "</body>",
+    "</html>",
+  ].join("\n");
+}
+
 /** The most findings `--format compact` lists. The rest are counted, not listed. */
 export const COMPACT_MAX_FINDINGS = 25;
 /** The longest one compact line gets, in characters; longer lines end in an ellipsis. */

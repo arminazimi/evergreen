@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `--format html` to scan: one self-contained HTML file with no external requests, every value escaped, and the full JSON report embedded. (#1022)
+
 ## 0.5.0 - 2026-10-22
 
 - Add end-of-life rules for every unsupported Django release series from 1.3 through 5.1 (`python.package.django-<series>.eol`), with the dates from the Django supported-versions page. A bounded Python package rule now matches a lockfile entry or an exact `==` pin, not a declared range, so a `Django>=3.2` requirement alone produces no Django finding. Supported series (5.2 LTS, 6.0, 6.1) have no rule until the page gives their end dates to the day.
