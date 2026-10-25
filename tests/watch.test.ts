@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import type { Finding } from "../src/domain.js";
@@ -39,13 +39,14 @@ const detectorFor = (findings: Array<{ id: string; deadline?: string }>): Detect
 
 test("projects are registered once, sorted, and can be removed", async () => {
   const { env } = await machine();
+  const [a, b] = [resolve("/a/project"), resolve("/b/project")];
   assert.equal(await addWatched("/b/project", { env }), true);
   assert.equal(await addWatched("/a/project", { env }), true);
   assert.equal(await addWatched("/a/project", { env }), false);
-  assert.deepEqual(await listWatched({ env }), ["/a/project", "/b/project"]);
+  assert.deepEqual(await listWatched({ env }), [a, b]);
   assert.equal(await removeWatched("/a/project", { env }), true);
   assert.equal(await removeWatched("/a/project", { env }), false);
-  assert.deepEqual(await listWatched({ env }), ["/b/project"]);
+  assert.deepEqual(await listWatched({ env }), [b]);
 });
 
 test("a new end-of-life date appears in the next digest once", async () => {
