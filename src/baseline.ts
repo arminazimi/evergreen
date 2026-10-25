@@ -25,10 +25,45 @@ export interface BaselineEntry extends Suppression {
   path: string;
 }
 
+/** One scan's summary: how many findings the baseline recorded at that time. */
+export interface BaselineHistoryEntry {
+  at: string;
+  count: number;
+}
+
 export interface Baseline {
   schemaVersion: "evergreen.baseline.v1";
   createdAt: string;
   findings: BaselineEntry[];
+  /** Finding counts of earlier baselines, oldest first and bounded. Optional, so older files stay valid. */
+  history?: BaselineHistoryEntry[];
+}
+
+export const MAX_BASELINE_HISTORY = 100;
+
+function validHistory(history: unknown): BaselineHistoryEntry[] {
+  if (!Array.isArray(history)) return [];
+  return history.filter((entry): entry is BaselineHistoryEntry => typeof entry?.at === "string" && !Number.isNaN(Date.parse(entry.at)) && Number.isInteger(entry.count) && entry.count >= 0);
+}
+
+/** Adds one entry to a history, keeping it sorted by time and at most `MAX_BASELINE_HISTORY` long (newest kept). */
+export function appendHistory(history: readonly BaselineHistoryEntry[] | undefined, entry: BaselineHistoryEntry): BaselineHistoryEntry[] {
+  return [...validHistory(history), entry].sort((left, right) => Date.parse(left.at) - Date.parse(right.at)).slice(-MAX_BASELINE_HISTORY);
+}
+
+/** A baseline written before histories existed counts as the first entry. */
+function seedHistory(baseline: Baseline): BaselineHistoryEntry[] {
+  return Number.isNaN(Date.parse(baseline.createdAt)) ? [] : [{ at: baseline.createdAt, count: baseline.findings.length }];
+}
+
+/** The line printed after a baseline is written: the change in findings since the last history entry. */
+export function debtTrendLine(history: readonly BaselineHistoryEntry[]): string {
+  if (history.length < 2) return "No earlier baseline to compare with.";
+  const previous = history[history.length - 2]!;
+  const current = history[history.length - 1]!;
+  const delta = current.count - previous.count;
+  if (delta === 0) return `Debt is unchanged at ${current.count} since ${previous.at}.`;
+  return `Debt ${delta < 0 ? "fell" : "rose"} by ${Math.abs(delta)} (${previous.count} to ${current.count}) since ${previous.at}: ${delta < 0 ? "better" : "worse"}.`;
 }
 
 export function findingFingerprint(finding: Finding): string {
@@ -68,21 +103,25 @@ export function suppressionIssues(entry: Suppression): string[] {
 
 /**
  * Builds a baseline from a scan. `suppression`, when given, is recorded on every entry; without it the file has
- * exactly the fields it always had.
+ * exactly the fields it always had. `previous`, the baseline being replaced, carries its history forward with this
+ * scan's count added; without it there is no history.
  */
-export function createBaseline(result: ScanResult, suppression: Suppression = {}): Baseline {
+export function createBaseline(result: ScanResult, suppression: Suppression = {}, previous?: Baseline): Baseline {
   const issues = suppressionIssues(suppression);
   if (issues.length > 0) throw new Error(`Invalid suppression: ${issues.join("; ")}.`);
   const extra = Object.fromEntries(Object.entries(suppression).filter(([, value]) => value !== undefined));
+  const createdAt = new Date().toISOString();
   return {
     schemaVersion: "evergreen.baseline.v1",
-    createdAt: new Date().toISOString(),
+    createdAt,
     findings: result.findings.map((finding) => ({
       fingerprint: findingFingerprint(finding),
       ruleId: finding.ruleId,
       path: finding.location.path,
       ...extra,
     })),
+    // Only a baseline that already has a history, or that replaces an earlier one, starts or extends a history.
+    ...(previous ? { history: appendHistory(previous.history ?? seedHistory(previous), { at: createdAt, count: result.findings.length }) } : {}),
   };
 }
 
