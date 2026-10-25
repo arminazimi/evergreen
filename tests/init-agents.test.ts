@@ -185,6 +185,6 @@ test("the command line reports each outcome with the right exit code", async () 
   for (const args of [["init"], ["init", root], ["init", "--agents", "--file", "README.md"], ["init", "--agents", "--bogus"], ["init", "--agents", root, root]]) {
     const usage = await run(args);
     assert.equal(usage.code, 2, args.join(" "));
-    assert.match(usage.stderr, /Usage: evergreen init --agents|--file must be/);
+    assert.match(usage.stderr, /Usage: evergreen init|--file must be/);
   }
 });

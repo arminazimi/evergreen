@@ -16,6 +16,7 @@ import { configureActiveData, DataPinError, getActiveData } from "./data-source.
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { initAgents } from "./init-agents.js";
+import { initHooks } from "./init-hooks.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
@@ -36,6 +37,7 @@ Usage:
   evergreen scan [path] [--json | --format <text|json|sarif|rdjson|compact>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --write-status
+  evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
@@ -43,6 +45,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
+  evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen data update [--data-version <version>] [--json]
@@ -95,30 +98,51 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   return child.status ?? 1;
 }
 
-/** `init --agents`: keeps the Evergreen section in AGENTS.md or CLAUDE.md. */
+/** `init --agents` and `init --hooks`: keep the Evergreen section in AGENTS.md or CLAUDE.md, and the git pre-push hook. */
 async function init(args: string[]): Promise<number> {
-  const usage = "Usage: evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
-  if (!args.includes("--agents")) {
+  const usage = "Usage: evergreen init [--agents] [--hooks] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--dry-run]\n";
+  const agents = args.includes("--agents");
+  const hooks = args.includes("--hooks");
+  if (!agents && !hooks) {
     return fail("usage", usage.trimEnd());
   }
   const fileIndex = args.indexOf("--file");
   const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
-  if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
-    return fail("usage", "--file must be AGENTS.md or CLAUDE.md.", usage);
+  if (fileIndex !== -1 && (!agents || (fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md"))) {
+    return fail("usage", "--file must be AGENTS.md or CLAUDE.md, and needs --agents.", usage);
   }
-  const flags = new Set(["--agents", "--dry-run", "--file"]);
-  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && !argument.startsWith("-"));
+  const gateIndex = args.indexOf("--fail-on");
+  const gate = gateIndex === -1 ? "high" : args[gateIndex + 1];
+  if (gateIndex !== -1 && (!hooks || !severityValues.includes(gate as Severity))) {
+    return fail("usage", `--fail-on needs --hooks and a severity (${severityValues.join(", ")}).`, usage);
+  }
+  const flags = new Set(["--agents", "--hooks", "--dry-run", "--file", "--fail-on"]);
+  const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && !argument.startsWith("-"));
   const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
   if (unknown.length > 0 || positional.length > 1) {
     return fail("usage", usage.trimEnd());
   }
   const dryRun = args.includes("--dry-run");
+  const root = positional[0] ?? ".";
   try {
-    const result = await initAgents({ root: positional[0] ?? ".", dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
-    if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
-    else {
-      const verb = result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
-      process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`);
+    if (agents) {
+      const result = await initAgents({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
+      if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
+      else {
+        const verb = result.change === "created" ? "create" : result.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
+        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : result.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${result.file}.\n`);
+      }
+    }
+    if (hooks) {
+      const result = await initHooks({ root, gate: gate as Severity, dryRun });
+      if (result.change === "managed") {
+        process.stdout.write(`${result.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${result.file}:\n\n${result.snippet}\n`);
+      } else if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen hook; nothing to change.\n`);
+      else {
+        const verb = result.change === "created" ? "create" : "update";
+        process.stdout.write(dryRun ? `Would ${verb} ${result.file}:\n\n${result.diff}\n` : `${result.change === "created" ? "Created" : "Updated"} ${result.file}; it blocks a push at ${gate} or above.\n`);
+      }
+      if (result.change !== "managed") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
     }
     return 0;
   } catch (error) {
@@ -379,6 +403,10 @@ async function main(args: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
   }
+  const scanGate = optionValue("--fail-on") ?? "none";
+  if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
+    return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
+  }
   let result = await scanRepository(pathArgument, builtInDetectors);
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
@@ -450,6 +478,10 @@ async function main(args: string[]): Promise<number> {
   }
   if (baselineExpiredFailure) {
     return fail("policy", "Failing because a baseline suppression has expired (--on-expired fail).");
+  }
+  if (command === "scan" && scanGate !== "none") {
+    const blocking = result.findings.filter((finding) => severityValues.indexOf(finding.severity) >= severityValues.indexOf(scanGate as Severity));
+    if (blocking.length > 0) return fail("policy", `${blocking.length} finding${blocking.length === 1 ? "" : "s"} at ${scanGate} or above (--fail-on ${scanGate}).`);
   }
   return 0;
 }
