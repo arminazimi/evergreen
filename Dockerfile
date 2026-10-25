@@ -1,4 +1,4 @@
-FROM node:22-trixie-slim AS build
+FROM node:24-trixie-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts
@@ -11,7 +11,7 @@ COPY benchmarks ./benchmarks
 RUN npm run build
 RUN npm prune --omit=dev --ignore-scripts
 
-FROM gcr.io/distroless/nodejs22-debian13:nonroot
+FROM gcr.io/distroless/nodejs24-debian13:nonroot
 WORKDIR /app
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist/src ./dist/src
