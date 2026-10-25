@@ -33,9 +33,10 @@ export interface InitHooksResult {
 }
 
 /** The block kept in `.git/hooks/pre-push`. Only a policy failure (exit 1) blocks the push; a missing install or a scan error does not. */
-export function hookBlock(gate: Severity): string {
+export function hookBlock(gate: Severity, chain = false): string {
   return [
     HOOK_BEGIN,
+    ...(chain ? ["evergreen_input=$(cat)"] : []),
     "# Managed by `evergreen init --hooks`. Bypass once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.",
     'if [ -z "$EVERGREEN_SKIP" ]; then',
     `  npx --no-install evergreen-deprecation scan . --fail-on ${gate} --format compact`,
@@ -45,12 +46,21 @@ export function hookBlock(gate: Severity): string {
     "    exit 1",
     "  fi",
     "fi",
+    // A global hooks path replaces each repository's own hooks, so hand over to the repository's pre-push.
+    ...(chain
+      ? [
+          'evergreen_repo_hook="$(git rev-parse --git-common-dir 2>/dev/null)/hooks/pre-push"',
+          'if [ -x "$evergreen_repo_hook" ]; then',
+          '  printf \'%s\\n\' "$evergreen_input" | "$evergreen_repo_hook" "$@" || exit $?',
+          "fi",
+        ]
+      : []),
     HOOK_END,
   ].join("\n");
 }
 
-export function withHookBlock(existing: string | undefined, gate: Severity): { text: string; change: "created" | "added" | "updated" | "unchanged" } {
-  const block = hookBlock(gate);
+export function withHookBlock(existing: string | undefined, gate: Severity, chain = false): { text: string; change: "created" | "added" | "updated" | "unchanged" } {
+  const block = hookBlock(gate, chain);
   if (existing === undefined || existing.trim() === "") return { text: `#!/bin/sh\n\n${block}\n`, change: "created" };
   const begin = existing.indexOf(HOOK_BEGIN);
   const end = existing.indexOf(HOOK_END);

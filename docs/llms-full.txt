@@ -517,6 +517,20 @@ EVERGREEN_SKIP=1 git push     # skip only Evergreen
 
 To remove the hook, delete the marked block (or the file, if it holds only that block).
 
+## One setup for every repository
+
+`evergreen init --personal` protects every repository on your machine. It writes `~/.config/evergreen/config.json` (honoring `XDG_CONFIG_HOME`) and a pre-push hook in `~/.config/evergreen/git-hooks/`, then runs `git config --global core.hooksPath` to point Git at it.
+
+```bash
+npx evergreen-deprecation init --personal --dry-run   # show what would be written
+npx evergreen-deprecation init --personal             # ask, then write
+npx evergreen-deprecation init --personal --yes       # confirm without asking
+```
+
+It asks before writing anything; without a terminal it needs `--yes`. `--fail-on <severity>` sets the gate (default `high`). Running it again changes nothing when the setup is current.
+
+A global hooks path replaces each repository's own `.git/hooks`, so the personal hook runs the repository's own `pre-push` afterwards, if it has one. Evergreen stops without changes when Git already uses a different global hooks path, or when the hook file there is not its own. Bypass and removal work as above; to remove it, run `git config --global --unset core.hooksPath`.
+
 ---
 
 Source: https://arminazimi.github.io/evergreen/CAPABILITIES.html

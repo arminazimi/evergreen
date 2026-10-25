@@ -17,6 +17,7 @@ import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
+import { initPersonal } from "./init-personal.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
@@ -46,6 +47,7 @@ Usage:
   evergreen data status [--json]
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents
+  evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen data update [--data-version <version>] [--json]
@@ -98,12 +100,25 @@ function relaunchWithEnvironmentProxy(): number | undefined {
   return child.status ?? 1;
 }
 
+async function confirmOnTerminal(summary: string): Promise<boolean> {
+  if (!process.stdin.isTTY) throw new AgentFileError("Confirmation needs a terminal; pass --yes to confirm, or --dry-run to preview.");
+  const { createInterface } = await import("node:readline/promises");
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    return /^y(es)?$/i.test((await rl.question(`${summary}\nContinue? [y/N] `)).trim());
+  } finally {
+    rl.close();
+  }
+}
+
 /** `init --agents` and `init --hooks`: keep the Evergreen section in AGENTS.md or CLAUDE.md, and the git pre-push hook. */
 async function init(args: string[]): Promise<number> {
-  const usage = "Usage: evergreen init [--agents] [--hooks] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--dry-run]\n";
+  const usage = "Usage: evergreen init [--agents] [--hooks] [--personal] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
   const agents = args.includes("--agents");
   const hooks = args.includes("--hooks");
-  if (!agents && !hooks) {
+  const personal = args.includes("--personal");
+  if (personal && (agents || hooks)) return fail("usage", "--personal cannot be combined with --agents or --hooks.", usage);
+  if (!agents && !hooks && !personal) {
     return fail("usage", usage.trimEnd());
   }
   const fileIndex = args.indexOf("--file");
@@ -113,18 +128,27 @@ async function init(args: string[]): Promise<number> {
   }
   const gateIndex = args.indexOf("--fail-on");
   const gate = gateIndex === -1 ? "high" : args[gateIndex + 1];
-  if (gateIndex !== -1 && (!hooks || !severityValues.includes(gate as Severity))) {
-    return fail("usage", `--fail-on needs --hooks and a severity (${severityValues.join(", ")}).`, usage);
+  if (gateIndex !== -1 && (!(hooks || personal) || !severityValues.includes(gate as Severity))) {
+    return fail("usage", `--fail-on needs --hooks or --personal and a severity (${severityValues.join(", ")}).`, usage);
   }
-  const flags = new Set(["--agents", "--hooks", "--dry-run", "--file", "--fail-on"]);
+  const flags = new Set(["--agents", "--hooks", "--personal", "--yes", "-y", "--dry-run", "--file", "--fail-on"]);
   const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && !argument.startsWith("-"));
   const unknown = args.filter((argument) => argument.startsWith("-") && !flags.has(argument));
-  if (unknown.length > 0 || positional.length > 1) {
+  if (unknown.length > 0 || positional.length > 1 || (personal && positional.length > 0)) {
     return fail("usage", usage.trimEnd());
   }
   const dryRun = args.includes("--dry-run");
   const root = positional[0] ?? ".";
   try {
+    if (personal) {
+      const yes = args.includes("--yes") || args.includes("-y");
+      const result = await initPersonal({ gate: gate as Severity, dryRun, confirm: yes ? async () => true : confirmOnTerminal });
+      if (result.change === "unchanged") process.stdout.write("The global Evergreen config and pre-push hook are already current; nothing to change.\n");
+      else if (result.change === "declined") process.stdout.write("Nothing was changed.\n");
+      else if (dryRun) process.stdout.write(`Would write the global config and pre-push hook in ${result.hooksDirectory}:\n\n${result.diff}\n`);
+      else process.stdout.write(`Wrote ${result.configFile} and the pre-push hook in ${result.hooksDirectory}; every repository now blocks a push at ${gate} or above.\nBypass it once with \`git push --no-verify\` or \`EVERGREEN_SKIP=1 git push\`.\n`);
+      return 0;
+    }
     if (agents) {
       const result = await initAgents({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
       if (result.change === "unchanged") process.stdout.write(`${result.file} already has the current Evergreen section; nothing to change.\n`);
