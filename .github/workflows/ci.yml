@@ -20,6 +20,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node: [24]
+        include:
+          - os: ubuntu-latest
+            node: 22
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     permissions:
