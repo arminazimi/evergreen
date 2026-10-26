@@ -45,7 +45,7 @@ test("release lines fall on the right side of each range", async () => {
 
 test("a scheduled image line is a low-severity rule for exactly that line", async () => {
   const scheduled = (await rules()).filter((rule) => rule.event === "scheduled-end-of-life");
-    assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [
+  assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [
     ["container.node.eol-22-and-older", "vers:semver/>=22.0.0|<23.0.0", "low", "2027-04-30"],
     ["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"],
     ["container.ubuntu.eol-22.04", "vers:semver/>=22.0.0|<22.10.0", "low", "2027-06-01"],
