@@ -2,6 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
 
 import { loadDataFile } from "../../data-source.js";
+import type { UnclassifiedReference } from "../../domain.js";
 import { relativePosix } from "../../paths.js";
 import { purlIdentity } from "../../purl.js";
 import { validateRegistryV2 } from "../../registry.js";
@@ -16,15 +17,19 @@ import { parseDatabaseTerraform } from "./parse-terraform.js";
  * Database runtimes lifecycle detector.
  *
  * It reads the image tag of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and
- * the literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on managed database
- * resources in `*.tf` files. Each declaration is matched against the rules for that product's Package URL.
+ * the version of managed database resources in `*.tf` files: `engine` and `engine_version` on AWS resources,
+ * `version` on Azure resources, and `database_version` on Google Cloud SQL resources. Each declaration is
+ * matched against the rules for that product's Package URL. AWS resources use the engine's generic rules;
+ * Azure and Google Cloud resources use rules built from those vendors' support pages, because a managed
+ * service often supports an engine line after the upstream community does.
  *
  * A tag or engine version is read as the leading `major`, `major.minor`, or `major.minor.patch` followed by
  * nothing or a `-suffix` (`12`, `5.7-alpine`, `8.4.3`). `latest`, a bare variant such as `alpine`, and anything
  * else carry no version and are never matched. A partial version admits every release it prefixes, so it matches
  * a rule only when the rule's VERS range contains both ends of that span: `postgres:12` matches a PostgreSQL 12
  * rule, `mysql:5` matches no MySQL 5.7 rule. A rule whose VERS is malformed never matches and does not hide a
- * later rule. Nothing is executed and nothing is fetched.
+ * later rule. A version attribute that is a variable, call, or interpolation is listed as unclassified, never
+ * guessed. Nothing is executed and nothing is fetched.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -41,6 +46,11 @@ const PRODUCT_PURLS: Readonly<Record<string, string>> = {
   mariadb: "pkg:generic/mariadb",
   redis: "pkg:generic/redis",
   mongo: "pkg:generic/mongodb",
+  "azure-database-postgresql": "pkg:generic/azure-database-postgresql",
+  "azure-database-mysql": "pkg:generic/azure-database-mysql",
+  "azure-database-mariadb": "pkg:generic/azure-database-mariadb",
+  "google-cloud-sql-postgresql": "pkg:generic/google-cloud-sql-postgresql",
+  "google-cloud-sql-mysql": "pkg:generic/google-cloud-sql-mysql",
 };
 
 async function databaseFiles(root: string): Promise<string[]> {
@@ -128,6 +138,7 @@ export class DatabaseDetector implements Detector {
 
     const byPurl = rulesByPurl(await this.loadRules());
     const findings: DetectorFinding[] = [];
+    const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
     const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
       findings.push({
         id: `${rule.id}:${path}:${line}`,
@@ -159,8 +170,17 @@ export class DatabaseDetector implements Detector {
           if (rule) report(rule, path, declaration.line, `${path} runs ${declaration.product}:${declaration.value}. ${rule.summary}`);
         }
       } else {
-        for (const declaration of parseDatabaseTerraform(contents)) {
-          const purl = purlFor(declaration.engine);
+        const parsed = parseDatabaseTerraform(contents);
+        for (const declaration of parsed.unclassified) {
+          unclassified.push({
+            component: declaration.resource,
+            reference: declaration.value,
+            reason: `the ${declaration.attribute} on ${declaration.name} is not a literal string, so Evergreen does not evaluate it`,
+            location: { path, line: declaration.line },
+          });
+        }
+        for (const declaration of parsed.declarations) {
+          const purl = purlFor(declaration.product);
           const rule = purl === undefined ? undefined : ruleForDeclared(byPurl.get(purl) ?? [], declaration.value);
           if (rule) {
             report(rule, path, declaration.line, `${path} sets ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
@@ -173,7 +193,11 @@ export class DatabaseDetector implements Detector {
       if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
       return (left.location.line ?? 0) - (right.location.line ?? 0) || left.id.localeCompare(right.id);
     });
-    return { findings, unclassified: [] };
+    unclassified.sort((left, right) => {
+      if (left.location.path !== right.location.path) return left.location.path < right.location.path ? -1 : 1;
+      return (left.location.line ?? 0) - (right.location.line ?? 0) || left.reference.localeCompare(right.reference);
+    });
+    return { findings, unclassified };
   }
 }
 

@@ -83,6 +83,8 @@ test("database passes detector conformance on every fixture", async () => {
   const rules = await committedRules();
   const postgres = rules.find((item) => item.id === "database.postgresql.end-of-life-12")!;
   const mysql = rules.find((item) => item.id === "database.mysql.end-of-life-5.7")!;
+  const azurePostgres = rules.find((item) => item.id === "database.azure-postgresql.standard-support-ended-11-to-13")!;
+  const googleMysql = rules.find((item) => item.id === "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7")!;
   await runDetectorConformance({
     detector: databaseDetector,
     fixtures: [
@@ -99,6 +101,17 @@ test("database passes detector conformance on every fixture", async () => {
         root: await repository({ "main.tf": await readFile(resolve(fixtures, "positive/main.tf"), "utf8") }),
         expectedFindings: [
           expected(postgres, "main.tf", 4, `main.tf sets aws_db_instance.orders engine postgres 12.22. ${postgres.summary}`),
+        ],
+      },
+      {
+        name: "database positive azure and google cloud terraform",
+        root: await repository({
+          "azure.tf": 'resource "azurerm_postgresql_flexible_server" "db" {\n  version = "12"\n}\n',
+          "google.tf": 'resource "google_sql_database_instance" "db" {\n  database_version = "MYSQL_5_7"\n}\n',
+        }),
+        expectedFindings: [
+          expected(azurePostgres, "azure.tf", 2, `azure.tf sets azurerm_postgresql_flexible_server.db engine postgres 12. ${azurePostgres.summary}`),
+          expected(googleMysql, "google.tf", 2, `google.tf sets google_sql_database_instance.db engine mysql 5.7. ${googleMysql.summary}`),
         ],
       },
     ],
@@ -183,6 +196,55 @@ test("a rule with an unreadable Package URL is skipped", async () => {
 test("scanRepository attributes findings to the database detector", async () => {
   const result = await scanRepository(await repository({ "compose.yaml": "services:\n  db:\n    image: postgres:12\n" }), builtInDetectors);
   assert.ok(result.findings.some((finding) => finding.detector === "database" && finding.ruleId === "database.postgresql.end-of-life-12"));
+});
+
+test("Azure and Google Cloud resources use their vendor rules, while AWS uses the upstream engine rules", async () => {
+  const findings = await databaseDetector.scan({
+    root: await repository({
+      "main.tf": [
+        'resource "azurerm_postgresql_flexible_server" "azure" {',
+        '  version = "12"',
+        "}",
+        'resource "google_sql_database_instance" "google" {',
+        '  database_version = "POSTGRES_12"',
+        "}",
+        'resource "aws_db_instance" "aws" {',
+        '  engine         = "postgres"',
+        '  engine_version = "12.22"',
+        "}",
+        "",
+      ].join("\n"),
+    }),
+  });
+  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.ruleId]), [
+    [2, "database.azure-postgresql.standard-support-ended-11-to-13"],
+    [5, "database.google-cloud-sql-postgresql.extended-support-9.6-to-12"],
+    [9, "database.postgresql.end-of-life-12"],
+  ]);
+});
+
+test("variables in Azure and Google Cloud version attributes are unclassified, not findings", async () => {
+  const analysis = await databaseDetector.analyze({
+    root: await repository({
+      "main.tf": [
+        'resource "azurerm_postgresql_flexible_server" "pg" {',
+        "  version = var.pg_version",
+        "}",
+        'resource "google_sql_database_instance" "db" {',
+        "  database_version = local.database_version",
+        "}",
+        "",
+      ].join("\n"),
+    }),
+  });
+  assert.deepEqual(analysis.findings, []);
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.component, item.reference, item.location.path, item.location.line, item.reason]),
+    [
+      ["azurerm_postgresql_flexible_server", "var.pg_version", "main.tf", 2, "the version on pg is not a literal string, so Evergreen does not evaluate it"],
+      ["google_sql_database_instance", "local.database_version", "main.tf", 5, "the database_version on db is not a literal string, so Evergreen does not evaluate it"],
+    ],
+  );
 });
 
 test("ignores vendored directories, fixture directories, and a repository without Compose or Terraform files", async () => {

@@ -68,6 +68,11 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## database
 
+- [Azure Database for MySQL 5.7 is past standard support](database.azure-mysql.standard-support-ended-5.7.html) — end of support, `database.azure-mysql.standard-support-ended-5.7`
+- [Azure Database for PostgreSQL 11, 12, and 13 are past standard support](database.azure-postgresql.standard-support-ended-11-to-13.html) — end of support, `database.azure-postgresql.standard-support-ended-11-to-13`
+- [Cloud SQL for MySQL 5.6 and 5.7 are in extended support](database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html) — end of support, `database.google-cloud-sql-mysql.extended-support-5.6-to-5.7`
+- [Cloud SQL for PostgreSQL 13 is in extended support](database.google-cloud-sql-postgresql.extended-support-13.html) — end of support, `database.google-cloud-sql-postgresql.extended-support-13`
+- [Cloud SQL for PostgreSQL 9.6 through 12 are in extended support](database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html) — end of support, `database.google-cloud-sql-postgresql.extended-support-9.6-to-12`
 - [MySQL 5.7 is end-of-life](database.mysql.end-of-life-5.7.html) — end of life, `database.mysql.end-of-life-5.7`
 - [MySQL 8.0 is end-of-life](database.mysql.end-of-life-8.0.html) — end of life, `database.mysql.end-of-life-8.0`
 - [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html) — end of life, `database.postgresql.end-of-life-11`

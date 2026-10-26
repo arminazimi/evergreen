@@ -45,6 +45,11 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.12.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.8.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.9.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-13.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-5.7.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-11.html</loc><lastmod>2026-10-22</lastmod></url>
