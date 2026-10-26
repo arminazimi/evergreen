@@ -65,7 +65,7 @@ Usage:
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
-  evergreen guard npm install <package>... [--fail-on <severity|none>] [--force]   # check first; run npm only when allowed
+  evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm
   evergreen usage [--file <path>] [--json]
   evergreen mcp
   evergreen data status [--json]

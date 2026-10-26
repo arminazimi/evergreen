@@ -19,11 +19,16 @@ export interface GuardPackage {
   spec: string;
 }
 
-/** One package-manager invocation, with package arguments kept apart from the fixed ones. */
+/** One raw package-manager argument, marked when it is a registry package to check. */
+export interface GuardArgument {
+  value: string;
+  package?: GuardPackage;
+}
+
+/** One package-manager invocation, with its arguments kept in the order the user wrote them. */
 export interface GuardRequest {
   command: string;
-  args: string[];
-  packages: GuardPackage[];
+  arguments: GuardArgument[];
   /** Let the platform shell resolve the command; npm.cmd needs it on Windows. */
   shell?: boolean;
 }
@@ -72,6 +77,46 @@ export interface ParsedGuard {
 const severityRank = new Map(severityValues.map((severity, index) => [severity, index]));
 const npmInstallCommands = new Set(["install", "i", "add"]);
 const npmName = /^(?:@[A-Za-z0-9._~-]+\/)?[A-Za-z0-9._~-]+$/;
+const npmVersion = /^[A-Za-z0-9._~^<>=*|+ -]+$/;
+const npmValueFlags = new Set([
+  "-w",
+  "--workspace",
+  "--prefix",
+  "--tag",
+  "--cache",
+  "--loglevel",
+  "--registry",
+  "--userconfig",
+  "--globalconfig",
+  "--location",
+  "--save-prefix",
+  "--omit",
+  "--include",
+  "--install-strategy",
+  "--also",
+  "--os",
+  "--cpu",
+  "--libc",
+  "--scope",
+  "--before",
+  "--auth-type",
+  "--ca",
+  "--cafile",
+  "--cert",
+  "--key",
+  "--fetch-retries",
+  "--fetch-retry-factor",
+  "--fetch-retry-mintimeout",
+  "--fetch-retry-maxtimeout",
+  "--fetch-timeout",
+  "--maxsockets",
+  "--proxy",
+  "--https-proxy",
+  "--noproxy",
+  "--script-shell",
+  "--node-options",
+  "--user-agent",
+]);
 
 /** Whether an affected check is severe enough for the gate. */
 export function blocksInstall(check: DependencyCheck, failOn: GuardGate = "high"): boolean {
@@ -103,13 +148,21 @@ export async function checkGuardPackages(packages: readonly GuardPackage[], opti
 }
 
 function runPackageManager(request: GuardRequest): number {
-  const result = spawnSync(request.command, [...request.args, ...request.packages.map((entry) => entry.spec)], {
-    stdio: "inherit",
-    windowsHide: true,
-    ...(request.shell === true ? { shell: true } : {}),
-  });
+  const result = spawnSync(
+    request.command,
+    request.arguments.map((argument) => argument.value),
+    {
+      stdio: "inherit",
+      windowsHide: true,
+      ...(request.shell === true ? { shell: true } : {}),
+    },
+  );
   if (result.error) throw result.error;
   return result.status ?? 1;
+}
+
+function requestPackages(request: GuardRequest): GuardPackage[] {
+  return request.arguments.flatMap((argument) => (argument.package === undefined ? [] : [argument.package]));
 }
 
 function packageLabel(entry: GuardCheck): string {
@@ -129,21 +182,23 @@ function renderCheck(entry: GuardCheck): string[] {
   ]);
 }
 
+function commandLine(request: GuardRequest): string {
+  return [request.command, ...request.arguments.map((argument) => argument.value)].join(" ");
+}
+
 function renderRefusal(request: GuardRequest, blockers: readonly GuardCheck[], failOn: GuardGate): string {
-  const command = [request.command, ...request.args].join(" ");
   return [
-    `evergreen guard: refused to run \`${command}\`.`,
+    `evergreen guard: refused to run \`${commandLine(request)}\`.`,
     "",
     ...blockers.flatMap(renderCheck),
     "",
-    `The install was not run (--fail-on ${failOn}). Review the replacement above, then repeat the command with --force to override.`,
+    `The install was not run (--fail-on ${failOn}). Review the replacement above, then repeat the command with --force before npm to override.`,
   ].join("\n");
 }
 
 function renderOverride(request: GuardRequest, blockers: readonly GuardCheck[]): string {
-  const command = [request.command, ...request.args].join(" ");
   return [
-    `evergreen guard: running \`${command}\` anyway because --force was given.`,
+    `evergreen guard: running \`${commandLine(request)}\` anyway because --force was given.`,
     "",
     ...blockers.flatMap(renderCheck),
   ].join("\n");
@@ -154,7 +209,7 @@ function renderOverride(request: GuardRequest, blockers: readonly GuardCheck[]):
  * The lookup and the runner are injectable so hosts and tests can reuse the policy without a subprocess.
  */
 export async function runGuard(request: GuardRequest, options: GuardOptions = {}): Promise<GuardResult> {
-  const checks = await checkGuardPackages(request.packages, options);
+  const checks = await checkGuardPackages(requestPackages(request), options);
   const decision = evaluateGuard(checks, options);
   if (!decision.allowed) {
     const output = renderRefusal(request, decision.blockers, options.failOn ?? "high");
@@ -195,7 +250,7 @@ function splitNpmSpec(spec: string): { name: string; version?: string } | undefi
     version = at === -1 ? undefined : spec.slice(at + 1);
   }
   if (!npmName.test(name)) return undefined;
-  if (version !== undefined && (version === "" || version.includes("/") || version.startsWith("npm:"))) return undefined;
+  if (version !== undefined && (version === "" || version.includes("/") || version.startsWith("npm:") || !npmVersion.test(version))) return undefined;
   return { name, ...(version === undefined ? {} : { version }) };
 }
 
@@ -213,30 +268,58 @@ export function parseNpmPackage(spec: string): GuardPackage | undefined {
 }
 
 /**
- * Parses the arguments after `npm`. Flags are forwarded to npm; local paths, URLs, and aliases are
- * forwarded unchecked. Registry package specs are judged before npm is called.
+ * Parses the arguments after `npm`. Every raw argument stays in its original position. Flags are
+ * forwarded to npm, and the value after a known value-taking flag is never treated as a package.
+ * Local paths, URLs, aliases, and everything after a bare `--` are forwarded unchecked. Registry
+ * package specs are judged before npm is called.
  */
 export function parseNpmInstall(args: readonly string[]): GuardRequest {
   const [subcommand, ...rest] = args;
   if (subcommand === undefined || !npmInstallCommands.has(subcommand)) {
     throw new GuardUsageError(`Expected \`npm install\`; got \`npm ${subcommand ?? ""}\`.`);
   }
-  const requestArgs = ["install"];
-  const packages: GuardPackage[] = [];
-  for (const argument of rest) {
-    const entry = argument.startsWith("-") ? undefined : parseNpmPackage(argument);
-    if (entry === undefined) requestArgs.push(argument);
-    else packages.push(entry);
+
+  const argumentsList: GuardArgument[] = [{ value: "install" }];
+  let afterTerminator = false;
+  for (let index = 0; index < rest.length; index += 1) {
+    const argument = rest[index]!;
+    if (afterTerminator) {
+      argumentsList.push({ value: argument });
+      continue;
+    }
+    if (argument === "--") {
+      argumentsList.push({ value: argument });
+      afterTerminator = true;
+      continue;
+    }
+    if (argument.startsWith("-")) {
+      argumentsList.push({ value: argument });
+      if (npmValueFlags.has(argument)) {
+        const value = rest[index + 1];
+        if (value !== undefined) {
+          argumentsList.push({ value });
+          index += 1;
+        }
+      }
+      continue;
+    }
+    const entry = parseNpmPackage(argument);
+    argumentsList.push(entry === undefined ? { value: argument } : { value: argument, package: entry });
   }
-  return { command: "npm", args: requestArgs, packages, ...(process.platform === "win32" ? { shell: true } : {}) };
+
+  return { command: "npm", arguments: argumentsList, ...(process.platform === "win32" ? { shell: true } : {}) };
 }
 
-/** Parses `evergreen guard <manager> <command>...` into a request plus the gate and override. */
+/**
+ * Parses `evergreen guard [options] <manager> <command>...`. Evergreen consumes `--fail-on`,
+ * `--force`, and `--data-version` only before the manager token; anything after it, including
+ * `--force`, belongs to the package manager.
+ */
 export function parseGuardArgs(args: readonly string[]): ParsedGuard {
-  const managerArgs: string[] = [];
   let failOn: GuardGate = "high";
   let override = false;
-  for (let index = 0; index < args.length; index += 1) {
+  let index = 0;
+  for (; index < args.length; index += 1) {
     const argument = args[index]!;
     if (argument === "--fail-on") {
       const value = args[index + 1];
@@ -247,15 +330,21 @@ export function parseGuardArgs(args: readonly string[]): ParsedGuard {
       index += 1;
     } else if (argument === "--force") {
       override = true;
+    } else if (argument === "--data-version") {
+      const value = args[index + 1];
+      if (value === undefined || value.startsWith("-")) {
+        throw new GuardUsageError('--data-version needs a version, for example 2026.10.01, or "bundled".');
+      }
+      index += 1;
     } else {
-      managerArgs.push(argument);
+      break;
     }
   }
 
-  const [manager] = managerArgs;
+  const manager = args[index];
   if (manager === undefined) throw new GuardUsageError("Missing package manager. Use `evergreen guard npm install <package>...`.");
   if (manager !== "npm") throw new GuardUsageError(`Unsupported package manager "${manager}". Today only npm is supported.`);
-  return { request: parseNpmInstall(managerArgs.slice(1)), failOn, override };
+  return { request: parseNpmInstall(args.slice(index + 1)), failOn, override };
 }
 
 /** The CLI entry point: parse, check, and run the package manager only when allowed. */
