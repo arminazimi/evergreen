@@ -258,6 +258,144 @@ export function renderCodeQuality(result: ScanResult): string {
   return JSON.stringify(issues, null, 2);
 }
 
+/** The most findings a chat or webhook message lists. The rest are counted, not listed, so one message stays small. */
+export const CHAT_MAX_FINDINGS = 20;
+/** Slack's documented limit for the text of one section block, in characters. */
+const SLACK_SECTION_MAX = 3000;
+
+/** The findings most severe first, in the same order `--format compact` uses. */
+function sortedFindings(result: ScanResult): Finding[] {
+  return [...result.findings].sort((left, right) => severityRank(right.severity) - severityRank(left.severity) || findingOrder(left, right));
+}
+
+/** One line of counts, such as "Evergreen: 3 findings (high 2, low 1)". It names no path and no time, so it is deterministic. */
+function chatHeadline(findings: Finding[]): string {
+  if (findings.length === 0) return "Evergreen: no lifecycle risks found";
+  const counts = severityValues
+    .slice()
+    .reverse()
+    .map((severity) => [severity, findings.filter((finding) => finding.severity === severity).length] as const)
+    .filter(([, count]) => count > 0)
+    .map(([severity, count]) => `${severity} ${count}`);
+  return `Evergreen: ${findings.length} finding${findings.length === 1 ? "" : "s"} (${counts.join(", ")})`;
+}
+
+function findingLocation(finding: Finding): string {
+  return finding.location.line ? `${finding.location.path}:${finding.location.line}` : finding.location.path;
+}
+
+function clip(text: string, max: number): string {
+  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+}
+
+/** Slack mrkdwn treats `&`, `<` and `>` as control characters, so only those three are escaped. */
+function escapeSlack(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/**
+ * Renders a scan as a Slack incoming-webhook message: a header, a counts summary, and one section per finding, most
+ * severe first, capped at {@link CHAT_MAX_FINDINGS}. The top-level `text` is the fallback Slack shows in notifications.
+ * It only renders the payload; nothing is sent.
+ */
+export function renderSlack(result: ScanResult): string {
+  const findings = sortedFindings(result);
+  const headline = chatHeadline(findings);
+  const blocks: Record<string, unknown>[] = [
+    { type: "header", text: { type: "plain_text", text: "Evergreen lifecycle scan", emoji: false } },
+    { type: "section", text: { type: "mrkdwn", text: escapeSlack(headline) } },
+    ...findings.slice(0, CHAT_MAX_FINDINGS).map((finding) => ({
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: clip(
+          escapeSlack(
+            `*${finding.severity}* ${finding.title}\n${findingLocation(finding)}\n${finding.summary}` +
+              (finding.replacement ? `\nReplacement: ${finding.replacement}` : ""),
+          ),
+          SLACK_SECTION_MAX,
+        ),
+      },
+    })),
+  ];
+  const omitted = findings.length - CHAT_MAX_FINDINGS;
+  if (omitted > 0) {
+    blocks.push({ type: "context", elements: [{ type: "mrkdwn", text: escapeSlack(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`) }] });
+  }
+  return JSON.stringify({ text: headline, blocks }, null, 2);
+}
+
+/**
+ * Renders a scan as a Microsoft Teams message: an Adaptive Card (version 1.4, which Teams workflow webhooks accept)
+ * with a header, a counts summary, and one block per finding, capped at {@link CHAT_MAX_FINDINGS}. Finding text goes
+ * through {@link escapeMarkdown} because Adaptive TextBlocks render Markdown. It only renders the payload; nothing is sent.
+ */
+export function renderTeams(result: ScanResult): string {
+  const findings = sortedFindings(result);
+  const body: Record<string, unknown>[] = [
+    { type: "TextBlock", text: "Evergreen lifecycle scan", weight: "Bolder", size: "Medium", wrap: true },
+    { type: "TextBlock", text: escapeMarkdown(chatHeadline(findings)), wrap: true },
+    ...findings.slice(0, CHAT_MAX_FINDINGS).flatMap((finding) => [
+      {
+        type: "TextBlock",
+        text: escapeMarkdown(`${finding.severity}: ${finding.title} (${findingLocation(finding)})`),
+        weight: "Bolder",
+        wrap: true,
+        separator: true,
+      },
+      { type: "TextBlock", text: escapeMarkdown(finding.summary), wrap: true, isSubtle: true, spacing: "None" },
+    ]),
+  ];
+  const omitted = findings.length - CHAT_MAX_FINDINGS;
+  if (omitted > 0) {
+    body.push({ type: "TextBlock", text: escapeMarkdown(`${omitted} more finding${omitted === 1 ? "" : "s"} omitted; use --format json for all.`), wrap: true, isSubtle: true });
+  }
+  const message = {
+    type: "message",
+    attachments: [
+      {
+        contentType: "application/vnd.microsoft.card.adaptive",
+        contentUrl: null,
+        content: { $schema: "http://adaptivecards.io/schemas/adaptive-card.json", type: "AdaptiveCard", version: "1.4", body },
+      },
+    ],
+  };
+  return JSON.stringify(message, null, 2);
+}
+
+/** The schema tag of the generic webhook payload. Consumers can check it before reading the rest. */
+export const WEBHOOK_SCHEMA_VERSION = "evergreen.webhook.v1";
+
+/**
+ * Renders a scan as a generic webhook payload for any system that accepts JSON: the schema tag, the scan time, a count
+ * per severity (zeros included, so the shape never changes), and every finding with its rule, location, replacement,
+ * deadline, and evidence. Findings are ordered like the other machine-readable reporters, so the same scan always renders the same bytes.
+ */
+export function renderWebhook(result: ScanResult): string {
+  const findings = sortedFindings(result);
+  const payload = {
+    schemaVersion: WEBHOOK_SCHEMA_VERSION,
+    source: "evergreen",
+    scannedAt: result.scannedAt,
+    summary: {
+      findings: findings.length,
+      bySeverity: Object.fromEntries(severityValues.map((severity) => [severity, findings.filter((finding) => finding.severity === severity).length])),
+    },
+    findings: findings.map((finding) => ({
+      id: finding.id,
+      ruleId: finding.ruleId,
+      severity: finding.severity,
+      title: finding.title,
+      summary: finding.summary,
+      location: finding.location,
+      ...(finding.replacement ? { replacement: finding.replacement } : {}),
+      ...(finding.deadline ? { deadline: finding.deadline } : {}),
+      sources: finding.sources,
+    })),
+  };
+  return JSON.stringify(payload, null, 2);
+}
+
 const HTML_ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 
 /** Escapes a value for HTML text or a quoted attribute. Every value in the HTML report goes through this. */
