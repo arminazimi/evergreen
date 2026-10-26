@@ -284,13 +284,22 @@ function findingLocation(finding: Finding): string {
   return finding.location.line ? `${finding.location.path}:${finding.location.line}` : finding.location.path;
 }
 
-function clip(text: string, max: number): string {
-  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
-}
-
 /** Slack mrkdwn treats `&`, `<` and `>` as control characters, so only those three are escaped. */
 function escapeSlack(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/**
+ * Escapes `text` for a Slack section of at most `max` characters, ending in "…" when it is cut. The cut is made on the
+ * raw text and the result is escaped afterwards, so it never splits an entity such as `&amp;` in half.
+ */
+function clipSlack(text: string, max: number): string {
+  const escaped = escapeSlack(text);
+  if (escaped.length <= max) return escaped;
+  // Escaping only grows text, so the kept prefix is at most max - 1 raw characters; shrink until it and "…" fit.
+  let end = Math.min(text.length, max - 1);
+  while (escapeSlack(text.slice(0, end)).length + 1 > max) end--;
+  return `${escapeSlack(text.slice(0, end))}…`;
 }
 
 /**
@@ -308,11 +317,9 @@ export function renderSlack(result: ScanResult): string {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: clip(
-          escapeSlack(
-            `*${finding.severity}* ${finding.title}\n${findingLocation(finding)}\n${finding.summary}` +
-              (finding.replacement ? `\nReplacement: ${finding.replacement}` : ""),
-          ),
+        text: clipSlack(
+          `*${finding.severity}* ${finding.title}\n${findingLocation(finding)}\n${finding.summary}` +
+            (finding.replacement ? `\nReplacement: ${finding.replacement}` : ""),
           SLACK_SECTION_MAX,
         ),
       },

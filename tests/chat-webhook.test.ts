@@ -55,6 +55,16 @@ test("Slack payload escapes control characters and clips long section text", () 
   assert.ok(text.endsWith("…"));
 });
 
+test("Slack clipping never leaves a partial entity at the cut", () => {
+  for (const character of ["<", "&"]) {
+    const payload = JSON.parse(renderSlack(scan([finding("npm.package.request.deprecated", "package.json", 1, "high", character.repeat(4000))])));
+    const text: string = payload.blocks[2].text.text;
+    assert.ok(text.length <= 3000, `${character}: ${text.length} characters`);
+    assert.ok(text.endsWith("…"));
+    assert.ok(text.slice(0, -1).endsWith(";"), `${character}: cut ends in ${JSON.stringify(text.slice(-12))}`);
+  }
+});
+
 test("Slack payload for an empty scan still has a header and a summary", () => {
   const payload = JSON.parse(renderSlack(scan([])));
   assert.equal(payload.text, "Evergreen: no lifecycle risks found");
