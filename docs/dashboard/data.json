@@ -272,7 +272,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 12,
-        "expectedFindings": 71,
+        "expectedFindings": 72,
         "zeroFindingRepositories": 2,
         "repositories": 17,
         "blindRepositories": 12

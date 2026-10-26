@@ -56,6 +56,8 @@ Blind (rule below): `kelseyhightower/kubernetes-cluster-federation` (extensions/
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Kubernetes ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a migration commit for the finding, so none is cited. The rules' dates and removal releases come from the Kubernetes migration guide, not from these repositories. A run of `npm run validate:public-repos -- --ecosystem kubernetes` on 2026-10-23 over the seventeen Kubernetes entries reported no false positives or false negatives, with 67 expected `kubernetes` findings, all true.
 
+**Correction (blind ground truth).** The `FairwindsOps/pluto` entry was missing one expected finding: `e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml` line 3, an `extensions/v1beta1 Deployment` inside a `kind: List` document. The first corpus run with the `kind: List` parser reported it as unexpected. A re-read of the pinned file confirmed it is a real removed API, so the expected list was extended after that run, and this paragraph records the change. The earlier count of 67 expected `kubernetes` findings predates this correction.
+
 ## Kubernetes blind selection
 
 The five earliest Kubernetes repositories were chosen knowing their result, so each records `selection: "targeted"`; the twelve below record `selection: "blind"`.
