@@ -57,12 +57,12 @@ Trust rules that apply to every change:
 | Path | Regenerate with |
 |---|---|
 | `plugins/claude/`, `plugins/codex/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` | `npm run build:plugins` (source: `skills/`) |
-| `dist/action/index.js` | `npm run build:action` |
+| `dist/action/index.js` | `npm run build:action` (release pull request only; ordinary pull requests must not commit it) |
 | `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`) |
 | `docs/rules/` | `npm run build:reference` (source: `registry/*.json`) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
-CI fails when generated output drifts from its source.
+CI fails when generated output drifts from its source. The exception is `dist/action/index.js`: it is one minified bundle that every merge rewrites, so parallel pull requests always conflict on it. Only the `chore: release` pull request regenerates and commits it (`EVERGREEN_VERIFY_ACTION_BUNDLE=1 npm run check` verifies it). If your branch conflicts on it, run `git checkout origin/main -- dist/action/index.js`.
 
 ## Working on an issue
 

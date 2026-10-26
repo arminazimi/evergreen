@@ -70,6 +70,13 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`
 - [PostgreSQL 14 reaches the end of its support on 2026-11-12](database.postgresql.end-of-life-14.html) — scheduled end of life, `database.postgresql.end-of-life-14`
 
+## deno
+
+- [Bun 0.x pre-release is end-of-life](deno.bun.runtime.eol-0.x.html) — end of life, `deno.bun.runtime.eol-0.x`
+- [Bun 1.0.x is end-of-life](deno.bun.runtime.eol-1.0.html) — end of life, `deno.bun.runtime.eol-1.0`
+- [Deno 0.x pre-release is end-of-life](deno.runtime.eol-0.x.html) — end of life, `deno.runtime.eol-0.x`
+- [Deno 1.x is end-of-life](deno.runtime.eol-1.x.html) — end of life, `deno.runtime.eol-1.x`
+
 ## dotnet
 
 - [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-documentdb.deprecated`
@@ -142,6 +149,9 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j](java.maven.mysql.mysql-connector-java.relocated.html) — deprecated, `java.maven.mysql.mysql-connector-java.relocated`
 - [org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager](java.maven.org.hibernate.hibernate-entitymanager.relocated.html) — deprecated, `java.maven.org.hibernate.hibernate-entitymanager.relocated`
 - [org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j](java.maven.org.slf4j.slf4j-log4j12.relocated.html) — deprecated, `java.maven.org.slf4j.slf4j-log4j12.relocated`
+- [Spring Boot 1.x is out of open-source support](java.maven.spring-boot.legacy-1x.end-of-support.html) — end of support, `java.maven.spring-boot.legacy-1x.end-of-support`
+- [Spring Boot 2.x is out of open-source support](java.maven.spring-boot.legacy-2x.end-of-support.html) — end of support, `java.maven.spring-boot.legacy-2x.end-of-support`
+- [Spring Boot 3.x is out of open-source support](java.maven.spring-boot.legacy-3x.end-of-support.html) — end of support, `java.maven.spring-boot.legacy-3x.end-of-support`
 
 ## kubernetes
 

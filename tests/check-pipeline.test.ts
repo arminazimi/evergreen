@@ -34,6 +34,7 @@ test("check runs the action build, tests, plugin drift, and plugin eval together
   const done = runCheck({
     stagingDir,
     nccCli: "ncc.js",
+    verifyActionBundle: true,
     publish: async (directory) => {
       events.push(`publish:${directory}`);
     },
@@ -72,6 +73,7 @@ test("a broken test fails check and leaves the action bundle unpublished", async
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        verifyActionBundle: true,
         publish: async () => {
           published = true;
         },
@@ -82,12 +84,31 @@ test("a broken test fails check and leaves the action bundle unpublished", async
   assert.equal(published, false);
 });
 
+test("an ordinary pull request builds the action bundle but neither publishes nor diffs it", async () => {
+  const steps: string[] = [];
+  let published = false;
+  await runCheck({
+    stagingDir: "action-staging",
+    nccCli: "ncc.js",
+    verifyActionBundle: false,
+    publish: async () => {
+      published = true;
+    },
+    run: async (_command, args) => {
+      steps.push(stepName(args));
+    },
+  });
+  assert.deepEqual(steps.sort(), ["build:action", "check:plugins", "eval:plugins", "test"]);
+  assert.equal(published, false);
+});
+
 test("plugin drift fails check", async () => {
   await assert.rejects(
     () =>
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        verifyActionBundle: true,
         publish: async () => {},
         run: failingRunner("check:plugins", "Plugin package drift detected"),
       }),
@@ -102,6 +123,7 @@ test("a stale action bundle fails check after the staged bundle is published", a
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        verifyActionBundle: true,
         publish: async () => {
           published = true;
         },
@@ -120,6 +142,7 @@ test("a failed action build does not publish the bundle or diff it", async () =>
       runCheck({
         stagingDir: "action-staging",
         nccCli: "ncc.js",
+        verifyActionBundle: true,
         publish: async () => {
           published = true;
         },

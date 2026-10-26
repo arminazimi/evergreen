@@ -1,0 +1,48 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.12.3",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "aws_db_instance.legacy_db",
+          "mode": "managed",
+          "type": "aws_db_instance",
+          "name": "legacy_db",
+          "provider_name": "registry.terraform.io/hashicorp/aws",
+          "schema_version": 1,
+          "values": {
+            "engine": "postgres",
+            "engine_version": "12.22"
+          }
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "aws_db_instance.legacy_db",
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "legacy_db",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {
+          "engine": "postgres",
+          "engine_version": "12.22"
+        }
+      }
+    }
+  ],
+  "configuration": {
+    "provider_config": {
+      "aws": {
+        "name": "aws",
+        "full_name": "registry.terraform.io/hashicorp/aws",
+        "version_constraint": "4.67.0"
+      }
+    }
+  }
+}
