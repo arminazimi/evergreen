@@ -49,6 +49,7 @@ const DIAGNOSTIC_SEVERITY: Record<Severity, number> = {
 const MESSAGE_TYPE = { error: 1, warning: 2, info: 3, log: 4 } as const;
 
 const TEXT_DOCUMENT_SYNC_FULL = 1;
+const MAX_HEADER_BYTES = 8192;
 
 interface OpenDocument {
   uri: string;
@@ -230,7 +231,13 @@ export class EvergreenLanguageServer {
       timer: undefined,
       latestScan: Promise.resolve(),
     };
+    const previous = this.documents.get(uri);
     this.documents.set(uri, document);
+    if (previous) {
+      void this.retire(previous).catch((error: unknown) => {
+        this.log(`Evergreen language server: retiring ${previous.uri} failed: ${errorMessage(error)}`);
+      });
+    }
     this.schedule(document, true);
   }
 
@@ -262,14 +269,18 @@ export class EvergreenLanguageServer {
     const uri = stringField(textDocument, "uri");
     const document = uri ? this.documents.get(uri) : undefined;
     if (!document || !uri) return;
-    this.cancel(document);
-    document.generation += 1;
     this.documents.delete(uri);
     this.write({
       jsonrpc: "2.0",
       method: "textDocument/publishDiagnostics",
       params: { uri, diagnostics: [] },
     });
+    await this.retire(document);
+  }
+
+  private async retire(document: OpenDocument): Promise<void> {
+    this.cancel(document);
+    document.generation += 1;
     await document.latestScan;
     if (document.scanRoot) await rm(document.scanRoot, { recursive: true, force: true });
   }
@@ -375,7 +386,7 @@ export class EvergreenLanguageServer {
   }
 
   private async scanDocument(document: OpenDocument): Promise<void> {
-    if (this.disposed) return;
+    if (this.disposed || this.documents.get(document.uri) !== document) return;
     const generation = document.generation + 1;
     document.generation = generation;
     const documentPath = this.documentPath(document.uri);
@@ -404,7 +415,7 @@ export class EvergreenLanguageServer {
     this.cancel(document);
     const run = (): void => {
       document.timer = undefined;
-      document.latestScan = this.scanDocument(document).catch((error: unknown) => {
+      document.latestScan = document.latestScan.then(() => this.scanDocument(document)).catch((error: unknown) => {
         this.log(`Evergreen language server: scanning ${document.uri} failed: ${errorMessage(error)}`);
       });
     };
@@ -523,7 +534,13 @@ export function readFramedMessages(
     buffer = Buffer.concat([buffer, typeof chunk === "string" ? Buffer.from(chunk, "utf8") : chunk]);
     for (;;) {
       const headerEnd = buffer.indexOf("\r\n\r\n");
-      if (headerEnd < 0) return;
+      if (headerEnd < 0) {
+        if (buffer.length > MAX_HEADER_BYTES) {
+          onError(new Error(`LSP message header exceeds ${MAX_HEADER_BYTES} bytes without a terminator.`));
+          buffer = Buffer.alloc(0);
+        }
+        return;
+      }
       const header = buffer.subarray(0, headerEnd).toString("ascii");
       const length = /(?:^|\r\n)content-length:\s*(\d+)/i.exec(header);
       if (!length) {

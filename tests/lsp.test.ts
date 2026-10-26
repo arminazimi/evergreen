@@ -410,6 +410,119 @@ test("debounces rapid changes and cancels the pending scan when the document clo
   }
 });
 
+test("serializes scans for one document", async () => {
+  const input = new PassThrough();
+  const output = new PassThrough();
+  const messages = new MessageCollector(output);
+  let active = 0;
+  let maximum = 0;
+  const server = startLanguageServer({
+    input,
+    output,
+    debounceMs: 0,
+    log: () => {},
+    scan: async (root) => {
+      active += 1;
+      maximum = Math.max(maximum, active);
+      try {
+        await new Promise((resolvePromise) => setTimeout(resolvePromise, 10));
+        return await scanRepository(root, builtInDetectors);
+      } finally {
+        active -= 1;
+      }
+    },
+  });
+
+  try {
+    send(input, { id: 1, method: "initialize", params: { rootUri: workflowRoot, capabilities: {} } });
+    await messages.waitFor((message) => message.id === 1);
+    send(input, { method: "initialized", params: {} });
+    const text = await readFile(legacyPath, "utf8");
+    send(input, {
+      method: "textDocument/didOpen",
+      params: { textDocument: { uri: legacyUri, languageId: "yaml", version: 1, text } },
+    });
+    await messages.waitFor(
+      (message) => message.method === "textDocument/publishDiagnostics" && diagnosticsOf(message).length === 2,
+    );
+
+    for (let version = 2; version <= 6; version += 1) {
+      send(input, {
+        method: "textDocument/didChange",
+        params: { textDocument: { uri: legacyUri, version }, contentChanges: [{ text }] },
+      });
+    }
+    await new Promise((resolvePromise) => setImmediate(resolvePromise));
+    await server.settled();
+    assert.equal(maximum, 1, "scans for one document never overlap");
+    assert.equal(active, 0);
+  } finally {
+    await server.dispose();
+    input.end();
+    output.end();
+  }
+});
+
+test("retires the previous document when the same uri is opened again", async () => {
+  const scanDirectories = async (): Promise<number> =>
+    (await readdir(tmpdir(), { withFileTypes: true })).filter(
+      (entry) => entry.isDirectory() && entry.name.startsWith("evergreen-lsp-"),
+    ).length;
+  const before = await scanDirectories();
+  const input = new PassThrough();
+  const output = new PassThrough();
+  const messages = new MessageCollector(output);
+  const server = startLanguageServer({ input, output, debounceMs: 0, log: () => {} });
+
+  try {
+    send(input, { id: 1, method: "initialize", params: { rootUri: workflowRoot, capabilities: {} } });
+    await messages.waitFor((message) => message.id === 1);
+    send(input, { method: "initialized", params: {} });
+    const text = await readFile(legacyPath, "utf8");
+    const updated = text.replace("actions/checkout@v4", "actions/checkout@v5");
+    send(input, {
+      method: "textDocument/didOpen",
+      params: { textDocument: { uri: legacyUri, languageId: "yaml", version: 1, text } },
+    });
+    await messages.waitFor(
+      (message) => message.method === "textDocument/publishDiagnostics" && params(message).version === 1,
+    );
+
+    send(input, {
+      method: "textDocument/didOpen",
+      params: { textDocument: { uri: legacyUri, languageId: "yaml", version: 2, text: updated } },
+    });
+    await messages.waitFor(
+      (message) => message.method === "textDocument/publishDiagnostics" && params(message).version === 2,
+    );
+    send(input, { method: "textDocument/didClose", params: { textDocument: { uri: legacyUri } } });
+    await messages.waitFor(
+      (message) => message.method === "textDocument/publishDiagnostics" && diagnosticsOf(message).length === 0,
+    );
+    await server.settled();
+
+    for (let attempt = 0; attempt < 100 && (await scanDirectories()) > before; attempt += 1) {
+      await new Promise((resolvePromise) => setTimeout(resolvePromise, 10));
+    }
+    assert.equal(await scanDirectories(), before, "no scan directory is left behind");
+
+    const published = messages.messages.filter(
+      (message) => message.method === "textDocument/publishDiagnostics" && params(message).uri === legacyUri,
+    );
+    const latestOpen = published.filter((message) => diagnosticsOf(message).length > 0).at(-1)!;
+    assert.equal(params(latestOpen).version, 2);
+    assert.deepEqual(
+      diagnosticsOf(latestOpen).map((diagnostic) => diagnostic.code),
+      ["github-actions.setup-node.node20"],
+    );
+    assert.equal(diagnosticsOf(published.at(-1)!).length, 0);
+  } finally {
+    await server.dispose();
+    input.end();
+    output.end();
+  }
+});
+
 test("logs scan failures and publishes no diagnostics", async () => {
   const failures: Array<unknown> = [new Error("engine exploded"), "engine exploded as text"];
 
@@ -586,6 +699,24 @@ test("exit without shutdown reports a failure", async () => {
   await server.dispose();
   input.end();
   output.end();
+});
+
+test("bounds a header without a terminator and keeps reading", async () => {
+  const stream = new PassThrough();
+  const received: Message[] = [];
+  const errors: string[] = [];
+  readFramedMessages(stream, (message) => received.push(message), (error) => errors.push(error.message));
+
+  stream.write(`Content-Length: 5\r\n${"x".repeat(9000)}`);
+  await new Promise((resolvePromise) => setImmediate(resolvePromise));
+  assert.equal(errors.length, 1);
+  assert.match(errors[0]!, /header exceeds 8192 bytes/);
+
+  const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method: "test" });
+  stream.write(`Content-Length: ${Buffer.byteLength(body)}\r\n\r\n${body}`);
+  await new Promise((resolvePromise) => setImmediate(resolvePromise));
+  assert.deepEqual(received, [{ jsonrpc: "2.0", id: 1, method: "test" }]);
+  stream.end();
 });
 
 test("reads Content-Length framed messages split across chunks and reports malformed frames", async () => {
