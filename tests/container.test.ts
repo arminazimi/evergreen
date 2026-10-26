@@ -87,7 +87,28 @@ test("container passes detector conformance on every fixture", async () => {
   });
 });
 
+
+test("Ubuntu and Debian codenames are resolved to release lines", async () => {
+  const root = await repository({
+    Dockerfile: "FROM ubuntu:bionic\nFROM debian:buster-slim\nFROM alpine:3.12\nFROM debian:10\nFROM ubuntu:18.04\nFROM ubuntu:focal\n",
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["container.ubuntu.eol-20.04-and-older", 1],
+      ["container.debian.eol-10-and-older", 2],
+      ["container.alpine.eol-3.17-and-older", 3],
+      ["container.debian.eol-10-and-older", 4],
+      ["container.ubuntu.eol-20.04-and-older", 5],
+      ["container.ubuntu.eol-20.04-and-older", 6],
+    ],
+  );
+  assert.deepEqual(analysis.unclassified, []);
+});
+
 test("dynamic, untagged, and floating references are reported as unclassified, never guessed", async () => {
+
   const analysis = await containerDetector.analyze({ root: resolve(fixtures, "negative") });
   assert.deepEqual(
     analysis.unclassified.map((item) => [item.location.path, item.location.line, item.reference]),

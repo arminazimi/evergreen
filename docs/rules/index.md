@@ -26,10 +26,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## container
 
+- [Alpine Linux image release lines 3.17 and older are end-of-life](container.alpine.eol-3.17-and-older.html) — end of life, `container.alpine.eol-3.17-and-older`
+- [Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09](container.alpine.eol-3.18.html) — scheduled end of life, `container.alpine.eol-3.18`
 - [Caddy image release lines 1 and older are end-of-life](container.caddy.eol-1-and-older.html) — end of life, `container.caddy.eol-1-and-older`
 - [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html) — end of life, `container.clickhouse.eol-26.2-and-older`
 - [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html) — end of life, `container.couchbase.eol-7.2-and-older`
 - [Apache CouchDB image release lines 3.3 and older are end-of-life](container.couchdb.eol-3.3-and-older.html) — end of life, `container.couchdb.eol-3.3-and-older`
+- [Debian image release lines 10 and older are end-of-life](container.debian.eol-10-and-older.html) — end of life, `container.debian.eol-10-and-older`
+- [Debian image release line 11 reaches LTS end-of-life on 2026-08-31](container.debian.eol-11.html) — scheduled end of life, `container.debian.eol-11`
 - [Drupal image release lines 10.5 and older are end-of-life](container.drupal.eol-10.5-and-older.html) — end of life, `container.drupal.eol-10.5-and-older`
 - [Go image release lines 1.25 and older are end-of-life](container.golang.eol-1.25-and-older.html) — end of life, `container.golang.eol-1.25-and-older`
 - [MariaDB image release lines 10.10 and older are end-of-life](container.mariadb.eol-10.10-and-older.html) — end of life, `container.mariadb.eol-10.10-and-older`
@@ -43,6 +47,8 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
 - [Traefik image release lines 3.6 and older are end-of-life](container.traefik.eol-3.6-and-older.html) — end of life, `container.traefik.eol-3.6-and-older`
+- [Ubuntu image release lines 20.04 and older are past standard support end-of-life](container.ubuntu.eol-20.04-and-older.html) — end of life, `container.ubuntu.eol-20.04-and-older`
+- [Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01](container.ubuntu.eol-22.04.html) — scheduled end of life, `container.ubuntu.eol-22.04`
 - [Apache ZooKeeper image release lines 3.7 and older are end-of-life](container.zookeeper.eol-3.7-and-older.html) — end of life, `container.zookeeper.eol-3.7-and-older`
 
 ## cpp
