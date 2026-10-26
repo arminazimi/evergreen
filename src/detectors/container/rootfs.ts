@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { lstat, readdir, readFile, realpath } from "node:fs/promises";
+import { lstat, readdir, readFile, realpath, stat } from "node:fs/promises";
 import { basename, isAbsolute, join, relative, sep } from "node:path";
 import { createGunzip } from "node:zlib";
 
@@ -76,7 +76,10 @@ function directorySource(root: string): RootfsSource {
     async read(entry) {
       try {
         const target = await realpath(join(root, ...entry.split("/")));
-        return insideRoot(root, target) ? await readFile(target, "utf8") : undefined;
+        if (!insideRoot(root, target)) return undefined;
+        const stats = await stat(target);
+        if (!stats.isFile() || stats.size > MAXIMUM_TEXT_BYTES) return undefined;
+        return await readFile(target, "utf8");
       } catch {
         return undefined;
       }
@@ -410,7 +413,14 @@ interface PendingEntry {
 async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | undefined> {
   const entries = new Map<string, ArchiveEntry>();
   const input = createReadStream(path);
-  const stream = /\.(?:tar\.gz|tgz)$/i.test(path) ? input.pipe(createGunzip()) : input;
+  const gunzip = /\.(?:tar\.gz|tgz)$/i.test(path) ? createGunzip() : undefined;
+  // pipe does not forward a source error; hand it to the iterator so an unreadable archive is skipped.
+  if (gunzip) {
+    input.once("error", (error) => {
+      if (!gunzip.destroyed) gunzip.destroy(error);
+    });
+  }
+  const stream = gunzip === undefined ? input : input.pipe(gunzip);
 
   let buffer = Buffer.alloc(0);
   let remaining = 0;

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -194,6 +194,23 @@ test("a malformed gzip archive is skipped without throwing", async () => {
   await writeFile(join(root, "image.tar.gz"), Buffer.from("not a gzip stream"));
   assert.deepEqual(await findRootfsSnapshots(root), []);
   assert.equal(await readRootfs(join(root, "image.tar.gz")), undefined);
+});
+
+test("an unreadable gzip archive is skipped without throwing", async (t) => {
+  if (process.platform === "win32" || process.getuid?.() === 0) {
+    t.skip("file permissions do not block the current user");
+    return;
+  }
+  const root = await temporaryDirectory();
+  const archive = join(root, "image.tar.gz");
+  await writeFile(archive, gzipSync(tar(await fixtureFiles())));
+  await chmod(archive, 0o000);
+  try {
+    assert.deepEqual(await findRootfsSnapshots(root), []);
+    assert.equal(await readRootfs(archive), undefined);
+  } finally {
+    await chmod(archive, 0o600);
+  }
 });
 
 test("Ruby is reported once when a versioned binary and a library directory both ship", async () => {

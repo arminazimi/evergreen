@@ -32,7 +32,7 @@ Runtimes come from these well-known paths:
 | PHP | `phpX.Y` or `phpXY` in `usr/bin` or `usr/local/bin` |
 | .NET | `usr/share/dotnet/shared/Microsoft.NETCore.App/X.Y.Z` or `usr/lib/dotnet/shared/Microsoft.NETCore.App/X.Y.Z` |
 
-Each runtime version uses the same rules as a Dockerfile `RUN` pin. Every installed version is reported, so an image that keeps two Python release lines gets a finding for each one a rule covers. A runtime with no end-of-life rule (for example Python 3.12) produces nothing.
+Each runtime version uses the same rules as a Dockerfile `RUN` pin. Installed release lines are reported, not individual patches: an image that keeps two Python release lines gets a finding for each one a rule covers, while Java reports one finding per major, .NET one per `major.minor` line, and Ruby's `3.1` and `3.1.0` are the same line. A runtime with no end-of-life rule (for example Python 3.12) produces nothing.
 
 For an archive, a finding's location names the member, such as `image.tar!etc/os-release` or `image.tar!usr/local/go/VERSION`. For an unpacked directory it is the path itself, such as `etc/os-release`.
 
