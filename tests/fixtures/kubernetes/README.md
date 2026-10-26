@@ -13,7 +13,6 @@ what the finished detector must not report.
 | Fixture | Expected case |
 | --- | --- |
 | `positive/manifests/web.yaml` | Three documents separated by `---`: a legacy `extensions/v1beta1` Ingress, a supported `apps/v1` Deployment, and a legacy `batch/v1beta1` CronJob. A comment on line 1 is skipped and line numbers count it. |
-| `positive/manifests/dump.yaml` | A `kubectl get -o yaml` dump export (`kind: List`) containing the same three objects as `web.yaml` inside its `items[]` list. |
 | `positive/manifests/psp.yml` | The `.yml` extension, `kind` before `apiVersion`, and a double-quoted `apiVersion` value. |
 | `positive/helm/mychart/Chart.yaml` | A `kubeVersion` constraint. The chart's own `apiVersion: v2` is the Helm chart format, not a Kubernetes API. |
 | `positive/helm/mychart/templates/ingress.yaml` | A literal `apiVersion` and `kind` inside an `{{- if .Values... }}` block; a value condition does not make the declaration dynamic. |

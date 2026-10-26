@@ -1,12 +1,12 @@
 ---
-title: "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01 — dates, impact, migration"
-description: "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html"
+title: "Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09 — dates, impact, migration"
+description: "Alpine Linux 3.18 is scheduled to stop receiving security updates on 2025-05-09."
+canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.18.html"
 ---
 
-# Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01
+# Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09
 
-Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.
+Alpine Linux 3.18 is scheduled to stop receiving security updates on 2025-05-09.
 
 | | |
 | --- | --- |
@@ -14,13 +14,13 @@ Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.
 | Severity | low |
 | Ecosystem | `container` |
 | Component | `pkg:docker/library/alpine` |
-| Affected versions | `vers:semver/>=3.21.0\|<3.22.0` |
-| Date from the source | 2026-11-01 |
+| Affected versions | `vers:semver/>=3.18.0\|<3.19.0` |
+| Date from the source | 2025-05-09 |
 | Replacement | An alpine image on a later supported release line |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-10-26 (365 days after the last review) |
-| Rule ID | `container.alpine.eol-3.21` |
+| Evidence last seen | 2025-02-18 |
+| Reviewed | 2025-02-18 by agent |
+| Review due | 2026-02-18 (365 days after the last review) |
+| Rule ID | `container.alpine.eol-3.18` |
 
 ## Sources
 
@@ -49,19 +49,19 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ## Data
 
-This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.alpine.eol-3.21`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.alpine.eol-3.18`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html",
-  "headline": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01 — dates, impact, migration",
-  "description": "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.",
+  "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.18.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.18.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.18.html",
+  "headline": "Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09 — dates, impact, migration",
+  "description": "Alpine Linux 3.18 is scheduled to stop receiving security updates on 2025-05-09.",
   "inLanguage": "en",
-  "dateModified": "2026-10-26",
+  "dateModified": "2025-02-18",
   "keywords": [
     "scheduled-end-of-life",
     "container",
@@ -69,7 +69,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   ],
   "about": {
     "@type": "Thing",
-    "name": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01",
+    "name": "Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09",
     "identifier": "pkg:docker/library/alpine"
   },
   "citation": [

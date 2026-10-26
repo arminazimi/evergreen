@@ -39,7 +39,7 @@ import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupText, rollupFiles } from "./rollup.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
-import { renderCheckText, renderCodeQuality, renderCompact, renderFindingText, renderHtml, renderJson, renderJunit, renderMarkdown, renderMigrationPacketText, renderRdjson, renderSarif, renderSlack, renderTeams, renderText, renderWebhook } from "./reporters.js";
+import { renderCheckText, renderCodeQuality, renderCompact, renderFindingText, renderHtml, renderJson, renderMarkdown, renderMigrationPacketText, renderRdjson, renderSarif, renderText } from "./reporters.js";
 import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
@@ -48,7 +48,7 @@ import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } fro
 const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
-  evergreen scan [path] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]
+  evergreen scan [path] [--json | --format <text|json|markdown|sarif|rdjson|codequality|compact|html>]
   evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
   evergreen scan [path] --min-support-days <n>   # warn on lines whose support ends within n days
@@ -387,13 +387,13 @@ async function main(args: string[]): Promise<number> {
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
-  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "junit" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html" && format !== "slack" && format !== "teams" && format !== "webhook") {
-    return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, or webhook).`);
+  if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html") {
+    return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, markdown, sarif, rdjson, codequality, compact, or html).`);
   }
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return fail("usage", "check supports --json and --format text|json only.");
   }
-  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || format === "html" || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
+  if ((format === "markdown" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || format === "html") && command !== "scan") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   const json = args.includes("--json") || format === "json";
@@ -649,7 +649,7 @@ async function main(args: string[]): Promise<number> {
     const groups = await groupScanByOwner(result);
     process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
   } else {
-    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "codequality" ? renderCodeQuality(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : format === "markdown" ? renderMarkdown(result) : format === "junit" ? renderJunit(result) : format === "slack" ? renderSlack(result) : format === "teams" ? renderTeams(result) : format === "webhook" ? renderWebhook(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "codequality" ? renderCodeQuality(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : format === "markdown" ? renderMarkdown(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
     if (args.includes("--write-status")) {
       const statusRoot = resolve(pathArgument);

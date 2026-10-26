@@ -65,8 +65,6 @@ test("kubernetes passes detector conformance on every fixture", async () => {
           expected(NETWORKING_INGRESS, "kustomize/ingress.yaml", 1, "networking.k8s.io/v1beta1 Ingress"),
           expected(CRONJOB, "kustomize/kustomization.yaml", 10, "batch/v1beta1 CronJob"),
           expected("kubernetes.policy.poddisruptionbudget.v1beta1.removed", "kustomize/kustomization.yaml", 18, "policy/v1beta1 PodDisruptionBudget"),
-          expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/dump.yaml", 4, "extensions/v1beta1 Ingress"),
-          expected(CRONJOB, "manifests/dump.yaml", 34, "batch/v1beta1 CronJob"),
           expected("kubernetes.policy.podsecuritypolicy.v1beta1.removed", "manifests/psp.yml", 3, "policy/v1beta1 PodSecurityPolicy"),
           expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/web.yaml", 2, "extensions/v1beta1 Ingress"),
           expected(CRONJOB, "manifests/web.yaml", 34, "batch/v1beta1 CronJob"),
@@ -90,29 +88,6 @@ test("kubernetes passes detector conformance on every fixture", async () => {
     fixtures: [{ name: "kubernetes malformed", root: resolve(fixtures, "malformed"), expectedFindings: [] }],
     checks: [malformedInputCheck],
   });
-});
-
-test("a dump fixture produces the same findings as equivalent individual manifests", async () => {
-  const dumpContent = await readFile(resolve(fixtures, "positive/manifests/dump.yaml"), "utf8");
-  const webContent = await readFile(resolve(fixtures, "positive/manifests/web.yaml"), "utf8");
-
-  const dumpRoot = await repository({ "dump.yaml": dumpContent });
-  const webRoot = await repository({ "web.yaml": webContent });
-
-  const dumpFindings = await kubernetesDetector.scan({ root: dumpRoot });
-  const webFindings = await kubernetesDetector.scan({ root: webRoot });
-
-  assert.equal(dumpFindings.length, webFindings.length);
-  for (let i = 0; i < dumpFindings.length; i++) {
-    const dumpFinding = dumpFindings[i]!;
-    const webFinding = webFindings[i]!;
-
-    assert.equal(dumpFinding.ruleId, webFinding.ruleId);
-    assert.equal(dumpFinding.title, webFinding.title);
-    assert.equal(dumpFinding.severity, webFinding.severity);
-    assert.equal(dumpFinding.replacement, webFinding.replacement);
-    assert.equal(dumpFinding.deadline, webFinding.deadline);
-  }
 });
 
 test("only a rule's own group, kind, and version produce a finding", async () => {

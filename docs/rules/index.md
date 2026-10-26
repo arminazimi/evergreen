@@ -26,13 +26,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## container
 
-- [Alpine Linux image release lines 3.20 and older are end-of-life](container.alpine.eol-3.20-and-older.html) — end of life, `container.alpine.eol-3.20-and-older`
-- [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](container.alpine.eol-3.21.html) — scheduled end of life, `container.alpine.eol-3.21`
+- [Alpine Linux image release lines 3.17 and older are end-of-life](container.alpine.eol-3.17-and-older.html) — end of life, `container.alpine.eol-3.17-and-older`
+- [Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09](container.alpine.eol-3.18.html) — scheduled end of life, `container.alpine.eol-3.18`
 - [Caddy image release lines 1 and older are end-of-life](container.caddy.eol-1-and-older.html) — end of life, `container.caddy.eol-1-and-older`
 - [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html) — end of life, `container.clickhouse.eol-26.2-and-older`
 - [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html) — end of life, `container.couchbase.eol-7.2-and-older`
 - [Apache CouchDB image release lines 3.3 and older are end-of-life](container.couchdb.eol-3.3-and-older.html) — end of life, `container.couchdb.eol-3.3-and-older`
-- [Debian image release lines 11 and older are end-of-life](container.debian.eol-11-and-older.html) — end of life, `container.debian.eol-11-and-older`
+- [Debian image release lines 10 and older are end-of-life](container.debian.eol-10-and-older.html) — end of life, `container.debian.eol-10-and-older`
+- [Debian image release line 11 reaches LTS end-of-life on 2026-08-31](container.debian.eol-11.html) — scheduled end of life, `container.debian.eol-11`
 - [Drupal image release lines 10.5 and older are end-of-life](container.drupal.eol-10.5-and-older.html) — end of life, `container.drupal.eol-10.5-and-older`
 - [Go image release lines 1.25 and older are end-of-life](container.golang.eol-1.25-and-older.html) — end of life, `container.golang.eol-1.25-and-older`
 - [MariaDB image release lines 10.10 and older are end-of-life](container.mariadb.eol-10.10-and-older.html) — end of life, `container.mariadb.eol-10.10-and-older`
@@ -74,13 +75,6 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html) — end of life, `database.postgresql.end-of-life-12`
 - [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`
 - [PostgreSQL 14 reaches the end of its support on 2026-11-12](database.postgresql.end-of-life-14.html) — scheduled end of life, `database.postgresql.end-of-life-14`
-
-## deno
-
-- [Bun 0.x pre-release is end-of-life](deno.bun.runtime.eol-0.x.html) — end of life, `deno.bun.runtime.eol-0.x`
-- [Bun 1.0.x is end-of-life](deno.bun.runtime.eol-1.0.html) — end of life, `deno.bun.runtime.eol-1.0`
-- [Deno 0.x pre-release is end-of-life](deno.runtime.eol-0.x.html) — end of life, `deno.runtime.eol-0.x`
-- [Deno 1.x is end-of-life](deno.runtime.eol-1.x.html) — end of life, `deno.runtime.eol-1.x`
 
 ## dotnet
 

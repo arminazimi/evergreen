@@ -8,5 +8,4 @@ coverage/
 .DS_Store
 *.log
 .evergreen-cache/
-.corpus-cache/
 artifacts/

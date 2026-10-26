@@ -6,7 +6,7 @@ The `kubernetes` detector reports API versions that the Kubernetes project says 
 
 | File | Declaration |
 | --- | --- |
-| `*.yaml`, `*.yml` | the top-level `apiVersion` and `kind` of each `---`-separated document, including `kind: List` dumps (`kubectl get -o yaml`), when both are literal |
+| `*.yaml`, `*.yml` | the top-level `apiVersion` and `kind` of each `---`-separated document, when both are literal |
 | `templates/*.yaml`, `templates/*.yml` in a Helm chart (a directory with `Chart.yaml`), and any YAML file that contains `{{` | the same pair, read as text without rendering the template |
 | `kustomization.yaml`, `kustomization.yml`, `Kustomization` | an inline patch (a block scalar) with its own `apiVersion` and `kind`, and a patch `target` with `group`, `version`, and `kind` |
 
@@ -33,7 +33,7 @@ These produce no finding and are not guessed:
 - values from Helm (`{{ .Values.apiVersion }}`) or from a helper (`include`, `template`, `tpl`, `lookup`);
 - a declaration inside a Helm block whose condition asks the cluster (`.Capabilities`), or after such a condition in an `if`/`else` chain, or inside `define` or `block`. Charts use these to keep a legacy API for old clusters, so reporting the legacy branch would be a false positive;
 - a document with a YAML alias, or a file with any syntax error (nothing from the file is reported, including its valid documents);
-- `ownerReferences`, CRD `names.kind` and version names, and non-List nested structures below the top level of a document;
+- `kind: List` items, `ownerReferences`, CRD `names.kind` and version names, and anything below the top level of a document;
 - an API version outside the `vN`, `vNalphaM`, or `vNbetaM` form;
 - remote or `$(VAR)` kustomize resources, `bases`, `components`, generators, and transformers;
 - Helm `.tpl` files, `NOTES.txt`, chart `tests/`, and `kubeVersion` in `Chart.yaml` (it is read but no rule uses it yet).

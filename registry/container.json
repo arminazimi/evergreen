@@ -1002,9 +1002,9 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
-        "reviewer": "arminazimi"
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
       },
       "migration": {
         "constraints": [
@@ -1055,9 +1055,9 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
-        "reviewer": "arminazimi"
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
       },
       "migration": {
         "constraints": [
@@ -1091,20 +1091,20 @@
       }
     },
     {
-      "id": "container.debian.eol-11-and-older",
+      "id": "container.debian.eol-10-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/debian",
-      "vers": "vers:semver/<12.0.0",
+      "vers": "vers:semver/<11.0.0",
       "event": "end-of-life",
-      "title": "Debian image release lines 11 and older are end-of-life",
+      "title": "Debian image release lines 10 and older are end-of-life",
       "summary": "These Debian releases no longer receive LTS security updates from the vendor.",
       "severity": "high",
       "replacement": "A debian image on a supported release line",
-      "deadline": "2026-08-31",
+      "deadline": "2024-06-30",
       "sources": [
         {
           "title": "Debian LTS",
-          "url": "https://wiki.debian.org/LTS"
+          "url": "https://www.debian.org/releases/"
         },
         {
           "title": "Debian Releases",
@@ -1112,9 +1112,9 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
-        "reviewer": "arminazimi"
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
       },
       "migration": {
         "constraints": [
@@ -1148,16 +1148,73 @@
       }
     },
     {
-      "id": "container.alpine.eol-3.20-and-older",
+      "id": "container.debian.eol-11",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/debian",
+      "vers": "vers:semver/>=11.0.0|<12.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "Debian image release line 11 reaches LTS end-of-life on 2026-08-31",
+      "summary": "Debian 11 is scheduled to stop receiving LTS security updates on 2026-08-31.",
+      "severity": "low",
+      "replacement": "A debian image on a later supported release line",
+      "deadline": "2026-08-31",
+      "sources": [
+        {
+          "title": "Debian LTS",
+          "url": "https://www.debian.org/releases/"
+        },
+        {
+          "title": "Debian Releases",
+          "url": "https://www.debian.org/releases/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image and deployment manifests that use debian on one supported Debian release line.",
+          "Confirm the application and its dependencies work on the target Debian release."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
+      "id": "container.alpine.eol-3.17-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/alpine",
-      "vers": "vers:semver/<3.21.0",
+      "vers": "vers:semver/<3.18.0",
       "event": "end-of-life",
-      "title": "Alpine Linux image release lines 3.20 and older are end-of-life",
+      "title": "Alpine Linux image release lines 3.17 and older are end-of-life",
       "summary": "These Alpine Linux releases no longer receive security updates from the vendor.",
       "severity": "high",
       "replacement": "An alpine image on a supported release line",
-      "deadline": "2026-04-01",
+      "deadline": "2024-11-22",
       "sources": [
         {
           "title": "Alpine Linux releases",
@@ -1165,9 +1222,9 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
-        "reviewer": "arminazimi"
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
       },
       "migration": {
         "constraints": [
@@ -1201,16 +1258,16 @@
       }
     },
     {
-      "id": "container.alpine.eol-3.21",
+      "id": "container.alpine.eol-3.18",
       "ecosystem": "container",
       "purl": "pkg:docker/library/alpine",
-      "vers": "vers:semver/>=3.21.0|<3.22.0",
+      "vers": "vers:semver/>=3.18.0|<3.19.0",
       "event": "scheduled-end-of-life",
-      "title": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01",
-      "summary": "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.",
+      "title": "Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09",
+      "summary": "Alpine Linux 3.18 is scheduled to stop receiving security updates on 2025-05-09.",
       "severity": "low",
       "replacement": "An alpine image on a later supported release line",
-      "deadline": "2026-11-01",
+      "deadline": "2025-05-09",
       "sources": [
         {
           "title": "Alpine Linux releases",
@@ -1218,9 +1275,9 @@
         }
       ],
       "provenance": {
-        "observedAt": "2026-10-26",
-        "reviewedAt": "2026-10-26",
-        "reviewer": "arminazimi"
+        "observedAt": "2025-02-18",
+        "reviewedAt": "2025-02-18",
+        "reviewer": "agent"
       },
       "migration": {
         "constraints": [

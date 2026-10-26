@@ -61,13 +61,12 @@ test("splits the core group from a grouped apiVersion", () => {
 });
 
 test("ignores comments, nested keys, block scalars, aliases, and half declarations", async () => {
-  // Only the documents and List items that are real, literal declarations are returned; the
-  // alias document, the apiVersion-only and kind-only documents are not.
+  // Only the three documents that are real, literal declarations are returned; the
+  // alias document, the apiVersion-only and kind-only documents, and the List items are not.
   assert.deepEqual(summary(await fixture("negative", "manifests", "lookalikes.yaml")), [
     { value: "v1", resource: "ConfigMap", line: 3, kindLine: 4 },
     { value: "apiextensions.k8s.io/v1", resource: "CustomResourceDefinition", line: 32, kindLine: 33 },
     { value: "v1", resource: "List", line: 47, kindLine: 48 },
-    { value: "networking.k8s.io/v1", resource: "Ingress", line: 50, kindLine: 51 },
   ]);
 });
 

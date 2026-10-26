@@ -17,9 +17,9 @@ Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06
 | Affected versions | `vers:semver/>=22.0.0\|<22.10.0` |
 | Date from the source | 2027-06-01 |
 | Replacement | An ubuntu image on a later supported release line |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-10-26 (365 days after the last review) |
+| Evidence last seen | 2025-02-18 |
+| Reviewed | 2025-02-18 by agent |
+| Review due | 2026-02-18 (365 days after the last review) |
 | Rule ID | `container.ubuntu.eol-22.04` |
 
 ## Sources
@@ -61,7 +61,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   "headline": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 — dates, impact, migration",
   "description": "Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01.",
   "inLanguage": "en",
-  "dateModified": "2026-10-26",
+  "dateModified": "2025-02-18",
   "keywords": [
     "scheduled-end-of-life",
     "container",

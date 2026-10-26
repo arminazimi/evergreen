@@ -1,10 +1,10 @@
 ---
-title: "Debian image release lines 11 and older are end-of-life — dates, impact, migration"
+title: "Debian image release lines 10 and older are end-of-life — dates, impact, migration"
 description: "These Debian releases no longer receive LTS security updates from the vendor."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html"
+canonical_url: "https://arminazimi.github.io/evergreen/rules/container.debian.eol-10-and-older.html"
 ---
 
-# Debian image release lines 11 and older are end-of-life
+# Debian image release lines 10 and older are end-of-life
 
 These Debian releases no longer receive LTS security updates from the vendor.
 
@@ -14,17 +14,17 @@ These Debian releases no longer receive LTS security updates from the vendor.
 | Severity | high |
 | Ecosystem | `container` |
 | Component | `pkg:docker/library/debian` |
-| Affected versions | `vers:semver/<12.0.0` |
-| Date from the source | 2026-08-31 |
+| Affected versions | `vers:semver/<11.0.0` |
+| Date from the source | 2024-06-30 |
 | Replacement | A debian image on a supported release line |
-| Evidence last seen | 2026-10-26 |
-| Reviewed | 2026-10-26 by arminazimi |
-| Review due | 2027-10-26 (365 days after the last review) |
-| Rule ID | `container.debian.eol-11-and-older` |
+| Evidence last seen | 2025-02-18 |
+| Reviewed | 2025-02-18 by agent |
+| Review due | 2026-02-18 (365 days after the last review) |
+| Rule ID | `container.debian.eol-10-and-older` |
 
 ## Sources
 
-- [Debian LTS](https://wiki.debian.org/LTS)
+- [Debian LTS](https://www.debian.org/releases/)
 - [Debian Releases](https://www.debian.org/releases/)
 
 ## Migration
@@ -50,19 +50,19 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ## Data
 
-This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.debian.eol-11-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.debian.eol-10-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "headline": "Debian image release lines 11 and older are end-of-life — dates, impact, migration",
+  "@id": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-10-and-older.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-10-and-older.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-10-and-older.html",
+  "headline": "Debian image release lines 10 and older are end-of-life — dates, impact, migration",
   "description": "These Debian releases no longer receive LTS security updates from the vendor.",
   "inLanguage": "en",
-  "dateModified": "2026-10-26",
+  "dateModified": "2025-02-18",
   "keywords": [
     "end-of-life",
     "container",
@@ -70,14 +70,14 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   ],
   "about": {
     "@type": "Thing",
-    "name": "Debian image release lines 11 and older are end-of-life",
+    "name": "Debian image release lines 10 and older are end-of-life",
     "identifier": "pkg:docker/library/debian"
   },
   "citation": [
     {
       "@type": "CreativeWork",
       "name": "Debian LTS",
-      "url": "https://wiki.debian.org/LTS"
+      "url": "https://www.debian.org/releases/"
     },
     {
       "@type": "CreativeWork",

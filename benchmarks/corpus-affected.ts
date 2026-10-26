@@ -39,7 +39,6 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   cpp: ["cpp"],
   dart: ["dart"],
   database: ["database"],
-  deno: [],
   dotnet: ["dotnet"],
   "github-actions": ["node-actions"],
   "github-actions-dotnet": ["node-actions", "dotnet"],
@@ -68,7 +67,6 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "cpp.json": ["cpp"],
   "dart.json": ["dart"],
   "database.json": ["database"],
-  "deno.json": [],
   "dotnet.json": ["dotnet", "node-actions", "container"],
   "github-actions-shas.json": ["node-actions"],
   "github-actions.json": ["node-actions"],
@@ -92,7 +90,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "shell", "swift", "terraform"].includes(name),
+      ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "shell", "swift", "terraform"].includes(name),
     ),
   ),
 };
