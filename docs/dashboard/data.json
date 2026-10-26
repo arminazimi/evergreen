@@ -187,6 +187,23 @@
       }
     },
     {
+      "id": "elixir",
+      "level": "experimental",
+      "earnedLevel": "experimental",
+      "precisionFloor": {
+        "value": 0.95,
+        "enforced": false
+      },
+      "run": null,
+      "evidence": {
+        "repositoriesWithFindings": 0,
+        "expectedFindings": 0,
+        "zeroFindingRepositories": 0,
+        "repositories": 0,
+        "blindRepositories": 0
+      }
+    },
+    {
       "id": "github-actions",
       "level": "stable",
       "earnedLevel": "stable",

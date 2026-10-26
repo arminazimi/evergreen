@@ -87,6 +87,11 @@
       "coverage": "Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal engine versions on AWS (`engine` and `engine_version`), Azure (`version`), and Google Cloud SQL (`database_version`) managed database resources in `*.tf`, for major and minor lines past end of life or standard support. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0, Azure Database for PostgreSQL 11 through 13 and MySQL 5.7, and Cloud SQL for PostgreSQL 9.6 through 13 and MySQL 5.6 and 5.7. Variables in Terraform version attributes are listed as unclassified. See [Database runtimes](detectors/database.md)."
     },
     {
+      "ecosystems": ["elixir"],
+      "name": "Elixir and Mix",
+      "coverage": "Pinned Elixir and Erlang/OTP versions in `.tool-versions`, the project `elixir:` constraint and direct Hex deps in `mix.exs`, and resolved Hex packages in `mix.lock`, for Elixir and OTP release lines past end of support and retired Hex packages. See [Elixir and Mix](detectors/elixir.md)."
+    },
+    {
       "ecosystems": ["shell"],
       "name": "Shell and PowerShell",
       "coverage": "Literal `#Requires -Version` directives in `*.ps1` and `*.psm1`, `PowerShellVersion` in `*.psd1` manifests, and pinned `mcr.microsoft.com/powershell` image tags in `.github/workflows` files, for PowerShell releases past end of support. Bundled rules cover PowerShell 6.x and 7.0 through 7.3. Shell names such as `shell: pwsh` and Bash images carry no version and are not matched. See [Shell and PowerShell](detectors/shell.md)."

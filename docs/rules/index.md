@@ -106,6 +106,14 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [.NET 8 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-8.0.html) — scheduled end of life, `dotnet.runtime.end-of-support-8.0`
 - [.NET 9 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-9.0.html) — scheduled end of life, `dotnet.runtime.end-of-support-9.0`
 
+## elixir
+
+- [Erlang/OTP 25 no longer receives security updates](elixir.erlang.eol-25.html) — end of life, `elixir.erlang.eol-25`
+- [Erlang/OTP 26 no longer receives security updates](elixir.erlang.eol-26.html) — end of life, `elixir.erlang.eol-26`
+- [fennec is retired on Hex](elixir.package.fennec.retired.html) — deprecated, `elixir.package.fennec.retired`
+- [Elixir 1.14 no longer receives security updates](elixir.runtime.eol-1.14.html) — end of life, `elixir.runtime.eol-1.14`
+- [Elixir 1.15 no longer receives security updates](elixir.runtime.eol-1.15.html) — end of life, `elixir.runtime.eol-1.15`
+
 ## github-actions
 
 - [Unsupported softprops/action-gh-release runtime](github-actions.action-gh-release.node20.html) — end of support, `github-actions.action-gh-release.node20`

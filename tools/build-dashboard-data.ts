@@ -33,6 +33,7 @@ export const detectorEcosystems: Readonly<Record<string, readonly string[]>> = {
   database: ["database"],
   shell: ["shell"],
   dotnet: ["dotnet"],
+  elixir: [],
   "github-actions": ["node-actions"],
   go: ["go"],
   java: ["java"],

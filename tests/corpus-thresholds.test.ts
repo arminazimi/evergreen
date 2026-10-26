@@ -13,10 +13,10 @@ const finding = (ruleId: string, line: number) => ({ ruleId, path: "package.json
 test("thresholds name every shipped detector and enforce precision of at least 0.95", async () => {
   const thresholds = JSON.parse(await readFile(resolve("benchmarks/thresholds.json"), "utf8")) as Thresholds;
   assert.equal(thresholds.schemaVersion, "evergreen.corpus-thresholds.v1");
-  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "shell", "swift", "terraform"]);
+  assert.deepEqual(Object.keys(thresholds.detectors).sort(), ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "serverless", "shell", "swift", "terraform"]);
   for (const [name, threshold] of Object.entries(thresholds.detectors)) {
     // The Android, ci-images, container, C and C++, Go, PHP, Ruby, and Rust detectors are experimental: they are scored and reported, but not enforced yet.
-    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "database", "go", "php", "ruby", "rust", "shell", "terraform"].includes(name), name);
+    assert.equal(threshold.stable, !["android", "ci-images", "container", "cpp", "dart", "database", "elixir", "go", "php", "ruby", "rust", "shell", "terraform"].includes(name), name);
     assert.ok(threshold.minPrecision >= 0.95);
   }
 });
@@ -60,6 +60,7 @@ const ECOSYSTEMS: Record<string, { corpus: string[]; row: string }> = {
   cpp: { corpus: ["cpp"], row: "C and C++" },
   dart: { corpus: ["dart"], row: "Dart and Flutter" },
   dotnet: { corpus: ["dotnet"], row: ".NET" },
+  elixir: { corpus: ["elixir"], row: "Elixir and Mix" },
   "github-actions": { corpus: ["node-actions"], row: "GitHub Actions" },
   go: { corpus: ["go"], row: "Go" },
   java: { corpus: ["java"], row: "Java and Kotlin (JVM)" },

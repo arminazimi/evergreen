@@ -1,0 +1,4 @@
+%{
+  "fennec": {:hex, :fennec,
+  "jason": {:git, "https://example.com/jason.git", "abcdef", []},
+}
