@@ -50,6 +50,8 @@ jobs:
             exit 1
           fi
       - name: Publish (prepack runs npm run check)
+        env:
+          EVERGREEN_VERIFY_ACTION_BUNDLE: "1"
         run: |
           case "$GITHUB_REF_NAME" in
             *-*) npm publish --provenance --access public --tag next ;;

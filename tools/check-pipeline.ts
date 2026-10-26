@@ -5,6 +5,10 @@
 // written to a temporary directory and copied into dist/action only after the tests finish:
 // data-age.test executes dist/action/index.js, and ncc would otherwise truncate that file while
 // the test is reading it. The git diff stays after the copy.
+//
+// The committed bundle is verified only when EVERGREEN_VERIFY_ACTION_BUNDLE=1 (release pull requests
+// and the npm publish). Every other pull request still compiles the bundle, but neither publishes nor
+// diffs it: each merge regenerates the same minified lines, so parallel pull requests would conflict.
 
 import { spawn } from "node:child_process";
 import { chmod, copyFile, mkdir, mkdtemp, rm } from "node:fs/promises";
@@ -28,6 +32,8 @@ export interface RunCheckOptions {
   publish?: (stagingDir: string) => Promise<void>;
   stagingDir?: string;
   nccCli?: string;
+  /** Publish the staged bundle and fail when it differs from the committed one. */
+  verifyActionBundle?: boolean;
 }
 
 /**
@@ -124,6 +130,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
   const nccCli = options.nccCli ?? require.resolve("@vercel/ncc/dist/ncc/cli.js");
   const stagingDir = options.stagingDir ?? (await mkdtemp(join(tmpdir(), "evergreen-action-")));
   const removeStaging = options.stagingDir === undefined;
+  const verifyActionBundle = options.verifyActionBundle ?? process.env.EVERGREEN_VERIFY_ACTION_BUNDLE === "1";
 
   try {
     const failures = await runDependentSteps([
@@ -134,12 +141,16 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       { id: "test", run: () => run(process.execPath, ["tools/run-tests.mjs"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       { id: "eval:plugins", run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]) },
-      { id: "publish-action", after: ["build:action", "test"], run: () => publish(stagingDir) },
-      {
-        id: "check:action-bundle",
-        after: ["publish-action"],
-        run: () => run("git", ["diff", "--exit-code", "--", "dist/action/index.js"]),
-      },
+      ...(verifyActionBundle
+        ? [
+            { id: "publish-action", after: ["build:action", "test"], run: () => publish(stagingDir) },
+            {
+              id: "check:action-bundle",
+              after: ["publish-action"],
+              run: () => run("git", ["diff", "--exit-code", "--", "dist/action/index.js"]),
+            },
+          ]
+        : []),
     ]);
     if (failures.size > 0) {
       throw new Error([...failures].map(([id, error]) => `${id}: ${error.message}`).join("\n"));

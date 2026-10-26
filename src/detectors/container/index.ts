@@ -9,16 +9,18 @@ import type { RegistryV2Rule } from "../../registry.js";
 import { DETECTOR_API_VERSION } from "../../sdk.js";
 import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, DetectorInputs } from "../../sdk.js";
 import { versContains } from "../../vers.js";
+import { jdkRuleVersion, parseJdkVersion } from "../java/jdk-version.js";
 import { parseCompose } from "./parse-compose.js";
 import { parseDockerfile } from "./parse-dockerfile.js";
+import type { Runtime } from "./parse-dockerfile.js";
 import { parseImageReference } from "./parse-image.js";
 
 /**
- * Finds base images whose release line has reached a vendor-published end of life.
+ * Finds base images and Dockerfile runtime install commands whose release line has reached end of life.
  *
- * It reads Dockerfile / Containerfile `FROM` lines and Compose `services.*.image` values, and nothing
- * else (see decision 0007). A tag is classified only when every version it can stand for is inside a
- * rule's range, so a floating tag such as `mysql:8` is reported as unclassified, not guessed.
+ * It reads Dockerfile / Containerfile `FROM` and supported `RUN` lines plus Compose
+ * `services.*.image` values. A version is classified only when every version it can stand for is
+ * inside a rule's range, so a floating image tag such as `mysql:8` is not guessed.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -39,12 +41,23 @@ const DOTNET_IMAGES = new Set(["sdk", "aspnet", "runtime", "runtime-deps"].flatM
 const TAG_VERSION = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:-(.+))?$/;
 const UNBOUNDED = 999_999;
 
-interface Candidate {
+interface ImageCandidate {
+  kind: "image";
   path: string;
   line: number;
   value: string;
   dynamic: boolean;
 }
+
+interface RuntimeCandidate {
+  kind: "runtime";
+  path: string;
+  line: number;
+  value: string;
+  runtime: Runtime;
+}
+
+type Candidate = ImageCandidate | RuntimeCandidate;
 
 async function candidateFiles(root: string): Promise<string[]> {
   const files: string[] = [];
@@ -82,10 +95,64 @@ async function candidates(root: string): Promise<Candidate[]> {
     const name = basename(file);
     const declarations = COMPOSE_NAME.test(name) ? parseCompose(contents) : parseDockerfile(contents);
     for (const declaration of declarations) {
-      result.push({ path, line: declaration.line, value: declaration.value, dynamic: declaration.kind === "dynamic" });
+      if (declaration.kind === "runtime") {
+        result.push({
+          kind: "runtime",
+          path,
+          line: declaration.line,
+          value: declaration.value,
+          runtime: declaration.runtime,
+        });
+      } else {
+        result.push({
+          kind: "image",
+          path,
+          line: declaration.line,
+          value: declaration.value,
+          dynamic: declaration.kind === "dynamic",
+        });
+      }
     }
   }
   return result;
+}
+
+const RUNTIME_RULES: Readonly<Record<Runtime, { file: string; purl: string; prefix: string }>> = {
+  dotnet: { file: "registry/dotnet.json", purl: "pkg:generic/dotnet", prefix: "dotnet.runtime." },
+  golang: { file: "registry/go.json", purl: "pkg:generic/golang", prefix: "go.runtime." },
+  java: { file: "registry/java.json", purl: "pkg:generic/java", prefix: "java.jdk." },
+  nodejs: { file: "registry/nodejs.json", purl: "pkg:generic/nodejs", prefix: "nodejs.runtime." },
+  php: { file: "registry/php.json", purl: "pkg:generic/php", prefix: "php.runtime." },
+  python: { file: "registry/python.json", purl: "pkg:generic/python", prefix: "python.runtime." },
+  ruby: { file: "registry/ruby.json", purl: "pkg:generic/ruby", prefix: "ruby.runtime." },
+};
+
+function versionBounds(runtime: Runtime, value: string): { lowest: string; highest: string } | undefined {
+  if (runtime === "java") {
+    const parsed = parseJdkVersion(value);
+    if (!parsed) return undefined;
+    const version = jdkRuleVersion(parsed.major);
+    return { lowest: version, highest: version };
+  }
+  const match = /^v?(\d+)(?:\.(\d+))?(?:\.(\d+))?$/.exec(value);
+  if (!match) return undefined;
+  const [, major, minor, patch] = match;
+  return {
+    lowest: `${major}.${minor ?? "0"}.${patch ?? "0"}`,
+    highest: `${major}.${minor ?? UNBOUNDED}.${patch ?? UNBOUNDED}`,
+  };
+}
+
+function matchingRuntimeRule(rules: readonly RegistryV2Rule[], runtime: Runtime, value: string): RegistryV2Rule | undefined {
+  const bounds = versionBounds(runtime, value);
+  if (!bounds) return undefined;
+  return rules.find((rule) => {
+    try {
+      return versContains(rule.vers, bounds.lowest) && versContains(rule.vers, bounds.highest);
+    } catch {
+      return false;
+    }
+  });
 }
 
 type TagClass =
@@ -152,11 +219,40 @@ export class ContainerDetector implements Detector {
     const dotnetRules = validateRegistryV2(await loadDataFile("registry/dotnet.json")).rules.filter(
       (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
     );
+    const runtimeRules = new Map<Runtime, RegistryV2Rule[]>();
+    const runtimes = new Set(
+      found
+        .filter((candidate): candidate is RuntimeCandidate => candidate.kind === "runtime")
+        .map((candidate) => candidate.runtime),
+    );
+    for (const runtime of runtimes) {
+      const source = RUNTIME_RULES[runtime];
+      const loaded = validateRegistryV2(await loadDataFile(source.file)).rules;
+      runtimeRules.set(runtime, loaded.filter((rule) => rule.purl === source.purl && rule.id.startsWith(source.prefix)));
+    }
     const findings: DetectorFinding[] = [];
     const unclassified: Omit<UnclassifiedReference, "detector">[] = [];
 
     for (const candidate of found) {
       const location = { path: candidate.path, line: candidate.line };
+      if (candidate.kind === "runtime") {
+        const rule = matchingRuntimeRule(runtimeRules.get(candidate.runtime) ?? [], candidate.runtime, candidate.value);
+        if (rule) {
+          findings.push({
+            id: `${rule.id}:${candidate.path}:${candidate.line}`,
+            ruleId: rule.id,
+            title: rule.title,
+            summary: `${candidate.path} installs ${candidate.runtime} ${candidate.value}. ${rule.summary}`,
+            severity: rule.severity,
+            location,
+            ...(rule.replacement ? { replacement: rule.replacement } : {}),
+            ...(rule.deadline ? { deadline: rule.deadline } : {}),
+            ...(rule.migration ? { migration: rule.migration } : {}),
+            sources: rule.sources,
+          });
+        }
+        continue;
+      }
       if (candidate.dynamic) {
         // Only name a reference when its repository part is a literal tracked image, as in node:${VERSION}.
         const repository = candidate.value.split(":")[0]!;
