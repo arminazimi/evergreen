@@ -17,9 +17,9 @@ These Ubuntu releases no longer receive standard security updates from the vendo
 | Affected versions | `vers:semver/<20.10.0` |
 | Date from the source | 2025-05-31 |
 | Replacement | An ubuntu image on a supported release line |
-| Evidence last seen | 2025-02-18 |
-| Reviewed | 2025-02-18 by agent |
-| Review due | 2026-02-18 (365 days after the last review) |
+| Evidence last seen | 2026-10-26 |
+| Reviewed | 2026-10-26 by arminazimi |
+| Review due | 2027-10-26 (365 days after the last review) |
 | Rule ID | `container.ubuntu.eol-20.04-and-older` |
 
 ## Sources
@@ -61,7 +61,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   "headline": "Ubuntu image release lines 20.04 and older are past standard support end-of-life — dates, impact, migration",
   "description": "These Ubuntu releases no longer receive standard security updates from the vendor.",
   "inLanguage": "en",
-  "dateModified": "2025-02-18",
+  "dateModified": "2026-10-26",
   "keywords": [
     "end-of-life",
     "container",
