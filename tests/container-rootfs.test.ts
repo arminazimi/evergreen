@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -187,6 +187,76 @@ test("an archive without os-release, an empty directory, and malformed data are 
   await writeFile(join(root, "broken.tar"), truncated);
   const broken = await readRootfs(join(root, "broken.tar"));
   assert.ok(broken === undefined || broken.runtimes.length === 0);
+});
+
+test("a malformed gzip archive is skipped without throwing", async () => {
+  const root = await temporaryDirectory();
+  await writeFile(join(root, "image.tar.gz"), Buffer.from("not a gzip stream"));
+  assert.deepEqual(await findRootfsSnapshots(root), []);
+  assert.equal(await readRootfs(join(root, "image.tar.gz")), undefined);
+});
+
+test("Ruby is reported once when a versioned binary and a library directory both ship", async () => {
+  const root = await temporaryDirectory();
+  await mkdir(join(root, "etc"), { recursive: true });
+  await mkdir(join(root, "usr/bin"), { recursive: true });
+  await mkdir(join(root, "usr/lib/ruby/3.1.0"), { recursive: true });
+  await writeFile(join(root, "etc/os-release"), 'ID=debian\nVERSION_ID="12"\n');
+  await writeFile(join(root, "usr/bin/ruby3.1"), "");
+  await writeFile(join(root, "usr/lib/ruby/3.1.0/placeholder"), "");
+
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["ruby.runtime.eol-3.1", "usr/bin/ruby3.1", 1]],
+  );
+});
+
+test("an absolute os-release symlink that leaves the rootfs is not followed", async (t) => {
+  const root = await temporaryDirectory();
+  const outside = await temporaryDirectory();
+  const hostFile = join(outside, "os-release");
+  await writeFile(hostFile, 'ID=debian\nVERSION_ID="11"\n');
+  await mkdir(join(root, "etc"), { recursive: true });
+  try {
+    await symlink(hostFile, join(root, "etc/os-release"));
+  } catch {
+    t.skip("symbolic links are not available");
+    return;
+  }
+  assert.equal(await readRootfs(root), undefined);
+});
+
+test("a relative os-release symlink inside the rootfs is followed", async (t) => {
+  const root = await temporaryDirectory();
+  await mkdir(join(root, "etc"), { recursive: true });
+  await mkdir(join(root, "usr/lib"), { recursive: true });
+  await writeFile(join(root, "usr/lib/os-release"), 'ID=debian\nVERSION_ID="11"\n');
+  try {
+    await symlink("../usr/lib/os-release", join(root, "etc/os-release"));
+  } catch {
+    t.skip("symbolic links are not available");
+    return;
+  }
+  const snapshot = await readRootfs(root);
+  assert.equal(snapshot?.osRelease?.path, "etc/os-release");
+  assert.equal(snapshot?.osRelease?.versionId, "11");
+});
+
+test("a symlinked runtime directory that leaves the rootfs is not listed", async (t) => {
+  const root = await temporaryDirectory();
+  const outside = await temporaryDirectory();
+  await mkdir(join(root, "etc"), { recursive: true });
+  await mkdir(join(root, "usr"), { recursive: true });
+  await writeFile(join(root, "etc/os-release"), 'ID=debian\nVERSION_ID="12"\n');
+  await mkdir(join(outside, "python3.9"), { recursive: true });
+  try {
+    await symlink(outside, join(root, "usr/lib"));
+  } catch {
+    t.skip("symbolic links are not available");
+    return;
+  }
+  assert.deepEqual((await containerDetector.analyze({ root })).findings, []);
 });
 
 test("os-release parsing reads quoted values and falls back to a codename", () => {

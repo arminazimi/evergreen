@@ -1,6 +1,6 @@
 import { createReadStream } from "node:fs";
-import { lstat, readdir, readFile } from "node:fs/promises";
-import { basename, join } from "node:path";
+import { lstat, readdir, readFile, realpath } from "node:fs/promises";
+import { basename, isAbsolute, join, relative, sep } from "node:path";
 import { createGunzip } from "node:zlib";
 
 import { parseJdkVersion } from "../java/jdk-version.js";
@@ -63,20 +63,29 @@ interface RootfsSource {
   list(directory: string): Promise<string[] | undefined>;
 }
 
+/** True when `target` is inside `root`; a symlink that resolves outside is not. */
+function insideRoot(root: string, target: string): boolean {
+  const path = relative(root, target);
+  return path.length === 0 || (path !== ".." && !path.startsWith(`..${sep}`) && !isAbsolute(path));
+}
+
 function directorySource(root: string): RootfsSource {
   return {
     label: "",
     path: (entry) => entry,
     async read(entry) {
       try {
-        return await readFile(join(root, ...entry.split("/")), "utf8");
+        const target = await realpath(join(root, ...entry.split("/")));
+        return insideRoot(root, target) ? await readFile(target, "utf8") : undefined;
       } catch {
         return undefined;
       }
     },
     async list(directory) {
       try {
-        const entries = await readdir(join(root, ...directory.split("/")), { withFileTypes: true });
+        const target = await realpath(join(root, ...directory.split("/")));
+        if (!insideRoot(root, target)) return undefined;
+        const entries = await readdir(target, { withFileTypes: true });
         return entries.sort((left, right) => left.name.localeCompare(right.name)).map((entry) => entry.name);
       } catch {
         return undefined;
@@ -119,7 +128,13 @@ export async function readRootfs(source: string): Promise<RootfsSnapshot | undef
   } catch {
     return undefined;
   }
-  if (stats.isDirectory()) return snapshot(directorySource(source));
+  if (stats.isDirectory()) {
+    try {
+      return snapshot(directorySource(await realpath(source)));
+    } catch {
+      return undefined;
+    }
+  }
   if (!stats.isFile() || stats.size > MAXIMUM_ARCHIVE_BYTES) return undefined;
   const entries = await readArchive(source);
   if (entries === undefined) return undefined;
@@ -162,7 +177,10 @@ async function snapshot(source: RootfsSource): Promise<RootfsSnapshot | undefine
     if (contents === undefined) continue;
     found = true;
     const parsed = parseOsRelease(contents);
-    if (parsed) osRelease = { ...parsed, entry, path: source.path(entry) };
+    if (parsed) {
+      osRelease = { ...parsed, entry, path: source.path(entry) };
+      break;
+    }
   }
   if (!found) return undefined;
   return {
@@ -244,6 +262,11 @@ function rubyVersion(name: string): string | undefined {
   return /^\d+\.\d+\.\d+$/.test(name) ? name : /^ruby(\d+\.\d+)$/.exec(name)?.[1];
 }
 
+/** A release line: `3.1` and `3.1.0` are the same Ruby. */
+function majorMinor(version: string): string {
+  return version.split(".").slice(0, 2).join(".");
+}
+
 function phpVersion(name: string): string | undefined {
   const dotted = /^php(\d+\.\d+)$/.exec(name)?.[1];
   if (dotted) return dotted;
@@ -305,7 +328,7 @@ async function runtimeEvidence(source: RootfsSource): Promise<RootfsRuntimeEvide
       const python = pythonVersion(name);
       if (python) add("python", python, `${directory}/${name}`, 1);
       const ruby = rubyVersion(name);
-      if (ruby) add("ruby", ruby, `${directory}/${name}`, 1);
+      if (ruby) add("ruby", ruby, `${directory}/${name}`, 1, majorMinor(ruby));
       const php = phpVersion(name);
       if (php) add("php", php, `${directory}/${name}`, 1);
     }
@@ -313,7 +336,7 @@ async function runtimeEvidence(source: RootfsSource): Promise<RootfsRuntimeEvide
   for (const directory of ["usr/lib/ruby", "usr/local/lib/ruby"]) {
     for (const name of (await source.list(directory)) ?? []) {
       const version = rubyVersion(name);
-      if (version) add("ruby", version, `${directory}/${name}`, 1);
+      if (version) add("ruby", version, `${directory}/${name}`, 1, majorMinor(version));
     }
   }
 
@@ -465,6 +488,10 @@ async function readArchive(path: string): Promise<Map<string, ArchiveEntry> | un
     }
   } catch {
     // A truncated or unreadable archive is not a root filesystem; keep the entries that were complete.
+  } finally {
+    // Stop reading at a cap, at the end of the tar, or on an error without leaking the descriptor.
+    input.destroy();
+    if (stream !== input) stream.destroy();
   }
 
   return entries.size > 0 ? entries : undefined;

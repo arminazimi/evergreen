@@ -16,7 +16,7 @@ It walks the repository up to eight directories deep (at most 2,000 matching fil
 The detector reads a container filesystem directly, without pulling an image, resolving a tag, extracting an archive, or executing anything in it:
 
 - **Unpacked root filesystem.** When the scanned directory contains `etc/os-release` (or `usr/lib/os-release`), it is read as a root filesystem alongside any Dockerfiles and Compose files in the repository.
-- **Local root filesystem archive.** A directory that holds a top-level `.tar`, `.tar.gz`, or `.tgz` archive (at most four are read) is checked for an `os-release` member. The archive is streamed with a byte and member cap; nothing is written to disk. A root filesystem archive such as `docker export` produces is read this way. A `docker save` image archive is not a root filesystem (it holds layers), so unpack it first.
+- **Local root filesystem archive.** A directory that holds a top-level `.tar`, `.tar.gz`, or `.tgz` archive (at most four are read, up to 512 MiB each) is checked for an `os-release` member. The archive is streamed with that byte limit and a member cap; nothing is written to disk. A root filesystem archive such as `docker export` produces is read this way. A `docker save` image archive is not a root filesystem (it holds layers), so unpack it first.
 
 The operating system comes from `ID`, `VERSION_ID`, and `VERSION_CODENAME` in `/etc/os-release` (or `/usr/lib/os-release`), and is judged with the same Ubuntu, Debian, and Alpine rules as a Docker Hub base image. When `VERSION_ID` is absent, a Debian or Ubuntu codename is used.
 
