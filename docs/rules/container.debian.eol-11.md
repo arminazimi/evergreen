@@ -24,8 +24,8 @@ Debian 11 is scheduled to stop receiving LTS security updates on 2026-08-31.
 
 ## Sources
 
-- [Debian LTS](https://wiki.debian.org/LTS)
-- [Debian Releases](https://wiki.debian.org/DebianReleases)
+- [Debian LTS](https://www.debian.org/releases/)
+- [Debian Releases](https://www.debian.org/releases/)
 
 ## Migration
 
@@ -77,12 +77,12 @@ This page is generated from [`registry/container.json`](https://github.com/armin
     {
       "@type": "CreativeWork",
       "name": "Debian LTS",
-      "url": "https://wiki.debian.org/LTS"
+      "url": "https://www.debian.org/releases/"
     },
     {
       "@type": "CreativeWork",
       "name": "Debian Releases",
-      "url": "https://wiki.debian.org/DebianReleases"
+      "url": "https://www.debian.org/releases/"
     }
   ],
   "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",

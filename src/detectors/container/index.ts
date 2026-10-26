@@ -117,17 +117,6 @@ const UBUNTU_CODENAMES: Record<string, string> = {
   plucky: "25.04",
 };
 
-function resolveCodename(repository: string, tag: string): string | undefined {
-  const name = tag.split("-")[0]!;
-  if (repository === "library/debian" && DEBIAN_CODENAMES[name]) {
-    return tag.replace(name, DEBIAN_CODENAMES[name]!);
-  }
-  if (repository === "library/ubuntu" && UBUNTU_CODENAMES[name]) {
-    return tag.replace(name, UBUNTU_CODENAMES[name]!);
-  }
-  return undefined;
-}
-
 /** Extra suffix parts that mcr.microsoft.com/dotnet tags carry: CPU architectures, image flavors, distros, and Windows builds. */
 const DOTNET_VARIANT =
   /^(?:amd64|arm64v8|arm64|arm32v7|chiseled|extra|composite|distroless|cbl|mariner\d+(?:\.\d+)?|azurelinux\d+(?:\.\d+)?|nanoserver|windowsservercore|ltsc20\d\d|\d{4})$/;
@@ -317,14 +306,7 @@ function classifyTag(
   tag: string | undefined,
   digest: string | undefined,
   extraVariant?: RegExp,
-  repository?: string,
 ): TagClass {
-  let resolvedTag = tag;
-  if (tag !== undefined && repository) {
-    const resolved = resolveCodename(repository, tag);
-    if (resolved !== undefined) resolvedTag = resolved;
-  }
-
   if (tag === undefined) {
     return {
       kind: "unclassified",
@@ -333,7 +315,7 @@ function classifyTag(
         : "the image has no tag, so it follows the latest release",
     };
   }
-  const match = TAG_VERSION.exec(resolvedTag!);
+  const match = TAG_VERSION.exec(tag);
   if (!match)
     return {
       kind: "unclassified",
@@ -489,11 +471,25 @@ export class ContainerDetector implements Detector {
       const imageRules = rulesFor(image, rules, dotnetRules);
       if (!imageRules) continue;
 
+      let resolvedTag = image.tag;
+      if (resolvedTag !== undefined && image.registry === "docker.io") {
+        const name = resolvedTag.split("-")[0];
+        if (name !== undefined) {
+          if (image.repository === "library/debian" && DEBIAN_CODENAMES[name]) {
+            resolvedTag = resolvedTag.replace(name, DEBIAN_CODENAMES[name]!);
+          } else if (
+            image.repository === "library/ubuntu" &&
+            UBUNTU_CODENAMES[name]
+          ) {
+            resolvedTag = resolvedTag.replace(name, UBUNTU_CODENAMES[name]!);
+          }
+        }
+      }
+
       const tag = classifyTag(
-        image.tag,
+        resolvedTag,
         image.digest,
         image.registry === MICROSOFT_REGISTRY ? DOTNET_VARIANT : undefined,
-        image.registry === "docker.io" ? image.repository : undefined,
       );
       if (tag.kind === "unclassified") {
         unclassified.push({

@@ -1104,11 +1104,11 @@
       "sources": [
         {
           "title": "Debian LTS",
-          "url": "https://wiki.debian.org/LTS"
+          "url": "https://www.debian.org/releases/"
         },
         {
           "title": "Debian Releases",
-          "url": "https://wiki.debian.org/DebianReleases"
+          "url": "https://www.debian.org/releases/"
         }
       ],
       "provenance": {
@@ -1161,11 +1161,11 @@
       "sources": [
         {
           "title": "Debian LTS",
-          "url": "https://wiki.debian.org/LTS"
+          "url": "https://www.debian.org/releases/"
         },
         {
           "title": "Debian Releases",
-          "url": "https://wiki.debian.org/DebianReleases"
+          "url": "https://www.debian.org/releases/"
         }
       ],
       "provenance": {
