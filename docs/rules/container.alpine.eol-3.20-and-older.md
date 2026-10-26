@@ -1,10 +1,10 @@
 ---
-title: "Alpine Linux image release lines 3.17 and older are end-of-life — dates, impact, migration"
+title: "Alpine Linux image release lines 3.20 and older are end-of-life — dates, impact, migration"
 description: "These Alpine Linux releases no longer receive security updates from the vendor."
-canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.17-and-older.html"
+canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html"
 ---
 
-# Alpine Linux image release lines 3.17 and older are end-of-life
+# Alpine Linux image release lines 3.20 and older are end-of-life
 
 These Alpine Linux releases no longer receive security updates from the vendor.
 
@@ -14,13 +14,13 @@ These Alpine Linux releases no longer receive security updates from the vendor.
 | Severity | high |
 | Ecosystem | `container` |
 | Component | `pkg:docker/library/alpine` |
-| Affected versions | `vers:semver/<3.18.0` |
-| Date from the source | 2024-11-22 |
+| Affected versions | `vers:semver/<3.21.0` |
+| Date from the source | 2026-04-01 |
 | Replacement | An alpine image on a supported release line |
-| Evidence last seen | 2025-02-18 |
-| Reviewed | 2025-02-18 by agent |
-| Review due | 2026-02-18 (365 days after the last review) |
-| Rule ID | `container.alpine.eol-3.17-and-older` |
+| Evidence last seen | 2026-10-26 |
+| Reviewed | 2026-10-26 by arminazimi |
+| Review due | 2027-10-26 (365 days after the last review) |
+| Rule ID | `container.alpine.eol-3.20-and-older` |
 
 ## Sources
 
@@ -49,19 +49,19 @@ The [`container`](../detectors/container.md) detector. See [Detectors](../DETECT
 
 ## Data
 
-This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.alpine.eol-3.17-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
+This page is generated from [`registry/container.json`](https://github.com/arminazimi/evergreen/blob/main/registry/container.json), rule `container.alpine.eol-3.20-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.17-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.17-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.17-and-older.html",
-  "headline": "Alpine Linux image release lines 3.17 and older are end-of-life — dates, impact, migration",
+  "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+  "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+  "headline": "Alpine Linux image release lines 3.20 and older are end-of-life — dates, impact, migration",
   "description": "These Alpine Linux releases no longer receive security updates from the vendor.",
   "inLanguage": "en",
-  "dateModified": "2025-02-18",
+  "dateModified": "2026-10-26",
   "keywords": [
     "end-of-life",
     "container",
@@ -69,7 +69,7 @@ This page is generated from [`registry/container.json`](https://github.com/armin
   ],
   "about": {
     "@type": "Thing",
-    "name": "Alpine Linux image release lines 3.17 and older are end-of-life",
+    "name": "Alpine Linux image release lines 3.20 and older are end-of-life",
     "identifier": "pkg:docker/library/alpine"
   },
   "citation": [

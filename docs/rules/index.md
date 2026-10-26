@@ -26,14 +26,13 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## container
 
-- [Alpine Linux image release lines 3.17 and older are end-of-life](container.alpine.eol-3.17-and-older.html) — end of life, `container.alpine.eol-3.17-and-older`
-- [Alpine Linux image release line 3.18 reaches end-of-life on 2025-05-09](container.alpine.eol-3.18.html) — scheduled end of life, `container.alpine.eol-3.18`
+- [Alpine Linux image release lines 3.20 and older are end-of-life](container.alpine.eol-3.20-and-older.html) — end of life, `container.alpine.eol-3.20-and-older`
+- [Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01](container.alpine.eol-3.21.html) — scheduled end of life, `container.alpine.eol-3.21`
 - [Caddy image release lines 1 and older are end-of-life](container.caddy.eol-1-and-older.html) — end of life, `container.caddy.eol-1-and-older`
 - [ClickHouse image release lines 26.2 and older are end-of-life](container.clickhouse.eol-26.2-and-older.html) — end of life, `container.clickhouse.eol-26.2-and-older`
 - [Couchbase Server image release lines 7.2 and older are end-of-life](container.couchbase.eol-7.2-and-older.html) — end of life, `container.couchbase.eol-7.2-and-older`
 - [Apache CouchDB image release lines 3.3 and older are end-of-life](container.couchdb.eol-3.3-and-older.html) — end of life, `container.couchdb.eol-3.3-and-older`
-- [Debian image release lines 10 and older are end-of-life](container.debian.eol-10-and-older.html) — end of life, `container.debian.eol-10-and-older`
-- [Debian image release line 11 reaches LTS end-of-life on 2026-08-31](container.debian.eol-11.html) — scheduled end of life, `container.debian.eol-11`
+- [Debian image release lines 11 and older are end-of-life](container.debian.eol-11-and-older.html) — end of life, `container.debian.eol-11-and-older`
 - [Drupal image release lines 10.5 and older are end-of-life](container.drupal.eol-10.5-and-older.html) — end of life, `container.drupal.eol-10.5-and-older`
 - [Go image release lines 1.25 and older are end-of-life](container.golang.eol-1.25-and-older.html) — end of life, `container.golang.eol-1.25-and-older`
 - [MariaDB image release lines 10.10 and older are end-of-life](container.mariadb.eol-10.10-and-older.html) — end of life, `container.mariadb.eol-10.10-and-older`
