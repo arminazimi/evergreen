@@ -9486,6 +9486,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
           }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Correction added after the first corpus run: line 3 of e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml reads `apiVersion: extensions/v1beta1` on `kind: Deployment`, an item inside a `kind: List` document. The Kubernetes deprecated API migration guide lists this API as removed, and the Pluto baseline already records it."
+          }
         }
       ]
     },

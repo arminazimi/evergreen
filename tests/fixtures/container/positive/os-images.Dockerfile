@@ -5,4 +5,4 @@ FROM debian:buster
 FROM ubuntu:focal
 FROM ubuntu:22.04
 FROM debian:11
-FROM alpine:3.18
+FROM alpine:3.21

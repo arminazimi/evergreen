@@ -12,14 +12,13 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-20.04.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html</loc><lastmod>2026-10-21</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.17-and-older.html</loc><lastmod>2025-02-18</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.18.html</loc><lastmod>2025-02-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.clickhouse.eol-26.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.couchbase.eol-7.2-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.debian.eol-10-and-older.html</loc><lastmod>2025-02-18</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.debian.eol-11.html</loc><lastmod>2025-02-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
@@ -33,8 +32,8 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html</loc><lastmod>2025-02-18</lastmod></url>
-  <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html</loc><lastmod>2025-02-18</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator.visual-studio-12-2013.removed.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
@@ -52,6 +51,10 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-13.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-14.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-1.0.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-1.x.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-servicebus.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-storage-blob.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>

@@ -100,7 +100,7 @@ test("scan --format rdjson prints rdjson, and it is refused for other commands",
     assert.equal(rdjson.diagnostics[0].location.path, ".github/workflows/ci.yml");
     assert.equal(rdjson.diagnostics[0].location.range.start.line, 4);
 
-    await assert.rejects(execute(process.execPath, [cli, "scan", root, "--format", "xml"]), (error: { code: number; stderr: string }) => error.code === 2 && /expected text, json, markdown, sarif, rdjson, codequality, compact, or html/.test(error.stderr));
+    await assert.rejects(execute(process.execPath, [cli, "scan", root, "--format", "xml"]), (error: { code: number; stderr: string }) => error.code === 2 && /expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, or webhook/.test(error.stderr));
     await assert.rejects(execute(process.execPath, [cli, "check", "pkg:npm/request", "--format", "rdjson"]), (error: { code: number }) => error.code === 2);
     await assert.rejects(execute(process.execPath, [cli, "explain", "x", root, "--format", "rdjson"]), (error: { code: number; stderr: string }) => error.code === 2 && /--format rdjson is only available for the scan command/.test(error.stderr));
   } finally {

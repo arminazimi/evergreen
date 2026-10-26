@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `--format slack`, `--format teams`, and `--format webhook` to render a chat or generic webhook payload for a digest step. Evergreen renders the payload only and never sends it.
+- Judge Debian, Ubuntu, and Alpine base image releases in Dockerfiles and Compose files, including codename tags such as `debian:buster` and `ubuntu:focal`. (#1051)
+
 ## 0.6.1 - 2026-10-25
 
 - Add `evergreen fix --dry-run` to print `git apply` patches for deterministic fixes, starting with outdated GitHub Actions `uses:` versions. Nothing is written. (#1032)

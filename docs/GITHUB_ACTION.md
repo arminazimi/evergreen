@@ -77,6 +77,30 @@ Only entries with an `expires` can expire, so a baseline written before these fi
 
 The Action then annotates and gates only findings not represented by that baseline.
 
+## Chat and webhook digests
+
+`evergreen scan --format slack`, `--format teams`, and `--format webhook` print a JSON payload to standard output. Evergreen only renders the payload and never sends it: the network call belongs to a step you write, so the scan itself stays offline.
+
+- `slack` is a Slack incoming-webhook message: a fallback `text`, a header, a counts summary, and one section per finding. It fits Slack's 50-block and 3,000-character section limits.
+- `teams` is a Microsoft Teams message with an Adaptive Card (version 1.4) for a Teams workflow webhook.
+- `webhook` is a generic JSON payload (`schemaVersion: "evergreen.webhook.v1"`) with a count per severity and every finding, for any system that accepts JSON.
+
+The chat formats list at most 20 findings, most severe first, and say how many were left out; `webhook` lists them all. Output is deterministic, with no timestamps in the chat formats.
+
+Pipe the payload into your own webhook step. The URL lives in a secret, and the step runs only where you choose:
+
+```yaml
+- uses: actions/checkout@v7
+- run: npm ci   # your project must already depend on evergreen-deprecation
+- name: Post digest to Slack
+  if: always()
+  run: npx --no-install evergreen-deprecation scan . --format slack | curl -sS -X POST -H "Content-Type: application/json" --data @- "$SLACK_WEBHOOK_URL"
+  env:
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+```
+
+Use `--format teams` with a Teams workflow URL, or `--format webhook` with any endpoint, in the same way.
+
 ## Inputs and outputs
 
 Every input is optional. The values below are the defaults used when a workflow
