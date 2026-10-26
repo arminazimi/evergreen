@@ -1,6 +1,6 @@
 # Terraform
 
-The `terraform` detector reports Terraform CLI release lines that are no longer supported, as declared in `*.tf`, `.terraform-version`, and `.tool-versions`, and reads locked provider versions from `.terraform.lock.hcl`. It is **experimental**: it is not yet held to the precision floor that stable detectors are (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/terraform.json` and ship in the [data bundle](../DATA.md).
+The `terraform` detector reports Terraform CLI release lines that are no longer supported, as declared in `*.tf`, `.terraform-version`, `.tool-versions`, and `terraform show -json` plan JSON files, and reads locked provider versions from `.terraform.lock.hcl`. It is **experimental**: it is not yet held to the precision floor that stable detectors are (see [Decision 0013](../decisions/0013-detector-maturity.md)). Its lifecycle rules are in `registry/terraform.json` and ship in the [data bundle](../DATA.md).
 
 ## What it reads
 
@@ -10,13 +10,16 @@ The `terraform` detector reports Terraform CLI release lines that are no longer 
 | `.terraform.lock.hcl` | The locked `version` (and recorded `constraints`) of each top-level `provider "<address>"` block |
 | `.terraform-version` | The single Terraform version used by tfenv and tenv |
 | `.tool-versions` | The first version of the `terraform` entry (asdf and mise). `terraformer` and other tools are not read |
+| `*.json` | Output from `terraform show -json`: resolved CLI `terraform_version`, resolved `provider_config` / `provider_requirements`, and resolved `engine` / `engine_version` on database resources |
 
 It walks the repository up to eight directories deep (at most 500 matching files) and does not follow symbolic links. It skips `.git`, `.terraform` (the module and provider cache), `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata`. Terraform and its version managers are never run, and nothing is fetched.
 
 ## What it reports
 
-- A Terraform CLI version pinned in `.terraform-version` or `.tool-versions`, or constrained in `required_version` (see below), that falls in a release line the rules mark as past end of support. HashiCorp supports the two most recent release lines, so a line loses support when the release two lines later ships. The bundled rules cover CLI lines 1.10 through 1.14, at **medium** or **high** severity. The support window is taken from endoflife.date and the dates of the `hashicorp/terraform` GitHub releases; the HashiCorp support-policy page is listed as a source but could not be read automatically when the rules were reviewed.
-- A provider version in `.terraform.lock.hcl` or `required_providers`, when a reviewed rule covers it. The registry has no provider rules yet, so this produces findings only after one is added. Providers are matched as `pkg:generic/terraform-provider/<namespace>/<name>`, and only providers on `registry.terraform.io` are read.
+- A Terraform CLI version pinned in `.terraform-version` or `.tool-versions`, constrained in `required_version` (see below), or resolved in a plan JSON file (`/terraform_version`), that falls in a release line the rules mark as past end of support. HashiCorp supports the two most recent release lines, so a line loses support when the release two lines later ships. The bundled rules cover CLI lines 1.10 through 1.14, at **medium** or **high** severity. The support window is taken from endoflife.date and the dates of the `hashicorp/terraform` GitHub releases; the HashiCorp support-policy page is listed as a source but could not be read automatically when the rules were reviewed.
+- A provider version in `.terraform.lock.hcl`, `required_providers`, or plan JSON, when a reviewed rule covers it. The registry has no provider rules yet, so this produces findings only after one is added. Providers are matched as `pkg:generic/terraform-provider/<namespace>/<name>`, and only providers on `registry.terraform.io` are read.
+- Resolved database `engine_version` on managed resources in a plan JSON file, judged against database runtime lifecycle rules.
+- Plan JSON findings carry plan evidence: the file path plus the JSON pointer (e.g., `/terraform_version`) or resource address (e.g., `aws_db_instance.legacy_db`).
 
 Each finding carries its rule's sources, replacement, migration steps, and verification commands: raise the CLI pin, raise `required_version`, and align CI; then `terraform version`, `terraform init -backend=false && terraform validate`, and `terraform plan`. The detector reports no source usages.
 

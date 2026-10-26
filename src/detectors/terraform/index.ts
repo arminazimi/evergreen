@@ -11,6 +11,7 @@ import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, Dete
 import { parseVersLenient, versContains } from "../../vers/index.js";
 import { parseTerraformLock } from "./parse-lock.js";
 import { parseTerraformFile } from "./parse-terraform.js";
+import { parseTerraformPlanJson } from "./plan.js";
 import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-version-files.js";
 
 /**
@@ -39,6 +40,19 @@ const TERRAFORM_PURL = "pkg:generic/terraform";
 const REGISTRY_HOST = "registry.terraform.io";
 const EXACT_VERSION = /^=?\s*(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/;
 const PESSIMISTIC_PATCH = /^~>\s*(\d+)\.(\d+)\.(\d+)$/;
+const ENGINE_VERSION = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:-[0-9A-Za-z][0-9A-Za-z._-]*)?$/;
+const OPEN_END = "999999999";
+
+/** The Package URL of each database engine product as written in `registry/database.json`. */
+const ENGINE_PURLS: Readonly<Record<string, string>> = {
+  postgres: "pkg:generic/postgresql",
+  postgresql: "pkg:generic/postgresql",
+  mysql: "pkg:generic/mysql",
+  mariadb: "pkg:generic/mariadb",
+  redis: "pkg:generic/redis",
+  mongo: "pkg:generic/mongodb",
+  mongodb: "pkg:generic/mongodb",
+};
 
 async function terraformFiles(root: string): Promise<string[]> {
   const files: string[] = [];
@@ -54,7 +68,12 @@ async function terraformFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (entry.isFile() && (VERSION_FILES.has(entry.name) || entry.name.toLowerCase().endsWith(".tf"))) {
+      } else if (
+        entry.isFile() &&
+        (VERSION_FILES.has(entry.name) ||
+          entry.name.toLowerCase().endsWith(".tf") ||
+          entry.name.toLowerCase().endsWith(".json"))
+      ) {
         files.push(join(directory, entry.name));
       }
     }
@@ -131,14 +150,31 @@ function ruleForDeclared(rules: readonly RegistryV2Rule[], value: string): Regis
   return rules.find(coversEveryVersion);
 }
 
+function ruleForEngineDeclared(rules: readonly RegistryV2Rule[], value: string): RegistryV2Rule | undefined {
+  const match = ENGINE_VERSION.exec(value.trim());
+  if (!match) return undefined;
+  const [, major, minor, patch] = match;
+  const low = `${major}.${minor ?? "0"}.${patch ?? "0"}`;
+  const high = `${major}.${minor ?? OPEN_END}.${patch ?? OPEN_END}`;
+  return rules.find((rule) => containsAll(rule, low === high ? [low] : [low, high]));
+}
+
 export class TerraformDetector implements Detector {
   readonly apiVersion = DETECTOR_API_VERSION;
   readonly id = "terraform";
   /** The files `scan` may read; conformance fails a scan that reads another. */
-  readonly inputs: DetectorInputs = { fileNames: [".terraform-version", ".tool-versions", ".terraform.lock.hcl"], extensions: [".tf"] };
+  readonly inputs: DetectorInputs = {
+    fileNames: [".terraform-version", ".tool-versions", ".terraform.lock.hcl"],
+    extensions: [".tf", ".json"],
+  };
 
-  /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/terraform.json`. */
-  constructor(private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => validateRegistryV2(await loadDataFile("registry/terraform.json")).rules) {}
+  /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/terraform.json` and `registry/database.json`. */
+  constructor(
+    private readonly loadRules: () => Promise<RegistryV2Rule[]> = async () => [
+      ...validateRegistryV2(await loadDataFile("registry/terraform.json")).rules,
+      ...validateRegistryV2(await loadDataFile("registry/database.json")).rules,
+    ],
+  ) {}
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
     return [...(await this.analyze(context)).findings];
@@ -151,14 +187,20 @@ export class TerraformDetector implements Detector {
     const byPurl = rulesByPurl(await this.loadRules());
     const cliRules = byPurl.get(TERRAFORM_PURL) ?? [];
     const findings: DetectorFinding[] = [];
-    const report = (rule: RegistryV2Rule, path: string, line: number, summary: string): void => {
+    const report = (
+      rule: RegistryV2Rule,
+      path: string,
+      locationKey: number | string,
+      summary: string,
+    ): void => {
+      const line = typeof locationKey === "number" ? locationKey : undefined;
       findings.push({
-        id: `${rule.id}:${path}:${line}`,
+        id: `${rule.id}:${path}:${locationKey}`,
         ruleId: rule.id,
         title: rule.title,
         summary,
         severity: rule.severity,
-        location: { path, line },
+        location: { path, ...(line !== undefined ? { line } : {}) },
         ...(rule.replacement ? { replacement: rule.replacement } : {}),
         ...(rule.deadline ? { deadline: rule.deadline } : {}),
         ...(rule.migration ? { migration: rule.migration } : {}),
@@ -187,6 +229,30 @@ export class TerraformDetector implements Detector {
           if (host?.toLowerCase() !== REGISTRY_HOST || !namespace || !providerName) continue;
           const rule = firstMatchingRule(byPurl.get(providerPurl(namespace.toLowerCase(), providerName.toLowerCase())) ?? [], provider.value);
           if (rule) report(rule, path, provider.line, `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`);
+        }
+      } else if (name.toLowerCase().endsWith(".json")) {
+        for (const declaration of parseTerraformPlanJson(contents)) {
+          if (declaration.kind === "cli_version") {
+            const rule = ruleForDeclared(cliRules, declaration.value);
+            if (rule) {
+              report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`);
+            }
+          } else if (declaration.kind === "provider_version") {
+            const source = providerSource(declaration.source, declaration.provider);
+            if (!source) continue;
+            const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
+            if (rule) {
+              report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
+            }
+          } else if (declaration.kind === "engine_version") {
+            const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
+            if (!purl) continue;
+            const rules = byPurl.get(purlIdentity(purl)) ?? [];
+            const rule = ruleForEngineDeclared(rules, declaration.value);
+            if (rule) {
+              report(rule, path, declaration.address, `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
+            }
+          }
         }
       } else {
         for (const declaration of parseTerraformFile(contents)) {
