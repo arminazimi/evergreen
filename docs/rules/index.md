@@ -70,6 +70,13 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`
 - [PostgreSQL 14 reaches the end of its support on 2026-11-12](database.postgresql.end-of-life-14.html) — scheduled end of life, `database.postgresql.end-of-life-14`
 
+## deno
+
+- [Bun 0.x pre-release is end-of-life](deno.bun.runtime.eol-0.x.html) — end of life, `deno.bun.runtime.eol-0.x`
+- [Bun 1.0.x is end-of-life](deno.bun.runtime.eol-1.0.html) — end of life, `deno.bun.runtime.eol-1.0`
+- [Deno 0.x pre-release is end-of-life](deno.runtime.eol-0.x.html) — end of life, `deno.runtime.eol-0.x`
+- [Deno 1.x is end-of-life](deno.runtime.eol-1.x.html) — end of life, `deno.runtime.eol-1.x`
+
 ## dotnet
 
 - [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html) — deprecated, `dotnet.package.microsoft-azure-documentdb.deprecated`
