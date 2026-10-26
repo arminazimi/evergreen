@@ -14,13 +14,18 @@ import { parseCompose } from "./parse-compose.js";
 import { parseDockerfile } from "./parse-dockerfile.js";
 import type { Runtime } from "./parse-dockerfile.js";
 import { parseImageReference } from "./parse-image.js";
+import { findRootfsSnapshots } from "./rootfs.js";
+import type { RootfsOsRelease, RootfsSnapshot } from "./rootfs.js";
 
 /**
- * Finds base images and Dockerfile runtime install commands whose release line has reached end of life.
+ * Finds base images and Dockerfile runtime install commands whose release line has reached end of life,
+ * plus the OS and runtimes that ship inside a built image's filesystem.
  *
  * It reads Dockerfile / Containerfile `FROM` and supported `RUN` lines plus Compose
  * `services.*.image` values. A version is classified only when every version it can stand for is
- * inside a rule's range, so a floating image tag such as `mysql:8` is not guessed.
+ * inside a rule's range, so a floating image tag such as `mysql:8` is not guessed. When the scanned
+ * directory is an unpacked root filesystem, or holds a local root filesystem archive, the same
+ * reviewed rules judge `os-release` and well-known runtime paths.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -223,6 +228,84 @@ function matchingRuntimeRule(rules: readonly RegistryV2Rule[], runtime: Runtime,
   });
 }
 
+/** The release line an `os-release` names, from `VERSION_ID` or a Debian or Ubuntu codename. */
+function osReleaseVersion(osRelease: RootfsOsRelease): string | undefined {
+  if (osRelease.versionId !== undefined) return osRelease.versionId;
+  const codename = osRelease.codename;
+  if (codename === undefined) return undefined;
+  return osRelease.id === "ubuntu" ? UBUNTU_CODENAMES.get(codename) : osRelease.id === "debian" ? DEBIAN_CODENAMES.get(codename) : undefined;
+}
+
+function osVersionBounds(value: string): { lowest: string; highest: string } | undefined {
+  const match = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?$/.exec(value.trim());
+  if (!match) return undefined;
+  const [, major, minor, patch] = match;
+  return {
+    lowest: `${Number(major)}.${minor === undefined ? "0" : Number(minor)}.${patch === undefined ? "0" : Number(patch)}`,
+    highest: `${Number(major)}.${minor === undefined ? UNBOUNDED : Number(minor)}.${patch === undefined ? UNBOUNDED : Number(patch)}`,
+  };
+}
+
+function matchingOsRule(
+  rules: ReadonlyMap<string, RegistryV2Rule[]>,
+  osRelease: RootfsOsRelease,
+): RegistryV2Rule | undefined {
+  const version = osReleaseVersion(osRelease);
+  const bounds = version === undefined ? undefined : osVersionBounds(version);
+  if (!bounds) return undefined;
+  return rules.get(`library/${osRelease.id}`)?.find((rule) => {
+    try {
+      return versContains(rule.vers, bounds.lowest) && versContains(rule.vers, bounds.highest);
+    } catch {
+      return false;
+    }
+  });
+}
+
+function rootfsFindings(
+  snapshots: readonly RootfsSnapshot[],
+  osRules: ReadonlyMap<string, RegistryV2Rule[]>,
+  runtimeRules: ReadonlyMap<Runtime, RegistryV2Rule[]>,
+): DetectorFinding[] {
+  const findings: DetectorFinding[] = [];
+  for (const snapshot of snapshots) {
+    const osRelease = snapshot.osRelease;
+    const osRule = osRelease === undefined ? undefined : matchingOsRule(osRules, osRelease);
+    if (osRelease && osRule) {
+      const description = osRelease.prettyName ?? [osRelease.id, osRelease.versionId ?? osRelease.codename].filter(Boolean).join(" ");
+      findings.push({
+        id: `${osRule.id}:${osRelease.path}:${osRelease.line}`,
+        ruleId: osRule.id,
+        title: osRule.title,
+        summary: `${osRelease.path} reports ${description}. ${osRule.summary}`,
+        severity: osRule.severity,
+        location: { path: osRelease.path, line: osRelease.line },
+        ...(osRule.replacement ? { replacement: osRule.replacement } : {}),
+        ...(osRule.deadline ? { deadline: osRule.deadline } : {}),
+        ...(osRule.migration ? { migration: osRule.migration } : {}),
+        sources: osRule.sources,
+      });
+    }
+    for (const evidence of snapshot.runtimes) {
+      const rule = matchingRuntimeRule(runtimeRules.get(evidence.runtime) ?? [], evidence.runtime, evidence.version);
+      if (!rule) continue;
+      findings.push({
+        id: `${rule.id}:${evidence.path}:${evidence.line}`,
+        ruleId: rule.id,
+        title: rule.title,
+        summary: `${evidence.path} ships ${evidence.runtime} ${evidence.version}. ${rule.summary}`,
+        severity: rule.severity,
+        location: { path: evidence.path, line: evidence.line },
+        ...(rule.replacement ? { replacement: rule.replacement } : {}),
+        ...(rule.deadline ? { deadline: rule.deadline } : {}),
+        ...(rule.migration ? { migration: rule.migration } : {}),
+        sources: rule.sources,
+      });
+    }
+  }
+  return findings;
+}
+
 type TagClass =
   | { kind: "versions"; lowest: string; highest: string }
   | { kind: "unclassified"; reason: string };
@@ -279,7 +362,21 @@ export class ContainerDetector implements Detector {
   readonly id = "container";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["Dockerfile*", "Containerfile*", "*.Dockerfile", "*.Containerfile", "docker-compose*.yml", "docker-compose*.yaml", "compose*.yml", "compose*.yaml"],
+    fileNames: [
+      "Dockerfile*",
+      "Containerfile*",
+      "*.Dockerfile",
+      "*.Containerfile",
+      "docker-compose*.yml",
+      "docker-compose*.yaml",
+      "compose*.yml",
+      "compose*.yaml",
+      "os-release",
+      "node_version.h",
+      "VERSION",
+      "release",
+    ],
+    extensions: [".tar", ".tar.gz", ".tgz"],
   };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
@@ -288,7 +385,8 @@ export class ContainerDetector implements Detector {
 
   async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const found = await candidates(context.root);
-    if (found.length === 0) return { findings: [], unclassified: [] };
+    const rootfs = await findRootfsSnapshots(context.root);
+    if (found.length === 0 && rootfs.length === 0) return { findings: [], unclassified: [] };
 
     const registry = validateRegistryV2(await loadDataFile("registry/container.json"));
     const rules = rulesByRepository(registry.rules);
@@ -296,11 +394,12 @@ export class ContainerDetector implements Detector {
       (rule) => rule.purl === "pkg:generic/dotnet" && rule.id.startsWith("dotnet.runtime."),
     );
     const runtimeRules = new Map<Runtime, RegistryV2Rule[]>();
-    const runtimes = new Set(
-      found
+    const runtimes = new Set<Runtime>([
+      ...found
         .filter((candidate): candidate is RuntimeCandidate => candidate.kind === "runtime")
         .map((candidate) => candidate.runtime),
-    );
+      ...rootfs.flatMap((snapshot) => snapshot.runtimes.map((evidence) => evidence.runtime)),
+    ]);
     for (const runtime of runtimes) {
       const source = RUNTIME_RULES[runtime];
       const loaded = validateRegistryV2(await loadDataFile(source.file)).rules;
@@ -380,6 +479,7 @@ export class ContainerDetector implements Detector {
       }
     }
 
+    findings.push(...rootfsFindings(rootfs, rules, runtimeRules));
     return { findings, unclassified };
   }
 }
