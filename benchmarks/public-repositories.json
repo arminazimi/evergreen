@@ -1701,6 +1701,15 @@
             "kind": "migration-commit",
             "url": "https://github.com/simonsobs/ocs/commit/c18fb69118c90ea5fa2cc6171f6e1e1d08b51a2e"
           }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-22.04",
+          "path": "Dockerfile",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM ubuntu:22.04`, an Ubuntu release line with a scheduled standard-support end-of-life."
+          }
         }
       ]
     },
@@ -3727,6 +3736,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 5 of Dockerfile reads `FROM golang:1.25 as build`, a Go release line that no longer receives fixes."
           }
+        },
+        {
+          "ruleId": "container.alpine.eol-3.20-and-older",
+          "path": "Dockerfile",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of Dockerfile reads `FROM alpine:3.19`, an Alpine release line past its end-of-life."
+          }
         }
       ]
     },
@@ -5751,6 +5769,87 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of src/DlibDotNet.Native/CMakeLists.txt reads `cmake_minimum_required(VERSION 3.0.0)`; CMake 4.0 removed compatibility with policy versions older than 3.5 (CMake 4.0.0, 2025-03-27)."
           }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/base/ubuntu/16/cpu/x64/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/base/ubuntu/16/cpu/x64/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/base/ubuntu/16/cpu/x86/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/base/ubuntu/16/cpu/x86/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/base/ubuntu/16/mkl/x64/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/base/ubuntu/16/mkl/x64/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/base/ubuntu/16/mkl/x86/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/base/ubuntu/16/mkl/x86/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/android/28.0.3-r20-jdk8/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/devel/ubuntu/16/cpu/x64/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/cpu/x64/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/devel/ubuntu/16/cpu/x86/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/cpu/x86/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/devel/ubuntu/16/mkl/x64/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/mkl/x64/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker/devel/ubuntu/16/mkl/x86/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker/devel/ubuntu/16/mkl/x86/Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
+          }
         }
       ]
     },
@@ -6725,6 +6824,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 53 of gsp315/main.tf reads `runtime = \"nodejs14\"` on a Google Cloud Functions resource. The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30 (https://cloud.google.com/functions/docs/runtime-support)."
           }
+        },
+        {
+          "ruleId": "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7",
+          "path": "cloud_sql/main.tf",
+          "line": 20,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 20 of cloud_sql/main.tf reads `database_version = \"MYSQL_5_7\"`, a Cloud SQL for MySQL version in the extended-support window the rule covers."
+          }
         }
       ]
     },
@@ -7148,6 +7256,15 @@
             "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
             "note": "Reviewed at this commit: line 24 of .github/workflows/dist.yaml uses actions/upload-artifact@v2, a retired release of the artifact actions."
           }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "pkg/docker/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of pkg/docker/Dockerfile reads `FROM ubuntu:18.04`, an Ubuntu release line past its end-of-life."
+          }
         }
       ]
     },
@@ -7248,6 +7365,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of .xcode-version reads `11.6`, an Xcode release older than 15. Apple's App Store upcoming requirements require apps uploaded to App Store Connect to be built with Xcode 15 starting April 29, 2024 (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "web.Dockerfile",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 17 of web.Dockerfile reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
           }
         }
       ]
@@ -8103,6 +8229,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 32 of more_examples/main.tf reads `engine_version      = \"5.7.44\"`, MySQL 5.7, which reached end of life on 2023-10-31 (MySQL lifecycle, https://www.mysql.com/support/supportedplatforms/database.html; https://endoflife.date/mysql)."
+          }
+        },
+        {
+          "ruleId": "terraform.eks.end-of-life-1.30-and-older",
+          "path": "more_examples/main.tf",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 50 of more_examples/main.tf reads `cluster_version = \"1.24\"`, an EKS Kubernetes version that has reached end of life."
           }
         }
       ]
@@ -10654,6 +10789,24 @@
             "kind": "maintainer-review",
             "note": "Read go.mod:3 at this commit: `go 1.22`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker-build/gtun/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker-build/gtun/Dockerfile reads `FROM ubuntu:20.04`, an Ubuntu release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "docker-build/gtund/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of docker-build/gtund/Dockerfile reads `FROM ubuntu:20.04`, an Ubuntu release line past its end-of-life."
+          }
         }
       ]
     },
@@ -11184,6 +11337,15 @@
             "kind": "maintainer-review",
             "note": "Read Cargo.toml:49 at this commit: `atty = \"0.2\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.debian.eol-11-and-older",
+          "path": "Dockerfile",
+          "line": 12,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 12 of Dockerfile reads `FROM debian:buster-slim`, a Debian release line past its end-of-life."
+          }
         }
       ]
     },
@@ -11483,6 +11645,33 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read deploy/.ruby-version:1 at this commit: `2.6.6`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.debian.eol-11-and-older",
+          "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.8-builded reads `FROM debian:8`, a Debian release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.debian.eol-11-and-older",
+          "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.debian.9-builded reads `FROM debian:9`, a Debian release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.ubuntu.eol-20.04-and-older",
+          "path": "ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of ansible/playbooks/roles/ANXS.postgresql/tests/docker/images/Dockerfile.ubuntu.16.04-builded reads `FROM ubuntu:16.04`, an Ubuntu release line past its end-of-life."
           }
         }
       ]
@@ -14764,6 +14953,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/container-images.yml:21 at this commit: `uses: actions/checkout@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.alpine.eol-3.20-and-older",
+          "path": "Containerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of Containerfile reads `FROM docker.io/library/alpine:3.14.2 AS build`, an Alpine release line past its end-of-life."
+          }
+        },
+        {
+          "ruleId": "container.alpine.eol-3.20-and-older",
+          "path": "Containerfile",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of Containerfile reads `FROM docker.io/library/alpine:3.14.2`, an Alpine release line past its end-of-life."
           }
         }
       ]
@@ -22615,6 +22822,15 @@
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:7 at this commit: `requires-python = \">=3.7\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "container.alpine.eol-3.20-and-older",
+          "path": "Dockerfile",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of Dockerfile reads `FROM alpine:3.14 AS good-mitm`, an Alpine release line past its end-of-life."
+          }
         }
       ]
     },
@@ -23273,6 +23489,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:9 at this commit: `requires-python = \">=3.6\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "container.debian.eol-11-and-older",
+          "path": "linux_dist/appimage/Dockerfile",
+          "line": 1,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 1 of linux_dist/appimage/Dockerfile reads `FROM debian:bullseye-slim`, a Debian release line past its end-of-life."
           }
         }
       ]

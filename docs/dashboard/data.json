@@ -87,8 +87,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 39,
-        "expectedFindings": 82,
+        "repositoriesWithFindings": 48,
+        "expectedFindings": 105,
         "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
@@ -156,8 +156,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 11,
-        "expectedFindings": 16,
+        "repositoriesWithFindings": 12,
+        "expectedFindings": 17,
         "zeroFindingRepositories": 2,
         "repositories": 12,
         "blindRepositories": 8
@@ -518,8 +518,8 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 5,
-        "expectedFindings": 7,
+        "repositoriesWithFindings": 6,
+        "expectedFindings": 8,
         "zeroFindingRepositories": 3,
         "repositories": 12,
         "blindRepositories": 7
