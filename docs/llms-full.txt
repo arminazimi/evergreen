@@ -295,6 +295,30 @@ Only entries with an `expires` can expire, so a baseline written before these fi
 
 The Action then annotates and gates only findings not represented by that baseline.
 
+## Chat and webhook digests
+
+`evergreen scan --format slack`, `--format teams`, and `--format webhook` print a JSON payload to standard output. Evergreen only renders the payload and never sends it: the network call belongs to a step you write, so the scan itself stays offline.
+
+- `slack` is a Slack incoming-webhook message: a fallback `text`, a header, a counts summary, and one section per finding. It fits Slack's 50-block and 3,000-character section limits.
+- `teams` is a Microsoft Teams message with an Adaptive Card (version 1.4) for a Teams workflow webhook.
+- `webhook` is a generic JSON payload (`schemaVersion: "evergreen.webhook.v1"`) with a count per severity and every finding, for any system that accepts JSON.
+
+The chat formats list at most 20 findings, most severe first, and say how many were left out; `webhook` lists them all. Output is deterministic, with no timestamps in the chat formats.
+
+Pipe the payload into your own webhook step. The URL lives in a secret, and the step runs only where you choose:
+
+```yaml
+- uses: actions/checkout@v7
+- run: npm ci   # your project must already depend on evergreen-deprecation
+- name: Post digest to Slack
+  if: always()
+  run: npx --no-install evergreen-deprecation scan . --format slack | curl -sS -X POST -H "Content-Type: application/json" --data @- "$SLACK_WEBHOOK_URL"
+  env:
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+```
+
+Use `--format teams` with a Teams workflow URL, or `--format webhook` with any endpoint, in the same way.
+
 ## Inputs and outputs
 
 Every input is optional. The values below are the defaults used when a workflow
@@ -1791,6 +1815,8 @@ Seventeen public repositories at pinned commits cover the `kubernetes` detector.
 Blind (rule below): `kelseyhightower/kubernetes-cluster-federation` (extensions/v1beta1 Deployments, ReplicaSets, and an Ingress), `motiv-labs/janus` (a PodDisruptionBudget and an Ingress, plus Go and Action findings), `FairwindsOps/pluto` (two extensions/v1beta1 Deployments outside its test directories), `luksa/kubernetes-in-action` (thirty-odd manifests across extensions, apps/v1beta1 and v1beta2, PodSecurityPolicy, CronJob, StatefulSet, CRD, and Ingress), `ossf/package-analysis` (an autoscaling/v2beta2 HorizontalPodAutoscaler), `knrt10/kubernetes-basicLearning` (a networking.k8s.io/v1beta1 Ingress), and five with no Kubernetes finding: `hasura/skor` (the removed version appears only as a `kind: List` item), `stefanprodan/gitops-istio` (the removed version appears only as a Flagger `autoscalerRef`), `doitintl/kube-no-trouble` (the removed versions are in `fixtures/`), `elastic/crd-ref-docs`, and `yaml-schema/yaml-schema`, `shepherd44/helm-charts` (current API versions).
 
 Because the corpus scans every detector, every finding in these repositories is recorded, not only the Kubernetes ones. Each expected finding was checked by reading its line at the pinned commit, and its `groundTruthSource` is a `maintainer-review` note naming the path and line; none of these repositories has a migration commit for the finding, so none is cited. The rules' dates and removal releases come from the Kubernetes migration guide, not from these repositories. A run of `npm run validate:public-repos -- --ecosystem kubernetes` on 2026-10-23 over the seventeen Kubernetes entries reported no false positives or false negatives, with 67 expected `kubernetes` findings, all true.
+
+**Correction (blind ground truth).** The `FairwindsOps/pluto` entry was missing one expected finding: `e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml` line 3, an `extensions/v1beta1 Deployment` inside a `kind: List` document. The first corpus run with the `kind: List` parser reported it as unexpected. A re-read of the pinned file confirmed it is a real removed API, so the expected list was extended after that run, and this paragraph records the change. The earlier count of 67 expected `kubernetes` findings predates this correction.
 
 ## Kubernetes blind selection
 
