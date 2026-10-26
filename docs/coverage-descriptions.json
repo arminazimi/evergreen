@@ -29,7 +29,7 @@
     {
       "ecosystems": ["kubernetes"],
       "name": "Kubernetes APIs",
-      "coverage": "The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served. See [Kubernetes APIs](detectors/kubernetes.md)."
+      "coverage": "The literal `apiVersion` and `kind` in YAML manifests, Helm chart templates, and kustomization patches, for API versions the Kubernetes project says are no longer served, and `Chart.yaml` dependencies that still point at the retired Helm stable or incubator repositories. See [Kubernetes APIs](detectors/kubernetes.md)."
     },
     {
       "ecosystems": ["github-actions"],

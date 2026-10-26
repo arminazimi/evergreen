@@ -164,27 +164,74 @@ test("translates API versions to the semver text used by rules", () => {
 const template = (contents: string) =>
   parseTemplate(contents).map(({ value, resource, line, kindLine }) => ({ value, resource, line, kindLine }));
 
-test("reads a top-level kubeVersion from Chart.yaml", async () => {
-  assert.deepEqual(parseChart(await fixture("positive", "helm", "mychart", "Chart.yaml")), [
-    { kind: "kubeVersion", value: ">=1.19.0-0 <1.22.0-0", line: 6 },
-  ]);
-  assert.deepEqual(parseChart(await fixture("zero", "helm", "mychart", "Chart.yaml")), []);
+test("reads a top-level kubeVersion and stable-repository dependency from Chart.yaml", async () => {
+  assert.deepEqual(parseChart(await fixture("positive", "helm", "mychart", "Chart.yaml")), {
+    kubeVersions: [{ kind: "kubeVersion", value: ">=1.19.0-0 <1.22.0-0", line: 6 }],
+    dependencies: [
+      {
+        kind: "dependency",
+        name: "redis",
+        version: "10.5.7",
+        repository: "https://charts.helm.sh/stable",
+        line: 8,
+      },
+    ],
+    unclassified: [],
+  });
+  assert.deepEqual(parseChart(await fixture("zero", "helm", "mychart", "Chart.yaml")), {
+    kubeVersions: [],
+    dependencies: [
+      {
+        kind: "dependency",
+        name: "redis",
+        version: "17.3.2",
+        repository: "https://charts.bitnami.com/bitnami",
+        line: 5,
+      },
+    ],
+    unclassified: [],
+  });
 });
 
-test("ignores a commented or nested kubeVersion and the chart's own apiVersion", async () => {
-  assert.deepEqual(parseChart(await fixture("negative", "helm", "mychart", "Chart.yaml")), []);
+test("ignores a commented or nested kubeVersion and leaves templated or aliased dependencies unclassified", async () => {
+  assert.deepEqual(parseChart(await fixture("negative", "helm", "mychart", "Chart.yaml")), {
+    kubeVersions: [],
+    dependencies: [],
+    unclassified: [
+      {
+        value: "{{ .Values.dep }}",
+        line: 8,
+        reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
+      },
+      {
+        value: "@stable",
+        line: 13,
+        reason: "Helm repository aliases are not resolved",
+      },
+    ],
+  });
   for (const contents of ["kubeVersion: 1\n", "kubeVersion: {{ .x }}\n", "kubeVersion: ''\n", "- kubeVersion: '>=1'\n", "kubeVersion: [a]\n"]) {
-    assert.deepEqual(parseChart(contents), [], contents);
+    assert.deepEqual(parseChart(contents), { kubeVersions: [], dependencies: [], unclassified: [] }, contents);
   }
 });
 
 test("malformed or oversized Chart.yaml returns nothing", async () => {
   const malformed = await fixture("malformed", "helm", "mychart", "Chart.yaml");
   assert.doesNotThrow(() => parseChart(malformed));
-  assert.deepEqual(parseChart(malformed), []);
-  assert.deepEqual(parseChart(`# ${"x".repeat(MAXIMUM_CHART_BYTES)}\nkubeVersion: ">=1.0.0"\n`), []);
-  assert.deepEqual(parseChart(`kubeVersion: "${">=1.0.0 ".repeat(100)}"\n`), []);
-  for (const junk of ["", "\u0000", "{", "[[["]) assert.deepEqual(parseChart(junk), []);
+  assert.deepEqual(parseChart(malformed), { kubeVersions: [], dependencies: [], unclassified: [] });
+  assert.deepEqual(parseChart(`# ${"x".repeat(MAXIMUM_CHART_BYTES)}\nkubeVersion: ">=1.0.0"\n`), {
+    kubeVersions: [],
+    dependencies: [],
+    unclassified: [],
+  });
+  assert.deepEqual(parseChart(`kubeVersion: "${">=1.0.0 ".repeat(100)}"\n`), {
+    kubeVersions: [],
+    dependencies: [],
+    unclassified: [],
+  });
+  for (const junk of ["", "\u0000", "{", "[[["]) {
+    assert.deepEqual(parseChart(junk), { kubeVersions: [], dependencies: [], unclassified: [] });
+  }
 });
 
 test("reads literal declarations from templates, including inside a .Values condition", async () => {

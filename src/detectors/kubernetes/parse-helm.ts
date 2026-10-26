@@ -1,11 +1,11 @@
-import { LineCounter, isMap, isScalar, parseDocument } from "yaml";
+import { LineCounter, isMap, isScalar, isSeq, parseDocument } from "yaml";
 
 import { isKind, splitApiVersion } from "./api-version.js";
 import type { ApiDeclaration } from "./parse-manifest.js";
 
 /**
- * Pure, bounded parsers for Helm charts: `kubeVersion` in `Chart.yaml` and literal
- * `apiVersion`/`kind` pairs in `templates/*.yaml`.
+ * Pure, bounded parsers for Helm charts: `kubeVersion` and `dependencies` in `Chart.yaml`,
+ * and literal `apiVersion`/`kind` pairs in `templates/*.yaml`.
  *
  * A template is not YAML until Helm renders it, and Evergreen never renders it. The
  * template parser reads the file as text: template actions are masked, the control
@@ -17,6 +17,10 @@ import type { ApiDeclaration } from "./parse-manifest.js";
  * `.Values` do not make a declaration dynamic. Values from `.Values` or a helper are
  * dynamic, a document with two `apiVersion` lines is skipped, and a template with
  * unbalanced or unterminated actions yields nothing.
+ *
+ * Chart dependencies whose `name`, `version`, or `repository` contain a template action,
+ * or whose repository is a Helm alias (`@stable`), are returned as unclassified rather
+ * than guessed. Local file dependencies and unknown repositories produce no declaration.
  */
 
 export const MAXIMUM_INPUT_BYTES = 1024 * 1024;
@@ -24,6 +28,7 @@ export const MAXIMUM_LINE_LENGTH = 4096;
 export const MAXIMUM_DOCUMENTS = 500;
 export const MAXIMUM_ACTIONS = 20_000;
 export const MAXIMUM_NESTING = 64;
+export const MAXIMUM_DEPENDENCIES = 500;
 
 export interface KubeVersionDeclaration {
   kind: "kubeVersion";
@@ -33,23 +38,109 @@ export interface KubeVersionDeclaration {
   line: number;
 }
 
-/** Read the top-level `kubeVersion` of a `Chart.yaml`. */
-export function parseChart(contents: string): KubeVersionDeclaration[] {
-  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return [];
+export interface ChartDependencyDeclaration {
+  kind: "dependency";
+  /** Chart name as written. */
+  name: string;
+  /** Version constraint when literal; undefined when omitted. */
+  version: string | undefined;
+  /** Repository URL when literal; undefined when omitted. */
+  repository: string | undefined;
+  /** One-based line of the `name` field (or the mapping when name has no range). */
+  line: number;
+}
+
+export interface ChartUnclassifiedReference {
+  /** The field value that could not be judged. */
+  value: string;
+  /** One-based line of that value. */
+  line: number;
+  reason: string;
+}
+
+export interface ChartParseResult {
+  kubeVersions: KubeVersionDeclaration[];
+  dependencies: ChartDependencyDeclaration[];
+  unclassified: ChartUnclassifiedReference[];
+}
+
+const EMPTY_CHART: ChartParseResult = { kubeVersions: [], dependencies: [], unclassified: [] };
+
+/** Read a scalar string with its line; undefined when the node is not a bounded string. */
+function scalarField(
+  node: unknown,
+  lines: LineCounter,
+): { value: string; line: number } | undefined {
+  if (!isScalar(node) || !node.range) return undefined;
+  const raw: unknown = node.value;
+  if (typeof raw !== "string") return undefined;
+  const value = raw.trim();
+  if (value.length === 0 || value.length > 256) return undefined;
+  return { value, line: lines.linePos(node.range[0]).line };
+}
+
+/** Read the top-level `kubeVersion` and `dependencies` of a `Chart.yaml`. */
+export function parseChart(contents: string): ChartParseResult {
+  if (Buffer.byteLength(contents, "utf8") > MAXIMUM_INPUT_BYTES) return EMPTY_CHART;
 
   try {
     const lines = new LineCounter();
     const document = parseDocument(contents, { lineCounter: lines, merge: false });
-    if (document.errors.length > 0 || !isMap(document.contents)) return [];
-    const node = document.contents.get("kubeVersion", true);
-    if (!isScalar(node) || !node.range) return [];
-    const raw: unknown = node.value;
-    if (typeof raw !== "string") return [];
-    const value = raw.trim();
-    if (value.length === 0 || value.length > 256 || value.includes("{{")) return [];
-    return [{ kind: "kubeVersion", value, line: lines.linePos(node.range[0]).line }];
+    if (document.errors.length > 0 || !isMap(document.contents)) return EMPTY_CHART;
+
+    const kubeVersions: KubeVersionDeclaration[] = [];
+    const kubeNode = document.contents.get("kubeVersion", true);
+    const kube = scalarField(kubeNode, lines);
+    if (kube && !kube.value.includes("{{")) {
+      kubeVersions.push({ kind: "kubeVersion", value: kube.value, line: kube.line });
+    }
+
+    const dependencies: ChartDependencyDeclaration[] = [];
+    const unclassified: ChartUnclassifiedReference[] = [];
+    const depsNode = document.contents.get("dependencies", true);
+    if (isSeq(depsNode)) {
+      for (const item of depsNode.items) {
+        if (dependencies.length + unclassified.length >= MAXIMUM_DEPENDENCIES) break;
+        if (!isMap(item)) continue;
+        const name = scalarField(item.get("name", true), lines);
+        if (!name) continue;
+        const version = scalarField(item.get("version", true), lines);
+        const repository = scalarField(item.get("repository", true), lines);
+
+        const templated =
+          (name.value.includes("{{") ? name : undefined) ??
+          (version?.value.includes("{{") ? version : undefined) ??
+          (repository?.value.includes("{{") ? repository : undefined);
+        if (templated) {
+          unclassified.push({
+            value: templated.value,
+            line: templated.line,
+            reason: "the dependency field is a Helm template action, which Evergreen does not evaluate",
+          });
+          continue;
+        }
+        if (repository?.value.startsWith("@")) {
+          unclassified.push({
+            value: repository.value,
+            line: repository.line,
+            reason: "Helm repository aliases are not resolved",
+          });
+          continue;
+        }
+
+        dependencies.push({
+          kind: "dependency",
+          name: name.value,
+          version: version?.value,
+          repository: repository?.value,
+          line: name.line,
+        });
+      }
+    }
+
+    return { kubeVersions, dependencies, unclassified };
   } catch {
-    return [];
+    return EMPTY_CHART;
   }
 }
 

@@ -53,10 +53,15 @@ test("reads sentences that list several versions and several kinds", async () =>
 test("recorded drafts match the reviewed rules", async () => {
   const drafts = await execute(kubernetesDeprecationGuideImporter, { replay: recording });
   const reviewed = await registry();
-  const diff = diffDrafts(drafts, reviewed);
+  // Helm repository rules are curated by hand; the guide importer only drafts API removals.
+  const apiRules = {
+    ...reviewed,
+    rules: reviewed.rules.filter((rule) => rule.purl.startsWith("pkg:generic/kubernetes/")),
+  };
+  const diff = diffDrafts(drafts, apiRules);
   assert.deepEqual(diff.changed, []);
   assert.deepEqual(diff.removed, []);
-  assert.deepEqual(diff.unchanged, reviewed.rules.map((rule) => rule.id).sort());
+  assert.deepEqual(diff.unchanged, apiRules.rules.map((rule) => rule.id).sort());
   assert.equal(diff.added.length, 0);
 });
 

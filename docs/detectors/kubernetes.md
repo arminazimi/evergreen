@@ -1,6 +1,6 @@
 # Kubernetes APIs
 
-The `kubernetes` detector reports API versions that the Kubernetes project says are no longer served, as declared in manifests, Helm chart templates, and kustomizations. It is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#kubernetes-corpus) (seventeen repositories, twelve chosen blind). The evidence required for `beta` is in [Decision 0013](../decisions/0013-detector-maturity.md). The reasoning is in [Decision 0008](../decisions/0008-kubernetes-detector.md).
+The `kubernetes` detector reports API versions that the Kubernetes project says are no longer served, as declared in manifests, Helm chart templates, and kustomizations, and Helm chart dependencies that still point at the retired stable or incubator chart repositories. It is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#kubernetes-corpus) (seventeen repositories, twelve chosen blind). The evidence required for `beta` is in [Decision 0013](../decisions/0013-detector-maturity.md). The reasoning for API detection is in [Decision 0008](../decisions/0008-kubernetes-detector.md).
 
 ## What it reads
 
@@ -8,6 +8,7 @@ The `kubernetes` detector reports API versions that the Kubernetes project says 
 | --- | --- |
 | `*.yaml`, `*.yml` | the top-level `apiVersion` and `kind` of each `---`-separated document, including `kind: List` dumps (`kubectl get -o yaml`), when both are literal |
 | `templates/*.yaml`, `templates/*.yml` in a Helm chart (a directory with `Chart.yaml`), and any YAML file that contains `{{` | the same pair, read as text without rendering the template |
+| `Chart.yaml` | each `dependencies[]` entry with a literal `name` and `repository` URL; `kubeVersion` is still read but not judged |
 | `kustomization.yaml`, `kustomization.yml`, `Kustomization` | an inline patch (a block scalar) with its own `apiVersion` and `kind`, and a patch `target` with `group`, `version`, and `kind` |
 
 It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, `testdata`, and a chart's nested `charts/`. Files over 1 MiB are skipped. Nothing is rendered, built, or applied, and the Kubernetes tools are never run.
@@ -24,7 +25,14 @@ A declaration whose group, kind, and API version match a rule in `registry/kuber
 | `policy/v1beta1` | PodSecurityPolicy | v1.25 |
 | `autoscaling/v2beta2` | HorizontalPodAutoscaler | v1.26 |
 
-Each finding carries its rule's sources, the replacement, migration steps, and suggested verification commands (`kubeconform -strict`, `kubectl apply --dry-run=server`). The rule's deadline is the date of the release announcement for the release that stopped serving the API; the Kubernetes migration guide names the release but not a date.
+It also reports a `Chart.yaml` dependency whose `repository` is one of the retired Helm chart repository URLs:
+
+| Repository URL | Rule |
+| --- | --- |
+| `https://charts.helm.sh/stable`, `https://kubernetes-charts.storage.googleapis.com` | stable repository end of life (2020-11-13) |
+| `https://charts.helm.sh/incubator`, `https://kubernetes-charts-incubator.storage.googleapis.com` | incubator repository end of life (2020-11-13) |
+
+Each finding carries its rule's sources, the replacement, migration steps, and suggested verification commands (`kubeconform -strict`, `kubectl apply --dry-run=server`, `helm dependency update`). For removed APIs, the rule's deadline is the date of the release announcement for the release that stopped serving the API; the Kubernetes migration guide names the release but not a date.
 
 ## What it intentionally does not judge
 
@@ -36,7 +44,9 @@ These produce no finding and are not guessed:
 - `ownerReferences`, CRD `names.kind` and version names, and non-List nested structures below the top level of a document;
 - an API version outside the `vN`, `vNalphaM`, or `vNbetaM` form;
 - remote or `$(VAR)` kustomize resources, `bases`, `components`, generators, and transformers;
-- Helm `.tpl` files, `NOTES.txt`, chart `tests/`, and `kubeVersion` in `Chart.yaml` (it is read but no rule uses it yet).
+- Helm `.tpl` files, `NOTES.txt`, chart `tests/`, and `kubeVersion` in `Chart.yaml` (it is read but no rule uses it yet);
+- a `Chart.yaml` dependency whose `name`, `version`, or `repository` is a Helm template action, or whose repository is a Helm alias (`@stable`): these are listed as unclassified, never guessed;
+- a dependency whose repository URL is not one of the retired URLs above (including Bitnami and other maintained repos).
 
 ## Known limits and false-positive boundaries
 

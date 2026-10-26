@@ -159,6 +159,8 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta2.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta3.removed.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.stable.end-of-life.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingressclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/kubernetes.node-k8s-io.runtimeclass.v1beta1.removed.html</loc><lastmod>2026-10-20</lastmod></url>

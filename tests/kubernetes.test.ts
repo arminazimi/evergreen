@@ -49,6 +49,23 @@ async function expected(ruleId: string, path: string, line: number, declaration:
   };
 }
 
+async function expectedHelmDep(ruleId: string, path: string, line: number, dependency: string): Promise<DetectorFinding> {
+  const registry = validateRegistryV2(JSON.parse(await readFile("registry/kubernetes.json", "utf8")));
+  const rule = registry.rules.find((item) => item.id === ruleId)!;
+  return {
+    id: `${ruleId}:${path}:${line}`,
+    ruleId,
+    title: rule.title,
+    summary: `${path} depends on ${dependency}. ${rule.summary}`,
+    severity: rule.severity,
+    location: { path, line },
+    replacement: rule.replacement!,
+    deadline: rule.deadline!,
+    migration: rule.migration!,
+    sources: rule.sources,
+  };
+}
+
 const CRONJOB = "kubernetes.batch.cronjob.v1beta1.removed";
 const NETWORKING_INGRESS = "kubernetes.networking-k8s-io.ingress.v1beta1.removed";
 
@@ -70,6 +87,12 @@ test("kubernetes passes detector conformance on every fixture", async () => {
           expected("kubernetes.policy.podsecuritypolicy.v1beta1.removed", "manifests/psp.yml", 3, "policy/v1beta1 PodSecurityPolicy"),
           expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/web.yaml", 2, "extensions/v1beta1 Ingress"),
           expected(CRONJOB, "manifests/web.yaml", 34, "batch/v1beta1 CronJob"),
+          expectedHelmDep(
+            "kubernetes.helm.repository.stable.end-of-life",
+            "helm/mychart/Chart.yaml",
+            8,
+            "redis 10.5.7 from https://charts.helm.sh/stable",
+          ),
         ]),
       },
     ],
@@ -235,6 +258,42 @@ test("dynamic and cluster-dependent declarations are never reported", async () =
     ].join("\n"),
   });
   assert.deepEqual(await kubernetesDetector.scan({ root }), []);
+});
+
+test("retired Helm chart repository dependencies are findings; templated and aliased stay unclassified", async () => {
+  const root = await repository({
+    "chart/Chart.yaml": [
+      "apiVersion: v2",
+      "name: chart",
+      "version: 0.1.0",
+      "dependencies:",
+      "  - name: redis",
+      '    version: "10.5.7"',
+      '    repository: "https://charts.helm.sh/stable"',
+      '  - name: "{{ .Values.dep }}"',
+      '    version: "1.0.0"',
+      '    repository: "https://charts.helm.sh/incubator"',
+      "  - name: mysql",
+      '    version: "1.6.0"',
+      '    repository: "@stable"',
+      "  - name: postgresql",
+      '    version: "12.1.0"',
+      '    repository: "https://charts.bitnami.com/bitnami"',
+      "",
+    ].join("\n"),
+  });
+  const analysis = await kubernetesDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["kubernetes.helm.repository.stable.end-of-life", 5]],
+  );
+  assert.deepEqual(
+    analysis.unclassified.map((reference) => [reference.reference, reference.location.line, reference.reason]),
+    [
+      ["{{ .Values.dep }}", 8, "the dependency field is a Helm template action, which Evergreen does not evaluate"],
+      ["@stable", 13, "Helm repository aliases are not resolved"],
+    ],
+  );
 });
 
 test("every curated kubernetes rule has migration guidance with real verification commands", async () => {
