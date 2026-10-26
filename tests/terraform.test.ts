@@ -239,6 +239,29 @@ test("reports findings from terraform plan JSON with pointer or resource address
   );
 });
 
+test("a repository with 600 unrelated *.json files plus one .tf file still reports the .tf finding", async () => {
+  const files: Record<string, string> = {
+    "main.tf": 'terraform {\n  required_version = "1.12.3"\n}\n',
+  };
+  for (let i = 0; i < 600; i++) {
+    files[`data_${i}.json`] = JSON.stringify({ key: i });
+  }
+  const root = await repository(files);
+  const findings = await terraformDetector.scan({ root });
+  assert.equal(findings.length, 1);
+  assert.equal(findings[0]!.location.path, "main.tf");
+  assert.equal(findings[0]!.ruleId, "terraform.cli.end-of-support-1.12");
+});
+
+test("unrelated package.json and tsconfig.json are never parsed or reported", async () => {
+  const root = await repository({
+    "package.json": JSON.stringify({ name: "my-app", version: "1.0.0" }),
+    "tsconfig.json": JSON.stringify({ compilerOptions: { target: "es2022" } }),
+  });
+  const findings = await terraformDetector.scan({ root });
+  assert.deepEqual(findings, []);
+});
+
 test("a migration packet for a Terraform CLI finding names the file, steps, and verification", async () => {
   const result = await scanRepository(await repository({ ".terraform-version": "1.12.3\n" }), [terraformDetector]);
   const finding = result.findings.find((item) => item.id === "terraform.cli.end-of-support-1.12:.terraform-version:1");

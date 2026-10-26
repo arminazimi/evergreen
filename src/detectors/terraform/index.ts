@@ -34,6 +34,7 @@ import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-v
 
 const MAXIMUM_DEPTH = 8;
 const MAXIMUM_FILES = 500;
+const MAXIMUM_PLAN_FILES = 50;
 const SKIPPED_DIRECTORIES = new Set([".git", ".terraform", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
 const VERSION_FILES = new Set([".terraform-version", ".tool-versions", ".terraform.lock.hcl"]);
 const TERRAFORM_PURL = "pkg:generic/terraform";
@@ -54,10 +55,24 @@ const ENGINE_PURLS: Readonly<Record<string, string>> = {
   mongodb: "pkg:generic/mongodb",
 };
 
-async function terraformFiles(root: string): Promise<string[]> {
-  const files: string[] = [];
+function isPlanJsonFileName(name: string): boolean {
+  const lower = name.toLowerCase();
+  return lower.endsWith(".json") && lower.includes("plan");
+}
+
+interface TerraformScanFiles {
+  tfFiles: string[];
+  planFiles: string[];
+}
+
+async function terraformFiles(root: string): Promise<TerraformScanFiles> {
+  const tfFiles: string[] = [];
+  const planFiles: string[] = [];
+
   async function walk(directory: string, depth: number): Promise<void> {
-    if (depth > MAXIMUM_DEPTH || files.length >= MAXIMUM_FILES) return;
+    if (depth > MAXIMUM_DEPTH) return;
+    if (tfFiles.length >= MAXIMUM_FILES && planFiles.length >= MAXIMUM_PLAN_FILES) return;
+
     let entries;
     try {
       entries = await readdir(directory, { withFileTypes: true });
@@ -68,18 +83,19 @@ async function terraformFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (
-        entry.isFile() &&
-        (VERSION_FILES.has(entry.name) ||
-          entry.name.toLowerCase().endsWith(".tf") ||
-          entry.name.toLowerCase().endsWith(".json"))
-      ) {
-        files.push(join(directory, entry.name));
+      } else if (entry.isFile()) {
+        const lower = entry.name.toLowerCase();
+        if ((VERSION_FILES.has(entry.name) || lower.endsWith(".tf")) && tfFiles.length < MAXIMUM_FILES) {
+          tfFiles.push(join(directory, entry.name));
+        } else if (isPlanJsonFileName(entry.name) && planFiles.length < MAXIMUM_PLAN_FILES) {
+          planFiles.push(join(directory, entry.name));
+        }
       }
     }
   }
+
   await walk(root, 0);
-  return files;
+  return { tfFiles, planFiles };
 }
 
 /** The Package URL of a provider on the public registry. */
@@ -164,8 +180,8 @@ export class TerraformDetector implements Detector {
   readonly id = "terraform";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: [".terraform-version", ".tool-versions", ".terraform.lock.hcl"],
-    extensions: [".tf", ".json"],
+    fileNames: [".terraform-version", ".tool-versions", ".terraform.lock.hcl", "*plan*.json", "*.tfplan.json"],
+    extensions: [".tf"],
   };
 
   /** `loadRules` lets tests supply rules; by default they come from the bundled or downloaded `registry/terraform.json` and `registry/database.json`. */
@@ -181,8 +197,8 @@ export class TerraformDetector implements Detector {
   }
 
   async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
-    const files = await terraformFiles(context.root);
-    if (files.length === 0) return { findings: [], unclassified: [] };
+    const { tfFiles, planFiles } = await terraformFiles(context.root);
+    if (tfFiles.length === 0 && planFiles.length === 0) return { findings: [], unclassified: [] };
 
     const byPurl = rulesByPurl(await this.loadRules());
     const cliRules = byPurl.get(TERRAFORM_PURL) ?? [];
@@ -208,7 +224,7 @@ export class TerraformDetector implements Detector {
       });
     };
 
-    for (const file of files) {
+    for (const file of tfFiles) {
       let contents: string;
       try {
         contents = await readFile(file, "utf8");
@@ -230,30 +246,6 @@ export class TerraformDetector implements Detector {
           const rule = firstMatchingRule(byPurl.get(providerPurl(namespace.toLowerCase(), providerName.toLowerCase())) ?? [], provider.value);
           if (rule) report(rule, path, provider.line, `${path} locks provider ${namespace}/${providerName} ${provider.value}. ${rule.summary}`);
         }
-      } else if (name.toLowerCase().endsWith(".json")) {
-        for (const declaration of parseTerraformPlanJson(contents)) {
-          if (declaration.kind === "cli_version") {
-            const rule = ruleForDeclared(cliRules, declaration.value);
-            if (rule) {
-              report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`);
-            }
-          } else if (declaration.kind === "provider_version") {
-            const source = providerSource(declaration.source, declaration.provider);
-            if (!source) continue;
-            const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
-            if (rule) {
-              report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
-            }
-          } else if (declaration.kind === "engine_version") {
-            const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
-            if (!purl) continue;
-            const rules = byPurl.get(purlIdentity(purl)) ?? [];
-            const rule = ruleForEngineDeclared(rules, declaration.value);
-            if (rule) {
-              report(rule, path, declaration.address, `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
-            }
-          }
-        }
       } else {
         for (const declaration of parseTerraformFile(contents)) {
           if (declaration.kind === "required_version") {
@@ -264,6 +256,40 @@ export class TerraformDetector implements Detector {
             if (!source) continue;
             const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
             if (rule) report(rule, path, declaration.line, `${path} requires provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
+          }
+        }
+      }
+    }
+
+    for (const file of planFiles) {
+      let contents: string;
+      try {
+        contents = await readFile(file, "utf8");
+      } catch {
+        continue;
+      }
+      const path = relativePosix(context.root, file);
+
+      for (const declaration of parseTerraformPlanJson(contents)) {
+        if (declaration.kind === "cli_version") {
+          const rule = ruleForDeclared(cliRules, declaration.value);
+          if (rule) {
+            report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) resolves Terraform ${declaration.value}. ${rule.summary}`);
+          }
+        } else if (declaration.kind === "provider_version") {
+          const source = providerSource(declaration.source, declaration.provider);
+          if (!source) continue;
+          const rule = ruleForDeclared(byPurl.get(providerPurl(source.namespace, source.name)) ?? [], declaration.value);
+          if (rule) {
+            report(rule, path, declaration.pointer, `${path} (${declaration.pointer}) constrains provider ${source.namespace}/${source.name} ${declaration.value}. ${rule.summary}`);
+          }
+        } else if (declaration.kind === "engine_version") {
+          const purl = ENGINE_PURLS[declaration.engine.toLowerCase()];
+          if (!purl) continue;
+          const rules = byPurl.get(purlIdentity(purl)) ?? [];
+          const rule = ruleForEngineDeclared(rules, declaration.value);
+          if (rule) {
+            report(rule, path, declaration.address, `${path} (${declaration.address}) resolves ${declaration.resource}.${declaration.name} engine ${declaration.engine} ${declaration.value}. ${rule.summary}`);
           }
         }
       }
