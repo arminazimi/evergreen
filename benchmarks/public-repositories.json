@@ -4483,7 +4483,17 @@
       "commit": "8088f4c0d970abb09e250248cc97e35623447cb5",
       "ecosystem": "kubernetes",
       "selection": "targeted",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+          "path": "helm-dependency/Chart.yaml",
+          "line": 26,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: the wordpress dependency at line 26 of helm-dependency/Chart.yaml declares `repository: https://charts.helm.sh/stable` (version 9.0.3). The Helm Chart Repository Deprecation Update (https://helm.sh/blog/charts-repo-deprecation/) states that the stable chart repository stopped accepting updates on 2020-11-13 and that downloads redirect to a read-only archive."
+          }
+        }
+      ]
     },
     {
       "repository": "kelseyhightower/ingress-with-static-ip",
@@ -14557,11 +14567,11 @@
         },
         {
           "ruleId": "go.runtime.end-of-support-1.20-and-older",
-          "path": "_/i1/⍳/go.mod",
+          "path": "_/i1/\u2373/go.mod",
           "line": 3,
           "groundTruthSource": {
             "kind": "maintainer-review",
-            "note": "Read _/i1/⍳/go.mod:3 at this commit: `go 1.12`; the declaration matches the rule's affected range."
+            "note": "Read _/i1/\u2373/go.mod:3 at this commit: `go 1.12`; the declaration matches the rule's affected range."
           }
         },
         {

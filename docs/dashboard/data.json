@@ -258,7 +258,7 @@
     {
       "id": "kubernetes",
       "level": "beta",
-      "earnedLevel": "beta",
+      "earnedLevel": "experimental",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -271,9 +271,9 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 12,
-        "expectedFindings": 72,
-        "zeroFindingRepositories": 2,
+        "repositoriesWithFindings": 13,
+        "expectedFindings": 73,
+        "zeroFindingRepositories": 1,
         "repositories": 17,
         "blindRepositories": 12
       }
