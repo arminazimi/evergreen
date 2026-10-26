@@ -9313,11 +9313,11 @@
       "expected": [
         {
           "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
-          "path": "ingress.yaml",
+          "path": "k8s.yaml",
           "line": 4,
           "groundTruthSource": {
             "kind": "maintainer-review",
-            "note": "Reviewed at this commit: ingress.yaml is a kind: List containing an extensions/v1beta1 Ingress at line 4."
+            "note": "Reviewed at this commit: k8s.yaml is a kind: List containing an extensions/v1beta1 Ingress at line 4."
           }
         }
       ]
