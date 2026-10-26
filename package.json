@@ -55,7 +55,8 @@
   "bin": {
     "evergreen-deprecation": "dist/src/cli.js",
     "evergreen": "dist/src/cli.js",
-    "evergreen-mcp": "dist/src/mcp-cli.js"
+    "evergreen-mcp": "dist/src/mcp-cli.js",
+    "evergreen-lsp": "dist/src/lsp.js"
   },
   "files": [
     "dist/src",

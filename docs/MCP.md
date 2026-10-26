@@ -140,6 +140,53 @@ Call `check_dependency` with a Package URL (`pkg:npm/request@2.88.2`, `pkg:pypi/
 
 The tool is read-only and idempotent, never touches the network, and answers from the lifecycle rules bundled with the server.
 
+## Language server for any editor
+
+The same engine runs as a Language Server Protocol server over stdio, so VS Code, Neovim, Helix, Zed, and JetBrains can show lifecycle findings without an MCP host. It starts no listener and makes no network call.
+
+From the published package:
+
+```bash
+npx --yes --package evergreen-deprecation evergreen-lsp
+```
+
+From a source checkout:
+
+```bash
+npm run build
+node dist/src/lsp.js
+```
+
+Point the editor's LSP client at that command. For Neovim:
+
+```lua
+vim.lsp.start({
+  name = "evergreen",
+  cmd = { "npx", "--yes", "--package", "evergreen-deprecation", "evergreen-lsp" },
+  root_dir = vim.fs.dirname(vim.fs.find({ ".git" }, { upward = true })[1]),
+})
+```
+
+For Helix, in `languages.toml`:
+
+```toml
+[language-server.evergreen]
+command = "npx"
+args = ["--yes", "--package", "evergreen-deprecation", "evergreen-lsp"]
+```
+
+The server provides:
+
+| Capability | Behavior |
+| --- | --- |
+| Diagnostics | Every finding in the open document, at its line, with the rule id, severity, and a link to the first evidence source. |
+| Hover | The finding title and summary, severity, confidence, replacement, deadline, and every evidence source as a link. |
+| Code actions | `Evergreen: explain …` shows the finding with its evidence, and `Evergreen: open evidence …` opens the first source URL. Both run through `workspace/executeCommand`. |
+
+Only the open document is scanned. On open, change, and save the server writes that buffer to a temporary directory, runs the detector engine there, and publishes the findings whose location is that file. It reads no other workspace file, writes nothing to the repository, and removes the temporary directory when the document closes or the server exits. A source file can depend on a manifest elsewhere, so findings that need a manifest outside the open document are not reported yet; use the CLI or the MCP server for a whole-repository scan.
+
+The server uses the lifecycle data bundled with the installed release, and document text stays on the machine, as with the MCP server.
+
 ## Other agent hosts
 
 Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents):
