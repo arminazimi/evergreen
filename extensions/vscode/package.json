@@ -5,10 +5,15 @@
   "version": "0.1.0",
   "publisher": "arminazimi",
   "license": "Apache-2.0",
+  "icon": "images/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/arminazimi/evergreen.git",
     "directory": "extensions/vscode"
+  },
+  "homepage": "https://github.com/arminazimi/evergreen/tree/main/extensions/vscode",
+  "bugs": {
+    "url": "https://github.com/arminazimi/evergreen/issues"
   },
   "engines": {
     "vscode": "^1.85.0"
@@ -63,10 +68,12 @@
   "scripts": {
     "build": "tsc -p .",
     "test": "npm run build && node --test \"out/test/**/*.test.js\"",
+    "package": "vsce package --no-dependencies",
     "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@vscode/vsce": "^4.0.0",
     "@types/vscode": "1.85.0",
     "typescript": "^5.9.0"
   }

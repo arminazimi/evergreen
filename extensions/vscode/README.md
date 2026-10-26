@@ -28,6 +28,16 @@ Open the `extensions/vscode` folder in VS Code and press F5 (Run Extension). Alt
 code --extensionDevelopmentPath="$(pwd)"
 ```
 
+## Package
+
+```bash
+cd extensions/vscode
+npm ci
+npm run package
+```
+
+This builds the extension and writes `evergreen-vscode-<version>.vsix` into `extensions/vscode`. The package runs offline and contains only the compiled extension, `package.json`, `README.md`, `LICENSE.txt`, and the icon. Install it locally with `code --install-extension evergreen-vscode-<version>.vsix`.
+
 ## Use
 
 Saving a file scans the workspace folder that contains it when `evergreen.runOnSave` is true (the default) and the workspace is trusted. The extension runs:
