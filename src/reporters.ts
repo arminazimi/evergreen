@@ -10,6 +10,78 @@ export function renderJson(result: ScanResult): string {
   return JSON.stringify(result, null, 2);
 }
 
+/** Escapes untrusted text for a Markdown table cell while keeping the report on one physical line per row. */
+function escapeMarkdown(value: string | number): string {
+  const escapes: Record<string, string> = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "|": "&#124;",
+    "\\": "&#92;",
+  };
+  return String(value)
+    .replace(/\r\n?/g, "\n")
+    .split("\n")
+    .map((line) =>
+      line.replace(/[&<>|\\\x60*_{}\[\]()#+\-.!]/g, (character) =>
+        escapes[character] ?? "\\" + character,
+      ),
+    )
+    .join("<br>");
+}
+
+/** Only trusted web schemes become Markdown links; unsafe or malformed URLs stay plain text. */
+function markdownSource(source: { title: string; url: string }): string {
+  const title = escapeMarkdown(source.title);
+  try {
+    const url = new URL(source.url);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return title + " (" + escapeMarkdown(source.url) + ")";
+    const destination = url.href.replace(/[()<>\s]/g, (character) => "%" + character.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"));
+    return "[" + title + "](" + destination + ")";
+  } catch {
+    return title + " (" + escapeMarkdown(source.url) + ")";
+  }
+}
+
+/**
+ * Renders a paste-ready Markdown report with a stable table and evidence links.
+ * Findings use the same deterministic location/rule ordering as the machine-readable reporters.
+ * All finding-controlled text is escaped, and only HTTP(S) evidence URLs become links.
+ */
+export function renderMarkdown(result: ScanResult): string {
+  const findings = [...result.findings].sort(findingOrder);
+  const lines = [
+    "# Evergreen scan report",
+    "",
+    "- **Repository:** " + escapeMarkdown(result.root),
+    "- **Scanned:** " + escapeMarkdown(result.scannedAt),
+    "- **Findings:** " + findings.length,
+    ...(result.data ? ["- " + escapeMarkdown(describeData(result.data))] : []),
+    "",
+    "## Findings",
+    "",
+    "| Severity | Finding | Location | Summary | Replacement | Evidence |",
+    "| --- | --- | --- | --- | --- | --- |",
+    ...(findings.length === 0
+      ? ["| — | No findings | — | No lifecycle risks found. | — | — |"]
+      : findings.map((finding) => {
+          const location = finding.location.line
+            ? finding.location.path + ":" + finding.location.line
+            : finding.location.path;
+          const evidence = finding.sources.length > 0
+            ? finding.sources.map(markdownSource).join("<br>")
+            : "—";
+          return "| " + escapeMarkdown(finding.severity) + " | " + escapeMarkdown(finding.title) + " | " +
+            escapeMarkdown(location) + " | " + escapeMarkdown(finding.summary) + " | " +
+            escapeMarkdown(finding.replacement ?? "—") + " | " + evidence + " |";
+        })),
+  ];
+  if (result.diagnostics.length > 0) {
+    lines.push("", "## Notes", "", ...result.diagnostics.map((diagnostic) => "- " + escapeMarkdown(diagnostic)));
+  }
+  return lines.join("\n");
+}
+
 const SARIF_SCHEMA = "https://json.schemastore.org/sarif-2.1.0.json";
 const SARIF_LEVEL: Record<Severity, "error" | "warning" | "note"> = {
   critical: "error",

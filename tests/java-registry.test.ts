@@ -44,7 +44,7 @@ test("only non-LTS feature releases fall inside a range; LTS releases never do",
 });
 
 test("relocation rules name Maven coordinates and cite the artifact's own POM", async () => {
-  const relocations = (await allRules()).filter((rule) => rule.id.startsWith("java.maven."));
+  const relocations = (await allRules()).filter((rule) => rule.event === "deprecated");
   assert.deepEqual(relocations.map((rule) => rule.purl), ["pkg:maven/mysql/mysql-connector-java", "pkg:maven/org.slf4j/slf4j-log4j12", "pkg:maven/org.hibernate/hibernate-entitymanager"]);
   for (const rule of relocations) {
     assert.equal(rule.event, "deprecated");
@@ -55,4 +55,35 @@ test("relocation rules name Maven coordinates and cite the artifact's own POM", 
   const mysql = relocations[0]!;
   assert.equal(versContains(mysql.vers, "8.0.33"), true);
   assert.equal(versContains(mysql.vers, "8.0.28"), false);
+});
+
+const SPRING_BOOT_PURL = "pkg:maven/org.springframework.boot/spring-boot";
+
+test("Spring Boot registry covers retired 1.x, 2.x, and 3.x lines with migration guidance", async () => {
+  const boot = (await allRules()).filter((rule) => rule.id.startsWith("java.maven.spring-boot."));
+  assert.equal(boot.length, 3);
+  assert.deepEqual(boot.map((rule) => rule.vers), [
+    "vers:maven/>=1.0.0|<2.0.0",
+    "vers:maven/>=2.0.0|<3.0.0",
+    "vers:maven/>=3.0.0|<4.0.0",
+  ]);
+  for (const rule of boot) {
+    assert.equal(rule.purl, SPRING_BOOT_PURL);
+    assert.equal(rule.event, "end-of-support");
+    assert.equal(rule.replacement, "Spring Boot 4.1.x");
+    assert.ok(rule.sources.some((source) => source.url.startsWith("https://spring.io/")));
+    assert.ok(rule.migration?.steps.some((step) => step.targets === "declaration"), rule.id);
+    assert.ok(rule.migration?.verification.length, rule.id);
+  }
+});
+
+test("Spring Boot lifecycle ranges flag retired lines but not supported 4.x releases", async () => {
+  const boot = (await allRules()).filter((rule) => rule.id.startsWith("java.maven.spring-boot."));
+  const affected = (version: string) => boot.some((rule) => versContains(rule.vers, version));
+  for (const version of ["1.5.22.RELEASE", "2.7.18", "3.3.13", "3.4.13", "3.5.16"]) {
+    assert.equal(affected(version), true, version);
+  }
+  for (const version of ["4.0.9", "4.1.2", "4.2.0-RC1"]) {
+    assert.equal(affected(version), false, version);
+  }
 });

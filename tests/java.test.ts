@@ -75,6 +75,9 @@ test("java passes detector conformance on every fixture", async () => {
           expected(R12_16, "pins/.java-version", 1, `JDK 16, ${PIN},`),
           expected(R18_20, "pins/.sdkmanrc", 2, `JDK 18.0.2-tem, ${PIN},`),
           expected(R22_24, "pins/.tool-versions", 2, `JDK temurin-22.0.1, ${PIN},`),
+          expected("java.maven.spring-boot.legacy-2x.end-of-support", "spring-boot/pom.xml", 11, "org.springframework.boot:spring-boot:2.7.18"),
+          expected("java.maven.spring-boot.legacy-3x.end-of-support", "spring-boot/pom.xml", 16, "org.springframework.boot:spring-boot:3.4.13"),
+          expected("java.maven.spring-boot.legacy-3x.end-of-support", "spring-boot/pom.xml", 21, "org.springframework.boot:spring-boot:3.5.16"),
         ]),
       },
     ],
@@ -186,5 +189,15 @@ test("a migration packet for a JDK finding names the file, steps, and verificati
   const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
   assert.ok(packet.affectedFiles.includes("gradle-groovy/build.gradle"));
   assert.ok(packet.steps.some((step) => step.id === "update-jdk-declaration"));
+  assert.ok(packet.verification.some((check) => check.command.startsWith("./mvnw -B verify")));
+});
+
+test("Spring Boot findings produce a migration packet with upgrade guidance", async () => {
+  const result = await scanRepository(resolve(fixtures, "positive"), [javaDetector]);
+  const finding = result.findings.find((item) => item.ruleId === "java.maven.spring-boot.legacy-3x.end-of-support");
+  assert.ok(finding);
+  const packet = validateMigrationPacket(createMigrationPacket(result, finding.id));
+  assert.ok(packet.affectedFiles.includes("spring-boot/pom.xml"));
+  assert.ok(packet.steps.some((step) => step.id === "update-spring-boot-version"));
   assert.ok(packet.verification.some((check) => check.command.startsWith("./mvnw -B verify")));
 });
