@@ -5,7 +5,7 @@ A start-to-finish guide for running Evergreen in a GitLab pipeline: add the comp
 ## Before you start
 
 - Find the GitLab version of your instance. CI/CD components and `$[[ inputs.* ]]` interpolation need a release that supports them. On GitLab.com they are available.
-- Decide where the component lives. On GitLab.com, reference `gitlab.com/arminazimi/evergreen` through the CI/CD Catalog. On a self-managed instance, host a copy of `templates/evergreen.yml` in a project of your own (see [Self-managed GitLab](#self-managed-gitlab) below).
+- The component is not in the CI/CD Catalog yet. Host a copy of `templates/evergreen.yml` in a GitLab project of your own, on GitLab.com or on a self-managed instance, and reference it as `$CI_SERVER_FQDN/<group>/<project>/evergreen@<version>`. Section 5 covers the self-managed details.
 - Confirm the runner can pull a Node.js 22 or newer image and reach an npm registry that serves `evergreen-deprecation`. The job needs both before the scan starts.
 - Run the scan once from a workstation before you gate on it, so you see the findings you are about to inherit. `npx evergreen-deprecation scan . --json` is the same scan the job runs.
 
@@ -45,9 +45,9 @@ A local run and a pipeline run disagree only when the repository, the version, o
 
 ## 3. Gate the merge on severity
 
-`fail_on_severity` is the lowest severity that fails the job. It defaults to `high`. The options are `none`, `info`, `low`, `medium`, `high`, and `critical`. `none` makes the job report without ever failing.
+`fail_on_severity` is the lowest severity that fails the job. It defaults to `high`. The options are `none`, `info`, `low`, `medium`, `high`, and `critical`.
 
-Start with the default, or with `none` while you learn what the repository contains. Move to `high` once the existing findings are either fixed or accepted in a baseline. Moving to `medium` or lower fails on findings a team may not yet have a plan for, so do it only after the backlog is clear.
+Start with the default. Move to `high` once the existing findings are either fixed or accepted in a baseline. Moving to `medium` or lower fails on findings a team may not yet have a plan for, so do it only after the backlog is clear.
 
 When the job fails, the exit status is the gate's, and the reports are still there. Read the Code Quality widget, then pick the path:
 
@@ -79,7 +79,7 @@ To warn before a finding's support ends, set `min_support_days`. Leave it empty 
 
 Self-managed runners often cannot reach Docker Hub or the public npm registry. Work through these, in order:
 
-1. **Host the component.** Copy `templates/evergreen.yml` into a project on your instance. Reference it with `$CI_SERVER_FQDN` as in step 1.
+1. **Host the component.** Copy `templates/evergreen.yml` into a project on your instance, then reference it as in step 1, with `$CI_SERVER_FQDN/<group>/<project>/evergreen@<version>`.
 2. **Mirror the image.** Copy a Node.js 22 or newer image into your registry and set the `image` input to it.
 3. **Point npm at your registry.** Set `NPM_CONFIG_REGISTRY` as a CI/CD variable so `npx` finds `evergreen-deprecation` at the pinned version on your proxy.
 4. **Or bake the package in.** On an air-gapped runner, put `evergreen-deprecation` in the image and set `version` to match. The job's `npx --yes` call then uses the local copy. The scan itself never needed the network.
@@ -103,8 +103,9 @@ Keep the component version and the package version identical. A mismatch runs a 
 - The reports leave the runner only as job artifacts. They name the files and lines where findings occur, so treat them as project metadata: anyone who can read the job's artifacts can read them. Check the project's visibility settings before you rely on the report staying private.
 - Artifacts expire after 14 days. Download anything you need to keep.
 
-## Worked example: this repository
+## Check it works
 
-Evergreen's own [`.gitlab-ci.yml`](../../.gitlab-ci.yml) tests the component on every pipeline. Start from it when you need a known-good pipeline: it shows the component reference, the inputs, and the stages a passing run uses.
+Before you rely on the gate, run the job against a repository with a known finding, such as a dependency on a package or runtime that is past end of life. Then confirm two things:
 
-To check the job before you trust it, run the same commands it runs against a repository with a known finding, then confirm that the Code Quality file lists it and that the exit status matches the gate.
+- The Code Quality widget in the merge request lists that finding.
+- The job's exit status matches the gate: it fails when a finding is at or above `fail_on_severity`, and passes when none is.
