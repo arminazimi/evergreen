@@ -3,7 +3,7 @@
   "referenceDay": "2026-10-24",
   "corpus": {
     "file": "benchmarks/public-repositories.json",
-    "repositories": 456
+    "repositories": 457
   },
   "sources": {
     "thresholds": "benchmarks/thresholds.json",
@@ -88,7 +88,7 @@
       },
       "evidence": {
         "repositoriesWithFindings": 39,
-        "expectedFindings": 77,
+        "expectedFindings": 82,
         "zeroFindingRepositories": 1,
         "repositories": 12,
         "blindRepositories": 7
@@ -258,7 +258,7 @@
     {
       "id": "kubernetes",
       "level": "beta",
-      "earnedLevel": "experimental",
+      "earnedLevel": "beta",
       "precisionFloor": {
         "value": 0.95,
         "enforced": true
@@ -273,8 +273,8 @@
       "evidence": {
         "repositoriesWithFindings": 13,
         "expectedFindings": 73,
-        "zeroFindingRepositories": 1,
-        "repositories": 17,
+        "zeroFindingRepositories": 2,
+        "repositories": 18,
         "blindRepositories": 12
       }
     },
