@@ -480,9 +480,24 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.28-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.30.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-support-1.31.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-support-1.32.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-support-1.33.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.10.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.11.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.13.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.14.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.31.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.32.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-life-1.29-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-life-1.30.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-life-1.31.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html</loc><lastmod>2026-10-26</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.33.html</loc><lastmod>2026-10-26</lastmod></url>
 </urlset>

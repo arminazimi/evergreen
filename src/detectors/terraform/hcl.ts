@@ -192,3 +192,54 @@ export function stringAttributes(
     };
   });
 }
+
+export interface HclAttributeValue {
+  name: string;
+  /** The literal's contents, or the expression as written when the value is not a plain string. */
+  value: string;
+  /** True when the value is one plain quoted string with no escape or interpolation. */
+  literal: boolean;
+  line: number;
+}
+
+/**
+ * Every `name = <value>` attribute at depth 0 of `[start, end)`, whether or not
+ * its value is a literal string. A literal is returned without its quotes; any
+ * other value is returned as written so a caller can report it as unclassified.
+ * A value that is empty is skipped.
+ */
+export function attributeValues(hcl: HclSource, start: number, end: number): HclAttributeValue[] {
+  const attribute = /^([A-Za-z_][A-Za-z0-9_-]*)[^\S\n]*=/;
+  return directChildren(hcl.masked, start, end, (index) => {
+    const match = attribute.exec(hcl.masked.slice(index, index + MAXIMUM_LINE_LENGTH));
+    if (!match) return undefined;
+    const equals = index + match[0].length - 1;
+    const lineEnd = hcl.masked.indexOf("\n", equals);
+    const stop = lineEnd < 0 || lineEnd > end ? end : lineEnd;
+    const masked = hcl.masked.slice(equals + 1, stop).trim();
+    if (masked === "") return undefined;
+    if (masked.startsWith('"')) {
+      const open = hcl.masked.indexOf('"', equals);
+      const close = open < 0 ? -1 : hcl.masked.indexOf('"', open + 1);
+      const rest = close < 0 ? "" : hcl.masked.slice(close + 1, stop).trim();
+      if (open >= 0 && close >= 0 && close < stop && (rest === "" || rest.startsWith("}"))) {
+        const value = hcl.source.slice(open + 1, close);
+        const literal = value !== "" && value === value.trim() && !/[\\$%]\{/.test(value) && !value.includes("\\");
+        return {
+          value: {
+            name: match[1]!,
+            value: literal ? value : hcl.source.slice(open, close + 1),
+            literal,
+            line: lineAt(hcl.source, open + 1),
+          },
+          next: close + 1,
+        };
+      }
+      return undefined;
+    }
+    return {
+      value: { name: match[1]!, value: masked, literal: false, line: lineAt(hcl.source, equals + 1) },
+      next: equals + 1,
+    };
+  });
+}

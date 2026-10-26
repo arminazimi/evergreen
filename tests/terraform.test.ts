@@ -79,6 +79,36 @@ const PROVIDER_RULE = rule({
   title: "AWS provider 4 is out of support",
 });
 
+const EKS_RULE = rule({
+  id: "terraform.eks.end-of-support-1.33",
+  purl: "pkg:generic/amazon-eks",
+  vers: "vers:semver/>=1.33.0|<1.34.0",
+  title: "Amazon EKS 1.33 is past end of standard support",
+  summary: "Amazon EKS 1.33 reached the end of standard support on 2026-07-29.",
+  replacement: "Amazon EKS 1.35 or later",
+  deadline: "2026-07-29",
+});
+
+const GKE_RULE = rule({
+  id: "terraform.gke.end-of-life-1.30",
+  purl: "pkg:generic/google-kubernetes-engine",
+  vers: "vers:semver/>=1.30.0|<1.31.0",
+  title: "GKE 1.30 is past end of extended support",
+  summary: "GKE 1.30 reached the end of extended support on 2026-07-30.",
+  replacement: "GKE 1.35 or later",
+  deadline: "2026-07-30",
+});
+
+const AKS_RULE = rule({
+  id: "terraform.aks.end-of-support-1.31",
+  purl: "pkg:generic/azure-kubernetes-service",
+  vers: "vers:semver/>=1.31.0|<1.32.0",
+  title: "AKS 1.31 is past its 12-month support window",
+  summary: "AKS 1.31 reached the end of its 12-month support window on 2025-11-01.",
+  replacement: "Azure Kubernetes Service 1.35 or later",
+  deadline: "2025-11-01",
+});
+
 const POSITIVE = {
   "main.tf": 'terraform {\n  required_version = "1.5.7"\n}\n',
   ".terraform-version": "1.5.7\n",
@@ -172,6 +202,135 @@ test("matches provider versions in .terraform.lock.hcl and required_providers", 
   ]);
   assert.match(findings[0]!.summary, /^\.terraform\.lock\.hcl locks provider hashicorp\/aws 4\.67\.0\. /);
   assert.match(findings[1]!.summary, /^main\.tf requires provider hashicorp\/aws ~> 4\.67\.0\. /);
+});
+
+test("judges literal managed Kubernetes versions for EKS, GKE, and AKS", async () => {
+  const detector = new TerraformDetector(async () => [EKS_RULE, GKE_RULE, AKS_RULE]);
+  const analysis = await detector.analyze({
+    root: await repository({
+      "main.tf": `module "eks" {
+  source          = "terraform-aws-modules/eks/aws"
+  cluster_version = "1.33"
+}
+
+resource "google_container_cluster" "primary" {
+  min_master_version = "1.30"
+}
+
+resource "azurerm_kubernetes_cluster" "main" {
+  kubernetes_version = "1.31.4"
+}
+`,
+    }),
+  });
+  assert.deepEqual(analysis.unclassified, []);
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [
+      ["terraform.eks.end-of-support-1.33", "main.tf", 3],
+      ["terraform.gke.end-of-life-1.30", "main.tf", 7],
+      ["terraform.aks.end-of-support-1.31", "main.tf", 11],
+    ],
+  );
+  assert.match(analysis.findings[0]!.summary, /^main\.tf sets module\.eks cluster_version 1\.33\. /);
+  assert.match(analysis.findings[1]!.summary, /^main\.tf sets google_container_cluster\.primary min_master_version 1\.30\. /);
+  assert.match(analysis.findings[2]!.summary, /^main\.tf sets azurerm_kubernetes_cluster\.main kubernetes_version 1\.31\.4\. /);
+  assert.equal(analysis.findings[2]!.deadline, "2025-11-01");
+});
+
+test("variables, locals, and module outputs for managed Kubernetes versions are unclassified, never guessed", async () => {
+  const detector = new TerraformDetector(async () => [EKS_RULE, GKE_RULE, AKS_RULE]);
+  const analysis = await detector.analyze({
+    root: await repository({
+      "main.tf": `module "eks" {
+  cluster_version = var.eks_version
+}
+
+resource "azurerm_kubernetes_cluster" "main" {
+  kubernetes_version = module.aks.version
+}
+
+resource "google_container_cluster" "primary" {
+  min_master_version = local.gke_version
+}
+
+resource "azurerm_kubernetes_cluster" "other" {
+  kubernetes_version = "latest"
+}
+`,
+    }),
+  });
+  assert.deepEqual(analysis.findings, []);
+  assert.deepEqual(
+    analysis.unclassified.map((item) => [item.component, item.reference, item.location.path, item.location.line]),
+    [
+      ["amazon-eks", "var.eks_version", "main.tf", 2],
+      ["azure-kubernetes-service", "module.aks.version", "main.tf", 6],
+      ["google-kubernetes-engine", "local.gke_version", "main.tf", 10],
+      ["azure-kubernetes-service", "latest", "main.tf", 14],
+    ],
+  );
+  assert.match(analysis.unclassified[0]!.reason, /variable or module reference/);
+  assert.match(analysis.unclassified[1]!.reason, /variable or module reference/);
+  assert.match(analysis.unclassified[2]!.reason, /variable or module reference/);
+  assert.match(analysis.unclassified[3]!.reason, /not a Kubernetes version number/);
+});
+
+test("a supported version, an unrelated resource version, and a nested attribute are not reported", async () => {
+  const detector = new TerraformDetector(async () => [EKS_RULE, GKE_RULE, AKS_RULE]);
+  const analysis = await detector.analyze({
+    root: await repository({
+      "main.tf": `module "eks" {
+  cluster_version = "1.36"
+}
+
+resource "aws_eks_cluster" "main" {
+  version = "1.20"
+}
+
+resource "google_container_cluster" "primary" {
+  version = "1.20"
+  node_config {
+    kubernetes_version = "1.20"
+  }
+}
+`,
+    }),
+  });
+  assert.deepEqual(analysis, { findings: [], unclassified: [] });
+});
+
+test("matches a patch release and a GKE version suffix in its minor line", async () => {
+  const detector = new TerraformDetector(async () => [GKE_RULE]);
+  const findings = await detector.scan({
+    root: await repository({ "main.tf": 'module "gke" {\n  min_master_version = "1.30.4-gke.1200"\n}\n' }),
+  });
+  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.line]), [
+    ["terraform.gke.end-of-life-1.30", 2],
+  ]);
+});
+
+test("the committed registry judges EKS, GKE, and AKS control-plane versions", async () => {
+  const rules = await committedRules();
+  for (const purl of [
+    "pkg:generic/amazon-eks",
+    "pkg:generic/google-kubernetes-engine",
+    "pkg:generic/azure-kubernetes-service",
+  ]) {
+    const matching = rules.filter((item) => item.purl === purl);
+    assert.ok(matching.length > 0, purl);
+    assert.ok(matching.every((item) => item.sources.every((source) => source.url.startsWith("https://"))), purl);
+  }
+  const findings = await terraformDetector.scan({
+    root: await repository({
+      "main.tf": 'module "eks" {\n  cluster_version = "1.29"\n}\nresource "google_container_cluster" "primary" {\n  min_master_version = "1.28"\n}\nresource "azurerm_kubernetes_cluster" "main" {\n  kubernetes_version = "1.27"\n}\n',
+    }),
+  });
+  assert.deepEqual(findings.map((finding) => finding.ruleId), [
+    "terraform.eks.end-of-life-1.30-and-older",
+    "terraform.gke.end-of-life-1.29-and-older",
+    "terraform.aks.end-of-life-1.28-and-older",
+  ]);
 });
 
 test("a malformed VERS rule never matches and does not hide a later rule", async () => {

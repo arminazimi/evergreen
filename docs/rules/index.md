@@ -551,8 +551,23 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## terraform
 
+- [AKS 1.28 and earlier are no longer supported](terraform.aks.end-of-life-1.28-and-older.html) — end of life, `terraform.aks.end-of-life-1.28-and-older`
+- [AKS 1.29 is past long-term support](terraform.aks.end-of-life-1.29.html) — end of life, `terraform.aks.end-of-life-1.29`
+- [AKS 1.30 is past long-term support](terraform.aks.end-of-life-1.30.html) — end of life, `terraform.aks.end-of-life-1.30`
+- [AKS 1.31 is past its 12-month support window](terraform.aks.end-of-support-1.31.html) — end of support, `terraform.aks.end-of-support-1.31`
+- [AKS 1.32 is past its 12-month support window](terraform.aks.end-of-support-1.32.html) — end of support, `terraform.aks.end-of-support-1.32`
+- [AKS 1.33 is past its 12-month support window](terraform.aks.end-of-support-1.33.html) — end of support, `terraform.aks.end-of-support-1.33`
 - [Terraform CLI 1.10 is no longer a supported release line](terraform.cli.end-of-support-1.10.html) — end of support, `terraform.cli.end-of-support-1.10`
 - [Terraform CLI 1.11 is no longer a supported release line](terraform.cli.end-of-support-1.11.html) — end of support, `terraform.cli.end-of-support-1.11`
 - [Terraform CLI 1.12 is no longer a supported release line](terraform.cli.end-of-support-1.12.html) — end of support, `terraform.cli.end-of-support-1.12`
 - [Terraform CLI 1.13 is no longer a supported release line](terraform.cli.end-of-support-1.13.html) — end of support, `terraform.cli.end-of-support-1.13`
 - [Terraform CLI 1.14 is no longer a supported release line](terraform.cli.end-of-support-1.14.html) — end of support, `terraform.cli.end-of-support-1.14`
+- [Amazon EKS 1.30 and earlier are past end of extended support](terraform.eks.end-of-life-1.30-and-older.html) — end of life, `terraform.eks.end-of-life-1.30-and-older`
+- [Amazon EKS 1.31 is past end of standard support](terraform.eks.end-of-support-1.31.html) — end of support, `terraform.eks.end-of-support-1.31`
+- [Amazon EKS 1.32 is past end of standard support](terraform.eks.end-of-support-1.32.html) — end of support, `terraform.eks.end-of-support-1.32`
+- [Amazon EKS 1.33 is past end of standard support](terraform.eks.end-of-support-1.33.html) — end of support, `terraform.eks.end-of-support-1.33`
+- [GKE 1.29 and earlier are no longer supported](terraform.gke.end-of-life-1.29-and-older.html) — end of life, `terraform.gke.end-of-life-1.29-and-older`
+- [GKE 1.30 is past end of extended support](terraform.gke.end-of-life-1.30.html) — end of life, `terraform.gke.end-of-life-1.30`
+- [GKE 1.31 is past end of extended support](terraform.gke.end-of-life-1.31.html) — end of life, `terraform.gke.end-of-life-1.31`
+- [GKE 1.32 is past end of standard support](terraform.gke.end-of-support-1.32.html) — end of support, `terraform.gke.end-of-support-1.32`
+- [GKE 1.33 is past end of standard support](terraform.gke.end-of-support-1.33.html) — end of support, `terraform.gke.end-of-support-1.33`

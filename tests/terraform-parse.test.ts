@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { test } from "node:test";
 
 import { MAXIMUM_INPUT_BYTES, parseTerraformFile } from "../src/detectors/terraform/parse-terraform.js";
+import { parseManagedKubernetes } from "../src/detectors/terraform/kubernetes.js";
 
 const fixtures = resolve("tests/fixtures/terraform");
 
@@ -94,4 +95,108 @@ test("bounds oversized input", () => {
   assert.deepEqual(parseTerraformFile(`${padding}\nterraform {\n  required_version = "1.0"\n}\n`), []);
   const longLine = `terraform {\n  required_version = "1.0"\n  # ${"x".repeat(5000)}\n}\n`;
   assert.deepEqual(parseTerraformFile(longLine), [{ kind: "required_version", value: "1.0", line: 2 }]);
+});
+
+test("parses managed Kubernetes versions from resources and modules", () => {
+  const contents = `module "eks" {
+  source          = "terraform-aws-modules/eks/aws"
+  cluster_version = "1.33"
+}
+
+resource "google_container_cluster" "primary" {
+  name               = "primary"
+  min_master_version = "1.30"
+}
+
+resource "azurerm_kubernetes_cluster" "main" {
+  kubernetes_version = "1.31.4"
+}
+`;
+  assert.deepEqual(parseManagedKubernetes(contents), [
+    { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "1.33", literal: true, line: 3 },
+    { product: "google-kubernetes-engine", block: "google_container_cluster", name: "primary", attribute: "min_master_version", value: "1.30", literal: true, line: 8 },
+    { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "main", attribute: "kubernetes_version", value: "1.31.4", literal: true, line: 12 },
+  ]);
+});
+
+test("returns references, interpolations, and other expressions as non-literal", () => {
+  assert.deepEqual(
+    parseManagedKubernetes(`module "eks" {
+  cluster_version = var.eks_version
+}
+resource "azurerm_kubernetes_cluster" "main" {
+  kubernetes_version = module.aks.version
+}
+resource "google_container_cluster" "primary" {
+  min_master_version = local.gke_version
+}
+resource "azurerm_kubernetes_cluster" "other" {
+  kubernetes_version = "\${var.interpolated}"
+}
+`),
+    [
+      { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "var.eks_version", literal: false, line: 2 },
+      { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "main", attribute: "kubernetes_version", value: "module.aks.version", literal: false, line: 5 },
+      { product: "google-kubernetes-engine", block: "google_container_cluster", name: "primary", attribute: "min_master_version", value: "local.gke_version", literal: false, line: 8 },
+      { product: "azure-kubernetes-service", block: "azurerm_kubernetes_cluster", name: "other", attribute: "kubernetes_version", value: '"\${var.interpolated}"', literal: false, line: 11 },
+    ],
+  );
+});
+
+test("ignores unrelated blocks, resource types, attributes, and nested values", () => {
+  const contents = `locals {
+  cluster_version = "1.20"
+}
+
+resource "aws_eks_cluster" "main" {
+  version = "1.20"
+}
+
+resource "google_container_cluster" "primary" {
+  version = "1.20"
+  node_config {
+    kubernetes_version = "1.20"
+  }
+}
+
+module "vpc" {
+  version = "3.0.0"
+}
+
+module {
+  kubernetes_version = "1.20"
+}
+
+resource "azurerm_kubernetes_cluster" {
+  kubernetes_version = "1.20"
+}
+
+resource "azurerm_kubernetes_cluster" "empty" {
+  kubernetes_version =
+}
+
+terraform {
+  kubernetes_version = "1.20"
+}
+`;
+  assert.deepEqual(parseManagedKubernetes(contents), []);
+  assert.deepEqual(parseManagedKubernetes('resource "azurerm_kubernetes_cluster" "main" {\n  kubernetes_version = "1.31" + var.suffix\n}\n'), []);
+});
+
+test("accepts one-line blocks, CRLF, a byte order mark, and trailing comments", () => {
+  assert.deepEqual(parseManagedKubernetes('module "eks" { cluster_version = "1.31" }\n'), [
+    { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "1.31", literal: true, line: 1 },
+  ]);
+  const contents = '\ufeffmodule "eks" {\r\n  cluster_version = "1.31" # pinned\r\n}\r\n';
+  assert.deepEqual(parseManagedKubernetes(contents), [
+    { product: "amazon-eks", block: "module", name: "eks", attribute: "cluster_version", value: "1.31", literal: true, line: 2 },
+  ]);
+});
+
+test("returns nothing for malformed or oversized managed Kubernetes input", () => {
+  assert.deepEqual(parseManagedKubernetes('module "eks" {\n  cluster_version = "1.31\n}\n'), []);
+  assert.deepEqual(parseManagedKubernetes('module "eks" {\n  # cluster_version = "1.31"\n}\n'), []);
+  assert.deepEqual(parseManagedKubernetes(""), []);
+  const padding = "# ".padEnd(MAXIMUM_INPUT_BYTES + 1, "x");
+  assert.deepEqual(parseManagedKubernetes(`${padding}\nmodule "eks" {\n  cluster_version = "1.31"\n}\n`), []);
 });
