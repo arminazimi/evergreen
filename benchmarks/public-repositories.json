@@ -9310,7 +9310,17 @@
       "commit": "b3f02e3ec7202ae086c08e4f88c611821531af60",
       "ecosystem": "kubernetes",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+          "path": "ingress.yaml",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: ingress.yaml is a kind: List containing an extensions/v1beta1 Ingress at line 4."
+          }
+        }
+      ]
     },
     {
       "repository": "kelseyhightower/kubernetes-cluster-federation",
@@ -9485,6 +9495,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of e2e/tests/assets/deprecated116/deployment-extensions-v1beta1.yaml reads `apiVersion: extensions/v1beta1` on a `kind: deployment` manifest, an API version the Kubernetes deprecated API migration guide lists as removed."
+          }
+        },
+        {
+          "ruleId": "kubernetes.extensions.deployment.v1beta1.removed",
+          "path": "e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 3 of e2e/tests/assets/list/list-deployment-deprecated-and-non-deprecated.yaml is an item inside kind: List with apiVersion: extensions/v1beta1 on a Deployment."
           }
         }
       ]
