@@ -68,7 +68,7 @@ Matrix version: **2026-10-15 / v1**
 | Dart and Flutter | Experimental | Resolved packages and SDK constraints in `pubspec.lock`, direct dependencies and `environment` constraints in `pubspec.yaml`, and the Flutter version pinned in `.fvmrc` and `.fvm/fvm_config.json`, for Dart SDK releases past end of support and discontinued pub packages. See [Dart and Flutter](detectors/dart.md). |
 | Database runtimes | Experimental | Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal `engine_version` of `postgres`, `mysql`, `mariadb`, and `redis` engines on AWS managed database resources in `*.tf`, for major and minor lines past end of life. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0. See [Database runtimes](detectors/database.md). |
 | Shell and PowerShell | Experimental | Literal `#Requires -Version` directives in `*.ps1` and `*.psm1`, `PowerShellVersion` in `*.psd1` manifests, and pinned `mcr.microsoft.com/powershell` image tags in `.github/workflows` files, for PowerShell releases past end of support. Bundled rules cover PowerShell 6.x and 7.0 through 7.3. Shell names such as `shell: pwsh` and Bash images carry no version and are not matched. See [Shell and PowerShell](detectors/shell.md). |
-| Terraform | Experimental | `required_version` and `required_providers` constraints in `*.tf`, locked provider versions in `.terraform.lock.hcl`, and the Terraform CLI version pinned in `.terraform-version` and `.tool-versions`, for Terraform CLI release lines past end of support. Bundled rules cover CLI lines 1.10 through 1.14; provider rules are not bundled yet. See [Terraform](detectors/terraform.md). |
+| Terraform | Experimental | `required_version` and `required_providers` constraints in `*.tf`, locked provider versions in `.terraform.lock.hcl`, the Terraform CLI version pinned in `.terraform-version` and `.tool-versions`, and managed Kubernetes control-plane versions in `*.tf` for Amazon EKS, Google Kubernetes Engine, and Azure Kubernetes Service, for Terraform CLI and Kubernetes release lines past end of support. Bundled rules cover CLI lines 1.10 through 1.14 and EKS, GKE, and AKS versions 1.33 and earlier; provider rules are not bundled yet. See [Terraform](detectors/terraform.md). |
 | Serverless runtimes | Beta | `Runtime` on AWS SAM and CloudFormation functions and `Globals`, `provider.runtime` and per-function `runtime` in `serverless.yml`, and Terraform `runtime` on `aws_lambda_function` plus Google Cloud Functions runtimes and Azure function-app `application_stack` version pins. Bundled rules cover selected AWS Lambda and Google Cloud Functions identifiers that the vendors list as end-of-life. See [Serverless runtimes](detectors/serverless.md). |
 | Other language and platform ecosystems | Unsupported | Report the limitation; do not infer lifecycle status without a detector. |
 <!-- coverage-matrix:end -->
@@ -188,6 +188,14 @@ The `shell` detector is **experimental**: its level is recorded as `experimental
 ## Terraform detector
 
 The `terraform` detector is **experimental**: its level is recorded as `experimental` in `benchmarks/thresholds.json`. Supported files, declaration forms, matching rules, and limits are documented in [Terraform](detectors/terraform.md). Its lifecycle rules are in `registry/terraform.json` and ship in the [data bundle](DATA.md).
+
+### Managed Kubernetes
+
+| Product | Declaration read | Notes |
+| --- | --- | --- |
+| Amazon EKS | `cluster_version` and `kubernetes_version` in a module whose `source` is `terraform-aws-modules/eks/aws` | The module renamed `cluster_version` to `kubernetes_version` in v21; the source, not the attribute name, decides the vendor. |
+| Google Kubernetes Engine | `min_master_version` on `google_container_cluster`, or `kubernetes_version` and `min_master_version` in a module whose `source` is `terraform-google-modules/kubernetes-engine/google` | A `//submodule` path and a `?ref=` suffix are accepted. |
+| Azure Kubernetes Service | `kubernetes_version` on `azurerm_kubernetes_cluster`, or `kubernetes_version` in a module whose `source` is `Azure/aks/azurerm` | A module with an unknown source has its version attributes reported as unclassified. |
 
 ## C and C++ detector
 

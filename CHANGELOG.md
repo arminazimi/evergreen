@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Judge managed Kubernetes control-plane versions in Terraform: `cluster_version` for EKS, `kubernetes_version` for AKS, and `min_master_version` for GKE. A variable or module reference is listed as unclassified. (#1050)
+- Judge managed Kubernetes control-plane versions in Terraform for Amazon EKS, Google Kubernetes Engine, and Azure Kubernetes Service, taking a module's vendor from its `source`. A variable or module reference is listed as unclassified. (#1050)
 - Add `--format slack`, `--format teams`, and `--format webhook` to render a chat or generic webhook payload for a digest step. Evergreen renders the payload only and never sends it.
 - Judge Debian, Ubuntu, and Alpine base image releases in Dockerfiles and Compose files, including codename tags such as `debian:buster` and `ubuntu:focal`. (#1051)
 

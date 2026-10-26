@@ -4,11 +4,19 @@ import { attributeValues, directBlocks, MAXIMUM_DECLARATIONS, prepareHcl } from 
  * Pure, bounded parser for managed Kubernetes control-plane versions in `*.tf` files.
  *
  * Reads, inside a top-level `resource` block of a supported type, the literal
- * `kubernetes_version` (AKS) or `min_master_version` (GKE), and inside a top-level
- * `module` block the `cluster_version` (EKS), `kubernetes_version` (AKS), or
- * `min_master_version` (GKE) input. The three attribute names are specific to those
- * managed offerings: the AWS provider calls the cluster version `version`, which is
- * not read here.
+ * `kubernetes_version` (AKS) or `min_master_version` (GKE). Inside a top-level `module`
+ * block it reads the same version attributes only when the module's `source` names a
+ * known managed Kubernetes module, and judges them for that module's vendor:
+ *
+ * - `terraform-aws-modules/eks/aws` takes `cluster_version` and, from v21, `kubernetes_version`.
+ * - `Azure/aks/azurerm` takes `kubernetes_version`.
+ * - `terraform-google-modules/kubernetes-engine/google` takes `kubernetes_version` and `min_master_version`.
+ *
+ * A source may carry a `//submodule` path and a `?ref=` suffix, and the default
+ * `registry.terraform.io/` host is accepted. A module whose source is missing, is not one
+ * literal, or is not one of those addresses is not guessed: its version attributes are
+ * returned without a product so the detector can report them as unclassified. The AWS
+ * provider calls the cluster version `version`, which is not read here.
  *
  * A value that is a reference (`var.x`, `local.x`, `module.x.y`), an interpolation,
  * a call, or any other expression is returned with `literal` false so the detector
@@ -34,19 +42,45 @@ const RESOURCE_ATTRIBUTES: Readonly<
   azurerm_kubernetes_cluster: { kubernetes_version: "azure-kubernetes-service" },
 };
 
-/**
- * The attribute each module input names. A module block is how the EKS community
- * module takes its cluster version, and the attribute names stay vendor-specific
- * inside a module, so each one maps to the same product there.
- */
-const MODULE_ATTRIBUTES: Readonly<Record<string, ManagedKubernetesProduct>> = {
-  cluster_version: "amazon-eks",
-  min_master_version: "google-kubernetes-engine",
-  kubernetes_version: "azure-kubernetes-service",
+interface ManagedKubernetesModule {
+  product: ManagedKubernetesProduct;
+  /** The top-level input names this module takes, not attributes on its resources. */
+  attributes: readonly string[];
+}
+
+/** Registry module addresses, without a host, submodule path, or ref, and the inputs each one takes. */
+const MODULE_SOURCES: Readonly<Record<string, ManagedKubernetesModule>> = {
+  "terraform-aws-modules/eks/aws": {
+    product: "amazon-eks",
+    attributes: ["cluster_version", "kubernetes_version"],
+  },
+  "azure/aks/azurerm": {
+    product: "azure-kubernetes-service",
+    attributes: ["kubernetes_version"],
+  },
+  "terraform-google-modules/kubernetes-engine/google": {
+    product: "google-kubernetes-engine",
+    attributes: ["kubernetes_version", "min_master_version"],
+  },
 };
 
+/** The three attribute names a module may use for a control-plane version. */
+const VERSION_ATTRIBUTES = new Set(["cluster_version", "kubernetes_version", "min_master_version"]);
+
+/**
+ * The registry address of a module source: no default registry host, no `//submodule`
+ * path, and no `?ref=` or other query, lowercased so the case of the address does not
+ * matter. A git, HTTP, or local path returns its own prefix and matches no known module.
+ */
+function moduleAddress(source: string): string {
+  const withoutQuery = source.split("?")[0]!;
+  const withoutSubmodule = withoutQuery.split("//")[0]!;
+  return withoutSubmodule.replace(/^registry\.terraform\.io\//i, "").toLowerCase();
+}
+
 export interface ManagedKubernetesDeclaration {
-  product: ManagedKubernetesProduct;
+  /** The managed product, or undefined when a module source is not a known managed Kubernetes module. */
+  product?: ManagedKubernetesProduct;
   /** The resource type, or `module` for a module block. */
   block: string;
   /** The resource or module name label. */
@@ -84,12 +118,32 @@ export function parseManagedKubernetes(contents: string): ManagedKubernetesDecla
       continue;
     }
 
-    const attributes =
-      blockType === "module" ? MODULE_ATTRIBUTES : RESOURCE_ATTRIBUTES[blockType];
-    if (!attributes) continue;
+    const attributes = attributeValues(hcl, block.bodyStart, block.bodyEnd);
 
-    for (const attribute of attributeValues(hcl, block.bodyStart, block.bodyEnd)) {
-      const product = attributes[attribute.name];
+    if (blockType === "module") {
+      const source = attributes.find((attribute) => attribute.name === "source");
+      const address = source?.literal ? moduleAddress(source.value) : undefined;
+      const module = address !== undefined && Object.hasOwn(MODULE_SOURCES, address) ? MODULE_SOURCES[address] : undefined;
+      for (const attribute of attributes) {
+        if (module ? !module.attributes.includes(attribute.name) : !VERSION_ATTRIBUTES.has(attribute.name)) continue;
+        declarations.push({
+          ...(module === undefined ? {} : { product: module.product }),
+          block: blockType,
+          name,
+          attribute: attribute.name,
+          value: attribute.value,
+          literal: attribute.literal,
+          line: attribute.line,
+        });
+        if (declarations.length >= MAXIMUM_DECLARATIONS) return declarations;
+      }
+      continue;
+    }
+
+    const resourceAttributes = Object.hasOwn(RESOURCE_ATTRIBUTES, blockType) ? RESOURCE_ATTRIBUTES[blockType] : undefined;
+    if (!resourceAttributes) continue;
+    for (const attribute of attributes) {
+      const product = Object.hasOwn(resourceAttributes, attribute.name) ? resourceAttributes[attribute.name] : undefined;
       if (!product) continue;
       declarations.push({
         product,

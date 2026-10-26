@@ -32,12 +32,15 @@ import { parseTerraformVersionFile, parseToolVersionsTerraform } from "./parse-v
  * (`>= 1.5`, `~> 1.9`, a range) admits versions outside any single release line, so it is only matched against
  * a rule that covers every version. A rule whose VERS is malformed never matches and does not hide a later rule.
  *
- * It also reads the managed Kubernetes control-plane version: `cluster_version` in a module block (EKS),
- * `kubernetes_version` on `azurerm_kubernetes_cluster` or in a module block (AKS), and `min_master_version` on
- * `google_container_cluster` or in a module block (GKE). A partial version such as `1.33` is matched as the
- * whole minor line. A value that is a variable, local, or module reference, an interpolation, or otherwise not
- * one plain literal is listed as unclassified rather than guessed. Terraform is never run and nothing is
- * fetched.
+ * It also reads the managed Kubernetes control-plane version. On a resource it reads `kubernetes_version` for
+ * `azurerm_kubernetes_cluster` and `min_master_version` for `google_container_cluster`. On a module it decides
+ * the vendor from the `source` address first: `terraform-aws-modules/eks/aws` (EKS) takes `cluster_version` and
+ * `kubernetes_version`, `Azure/aks/azurerm` (AKS) takes `kubernetes_version`, and
+ * `terraform-google-modules/kubernetes-engine/google` (GKE) takes `kubernetes_version` and `min_master_version`.
+ * A module source that is missing or not one of those addresses is not guessed: its version attributes are
+ * listed as unclassified. A partial version such as `1.33` is matched as the whole minor line. A value that is a
+ * variable, local, or module reference, an interpolation, or otherwise not one plain literal is listed as
+ * unclassified too. Terraform is never run and nothing is fetched.
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -281,6 +284,15 @@ export class TerraformDetector implements Detector {
         }
 
         for (const declaration of parseManagedKubernetes(contents)) {
+          if (declaration.product === undefined) {
+            unclassified.push({
+              component: "kubernetes",
+              reference: declaration.value,
+              reason: "the module source is not a known managed Kubernetes module",
+              location: { path, line: declaration.line },
+            });
+            continue;
+          }
           const rules = byPurl.get(purlIdentity(MANAGED_KUBERNETES_PURLS[declaration.product])) ?? [];
           if (!declaration.literal) {
             unclassified.push({
