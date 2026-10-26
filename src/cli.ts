@@ -18,6 +18,7 @@ import { AgentFileError } from "./agent-instructions.js";
 import { configureActiveData, DataPinError, getActiveData } from "./data-source.js";
 import { DataUpdateError, renderDataUpdateText, updateData } from "./data-update.js";
 import { getDataStatus, renderDataStatusText } from "./data-status.js";
+import { guardCommand, GuardUsageError } from "./guard.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import { hasPersonalConfig, initPersonal } from "./init-personal.js";
@@ -64,6 +65,7 @@ Usage:
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
+  evergreen guard npm install <package>... [--fail-on <severity|none>] [--force]   # check first; run npm only when allowed
   evergreen usage [--file <path>] [--json]
   evergreen mcp
   evergreen data status [--json]
@@ -351,7 +353,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -399,6 +401,15 @@ async function main(args: string[]): Promise<number> {
   const json = args.includes("--json") || format === "json";
   if (args.includes("--write-status") && command !== "scan") {
     return fail("usage", "--write-status is only available for the scan command.");
+  }
+  if (command === "guard") {
+    try {
+      const result = await guardCommand(args.slice(1), { report: (output) => process.stderr.write(`${output}\n`) });
+      return result.exitCode;
+    } catch (error) {
+      if (error instanceof GuardUsageError) return fail("usage", error.message);
+      throw error;
+    }
   }
   if (command === "watch") return watch(args.slice(1), json);
   if (command === "capabilities") {

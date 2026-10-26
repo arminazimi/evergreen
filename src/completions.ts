@@ -19,6 +19,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "rollup", flags: ["--owners", "--json"], example: "evergreen rollup reports/*.json --owners owners.json" },
   { name: "fix", flags: ["--dry-run", "--data-version"], example: "evergreen fix . --dry-run" },
   { name: "check", flags: ["--fail-on", "--json", "--format", "--data-version"], example: "evergreen check pkg:npm/request@2.88.2" },
+  { name: "guard", flags: ["--fail-on", "--force", "--data-version"], example: "evergreen guard npm install request" },
   { name: "usage", flags: ["--file", "--json"], example: "evergreen usage --json" },
   { name: "mcp", flags: [], example: "evergreen mcp" },
   { name: "data", flags: ["--json", "--data-version"], example: "evergreen data status" },
