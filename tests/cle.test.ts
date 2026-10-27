@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
@@ -19,12 +20,21 @@ const rule: RegistryV2Rule = {
   provenance: { observedAt: "2025-12-01", reviewedAt: "2026-02-01", reviewer: "test" },
 };
 
-// Unmodified upstream schema fetched from CLE_SCHEMA on 2026-10-27. Kept local so tests stay offline.
-const schema = JSON.parse(await readFile(resolve("tests/fixtures/cle/cle-1.0.0.schema.json"), "utf8"));
+const schemaPath = resolve("schemas/vendor/cle-1.0.0.schema.json");
+const schema = JSON.parse(await readFile(schemaPath, "utf8"));
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 ajv.addFormat("date-time", (value: string) => /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z$/.test(value) && Number.isFinite(Date.parse(value)));
 for (const format of ["uri", "iri"]) ajv.addFormat(format, (value: string) => URL.canParse(value));
 const validate = ajv.compile(schema);
+
+test("the vendored CLE schema is the published file and carries its license notice", async () => {
+  const text = await readFile(schemaPath);
+  const readme = await readFile(resolve("schemas/vendor/README.md"), "utf8");
+  const notice = await readFile(resolve("schemas/vendor/cle-1.0.0.NOTICE"), "utf8");
+  assert.ok(readme.includes(createHash("sha256").update(text).digest("hex")), "schemas/vendor/README.md must record the file's SHA-256");
+  assert.match(notice, /© 2025 Ecma International/);
+  assert.match(notice, /https:\/\/tc54\.org\/schemas\/cle\/cle-1\.0\.0\.schema\.json/);
+});
 
 test("CLE snapshots group PURLs, preserve VERS, map supported events and validate against CLE 1.0", () => {
   const rules: RegistryV2Rule[] = [
