@@ -8688,6 +8688,15 @@
           }
         },
         {
+          "ruleId": "scala.runtime.eol-2.11",
+          "path": "docs/archive/game-db/build.sbt",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of docs/archive/game-db/build.sbt reads `scalaVersion := \"2.11.1\"`, a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016."
+          }
+        },
+        {
           "ruleId": "java.jdk.end-of-support-12-16",
           "path": "docs/archive/game-engine/pom.xml",
           "line": 84,
@@ -8829,6 +8838,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 61 of game-res/archive/game-cluster/pom.xml reads `<target>14</target>`, a non-LTS JDK 12 to 16 release that the Oracle Java SE Support Roadmap lists as superseded."
+          }
+        },
+        {
+          "ruleId": "scala.runtime.eol-2.11",
+          "path": "game-res/archive/game-db/build.sbt",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 7 of game-res/archive/game-db/build.sbt reads `scalaVersion := \"2.11.1\"`, a Scala 2.11 release the Scala development guarantees page lists as end-of-life since 2016."
           }
         },
         {
