@@ -1,0 +1,42 @@
+{
+  "importer": "dart-1",
+  "ecosystem": "dart",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "dart.package.analysis-server-client.discontinued",
+      "ecosystem": "dart",
+      "purl": "pkg:pub/analysis_server_client",
+      "vers": "vers:semver/*",
+      "event": "deprecated",
+      "title": "analysis_server_client is discontinued on pub.dev",
+      "summary": "pub.dev marks analysis_server_client as discontinued.",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "analysis_server_client on pub.dev",
+          "url": "https://pub.dev/packages/analysis_server_client"
+        },
+        {
+          "title": "analysis_server_client package metadata",
+          "url": "https://pub.dev/api/packages/analysis_server_client"
+        },
+        {
+          "title": "Hosted Pub Repository Specification Version 2",
+          "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "dart-1"
+      },
+      "x-dart": {
+        "kind": "package",
+        "package": "analysis_server_client"
+      }
+    }
+  ],
+  "notes": []
+}
