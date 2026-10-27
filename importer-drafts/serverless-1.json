@@ -1,0 +1,730 @@
+{
+  "importer": "serverless-1",
+  "ecosystem": "serverless",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "serverless.aws-lambda.dotnet5.0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnet5.0",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET 5 (container only) runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnet5.0 under Deprecated runtimes with deprecation date 2022-05-10. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2022-05-10",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnet6",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnet6",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET 6 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnet6 under Deprecated runtimes with deprecation date 2024-12-20. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2024-12-20",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnet7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnet7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET 7 (container only) runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnet7 under Deprecated runtimes with deprecation date 2024-05-14. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2024-05-14",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnetcore1.0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore1.0",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET Core 1.0 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnetcore1.0 under Deprecated runtimes with deprecation date 2019-06-27. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2019-06-27",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnetcore2.0",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore2.0",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET Core 2.0 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnetcore2.0 under Deprecated runtimes with deprecation date 2019-05-30. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2019-05-30",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnetcore2.1",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore2.1",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET Core 2.1 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnetcore2.1 under Deprecated runtimes with deprecation date 2022-01-05. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2022-01-05",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.dotnetcore3.1",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore3.1",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda .NET Core 3.1 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists dotnetcore3.1 under Deprecated runtimes with deprecation date 2023-04-03. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet9",
+      "deadline": "2023-04-03",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.go1.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/go1.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Go 1.x runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists go1.x under Deprecated runtimes with deprecation date 2024-01-08. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "provided.al2023",
+      "deadline": "2024-01-08",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.java8",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/java8",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Java 8 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists java8 under Deprecated runtimes with deprecation date 2024-01-08. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "java25 or java21",
+      "deadline": "2024-01-08",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 0.10 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs under Deprecated runtimes with deprecation date 2016-08-30. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2016-08-30",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs10.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs10.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 10 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs10.x under Deprecated runtimes with deprecation date 2021-07-30. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2021-07-30",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs12.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 12 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2023-03-31",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs14.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 14 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2023-12-04",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs16.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs16.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 16 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs16.x under Deprecated runtimes with deprecation date 2024-06-12. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2024-06-12",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs18.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs18.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 18 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs18.x under Deprecated runtimes with deprecation date 2025-09-01. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2025-09-01",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs20.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs20.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 20 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs20.x under Deprecated runtimes with deprecation date 2026-04-30. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2026-04-30",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs4.3",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs4.3",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 4.3 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs4.3 under Deprecated runtimes with deprecation date 2020-03-05. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2020-03-05",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs4.3-edge",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs4.3-edge",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 4.3 edge runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs4.3-edge under Deprecated runtimes with deprecation date 2020-03-05. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2020-03-05",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs6.10",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs6.10",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 6.10 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs6.10 under Deprecated runtimes with deprecation date 2019-08-12. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2019-08-12",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.nodejs8.10",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs8.10",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 8.10 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs8.10 under Deprecated runtimes with deprecation date 2020-03-06. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs26.x or nodejs24.x",
+      "deadline": "2020-03-06",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.provided",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/provided",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda OS-only Runtime runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists provided under Deprecated runtimes with deprecation date 2024-01-08. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "provided.al2023",
+      "deadline": "2024-01-08",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.provided.al2",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/provided.al2",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda OS-only Runtime runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists provided.al2 under Deprecated runtimes with deprecation date 2026-07-31. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "provided.al2023",
+      "deadline": "2026-07-31",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python2.7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python2.7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 2.7 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python2.7 under Deprecated runtimes with deprecation date 2021-07-15. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.15 or python3.14",
+      "deadline": "2021-07-15",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.6",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.6",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.6 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.6 under Deprecated runtimes with deprecation date 2022-07-18. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.15 or python3.14",
+      "deadline": "2022-07-18",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.7 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.7 under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.15 or python3.14",
+      "deadline": "2023-12-04",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.8",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.8",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.8 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.15 or python3.14",
+      "deadline": "2024-10-14",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.9",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.9",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.9 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.9 under Deprecated runtimes with deprecation date 2025-12-15. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.15 or python3.14",
+      "deadline": "2025-12-15",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.ruby2.5",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/ruby2.5",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Ruby 2.5 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists ruby2.5 under Deprecated runtimes with deprecation date 2021-07-30. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "ruby4.0 or ruby3.4",
+      "deadline": "2021-07-30",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.ruby2.7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/ruby2.7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Ruby 2.7 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "ruby4.0 or ruby3.4",
+      "deadline": "2023-12-07",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.ruby3.2",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/ruby3.2",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Ruby 3.2 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists ruby3.2 under Deprecated runtimes with deprecation date 2026-03-31. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "ruby4.0 or ruby3.4",
+      "deadline": "2026-03-31",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-1"
+      }
+    }
+  ],
+  "notes": [
+    "Drafted 30 rules on 2026-10-27: 30 end-of-life, 0 scheduled."
+  ]
+}
