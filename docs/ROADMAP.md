@@ -56,18 +56,18 @@ Each phase is a GitHub milestone. A phase starts when the previous one is comple
 | [Phase 25 — Evergreen v1](https://github.com/arminazimi/evergreen/milestone/17) | 2027-03-16 → 2027-04-15 | 4 |
 | [Phase 26 — Evergreen checks itself](https://github.com/arminazimi/evergreen/milestone/19) | 2026-10-23 → 2026-11-12 | 6 |
 | [Phase 27 — Trust and accuracy](https://github.com/arminazimi/evergreen/milestone/20) | 2026-11-13 → 2026-12-03 | 11 |
-| [Phase 28 — Data freshness](https://github.com/arminazimi/evergreen/milestone/21) | 2026-12-04 → 2026-12-24 | 7 |
+| [Phase 28 — Data freshness](https://github.com/arminazimi/evergreen/milestone/21) | 2026-12-04 → 2026-12-24 | 6 |
 | [Phase 29 — Agent-native](https://github.com/arminazimi/evergreen/milestone/22) | 2026-12-25 → 2027-01-14 | 8 |
 | [Phase 30 — Personal use](https://github.com/arminazimi/evergreen/milestone/23) | 2027-01-15 → 2027-02-04 | 11 |
 | [Phase 31 — Forecast and planning](https://github.com/arminazimi/evergreen/milestone/24) | 2027-02-05 → 2027-02-25 | 9 |
-| [Phase 32 — Fix and automation](https://github.com/arminazimi/evergreen/milestone/25) | 2027-02-26 → 2027-03-18 | 7 |
+| [Phase 32 — Fix and automation](https://github.com/arminazimi/evergreen/milestone/25) | 2027-02-26 → 2027-03-18 | 6 |
 | [Phase 33 — Team and DevOps](https://github.com/arminazimi/evergreen/milestone/26) | 2027-03-19 → 2027-04-08 | 17 |
 | [Phase 34 — Editor and guard](https://github.com/arminazimi/evergreen/milestone/27) | 2027-04-09 → 2027-04-29 | 6 |
 | [Phase 35 — Coverage: cloud, OS, and runtimes](https://github.com/arminazimi/evergreen/milestone/28) | 2027-04-30 → 2027-05-20 | 12 |
 | [Phase 36 — Interop and standards](https://github.com/arminazimi/evergreen/milestone/29) | 2027-05-21 → 2027-06-10 | 12 |
 | v0.8.0 — Adoption: get Evergreen used | 2026-10-28 → 2026-12-08 | 101 |
 | v0.9.0 — Visibility: stars and contributors | 2026-12-09 → 2027-01-26 | 73 |
-| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-01-27 → 2027-02-23 | 14 |
+| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-01-27 → 2027-02-23 | 16 |
 | After v1 — Future | after v1, unscheduled | 7 |
 
 ## How work is organized
@@ -380,8 +380,10 @@ _2026-12-04 → 2026-12-24 · 5 tasks · [milestone](https://github.com/arminazi
 
 **Epics**
 
-- **[Lifecycle data importers (automated, reviewed rule generation)](https://github.com/arminazimi/evergreen/issues/69)** — Replace hand-written rules with importers that read authoritative machine-readable sources and open reviewable PRs. _(15 tasks)_
 - **[Framework lifecycle coverage](https://github.com/arminazimi/evergreen/issues/80)** — Cover the frameworks teams actually upgrade: Django, Angular, Vue, React Native, Next.js, Spring Boot, Rails, Laravel. _(20 tasks)_
+
+  Also in this phase, from epics listed in other phases:
+  - [Record announced future end-of-life dates](https://github.com/arminazimi/evergreen/issues/638)
 
 ## Phase 29 — Agent-native
 
@@ -468,7 +470,14 @@ _2027-02-26 → 2027-03-18 · 6 tasks · [milestone](https://github.com/arminazi
 
 **Epics**
 
-- **[Agent, developer, and DevOps playbooks](https://github.com/arminazimi/evergreen/issues/62)** — Give each audience a tested path from discovery to verified migration. _(11 tasks)_
+
+  Also in this phase, from epics listed in other phases:
+  - [Add `evergreen fix --dry-run` to print patches for deterministic fixes](https://github.com/arminazimi/evergreen/issues/1032)
+  - [Fix GitHub Actions references deterministically](https://github.com/arminazimi/evergreen/issues/1033)
+  - [Fix runtime pins in .nvmrc, engines, and .python-version](https://github.com/arminazimi/evergreen/issues/1034)
+  - [Add `evergreen fix --branch` to apply fixes on a local git branch](https://github.com/arminazimi/evergreen/issues/1035)
+  - [Ship codemod packs for the most common package replacements](https://github.com/arminazimi/evergreen/issues/1036)
+  - [Re-scan and run the migration's verification command after a fix](https://github.com/arminazimi/evergreen/issues/1037)
 
 ## Phase 33 — Team and DevOps
 
@@ -620,11 +629,10 @@ _2027-01-27 → 2027-02-23 · 12 tasks · [milestone](https://github.com/arminaz
 
 **Epics**
 
+- **[Lifecycle data importers (automated, reviewed rule generation)](https://github.com/arminazimi/evergreen/issues/69)** — Replace hand-written rules with importers that read authoritative machine-readable sources and open reviewable PRs. _(15 tasks)_
 - **[Evergreen v1 release readiness and launch](https://github.com/arminazimi/evergreen/issues/57)** — Ship a stable v1 whose contracts, quality evidence, distribution, and maintenance policy are ready for broad adoption. _(5 tasks)_
+- **[Agent, developer, and DevOps playbooks](https://github.com/arminazimi/evergreen/issues/62)** — Give each audience a tested path from discovery to verified migration. _(11 tasks)_
 - **[Security and performance hardening for v1](https://github.com/arminazimi/evergreen/issues/84)** — Prove Evergreen is safe on untrusted repositories and fast on large monorepos. _(12 tasks)_
-
-  Also in this phase, from epics listed in other phases:
-  - [Test playbook examples in CI](https://github.com/arminazimi/evergreen/issues/308)
 
 ## After v1 — Future
 
