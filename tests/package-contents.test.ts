@@ -11,8 +11,10 @@ const NESTED_MANIFEST =
 
 test("the npm tarball ships only the root package.json as a dependency manifest", async () => {
   // Ignore scripts: prepack runs `npm run check`, which would recurse into this test.
+  // npm.cmd needs the platform shell on Windows (same pattern as src/guard.ts).
   const { stdout } = await execute("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"], {
     maxBuffer: 16 * 1024 * 1024,
+    shell: process.platform === "win32",
   });
   const packed = JSON.parse(stdout) as Array<{ files: Array<{ path: string }> }> | { files: Array<{ path: string }> };
   const files = (Array.isArray(packed) ? packed[0]?.files : packed.files) ?? [];
