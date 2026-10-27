@@ -82,6 +82,7 @@ test("the bundle lists every registry and the SHA map, and matches the published
     "registry/kubernetes.json",
     "registry/nodejs.json",
     "registry/npm.json",
+    "registry/osv.json",
     "registry/python.json",
     "registry/ruby.json",
     "registry/rust.json",

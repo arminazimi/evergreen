@@ -342,6 +342,8 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/osv.npm.request.html</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html</loc><lastmod>2026-10-27</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-10.end-of-support.html</loc><lastmod>2026-10-23</lastmod></url>

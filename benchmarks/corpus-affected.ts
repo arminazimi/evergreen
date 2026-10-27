@@ -80,6 +80,7 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "kubernetes.json": ["kubernetes"],
   "nodejs.json": ["node"],
   "npm.json": ["node"],
+  "osv.json": [],
   "php.json": ["php"],
   "python.json": ["python"],
   "ruby.json": ["ruby"],

@@ -30,7 +30,7 @@ test("every command and file path in docs/IMPORTERS.md exists", async () => {
 
 test("the candidate lists the doc names are the ones the importers use", async () => {
   const text = await read("docs/IMPORTERS.md");
-  for (const file of ["npm-candidates", "pypi-candidates", "github-actions-candidates"]) {
+  for (const file of ["npm-candidates", "osv-candidates", "pypi-candidates", "github-actions-candidates"]) {
     assert.ok(text.includes(`tools/importers/${file}.ts`), file);
     await access(resolve(`tools/importers/${file}.ts`));
   }

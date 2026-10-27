@@ -258,9 +258,9 @@ A detector sets `confidence` when it knows better. Otherwise the engine uses `in
 |---|---|---|---|
 | Time since end of life | Whole days from the finding's `deadline` to the day scored (0 before the deadline or without one) | `floor(days × 50 / 730)` | 50, reached at two years |
 | Usage | The finding's `impact.usageCount`, or its number of `usages` | 5 per usage | 25 |
-| Advisories | The count of imported advisories that apply to the finding, passed by the caller | 5 per advisory | 25 |
+| Advisories | The count of imported OSV advisory ids on the finding (`advisoryIds`), or the count the caller passes | 5 per advisory | 25 |
 
-`score` is the sum of the three point values, and the result also returns the inputs and the points so the number can be checked by hand. The function reads no clock: the caller passes `today` (`YYYY-MM-DD`), so the same finding on the same day always scores the same. Evergreen does not fetch advisories during a scan; the caller supplies the count it imported.
+`score` is the sum of the three point values, and the result also returns the inputs and the points so the number can be checked by hand. The function reads no clock: the caller passes `today` (`YYYY-MM-DD`), so the same finding on the same day always scores the same. Evergreen does not fetch advisories during a scan; ids come from the bundled OSV cross-reference (see [Lifecycle data](DATA.md#osv-advisories)).
 
 ## Evidence policy
 

@@ -20,6 +20,7 @@ import { rustToolchainImporter } from "./rust-1.js";
 import { rustYankedImporter } from "./rust-2.js";
 import { nodejsScheduleImporter } from "./nodejs.js";
 import { npmDeprecatedImporter } from "./npm.js";
+import { osvImporter } from "./osv.js";
 import { phpSupportedVersionsImporter } from "./php-1.js";
 import { phpPackagistAbandonedImporter } from "./php-2.js";
 import { pypiStatusImporter } from "./pypi.js";
@@ -34,4 +35,4 @@ import { terraformProviderGuidesImporter } from "./terraform-2.js";
 import type { Importer } from "./types.js";
 
 /** Every importer the command line can run. Each importer adds itself here when it lands. */
-export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dartDiscontinuedImporter, postgresqlVersioningImporter, databaseVendorLifecycleImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, gcloudFunctionsRuntimesImporter, powershellLifecycleImporter, swiftAppStoreImporter, terraformCliImporter, terraformProviderGuidesImporter];
+export const importers: readonly Importer[] = [androidTargetSdkImporter, ciImagesImporter, containerOfficialImagesImporter, cmakePolicyImporter, dartDiscontinuedImporter, postgresqlVersioningImporter, databaseVendorLifecycleImporter, dotnetReleasesImporter, nugetDeprecationImporter, endoflifeDateImporter, githubActionsRuntimeImporter, goModuleDeprecationImporter, goReleasePolicyImporter, javaJdkSupportImporter, mavenRelocationImporter, kubernetesDeprecationGuideImporter, kubernetesReleasesImporter, nodejsScheduleImporter, npmDeprecatedImporter, osvImporter, phpSupportedVersionsImporter, phpPackagistAbandonedImporter, pypiStatusImporter, pythonReleaseCycleImporter, runnerImagesImporter, rubyMaintenanceImporter, rustToolchainImporter, rustYankedImporter, awsLambdaRuntimesImporter, gcloudFunctionsRuntimesImporter, powershellLifecycleImporter, swiftAppStoreImporter, terraformCliImporter, terraformProviderGuidesImporter];

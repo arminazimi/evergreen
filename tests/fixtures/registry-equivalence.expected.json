@@ -809,7 +809,10 @@
     "affectedFiles": 1,
     "level": "low"
    },
-   "detector": "npm"
+   "detector": "npm",
+   "advisoryIds": [
+    "GHSA-p8p7-x288-28g6"
+   ]
   },
   {
    "id": "python.package.django-nose.maintenance-only:pyproject.toml:4",
@@ -1032,7 +1035,12 @@
     "affectedFiles": 1,
     "level": "low"
    },
-   "detector": "python"
+   "detector": "python",
+   "advisoryIds": [
+    "GHSA-6528-wvf6-f6qg",
+    "GHSA-cq27-v7xp-c356",
+    "PYSEC-2018-97"
+   ]
   },
   {
    "id": "python.runtime.eol-3.9-and-older:.python-version:1",

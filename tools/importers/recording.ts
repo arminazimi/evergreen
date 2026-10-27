@@ -10,6 +10,8 @@ export const RECORDING_SCHEMA = "evergreen.importer-recording.v1" as const;
 export interface RecordedResponse {
   url: string;
   accept?: string;
+  /** POST body when the request was not a GET; recordings key on it so two POSTs to one URL stay distinct. */
+  requestBody?: string;
   /** The response body, for a successful request. */
   body?: string;
   /** The failure message, for a request that failed (for example `GET ... failed: HTTP 404`). */
@@ -30,7 +32,11 @@ export interface Recording {
   responses: RecordedResponse[];
 }
 
-const keyOf = (url: string, accept?: string) => (accept ? `${url}\n${accept}` : url);
+/** Stable lookup key. GET recordings stay `url` or `url\\naccept`; POST adds a third line for the body. */
+const keyOf = (url: string, accept?: string, requestBody?: string) => {
+  if (requestBody !== undefined) return `${url}\n${accept ?? ""}\n${requestBody}`;
+  return accept ? `${url}\n${accept}` : url;
+};
 
 /** Wraps a context and remembers every response, including failures, so a run can be saved. */
 export function recordingContext(inner: ImporterContext): { context: ImporterContext; recording(importer: string): Recording } {
@@ -39,13 +45,18 @@ export function recordingContext(inner: ImporterContext): { context: ImporterCon
     context: {
       now: inner.now,
       async fetchText(url, options) {
-        const key = keyOf(url, options?.accept);
+        const key = keyOf(url, options?.accept, options?.body);
+        const meta = {
+          url,
+          ...(options?.accept ? { accept: options.accept } : {}),
+          ...(options?.body === undefined ? {} : { requestBody: options.body }),
+        };
         try {
           const body = await inner.fetchText(url, options);
-          responses.set(key, { url, ...(options?.accept ? { accept: options.accept } : {}), body });
+          responses.set(key, { ...meta, body });
           return body;
         } catch (error) {
-          responses.set(key, { url, ...(options?.accept ? { accept: options.accept } : {}), error: (error as Error).message });
+          responses.set(key, { ...meta, error: (error as Error).message });
           throw error;
         }
       },
@@ -61,21 +72,27 @@ export function recordingContext(inner: ImporterContext): { context: ImporterCon
 
 /** A context that answers only from a recording and reports recorded responses nothing asked for. */
 export function replayContext(recording: Recording, now?: Date): ImporterContext & { unused(): RecordedResponse[] } {
-  const byKey = new Map(recording.responses.map((response) => [keyOf(response.url, response.accept), response]));
+  const byKey = new Map(recording.responses.map((response) => [keyOf(response.url, response.accept, response.requestBody), response]));
   const used = new Set<string>();
   return {
     now: now ?? new Date(`${recording.recordedAt}T12:00:00Z`),
     async fetchText(url: string, options?: FetchOptions) {
-      const key = keyOf(url, options?.accept);
+      const key = keyOf(url, options?.accept, options?.body);
       const response = byKey.get(key);
       if (!response) {
-        throw new ImporterError(`No recorded response for ${url}${options?.accept ? ` (Accept: ${options.accept})` : ""}. Record it with --record.`);
+        const hint = [
+          options?.accept ? `Accept: ${options.accept}` : "",
+          options?.body === undefined ? "" : "POST body",
+        ]
+          .filter(Boolean)
+          .join(", ");
+        throw new ImporterError(`No recorded response for ${url}${hint ? ` (${hint})` : ""}. Record it with --record.`);
       }
       used.add(key);
       if (response.error !== undefined) throw new ImporterError(response.error);
       return response.body ?? "";
     },
-    unused: () => recording.responses.filter((response) => !used.has(keyOf(response.url, response.accept))),
+    unused: () => recording.responses.filter((response) => !used.has(keyOf(response.url, response.accept, response.requestBody))),
   };
 }
 
@@ -92,8 +109,9 @@ export function validateRecording(value: unknown): Recording {
   const seen = new Set<string>();
   for (const [index, response] of recording.responses.entries()) {
     if (typeof response?.url !== "string" || !/^https?:\/\//.test(response.url)) fail(`responses[${index}].url must be a URL`);
+    if (response.requestBody !== undefined && typeof response.requestBody !== "string") fail(`responses[${index}].requestBody must be a string`);
     if ((response.body === undefined) === (response.error === undefined)) fail(`responses[${index}] needs exactly one of body or error`);
-    const key = keyOf(response.url, response.accept);
+    const key = keyOf(response.url, response.accept, response.requestBody);
     if (seen.has(key)) fail(`responses[${index}] repeats ${response.url}`);
     seen.add(key);
   }

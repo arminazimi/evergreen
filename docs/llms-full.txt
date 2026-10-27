@@ -1645,9 +1645,9 @@ A detector sets `confidence` when it knows better. Otherwise the engine uses `in
 |---|---|---|---|
 | Time since end of life | Whole days from the finding's `deadline` to the day scored (0 before the deadline or without one) | `floor(days × 50 / 730)` | 50, reached at two years |
 | Usage | The finding's `impact.usageCount`, or its number of `usages` | 5 per usage | 25 |
-| Advisories | The count of imported advisories that apply to the finding, passed by the caller | 5 per advisory | 25 |
+| Advisories | The count of imported OSV advisory ids on the finding (`advisoryIds`), or the count the caller passes | 5 per advisory | 25 |
 
-`score` is the sum of the three point values, and the result also returns the inputs and the points so the number can be checked by hand. The function reads no clock: the caller passes `today` (`YYYY-MM-DD`), so the same finding on the same day always scores the same. Evergreen does not fetch advisories during a scan; the caller supplies the count it imported.
+`score` is the sum of the three point values, and the result also returns the inputs and the points so the number can be checked by hand. The function reads no clock: the caller passes `today` (`YYYY-MM-DD`), so the same finding on the same day always scores the same. Evergreen does not fetch advisories during a scan; ids come from the bundled OSV cross-reference (see [Lifecycle data](DATA.md#osv-advisories)).
 
 ## Evidence policy
 
@@ -1772,7 +1772,11 @@ Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or ne
 
 ## What is in a bundle
 
-One JSON file (`evergreen.data-bundle.v1`, [schema](../schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the five registries (container images, GitHub Actions, Node.js, npm, Python) and the GitHub Actions SHA map. The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+One JSON file (`evergreen.data-bundle.v1`, [schema](../schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+
+### OSV advisories
+
+`registry/osv.json` maps lifecycle rule ids to OSV advisory identifiers that have **no fixed version** for that package. The `osv` [importer](IMPORTERS.md) drafts those rows at maintainer time from the OSV API; scans never call OSV. When a scan produces a finding whose `ruleId` appears in that file, the finding lists those ids in `advisoryIds` (and as an `Advisories:` line in text output). The risk score can use the count; Evergreen never fetches advisories during a scan.
 
 ## Trust model
 
@@ -2784,6 +2788,7 @@ The drafting jobs have read-only permissions; only the second job can write, and
 | `php-2` | `php` | Packagist Composer metadata: one `deprecated` rule per direct candidate package whose `abandoned` flag is set. A string flag becomes `replacement` (a package name or the URL the author gave). `true` drafts a rule with no replacement. The flag is package-wide, so the version range is `vers:composer/*`. | `tools/importers/php-candidates.ts` |
 | `python-release-cycle` | `python` | `peps.python.org/api/release-cycle.json`: the single "Python X.Y and older" runtime rule the Python detector reads. | none |
 | `npm-deprecated` | `npm` | `registry.npmjs.org/<name>/latest`: packages whose latest version carries a deprecation notice. | `tools/importers/npm-candidates.ts` |
+| `osv` | `osv` | The OSV query API: for each candidate lifecycle rule, advisory ids whose affected ranges for that package name no fixed version. Drafts land in `registry/osv.json` and ship in the [data bundle](DATA.md); scans attach them to matching findings as `advisoryIds` offline. | `tools/importers/osv-candidates.ts` |
 | `pypi-status` | `python` | PyPI's Simple API (PEP 792 project status markers): archived, deprecated, and quarantined projects. | `tools/importers/pypi-candidates.ts` |
 | `github-actions-runtime` | `github-actions` | Each action's own `action.yml` at its major tags: releases that run on a Node.js runtime GitHub has retired. | `tools/importers/github-actions-candidates.ts` |
 | `ruby-1` | `ruby` | The Ruby maintenance branches page: one `end-of-life` rule per release line the page marks eol, with its published end-of-life date. | none |

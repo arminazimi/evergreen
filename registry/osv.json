@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "osv",
+  "rules": [
+    {
+      "id": "osv.npm.request",
+      "ecosystem": "osv",
+      "purl": "pkg:npm/request",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "request has unfixed OSV advisories",
+      "summary": "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "GHSA-p8p7-x288-28g6",
+          "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi",
+        "importer": "osv"
+      },
+      "x-osv": {
+        "ids": ["GHSA-p8p7-x288-28g6"],
+        "ruleId": "npm.package.request.deprecated"
+      }
+    },
+    {
+      "id": "osv.pypi.pycrypto",
+      "ecosystem": "osv",
+      "purl": "pkg:pypi/pycrypto",
+      "vers": "vers:pypi/*",
+      "event": "deprecated",
+      "title": "pycrypto has unfixed OSV advisories",
+      "summary": "OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycrypto with no fixed version in the affected ranges.",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "GHSA-6528-wvf6-f6qg",
+          "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg"
+        },
+        {
+          "title": "GHSA-cq27-v7xp-c356",
+          "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356"
+        },
+        {
+          "title": "PYSEC-2018-97",
+          "url": "https://osv.dev/vulnerability/PYSEC-2018-97"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi",
+        "importer": "osv"
+      },
+      "x-osv": {
+        "ids": ["GHSA-6528-wvf6-f6qg", "GHSA-cq27-v7xp-c356", "PYSEC-2018-97"],
+        "ruleId": "python.package.pycrypto.obsolete"
+      }
+    }
+  ]
+}

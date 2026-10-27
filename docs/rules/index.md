@@ -393,6 +393,11 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [vue2-script-setup-transform is deprecated](npm.package.vue2-script-setup-transform.deprecated.html) — deprecated, `npm.package.vue2-script-setup-transform.deprecated`
 - [w3c-hr-time is deprecated](npm.package.w3c-hr-time.deprecated.html) — deprecated, `npm.package.w3c-hr-time.deprecated`
 
+## osv
+
+- [request has unfixed OSV advisories](osv.npm.request.html) — deprecated, `osv.npm.request`
+- [pycrypto has unfixed OSV advisories](osv.pypi.pycrypto.html) — deprecated, `osv.pypi.pycrypto`
+
 ## php
 
 - [doctrine/cache is abandoned](php.package.doctrine.cache.abandoned.html) — deprecated, `php.package.doctrine.cache.abandoned`

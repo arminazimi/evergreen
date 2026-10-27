@@ -166,6 +166,11 @@ export interface Finding {
   requires?: ReplacementRequirements;
   deadline?: string;
   sources: EvidenceSource[];
+  /**
+   * OSV advisory identifiers that apply to this finding's package and have no fixed version in OSV.
+   * Filled offline from the bundled `registry/osv.json`; omitted when none were imported.
+   */
+  advisoryIds?: string[];
   usages?: SourceUsage[];
   impact?: MigrationImpact;
   migration?: MigrationGuidance;

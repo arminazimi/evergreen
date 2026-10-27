@@ -106,6 +106,16 @@
         }
       }
     },
+    "advisoryIds": {
+      "type": "array",
+      "description": "OSV advisory identifiers with no fixed version for this finding's package, from the bundled OSV cross-reference.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
     "usages": {
       "type": "array",
       "items": {

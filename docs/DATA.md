@@ -40,7 +40,11 @@ Downloads honor `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` (Node.js 22.21 or ne
 
 ## What is in a bundle
 
-One JSON file (`evergreen.data-bundle.v1`, [schema](../schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the five registries (container images, GitHub Actions, Node.js, npm, Python) and the GitHub Actions SHA map. The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+One JSON file (`evergreen.data-bundle.v1`, [schema](../schemas/data-bundle.v1.schema.json), [decision record](decisions/0006-data-bundle.md)) with a manifest and the files the detectors read: the lifecycle registries (one JSON file per ecosystem under `registry/`), the GitHub Actions SHA map, and the OSV cross-reference (`registry/osv.json`). The manifest lists each file's SHA-256, size, and rule count, a content address for the whole set, the build time, and the oldest Evergreen version that can read it. Versions look like `2026.10.16`, with `.N` for a second bundle on the same day. Building the bundle is deterministic: the same registry files and build time give the same bytes.
+
+### OSV advisories
+
+`registry/osv.json` maps lifecycle rule ids to OSV advisory identifiers that have **no fixed version** for that package. The `osv` [importer](IMPORTERS.md) drafts those rows at maintainer time from the OSV API; scans never call OSV. When a scan produces a finding whose `ruleId` appears in that file, the finding lists those ids in `advisoryIds` (and as an `Advisories:` line in text output). The risk score can use the count; Evergreen never fetches advisories during a scan.
 
 ## Trust model
 

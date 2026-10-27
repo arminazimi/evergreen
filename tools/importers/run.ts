@@ -57,12 +57,19 @@ export function liveContext(now: Date = new Date(), timeoutMs = 30_000): Importe
   return {
     now,
     async fetchText(url, options) {
+      const method = options?.body === undefined ? "GET" : "POST";
       let failure = "no attempt";
       for (let attempt = 0; attempt < 2; attempt++) {
         try {
           const response = await fetch(url, {
+            method,
             redirect: "follow",
-            headers: { "user-agent": "evergreen-importer (+https://github.com/arminazimi/evergreen)", accept: options?.accept ?? "application/json,text/plain,text/html;q=0.8,*/*;q=0.5" },
+            headers: {
+              "user-agent": "evergreen-importer (+https://github.com/arminazimi/evergreen)",
+              accept: options?.accept ?? "application/json,text/plain,text/html;q=0.8,*/*;q=0.5",
+              ...(options?.body === undefined ? {} : { "content-type": "application/json" }),
+            },
+            ...(options?.body === undefined ? {} : { body: options.body }),
             signal: AbortSignal.timeout(timeoutMs),
           });
           if (response.ok) return await response.text();
@@ -72,7 +79,7 @@ export function liveContext(now: Date = new Date(), timeoutMs = 30_000): Importe
           failure = (error as Error).message.slice(0, 120);
         }
       }
-      throw new ImporterError(`GET ${url} failed: ${failure}`);
+      throw new ImporterError(`${method} ${url} failed: ${failure}`);
     },
   };
 }

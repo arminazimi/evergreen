@@ -5,6 +5,7 @@ import { join, resolve } from "node:path";
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
 import type { Confidence, ScanResult } from "./domain.js";
+import { advisoryIdsByRuleId } from "./osv-advisories.js";
 import { assertDetectorCompatible } from "./sdk.js";
 import type { Detector, DetectorFinding } from "./sdk.js";
 
@@ -57,12 +58,17 @@ export async function scanRepository(
   const active = detectors.length === 0 ? undefined : await getActiveData();
   const data = active ? dataInfoFrom(active, scannedAt) : undefined;
   const dataWarnings = active ? [...active.info.warnings, ...(data?.stale ? [staleDataWarning(data)] : [])] : [];
+  const advisories = detectors.length === 0 ? new Map<string, string[]>() : await advisoryIdsByRuleId();
+  const withAdvisories = findings.map((finding) => {
+    const advisoryIds = advisories.get(finding.ruleId);
+    return advisoryIds?.length ? { ...finding, advisoryIds } : finding;
+  });
 
   return {
     schemaVersion: "evergreen.scan.v1",
     root: resolvedRoot,
     scannedAt: scannedAt.toISOString(),
-    findings: findings.sort((left, right) => left.id.localeCompare(right.id)),
+    findings: withAdvisories.sort((left, right) => left.id.localeCompare(right.id)),
     unclassified: { count: references.length, references },
     diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : dataWarnings,
     ...(data ? { data } : {}),

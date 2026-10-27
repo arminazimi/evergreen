@@ -602,6 +602,9 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
     if (finding.deadline) {
       lines.push(`Deadline: ${finding.deadline}`);
     }
+    if (finding.advisoryIds?.length) {
+      lines.push(`Advisories: ${finding.advisoryIds.join(", ")}`);
+    }
     if (finding.impact) {
       lines.push(
         `Impact: ${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`,
@@ -661,6 +664,7 @@ export function renderFindingText(finding: ScanResult["findings"][number]): stri
   if (finding.dependencyPath) lines.push("", `Path: ${finding.dependencyPath.join(" > ")}`);
   if (finding.replacement) lines.push("", `Replacement: ${finding.replacement}`);
   if (finding.deadline) lines.push(`Deadline: ${finding.deadline}`);
+  if (finding.advisoryIds?.length) lines.push(`Advisories: ${finding.advisoryIds.join(", ")}`);
   if (finding.impact) {
     lines.push(
       `Impact: ${finding.impact.level} (${finding.impact.usageCount} usages across ${finding.impact.affectedFiles} files)`,

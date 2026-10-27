@@ -10,6 +10,11 @@ export const PENDING_REVIEWER = "pending-review";
 export interface FetchOptions {
   /** Value for the `Accept` header, for sources that serve several formats from one URL. */
   accept?: string;
+  /**
+   * When set, the request is POST with this UTF-8 body. Importers that need POST (for example the OSV
+   * query API) pass a JSON string here; recordings key on the body so two POSTs to the same URL stay distinct.
+   */
+  body?: string;
 }
 
 export class ImporterError extends Error {
