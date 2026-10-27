@@ -1,0 +1,103 @@
+name: Evergreen organization scan
+
+on:
+  workflow_call:
+    inputs:
+      organization:
+        description: >-
+          GitHub organization to scan. Defaults to the owner of the caller
+          repository. User accounts and repositories outside an organization are
+          not supported.
+        required: false
+        default: ""
+        type: string
+      evergreen-version:
+        description: Version of the first-party Evergreen Action used to scan each repository.
+        required: false
+        default: v0.7.1
+        type: string
+      fail-on-severity:
+        description: Lowest severity that fails a scan job (none, info, low, medium, high, or critical).
+        required: false
+        default: high
+        type: string
+      max-jobs:
+        description: Maximum number of repositories scanned in parallel (bounded concurrency).
+        required: false
+        default: 10
+        type: number
+    secrets:
+      github-token:
+        description: >-
+          Token with read access to the organization's repositories. Pass a
+          `GITHUB_TOKEN` when the caller can read the organization with its
+          default token; otherwise pass a dedicated read-only token.
+        required: false
+  workflow_dispatch:
+    inputs:
+      organization:
+        description: GitHub organization to scan. Defaults to the owner of this repository.
+        required: false
+        default: ""
+        type: string
+      evergreen-version:
+        description: Version of the first-party Evergreen Action used to scan each repository.
+        required: false
+        default: v0.7.1
+        type: string
+      fail-on-severity:
+        description: Lowest severity that fails a scan job (none, info, low, medium, high, or critical).
+        required: false
+        default: high
+        type: string
+      max-jobs:
+        description: Maximum number of repositories scanned in parallel (bounded concurrency).
+        required: false
+        default: "10"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  list:
+    name: List repositories
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      organization: ${{ steps.list.outputs.organization }}
+      repositories: ${{ steps.list.outputs.repositories }}
+    env:
+      GH_TOKEN: ${{ secrets.github-token || github.token }}
+    steps:
+      - name: List repositories with a read-only token
+        id: list
+        env:
+          ORGANIZATION: ${{ inputs.organization || github.repository_owner }}
+        run: |
+          repositories="$(gh api --paginate "/orgs/$ORGANIZATION/repos?per_page=100" --jq '[.[] | select(.archived == false and .disabled == false) | .name] | unique | sort')"
+          echo "organization=$ORGANIZATION" >> "$GITHUB_OUTPUT"
+          echo "repositories=$(printf '%s' "$repositories" | jq -c .)" >> "$GITHUB_OUTPUT"
+          echo "Found $(printf '%s' "$repositories" | jq 'length') scannable repositories in $ORGANIZATION."
+
+  scan:
+    name: scan ${{ matrix.repo }}
+    needs: list
+    if: ${{ fromJSON(needs.list.outputs.repositories) | length > 0 }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ inputs.max-jobs }}
+      matrix:
+        repo: ${{ fromJSON(needs.list.outputs.repositories) }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: ${{ needs.list.outputs.organization }}/${{ matrix.repo }}
+      - uses: arminazimi/evergreen@${{ inputs.evergreen-version }}
+        with:
+          fail-on-severity: ${{ inputs.fail-on-severity }}
+          report-name: evergreen-report-${{ matrix.repo }}
