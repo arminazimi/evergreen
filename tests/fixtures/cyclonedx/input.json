@@ -1,0 +1,48 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "components": [
+    {
+      "type": "library",
+      "name": "request",
+      "version": "2.88.2",
+      "purl": "pkg:npm/request",
+      "bom-ref": "request-2.88.2"
+    },
+    {
+      "type": "application",
+      "name": "group",
+      "components": [
+        {
+          "type": "library",
+          "name": "django-nose",
+          "purl": "pkg:pypi/Django_Nose@1.4.7"
+        },
+        {
+          "type": "library",
+          "name": "express",
+          "purl": "pkg:npm/express@4.0.0"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "checkout",
+      "version": "v4",
+      "purl": "pkg:github/actions/checkout@v5"
+    },
+    {
+      "type": "library",
+      "name": "checkout",
+      "purl": "pkg:github/actions/checkout"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "type": "application",
+      "name": "root",
+      "purl": "pkg:npm/request@2.88.2"
+    }
+  }
+}
