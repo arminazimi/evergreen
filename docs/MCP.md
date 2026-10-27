@@ -189,7 +189,7 @@ The server uses the lifecycle data bundled with the installed release, and docum
 
 ## Other agent hosts
 
-Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents):
+Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents) and [`integrations/cline/`](https://github.com/arminazimi/evergreen/tree/main/integrations/cline):
 
 | Host | MCP config | Instructions |
 | --- | --- | --- |
@@ -197,6 +197,7 @@ Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruc
 | Gemini CLI | `gemini-extension.json` or `.gemini/settings.json` | `GEMINI.md` |
 | GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
 | Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
+| Cline | `cline_mcp_settings.json` (user settings) | `.clinerules/evergreen.md` |
 
 To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run `evergreen init --agents` in it: it adds a delimited section, keeps everything else byte for byte, and is safe to run again (`--dry-run` prints the diff first). `evergreen setup` does the same for every detected host at once (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code), writing each host's own instruction file such as `.cursor/rules/evergreen.mdc` after confirmation or `--yes`; it does not edit MCP server entries, which stay in the per-host setups above.
 

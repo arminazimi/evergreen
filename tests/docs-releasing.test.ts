@@ -75,6 +75,7 @@ test("every place that carries the release version agrees with package.json", as
     "examples/agents/copilot/.vscode/mcp.json",
     "examples/agents/cursor/.cursor/mcp.json",
     "examples/agents/copilot/coding-agent-mcp.json",
+    "integrations/cline/cline_mcp_settings.json",
   ];
   for (const path of pins) assert.match(await read(path), new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`), path);
   assert.match(await read("README.md"), new RegExp(`arminazimi/evergreen@v${version.replace(/\./g, "\\.")}`));

@@ -6,13 +6,15 @@ import { test } from "node:test";
 import { MCP_TOOL_NAMES } from "../src/mcp.js";
 
 const read = (path: string) => readFile(resolve("examples/agents", path), "utf8");
+const readRepo = (path: string) => readFile(resolve(path), "utf8");
 const readJson = async <T>(path: string) => JSON.parse(await read(path)) as T;
+const readRepoJson = async <T>(path: string) => JSON.parse(await readRepo(path)) as T;
 
 const { version } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { version: string };
 const packageSpec = `evergreen-deprecation@${version}`;
 const serverArguments = ["--yes", "--package", packageSpec, "evergreen-mcp"];
 
-interface Server { command: string; args: string[]; type?: string; tools?: string[]; trust?: boolean }
+interface Server { command: string; args: string[]; type?: string; tools?: string[]; trust?: boolean; disabled?: boolean; autoApprove?: string[] }
 
 test("every host starts the pinned MCP server with the current package version", async () => {
   const cursor = await readJson<{ mcpServers: { evergreen: Server } }>("cursor/.cursor/mcp.json");
@@ -20,7 +22,8 @@ test("every host starts the pinned MCP server with the current package version",
   const geminiSettings = await readJson<{ mcpServers: { evergreen: Server } }>("gemini/settings.json");
   const vscode = await readJson<{ servers: { evergreen: Server } }>("copilot/.vscode/mcp.json");
   const codingAgent = await readJson<{ mcpServers: { evergreen: Server } }>("copilot/coding-agent-mcp.json");
-  for (const server of [cursor.mcpServers.evergreen, gemini.mcpServers.evergreen, geminiSettings.mcpServers.evergreen, vscode.servers.evergreen, codingAgent.mcpServers.evergreen]) {
+  const cline = await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json");
+  for (const server of [cursor.mcpServers.evergreen, gemini.mcpServers.evergreen, geminiSettings.mcpServers.evergreen, vscode.servers.evergreen, codingAgent.mcpServers.evergreen, cline.mcpServers.evergreen]) {
     assert.equal(server.command, "npx");
     assert.deepEqual(server.args, serverArguments);
   }
@@ -43,6 +46,9 @@ test("host-specific fields follow each vendor's documented format", async () => 
   assert.equal(extension.contextFileName, "GEMINI.md");
   const cursorRule = await read("cursor/.cursor/rules/evergreen.mdc");
   assert.match(cursorRule, /^---\ndescription: .+\nalwaysApply: true\n---\n/);
+  const cline = (await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json")).mcpServers.evergreen;
+  assert.equal(cline.disabled, false);
+  assert.deepEqual(cline.autoApprove, []);
 });
 
 test("every host's instruction file carries the shared dependency-check text", async () => {
@@ -51,6 +57,7 @@ test("every host's instruction file carries the shared dependency-check text", a
   for (const path of ["cursor/.cursor/rules/evergreen.mdc", "gemini/GEMINI.md", "copilot/.github/copilot-instructions.md", "kilo/.kilo/rules/evergreen.md"]) {
     assert.ok((await read(path)).includes(shared), `${path} must contain the shared instruction text`);
   }
+  assert.ok((await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared), "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text");
 });
 
 test("the instruction text names only tools and CLI commands that exist", async () => {
@@ -72,4 +79,9 @@ test("each host README links its vendor documentation and is honest about verifi
     assert.match(readme, /\*\*Checked \(2026-10-18[^)]*\):\*\*.*evergreen-deprecation@0\.3\.0 evergreen-mcp/, host);
     assert.doesNotMatch(readme, /needs the `evergreen-deprecation` package to be published/, host);
   }
+  const clineReadme = await readRepo("integrations/cline/README.md");
+  assert.match(clineReadme, /Documentation: .*https:\/\//);
+  assert.match(clineReadme, /has \*\*not\*\* been run inside a live installation of the host/);
+  assert.match(clineReadme, /\*\*Checked \(2026-10-18[^)]*\):\*\*.*evergreen-deprecation@0\.3\.0 evergreen-mcp/);
+  assert.doesNotMatch(clineReadme, /needs the `evergreen-deprecation` package to be published/);
 });
