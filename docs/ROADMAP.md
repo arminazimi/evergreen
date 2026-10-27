@@ -17,6 +17,16 @@ Evergreen's engineering is ahead of its data and its evidence. For the next six 
 
 The long-term goal is for Evergreen to be the first lifecycle reference agents and DevOps teams reach for. This roadmap builds the foundation: open evidence, standard formats, and presence in every common pipeline.
 
+## Releases before v1
+
+v1 is a compatibility promise, so it should rest on how real people use Evergreen. Two releases come first ([decision](decisions/0018-adoption-before-v1.md)):
+
+1. **v0.8.0 — Adoption.** Get Evergreen used, by developers and by agents: a clean package on external scorecards, a short README with demos, a first run that just works, setups for every common agent host and stack, organization-wide rollout, and five pilot users.
+2. **v0.9.0 — Visibility.** Get Evergreen known: contributors, launches, open data, search, and proof.
+3. **v1.0 — Hardening.** Phase 37: contract audit, compatibility guarantees, threat model, and performance budget.
+
+Ideas for after v1 are tracked as epics in the _After v1 — Future_ milestone and are not scheduled.
+
 ## v1 targets
 
 | Measure | Today | Target |
@@ -47,18 +57,18 @@ Each phase is a GitHub milestone. A phase starts when the previous one is comple
 | [Phase 26 — Evergreen checks itself](https://github.com/arminazimi/evergreen/milestone/19) | 2026-10-23 → 2026-11-12 | 6 |
 | [Phase 27 — Trust and accuracy](https://github.com/arminazimi/evergreen/milestone/20) | 2026-11-13 → 2026-12-03 | 11 |
 | [Phase 28 — Data freshness](https://github.com/arminazimi/evergreen/milestone/21) | 2026-12-04 → 2026-12-24 | 7 |
-| [Phase 29 — Agent-native](https://github.com/arminazimi/evergreen/milestone/22) | 2026-12-25 → 2027-01-14 | 11 |
+| [Phase 29 — Agent-native](https://github.com/arminazimi/evergreen/milestone/22) | 2026-12-25 → 2027-01-14 | 8 |
 | [Phase 30 — Personal use](https://github.com/arminazimi/evergreen/milestone/23) | 2027-01-15 → 2027-02-04 | 11 |
 | [Phase 31 — Forecast and planning](https://github.com/arminazimi/evergreen/milestone/24) | 2027-02-05 → 2027-02-25 | 9 |
 | [Phase 32 — Fix and automation](https://github.com/arminazimi/evergreen/milestone/25) | 2027-02-26 → 2027-03-18 | 7 |
-| [Phase 33 — Team and DevOps](https://github.com/arminazimi/evergreen/milestone/26) | 2027-03-19 → 2027-04-08 | 22 |
+| [Phase 33 — Team and DevOps](https://github.com/arminazimi/evergreen/milestone/26) | 2027-03-19 → 2027-04-08 | 17 |
 | [Phase 34 — Editor and guard](https://github.com/arminazimi/evergreen/milestone/27) | 2027-04-09 → 2027-04-29 | 6 |
 | [Phase 35 — Coverage: cloud, OS, and runtimes](https://github.com/arminazimi/evergreen/milestone/28) | 2027-04-30 → 2027-05-20 | 12 |
 | [Phase 36 — Interop and standards](https://github.com/arminazimi/evergreen/milestone/29) | 2027-05-21 → 2027-06-10 | 12 |
-| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-06-11 → 2027-07-01 | 16 |
-| [Phase 38 — Proof](https://github.com/arminazimi/evergreen/milestone/31) | 2027-07-02 → 2027-07-22 | 8 |
-| [Phase 39 — Growth](https://github.com/arminazimi/evergreen/milestone/32) | 2027-07-23 → 2027-08-12 | 21 |
-| [Phase 40 — Open data and contributors](https://github.com/arminazimi/evergreen/milestone/33) | 2027-08-13 → 2027-09-02 | 12 |
+| v0.8.0 — Adoption: get Evergreen used | 2026-10-28 → 2026-12-08 | 101 |
+| v0.9.0 — Visibility: stars and contributors | 2026-12-09 → 2027-01-26 | 73 |
+| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-01-27 → 2027-02-23 | 14 |
+| After v1 — Future | after v1, unscheduled | 7 |
 
 ## How work is organized
 
@@ -375,7 +385,7 @@ _2026-12-04 → 2026-12-24 · 5 tasks · [milestone](https://github.com/arminazi
 
 ## Phase 29 — Agent-native
 
-_2026-12-25 → 2027-01-14 · 10 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/22)_
+_2026-12-25 → 2027-01-14 · 8 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/22)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -385,10 +395,16 @@ _2026-12-25 → 2027-01-14 · 10 tasks · [milestone](https://github.com/arminaz
 
 **Epics**
 
-- **[Auto-discoverability for agents and humans](https://github.com/arminazimi/evergreen/issues/75)** — Make Evergreen findable wherever agents and developers look: MCP Registry, llms.txt, agent instruction files, marketplaces. _(14 tasks)_
 
   Also in this phase, from epics listed in other phases:
   - [Playbook: agent-driven migrations](https://github.com/arminazimi/evergreen/issues/305)
+  - [Add `evergreen setup` to configure every detected agent host in one command](https://github.com/arminazimi/evergreen/issues/1007)
+  - [Write a lifecycle status file that agents can read](https://github.com/arminazimi/evergreen/issues/1008)
+  - [Publish one focused Skill per ecosystem](https://github.com/arminazimi/evergreen/issues/1009)
+  - [Add a local-only report of what agents checked and what was blocked](https://github.com/arminazimi/evergreen/issues/1010)
+  - [Test and document that the MCP server never writes by default](https://github.com/arminazimi/evergreen/issues/1011)
+  - [Define stable machine-readable error codes and exit codes](https://github.com/arminazimi/evergreen/issues/1012)
+  - [Add a compact output mode sized for agent context windows](https://github.com/arminazimi/evergreen/issues/1013)
 
 ## Phase 30 — Personal use
 
@@ -456,7 +472,7 @@ _2027-02-26 → 2027-03-18 · 6 tasks · [milestone](https://github.com/arminazi
 
 ## Phase 33 — Team and DevOps
 
-_2027-03-19 → 2027-04-08 · 20 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/26)_
+_2027-03-19 → 2027-04-08 · 16 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/26)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -467,11 +483,19 @@ _2027-03-19 → 2027-04-08 · 20 tasks · [milestone](https://github.com/arminaz
 **Epics**
 
 - **[GitLab CI/CD component and Catalog](https://github.com/arminazimi/evergreen/issues/36)** — Give GitLab users the same scan, baseline, gate, and report workflow as GitHub users. _(5 tasks)_
-- **[Growth and distribution loops](https://github.com/arminazimi/evergreen/issues/83)** — Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end. _(35 tasks)_
 
   Also in this phase, from epics listed in other phases:
+  - [Ship a pre-commit framework hook](https://github.com/arminazimi/evergreen/issues/285)
   - [Playbook: GitHub Actions](https://github.com/arminazimi/evergreen/issues/306)
   - [Playbook: GitLab pipelines](https://github.com/arminazimi/evergreen/issues/307)
+  - [Post one summary comment on pull requests](https://github.com/arminazimi/evergreen/issues/1038)
+  - [Add `evergreen diff <base>..<head>` to show findings a change introduced or fixed](https://github.com/arminazimi/evergreen/issues/1039)
+  - [Add a multi-repository rollup report for organizations](https://github.com/arminazimi/evergreen/issues/1040)
+  - [Route findings to owners through CODEOWNERS](https://github.com/arminazimi/evergreen/issues/1041)
+  - [Add Slack, Teams, and generic webhook output formats](https://github.com/arminazimi/evergreen/issues/1042)
+  - [Provide a scheduled workflow that opens an issue when an end-of-life date nears](https://github.com/arminazimi/evergreen/issues/1043)
+  - [Add a Markdown report format](https://github.com/arminazimi/evergreen/issues/1044)
+  - [Add a JUnit XML report format](https://github.com/arminazimi/evergreen/issues/1045)
 
 ## Phase 34 — Editor and guard
 
@@ -532,82 +556,94 @@ _2027-05-21 → 2027-06-10 · 11 tasks · [milestone](https://github.com/arminaz
   - [Read maintainer-declared CLE lifecycle from dependencies](https://github.com/arminazimi/evergreen/issues/261)
   - [Share implementation feedback with Ecma TC54 (CLE)](https://github.com/arminazimi/evergreen/issues/263)
 
+## v0.8.0 — Adoption: get Evergreen used
+
+_2026-10-28 → 2026-12-08 · 90 tasks · milestone_
+
+**When this phase is complete, Evergreen has:**
+
+- A clean npm package: no dependency alerts from a shipped fixture, provenance, and passing OpenSSF Scorecard and Best Practices checks
+- The documentation site on Slipway with every existing URL preserved, and Evergreen scanning Slipway and the maintainer's other repositories
+- A shorter README with reproducible demos a few seconds long
+- A first run that works from the published package on Linux, macOS, and Windows
+- Install paths and daily-loop setups for Claude Code, Codex, Cursor, Copilot, Windsurf, Cline, and Aider
+- Starter kits for common stacks and an organization-wide rollout workflow
+- Pipeline integrations people already run, and five pilot users with written feedback
+
+**Epics**
+
+- **[Auto-discoverability for agents and humans](https://github.com/arminazimi/evergreen/issues/75)** — Make Evergreen findable wherever agents and developers look: MCP Registry, llms.txt, agent instruction files, marketplaces. _(18 tasks)_
+- **[Growth and distribution loops](https://github.com/arminazimi/evergreen/issues/83)** — Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end. _(30 tasks)_
+- **Clean scores on external quality and security services** — Developers check Socket, OpenSSF, Snyk, and deps.dev before they install a package. Evergreen should look as clean there as it is. _(10 tasks)_
+- **Documentation site on Slipway** — Move GitHub Pages from jekyll-theme-minimal to Slipway, so both projects dogfood each other, without breaking a single published URL. _(10 tasks)_
+- **A short README with reproducible demos** — A visitor understands what Evergreen does in ten seconds and sees it work in a few more. _(9 tasks)_
+- **First run that just works** — A new user goes from `npx` to a useful, explained finding in under two minutes, from the published package, on any supported OS. _(9 tasks)_
+- **Evergreen in agents' daily loop** — Coding agents check a dependency with Evergreen before they add it, in every popular agent host. _(9 tasks)_
+- **Starter kits for common stacks** — A copy-paste setup for the stacks people actually use, each backed by a live example repository with green CI. _(10 tasks)_
+- **Organization-wide rollout** — One person enables Evergreen once and every repository in their organization is covered. _(7 tasks)_
+- **Evergreen in the maintainer's other projects** — Run Evergreen where the maintainer already works, so every finding there is product feedback. _(7 tasks)_
+- **Pilot users and the v0.8.0 release** — Five outside developers try Evergreen on their own repositories, and what they hit is fixed before v0.8.0 ships. _(6 tasks)_
+
+## v0.9.0 — Visibility: stars and contributors
+
+_2026-12-09 → 2027-01-26 · 65 tasks · milestone_
+
+**When this phase is complete, Evergreen has:**
+
+- A five-minute contributor path, governance, and a steady supply of good first issues
+- The launch kit, demo video, outreach, and recurring end-of-life posts
+- The open lifecycle dataset, a public lookup page, and a "State of EOL" report
+- Rule pages that rank in search, comparison pages, and listings where developers look
+- Agent migration benchmark results and real migration case studies
+- Monthly star, contributor, and repeat-use numbers from public signals only
+
+**Epics**
+
+- **[Agent migration benchmark](https://github.com/arminazimi/evergreen/issues/79)** — Prove that Evergreen migration packets help agents complete real migrations. _(7 tasks)_
+- **[Open lifecycle dataset and maintainer-declared lifecycle](https://github.com/arminazimi/evergreen/issues/81)** — Publish Evergreen's evidence as an open dataset and let maintainers declare lifecycle in their own repositories. _(18 tasks)_
+- **[Governance, ownership, and community](https://github.com/arminazimi/evergreen/issues/58)** — Let Evergreen scale beyond one maintainer without weakening evidence standards. _(9 tasks)_
+- **[Launch and adoption](https://github.com/arminazimi/evergreen/issues/85)** — Turn each release into real usage through a strong demo, case studies, and community outreach. _(11 tasks)_
+- **Presence where developers look** — Get Evergreen listed and referenced in the curated places developers browse for tools. _(7 tasks)_
+- **Public growth metrics** — Measure stars, contributors, and repeat use from public signals only, and publish them monthly. _(6 tasks)_
+- **A steady supply of good first issues** — There are always ten or more small, fully specified issues a newcomer can finish in an evening. _(8 tasks)_
+- **Found in search** — People searching "is X end of life" land on Evergreen's rule pages and can check their repository in one command. _(10 tasks)_
+
 ## Phase 37 — Evergreen v1 hardening
 
-_2027-06-11 → 2027-07-01 · 14 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/30)_
+_2027-01-27 → 2027-02-23 · 12 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/30)_
 
 **When this phase is complete, Evergreen has:**
 
 - Contract and surface audit, compatibility guarantees, and v1 release notes
-- Threat model, parser fuzzing, bounded parser input, and SLSA provenance
-- Reproducible builds and an enforced performance budget on a large-monorepo benchmark
+- Threat model, parser fuzzing, bounded parser input, and reproducible builds
+- An enforced performance budget on a large-monorepo benchmark
 
 **Epics**
 
-- **[Evergreen v1 release readiness and launch](https://github.com/arminazimi/evergreen/issues/57)** — Ship a stable v1 whose contracts, quality evidence, distribution, and maintenance policy are ready for broad adoption. _(6 tasks)_
-- **[Security and performance hardening for v1](https://github.com/arminazimi/evergreen/issues/84)** — Prove Evergreen is safe on untrusted repositories and fast on large monorepos. _(13 tasks)_
+- **[Evergreen v1 release readiness and launch](https://github.com/arminazimi/evergreen/issues/57)** — Ship a stable v1 whose contracts, quality evidence, distribution, and maintenance policy are ready for broad adoption. _(5 tasks)_
+- **[Security and performance hardening for v1](https://github.com/arminazimi/evergreen/issues/84)** — Prove Evergreen is safe on untrusted repositories and fast on large monorepos. _(12 tasks)_
 
   Also in this phase, from epics listed in other phases:
   - [Test playbook examples in CI](https://github.com/arminazimi/evergreen/issues/308)
 
-## Phase 38 — Proof
+## After v1 — Future
 
-_2027-07-02 → 2027-07-22 · 7 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/31)_
-
-**When this phase is complete, Evergreen has:**
-
-- Agent migration benchmark with published results
-- A public "State of EOL" page and an example gallery
-- Three real migration case studies
-
-**Epics**
-
-- **[Agent migration benchmark](https://github.com/arminazimi/evergreen/issues/79)** — Prove that Evergreen migration packets help agents complete real migrations. _(4 tasks)_
-
-  Also in this phase, from epics listed in other phases:
-  - [Publish three real migration case studies](https://github.com/arminazimi/evergreen/issues/316)
-  - [Publish a "State of EOL" page from the benchmark corpus](https://github.com/arminazimi/evergreen/issues/1067)
-  - [Create an example gallery with one runnable repository per ecosystem](https://github.com/arminazimi/evergreen/issues/1068)
-
-## Phase 39 — Growth
-
-_2027-07-23 → 2027-08-12 · 20 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/32)_
+_after v1, unscheduled · 0 tasks · milestone_
 
 **When this phase is complete, Evergreen has:**
 
-- Mini-launches, outreach, the launch kit, the demo video, and the v1 launch
-- RSS feed, weekly "what just went end of life" posts, and a public lookup page
-- Adoption funnel in the monthly report, and translated docs
+- A local, in-browser playground, shareable outputs and badges, and better feedback capture
+- A Rule-a-thon contribution event, talks and podcasts, standards and upstream presence, and translated docs
 
 **Epics**
 
-- **[Launch and adoption](https://github.com/arminazimi/evergreen/issues/85)** — Turn v1 into real usage through a strong demo, case studies, and community outreach. _(14 tasks)_
-
-  Also in this phase, from epics listed in other phases:
-  - [Generate a monthly progress report](https://github.com/arminazimi/evergreen/issues/270)
-  - [Write the first three "Is your repo affected?" EOL posts](https://github.com/arminazimi/evergreen/issues/288)
-  - [Mini-launch 1: the agent dependency guardrail](https://github.com/arminazimi/evergreen/issues/289)
-  - [Mini-launch 2: Kubernetes and serverless runtime checks](https://github.com/arminazimi/evergreen/issues/295)
-  - [Write three more EOL posts from the calendar](https://github.com/arminazimi/evergreen/issues/296)
-  - [Submit Evergreen to relevant awesome lists](https://github.com/arminazimi/evergreen/issues/297)
-  - [Mini-launch 3: CLE (ECMA-428) and SBOM lifecycle enrichment](https://github.com/arminazimi/evergreen/issues/298)
-  - [Write three more EOL posts from the calendar](https://github.com/arminazimi/evergreen/issues/299)
-  - [Add adoption metrics to the monthly progress report](https://github.com/arminazimi/evergreen/issues/300)
-
-## Phase 40 — Open data and contributors
-
-_2027-08-13 → 2027-09-02 · 10 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/33)_
-
-**When this phase is complete, Evergreen has:**
-
-- Open lifecycle dataset with a static JSON API and a documented license
-- Governance, RFC process, detector owners, and Code of Conduct
-- Rule candidates become good-first-issues automatically
-
-**Epics**
-
-- **[Open lifecycle dataset and maintainer-declared lifecycle](https://github.com/arminazimi/evergreen/issues/81)** — Publish Evergreen's evidence as an open dataset and let maintainers declare lifecycle in their own repositories. _(15 tasks)_
-- **[Governance, ownership, and community](https://github.com/arminazimi/evergreen/issues/58)** — Let Evergreen scale beyond one maintainer without weakening evidence standards. _(7 tasks)_
+- **Local in-browser playground** — Try Evergreen without installing anything: the scan runs in the browser and nothing is uploaded. _(0 tasks)_
+- **Outputs people share** — Every user can show Evergreen to others. _(0 tasks)_
+- **Less friction, more feedback** — Every time a user gets stuck, the project learns about it and fixes it. _(0 tasks)_
+- **Rule-a-thon contribution event** — A two-week event where contributors add rules and fixtures. _(0 tasks)_
+- **Talks, podcasts, and meetups** — Present Evergreen to real audiences. _(0 tasks)_
+- **Standards and upstream presence** — Credibility through work with established projects. _(0 tasks)_
+- **Multilingual reach** — Reach large non-English developer communities, with native-speaker review. _(0 tasks)_
 
 ## Not in this roadmap
 

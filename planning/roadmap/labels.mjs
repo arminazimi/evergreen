@@ -199,40 +199,49 @@ export const MONTHS = {
       "Renovate presets and OSV cross-reference for unpatched exposure",
     ],
   },
+  // v0.8.0 and v0.9.0 come before v1: first real usage, then visibility. The open work of
+  // Phases 38–40 moved into them; those milestones are closed once empty.
+  V08: {
+    phase: 37.8, title: "v0.8.0 — Adoption: get Evergreen used", dueOn: "2026-12-08T12:00:00Z",
+    window: "2026-10-28 → 2026-12-08", theme: "Adoption: get Evergreen used",
+    delivers: [
+      "A clean npm package: no dependency alerts from a shipped fixture, provenance, and passing OpenSSF Scorecard and Best Practices checks",
+      "The documentation site on Slipway with every existing URL preserved, and Evergreen scanning Slipway and the maintainer's other repositories",
+      "A shorter README with reproducible demos a few seconds long",
+      "A first run that works from the published package on Linux, macOS, and Windows",
+      "Install paths and daily-loop setups for Claude Code, Codex, Cursor, Copilot, Windsurf, Cline, and Aider",
+      "Starter kits for common stacks and an organization-wide rollout workflow",
+      "Pipeline integrations people already run, and five pilot users with written feedback",
+    ],
+  },
+  V09: {
+    phase: 37.9, title: "v0.9.0 — Visibility: stars and contributors", dueOn: "2027-01-26T12:00:00Z",
+    window: "2026-12-09 → 2027-01-26", theme: "Visibility: stars and contributors",
+    delivers: [
+      "A five-minute contributor path, governance, and a steady supply of good first issues",
+      "The launch kit, demo video, outreach, and recurring end-of-life posts",
+      "The open lifecycle dataset, a public lookup page, and a \"State of EOL\" report",
+      "Rule pages that rank in search, comparison pages, and listings where developers look",
+      "Agent migration benchmark results and real migration case studies",
+      "Monthly star, contributor, and repeat-use numbers from public signals only",
+    ],
+  },
   P37: {
-    phase: 37, title: "Phase 37 — Evergreen v1 hardening", dueOn: "2027-07-01T12:00:00Z",
-    window: "2027-06-11 → 2027-07-01", theme: "Evergreen v1 hardening",
+    phase: 37, title: "Phase 37 — Evergreen v1 hardening", dueOn: "2027-02-23T12:00:00Z",
+    window: "2027-01-27 → 2027-02-23", theme: "Evergreen v1 hardening",
     delivers: [
       "Contract and surface audit, compatibility guarantees, and v1 release notes",
-      "Threat model, parser fuzzing, bounded parser input, and SLSA provenance",
-      "Reproducible builds and an enforced performance budget on a large-monorepo benchmark",
+      "Threat model, parser fuzzing, bounded parser input, and reproducible builds",
+      "An enforced performance budget on a large-monorepo benchmark",
     ],
   },
-  P38: {
-    phase: 38, title: "Phase 38 — Proof", dueOn: "2027-07-22T12:00:00Z",
-    window: "2027-07-02 → 2027-07-22", theme: "Proof",
+  // Not scheduled: epics for after v1. Their tasks are written when the epic starts.
+  LATER: {
+    phase: 99, title: "After v1 — Future", dueOn: "2027-12-31T12:00:00Z",
+    window: "after v1, unscheduled", theme: "After v1",
     delivers: [
-      "Agent migration benchmark with published results",
-      "A public \"State of EOL\" page and an example gallery",
-      "Three real migration case studies",
-    ],
-  },
-  P39: {
-    phase: 39, title: "Phase 39 — Growth", dueOn: "2027-08-12T12:00:00Z",
-    window: "2027-07-23 → 2027-08-12", theme: "Growth",
-    delivers: [
-      "Mini-launches, outreach, the launch kit, the demo video, and the v1 launch",
-      "RSS feed, weekly \"what just went end of life\" posts, and a public lookup page",
-      "Adoption funnel in the monthly report, and translated docs",
-    ],
-  },
-  P40: {
-    phase: 40, title: "Phase 40 — Open data and contributors", dueOn: "2027-09-02T12:00:00Z",
-    window: "2027-08-13 → 2027-09-02", theme: "Open data and contributors",
-    delivers: [
-      "Open lifecycle dataset with a static JSON API and a documented license",
-      "Governance, RFC process, detector owners, and Code of Conduct",
-      "Rule candidates become good-first-issues automatically",
+      "A local, in-browser playground, shareable outputs and badges, and better feedback capture",
+      "A Rule-a-thon contribution event, talks and podcasts, standards and upstream presence, and translated docs",
     ],
   },
 };
@@ -243,6 +252,7 @@ export function phaseDescription(month) {
   const prev = keys[keys.indexOf(month) - 1];
   const start = m.first
     ? "First phase of the reorganized roadmap; earlier phases are closed."
+    : month === "LATER" ? "Not scheduled; picked up after Evergreen v1 ships."
     : prev ? `Starts when ${MONTHS[prev].title.split(" — ")[0]} is complete.` : "First phase of the H1 roadmap.";
   return [
     `${m.window}. ${start}`,

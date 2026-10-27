@@ -10,6 +10,7 @@ import { MILESTONE, MONTHS, TARGETS } from "./labels.mjs";
 import { reassign } from "./reorg.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
 import { TASKS_REORG } from "./workstreams-reorg.mjs";
+import { EPICS_V08, TASKS_V08 } from "./workstreams-v08.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const statePath = join(here, "out", "state.json");
@@ -22,11 +23,14 @@ const GROUPS = [
   ["devops", "DevOps and distribution", ["E-ci-release", "#35", "#37", "#40", "E-distribution", "#36", "E-vscode"]],
   ["standards", "Standards", ["E-standards"]],
   ["growth", "Community and growth", ["E-agents-ready", "E-growth", "#58", "E-launch"]],
+  ["v08", "v0.8.0 adoption", ["E-v08-scorecards", "E-v08-slipway", "E-v08-readme", "E-v08-first-run", "E-v08-agent-loop", "E-v08-starters", "E-v08-org", "E-v08-dogfood", "E-v08-pilots"]],
+  ["v09", "v0.9.0 visibility", ["E-v09-presence", "E-v09-metrics", "E-v09-first-issues", "E-v09-seo"]],
+  ["later", "After v1", ["E-later-playground", "E-later-share", "E-later-feedback", "E-later-rulethon", "E-later-talks", "E-later-standards", "E-later-i18n"]],
   ["v1", "v1 readiness", ["#60", "#61", "#62", "E-hardening", "#57"]],
 ];
 
-const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)]);
-const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks)]);
+const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic), ...EPICS_V08]);
+const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks), ...TASKS_V08]);
 const num = (key) => (key.startsWith("#") ? Number(key.slice(1)) : state.numbers[key] ?? null);
 
 const grouped = new Set(GROUPS.flatMap((g) => g[2]));

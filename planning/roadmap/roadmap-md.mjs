@@ -12,6 +12,7 @@ import { LANES, MILESTONE, MONTHS, TARGETS } from "./labels.mjs";
 import { reassign } from "./reorg.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
 import { TASKS_REORG } from "./workstreams-reorg.mjs";
+import { EPICS_V08, TASKS_V08 } from "./workstreams-v08.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..", "..");
@@ -21,8 +22,8 @@ const state = existsSync(statePath) ? JSON.parse(readFileSync(statePath, "utf8")
 const projectPath = join(here, "out", "project-state.json");
 const project = existsSync(projectPath) ? JSON.parse(readFileSync(projectPath, "utf8")).project : null;
 
-const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic)]);
-const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks)]);
+const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic), ...EPICS_V08]);
+const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks), ...TASKS_V08]);
 
 function number(key) {
   if (key.startsWith("#")) return Number(key.slice(1));
@@ -58,6 +59,16 @@ const lines = [
   "5. **Grow inside existing workflows.** Evergreen ships into pipelines people already run and launches every phase, not once.",
   "",
   "The long-term goal is for Evergreen to be the first lifecycle reference agents and DevOps teams reach for. This roadmap builds the foundation: open evidence, standard formats, and presence in every common pipeline.",
+  "",
+  "## Releases before v1",
+  "",
+  "v1 is a compatibility promise, so it should rest on how real people use Evergreen. Two releases come first ([decision](decisions/0018-adoption-before-v1.md)):",
+  "",
+  "1. **v0.8.0 — Adoption.** Get Evergreen used, by developers and by agents: a clean package on external scorecards, a short README with demos, a first run that just works, setups for every common agent host and stack, organization-wide rollout, and five pilot users.",
+  "2. **v0.9.0 — Visibility.** Get Evergreen known: contributors, launches, open data, search, and proof.",
+  "3. **v1.0 — Hardening.** Phase 37: contract audit, compatibility guarantees, threat model, and performance budget.",
+  "",
+  "Ideas for after v1 are tracked as epics in the _After v1 — Future_ milestone and are not scheduled.",
   "",
   "## v1 targets",
   "",

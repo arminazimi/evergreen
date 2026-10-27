@@ -138,7 +138,7 @@ export const EPICS = [
     ["Threat model", "Parser fuzzing", "SLSA provenance", "100k-file benchmark"],
     ["Fuzzing runs in CI.", "A 100k-file repository scans in under 5 seconds."]),
   epic("E-launch", "M6", "Launch and adoption", ["area: community"],
-    "Turn v1 into real usage through a strong demo, case studies, and community outreach.",
+    "Turn each release into real usage through a strong demo, case studies, and community outreach.",
     ["Demo video", "Launch kit", "Outreach", "Case studies", "Translations"],
     ["v1 launched with three real case studies."]),
 ];
