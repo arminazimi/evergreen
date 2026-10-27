@@ -12,6 +12,13 @@ export const DETECTOR_API_VERSION = "evergreen.detector.v1" as const;
 export interface DetectorContext {
   /** Absolute path to the repository being scanned. */
   readonly root: string;
+  /**
+   * ISO-8601 timestamp for this scan. The engine always sets it before detectors run.
+   * Detectors that classify announced-but-future dates (decision 0010) must use this
+   * instead of reading the clock, so the same repository stays deterministic for a given scan.
+   * Optional only so direct detector calls in tests can omit it.
+   */
+  readonly scannedAt?: string;
 }
 
 /** A detector may state `confidence`; when it does not, the engine derives it from where the finding was read. */

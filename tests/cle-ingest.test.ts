@@ -12,6 +12,8 @@ import { CLE_SCHEMA } from "../src/export/cle.js";
 
 const packagesRoot = resolve("tests/fixtures/cle-ingest/packages");
 const temporaryRoots: string[] = [];
+/** Fixed scan time for deterministic scheduled vs reached checks. */
+const SCAN_AT = "2025-06-15T12:00:00.000Z";
 
 after(async () => {
   await Promise.all(temporaryRoots.map((root) => rm(root, { recursive: true, force: true })));
@@ -29,9 +31,38 @@ async function installedFixture(): Promise<string> {
   return root;
 }
 
+async function packageWithCle(event: {
+  type?: string;
+  effective: string;
+  version?: string;
+}): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-cle-dated-"));
+  temporaryRoots.push(root);
+  const pkg = join(root, "node_modules", "dated-widget");
+  await mkdir(pkg, { recursive: true });
+  await writeFile(join(pkg, "package.json"), JSON.stringify({
+    name: "dated-widget",
+    version: event.version ?? "1.0.0",
+  }));
+  await writeFile(join(pkg, CLE_FILE_NAME), JSON.stringify({
+    $schema: CLE_SCHEMA,
+    identifier: "pkg:npm/dated-widget",
+    updatedAt: "2024-01-01T00:00:00Z",
+    events: [{
+      id: 1,
+      type: event.type ?? "endOfLife",
+      effective: event.effective,
+      published: "2024-01-01T00:00:00Z",
+      versions: [{ range: "vers:npm/*" }],
+      description: "Dated CLE event for scheduled-vs-reached tests.",
+    }],
+  }));
+  return root;
+}
+
 test("fixture package with CLE produces a finding with provenance", async () => {
   const root = await installedFixture();
-  const findings = await ingestCle(root);
+  const findings = await ingestCle(root, { scannedAt: SCAN_AT });
   assert.equal(findings.length, 1);
   const finding = findings[0]!;
   assert.equal(finding.ruleId, "cle.endOfLife.npm-legacy-widget.2");
@@ -46,7 +77,7 @@ test("fixture package with CLE produces a finding with provenance", async () => 
     pathToFileURL(resolve(root, "node_modules/legacy-widget/cle.json")).href,
   );
   assert.equal(finding.sources[1]!.url, "https://example.com/legacy-widget/eol");
-  assert.deepEqual(await ingestCle(root), findings);
+  assert.deepEqual(await ingestCle(root, { scannedAt: SCAN_AT }), findings);
 });
 
 test("CLE detector is registered and reports the fixture through a repository scan", async () => {
@@ -58,6 +89,47 @@ test("CLE detector is registered and reports the fixture through a repository sc
   assert.equal(result.findings.length, 1);
   assert.equal(result.findings[0]!.detector, "cle");
   assert.equal(result.findings[0]!.ruleId, "cle.endOfLife.npm-legacy-widget.2");
+  assert.equal(result.findings[0]!.severity, "high");
+});
+
+test("past, future, and exactly-equal effective dates follow decision 0010 severity", async () => {
+  const past = await packageWithCle({ effective: "2024-01-01T00:00:00Z" });
+  const [pastFinding] = await ingestCle(past, { scannedAt: SCAN_AT });
+  assert.equal(pastFinding!.severity, "high");
+  assert.equal(pastFinding!.deadline, "2024-01-01");
+  assert.match(pastFinding!.summary, /Effective 2024-01-01/);
+  assert.match(pastFinding!.title, /^End of life \(maintainer CLE\)$/);
+
+  const future = await packageWithCle({ effective: "2026-01-01T00:00:00Z" });
+  const [futureFinding] = await ingestCle(future, { scannedAt: SCAN_AT });
+  assert.equal(futureFinding!.severity, "low");
+  assert.equal(futureFinding!.deadline, "2026-01-01");
+  assert.equal(futureFinding!.ruleId, pastFinding!.ruleId);
+  assert.match(futureFinding!.summary, /Scheduled for 2026-01-01/);
+  assert.match(futureFinding!.title, /scheduled/);
+  // Finding identity (rule id + path) does not depend on the clock.
+  assert.equal(futureFinding!.id, pastFinding!.id);
+
+  const equal = await packageWithCle({ effective: SCAN_AT });
+  const [equalFinding] = await ingestCle(equal, { scannedAt: SCAN_AT });
+  assert.equal(equalFinding!.severity, "high");
+  assert.equal(equalFinding!.deadline, "2025-06-15");
+  assert.match(equalFinding!.summary, /Effective 2025-06-15/);
+});
+
+test("packages without cle.json produce no finding and no error", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-cle-no-cle-"));
+  temporaryRoots.push(root);
+  const onlyManifest = join(root, "node_modules", "plain-pkg");
+  await mkdir(onlyManifest, { recursive: true });
+  await writeFile(join(onlyManifest, "package.json"), JSON.stringify({ name: "plain-pkg", version: "1.0.0" }));
+
+  const invalidManifest = join(root, "node_modules", "broken-pkg");
+  await mkdir(invalidManifest, { recursive: true });
+  await writeFile(join(invalidManifest, "package.json"), "{ not json");
+
+  assert.deepEqual(await ingestCle(root, { scannedAt: SCAN_AT }), []);
+  assert.deepEqual(await cleDetector.scan({ root, scannedAt: SCAN_AT }), []);
 });
 
 test("mismatched identifier, unsupported schema, and non-matching versions produce no finding", async () => {
@@ -75,7 +147,7 @@ test("mismatched identifier, unsupported schema, and non-matching versions produ
       versions: [{ range: "vers:npm/*" }],
     }],
   }));
-  assert.deepEqual(await ingestCle(directory), []);
+  assert.deepEqual(await ingestCle(directory, { scannedAt: SCAN_AT }), []);
 
   await writeFile(join(pkg, CLE_FILE_NAME), JSON.stringify({
     $schema: "https://example.com/not-cle.json",
@@ -83,7 +155,7 @@ test("mismatched identifier, unsupported schema, and non-matching versions produ
     updatedAt: "2024-01-01T00:00:00Z",
     events: [],
   }));
-  assert.deepEqual(await ingestCle(directory), []);
+  assert.deepEqual(await ingestCle(directory, { scannedAt: SCAN_AT }), []);
   assert.equal(parseCleDocument(JSON.parse(await readFile(join(pkg, CLE_FILE_NAME), "utf8"))), undefined);
 });
 

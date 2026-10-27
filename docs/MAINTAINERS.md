@@ -44,7 +44,7 @@ Minimal example:
 - The CLE `identifier` must match the installed package name (as a PURL). A mismatched document is ignored.
 - The installed `package.json` version must fall in an event’s VERS range.
 - Each finding points at the shipped `cle.json`, cites it as a maintainer declaration, and keeps any `http(s)` `references` from the event as extra evidence.
-- Severity is fixed by event type (`endOfLife` / `endOfDistribution` → high; `endOfSupport` / `endOfDevelopment` → medium). Scans do not compare `effective` dates to the clock.
+- Severity follows decision 0010 using the scan timestamp (not a live clock read inside the detector): when `effective` is still in the future, the finding is reported as scheduled at severity `low` and keeps its `deadline`; when `effective` is on or before the scan time, severity is by event type (`endOfLife` / `endOfDistribution` → high; `endOfSupport` / `endOfDevelopment` → medium). Finding identity does not change with the clock.
 
 Exporting Evergreen’s own registry as CLE snapshots is separate: `evergreen export --format cle`.
 

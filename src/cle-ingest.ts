@@ -16,7 +16,7 @@ export const CLE_FILE_NAME = "cle.json";
 const REPORTABLE = new Set(["endOfSupport", "endOfLife", "endOfDevelopment", "endOfDistribution"] as const);
 type ReportableType = "endOfSupport" | "endOfLife" | "endOfDevelopment" | "endOfDistribution";
 
-const SEVERITY: Record<ReportableType, Severity> = {
+const REACHED_SEVERITY: Record<ReportableType, Severity> = {
   endOfLife: "high",
   endOfDistribution: "high",
   endOfSupport: "medium",
@@ -51,6 +51,21 @@ interface CleDocumentRecord {
   identifier: string | string[];
   updatedAt: string;
   events: CleEventRecord[];
+}
+
+interface ClePackage {
+  directory: string;
+  clePath: string;
+  document: CleDocumentRecord;
+  manifest: Record<string, unknown>;
+}
+
+export interface CleIngestOptions {
+  /**
+   * ISO-8601 scan time used to decide scheduled vs reached severity (decision 0010).
+   * Callers must pass the same timestamp the scan uses; do not read the clock here.
+   */
+  readonly scannedAt: string;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -109,6 +124,14 @@ export function parseCleDocument(input: unknown): CleDocumentRecord | undefined 
 function deadlineOf(effective: string): string | undefined {
   const match = /^(\d{4}-\d{2}-\d{2})/.exec(effective);
   return match?.[1];
+}
+
+/** True when the event's effective time is still in the future relative to the scan timestamp. */
+function isScheduled(effective: string, scannedAt: string): boolean {
+  const effectiveMs = Date.parse(effective);
+  const scannedMs = Date.parse(scannedAt);
+  if (!Number.isFinite(effectiveMs) || !Number.isFinite(scannedMs)) return false;
+  return effectiveMs > scannedMs;
 }
 
 function packagePurl(name: string): string | undefined {
@@ -171,20 +194,26 @@ function findingFor(
   packageIdentity: string,
   version: string,
   event: CleEventRecord,
+  scannedAt: string,
 ): DetectorFinding {
   const type = event.type as ReportableType;
   const path = relativePosix(root, clePath);
   const deadline = deadlineOf(event.effective);
-  const title = `${TITLE[type]} (maintainer CLE)`;
+  const scheduled = isScheduled(event.effective, scannedAt);
+  const title = scheduled
+    ? `${TITLE[type]} scheduled (maintainer CLE)`
+    : `${TITLE[type]} (maintainer CLE)`;
   const detail = event.description?.trim() || `${packageIdentity}@${version} matches a maintainer-declared ${type} event.`;
-  const when = deadline ? ` Effective ${deadline}.` : "";
+  const when = deadline
+    ? scheduled ? ` Scheduled for ${deadline}.` : ` Effective ${deadline}.`
+    : "";
   const ruleId = ruleIdFor(packageIdentity, event);
   return {
     id: `${ruleId}:${path}:1`,
     ruleId,
     title,
     summary: `${detail}${when}`,
-    severity: SEVERITY[type],
+    severity: scheduled ? "low" : REACHED_SEVERITY[type],
     location: { path, line: 1 },
     ...(deadline ? { deadline } : {}),
     sources: sourcesFor(clePath, event),
@@ -202,12 +231,11 @@ async function readJson(path: string): Promise<unknown | undefined> {
 }
 
 /**
- * Installed package directories that ship a CLE document next to package.json.
- * Walks the repository `node_modules` tree offline (including nested and `.pnpm` stores);
- * skips symlink entries so linked names are not double-counted with the real package.
+ * Installed packages that ship a parseable CLE document next to package.json.
+ * Reads `cle.json` first so ordinary packages cost one failed read; only then opens package.json.
  */
-async function clePackageDirs(root: string): Promise<string[]> {
-  const found: string[] = [];
+async function clePackages(root: string): Promise<ClePackage[]> {
+  const found: ClePackage[] = [];
   async function walkNodeModules(directory: string): Promise<void> {
     let entries;
     try {
@@ -250,23 +278,22 @@ async function clePackageDirs(root: string): Promise<string[]> {
   }
   async function considerPackage(directory: string): Promise<void> {
     const clePath = join(directory, CLE_FILE_NAME);
-    const manifestPath = join(directory, "package.json");
-    const [cle, manifest] = await Promise.all([readJson(clePath), readJson(manifestPath)]);
-    if (cle !== undefined && manifest !== undefined) found.push(directory);
+    const document = parseCleDocument(await readJson(clePath));
+    if (document) {
+      const manifest = await readJson(join(directory, "package.json"));
+      if (isRecord(manifest)) found.push({ directory, clePath, document, manifest });
+    }
     await walkNodeModules(join(directory, "node_modules"));
   }
   await walkNodeModules(join(root, "node_modules"));
-  return found.sort((left, right) => left.localeCompare(right));
+  return found.sort((left, right) => left.directory.localeCompare(right.directory));
 }
 
 /** Findings from maintainer CLE documents shipped inside installed packages. Offline only. */
-export async function ingestCle(root: string): Promise<DetectorFinding[]> {
+export async function ingestCle(root: string, options: CleIngestOptions): Promise<DetectorFinding[]> {
   const findings: DetectorFinding[] = [];
-  for (const directory of await clePackageDirs(root)) {
-    const clePath = join(directory, CLE_FILE_NAME);
-    const document = parseCleDocument(await readJson(clePath));
-    const manifest = await readJson(join(directory, "package.json"));
-    if (!document || !isRecord(manifest) || !isNonEmptyString(manifest.name) || !isNonEmptyString(manifest.version)) continue;
+  for (const { clePath, document, manifest } of await clePackages(root)) {
+    if (!isNonEmptyString(manifest.name) || !isNonEmptyString(manifest.version)) continue;
     const packageIdentity = packagePurl(manifest.name);
     if (!packageIdentity || !identifiersMatch(document, packageIdentity)) continue;
     // CLE may include a version on the identifier; identity comparison already strips it.
@@ -280,7 +307,7 @@ export async function ingestCle(root: string): Promise<DetectorFinding[]> {
     }
     for (const event of document.events) {
       if (!eventApplies(event, manifest.version)) continue;
-      findings.push(findingFor(root, clePath, packageIdentity, manifest.version, event));
+      findings.push(findingFor(root, clePath, packageIdentity, manifest.version, event, options.scannedAt));
     }
   }
   return findings.sort((left, right) => left.id.localeCompare(right.id));
@@ -296,7 +323,9 @@ export class CleIngestDetector implements Detector {
   };
 
   async scan(context: DetectorContext): Promise<readonly DetectorFinding[]> {
-    return ingestCle(context.root);
+    // The engine always passes scannedAt. Harnesses that call scan({ root }) omit it; without a
+    // timestamp every matching event is treated as reached so we never read the clock here.
+    return ingestCle(context.root, { scannedAt: context.scannedAt ?? "9999-12-31T23:59:59.999Z" });
   }
 }
 

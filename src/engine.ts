@@ -22,12 +22,17 @@ export async function scanRepository(
   detectors: readonly Detector[] = [],
 ): Promise<ScanResult> {
   const resolvedRoot = resolve(root);
+  // One timestamp for the whole scan: detectors that need "today" (CLE scheduled dates) read it from
+  // context instead of the clock, so findings stay deterministic for this run.
+  const scannedAt = new Date();
+  const scannedAtIso = scannedAt.toISOString();
+  const context = { root: resolvedRoot, scannedAt: scannedAtIso };
   const analyses = await Promise.all(
       detectors.map(async (detector) => {
         assertDetectorCompatible(detector);
         const analysis = detector.analyze
-          ? await detector.analyze({ root: resolvedRoot })
-          : { findings: await detector.scan({ root: resolvedRoot }), unclassified: [] };
+          ? await detector.analyze(context)
+          : { findings: await detector.scan(context), unclassified: [] };
         return {
           findings: analysis.findings.map((finding) => ({
             ...finding,
@@ -54,7 +59,6 @@ export async function scanRepository(
     );
 
   // Say so when downloaded data was refused and the bundled data was used instead.
-  const scannedAt = new Date();
   const active = detectors.length === 0 ? undefined : await getActiveData();
   const data = active ? dataInfoFrom(active, scannedAt) : undefined;
   const dataWarnings = active ? [...active.info.warnings, ...(data?.stale ? [staleDataWarning(data)] : [])] : [];
@@ -67,7 +71,7 @@ export async function scanRepository(
   return {
     schemaVersion: "evergreen.scan.v1",
     root: resolvedRoot,
-    scannedAt: scannedAt.toISOString(),
+    scannedAt: scannedAtIso,
     findings: withAdvisories.sort((left, right) => left.id.localeCompare(right.id)),
     unclassified: { count: references.length, references },
     diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : dataWarnings,
