@@ -198,6 +198,7 @@ Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruc
 | GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
 | Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
 | Cline | `cline_mcp_settings.json` (user settings) | `.clinerules/evergreen.md` |
+| Windsurf | Cascade `mcp_config.json` (user config) | `.windsurf/rules/evergreen.md` |
 
 To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run `evergreen init --agents` in it: it adds a delimited section, keeps everything else byte for byte, and is safe to run again (`--dry-run` prints the diff first). `evergreen setup` does the same for every detected host at once (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code), writing each host's own instruction file such as `.cursor/rules/evergreen.mdc` after confirmation or `--yes`; it does not edit MCP server entries, which stay in the per-host setups above.
 

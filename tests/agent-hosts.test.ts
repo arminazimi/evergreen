@@ -23,7 +23,8 @@ test("every host starts the pinned MCP server with the current package version",
   const vscode = await readJson<{ servers: { evergreen: Server } }>("copilot/.vscode/mcp.json");
   const codingAgent = await readJson<{ mcpServers: { evergreen: Server } }>("copilot/coding-agent-mcp.json");
   const cline = await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json");
-  for (const server of [cursor.mcpServers.evergreen, gemini.mcpServers.evergreen, geminiSettings.mcpServers.evergreen, vscode.servers.evergreen, codingAgent.mcpServers.evergreen, cline.mcpServers.evergreen]) {
+  const windsurf = await readJson<{ mcpServers: { evergreen: Server } }>("windsurf/mcp_config.json");
+  for (const server of [cursor.mcpServers.evergreen, gemini.mcpServers.evergreen, geminiSettings.mcpServers.evergreen, vscode.servers.evergreen, codingAgent.mcpServers.evergreen, cline.mcpServers.evergreen, windsurf.mcpServers.evergreen]) {
     assert.equal(server.command, "npx");
     assert.deepEqual(server.args, serverArguments);
   }
@@ -49,12 +50,14 @@ test("host-specific fields follow each vendor's documented format", async () => 
   const cline = (await readRepoJson<{ mcpServers: { evergreen: Server } }>("integrations/cline/cline_mcp_settings.json")).mcpServers.evergreen;
   assert.equal(cline.disabled, false);
   assert.deepEqual(cline.autoApprove, []);
+  const windsurfRule = await read("windsurf/.windsurf/rules/evergreen.md");
+  assert.match(windsurfRule, /^---\ntrigger: always_on\ndescription: .+\n---\n/);
 });
 
 test("every host's instruction file carries the shared dependency-check text", async () => {
   const shared = (await read("dependency-check.md")).split("\n\n").slice(1).join("\n\n").trim();
   assert.ok(shared.includes("`check_dependency`"));
-  for (const path of ["cursor/.cursor/rules/evergreen.mdc", "gemini/GEMINI.md", "copilot/.github/copilot-instructions.md", "kilo/.kilo/rules/evergreen.md"]) {
+  for (const path of ["cursor/.cursor/rules/evergreen.mdc", "gemini/GEMINI.md", "copilot/.github/copilot-instructions.md", "kilo/.kilo/rules/evergreen.md", "windsurf/.windsurf/rules/evergreen.md"]) {
     assert.ok((await read(path)).includes(shared), `${path} must contain the shared instruction text`);
   }
   assert.ok((await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared), "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text");
@@ -69,7 +72,7 @@ test("the instruction text names only tools and CLI commands that exist", async 
 });
 
 test("each host README links its vendor documentation and is honest about verification", async () => {
-  for (const host of ["cursor", "gemini", "copilot", "kilo"]) {
+  for (const host of ["cursor", "gemini", "copilot", "kilo", "windsurf"]) {
     const readme = await read(`${host}/README.md`);
     assert.match(readme, /Documentation: .*https:\/\//, host);
     if (host === "cursor") assert.match(readme, /\*\*Checked in the host \(2026-10-19, Cursor 3\.25\.9/, host);

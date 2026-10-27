@@ -8,6 +8,7 @@ Copy-paste setups that give a coding agent the Evergreen dependency guardrail: a
 | Gemini CLI | [`gemini/`](gemini/) |
 | GitHub Copilot | [`copilot/`](copilot/) |
 | Kilo Code | [`kilo/`](kilo/) |
+| Windsurf | [`windsurf/`](windsurf/) |
 
 Claude Code and Codex have plugins that add a hook as well; see [Claude plugin](../../docs/CLAUDE_PLUGIN.md) and [Codex plugin](../../docs/CODEX_PLUGIN.md). General MCP behavior is in the [local MCP guide](../../docs/MCP.md).
 

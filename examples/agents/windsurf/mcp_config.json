@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "evergreen": {
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package",
+        "evergreen-deprecation@0.7.1",
+        "evergreen-mcp"
+      ]
+    }
+  }
+}
