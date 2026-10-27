@@ -71,6 +71,14 @@ test("the Cursor rule ships with the integration and the example, byte for byte 
   assert.ok(integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"));
 });
 
+test("the Copilot instructions ship with the integration and the example, byte for byte identical", async () => {
+  const integration = await readRepo("integrations/copilot/copilot-instructions.md");
+  assert.equal(integration, await read("copilot/.github/copilot-instructions.md"));
+  assert.ok(integration.startsWith("# Evergreen dependency check\n"));
+  assert.ok(integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"));
+  assert.doesNotMatch(integration, /^---/, "Copilot has no front matter like Cursor rules; the file is plain instructions");
+});
+
 test("the instruction text names only tools and CLI commands that exist", async () => {
   const text = await read("dependency-check.md");
   for (const tool of text.match(/`([a-z_]+)`/g)?.map((name) => name.slice(1, -1)).filter((name) => name.includes("_")) ?? []) {

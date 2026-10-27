@@ -4,7 +4,7 @@ title: Hooks
 
 # Hooks
 
-Evergreen ships a Git pre-push hook that scans before you push, a Claude Code `PreToolUse` hook that checks packages before an agent installs them, and a Cursor project rule that tells the agent to check a dependency before it is added. All of them stay offline and use only the lifecycle rules bundled with Evergreen.
+Evergreen ships a Git pre-push hook that scans before you push, a Claude Code `PreToolUse` hook that checks packages before an agent installs them, a Cursor project rule, and a GitHub Copilot instructions file that tell the agent to check a dependency before it is added. All of them stay offline and use only the lifecycle rules bundled with Evergreen.
 
 ## Git pre-push
 
@@ -169,6 +169,29 @@ Cursor reads only rules with the `.mdc` extension, so the extension is not optio
 ### What the rule does
 
 Before Cursor's agent adds a package, runtime, or GitHub Action, or picks one to replace another, it calls `check_dependency` with a Package URL such as `pkg:npm/request@2.88.2` or `pkg:github/actions/checkout@v4`. When the status is `affected`, it prefers the replacement the finding names and cites the evidence links; `version-dependent` means it checks again with the exact version it intends to use, and `no-data` means Evergreen has no rule for that package, not that it is safe. The rule tells the agent not to use Evergreen for security audits or for routine upgrades the project already uses.
+
+## GitHub Copilot instructions
+
+Copilot Chat and the Copilot coding agent read `.github/copilot-instructions.md` from the repository root and include it in every session. Evergreen ships the file in two places, byte for byte identical, kept in sync by a test in this repository: `integrations/copilot/copilot-instructions.md` for the install below, and `examples/agents/copilot/.github/copilot-instructions.md` in the complete host example — that example's text is what was already checked in Copilot Chat in Agent mode (VS Code 1.142.0 on macOS, 2026-10-19; see that README for what the agent did). The Copilot coding agent's MCP path has not been checked in the host yet, and the example README says so.
+
+The file is an instruction, not an enforcement point: nothing blocks an edit the way the Claude Code hook can. The check itself stays offline, whether it goes through MCP or the CLI as below; only a first uncached `npx` run reaches the network to fetch the pinned package.
+
+### Install
+
+1. Copy the instructions into the project from a clone of this repository (from a release checkout, take the same file from the tree at that tag). The target name is fixed: Copilot reads only `.github/copilot-instructions.md`.
+
+```bash
+mkdir -p .github
+cp integrations/copilot/copilot-instructions.md .github/copilot-instructions.md
+```
+
+If the project already has a Copilot instructions file, run `evergreen setup` instead of copying over it: when it detects a Copilot configuration it adds the Evergreen section to the existing `.github/copilot-instructions.md`, keeps everything else byte for byte, and asks before touching a file it did not write.
+
+2. To have Copilot call the MCP tool, follow `examples/agents/copilot/README.md`: add the `evergreen` server to `.vscode/mcp.json` for Copilot Chat, or paste `coding-agent-mcp.json` under the repository's Copilot coding agent settings. Without MCP the instructions say what to run instead: `npx evergreen-deprecation check <purl>`.
+
+### What the instructions do
+
+Before Copilot's agent adds a package, runtime, or GitHub Action, or picks one to replace another, it calls `check_dependency` with a Package URL such as `pkg:npm/request@2.88.2` or `pkg:github/actions/checkout@v4`. When the status is `affected`, it prefers the replacement the finding names and cites the evidence links; `version-dependent` means it checks again with the exact version it intends to use, and `no-data` means Evergreen has no rule for that package, not that it is safe. The instructions tell the agent not to use Evergreen for security audits or for routine upgrades the project already uses.
 
 ## A digest for your personal projects
 
