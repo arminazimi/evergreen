@@ -4,7 +4,9 @@ name: Release
 # the notes job publishes nothing: a maintainer copies them into CHANGELOG.md (or runs the tool with --write) and
 # follows docs/RELEASING.md for the rest. After a successful npm publish it also builds the standalone binaries
 # (no Node.js needed) and attaches them to the GitHub release with checksums, a GitHub build-provenance
-# attestation, and an SLSA .intoto.jsonl provenance file from the SLSA GitHub generator.
+# attestation, and an SLSA .intoto.jsonl provenance file from the SLSA GitHub generator. It also smoke-tests the
+# README quickstart against the published package on Linux, macOS, and Windows (tests/quickstart.md is the
+# recorded expectation).
 on:
   workflow_dispatch:
     inputs:
@@ -165,6 +167,160 @@ jobs:
         run: npx --yes "evergreen-deprecation@$VERSION" scan "$GITHUB_WORKSPACE" --json > "$RUNNER_TEMP/published.json"
       - name: Compare the summaries
         run: node .github/scripts/release-smoke.mjs "$RUNNER_TEMP/built.json" "$RUNNER_TEMP/published.json"
+
+  quickstart:
+    # The README quickstart must work from what users install, not from a local build. This job runs the commands of
+    # tests/quickstart.md with the published package on the three release platforms and fails when any output differs
+    # from the expectations recorded there, so a broken quickstart fails the release.
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
+    name: quickstart (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Select release
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          git tag --points-at HEAD | grep -Fx "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Run the README quickstart with the published package
+        # Run from a temporary directory: inside the checkout, npx would resolve this repository's own bin.
+        working-directory: ${{ runner.temp }}
+        shell: bash
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          # One clean project per runner: the quickstart sees the smoke fixture, not this repository's checkout.
+          dir="$RUNNER_TEMP/quickstart"
+          mkdir "$dir"
+          cp "$GITHUB_WORKSPACE/tests/fixtures/smoke/package.json" "$dir/package.json"
+          cd "$dir"
+
+          # The same package smoke the publish workflow runs, this time on Linux, macOS, and Windows runners.
+          node "$GITHUB_WORKSPACE/.github/scripts/smoke.mjs" "$GITHUB_WORKSPACE/tests/fixtures/smoke" -- npx --yes "evergreen-deprecation@$VERSION"
+
+          # The quickstart commands of tests/quickstart.md, against the published package.
+          node - "$VERSION" <<'NODE'
+          const { spawnSync } = require("node:child_process");
+          const { existsSync } = require("node:fs");
+
+          const version = process.argv[2];
+          const windows = process.platform === "win32";
+          const run = (args) => {
+            const result = spawnSync("npx", ["--yes", `evergreen-deprecation@${version}`, ...args], {
+              encoding: "utf8",
+              maxBuffer: 20 * 1024 * 1024,
+              shell: windows,
+            });
+            if (result.error) throw new Error(`${args.join(" ")} could not run: ${result.error.message}`);
+            return result;
+          };
+          const fail = (message) => {
+            console.error(`FAIL: ${message}`);
+            process.exit(1);
+          };
+          const expect = (condition, message) => {
+            if (!condition) fail(message);
+            console.log(`ok: ${message}`);
+          };
+          const jsonOf = (result, args, statusExpected) => {
+            expect(result.status === statusExpected, `${args.join(" ")} exits ${statusExpected} (got ${result.status})`);
+            let parsed;
+            try {
+              parsed = JSON.parse(result.stdout);
+            } catch {
+              fail(`${args.join(" ")} prints JSON`);
+            }
+            return parsed;
+          };
+          const parseJson = (schema, value, what) => {
+            expect(value?.schemaVersion === schema, `${what} reports ${schema} (got ${value?.schemaVersion})`);
+            return value;
+          };
+
+          const id = "npm.package.request.deprecated:package.json:5";
+
+          const scan = jsonOf(run(["scan", ".", "--json"]), ["scan", ".", "--json"], 0);
+          parseJson("evergreen.scan.v1", scan, "the JSON scan");
+          const ruleIds = new Set((scan.findings ?? []).map((finding) => finding.ruleId));
+          expect(ruleIds.has("npm.package.request.deprecated"), "the scan finds the deprecated package");
+          expect([...ruleIds].some((ruleId) => ruleId.startsWith("nodejs.runtime.")), "the scan finds the end-of-life Node.js range");
+          expect(scan.unclassified?.count === 0, "the smoke fixture has nothing unclassified");
+
+          const compact = run(["scan", ".", "--format", "compact"]);
+          expect(compact.status === 0, `scan --format compact exits 0 (got ${compact.status})`);
+          const lines = compact.stdout.trimEnd().split(/\r?\n/);
+          const count = /^Evergreen: (\d+) findings?$/.exec(lines[0]);
+          expect(count !== null && Number(count[1]) > 0, `the compact header counts the findings (got ${lines[0]})`);
+          expect(Buffer.byteLength(compact.stdout, "utf8") <= 8192, "the compact report stays under the documented 8 KiB cap");
+          expect(lines.some((line) => line.startsWith("npm.package.request.deprecated:package.json:5 package.json:5 high ")),
+            "the compact report lists the deprecated package first");
+          for (const line of lines.slice(1)) {
+            if (/^\d+ more findings? omitted\b/.test(line)) continue;
+            const columns = line.split(" ");
+            expect(/^\S+:\S+:\d+$/.test(columns[0]) && /^\S+:\d+$/.test(columns[1]) && ["high", "medium", "low", "info"].includes(columns[2]) && columns.length >= 4,
+              `the compact line has the documented id, location, severity, and replacement columns (got ${line})`);
+          }
+
+          const doctor = run(["doctor", "."]);
+          expect(doctor.status === 0, `doctor exits 0 (got ${doctor.status})`);
+          expect(doctor.stdout.includes("Status: ready-with-warnings"), "doctor reports ready-with-warnings");
+          expect(doctor.stdout.includes("Privacy: no repository data was uploaded and no configuration was changed."),
+            "doctor closes with the privacy promise");
+
+          const doctorJson = jsonOf(run(["doctor", ".", "--json"]), ["doctor", ".", "--json"], 0);
+          parseJson("evergreen.doctor.v1", doctorJson, "the JSON doctor");
+          expect(doctorJson.summary?.failed === 0, "doctor reports no failed check");
+          expect(doctorJson.summary?.status === "ready-with-warnings", "the JSON doctor reports ready-with-warnings");
+
+          const capabilities = jsonOf(run(["capabilities", "--json"]), ["capabilities", "--json"], 0);
+          parseJson("evergreen.capabilities.v1", capabilities, "the manifest");
+          expect(Array.isArray(capabilities.ecosystems) && capabilities.ecosystems.some((ecosystem) => ecosystem.id === "npm"),
+            "the manifest ships the npm ecosystem");
+
+          const checkPurl = "pkg:npm/request@2.88.2";
+          const check = run(["check", checkPurl]);
+          expect(check.status === 1, `check exits 1 for a high-severity affected rule (got ${check.status})`);
+          expect(check.stdout.includes("Status: affected (high)"), "check reports Status: affected (high)");
+          expect(check.stdout.includes("https://www.npmjs.com/package/request"), "check names the evidence source");
+
+          const checkJson = jsonOf(run(["check", checkPurl, "--json"]), ["check", checkPurl, "--json"], 1);
+          parseJson("evergreen.check.v1", checkJson, "the JSON check");
+          expect(checkJson.status === "affected" && (checkJson.findings ?? []).some((finding) => finding.severity === "high"),
+            "the JSON check reports an affected high finding");
+
+          const dataStatus = run(["data", "status"]);
+          expect(dataStatus.status === 0 && dataStatus.stdout.includes("Source: bundled"), "the quickstart works on bundled data");
+
+          const explain = run(["explain", id, "."]);
+          expect(explain.status === 0 && explain.stdout.includes("Rule: npm.package.request.deprecated") && explain.stdout.includes("Location: package.json:5") && explain.stdout.includes("Sources:"),
+            `explain ${id} prints rule, location, and sources`);
+
+          const context = jsonOf(run(["context", id, ".", "--json"]), ["context", id, ".", "--json"], 0);
+          parseJson("evergreen.context.v1", context, "the migration context");
+
+          const baseline = run(["baseline", "."]);
+          expect(baseline.status === 0 && baseline.stdout.includes("Wrote"), `baseline exits 0 and writes (exit ${baseline.status})`);
+          expect(existsSync(".evergreen-baseline.json"), "baseline leaves .evergreen-baseline.json in the project");
+
+          const accepted = jsonOf(run(["scan", ".", "--baseline", ".evergreen-baseline.json", "--json"]), ["scan", ".", "--baseline", ".evergreen-baseline.json", "--json"], 0);
+          parseJson("evergreen.scan.v1", accepted, "the baseline scan");
+          expect((accepted.findings ?? []).length === 0, "the baseline accepts every fixture finding");
+
+          console.log("Quickstart smoke test passed.");
+          NODE
 
   container:
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
