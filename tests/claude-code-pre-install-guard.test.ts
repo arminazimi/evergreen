@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, realpathSync, rmSync, symlinkSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { pathToFileURL } from "node:url";
 
@@ -9,6 +11,7 @@ interface PreInstallGuard {
   shellSegments(command: string): string[];
   packagesFromSegment(segment: string): Array<{ purl: string; version?: string; spec: string }>;
   installPackages(command: string): Array<{ purl: string; version?: string; spec: string }>;
+  isEntryPoint(entry?: string, metaUrl?: string): boolean;
   denialFor(check: {
     purl: string;
     version?: string;
@@ -16,8 +19,8 @@ interface PreInstallGuard {
   }): string;
   run(
     payload: object,
-    runner?: (purl: string, version?: string) => { check?: unknown; error?: string },
-  ): { systemMessage: string; hookSpecificOutput: { hookEventName: string; permissionDecision: string; permissionDecisionReason: string } } | undefined;
+    runner?: (purl: string, version?: string) => { check?: unknown; error?: string } | Promise<{ check?: unknown; error?: string }>,
+  ): Promise<{ systemMessage: string; hookSpecificOutput: { hookEventName: string; permissionDecision: string; permissionDecisionReason: string } } | undefined>;
 }
 
 const guardPath = resolve("integrations/claude-code/pre-install-guard.mjs");
@@ -47,6 +50,13 @@ test("shell segments split on &&, ||, and ; outside quotes", () => {
     "pip install b",
     "yarn add c",
   ]);
+});
+
+test("shell segments also split on newlines, a single pipe, and a single ampersand", () => {
+  assert.deepEqual(purls(guard.installPackages("cd app\nnpm install request@2.88.2")), ["pkg:npm/request"]);
+  assert.deepEqual(purls(guard.installPackages("echo y | npm i request@2.88.2")), ["pkg:npm/request"]);
+  assert.deepEqual(purls(guard.installPackages("true & npm install request@2.88.2")), ["pkg:npm/request"]);
+  assert.deepEqual(guard.shellSegments("cd app\r\nnpm install request"), ["cd app", "npm install request"]);
 });
 
 test("npm, pnpm, and yarn install arguments become npm PURLs", () => {
@@ -79,8 +89,8 @@ test("install packages are collected across chained shell segments", () => {
   ]);
 });
 
-test("an affected package produces a PreToolUse deny with reason and replacement", () => {
-  const output = guard.run(
+test("an affected package produces a PreToolUse deny with reason and replacement", async () => {
+  const output = await guard.run(
     { tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } },
     (purl) => (purl.endsWith("/request") ? { check: affectedRequest } : { check: { status: "no-data", findings: [] } }),
   );
@@ -92,22 +102,38 @@ test("an affected package produces a PreToolUse deny with reason and replacement
   assert.match(output.systemMessage, /blocked 1 deprecated/);
 });
 
-test("safe installs, missing rules, check errors, and EVERGREEN_SKIP do not block", () => {
+test("safe installs, missing rules, check errors, and timeouts do not block", async () => {
   assert.equal(
-    guard.run({ tool_name: "Bash", tool_input: { command: "npm install express@4.18.0" } }, () => ({ check: { status: "no-data", findings: [] } })),
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install express@4.18.0" } }, () => ({ check: { status: "no-data", findings: [] } })),
     undefined,
   );
   assert.equal(
-    guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ error: "offline" })),
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ error: "offline" })),
     undefined,
   );
-  assert.equal(guard.run({ tool_name: "Bash", tool_input: { command: "npm test" } }, () => ({ check: affectedRequest })), undefined);
-  assert.equal(guard.run({ tool_name: "Edit", tool_input: { command: "npm install request@2.88.2" } }, () => ({ check: affectedRequest })), undefined);
+  assert.equal(
+    await guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ error: "evergreen check timed out" })),
+    undefined,
+  );
+  assert.equal(await guard.run({ tool_name: "Bash", tool_input: { command: "npm test" } }, () => ({ check: affectedRequest })), undefined);
+  assert.equal(await guard.run({ tool_name: "Edit", tool_input: { command: "npm install request@2.88.2" } }, () => ({ check: affectedRequest })), undefined);
+});
 
+test("EVERGREEN_SKIP treats only 1 and true as skip", async () => {
   const previous = process.env.EVERGREEN_SKIP;
-  process.env.EVERGREEN_SKIP = "1";
+  const payload = { tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } };
+  const runner = () => ({ check: affectedRequest });
   try {
-    assert.equal(guard.run({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }, () => ({ check: affectedRequest })), undefined);
+    process.env.EVERGREEN_SKIP = "1";
+    assert.equal(await guard.run(payload, runner), undefined);
+    process.env.EVERGREEN_SKIP = "true";
+    assert.equal(await guard.run(payload, runner), undefined);
+    process.env.EVERGREEN_SKIP = "TRUE";
+    assert.equal(await guard.run(payload, runner), undefined);
+    process.env.EVERGREEN_SKIP = "0";
+    assert.ok(await guard.run(payload, runner));
+    process.env.EVERGREEN_SKIP = "false";
+    assert.ok(await guard.run(payload, runner));
   } finally {
     if (previous === undefined) delete process.env.EVERGREEN_SKIP;
     else process.env.EVERGREEN_SKIP = previous;
@@ -157,7 +183,25 @@ test("the hook script blocks a real deprecated package install and stays quiet o
   assert.deepEqual([skipped.status, skipped.stdout], [0, ""]);
 });
 
-test("hooks.json matches Bash PreToolUse and docs cover install and opt-out", async () => {
+test("the hook still runs when argv points at a symlink to the script", () => {
+  const dir = mkdtempSync(join(tmpdir(), "evergreen-pre-install-"));
+  const link = join(dir, "pre-install-guard.mjs");
+  symlinkSync(guardPath, link);
+  try {
+    assert.equal(guard.isEntryPoint(link, pathToFileURL(realpathSync(guardPath)).href), true);
+    const result = spawnSync(process.execPath, [link], {
+      input: JSON.stringify({ tool_name: "Bash", tool_input: { command: "npm install request@2.88.2" } }),
+      encoding: "utf8",
+      env: { ...process.env, EVERGREEN_CHECK_COMMAND: `"${process.execPath}" "${resolve("dist/src/cli.js")}"` },
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(JSON.parse(result.stdout).hookSpecificOutput.permissionDecisionReason, /request is deprecated/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("hooks.json matches Bash PreToolUse and docs cover install, opt-out, and limits", async () => {
   const hooks = JSON.parse(await readFile(resolve("integrations/claude-code/hooks.json"), "utf8")) as {
     hooks: { PreToolUse: Array<{ matcher: string; hooks: Array<{ command: string }> }> };
   };
@@ -165,10 +209,19 @@ test("hooks.json matches Bash PreToolUse and docs cover install and opt-out", as
   assert.equal(entry!.matcher, "Bash");
   assert.match(entry!.hooks[0]!.command, /pre-install-guard\.mjs/);
 
+  const script = await readFile(resolve("integrations/claude-code/pre-install-guard.mjs"), "utf8");
+  const { version } = JSON.parse(await readFile(resolve("package.json"), "utf8")) as { version: string };
+  assert.match(script, new RegExp(`evergreen-deprecation@${version.replace(/\./g, "\\.")}`));
+
   const docs = await readFile(resolve("docs/HOOKS.md"), "utf8");
   assert.match(docs, /Claude Code/);
   assert.match(docs, /PreToolUse/);
   assert.match(docs, /EVERGREEN_SKIP=1/);
   assert.match(docs, /disableAllHooks/);
   assert.match(docs, /pre-install-guard\.mjs/);
+  assert.match(docs, /first run may download/);
+  assert.match(docs, /scan itself stay offline/);
+  assert.match(docs, /timeout fails open/);
+  assert.match(docs, /best-effort guardrail, not a security boundary/);
+  assert.match(docs, /bash -c/);
 });

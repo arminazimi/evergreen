@@ -2,15 +2,20 @@
 // Evergreen Claude Code PreToolUse hook for package installs.
 //
 // Reads a Bash tool payload on stdin. When the command is an npm, pnpm, yarn, pip, or uv
-// install that names packages, each one is checked with `evergreen check`. An affected
-// package is denied with the reason and replacement. Non-install commands, packages with
-// no rule, and check failures never block. Set EVERGREEN_SKIP=1 to skip the hook.
+// install that names packages, each one is checked with `evergreen check` (in parallel).
+// An affected package is denied with the reason and replacement. Non-install commands,
+// packages with no rule, check failures, and timeouts never block. Set EVERGREEN_SKIP to
+// 1 or true to skip the hook.
 
-import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { readFileSync, realpathSync } from "node:fs";
+import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const PACKAGE_SPEC = "evergreen-deprecation";
+// Keep in sync with package.json; tests/docs-releasing.test.ts fails the release if this drifts.
+const PACKAGE_SPEC = "evergreen-deprecation@0.7.1";
+/** Per-package check budget. Checks run in parallel so wall time stays under the 60s hook timeout. */
+const CHECK_TIMEOUT_MS = 20_000;
 
 const NPM_INSTALL = new Set(["install", "i", "add", "in", "ins"]);
 const PNPM_INSTALL = new Set(["add", "install", "i"]);
@@ -49,7 +54,10 @@ const VALUE_FLAGS = new Set([
   "--directory",
 ]);
 
-/** Splits a Bash command into top-level segments on `&&`, `||`, and `;` (quotes kept intact). */
+/**
+ * Splits a Bash command into top-level segments on `&&`, `||`, `;`, newlines, `|`, and `&`
+ * (quotes kept intact). Best-effort: nested shells such as `bash -c "…"` are not inspected.
+ */
 export function shellSegments(command) {
   const segments = [];
   let current = "";
@@ -66,15 +74,21 @@ export function shellSegments(command) {
       current += char;
       continue;
     }
-    if ((char === "&" || char === "|") && command[index + 1] === char) {
+    if (char === "&" || char === "|") {
       if (current.trim()) segments.push(current.trim());
       current = "";
-      index += 1;
+      if (command[index + 1] === char) index += 1;
       continue;
     }
-    if (char === ";") {
+    if (char === ";" || char === "\n") {
       if (current.trim()) segments.push(current.trim());
       current = "";
+      continue;
+    }
+    if (char === "\r") {
+      if (current.trim()) segments.push(current.trim());
+      current = "";
+      if (command[index + 1] === "\n") index += 1;
       continue;
     }
     current += char;
@@ -289,20 +303,54 @@ function shellWord(word) {
   return process.platform === "win32" && /\s/.test(word) ? `"${word}"` : word;
 }
 
+function shouldSkip() {
+  const value = process.env.EVERGREEN_SKIP?.trim().toLowerCase();
+  return value === "1" || value === "true";
+}
+
+/** Runs one `evergreen check`; the CLI accepts a single PURL, so callers run these in parallel. */
 function runCheck(purl, version) {
-  const [command, ...args] = checkCommand().map(shellWord);
-  const target = version ? `${purl}@${version}` : purl;
-  const result = spawnSync(command, [...args, "check", target, "--json", "--fail-on", "none"], {
-    encoding: "utf8",
-    timeout: 45_000,
-    shell: process.platform === "win32",
+  return new Promise((resolve) => {
+    const [command, ...args] = checkCommand().map(shellWord);
+    const target = version ? `${purl}@${version}` : purl;
+    const child = spawn(command, [...args, "check", target, "--json", "--fail-on", "none"], {
+      encoding: "utf8",
+      shell: process.platform === "win32",
+    });
+    let stdout = "";
+    let stderr = "";
+    let settled = false;
+    const finish = (result) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve(result);
+    };
+    const timer = setTimeout(() => {
+      child.kill("SIGKILL");
+      finish({ error: "evergreen check timed out" });
+    }, CHECK_TIMEOUT_MS);
+    child.stdout?.on("data", (chunk) => {
+      stdout += chunk;
+    });
+    child.stderr?.on("data", (chunk) => {
+      stderr += chunk;
+    });
+    child.on("error", (error) => {
+      finish({ error: error.message });
+    });
+    child.on("close", (status) => {
+      if (status !== 0) {
+        finish({ error: (stderr || "evergreen check failed").trim().split("\n")[0] });
+        return;
+      }
+      try {
+        finish({ check: JSON.parse(stdout) });
+      } catch {
+        finish({ error: "evergreen check returned unreadable output" });
+      }
+    });
   });
-  if (result.status !== 0) return { error: (result.stderr || result.error?.message || "evergreen check failed").trim().split("\n")[0] };
-  try {
-    return { check: JSON.parse(result.stdout) };
-  } catch {
-    return { error: "evergreen check returned unreadable output" };
-  }
 }
 
 export function denialFor(check) {
@@ -316,15 +364,16 @@ export function denialFor(check) {
 }
 
 /** Denies a Bash install when any named package is affected; otherwise returns undefined. */
-export function run(payload, runner = runCheck) {
-  if (process.env.EVERGREEN_SKIP) return undefined;
+export async function run(payload, runner = runCheck) {
+  if (shouldSkip()) return undefined;
   const command = payload?.tool_input?.command;
   if (typeof command !== "string") return undefined;
   if (payload?.tool_name && payload.tool_name !== "Bash") return undefined;
 
+  const packages = installPackages(command);
+  const results = await Promise.all(packages.map(({ purl, version }) => Promise.resolve(runner(purl, version))));
   const blockers = [];
-  for (const { purl, version } of installPackages(command)) {
-    const { check, error } = runner(purl, version);
+  for (const { check, error } of results) {
     if (error || check?.status !== "affected" || !check.findings?.[0]) continue;
     blockers.push(check);
   }
@@ -341,9 +390,19 @@ export function run(payload, runner = runCheck) {
   };
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+/** True when this file is the process entry point, even if argv used a symlink (macOS /var vs /private/var). */
+export function isEntryPoint(entry = process.argv[1], metaUrl = import.meta.url) {
+  if (entry === undefined) return false;
   try {
-    const output = run(JSON.parse(readFileSync(0, "utf8")));
+    return metaUrl === pathToFileURL(realpathSync(resolve(entry))).href;
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint()) {
+  try {
+    const output = await run(JSON.parse(readFileSync(0, "utf8")));
     if (output) process.stdout.write(`${JSON.stringify(output)}\n`);
   } catch {
     // A guardrail must never break the tool call it observes when the payload is unreadable.

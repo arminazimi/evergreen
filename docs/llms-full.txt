@@ -727,7 +727,9 @@ A global hooks path replaces each repository's own `.git/hooks`, so the personal
 
 ## Claude Code pre-install
 
-The Claude Code hook runs before Bash tool calls. When the command is an `npm`, `pnpm`, `yarn`, `pip`, or `uv` install that names packages, each package is checked with `evergreen check`. If Evergreen's lifecycle rules mark it as deprecated or end-of-life, the install is denied and Claude sees the reason, replacement, and evidence. Installs with no package arguments (for example `npm install` or `pip install -r requirements.txt`), packages with no rule, and check failures do not block.
+The Claude Code hook runs before Bash tool calls. When the command is an `npm`, `pnpm`, `yarn`, `pip`, or `uv` install that names packages, each package is checked with `evergreen check` (in parallel). If Evergreen's lifecycle rules mark it as deprecated or end-of-life, the install is denied and Claude sees the reason, replacement, and evidence. Installs with no package arguments (for example `npm install` or `pip install -r requirements.txt`), packages with no rule, check failures, and check timeouts do not block — a timeout fails open so the install can proceed.
+
+This is a best-effort guardrail, not a security boundary. The hook inspects the top-level Bash command and splits on `&&`, `||`, `;`, `|`, `&`, and newlines; nested invocations such as `bash -c "npm i request"` are not inspected.
 
 ### Install
 
@@ -761,15 +763,16 @@ From a clone of this repository the path above works as written. From a release 
 }
 ```
 
-The check runs locally through `npx evergreen-deprecation`. Set `EVERGREEN_CHECK_COMMAND` to another Evergreen command when you want a local build, for example a JSON array of argv: `["node","/path/to/dist/src/cli.js"]`.
+The hook pins `npx --yes --package evergreen-deprecation@<version>` to the same release as this repository. The first run may download that package from the network; once it is cached, each check and the lifecycle scan itself stay offline. Set `EVERGREEN_CHECK_COMMAND` to another Evergreen command when you want a local build, for example a JSON array of argv: `["node","/path/to/dist/src/cli.js"]`.
 
 ### Opt out
 
 ```bash
 EVERGREEN_SKIP=1            # skip only this Evergreen hook for the session
+EVERGREEN_SKIP=true         # same
 ```
 
-Or set `"disableAllHooks": true` in `.claude/settings.json` (or pass `--settings '{"disableAllHooks": true}'` for one run) to turn off every Claude Code hook, including this one. To remove the hook permanently, delete its entry from settings and the copied script under `.claude/hooks/`.
+Only the values `1` and `true` skip the hook (`EVERGREEN_SKIP=0` does not). Or set `"disableAllHooks": true` in `.claude/settings.json` (or pass `--settings '{"disableAllHooks": true}'` for one run) to turn off every Claude Code hook, including this one. To remove the hook permanently, delete its entry from settings and the copied script under `.claude/hooks/`.
 
 ## A digest for your personal projects
 
