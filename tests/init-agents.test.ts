@@ -182,9 +182,14 @@ test("the command line reports each outcome with the right exit code", async () 
   assert.equal(refused.code, 4);
   assert.match(refused.stderr, /Nothing was changed/);
 
-  for (const args of [["init"], ["init", root], ["init", "--agents", "--file", "README.md"], ["init", "--agents", "--bogus"], ["init", "--agents", root, root]]) {
+  for (const args of [["init", "--agents", "--file", "README.md"], ["init", "--agents", "--bogus"], ["init", "--agents", root, root]]) {
     const usage = await run(args);
     assert.equal(usage.code, 2, args.join(" "));
     assert.match(usage.stderr, /Usage: evergreen init|--file must be/);
+  }
+  for (const args of [["init"], ["init", root]]) {
+    const guided = await run(args);
+    assert.equal(guided.code, 2, args.join(" "));
+    assert.match(guided.stderr, /pass --yes to write these changes/);
   }
 });

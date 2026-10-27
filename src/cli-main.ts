@@ -21,6 +21,8 @@ import { guardCommand, GuardUsageError } from "./guard.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import { hasPersonalConfig, initPersonal } from "./init-personal.js";
+import { planInitSetup, applyInitSetup, hasWritables, planSummary } from "./init.js";
+import type { InitStep } from "./init.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
@@ -86,6 +88,7 @@ Usage:
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
   evergreen watch list [--json]
+  evergreen init [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]   # ask what to set up; apply the defaults for CI, the pre-push hook, and agents
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
@@ -160,36 +163,35 @@ async function repositoryRootProblem(path: string): Promise<ActionableMessage | 
   }
 }
 
-async function confirmOnTerminal(summary: string): Promise<boolean> {
+async function confirmOnTerminal(summary: string, defaultYes = false): Promise<boolean> {
   if (!process.stdin.isTTY) throw new AgentFileError("Confirmation needs a terminal; pass --yes to confirm, or --dry-run to preview.");
   const { createInterface } = await import("node:readline/promises");
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
-    return /^y(es)?$/i.test((await rl.question(`${summary}\nContinue? [y/N] `)).trim());
+    const answer = (await rl.question(`${summary}\nContinue? [${defaultYes ? "Y" : "y"}/N${defaultYes ? "]" : "] "}`)).trim();
+    return defaultYes ? !/^n(o)?$/i.test(answer) : /^y(es)?$/i.test(answer);
   } finally {
     rl.close();
   }
 }
 
-/** `init --agents` and `init --hooks`: keep the Evergreen section in AGENTS.md or CLAUDE.md, and the git pre-push hook. */
+/** `init` with no flags asks what to set up (guided); `init --agents`, `--hooks`, and `--personal` do one thing without asking. */
 async function init(args: string[]): Promise<number> {
   const usage = "Usage: evergreen init [--agents] [--hooks] [--personal] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
   const agents = args.includes("--agents");
   const hooks = args.includes("--hooks");
   const personal = args.includes("--personal");
+  const guided = !agents && !hooks && !personal;
   if (personal && (agents || hooks)) return fail("usage", "--personal cannot be combined with --agents or --hooks.", usage);
-  if (!agents && !hooks && !personal) {
-    return fail("usage", usage.trimEnd());
-  }
   const fileIndex = args.indexOf("--file");
   const fileValue = fileIndex === -1 ? undefined : args[fileIndex + 1];
-  if (fileIndex !== -1 && (!agents || (fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md"))) {
-    return fail("usage", "--file must be AGENTS.md or CLAUDE.md, and needs --agents.", usage);
+  if (fileIndex !== -1 && (!agents && !guided || fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md")) {
+    return fail("usage", "--file must be AGENTS.md or CLAUDE.md, and needs --agents or the guided init.", usage);
   }
   const gateIndex = args.indexOf("--fail-on");
   const gate = gateIndex === -1 ? "high" : args[gateIndex + 1];
-  if (gateIndex !== -1 && (!(hooks || personal) || !severityValues.includes(gate as Severity))) {
-    return fail("usage", `--fail-on needs --hooks or --personal and a severity (${severityValues.join(", ")}).`, usage);
+  if (gateIndex !== -1 && ((!(hooks || personal) && !guided) || !severityValues.includes(gate as Severity))) {
+    return fail("usage", `--fail-on needs the guided init, --hooks or --personal, and a severity (${severityValues.join(", ")}).`, usage);
   }
   const flags = new Set(["--agents", "--hooks", "--personal", "--yes", "-y", "--dry-run", "--file", "--fail-on"]);
   const positional = args.filter((argument, index) => !flags.has(argument) && index !== fileIndex + 1 && index !== gateIndex + 1 && !argument.startsWith("-"));
@@ -200,6 +202,7 @@ async function init(args: string[]): Promise<number> {
   const dryRun = args.includes("--dry-run");
   const root = positional[0] ?? ".";
   try {
+    if (guided) return await guidedInit({ root, gate: gate as Severity, dryRun, ...(fileValue !== undefined ? { file: fileValue as AgentFileName } : {}), yes: args.includes("--yes") || args.includes("-y") });
     if (personal) {
       const yes = args.includes("--yes") || args.includes("-y");
       const result = await initPersonal({ gate: gate as Severity, dryRun, confirm: yes ? async () => true : confirmOnTerminal });
@@ -232,6 +235,59 @@ async function init(args: string[]): Promise<number> {
   } catch (error) {
     if (error instanceof AgentFileError) return fail("parse", error.message);
     throw error;
+  }
+}
+
+/**
+ * `init` with no flags: detects the CI provider and agent hosts, and applies what it finds (the GitHub Actions
+ * workflow, the pre-push hook, the Evergreen agent section) after one confirmation that defaults to yes.
+ */
+async function guidedInit(options: { root: string; gate: Severity; dryRun?: boolean; file?: AgentFileName; yes?: boolean }): Promise<number> {
+  if (!options.yes && !options.dryRun && !process.stdin.isTTY) {
+    return fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
+  }
+  const plan = await planInitSetup({ root: options.root, gate: options.gate, ...(options.file ? { file: options.file } : {}) });
+  process.stdout.write(`Detected: ${plan.detectedCi.length > 0 ? plan.detectedCi.join(" and ") : "no CI"}; ${plan.detectedAgents.length > 0 ? plan.detectedAgents.join(", ") : "no agent hosts"}\n`);
+  if (options.dryRun) {
+    printGuidedSteps(plan.steps, options.dryRun === true, options.gate);
+    process.stdout.write("Dry run: nothing was written.\n");
+    return 0;
+  }
+  if (!hasWritables(plan)) {
+    printGuidedSteps(plan.steps, false, options.gate);
+    return 0;
+  }
+  if (!options.yes && !(await confirmOnTerminal(planSummary(plan), true))) {
+    process.stdout.write("Nothing was changed.\n");
+    return 0;
+  }
+  const result = await applyInitSetup({ plan, gate: options.gate });
+  printGuidedSteps(result.steps, false, options.gate);
+  return 0;
+}
+
+function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): void {
+  for (const step of steps) {
+    if (step.change === "advice") {
+      process.stdout.write(`Add this to ${step.file} to scan with the Evergreen GitLab component:\n\n${step.snippet}\n`);
+      continue;
+    }
+    if (step.change === "managed") {
+      process.stdout.write(`${step.manager} manages the Git hooks here, so Evergreen did not write one. Add this to ${step.file}:\n\n${step.snippet}\n`);
+      continue;
+    }
+    const future = { created: "Would create", added: "Would add the Evergreen section to", updated: "Would update" };
+    const past = { created: "Created", added: "Added the Evergreen section to", updated: "Updated" };
+    if (step.change === "unchanged") {
+      const noun = step.kind === "agents" ? "section" : step.kind === "ci" ? "workflow" : "hook";
+      process.stdout.write(`${step.file} already has the current Evergreen ${noun}; nothing to change.\n`);
+      continue;
+    }
+    const verb = dryRun ? future[step.change as keyof typeof future] : past[step.change as keyof typeof past];
+    const tail = step.kind === "ci" ? "; it scans pull requests and pushes to main." : step.kind === "hooks" ? `; it blocks a push at ${gate} or above.` : ".";
+    process.stdout.write(`${verb} ${step.file}${tail}\n`);
+    if (dryRun && step.diff) process.stdout.write(`\n${step.diff}\n`);
+    if (step.kind === "hooks") process.stdout.write("Bypass it once with `git push --no-verify` or `EVERGREEN_SKIP=1 git push`.\n");
   }
 }
 
