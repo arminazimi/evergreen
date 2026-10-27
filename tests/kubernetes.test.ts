@@ -9,7 +9,7 @@ import { evidenceCheck } from "../src/conformance/checks/evidence.js";
 import { malformedInputCheck } from "../src/conformance/checks/malformed.js";
 import { zeroFindingsCheck } from "../src/conformance/checks/zero.js";
 import { runDetectorConformance } from "../src/conformance/index.js";
-import { kubernetesDetector } from "../src/detectors/kubernetes/index.js";
+import { kubernetesDetector, looksLikeHelmTemplateOutput } from "../src/detectors/kubernetes/index.js";
 import { scanRepository } from "../src/engine.js";
 import { createMigrationPacket, validateMigrationPacket } from "../src/migration-packet.js";
 import { validateRegistryV2 } from "../src/registry.js";
@@ -84,6 +84,8 @@ test("kubernetes passes detector conformance on every fixture", async () => {
           expected("kubernetes.policy.poddisruptionbudget.v1beta1.removed", "kustomize/kustomization.yaml", 18, "policy/v1beta1 PodDisruptionBudget"),
           expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/dump.yaml", 4, "extensions/v1beta1 Ingress"),
           expected(CRONJOB, "manifests/dump.yaml", 34, "batch/v1beta1 CronJob"),
+          expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/helm-rendered.yaml", 5, "extensions/v1beta1 Ingress"),
+          expected(CRONJOB, "manifests/helm-rendered.yaml", 20, "batch/v1beta1 CronJob"),
           expected("kubernetes.policy.podsecuritypolicy.v1beta1.removed", "manifests/psp.yml", 3, "policy/v1beta1 PodSecurityPolicy"),
           expected("kubernetes.extensions.ingress.v1beta1.removed", "manifests/web.yaml", 2, "extensions/v1beta1 Ingress"),
           expected(CRONJOB, "manifests/web.yaml", 34, "batch/v1beta1 CronJob"),
@@ -136,6 +138,27 @@ test("a dump fixture produces the same findings as equivalent individual manifes
     assert.equal(dumpFinding.replacement, webFinding.replacement);
     assert.equal(dumpFinding.deadline, webFinding.deadline);
   }
+});
+
+test("rendered helm template output reports APIs a Capabilities-guarded template hid", async () => {
+  const rendered = await readFile(resolve(fixtures, "positive/manifests/helm-rendered.yaml"), "utf8");
+  assert.equal(looksLikeHelmTemplateOutput(rendered), true);
+  assert.equal(looksLikeHelmTemplateOutput("apiVersion: v1\nkind: ConfigMap\n"), false);
+
+  const templateRoot = await repository({
+    "chart/Chart.yaml": "apiVersion: v2\nname: mychart\nversion: 0.1.0\n",
+    "chart/templates/ingress.yaml": await readFile(resolve(fixtures, "negative/helm/mychart/templates/ingress.yaml"), "utf8"),
+  });
+  assert.deepEqual(await kubernetesDetector.scan({ root: templateRoot }), []);
+
+  const renderedRoot = await repository({ "rendered.yaml": rendered });
+  assert.deepEqual(
+    (await kubernetesDetector.scan({ root: renderedRoot })).map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["kubernetes.extensions.ingress.v1beta1.removed", 5],
+      [CRONJOB, 20],
+    ],
+  );
 });
 
 test("only a rule's own group, kind, and version produce a finding", async () => {

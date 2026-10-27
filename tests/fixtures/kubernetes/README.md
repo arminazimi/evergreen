@@ -14,6 +14,7 @@ what the finished detector must not report.
 | --- | --- |
 | `positive/manifests/web.yaml` | Three documents separated by `---`: a legacy `extensions/v1beta1` Ingress, a supported `apps/v1` Deployment, and a legacy `batch/v1beta1` CronJob. A comment on line 1 is skipped and line numbers count it. |
 | `positive/manifests/dump.yaml` | A `kubectl get -o yaml` dump export (`kind: List`) containing the same three objects as `web.yaml` inside its `items[]` list. |
+| `positive/manifests/helm-rendered.yaml` | Multi-document YAML as `helm template` prints it (`# Source: …/templates/…` headers). Includes the legacy Ingress branch that `negative/helm/mychart/templates/ingress.yaml` hides behind `.Capabilities`, a legacy CronJob, and a ConfigMap whose data still contains `{{` so the file is not mistaken for a template source. |
 | `positive/manifests/psp.yml` | The `.yml` extension, `kind` before `apiVersion`, and a double-quoted `apiVersion` value. |
 | `positive/helm/mychart/Chart.yaml` | A `kubeVersion` constraint and a dependency on the retired Helm stable repository. The chart's own `apiVersion: v2` is the Helm chart format, not a Kubernetes API. |
 | `positive/helm/mychart/templates/ingress.yaml` | A literal `apiVersion` and `kind` inside an `{{- if .Values... }}` block; a value condition does not make the declaration dynamic. |

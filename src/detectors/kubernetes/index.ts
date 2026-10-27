@@ -28,9 +28,12 @@ import type { ApiDeclaration } from "./parse-manifest.js";
  *
  * It reads the literal `apiVersion` and `kind` of manifests, Helm chart templates, and
  * kustomization patches, and matches the pair to a rule by group and kind (decision 0008). It also
- * reads `Chart.yaml` dependencies and matches a literal repository URL to a repository rule. Nothing
- * is rendered, built, or applied, and a declaration that depends on the cluster or on Helm values is
- * never reported as a finding (templated dependency fields are unclassified).
+ * reads `Chart.yaml` dependencies and matches a literal repository URL to a repository rule. The
+ * multi-document YAML that `helm template` prints (each document headed by a `# Source: …/templates/…`
+ * comment) is read as already-rendered manifests, so APIs that a Capabilities-guarded template hid
+ * become findings once someone commits that output. Nothing is rendered, built, or applied here, and
+ * a declaration that still depends on the cluster or on Helm values is never reported as a finding
+ * (templated dependency fields are unclassified).
  */
 
 const MAXIMUM_DEPTH = 8;
@@ -41,6 +44,16 @@ const KUSTOMIZATION_FILE = /^kustomization\.ya?ml$|^Kustomization$/;
 const CHART_FILE = "Chart.yaml";
 const PURL_PREFIX = "pkg:generic/kubernetes/";
 const HELM_REPOSITORY_PURL_PREFIX = "pkg:generic/helm-repository/";
+
+/**
+ * True when the file looks like the stdout of `helm template`: each rendered object is introduced by
+ * a `# Source: <chart>/templates/<file>` comment. That output is finished YAML, so it is parsed as a
+ * manifest even when a string value still contains `{{` (for example a ConfigMap that embeds a Go
+ * template). Chart sources under `templates/` never carry these comments and stay on the template path.
+ */
+export function looksLikeHelmTemplateOutput(contents: string): boolean {
+  return /^# Source:\s+\S+\/templates\/\S+/m.test(contents);
+}
 
 /** Map a Chart.yaml `repository` URL to a reviewed repository identity, or undefined when unknown. */
 export function helmRepositoryPurl(repository: string): string | undefined {
@@ -171,14 +184,18 @@ async function declarations(root: string): Promise<{
 
     // Every declaration needs the key; this skips the parse for the many YAML files that have none.
     if (kind !== "kustomization" && !contents.includes("apiVersion")) continue;
-    // A file with template actions is read as a template even outside a chart, so a declaration
-    // guarded by a cluster check is not mistaken for a plain manifest.
+    // Chart `templates/` always use the template reader. Outside a chart, committed `helm template`
+    // output (with `# Source: …/templates/…` headers) is multi-document YAML and is read as a
+    // manifest so rendered APIs are judged. Any other file that still contains `{{` is read as a
+    // template, so a declaration guarded by a cluster check is not mistaken for a plain manifest.
     const found =
       kind === "kustomization"
         ? parseKustomization(contents).filter((entry): entry is ApiDeclaration => entry.kind === "api")
-        : kind === "template" || contents.includes("{{")
+        : kind === "template"
           ? parseTemplate(contents)
-          : parseManifest(contents);
+          : looksLikeHelmTemplateOutput(contents) || !contents.includes("{{")
+            ? parseManifest(contents)
+            : parseTemplate(contents);
     for (const declaration of found) apis.push({ path, declaration });
   }
   return { apis, dependencies, unclassified };

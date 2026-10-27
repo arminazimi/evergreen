@@ -7,11 +7,12 @@ The `kubernetes` detector reports API versions that the Kubernetes project says 
 | File | Declaration |
 | --- | --- |
 | `*.yaml`, `*.yml` | the top-level `apiVersion` and `kind` of each `---`-separated document, including `kind: List` dumps (`kubectl get -o yaml`), when both are literal |
-| `templates/*.yaml`, `templates/*.yml` in a Helm chart (a directory with `Chart.yaml`), and any YAML file that contains `{{` | the same pair, read as text without rendering the template |
+| Committed `helm template` output (multi-document YAML whose documents start with `# Source: <chart>/templates/<file>`) | the same pair, read as already-rendered manifests so APIs a Capabilities-guarded template hid become findings; Helm is never run |
+| `templates/*.yaml`, `templates/*.yml` in a Helm chart (a directory with `Chart.yaml`), and any other YAML file that contains `{{` and is not helm-template output | the same pair, read as text without rendering the template |
 | `Chart.yaml` | each `dependencies[]` entry with a literal `name` and `repository` URL; `kubeVersion` is still read but not judged |
 | `kustomization.yaml`, `kustomization.yml`, `Kustomization` | an inline patch (a block scalar) with its own `apiVersion` and `kind`, and a patch `target` with `group`, `version`, and `kind` |
 
-It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, `testdata`, and a chart's nested `charts/`. Files over 1 MiB are skipped. Nothing is rendered, built, or applied, and the Kubernetes tools are never run.
+It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, `testdata`, and a chart's nested `charts/`. Files over 1 MiB are skipped. Nothing is rendered, built, or applied, and the Kubernetes tools (including Helm) are never run.
 
 ## What it reports
 
@@ -53,6 +54,7 @@ These produce no finding and are not guessed:
 - Only the five API versions above have rules. An API version the migration guide lists but this registry does not is not reported; the `kubernetes-1` [importer](../IMPORTERS.md) drafts the others for review.
 - A manifest kept on an old API version **on purpose**, for example for a cluster that still serves it, is still reported. The rule states what the Kubernetes project says about the API; whether the target cluster is old is for the repository to decide, for example with a [baseline](../../README.md).
 - A literal declaration in a Helm template that is only used when a `.Values` flag is on is reported, because the flag is a repository value and Evergreen does not evaluate it.
+- The stdout of `helm template`, when committed (or otherwise present as a file), is judged as manifests. A `# Source: …/templates/…` header is how Helm marks that output; a ConfigMap or annotation that still contains `{{` does not switch the file back to the template reader.
 - Custom resources are never matched: no rule names an API group outside Kubernetes' own.
 - Kubernetes release lines reaching end of life are not judged. The `kubernetes-2` importer drafts rules for them, but no detector reads them yet.
 
