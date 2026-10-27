@@ -231,14 +231,19 @@ export interface SuppressionState {
   expired: SuppressionRef[];
 }
 
+/** Cap on how many directory entries the empty-scan coverage walk opens. */
+export const COVERAGE_WALK_LIMIT = 20_000;
+
 /** What a scan checked, so a zero-finding report can say what was covered and what was not. */
 export interface ScanCoverage {
   /** Detector ids that matched at least one input file in the repository, sorted. */
   ecosystems: string[];
-  /** Repository-relative paths matched by detector inputs, sorted. */
+  /** Repository-relative paths matched by detector inputs, sorted. Complete in JSON; the text report may shorten the list. */
   filesRead: string[];
-  /** Paths of unclassified pins or other unsupported declarations, sorted. */
+  /** Paths of unclassified pins or other unsupported declarations, sorted. Complete in JSON; the text report may shorten the list. */
   unsupportedFiles: string[];
+  /** True when the coverage walk stopped early at {@link COVERAGE_WALK_LIMIT} (or a lower test limit), so ecosystems may be incomplete. */
+  truncated?: boolean;
 }
 
 export interface ScanResult {

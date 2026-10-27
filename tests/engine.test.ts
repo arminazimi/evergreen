@@ -1,9 +1,8 @@
 import assert from "node:assert/strict";
-import { test } from "node:test";
-
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { test } from "node:test";
 
 import { buildScanCoverage, scanRepository } from "../src/engine.js";
 import { renderJson, renderText } from "../src/reporters.js";
@@ -124,4 +123,55 @@ test("coverage names ecosystems and files matched by detector inputs", async () 
   const result = await scanRepository(root, [npm, go]);
   assert.deepEqual(result.coverage?.ecosystems, ["go", "npm"]);
   assert.match(renderText(result), /Ecosystems detected: go, npm/);
+});
+
+test("an unreadable directory does not crash a zero-finding coverage walk", async (t) => {
+  if (process.platform === "win32") return t.skip("chmod 000 is not meaningful on Windows");
+  if (typeof process.getuid === "function" && process.getuid() === 0) return t.skip("root can read chmod 000 directories");
+
+  const root = await mkdtemp(join(tmpdir(), "evergreen-coverage-eacces-"));
+  const locked = join(root, "locked");
+  await mkdir(locked);
+  await writeFile(join(root, "package.json"), "{}\n");
+  await writeFile(join(locked, "hidden.json"), "{}\n");
+  await chmod(locked, 0o000);
+  const npm: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "npm",
+    inputs: { fileNames: ["package.json"] },
+    async scan() {
+      return [];
+    },
+  };
+  try {
+    const result = await scanRepository(root, [npm]);
+    assert.ok(result.coverage, "coverage is still recorded");
+    assert.deepEqual(result.coverage.ecosystems, ["npm"]);
+    assert.deepEqual(result.coverage.filesRead, ["package.json"]);
+  } finally {
+    await chmod(locked, 0o700);
+  }
+});
+
+test("a coverage walk that hits its entry limit sets truncated", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-coverage-limit-"));
+  await writeFile(join(root, "package.json"), "{}\n");
+  for (const name of ["a", "b", "c", "d", "e"]) {
+    await mkdir(join(root, name));
+    await writeFile(join(root, name, "package.json"), "{}\n");
+  }
+  const npm: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "npm",
+    inputs: { fileNames: ["package.json"] },
+    async scan() {
+      return [];
+    },
+  };
+  const coverage = await buildScanCoverage(root, [npm], [], 3);
+  assert.equal(coverage.truncated, true);
+  const full = await buildScanCoverage(root, [npm], []);
+  assert.equal(full.truncated, undefined);
+  assert.ok(full.filesRead.length >= 6);
+  assert.ok(full.filesRead.length > coverage.filesRead.length);
 });

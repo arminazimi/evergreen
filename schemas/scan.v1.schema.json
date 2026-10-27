@@ -433,7 +433,7 @@
     },
     "coverage": {
       "type": "object",
-      "description": "What the scan checked, so a zero-finding report can say what was covered and what was not.",
+      "description": "What the scan checked, so a zero-finding report can say what was covered and what was not. Path arrays are complete here; the text report may show only the first ten of each.",
       "required": [
         "ecosystems",
         "filesRead",
@@ -451,7 +451,7 @@
         },
         "filesRead": {
           "type": "array",
-          "description": "Repository-relative paths matched by detector inputs, sorted.",
+          "description": "Repository-relative paths matched by detector inputs, sorted. Complete list; the text report may truncate display.",
           "items": {
             "type": "string",
             "minLength": 1
@@ -459,11 +459,15 @@
         },
         "unsupportedFiles": {
           "type": "array",
-          "description": "Paths of unclassified pins or other unsupported declarations, sorted.",
+          "description": "Paths of unclassified pins or other unsupported declarations, sorted. Complete list; the text report may truncate display.",
           "items": {
             "type": "string",
             "minLength": 1
           }
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "True when the coverage walk stopped early at its entry limit, so ecosystems may be incomplete."
         }
       }
     },

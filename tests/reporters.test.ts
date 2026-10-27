@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import type { ScanResult } from "../src/domain.js";
+import { COVERAGE_WALK_LIMIT, type ScanResult } from "../src/domain.js";
 import { deriveScanCoverage, renderEmptyScanHelp, renderText } from "../src/reporters.js";
 
 const emptyScan = (overrides: Partial<ScanResult> = {}): ScanResult => ({
@@ -45,6 +45,48 @@ test("golden text output for an empty scan names coverage, data version, and nex
       "Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.",
     ].join("\n"),
   );
+});
+
+test("golden text output truncates long path lists and keeps JSON coverage complete", () => {
+  const filesRead = Array.from({ length: 12 }, (_, index) => `packages/pkg-${String(index).padStart(2, "0")}/package.json`);
+  const unsupportedFiles = Array.from({ length: 11 }, (_, index) => `vendor/lib-${String(index).padStart(2, "0")}/Cargo.toml`);
+  const result = emptyScan({
+    coverage: {
+      ecosystems: ["npm", "rust"],
+      filesRead,
+      unsupportedFiles,
+    },
+  });
+  assert.equal(
+    renderText(result),
+    [
+      "Evergreen scan",
+      "Repository: /repository",
+      "Findings: 0",
+      "Data: bundled 2026.10.01, evidence reviewed through 2026-09-30 (today)",
+      "",
+      "No lifecycle risks found.",
+      "Ecosystems detected: npm, rust",
+      "Files read: packages/pkg-00/package.json, packages/pkg-01/package.json, packages/pkg-02/package.json, packages/pkg-03/package.json, packages/pkg-04/package.json, packages/pkg-05/package.json, packages/pkg-06/package.json, packages/pkg-07/package.json, packages/pkg-08/package.json, packages/pkg-09/package.json, ... and 2 more",
+      "Data version: 2026.10.01",
+      "Unsupported files: vendor/lib-00/Cargo.toml, vendor/lib-01/Cargo.toml, vendor/lib-02/Cargo.toml, vendor/lib-03/Cargo.toml, vendor/lib-04/Cargo.toml, vendor/lib-05/Cargo.toml, vendor/lib-06/Cargo.toml, vendor/lib-07/Cargo.toml, vendor/lib-08/Cargo.toml, vendor/lib-09/Cargo.toml, ... and 1 more",
+      "",
+      "Next: run `evergreen scan --demo` to see what a finding looks like.",
+      "Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.",
+    ].join("\n"),
+  );
+  assert.equal(result.coverage?.filesRead.length, 12);
+  assert.equal(result.coverage?.unsupportedFiles.length, 11);
+});
+
+test("truncated coverage tells the reader the walk stopped early", () => {
+  const text = renderEmptyScanHelp(emptyScan(), {
+    ecosystems: ["npm"],
+    filesRead: ["package.json"],
+    unsupportedFiles: [],
+    truncated: true,
+  }).join("\n");
+  assert.match(text, new RegExp(`Coverage is partial: only the first ${COVERAGE_WALK_LIMIT} entries were checked\\.`));
 });
 
 test("an empty scan without coverage reports none and still suggests next steps", () => {

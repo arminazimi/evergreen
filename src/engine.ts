@@ -5,20 +5,19 @@ import { join, resolve } from "node:path";
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
 import { declaresInput } from "./detector-inputs.js";
-import type { Confidence, ScanCoverage, ScanResult } from "./domain.js";
+import { COVERAGE_WALK_LIMIT, type Confidence, type ScanCoverage, type ScanResult } from "./domain.js";
 import { advisoryIdsByRuleId } from "./osv-advisories.js";
 import { relativePosix } from "./paths.js";
 import { assertDetectorCompatible } from "./sdk.js";
 import type { Detector, DetectorFinding, DetectorInputs } from "./sdk.js";
+
+export { COVERAGE_WALK_LIMIT };
 
 /** Matches `CLE_FILE_NAME` in cle-ingest without importing that module into the engine. */
 const CLE_COVERAGE_FILE = "cle.json";
 
 /** Lockfiles whose entries are resolved versions rather than declarations. */
 const LOCKFILE_NAME = /(^|[-.])(lock|lockfile)(\.[a-z]+)?$|\.lock$|^(go\.sum|pubspec\.lock|packages\.lock\.json|gemfile\.lock|composer\.lock|cargo\.lock|poetry\.lock|uv\.lock|pipfile\.lock|npm-shrinkwrap\.json)$/i;
-
-/** Cap on how many files the coverage walk opens directory entries for, so a huge tree cannot stall a scan. */
-const COVERAGE_WALK_LIMIT = 20_000;
 
 /** Vendored and build trees the coverage walk does not enter (kept local so the engine stays light). */
 const COVERAGE_SKIPPED_DIRECTORIES = new Set([
@@ -31,15 +30,35 @@ export function defaultConfidence(finding: DetectorFinding): Confidence {
   return finding.confidence ?? (LOCKFILE_NAME.test(basename(finding.location.path)) ? "inferred-from-lock" : "exact");
 }
 
+/** Directory errors the coverage walk skips so an unreadable tree cannot fail the scan. */
+const COVERAGE_SKIP_READ_CODES = new Set(["EACCES", "ENOENT", "ENOTDIR"]);
+
 /** Repository-relative paths under `root`, skipping vendored trees, capped for large repositories. */
-async function listCoverageFiles(root: string): Promise<string[]> {
+async function listCoverageFiles(
+  root: string,
+  walkLimit: number,
+): Promise<{ files: string[]; truncated: boolean }> {
   const files: string[] = [];
   let visited = 0;
+  let truncated = false;
   const walk = async (directory: string): Promise<void> => {
-    if (visited >= COVERAGE_WALK_LIMIT) return;
-    const entries = await readdir(directory, { withFileTypes: true });
+    if (visited >= walkLimit) {
+      truncated = true;
+      return;
+    }
+    let entries;
+    try {
+      entries = await readdir(directory, { withFileTypes: true });
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code && COVERAGE_SKIP_READ_CODES.has(code)) return;
+      throw error;
+    }
     for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
-      if (visited >= COVERAGE_WALK_LIMIT) return;
+      if (visited >= walkLimit) {
+        truncated = true;
+        return;
+      }
       visited += 1;
       const absolute = join(directory, entry.name);
       if (entry.isDirectory()) {
@@ -50,7 +69,7 @@ async function listCoverageFiles(root: string): Promise<string[]> {
     }
   };
   await walk(root);
-  return files;
+  return { files, truncated };
 }
 
 /**
@@ -74,12 +93,15 @@ function matchedViaFileNameOrDirectory(inputs: DetectorInputs, path: string): bo
 
 /**
  * Which detectors matched files on disk, which of those files they declare, and which unclassified
- * paths were seen. Used by the text reporter when a scan finds nothing.
+ * paths were seen. Used by the text reporter when a scan finds nothing. `walkLimit` caps how many
+ * directory entries are opened (default {@link COVERAGE_WALK_LIMIT}); when the cap is hit,
+ * `truncated` is set on the result.
  */
 export async function buildScanCoverage(
   root: string,
   detectors: readonly Detector[],
   unsupportedFiles: readonly string[],
+  walkLimit = COVERAGE_WALK_LIMIT,
 ): Promise<ScanCoverage> {
   const withInputs = detectors.flatMap((detector) => {
     const inputs = coverageInputs(detector);
@@ -91,7 +113,7 @@ export async function buildScanCoverage(
   const directoryPrefixes = withInputs.flatMap(({ inputs }) =>
     (inputs.directories ?? []).map((directory) => `${directory.replace(/\/+$/, "")}/`),
   );
-  const files = await listCoverageFiles(root);
+  const { files, truncated } = await listCoverageFiles(root, walkLimit);
   const ecosystems: string[] = [];
   const filesRead = new Set<string>();
   for (const { detector, inputs } of withInputs) {
@@ -109,6 +131,7 @@ export async function buildScanCoverage(
     ecosystems: ecosystems.sort((left, right) => left.localeCompare(right)),
     filesRead: [...filesRead].sort((left, right) => left.localeCompare(right)),
     unsupportedFiles: [...new Set(unsupportedFiles)].sort((left, right) => left.localeCompare(right)),
+    ...(truncated ? { truncated: true } : {}),
   };
 }
 

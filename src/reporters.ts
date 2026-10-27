@@ -1,12 +1,15 @@
 import { createHash } from "node:crypto";
 
 import type { DependencyCheck } from "./check-dependency.js";
-import type { DataInfo, Finding, ScanCoverage, ScanResult, Severity } from "./domain.js";
+import { COVERAGE_WALK_LIMIT, type DataInfo, type Finding, type ScanCoverage, type ScanResult, type Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
 import { VERSION } from "./version.js";
 
 export type { ScanCoverage };
+
+/** How many paths the empty-scan text report lists before saying "... and N more". JSON coverage stays complete. */
+export const EMPTY_SCAN_PATH_LIST_LIMIT = 10;
 
 export function renderJson(result: ScanResult): string {
   return JSON.stringify(result, null, 2);
@@ -567,6 +570,15 @@ function formatCoverageList(values: readonly string[]): string {
   return values.length === 0 ? "none" : values.join(", ");
 }
 
+/** Path lists in the text report stay short; the JSON `coverage` field keeps every path. */
+function formatCoveragePaths(values: readonly string[]): string {
+  if (values.length === 0) return "none";
+  if (values.length <= EMPTY_SCAN_PATH_LIST_LIMIT) return values.join(", ");
+  const shown = values.slice(0, EMPTY_SCAN_PATH_LIST_LIMIT);
+  const more = values.length - EMPTY_SCAN_PATH_LIST_LIMIT;
+  return `${shown.join(", ")}, ... and ${more} more`;
+}
+
 /** Ecosystems and paths implied by unclassified pins when the scan result has no coverage block. */
 export function deriveScanCoverage(result: ScanResult): ScanCoverage {
   const references = result.unclassified?.references ?? [];
@@ -582,7 +594,8 @@ function resolveCoverage(result: ScanResult, coverage?: ScanCoverage): ScanCover
 
 /**
  * The empty-scan footer: what was checked, the data version, and what to try next. Printed only in the
- * text report so machine-readable formats stay focused on findings.
+ * text report so machine-readable formats stay focused on findings. Path lists are capped at
+ * {@link EMPTY_SCAN_PATH_LIST_LIMIT}; JSON coverage is not.
  */
 export function renderEmptyScanHelp(result: ScanResult, coverage?: ScanCoverage): string[] {
   const resolved = resolveCoverage(result, coverage);
@@ -590,9 +603,12 @@ export function renderEmptyScanHelp(result: ScanResult, coverage?: ScanCoverage)
     "",
     "No lifecycle risks found.",
     `Ecosystems detected: ${formatCoverageList(resolved.ecosystems)}`,
-    `Files read: ${formatCoverageList(resolved.filesRead)}`,
+    `Files read: ${formatCoveragePaths(resolved.filesRead)}`,
     `Data version: ${result.data?.version ?? "none"}`,
-    `Unsupported files: ${formatCoverageList(resolved.unsupportedFiles)}`,
+    `Unsupported files: ${formatCoveragePaths(resolved.unsupportedFiles)}`,
+    ...(resolved.truncated
+      ? [`Coverage is partial: only the first ${COVERAGE_WALK_LIMIT} entries were checked.`]
+      : []),
     "",
     "Next: run `evergreen scan --demo` to see what a finding looks like.",
     "Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.",
