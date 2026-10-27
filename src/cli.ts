@@ -38,6 +38,7 @@ import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupText, rollupFiles } from "./rollup.js";
+import { buildRenovatePreset } from "./renovate-preset.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCodeQuality, renderCompact, renderFindingText, renderHtml, renderJson, renderJunit, renderMarkdown, renderMigrationPacketText, renderRdjson, renderSarif, renderSlack, renderTeams, renderText, renderWebhook } from "./reporters.js";
@@ -63,6 +64,7 @@ Usage:
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json]   # merge saved scan reports by product and owner; reads files only
+  evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
@@ -357,7 +359,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -528,6 +530,13 @@ async function main(args: string[]): Promise<number> {
       if (error instanceof RollupError) return fail("usage", error.message);
       throw error;
     }
+  }
+  if (command === "renovate-preset") {
+    if (positional.length > 1) return fail("usage", "Usage: evergreen renovate-preset [path]");
+    const result = await scanRepository(resolve(pathArgument), builtInDetectors);
+    const preset = buildRenovatePreset(result.findings, await bundledRules());
+    process.stdout.write(`${JSON.stringify(preset, null, 2)}\n`);
+    return 0;
   }
   if (command === "diff") {
     const range = positional[0];

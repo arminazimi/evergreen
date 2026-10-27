@@ -95,3 +95,15 @@ node dist/src/cli.js rollup reports/*.json --owners owners.json --json
 - **Owner** comes from the optional `owners.json`, a JSON object such as `{ "payments": "platform-team" }`. A repository it does not list is grouped under `unowned`.
 
 The result (`evergreen.rollup.v1`) gives total findings and severities, then groups by product and by owner, largest first with ties broken by name. Each group lists its findings by severity and the repositories they come from. The same reports always produce the same output, whatever order the files are given in.
+
+## Feeding Renovate
+
+When a repository already runs Renovate, Evergreen can print a preset of `packageRules` for the replacements and runtime pins it found in that repository. The command writes JSON to stdout only; it never edits `renovate.json` or any other file.
+
+```bash
+node dist/src/cli.js renovate-preset .
+```
+
+- **Package replacements** become rules with `matchDatasources`, `matchPackageNames`, and `replacementName` when the finding's replacement is itself a package name (for example `node-sass` → `sass`). Prose replacements are skipped.
+- **Runtime pins** become `allowedVersions` rules for Node.js (`node-version` / `node`) and Python (`docker` / `python`) so Renovate stays on a supported release line.
+- Validate the printed JSON with Renovate before merging it into config: `npx --yes --package renovate -- renovate-config-validator path/to/preset.json`.
