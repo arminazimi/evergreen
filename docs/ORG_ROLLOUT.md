@@ -51,3 +51,45 @@ SARIF uploads to code scanning are per-repository, and the reusable workflow kee
 ## Limits
 
 GitHub Actions caps a matrix at 256 jobs, so an organization with more than 256 scannable repositories (archived and disabled repositories are skipped) needs call sites split into batches; call the workflow once per sub-organization. Archived and disabled repositories are skipped; forks and internal repositories are scanned unless the token cannot read them.
+
+## Opening adoption pull requests
+
+Besides the reusable scan workflow above, Evergreen can open the adoption pull requests for you. Evergreen lands best as one reviewed change per repository. The rollout tool (`tools/org-rollout.ts`) turns that into a single step: it lists the target repositories, shows exactly what it would change, and only opens pull requests when you explicitly ask for it. Nothing is ever pushed directly to a default branch, and scans stay offline — the tool's own network calls are GitHub API calls, never repository analysis.
+
+```bash
+npm run org:rollout -- --org my-org                    # print the plan, change nothing
+npm run org:rollout -- --org my-org --apply            # open one pull request per repository
+npm run org:rollout -- --repos acme/api,acme/web       # a specific repository list instead of an org
+```
+
+### What it does
+
+For every target repository (non-archived, not a fork, with a default branch) it:
+
+1. Checks whether any existing workflow under `.github/workflows/` already invokes `arminazimi/evergreen`. If one does, the repository is skipped — reapplication can never stack duplicate workflows.
+2. Resolves the action version to pin. Pass `--action-ref v0.7.1` for a fixed version; otherwise the tool pins the repository's latest release tag.
+3. Prints the plan: each repository with `pull-request` or `skip`, the totals, and the full workflow file that would be added. **Without `--apply` this is the whole run.**
+4. With `--apply`, and a token (`GITHUB_TOKEN` or `GH_TOKEN`) with write access it opens one pull request per repository that creates the branch, adds [`.github/workflows/evergreen.yml`](GITHUB_ACTION.md), and opens the pull request against the default branch.
+
+The workflow runs the scan on pull requests, on a weekly schedule (`--schedule`, default `0 4 * * 1`), and on demand via `workflow_dispatch`. It needs no configuration: read-only permissions, no secrets, findings as annotations, and a `high` severity gate. To accept existing findings, the pull request body points to the baseline command:
+
+```bash
+npx evergreen-deprecation baseline . --output .evergreen-baseline.json
+```
+
+### Options
+
+| Option | Default | Meaning |
+| --- | --- | --- |
+| `--org <name>` | — | Target every qualifying repository of this organization. |
+| `--repos <list>` | — | Comma-separated `owner/name` list instead of an organization. |
+| `--apply` | off | Open the pull requests. Without it, only the plan is printed. |
+| `--schedule <cron>` | `0 4 * * 1` | Cron expression for the weekly scan. |
+| `--action-ref <ref>` | latest release | Action version to pin. |
+| `--branch <name>` | `evergreen/lifecycle-scan` | Rollout branch name. A branch left behind by an earlier run is reused. |
+
+### Design rules
+
+- **Reviewed, never silent.** A rollout starts as a printed plan; opening pull requests is a deliberate `--apply`. Closing a pull request opts that repository out.
+- **Idempotent in review.** Re-running the dry run after some merges only plans the repositories still missing the workflow.
+- **Failures are reported, not hidden.** A repository that cannot take its pull request (no token, branch conflict) is listed at the end with its GitHub API error and the run exits nonzero; the rest still complete.
