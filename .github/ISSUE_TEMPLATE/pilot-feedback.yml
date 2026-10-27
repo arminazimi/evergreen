@@ -1,0 +1,56 @@
+name: Pilot feedback
+description: Tell us how your Evergreen pilot went, from install to migration.
+title: "pilot feedback: "
+labels: ["area: community"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for piloting Evergreen on a real repository! These answers go straight into the adoption report, so no answer is wrong — bad experiences help too. One form per pilot repository.
+  - type: textarea
+    id: repo
+    attributes:
+      label: Pilot repository
+      description: Optional. Where you ran it, for example "private monorepo, 1.2M LOC, TypeScript and Go".
+    validations:
+      required: false
+  - type: input
+    id: install
+    attributes:
+      label: Install time
+      description: How long from installing Evergreen to your first scan, roughly?
+      placeholder: "about 10 minutes"
+    validations:
+      required: true
+  - type: textarea
+    id: first-finding
+    attributes:
+      label: First useful finding
+      description: The first finding you actually acted on, and what convinced you it was worth acting on.
+    validations:
+      required: true
+  - type: textarea
+    id: false-alerts
+    attributes:
+      label: False alerts
+      description: Anything that fired but turned out to be wrong, irrelevant, or noisy. Say "none" if you saw none.
+    validations:
+      required: true
+  - type: textarea
+    id: migration
+    attributes:
+      label: Migration outcome
+      description: What happened after the findings — did you migrate anything, and did the migration context help?
+    validations:
+      required: true
+  - type: dropdown
+    id: rerun
+    attributes:
+      label: Would you use Evergreen again?
+      options:
+        - "Yes"
+        - "Probably"
+        - "Probably not"
+        - "No"
+    validations:
+      required: true
