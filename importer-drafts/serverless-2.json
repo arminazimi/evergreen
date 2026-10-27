@@ -1,0 +1,774 @@
+{
+  "importer": "serverless-2",
+  "ecosystem": "serverless",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "serverless.google-cloud-functions.dotnet3",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/dotnet3",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions .NET Core 3 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists .NET Core 3 (runtime ID dotnet3) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet8",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.dotnet6",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/dotnet6",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions .NET 6 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists .NET 6 (runtime ID dotnet6) as deprecated on 2024-11-12 and decommissioned on 2025-11-12. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "dotnet10 or dotnet8",
+      "deadline": "2025-11-12",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.dotnet8",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/dotnet8",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions .NET 8 runtime reaches end of life on 2027-05-10",
+      "summary": "The Google Cloud Functions runtime support schedule lists .NET 8 (runtime ID dotnet8) as deprecated on 2026-11-10 and decommissioned on 2027-05-10. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "dotnet10 or dotnet8",
+      "deadline": "2027-05-10",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go113",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go113",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.13 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.13 (runtime ID go113) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go116",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go116",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.16 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.16 (runtime ID go116) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go118",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go118",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.18 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.18 (runtime ID go118) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go119",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go119",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.19 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.19 (runtime ID go119) as deprecated on 2024-04-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go120",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go120",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.20 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.20 (runtime ID go120) as deprecated on 2024-05-01 and decommissioned on 2025-05-01. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2025-05-01",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go121",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go121",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.21 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.21 (runtime ID go121) as deprecated on 2025-09-03 and decommissioned on 2026-03-03. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2026-03-03",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go122",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go122",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.22 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.22 (runtime ID go122) as deprecated on 2026-01-28 and decommissioned on 2026-07-28. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2026-07-28",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go123",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go123",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Go 1.23 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.23 (runtime ID go123) as deprecated on 2026-02-21 and decommissioned on 2026-08-21. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "go127 or go126",
+      "deadline": "2026-08-21",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go124",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go124",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions Go 1.24 runtime reaches end of life on 2027-03-02",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.24 (runtime ID go124) as deprecated on 2026-09-02 and decommissioned on 2027-03-02. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "go127 or go126",
+      "deadline": "2027-03-02",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.go125",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/go125",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions Go 1.25 runtime reaches end of life on 2027-04-01",
+      "summary": "The Google Cloud Functions runtime support schedule lists Go 1.25 (runtime ID go125) as deprecated on 2026-10-01 and decommissioned on 2027-04-01. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "go127 or go126",
+      "deadline": "2027-04-01",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.java11",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/java11",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Java 11 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Java 11 (runtime ID java11) as deprecated on 2024-10-31 and decommissioned on 2025-10-31. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "java25 or java21",
+      "deadline": "2025-10-31",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs10",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs10",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Node.js 10 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 10 (runtime ID nodejs10) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "nodejs24 or nodejs22",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs12",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs12",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Node.js 12 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 12 (runtime ID nodejs12) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "nodejs24 or nodejs22",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs14",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Node.js 14 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "nodejs24 or nodejs22",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs16",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs16",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Node.js 16 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 16 (runtime ID nodejs16) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "nodejs24 or nodejs22",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.nodejs20",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs20",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions Node.js 20 runtime reaches end of life on 2026-10-30",
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 20 (runtime ID nodejs20) as deprecated on 2026-04-30 and decommissioned on 2026-10-30. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "nodejs24 or nodejs22",
+      "deadline": "2026-10-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.php74",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/php74",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions PHP 7.4 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists PHP 7.4 (runtime ID php74) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "php85 or php84",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.php81",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/php81",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions PHP 8.1 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists PHP 8.1 (runtime ID php81) as deprecated on 2025-12-31 and decommissioned on 2026-06-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "php85 or php84",
+      "deadline": "2026-06-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.php82",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/php82",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions PHP 8.2 runtime reaches end of life on 2027-06-30",
+      "summary": "The Google Cloud Functions runtime support schedule lists PHP 8.2 (runtime ID php82) as deprecated on 2026-12-31 and decommissioned on 2027-06-30. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "php85 or php84",
+      "deadline": "2027-06-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.python310",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/python310",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions Python 3.10 runtime reaches end of life on 2027-04-04",
+      "summary": "The Google Cloud Functions runtime support schedule lists Python 3.10 (runtime ID python310) as deprecated on 2026-10-04 and decommissioned on 2027-04-04. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "python314 or python313",
+      "deadline": "2027-04-04",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.python37",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/python37",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Python 3.7 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Python 3.7 (runtime ID python37) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "python314 or python313",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.python38",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/python38",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Python 3.8 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Python 3.8 (runtime ID python38) as deprecated on 2024-10-14 and decommissioned on 2025-10-14. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "python314 or python313",
+      "deadline": "2025-10-14",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.python39",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/python39",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Python 3.9 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Python 3.9 (runtime ID python39) as deprecated on 2025-10-05 and decommissioned on 2026-04-05. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "python314 or python313",
+      "deadline": "2026-04-05",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.ruby26",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/ruby26",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Ruby 2.6 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Ruby 2.6 (runtime ID ruby26) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "ruby40 or ruby34",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.ruby27",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/ruby27",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Ruby 2.7 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Ruby 2.7 (runtime ID ruby27) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "ruby40 or ruby34",
+      "deadline": "2025-01-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.ruby30",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/ruby30",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Ruby 3.0 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Ruby 3.0 (runtime ID ruby30) as deprecated on 2024-03-31 and decommissioned on 2025-03-31. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "ruby40 or ruby34",
+      "deadline": "2025-03-31",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.ruby32",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/ruby32",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "Google Cloud Functions Ruby 3.2 runtime is end-of-life",
+      "summary": "The Google Cloud Functions runtime support schedule lists Ruby 3.2 (runtime ID ruby32) as deprecated on 2026-03-31 and decommissioned on 2026-09-30. Google no longer provides maintenance for that runtime.",
+      "severity": "high",
+      "replacement": "ruby40 or ruby34",
+      "deadline": "2026-09-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    },
+    {
+      "id": "serverless.google-cloud-functions.ruby33",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/google-cloud-functions-runtime/ruby33",
+      "vers": "vers:semver/*",
+      "event": "scheduled-end-of-life",
+      "title": "Google Cloud Functions Ruby 3.3 runtime reaches end of life on 2027-09-30",
+      "summary": "The Google Cloud Functions runtime support schedule lists Ruby 3.3 (runtime ID ruby33) as deprecated on 2027-03-31 and decommissioned on 2027-09-30. After the decommission date Google no longer provides maintenance for that runtime.",
+      "severity": "low",
+      "replacement": "ruby40 or ruby34",
+      "deadline": "2027-09-30",
+      "sources": [
+        {
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "serverless-2"
+      }
+    }
+  ],
+  "notes": [
+    "Drafted 31 rules on 2026-10-27: 24 end-of-life, 7 scheduled.",
+    "Skipped nodejs26: no decommission date has been scheduled.",
+    "nodejs24 is decommissioned on 2028-10-31, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "nodejs22 is decommissioned on 2027-10-31, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "Skipped nodejs8: decommission cell \"Feb 2021\" is not a calendar date.",
+    "Skipped nodejs6: decommission cell \"Aug 2020\" is not a calendar date.",
+    "python314 is decommissioned on 2031-04-10, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "python313 is decommissioned on 2030-04-10, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "python312 is decommissioned on 2029-04-02, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "Skipped go127: decommission cell \"Feb/March 2028\" is not a calendar date.",
+    "Skipped go126: decommission cell \"Aug/Sept 2027\" is not a calendar date.",
+    "Skipped go111: decommission cell \"Feb 2021\" is not a calendar date.",
+    "Skipped java25: no decommission date has been scheduled.",
+    "Skipped java21: no decommission date has been scheduled.",
+    "Skipped java17: no decommission date has been scheduled.",
+    "ruby40 is decommissioned on 2029-09-30, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "ruby34 is decommissioned on 2028-09-30, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "php85 is decommissioned on 2030-06-30, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "php84 is decommissioned on 2029-06-30, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "php83 is decommissioned on 2028-06-30, which is more than twelve months after 2026-10-27, so no rule was drafted.",
+    "dotnet10 is decommissioned on 2029-05-14, which is more than twelve months after 2026-10-27, so no rule was drafted."
+  ]
+}
