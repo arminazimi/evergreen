@@ -79,7 +79,7 @@
     "dev": "npm run build --silent && node dist/src/cli.js",
     "mcp": "npm run build --silent && node dist/src/mcp-cli.js",
     "test": "npm run build --silent && node tools/run-tests.mjs",
-    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 \"dist/tests/**/*.test.js\"",
+    "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 \"dist/tests/**/*.test.js\"",
     "check": "npm run build && node dist/tools/check-pipeline.js",
     "check:action-bundle": "git diff --exit-code -- dist/action/index.js",
     "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
