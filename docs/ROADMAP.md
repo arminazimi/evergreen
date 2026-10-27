@@ -65,10 +65,10 @@ Each phase is a GitHub milestone. A phase starts when the previous one is comple
 | [Phase 34 — Editor and guard](https://github.com/arminazimi/evergreen/milestone/27) | 2027-04-09 → 2027-04-29 | 6 |
 | [Phase 35 — Coverage: cloud, OS, and runtimes](https://github.com/arminazimi/evergreen/milestone/28) | 2027-04-30 → 2027-05-20 | 12 |
 | [Phase 36 — Interop and standards](https://github.com/arminazimi/evergreen/milestone/29) | 2027-05-21 → 2027-06-10 | 12 |
-| v0.8.0 — Adoption: get Evergreen used | 2026-10-28 → 2026-12-08 | 101 |
-| v0.9.0 — Visibility: stars and contributors | 2026-12-09 → 2027-01-26 | 73 |
+| [v0.8.0 — Adoption: get Evergreen used](https://github.com/arminazimi/evergreen/milestone/34) | 2026-10-28 → 2026-12-08 | 101 |
+| [v0.9.0 — Visibility: stars and contributors](https://github.com/arminazimi/evergreen/milestone/35) | 2026-12-09 → 2027-01-26 | 73 |
 | [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-01-27 → 2027-02-23 | 16 |
-| After v1 — Future | after v1, unscheduled | 7 |
+| [After v1 — Future](https://github.com/arminazimi/evergreen/milestone/36) | after v1, unscheduled | 7 |
 
 ## How work is organized
 
@@ -567,7 +567,7 @@ _2027-05-21 → 2027-06-10 · 11 tasks · [milestone](https://github.com/arminaz
 
 ## v0.8.0 — Adoption: get Evergreen used
 
-_2026-10-28 → 2026-12-08 · 90 tasks · milestone_
+_2026-10-28 → 2026-12-08 · 90 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/34)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -583,19 +583,19 @@ _2026-10-28 → 2026-12-08 · 90 tasks · milestone_
 
 - **[Auto-discoverability for agents and humans](https://github.com/arminazimi/evergreen/issues/75)** — Make Evergreen findable wherever agents and developers look: MCP Registry, llms.txt, agent instruction files, marketplaces. _(18 tasks)_
 - **[Growth and distribution loops](https://github.com/arminazimi/evergreen/issues/83)** — Put Evergreen inside the pipelines and agent workflows people already run, and grow through predictable launch moments instead of one launch at the end. _(30 tasks)_
-- **Clean scores on external quality and security services** — Developers check Socket, OpenSSF, Snyk, and deps.dev before they install a package. Evergreen should look as clean there as it is. _(10 tasks)_
-- **Documentation site on Slipway** — Move GitHub Pages from jekyll-theme-minimal to Slipway, so both projects dogfood each other, without breaking a single published URL. _(10 tasks)_
-- **A short README with reproducible demos** — A visitor understands what Evergreen does in ten seconds and sees it work in a few more. _(9 tasks)_
-- **First run that just works** — A new user goes from `npx` to a useful, explained finding in under two minutes, from the published package, on any supported OS. _(9 tasks)_
-- **Evergreen in agents' daily loop** — Coding agents check a dependency with Evergreen before they add it, in every popular agent host. _(9 tasks)_
-- **Starter kits for common stacks** — A copy-paste setup for the stacks people actually use, each backed by a live example repository with green CI. _(10 tasks)_
-- **Organization-wide rollout** — One person enables Evergreen once and every repository in their organization is covered. _(7 tasks)_
-- **Evergreen in the maintainer's other projects** — Run Evergreen where the maintainer already works, so every finding there is product feedback. _(7 tasks)_
-- **Pilot users and the v0.8.0 release** — Five outside developers try Evergreen on their own repositories, and what they hit is fixed before v0.8.0 ships. _(6 tasks)_
+- **[Clean scores on external quality and security services](https://github.com/arminazimi/evergreen/issues/1212)** — Developers check Socket, OpenSSF, Snyk, and deps.dev before they install a package. Evergreen should look as clean there as it is. _(10 tasks)_
+- **[Documentation site on Slipway](https://github.com/arminazimi/evergreen/issues/1213)** — Move GitHub Pages from jekyll-theme-minimal to Slipway, so both projects dogfood each other, without breaking a single published URL. _(10 tasks)_
+- **[A short README with reproducible demos](https://github.com/arminazimi/evergreen/issues/1214)** — A visitor understands what Evergreen does in ten seconds and sees it work in a few more. _(9 tasks)_
+- **[First run that just works](https://github.com/arminazimi/evergreen/issues/1215)** — A new user goes from `npx` to a useful, explained finding in under two minutes, from the published package, on any supported OS. _(9 tasks)_
+- **[Evergreen in agents' daily loop](https://github.com/arminazimi/evergreen/issues/1216)** — Coding agents check a dependency with Evergreen before they add it, in every popular agent host. _(9 tasks)_
+- **[Starter kits for common stacks](https://github.com/arminazimi/evergreen/issues/1217)** — A copy-paste setup for the stacks people actually use, each backed by a live example repository with green CI. _(10 tasks)_
+- **[Organization-wide rollout](https://github.com/arminazimi/evergreen/issues/1218)** — One person enables Evergreen once and every repository in their organization is covered. _(7 tasks)_
+- **[Evergreen in the maintainer's other projects](https://github.com/arminazimi/evergreen/issues/1219)** — Run Evergreen where the maintainer already works, so every finding there is product feedback. _(7 tasks)_
+- **[Pilot users and the v0.8.0 release](https://github.com/arminazimi/evergreen/issues/1220)** — Five outside developers try Evergreen on their own repositories, and what they hit is fixed before v0.8.0 ships. _(6 tasks)_
 
 ## v0.9.0 — Visibility: stars and contributors
 
-_2026-12-09 → 2027-01-26 · 65 tasks · milestone_
+_2026-12-09 → 2027-01-26 · 65 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/35)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -612,10 +612,10 @@ _2026-12-09 → 2027-01-26 · 65 tasks · milestone_
 - **[Open lifecycle dataset and maintainer-declared lifecycle](https://github.com/arminazimi/evergreen/issues/81)** — Publish Evergreen's evidence as an open dataset and let maintainers declare lifecycle in their own repositories. _(18 tasks)_
 - **[Governance, ownership, and community](https://github.com/arminazimi/evergreen/issues/58)** — Let Evergreen scale beyond one maintainer without weakening evidence standards. _(9 tasks)_
 - **[Launch and adoption](https://github.com/arminazimi/evergreen/issues/85)** — Turn each release into real usage through a strong demo, case studies, and community outreach. _(11 tasks)_
-- **Presence where developers look** — Get Evergreen listed and referenced in the curated places developers browse for tools. _(7 tasks)_
-- **Public growth metrics** — Measure stars, contributors, and repeat use from public signals only, and publish them monthly. _(6 tasks)_
-- **A steady supply of good first issues** — There are always ten or more small, fully specified issues a newcomer can finish in an evening. _(8 tasks)_
-- **Found in search** — People searching "is X end of life" land on Evergreen's rule pages and can check their repository in one command. _(10 tasks)_
+- **[Presence where developers look](https://github.com/arminazimi/evergreen/issues/1221)** — Get Evergreen listed and referenced in the curated places developers browse for tools. _(7 tasks)_
+- **[Public growth metrics](https://github.com/arminazimi/evergreen/issues/1222)** — Measure stars, contributors, and repeat use from public signals only, and publish them monthly. _(6 tasks)_
+- **[A steady supply of good first issues](https://github.com/arminazimi/evergreen/issues/1223)** — There are always ten or more small, fully specified issues a newcomer can finish in an evening. _(8 tasks)_
+- **[Found in search](https://github.com/arminazimi/evergreen/issues/1224)** — People searching "is X end of life" land on Evergreen's rule pages and can check their repository in one command. _(10 tasks)_
 
 ## Phase 37 — Evergreen v1 hardening
 
@@ -636,7 +636,7 @@ _2027-01-27 → 2027-02-23 · 12 tasks · [milestone](https://github.com/arminaz
 
 ## After v1 — Future
 
-_after v1, unscheduled · 0 tasks · milestone_
+_after v1, unscheduled · 0 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/36)_
 
 **When this phase is complete, Evergreen has:**
 
@@ -645,13 +645,13 @@ _after v1, unscheduled · 0 tasks · milestone_
 
 **Epics**
 
-- **Local in-browser playground** — Try Evergreen without installing anything: the scan runs in the browser and nothing is uploaded. _(0 tasks)_
-- **Outputs people share** — Every user can show Evergreen to others. _(0 tasks)_
-- **Less friction, more feedback** — Every time a user gets stuck, the project learns about it and fixes it. _(0 tasks)_
-- **Rule-a-thon contribution event** — A two-week event where contributors add rules and fixtures. _(0 tasks)_
-- **Talks, podcasts, and meetups** — Present Evergreen to real audiences. _(0 tasks)_
-- **Standards and upstream presence** — Credibility through work with established projects. _(0 tasks)_
-- **Multilingual reach** — Reach large non-English developer communities, with native-speaker review. _(0 tasks)_
+- **[Local in-browser playground](https://github.com/arminazimi/evergreen/issues/1225)** — Try Evergreen without installing anything: the scan runs in the browser and nothing is uploaded. _(0 tasks)_
+- **[Outputs people share](https://github.com/arminazimi/evergreen/issues/1226)** — Every user can show Evergreen to others. _(0 tasks)_
+- **[Less friction, more feedback](https://github.com/arminazimi/evergreen/issues/1227)** — Every time a user gets stuck, the project learns about it and fixes it. _(0 tasks)_
+- **[Rule-a-thon contribution event](https://github.com/arminazimi/evergreen/issues/1228)** — A two-week event where contributors add rules and fixtures. _(0 tasks)_
+- **[Talks, podcasts, and meetups](https://github.com/arminazimi/evergreen/issues/1229)** — Present Evergreen to real audiences. _(0 tasks)_
+- **[Standards and upstream presence](https://github.com/arminazimi/evergreen/issues/1230)** — Credibility through work with established projects. _(0 tasks)_
+- **[Multilingual reach](https://github.com/arminazimi/evergreen/issues/1231)** — Reach large non-English developer communities, with native-speaker review. _(0 tasks)_
 
 ## Not in this roadmap
 
