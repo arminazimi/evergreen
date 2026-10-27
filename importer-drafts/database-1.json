@@ -1,0 +1,134 @@
+{
+  "importer": "database-1",
+  "ecosystem": "database",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "database.postgresql.end-of-life-10",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=10.0.0|<11.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 10 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 10 as unsupported: its final release was on 2022-11-10, so it receives no further bug or security fixes.",
+      "severity": "high",
+      "replacement": "PostgreSQL 15 or later",
+      "deadline": "2022-11-10",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-1"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-11",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=11.0.0|<12.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 11 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 11 as unsupported: its final release was on 2023-11-09, so it receives no further bug or security fixes.",
+      "severity": "high",
+      "replacement": "PostgreSQL 15 or later",
+      "deadline": "2023-11-09",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-1"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-12",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=12.0.0|<13.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 12 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on 2024-11-21, so it receives no further bug or security fixes.",
+      "severity": "high",
+      "replacement": "PostgreSQL 15 or later",
+      "deadline": "2024-11-21",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-1"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-13",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=13.0.0|<14.0.0",
+      "event": "end-of-life",
+      "title": "PostgreSQL 13 is no longer a supported major version",
+      "summary": "The PostgreSQL Global Development Group lists 13 as unsupported: its final release was on 2025-11-13, so it receives no further bug or security fixes.",
+      "severity": "high",
+      "replacement": "PostgreSQL 15 or later",
+      "deadline": "2025-11-13",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-1"
+      }
+    },
+    {
+      "id": "database.postgresql.end-of-life-14",
+      "ecosystem": "database",
+      "purl": "pkg:generic/postgresql",
+      "vers": "vers:semver/>=14.0.0|<15.0.0",
+      "event": "scheduled-end-of-life",
+      "title": "PostgreSQL 14 reaches the end of its support on 2026-11-12",
+      "summary": "The PostgreSQL Global Development Group lists 14 as supported until its final release on 2026-11-12, after which it receives no further bug or security fixes.",
+      "severity": "low",
+      "replacement": "PostgreSQL 15 or later",
+      "deadline": "2026-11-12",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-1"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped PostgreSQL 15: still supported until 2027-11-11.",
+    "Skipped PostgreSQL 16: still supported until 2028-11-09.",
+    "Skipped PostgreSQL 17: still supported until 2029-11-08.",
+    "Skipped PostgreSQL 18: still supported until 2030-11-14.",
+    "Majors below 10 use the older two-part numbering and are not drafted."
+  ]
+}
