@@ -121,3 +121,28 @@ Socket scans the published version, so the 0.7.1 release (2026-10-27) is the fir
 | URL strings | Supply chain risk | The package contains the lifecycle data and importer source URLs, and the default signed-data release URL used by `evergreen data update`. Scans use no network; only `data update` and the explicit importer commands do. |
 
 Revisit this table at each release. A new alert, or any CVE or deprecation alert, is a defect to fix before the next release rather than an item to add here.
+
+## Service scores, reviewed 2026-10-27
+
+The package metadata itself has nothing to fix: the repository, homepage, bug tracker, keywords, license, and engines field all resolve the same way on Snyk and deps.dev, so the low-effort items this review looked for were metadata defects and none were found. What each service currently says about `evergreen-deprecation@0.7.1`:
+
+| Service | Score | Top reasons |
+| --- | --- | --- |
+| OpenSSF Scorecard | 3.1 (run of 2026-10-27, published from `main` at 5bc33d0 by [scorecard.yml](../.github/workflows/scorecard.yml)) | The five low checks are the actionable part; the accepted gaps (Branch-Protection, SAST) are documented in [SECURITY.md](SECURITY.md). |
+| deps.dev | no score | The project page for `github.com/arminazimi/evergreen` does not exist yet, so the UI shows no Scorecard or project metrics. The version record itself is complete: 0.7.1 resolves with no OSV advisories, license `Apache-2.0`, and SLSA provenance that verifies against the GitHub source. |
+| npms.io | not indexed | The package does not appear in the index, and there is no metadata defect on our side: the index has not analyzed the modules it holds since the end of 2022 (its entry for `zod` was last analyzed 2022-12-13), so packages published in October 2026 do not get scores. Treat npms.io as unavailable until its crawler resumes. |
+| Snyk Advisor | retired | Every Snyk Advisor URL now redirects to the `security.snyk.io` package page, which publishes no health score. That page reports no direct vulnerabilities in Snyk's database for any of the eleven published versions. |
+
+The Scorecard checks that are lowest and what they would need:
+
+| Check | Score | Why, and what closes it |
+| --- | --- | --- |
+| Pinned-Dependencies | −1 (error) | Scorecard's Dockerfile parser reports the multi-stage Dockerfile as invalid, so the check errors instead of scoring. Tracked in #1375. |
+| Branch-Protection | −1 (error) | The check cannot read admin-only branch-protection rules without a token the workflow does not hold; accepted in [SECURITY.md](SECURITY.md), not a defect. |
+| Maintained | 0 | The repository is newer than 90 days at the time of the run; this lifts itself as the repository ages and no action is needed. |
+| Code-Review | 0 | Approving reviews are deliberately not a merge gate so agent pull requests can merge after green checks; a policy choice, not a defect. |
+| Dependency-Update-Tool | 0 | No Dependabot or Renovate configuration exists. Tracked in #1374. |
+| SAST | 0 | No separate CodeQL analysis runs today; accepted in [SECURITY.md](SECURITY.md). Tracked in #1377. |
+| Signed-Releases | 2 | Only the npm attestations are signed; the last four GitHub release artifacts are not. Tracked in #1376. |
+
+Security-Policy, Token-Permissions, License, Packaging, and CI-Tests all score 10. Revisit this review on the same cadence as the Socket table: at each release. Scan findings never use these services, so none of this affects a scan; it is adoption and trust context only.
