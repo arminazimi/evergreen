@@ -63,6 +63,8 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
 
    The response lists `io.github.arminazimi/evergreen` with the new `version`. The name is owned by the `arminazimi` GitHub account, and `package.json`'s `mcpName` ties the npm package to it.
 
+   Other MCP directories need no step per release (recorded with their status in [MCP.md](MCP.md#where-the-server-is-listed)). Versions sync from the official Registry automatically in the directories that ingest it — the GitHub MCP Registry and the VS Code / Copilot gallery once its onboarding lands, and PulseMCP when its submissions reopen. The Docker MCP Catalog pins a commit in `servers/evergreen/server.yaml` of `docker/mcp-registry`, but only follow that entry when a release contains something a catalog user should see (a new tool, a new detector ecosystem); the npm package is what the pinned commit builds, so old tags keep working.
+
    **Manual fallback.** Keep this until the automation has succeeded on a real release from start to finish. If the `registry` job fails or is unavailable, run it by hand from the tagged commit after `npm view evergreen-deprecation version` shows the new version:
 
    ```bash

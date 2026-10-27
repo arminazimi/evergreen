@@ -243,6 +243,25 @@ To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run 
 
 Each directory says which vendor documentation its format follows and how to confirm it works in your host. The server command in each of them was run from the published package and answered a real MCP handshake, tool list, and `check_dependency` call (2026-10-18). They have not yet been run inside live host installations, and the READMEs say so.
 
+## Where the server is listed
+
+The server is registered as `io.github.arminazimi/evergreen` in the [official MCP Registry](https://registry.modelcontextprotocol.io), which holds only the metadata in `server.json` and points at the npm package. Every directory below was checked on 2026-10-27. The description is the one in `server.json`, and each submission says that scans are local and use no network.
+
+| Directory | Status | Why, and what happened |
+| --- | --- | --- |
+| [Official MCP Registry](https://registry.modelcontextprotocol.io) | [Listed](https://registry.modelcontextprotocol.io/v0/servers?search=evergreen) | Published 2026-10-18; republished per release by step 7 of [RELEASING](RELEASING.md). |
+| [GitHub MCP Registry](https://github.com/mcp) | Not listed, requested | Onboarding of a new server is manual curation; versions sync from the official Registry once onboarded. Onboarding request posted 2026-10-27 in [github/github-mcp-server Discussion #1257](https://github.com/github/github-mcp-server/discussions/1257#discussioncomment-19227895); check with `curl https://github.com/mcp/arminazimi/evergreen` (404 = not onboarded yet), since the registry API's search is unreliable. |
+| VS Code / Copilot MCP gallery | Not listed, same route | The gallery reads the GitHub MCP Registry, so no separate step exists; it lists Evergreen once the onboarding above lands. |
+| [Docker MCP Catalog](https://hub.docker.com/mcp) | Not listed, PR open | Submission is a PR to [docker/mcp-registry](https://github.com/docker/mcp-registry), reviewed by Docker, who then build and host the image in the `mcp` namespace. Submitted 2026-10-27 ([PR #6199](https://github.com/docker/mcp-registry/pull/6199)); `servers/evergreen/server.yaml` pins a commit, so a new release does not change the catalog until the entry is updated by a follow-up PR. |
+| [Smithery](https://smithery.ai) | Not listed, not worth it | Smithery lists servers reachable over HTTP; local stdio servers ship as MCPB bundles instead, and its publishing flow shuts down on 2026-10-31 in favour of a passive directory. Skip. |
+| [Glama](https://glama.ai/mcp/servers) | Not listed, pending | Glama re-indexes public MCP servers continuously, so the entry may appear by itself at [glama.ai/mcp/servers/arminazimi/evergreen](https://glama.ai/mcp/servers/arminazimi/evergreen); claim it once it does (needs a browser sign-in, so it is a maintainer step). A repository without a LICENSE gets a public grade penalty; the Apache-2.0 file is already there. |
+| [PulseMCP](https://www.pulsemcp.com) | Not listed, not eligible | Submissions are paused (announced 2026-09-03). PulseMCP ingests the official Registry's servers automatically once it reopens, so no action until then. |
+| [mcp.so](https://mcp.so) | Not listed | Free listing is through the form at [mcp.so/submit?type=server](https://mcp.so/submit?type=server) and goes through a review; the form needs a browser session, so it is left for a maintainer (or take the paid instant path, which the project does not use). |
+| [Cursor Directory](https://cursor.directory) | Not listed, not worth it | Cursor's directory is now a plugin gallery for the Agent Plugins standard, which wants `plugin.json`/`mcp.json` resources that fit the CLI, not just the stdio server. Skip. |
+| [Cline MCP Marketplace](https://cline.bot/mcp-marketplace) | Not listed | Submission is a GitHub issue on [cline/mcp-marketplace](https://github.com/cline/mcp-marketplace) with a 400×400 logo and the confirmation that Cline can install from this repository's README; needs testing in Cline itself, so it waits for a maintainer with the product installed. |
+
+Submissions are outward-facing and hard to withdraw, so each one stayed conservative: they carry only the `server.json` metadata and README wording, and none of them pastes a token or credential; each directory is authenticated through its own flow.
+
 ## Agent workflow
 
 1. Call `scan_repository` or `list_deprecations` before editing.
@@ -3324,6 +3343,8 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
    ```
 
    The response lists `io.github.arminazimi/evergreen` with the new `version`. The name is owned by the `arminazimi` GitHub account, and `package.json`'s `mcpName` ties the npm package to it.
+
+   Other MCP directories need no step per release (recorded with their status in [MCP.md](MCP.md#where-the-server-is-listed)). Versions sync from the official Registry automatically in the directories that ingest it — the GitHub MCP Registry and the VS Code / Copilot gallery once its onboarding lands, and PulseMCP when its submissions reopen. The Docker MCP Catalog pins a commit in `servers/evergreen/server.yaml` of `docker/mcp-registry`, but only follow that entry when a release contains something a catalog user should see (a new tool, a new detector ecosystem); the npm package is what the pinned commit builds, so old tags keep working.
 
    **Manual fallback.** Keep this until the automation has succeeded on a real release from start to finish. If the `registry` job fails or is unavailable, run it by hand from the tagged commit after `npm view evergreen-deprecation version` shows the new version:
 
