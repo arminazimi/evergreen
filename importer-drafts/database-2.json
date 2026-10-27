@@ -1,0 +1,536 @@
+{
+  "importer": "database-2",
+  "ecosystem": "database",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "database.mongodb.end-of-life-4.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=4.0.0|<4.1.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 4.0 is end-of-life",
+      "summary": "MongoDB Server 4.0 reached end of life on 2022-04-30 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-04-30",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-4.2",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=4.2.0|<4.3.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 4.2 is end-of-life",
+      "summary": "MongoDB Server 4.2 reached end of life on 2023-04-30 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2023-04-30",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-4.4",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=4.4.0|<4.5.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 4.4 is end-of-life",
+      "summary": "MongoDB Server 4.4 reached end of life on 2024-02-29 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-02-29",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-5.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=5.0.0|<5.1.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 5.0 is end-of-life",
+      "summary": "MongoDB Server 5.0 reached end of life on 2024-10-31 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-10-31",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-5.1",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=5.1.0|<5.2.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 5.1 is end-of-life",
+      "summary": "MongoDB Server 5.1 reached end of life on 2022-01-19 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-01-19",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-5.2",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=5.2.0|<5.3.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 5.2 is end-of-life",
+      "summary": "MongoDB Server 5.2 reached end of life on 2022-03-23 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-03-23",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-5.3",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=5.3.0|<5.4.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 5.3 is end-of-life",
+      "summary": "MongoDB Server 5.3 reached end of life on 2022-07-19 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-07-19",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-6.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=6.0.0|<6.1.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 6.0 is end-of-life",
+      "summary": "MongoDB Server 6.0 reached end of life on 2025-07-31 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2025-07-31",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-6.1",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=6.1.0|<6.2.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 6.1 is end-of-life",
+      "summary": "MongoDB Server 6.1 reached end of life on 2023-02-09 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2023-02-09",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-6.2",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=6.2.0|<6.3.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 6.2 is end-of-life",
+      "summary": "MongoDB Server 6.2 reached end of life on 2023-04-24 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2023-04-24",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-6.3",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=6.3.0|<6.4.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 6.3 is end-of-life",
+      "summary": "MongoDB Server 6.3 reached end of life on 2023-08-31 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2023-08-31",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-7.1",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=7.1.0|<7.2.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 7.1 is end-of-life",
+      "summary": "MongoDB Server 7.1 reached end of life on 2024-01-23 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-01-23",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-7.2",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=7.2.0|<7.3.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 7.2 is end-of-life",
+      "summary": "MongoDB Server 7.2 reached end of life on 2024-03-27 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-03-27",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-7.3",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=7.3.0|<7.4.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 7.3 is end-of-life",
+      "summary": "MongoDB Server 7.3 reached end of life on 2024-10-02 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-10-02",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-8.1",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=8.1.0|<8.2.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 8.1 is end-of-life",
+      "summary": "MongoDB Server 8.1 reached end of life on 2025-09-30 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2025-09-30",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.mongodb.end-of-life-8.2",
+      "ecosystem": "database",
+      "purl": "pkg:generic/mongodb",
+      "vers": "vers:semver/>=8.2.0|<8.3.0",
+      "event": "end-of-life",
+      "title": "MongoDB Server 8.2 is end-of-life",
+      "summary": "MongoDB Server 8.2 reached end of life on 2026-07-31 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2026-07-31",
+      "sources": [
+        {
+          "title": "MongoDB Server support policy (vendor)",
+          "url": "https://www.mongodb.com/legal/support-policy"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/mongodb"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.redis.end-of-life-5.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/redis",
+      "vers": "vers:semver/>=5.0.0|<5.1.0",
+      "event": "end-of-life",
+      "title": "Redis 5.0 is end-of-life",
+      "summary": "Redis 5.0 reached end of life on 2022-04-27 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-04-27",
+      "sources": [
+        {
+          "title": "Redis support policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/redis"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.redis.end-of-life-6.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/redis",
+      "vers": "vers:semver/>=6.0.0|<6.1.0",
+      "event": "end-of-life",
+      "title": "Redis 6.0 is end-of-life",
+      "summary": "Redis 6.0 reached end of life on 2022-05-31 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2022-05-31",
+      "sources": [
+        {
+          "title": "Redis support policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/redis"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    },
+    {
+      "id": "database.redis.end-of-life-7.0",
+      "ecosystem": "database",
+      "purl": "pkg:generic/redis",
+      "vers": "vers:semver/>=7.0.0|<7.1.0",
+      "event": "end-of-life",
+      "title": "Redis 7.0 is end-of-life",
+      "summary": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor.",
+      "severity": "high",
+      "deadline": "2024-07-29",
+      "sources": [
+        {
+          "title": "Redis support policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        },
+        {
+          "title": "endoflife.date (index; the vendor page above is the evidence)",
+          "url": "https://endoflife.date/redis"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "database-2"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped mongodb 7.0: its end of life (2027-08-31) is in the future.",
+    "Skipped mongodb 8.0: its end of life (2029-10-31) is in the future.",
+    "Skipped mongodb 8.3: its end of life (2029-10-31) is in the future.",
+    "Skipped mongodb 9.0: its end of life (2031-10-31) is in the future.",
+    "Skipped redis 6.2: its end of life (2027-04-01) is in the future.",
+    "Skipped redis 7.2: its end of life (2029-12-01) is in the future.",
+    "Skipped redis 7.4: its end of life (2029-12-01) is in the future.",
+    "Skipped redis 8.0: its end of life (2026-12-01) is in the future.",
+    "Skipped redis 8.2: its end of life (2030-09-01) is in the future.",
+    "Skipped redis 8.4: no end date.",
+    "Skipped redis 8.6: no end date.",
+    "Skipped redis 8.8: no end date.",
+    "Skipped redis 8.10: no end date.",
+    "Drafted 19 rule(s) for 2 product(s); only the vendor policy link counts as evidence."
+  ]
+}
