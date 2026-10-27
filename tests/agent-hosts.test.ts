@@ -63,6 +63,13 @@ test("every host's instruction file carries the shared dependency-check text", a
   assert.ok((await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared), "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text");
 });
 
+test("the Cursor rule ships with the integration and the example, byte for byte identical", async () => {
+  const integration = await readRepo("integrations/cursor/evergreen.mdc");
+  assert.equal(integration, await read("cursor/.cursor/rules/evergreen.mdc"));
+  assert.match(integration, /^---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n/);
+  assert.ok(integration.includes("`check_dependency`") && integration.includes("npx evergreen-deprecation check <purl>"));
+});
+
 test("the instruction text names only tools and CLI commands that exist", async () => {
   const text = await read("dependency-check.md");
   for (const tool of text.match(/`([a-z_]+)`/g)?.map((name) => name.slice(1, -1)).filter((name) => name.includes("_")) ?? []) {

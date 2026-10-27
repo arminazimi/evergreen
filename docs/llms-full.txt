@@ -631,7 +631,7 @@ Source: https://arminazimi.github.io/evergreen/HOOKS.html
 
 # Hooks
 
-Evergreen ships two kinds of hooks: a Git pre-push hook that scans before you push, and a Claude Code `PreToolUse` hook that checks packages before an agent installs them. Both stay offline and use only the lifecycle rules bundled with Evergreen.
+Evergreen ships a Git pre-push hook that scans before you push, a Claude Code `PreToolUse` hook that checks packages before an agent installs them, and a Cursor project rule that tells the agent to check a dependency before it is added. All of them stay offline and use only the lifecycle rules bundled with Evergreen.
 
 ## Git pre-push
 
@@ -773,6 +773,29 @@ EVERGREEN_SKIP=true         # same
 ```
 
 Only the values `1` and `true` skip the hook (`EVERGREEN_SKIP=0` does not). Or set `"disableAllHooks": true` in `.claude/settings.json` (or pass `--settings '{"disableAllHooks": true}'` for one run) to turn off every Claude Code hook, including this one. To remove the hook permanently, delete its entry from settings and the copied script under `.claude/hooks/`.
+
+## Cursor rules
+
+Cursor reads project rules from `.cursor/rules/`, and a rule with `alwaysApply: true` is included in every chat. Evergreen ships the rule in two places, byte for byte identical, kept in sync by a test in this repository: `integrations/cursor/evergreen.mdc` for the install below, and `examples/agents/cursor/.cursor/rules/evergreen.mdc` in the complete host example verified in Cursor 3.25.9 on macOS (see that README for what the host actually did).
+
+The rule is an instruction, not an enforcement point: nothing blocks an edit the way the Claude Code hook can. The check itself stays offline, whether it goes through MCP or the CLI as below; only a first uncached `npx` run reaches the network to fetch the pinned package.
+
+### Install
+
+1. Copy the rule into the project from a clone of this repository (from a release checkout, take the same file from the tree at that tag):
+
+```bash
+mkdir -p .cursor/rules
+cp integrations/cursor/evergreen.mdc .cursor/rules/
+```
+
+Cursor reads only rules with the `.mdc` extension, so the extension is not optional. `evergreen setup` writes the same text into an existing `.cursor/rules/evergreen.mdc` when it detects a Cursor configuration; it asks before touching a file it did not write.
+
+2. To have the agent call the MCP tool, follow `examples/agents/cursor/README.md` to add the `evergreen` server to `.cursor/mcp.json` and enable it in Cursor. Without MCP the rule says what to run instead: `npx evergreen-deprecation check <purl>`.
+
+### What the rule does
+
+Before Cursor's agent adds a package, runtime, or GitHub Action, or picks one to replace another, it calls `check_dependency` with a Package URL such as `pkg:npm/request@2.88.2` or `pkg:github/actions/checkout@v4`. When the status is `affected`, it prefers the replacement the finding names and cites the evidence links; `version-dependent` means it checks again with the exact version it intends to use, and `no-data` means Evergreen has no rule for that package, not that it is safe. The rule tells the agent not to use Evergreen for security audits or for routine upgrades the project already uses.
 
 ## A digest for your personal projects
 
