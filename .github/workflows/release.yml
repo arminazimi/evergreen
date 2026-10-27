@@ -3,7 +3,8 @@ name: Release
 # Drafts the changelog entries for a release from conventional commits. It only reads the repository and
 # the notes job publishes nothing: a maintainer copies them into CHANGELOG.md (or runs the tool with --write) and
 # follows docs/RELEASING.md for the rest. After a successful npm publish it also builds the standalone binaries
-# (no Node.js needed) and attaches them to the GitHub release with checksums and provenance.
+# (no Node.js needed) and attaches them to the GitHub release with checksums, a GitHub build-provenance
+# attestation, and an SLSA .intoto.jsonl provenance file from the SLSA GitHub generator.
 on:
   workflow_dispatch:
     inputs:
@@ -278,6 +279,8 @@ jobs:
   binary-release:
     # Attaches the binaries to the GitHub release for the tag, with a SHA256SUMS file and a build provenance
     # attestation for each binary (verify with `gh attestation verify <file> --repo arminazimi/evergreen`).
+    # Hashes are also passed to the SLSA generator job below, which attaches an .intoto.jsonl provenance
+    # file to the same release (verify with slsa-verifier).
     needs: binary
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
@@ -286,6 +289,9 @@ jobs:
       contents: write
       id-token: write
       attestations: write
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      hashes: ${{ steps.release.outputs.hashes }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -305,6 +311,8 @@ jobs:
           cd binaries
           chmod +x evergreen-*
           sha256sum evergreen-* > SHA256SUMS
+          # Subjects for the SLSA generator: same digests as SHA256SUMS, base64-encoded on one line.
+          echo "hashes=$(sha256sum evergreen-* | base64 -w0)" >> "$GITHUB_OUTPUT"
           cat SHA256SUMS
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
@@ -321,3 +329,20 @@ jobs:
             gh release create "$TAG" --verify-tag --title "$TAG" --notes "Standalone binaries for $TAG. Release notes follow." $prerelease
           fi
           gh release upload "$TAG" binaries/evergreen-* binaries/SHA256SUMS --clobber
+
+  # SLSA Build L3 provenance for the release binaries. Must be referenced by a vX.Y.Z tag (not a
+  # commit SHA): that is how the generator identifies itself. upload-tag-name is required because
+  # this workflow is triggered by workflow_run, not by pushing the version tag.
+  provenance:
+    needs: binary-release
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
+    with:
+      base64-subjects: ${{ needs.binary-release.outputs.hashes }}
+      upload-assets: true
+      upload-tag-name: ${{ needs.binary-release.outputs.tag }}
+      provenance-name: multiple.intoto.jsonl
