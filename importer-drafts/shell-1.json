@@ -1,0 +1,133 @@
+{
+  "importer": "shell-1",
+  "ecosystem": "shell",
+  "observedAt": "2026-10-27",
+  "rules": [
+    {
+      "id": "shell.powershell.end-of-life-6",
+      "ecosystem": "shell",
+      "purl": "pkg:generic/powershell",
+      "vers": "vers:semver/>=6.0.0|<7.0.0",
+      "event": "end-of-life",
+      "title": "PowerShell 6.x is no longer supported",
+      "summary": "Microsoft's PowerShell support lifecycle lists every PowerShell 6 release as retired; the last reached end of support on 2020-09-04.",
+      "severity": "high",
+      "replacement": "PowerShell 7.6 (LTS) or later",
+      "deadline": "2020-09-04",
+      "sources": [
+        {
+          "title": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "shell-1"
+      }
+    },
+    {
+      "id": "shell.powershell.end-of-life-7.0",
+      "ecosystem": "shell",
+      "purl": "pkg:generic/powershell",
+      "vers": "vers:semver/>=7.0.0|<7.1.0",
+      "event": "end-of-life",
+      "title": "PowerShell 7.0 (LTS) is no longer supported",
+      "summary": "Microsoft's PowerShell support lifecycle lists 7.0 as retired: support ended on 2022-12-03, so it receives no further updates, including security updates.",
+      "severity": "high",
+      "replacement": "PowerShell 7.6 (LTS) or later",
+      "deadline": "2022-12-03",
+      "sources": [
+        {
+          "title": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "shell-1"
+      }
+    },
+    {
+      "id": "shell.powershell.end-of-life-7.1",
+      "ecosystem": "shell",
+      "purl": "pkg:generic/powershell",
+      "vers": "vers:semver/>=7.1.0|<7.2.0",
+      "event": "end-of-life",
+      "title": "PowerShell 7.1 is no longer supported",
+      "summary": "Microsoft's PowerShell support lifecycle lists 7.1 as retired: support ended on 2022-05-08, so it receives no further updates, including security updates.",
+      "severity": "high",
+      "replacement": "PowerShell 7.6 (LTS) or later",
+      "deadline": "2022-05-08",
+      "sources": [
+        {
+          "title": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "shell-1"
+      }
+    },
+    {
+      "id": "shell.powershell.end-of-life-7.2",
+      "ecosystem": "shell",
+      "purl": "pkg:generic/powershell",
+      "vers": "vers:semver/>=7.2.0|<7.3.0",
+      "event": "end-of-life",
+      "title": "PowerShell 7.2 (LTS) is no longer supported",
+      "summary": "Microsoft's PowerShell support lifecycle lists 7.2 as retired: support ended on 2024-11-08, so it receives no further updates, including security updates.",
+      "severity": "high",
+      "replacement": "PowerShell 7.6 (LTS) or later",
+      "deadline": "2024-11-08",
+      "sources": [
+        {
+          "title": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "shell-1"
+      }
+    },
+    {
+      "id": "shell.powershell.end-of-life-7.3",
+      "ecosystem": "shell",
+      "purl": "pkg:generic/powershell",
+      "vers": "vers:semver/>=7.3.0|<7.4.0",
+      "event": "end-of-life",
+      "title": "PowerShell 7.3 is no longer supported",
+      "summary": "Microsoft's PowerShell support lifecycle lists 7.3 as retired: support ended on 2024-05-08, so it receives no further updates, including security updates.",
+      "severity": "high",
+      "replacement": "PowerShell 7.6 (LTS) or later",
+      "deadline": "2024-05-08",
+      "sources": [
+        {
+          "title": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "pending-review",
+        "importer": "shell-1"
+      }
+    }
+  ],
+  "notes": [
+    "Skipped PowerShell 7.4: supported until 2026-11-10.",
+    "Skipped PowerShell 7.5: supported until 2026-11-10.",
+    "Skipped PowerShell 7.6: supported until 2028-11-14.",
+    "Windows PowerShell follows the Windows support lifecycle and is not drafted."
+  ]
+}
