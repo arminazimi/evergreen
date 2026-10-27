@@ -214,7 +214,7 @@ permissions:
 
 steps:
   - uses: actions/checkout@v7
-  - uses: arminazimi/evergreen@v0.7.0
+  - uses: arminazimi/evergreen@v0.7.1
     with:
       baseline: .evergreen-baseline.json
       fail-on-severity: high

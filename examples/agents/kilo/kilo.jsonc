@@ -6,7 +6,7 @@
         "npx",
         "--yes",
         "--package",
-        "evergreen-deprecation@0.7.0",
+        "evergreen-deprecation@0.7.1",
         "evergreen-mcp"
       ],
       "enabled": true

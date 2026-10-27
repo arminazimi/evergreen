@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.7.1 - 2026-10-27
+
+- Attach SLSA build provenance to the standalone release binaries. (#1351)
+- Keep fixture manifests out of the npm tarball so scanners no longer report them as the package's own dependencies. (#1350)
+- Shrink the install by vendoring a trimmed tree-sitter WASM. (#1352)
+
 ## 0.7.0 - 2026-10-27
 
 - Cross-reference end-of-life findings with unfixed OSV advisories: import ids into `registry/osv.json` at build time and list them on matching findings as `advisoryIds`. Scans stay offline. (#1063)

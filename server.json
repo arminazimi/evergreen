@@ -3,7 +3,7 @@
   "name": "io.github.arminazimi/evergreen",
   "title": "Evergreen",
   "description": "Evidence-backed deprecation and end-of-life checks for dependencies, runtimes, and Actions.",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "websiteUrl": "https://arminazimi.github.io/evergreen/",
   "repository": {
     "url": "https://github.com/arminazimi/evergreen",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "evergreen-deprecation",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
