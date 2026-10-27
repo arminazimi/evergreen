@@ -169,7 +169,7 @@ The [`evergreen-deprecation` Skill](skills/evergreen-deprecation/README.md) teac
 Codex and Claude plugin packages are generated from that same Skill and MCP workflow. Their [packaging architecture](docs/PLUGIN_PACKAGING.md) keeps host manifests thin and fails CI when either package drifts from the canonical sources.
 The [cross-host evaluation](docs/PLUGIN_EVALS.md) publishes shared-corpus results, context budgets, permission behavior, and security limitations; the same checks block release regressions in `npm run check`.
 
-Evergreen runs locally and does not upload repository contents.
+Evergreen runs locally and does not upload repository contents. Which commands read the filesystem, read the environment, spawn processes, or use the network is spelled out in the [command and surface access](docs/PRIVACY.md#command-and-surface-access) table (also summarized in [SECURITY.md](SECURITY.md#trust-model)).
 
 ## Development
 
