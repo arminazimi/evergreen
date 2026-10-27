@@ -107,3 +107,17 @@ node dist/src/cli.js renovate-preset .
 - **Package replacements** become rules with `matchDatasources`, `matchPackageNames`, and `replacementName` when the finding's replacement is itself a package name (for example `node-sass` → `sass`). Prose replacements are skipped.
 - **Runtime pins** become `allowedVersions` rules for Node.js (`node-version` / `node`) and Python (`docker` / `python`) so Renovate stays on a supported release line.
 - Validate the printed JSON with Renovate before merging it into config: `npx --yes --package renovate -- renovate-config-validator path/to/preset.json`.
+
+## Socket report for 0.7.1
+
+Socket scans the published version, so the 0.7.1 release (2026-10-27) is the first one whose report reflects the tarball fix from #1350 and the trimmed WASM from #1352. Its score page shows Vulnerability 100, Quality 100, License 100, Maintenance 94, and Supply Chain Security 79. Socket lists no CVE alert and no deprecation alert for the package or its dependencies. Five package alerts remain, and each is expected:
+
+| Alert | Category | Why it is expected |
+|---|---|---|
+| Unpopular package | Quality | Socket scores download counts, and a young package has few. The alert clears as adoption grows. |
+| Debug access | Supply chain risk | The vendored tree-sitter runtime (`src/usage/vendor/tree-sitter/tree-sitter.cjs`) is an Emscripten build that uses dynamic code evaluation to load its WebAssembly. It parses source files and runs nothing from the scanned repository. |
+| Environment variable access | Supply chain risk | The CLI reads proxy settings, `EVERGREEN_DATA_URL`, the state and usage-log locations, `EDITOR`, and `GITHUB_TOKEN` or `GH_TOKEN` for the opt-in commands that need them. A scan reads none of them to decide a finding. |
+| Filesystem access | Supply chain risk | Evergreen's job is reading a repository's manifests, lockfiles, and workflows, and it writes only the files the user asks for, such as a report or `--fix` output. |
+| URL strings | Supply chain risk | The package contains the lifecycle data and importer source URLs, and the default signed-data release URL used by `evergreen data update`. Scans use no network; only `data update` and the explicit importer commands do. |
+
+Revisit this table at each release. A new alert, or any CVE or deprecation alert, is a defect to fix before the next release rather than an item to add here.
