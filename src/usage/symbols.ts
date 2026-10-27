@@ -1,4 +1,4 @@
-import type { Node } from "@vscode/tree-sitter-wasm";
+import type { Node } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceUsage, SymbolUsageMatcher } from "../domain.js";
 

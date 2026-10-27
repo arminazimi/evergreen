@@ -67,10 +67,12 @@
     "skills",
     "!examples/demo",
     "!registry/sources.lock.json",
-    "!schemas/vendor"
+    "!schemas/vendor",
+    "!**/*.map",
+    "!skills/**/evals"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && node -e \"require('fs').cpSync('src/usage/queries','dist/src/usage/queries',{recursive:true})\"",
+    "build": "tsc -p tsconfig.json && node -e \"const fs=require('fs');fs.cpSync('src/usage/queries','dist/src/usage/queries',{recursive:true});fs.cpSync('src/usage/vendor','dist/src/usage/vendor',{recursive:true})\"",
     "build:action": "ncc build src/action.ts -o dist/action --minify --transpile-only",
     "build:plugins": "npm run build --silent && node dist/tools/plugin-packages.js",
     "package:codex-plugin": "npm run build:plugins --silent && node dist/tools/codex-plugin-release.js",
@@ -127,7 +129,6 @@
     "@sigstore/bundle": "^5.0.0",
     "@sigstore/protobuf-specs": "^0.5.2",
     "@sigstore/verify": "^4.1.2",
-    "@vscode/tree-sitter-wasm": "^0.3.1",
     "semver": "^7.8.5",
     "smol-toml": "^1.9.1",
     "yaml": "^2.9.1",

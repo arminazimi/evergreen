@@ -1,15 +1,18 @@
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-import type { Language, Parser, Query, Tree } from "@vscode/tree-sitter-wasm";
+import type { Language, Parser, Query, Tree } from "./vendor/tree-sitter/tree-sitter.js";
 
 import type { SourceLanguage } from "../domain.js";
 
-// Grammars ship inside @vscode/tree-sitter-wasm: prebuilt WebAssembly, no native build, no network.
+// Trimmed runtime + grammars under ./vendor/tree-sitter (from @vscode/tree-sitter-wasm). Offline, no native build.
+// The runtime is `.cjs` so Node treats it as CommonJS inside this `"type": "module"` package.
 const nodeRequire = createRequire(import.meta.url);
+const vendorDirectory = dirname(fileURLToPath(new URL("./vendor/tree-sitter/tree-sitter.cjs", import.meta.url)));
 
-type TreeSitter = typeof import("@vscode/tree-sitter-wasm");
+type TreeSitter = typeof import("./vendor/tree-sitter/tree-sitter.js");
 
 export type TreeSitterGrammar = "javascript" | "typescript" | "tsx" | "python";
 
@@ -25,11 +28,9 @@ const parsers = new Map<TreeSitterGrammar, Parser>();
 
 function loadRuntime(): Promise<{ module: TreeSitter; directory: string }> {
   runtime ??= (async () => {
-    const entry = nodeRequire.resolve("@vscode/tree-sitter-wasm");
-    const directory = dirname(entry);
-    const module = nodeRequire("@vscode/tree-sitter-wasm") as TreeSitter;
-    await module.Parser.init({ locateFile: (file) => join(directory, file) });
-    return { module, directory };
+    const module = nodeRequire(join(vendorDirectory, "tree-sitter.cjs")) as TreeSitter;
+    await module.Parser.init({ locateFile: (file) => join(vendorDirectory, file) });
+    return { module, directory: vendorDirectory };
   })();
   runtime.catch(() => {
     runtime = undefined;
