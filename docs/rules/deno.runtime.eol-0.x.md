@@ -42,7 +42,7 @@ Deno 0.x pre-release versions are obsolete and end-of-life following the release
 
 ## Detected by
 
-No built-in detector reads `deno` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/deno.json).
+The `deno` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

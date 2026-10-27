@@ -38,6 +38,7 @@ const ROW_NAMES = [
   "Android",
   "C and C++",
   "Dart and Flutter",
+  "Deno and Bun",
   "Database runtimes",
   "Elixir and Mix",
   "Scala and sbt",

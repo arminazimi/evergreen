@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.capabilities.v1",
-  "manifestVersion": "1.8.0",
+  "manifestVersion": "1.9.0",
   "product": {
     "name": "Evergreen",
     "package": "evergreen-deprecation",
@@ -18,10 +18,12 @@
   },
   "ecosystems": [
     { "id": "android", "status": "experimental", "maturity": "experimental", "detectorIds": ["android"] },
+    { "id": "bun", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
     { "id": "ci-images", "status": "experimental", "maturity": "experimental", "detectorIds": ["ci-images"] },
     { "id": "container", "status": "experimental", "maturity": "experimental", "detectorIds": ["container"] },
     { "id": "cpp", "status": "experimental", "maturity": "experimental", "detectorIds": ["cpp"] },
     { "id": "dart", "status": "experimental", "maturity": "experimental", "detectorIds": ["dart"] },
+    { "id": "deno", "status": "experimental", "maturity": "experimental", "detectorIds": ["deno"] },
     { "id": "dotnet", "status": "supported", "maturity": "beta", "detectorIds": ["dotnet"] },
     { "id": "elixir", "status": "experimental", "maturity": "experimental", "detectorIds": ["elixir"] },
     { "id": "github-actions", "status": "supported", "maturity": "stable", "detectorIds": ["github-actions"] },
@@ -42,21 +44,21 @@
     { "id": "shell", "status": "experimental", "maturity": "experimental", "detectorIds": ["shell"] }
   ],
   "capabilities": [
-    { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"] },
-    { "id": "deprecation.list", "status": "supported", "version": "1", "description": "List compact lifecycle findings from a fresh local scan.", "ecosystems": ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"] },
-    { "id": "deprecation.explain", "status": "supported", "version": "1", "description": "Explain one evidence-backed finding by its exact identifier.", "ecosystems": ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"] },
-    { "id": "migration.context.create", "status": "supported", "version": "1", "description": "Create a validated migration packet for one finding.", "ecosystems": ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"] },
-    { "id": "migration.verify", "status": "supported", "version": "1", "description": "Re-scan and verify that an observed finding is absent.", "ecosystems": ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"] },
+    { "id": "repository.scan", "status": "supported", "version": "1", "description": "Scan a local repository with all built-in lifecycle detectors.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
+    { "id": "deprecation.list", "status": "supported", "version": "1", "description": "List compact lifecycle findings from a fresh local scan.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
+    { "id": "deprecation.explain", "status": "supported", "version": "1", "description": "Explain one evidence-backed finding by its exact identifier.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
+    { "id": "migration.context.create", "status": "supported", "version": "1", "description": "Create a validated migration packet for one finding.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
+    { "id": "migration.verify", "status": "supported", "version": "1", "description": "Re-scan and verify that an observed finding is absent.", "ecosystems": ["android","bun","ci-images","container","cpp","dart","database","deno","dotnet","elixir","github-actions","go","java","kubernetes","nodejs","npm","php","python","ruby","rust","scala","serverless","shell","swift","terraform"] },
     { "id": "environment.doctor", "status": "supported", "version": "1", "description": "Diagnose local and CI prerequisites without changing configuration.", "ecosystems": [] },
     { "id": "repository.remote-scan", "status": "unsupported", "version": "1", "description": "Upload a repository to a hosted Evergreen scanner.", "ecosystems": [] },
     { "id": "migration.execute", "status": "unsupported", "version": "1", "description": "Execute migration edits or suggested verification commands automatically.", "ecosystems": [] }
   ],
   "surfaces": [
-    { "id": "cli", "kind": "cli", "status": "supported", "version": "0.7.1", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "environment.doctor"] },
-    { "id": "mcp", "kind": "mcp", "status": "supported", "version": "0.7.1", "entryPoints": ["evergreen-mcp"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
-    { "id": "skill", "kind": "skill", "status": "supported", "version": "1", "entryPoints": ["skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
-    { "id": "plugin", "kind": "plugin", "status": "experimental", "version": "0", "entryPoints": ["evergreen-mcp", "skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan", "deprecation.list", "deprecation.explain", "migration.context.create", "migration.verify"] },
-    { "id": "ci.github-actions", "kind": "ci", "status": "supported", "version": "0.7.1", "entryPoints": ["action.yml", "evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] },
-    { "id": "ci.gitlab", "kind": "ci", "status": "experimental", "version": "0.7.1", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan", "environment.doctor"] }
+    { "id": "cli", "kind": "cli", "status": "supported", "version": "0.7.1", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan","deprecation.list","deprecation.explain","migration.context.create","environment.doctor"] },
+    { "id": "mcp", "kind": "mcp", "status": "supported", "version": "0.7.1", "entryPoints": ["evergreen-mcp"], "capabilityIds": ["repository.scan","deprecation.list","deprecation.explain","migration.context.create","migration.verify"] },
+    { "id": "skill", "kind": "skill", "status": "supported", "version": "1", "entryPoints": ["skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan","deprecation.list","deprecation.explain","migration.context.create","migration.verify"] },
+    { "id": "plugin", "kind": "plugin", "status": "experimental", "version": "0", "entryPoints": ["evergreen-mcp","skills/evergreen-deprecation/SKILL.md"], "capabilityIds": ["repository.scan","deprecation.list","deprecation.explain","migration.context.create","migration.verify"] },
+    { "id": "ci.github-actions", "kind": "ci", "status": "supported", "version": "0.7.1", "entryPoints": ["action.yml","evergreen"], "capabilityIds": ["repository.scan","environment.doctor"] },
+    { "id": "ci.gitlab", "kind": "ci", "status": "experimental", "version": "0.7.1", "entryPoints": ["evergreen"], "capabilityIds": ["repository.scan","environment.doctor"] }
   ]
 }

@@ -42,7 +42,7 @@ Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-
 
 ## Detected by
 
-No built-in detector reads `deno` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/deno.json).
+The `deno` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
 ## Data
 

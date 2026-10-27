@@ -66,9 +66,44 @@ const workflowCapabilityIds = [
   "migration.verify",
 ] as const;
 
+/**
+ * Built-in detectors that are not capability-manifest ecosystems.
+ * `cle` reads maintainer CLE documents inside installed packages; it is not a
+ * discoverable ecosystem surface for `evergreen capabilities`.
+ */
+export const MANIFEST_EXCLUDED_DETECTOR_IDS = ["cle"] as const;
+
+const scanEcosystems = [
+  "android",
+  "bun",
+  "ci-images",
+  "container",
+  "cpp",
+  "dart",
+  "database",
+  "deno",
+  "dotnet",
+  "elixir",
+  "github-actions",
+  "go",
+  "java",
+  "kubernetes",
+  "nodejs",
+  "npm",
+  "php",
+  "python",
+  "ruby",
+  "rust",
+  "scala",
+  "serverless",
+  "shell",
+  "swift",
+  "terraform",
+] as const;
+
 const manifest = {
   schemaVersion: "evergreen.capabilities.v1",
-  manifestVersion: "1.8.0",
+  manifestVersion: "1.9.0",
   product: {
     name: "Evergreen",
     package: "evergreen-deprecation",
@@ -86,10 +121,13 @@ const manifest = {
   },
   ecosystems: [
     { id: "android", status: "experimental", maturity: "experimental", detectorIds: ["android"] },
+    // deno and bun share the deno detector, so both take its level.
+    { id: "bun", status: "experimental", maturity: "experimental", detectorIds: ["deno"] },
     { id: "ci-images", status: "experimental", maturity: "experimental", detectorIds: ["ci-images"] },
     { id: "container", status: "experimental", maturity: "experimental", detectorIds: ["container"] },
     { id: "cpp", status: "experimental", maturity: "experimental", detectorIds: ["cpp"] },
     { id: "dart", status: "experimental", maturity: "experimental", detectorIds: ["dart"] },
+    { id: "deno", status: "experimental", maturity: "experimental", detectorIds: ["deno"] },
     { id: "dotnet", status: "supported", maturity: "beta", detectorIds: ["dotnet"] },
     { id: "elixir", status: "experimental", maturity: "experimental", detectorIds: ["elixir"] },
     { id: "github-actions", status: "supported", maturity: "stable", detectorIds: ["github-actions"] },
@@ -116,35 +154,35 @@ const manifest = {
       status: "supported",
       version: "1",
       description: "Scan a local repository with all built-in lifecycle detectors.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"],
+      ecosystems: [...scanEcosystems],
     },
     {
       id: "deprecation.list",
       status: "supported",
       version: "1",
       description: "List compact lifecycle findings from a fresh local scan.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"],
+      ecosystems: [...scanEcosystems],
     },
     {
       id: "deprecation.explain",
       status: "supported",
       version: "1",
       description: "Explain one evidence-backed finding by its exact identifier.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"],
+      ecosystems: [...scanEcosystems],
     },
     {
       id: "migration.context.create",
       status: "supported",
       version: "1",
       description: "Create a validated migration packet for one finding.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"],
+      ecosystems: [...scanEcosystems],
     },
     {
       id: "migration.verify",
       status: "supported",
       version: "1",
       description: "Re-scan and verify that an observed finding is absent.",
-      ecosystems: ["android", "ci-images", "container", "cpp", "dart", "database", "dotnet", "elixir", "github-actions", "go", "java", "kubernetes", "nodejs", "npm", "php", "python", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"],
+      ecosystems: [...scanEcosystems],
     },
     {
       id: "environment.doctor",

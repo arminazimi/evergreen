@@ -7,7 +7,12 @@ import { test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { capabilityManifestSchema, getCapabilityManifest } from "../src/capabilities.js";
+import {
+  MANIFEST_EXCLUDED_DETECTOR_IDS,
+  capabilityManifestSchema,
+  getCapabilityManifest,
+} from "../src/capabilities.js";
+import { builtInDetectors } from "../src/detectors/index.js";
 
 const execute = promisify(execFile);
 const cli = resolve("dist/src/cli.js");
@@ -93,6 +98,27 @@ test("every surface uses shared capability identifiers and unsupported behavior 
   assert.equal(manifest.compatibility.unlistedCapabilities, "unsupported");
   assert.equal(manifest.compatibility.unlistedEcosystems, "unsupported");
   assert.ok(manifest.capabilities.some((capability) => capability.status === "unsupported"));
+});
+
+test("every registered detector is in the capability manifest or explicitly excluded", () => {
+  const manifest = getCapabilityManifest();
+  const listed = new Set(manifest.ecosystems.flatMap((ecosystem) => ecosystem.detectorIds));
+  const excluded = new Set<string>(MANIFEST_EXCLUDED_DETECTOR_IDS);
+  const registered = new Set(builtInDetectors.map((detector) => detector.id));
+
+  for (const detector of builtInDetectors) {
+    assert.ok(
+      listed.has(detector.id) || excluded.has(detector.id),
+      `${detector.id} is registered but neither listed in the capability manifest nor in MANIFEST_EXCLUDED_DETECTOR_IDS`,
+    );
+  }
+  for (const id of excluded) {
+    assert.ok(registered.has(id), `excluded detector ${id} is not registered`);
+    assert.ok(!listed.has(id), `excluded detector ${id} must not appear in the manifest`);
+  }
+  for (const id of listed) {
+    assert.ok(registered.has(id), `manifest names detector ${id}, which is not registered`);
+  }
 });
 
 test("CLI exposes the stable capability manifest as deterministic JSON", async () => {

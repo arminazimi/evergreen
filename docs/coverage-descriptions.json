@@ -82,6 +82,11 @@
       "coverage": "Resolved packages and SDK constraints in `pubspec.lock`, direct dependencies and `environment` constraints in `pubspec.yaml`, and the Flutter version pinned in `.fvmrc` and `.fvm/fvm_config.json`, for Dart SDK releases past end of support and discontinued pub packages. See [Dart and Flutter](detectors/dart.md)."
     },
     {
+      "ecosystems": ["deno", "bun"],
+      "name": "Deno and Bun",
+      "coverage": "Exact runtime pins in `deno.json`, `deno.jsonc`, `bunfig.toml`, and `.bun-version`, for Deno and Bun release lines past end of life. Version ranges, floating aliases, and environment variables are not matched. See [Deno and Bun](detectors/deno.md)."
+    },
+    {
       "ecosystems": ["database"],
       "name": "Database runtimes",
       "coverage": "Image tags of `postgres`, `mysql`, `mariadb`, `redis`, and `mongo` services in Compose files, and literal engine versions on AWS (`engine` and `engine_version`), Azure (`version`), and Google Cloud SQL (`database_version`) managed database resources in `*.tf`, for major and minor lines past end of life or standard support. Bundled rules cover PostgreSQL 11 through 13 and MySQL 5.7 and 8.0, Azure Database for PostgreSQL 11 through 13 and MySQL 5.7, and Cloud SQL for PostgreSQL 9.6 through 13 and MySQL 5.6 and 5.7. Variables in Terraform version attributes are listed as unclassified. See [Database runtimes](detectors/database.md)."

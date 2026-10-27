@@ -476,6 +476,7 @@ Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerat
 | cpp | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
 | dart | Experimental | 8 | 0 | 0 | 1.000 | 1.000 |
 | database | Experimental | 16 | 0 | 0 | 1.000 | 1.000 |
+| deno | Experimental | — | — | — | — | — |
 | dotnet | Beta | 304 | 0 | 0 | 1.000 | 1.000 |
 | elixir | Experimental | — | — | — | — | — |
 | github-actions | Supported | 986 | 0 | 0 | 1.000 | 1.000 |
