@@ -200,6 +200,8 @@ Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruc
 | Cline | `cline_mcp_settings.json` (user settings) | `.clinerules/evergreen.md` |
 | Windsurf | Cascade `mcp_config.json` (user config) | `.windsurf/rules/evergreen.md` |
 
+Aider does not support MCP servers, so its setup in [`integrations/aider/`](https://github.com/arminazimi/evergreen/tree/main/integrations/aider) is a conventions file (`CONVENTIONS.md` loaded through `.aider.conf.yml` or `--read`) that tells the agent to run `npx evergreen-deprecation check <purl>` instead of calling the tool.
+
 To put the same instruction into a repository's `AGENTS.md` or `CLAUDE.md`, run `evergreen init --agents` in it: it adds a delimited section, keeps everything else byte for byte, and is safe to run again (`--dry-run` prints the diff first). `evergreen setup` does the same for every detected host at once (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code), writing each host's own instruction file such as `.cursor/rules/evergreen.mdc` after confirmation or `--yes`; it does not edit MCP server entries, which stay in the per-host setups above.
 
 Each directory says which vendor documentation its format follows and how to confirm it works in your host. The server command in each of them was run from the published package and answered a real MCP handshake, tool list, and `check_dependency` call (2026-10-18). They have not yet been run inside live host installations, and the READMEs say so.

@@ -61,6 +61,7 @@ test("every host's instruction file carries the shared dependency-check text", a
     assert.ok((await read(path)).includes(shared), `${path} must contain the shared instruction text`);
   }
   assert.ok((await readRepo("integrations/cline/.clinerules/evergreen.md")).includes(shared), "integrations/cline/.clinerules/evergreen.md must contain the shared instruction text");
+  assert.ok((await readRepo("integrations/aider/CONVENTIONS.md")).includes(shared), "integrations/aider/CONVENTIONS.md must contain the shared instruction text");
 });
 
 test("the instruction text names only tools and CLI commands that exist", async () => {
@@ -87,4 +88,10 @@ test("each host README links its vendor documentation and is honest about verifi
   assert.match(clineReadme, /has \*\*not\*\* been run inside a live installation of the host/);
   assert.match(clineReadme, /\*\*Checked \(2026-10-18[^)]*\):\*\*.*evergreen-deprecation@0\.3\.0 evergreen-mcp/);
   assert.doesNotMatch(clineReadme, /needs the `evergreen-deprecation` package to be published/);
+  const aiderReadme = await readRepo("integrations/aider/README.md");
+  assert.match(aiderReadme, /Documentation: .*https:\/\//);
+  assert.match(aiderReadme, /has \*\*not\*\* been run inside a live installation of Aider/);
+  assert.match(aiderReadme, /\*\*Checked \(2026-10-27[^)]*\):\*\*.*evergreen-deprecation@0\.7\.1/);
+  assert.match(aiderReadme, /npx evergreen-deprecation check pkg:npm\/request/);
+  assert.doesNotMatch(aiderReadme, /needs the `evergreen-deprecation` package to be published/);
 });
