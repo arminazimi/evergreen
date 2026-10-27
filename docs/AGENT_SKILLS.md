@@ -30,6 +30,8 @@ npx skills update evergreen-deprecation
 
 The npm package also includes the complete `skills/evergreen-deprecation` folder for hosts that prefer a manual copy or link.
 
+To tell the agents working in any other project to check dependencies with Evergreen, copy the snippet in [examples/agents-snippet.md](../examples/agents-snippet.md) into `AGENTS.md`, `CLAUDE.md`, or a similar instruction file.
+
 The host also needs one Evergreen execution path:
 
 - the local `evergreen-mcp` stdio server; or
