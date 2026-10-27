@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { scanRepository } from "../src/engine.js";
+import { mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+import { buildScanCoverage, scanRepository } from "../src/engine.js";
 import { renderJson, renderText } from "../src/reporters.js";
 import { DETECTOR_API_VERSION } from "../src/sdk.js";
 import type { Detector } from "../src/sdk.js";
@@ -89,4 +93,35 @@ test("reports optional detector classifications in JSON and text", async () => {
   assert.equal(json.unclassified.count, 1);
   assert.equal(json.unclassified.references.length, 1);
   assert.match(renderText(result), /Unclassified: 1 pinned reference \(use JSON output for details\)/);
+});
+
+test("coverage names ecosystems and files matched by detector inputs", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-coverage-"));
+  await writeFile(join(root, "package.json"), "{}\n");
+  await writeFile(join(root, "go.mod"), "module example\n\ngo 1.22\n");
+  const npm: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "npm",
+    inputs: { fileNames: ["package.json"] },
+    async scan() {
+      return [];
+    },
+  };
+  const go: Detector = {
+    apiVersion: DETECTOR_API_VERSION,
+    id: "go",
+    inputs: { fileNames: ["go.mod"] },
+    async scan() {
+      return [];
+    },
+  };
+  const coverage = await buildScanCoverage(root, [npm, go], ["Cargo.toml"]);
+  assert.deepEqual(coverage, {
+    ecosystems: ["go", "npm"],
+    filesRead: ["go.mod", "package.json"],
+    unsupportedFiles: ["Cargo.toml"],
+  });
+  const result = await scanRepository(root, [npm, go]);
+  assert.deepEqual(result.coverage?.ecosystems, ["go", "npm"]);
+  assert.match(renderText(result), /Ecosystems detected: go, npm/);
 });

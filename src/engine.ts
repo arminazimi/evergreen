@@ -4,17 +4,112 @@ import { join, resolve } from "node:path";
 
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
-import type { Confidence, ScanResult } from "./domain.js";
+import { declaresInput } from "./detector-inputs.js";
+import type { Confidence, ScanCoverage, ScanResult } from "./domain.js";
 import { advisoryIdsByRuleId } from "./osv-advisories.js";
+import { relativePosix } from "./paths.js";
 import { assertDetectorCompatible } from "./sdk.js";
-import type { Detector, DetectorFinding } from "./sdk.js";
+import type { Detector, DetectorFinding, DetectorInputs } from "./sdk.js";
+
+/** Matches `CLE_FILE_NAME` in cle-ingest without importing that module into the engine. */
+const CLE_COVERAGE_FILE = "cle.json";
 
 /** Lockfiles whose entries are resolved versions rather than declarations. */
 const LOCKFILE_NAME = /(^|[-.])(lock|lockfile)(\.[a-z]+)?$|\.lock$|^(go\.sum|pubspec\.lock|packages\.lock\.json|gemfile\.lock|composer\.lock|cargo\.lock|poetry\.lock|uv\.lock|pipfile\.lock|npm-shrinkwrap\.json)$/i;
 
+/** Cap on how many files the coverage walk opens directory entries for, so a huge tree cannot stall a scan. */
+const COVERAGE_WALK_LIMIT = 20_000;
+
+/** Vendored and build trees the coverage walk does not enter (kept local so the engine stays light). */
+const COVERAGE_SKIPPED_DIRECTORIES = new Set([
+  ".git", ".hg", ".venv", "venv", "node_modules", "vendor", "dist", "build", "target", "coverage",
+  ".mypy_cache", ".pytest_cache", ".ruff_cache", ".tox", "fixtures", "__fixtures__", "testdata",
+]);
+
 /** What a finding is worth when its detector did not say: a lockfile entry is inferred-from-lock, any other read is exact. */
 export function defaultConfidence(finding: DetectorFinding): Confidence {
   return finding.confidence ?? (LOCKFILE_NAME.test(basename(finding.location.path)) ? "inferred-from-lock" : "exact");
+}
+
+/** Repository-relative paths under `root`, skipping vendored trees, capped for large repositories. */
+async function listCoverageFiles(root: string): Promise<string[]> {
+  const files: string[] = [];
+  let visited = 0;
+  const walk = async (directory: string): Promise<void> => {
+    if (visited >= COVERAGE_WALK_LIMIT) return;
+    const entries = await readdir(directory, { withFileTypes: true });
+    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+      if (visited >= COVERAGE_WALK_LIMIT) return;
+      visited += 1;
+      const absolute = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        if (!COVERAGE_SKIPPED_DIRECTORIES.has(entry.name)) await walk(absolute);
+        continue;
+      }
+      if (entry.isFile()) files.push(relativePosix(root, absolute));
+    }
+  };
+  await walk(root);
+  return files;
+}
+
+/**
+ * Inputs used only for empty-scan coverage: skip source-usage extensions (those do not mean the
+ * ecosystem is present), and for CLE only count its own documents (not every package.json).
+ */
+function coverageInputs(detector: Detector): DetectorInputs | undefined {
+  if (!detector.inputs) return undefined;
+  if (detector.id === "cle") return { fileNames: [CLE_COVERAGE_FILE], directories: ["node_modules"] };
+  const { sourceExtensions: _source, ...rest } = detector.inputs;
+  return rest;
+}
+
+function matchedViaFileNameOrDirectory(inputs: DetectorInputs, path: string): boolean {
+  const narrowed: DetectorInputs = {
+    ...(inputs.fileNames ? { fileNames: inputs.fileNames } : {}),
+    ...(inputs.directories ? { directories: inputs.directories } : {}),
+  };
+  return declaresInput(narrowed, path);
+}
+
+/**
+ * Which detectors matched files on disk, which of those files they declare, and which unclassified
+ * paths were seen. Used by the text reporter when a scan finds nothing.
+ */
+export async function buildScanCoverage(
+  root: string,
+  detectors: readonly Detector[],
+  unsupportedFiles: readonly string[],
+): Promise<ScanCoverage> {
+  const withInputs = detectors.flatMap((detector) => {
+    const inputs = coverageInputs(detector);
+    return inputs ? [{ detector, inputs }] : [];
+  });
+  if (withInputs.length === 0) {
+    return { ecosystems: [], filesRead: [], unsupportedFiles: [...unsupportedFiles].sort((left, right) => left.localeCompare(right)) };
+  }
+  const directoryPrefixes = withInputs.flatMap(({ inputs }) =>
+    (inputs.directories ?? []).map((directory) => `${directory.replace(/\/+$/, "")}/`),
+  );
+  const files = await listCoverageFiles(root);
+  const ecosystems: string[] = [];
+  const filesRead = new Set<string>();
+  for (const { detector, inputs } of withInputs) {
+    const matched = files.filter((path) => {
+      if (!declaresInput(inputs, path)) return false;
+      // Extension-only hits under another detector's directory (for example workflow YAML) stay theirs.
+      if (matchedViaFileNameOrDirectory(inputs, path)) return true;
+      return !directoryPrefixes.some((prefix) => path === prefix.slice(0, -1) || path.startsWith(prefix));
+    });
+    if (matched.length === 0) continue;
+    ecosystems.push(detector.id);
+    for (const path of matched) filesRead.add(path);
+  }
+  return {
+    ecosystems: ecosystems.sort((left, right) => left.localeCompare(right)),
+    filesRead: [...filesRead].sort((left, right) => left.localeCompare(right)),
+    unsupportedFiles: [...new Set(unsupportedFiles)].sort((left, right) => left.localeCompare(right)),
+  };
 }
 
 export async function scanRepository(
@@ -67,15 +162,26 @@ export async function scanRepository(
     const advisoryIds = advisories.get(finding.ruleId);
     return advisoryIds?.length ? { ...finding, advisoryIds } : finding;
   });
+  const findingsSorted = withAdvisories.sort((left, right) => left.id.localeCompare(right.id));
+  // Coverage is for the empty-scan help; skip the extra walk when there are already findings to show.
+  const coverage =
+    detectors.length === 0 || findingsSorted.length > 0
+      ? undefined
+      : await buildScanCoverage(
+          resolvedRoot,
+          detectors,
+          references.map((reference) => reference.location.path),
+        );
 
   return {
     schemaVersion: "evergreen.scan.v1",
     root: resolvedRoot,
     scannedAt: scannedAtIso,
-    findings: withAdvisories.sort((left, right) => left.id.localeCompare(right.id)),
+    findings: findingsSorted,
     unclassified: { count: references.length, references },
     diagnostics: detectors.length === 0 ? ["No detectors are enabled."] : dataWarnings,
     ...(data ? { data } : {}),
+    ...(coverage ? { coverage } : {}),
   };
 }
 

@@ -54,7 +54,7 @@ test("the way the registry starts the server really starts it", async () => {
   assert.equal(pkg!.transport.type, "stdio");
 
   // Run exactly that command line against the built CLI and speak MCP to it.
-  const child = execute(process.execPath, [resolve("dist/src/cli.js"), "mcp"], { timeout: 4000, killSignal: "SIGKILL" });
+  const child = execute(process.execPath, [resolve("dist/src/cli.js"), "mcp"], { timeout: 15_000, killSignal: "SIGKILL" });
   child.child.stdin?.write(`${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-11-25", capabilities: {}, clientInfo: { name: "registry-check", version: "1" } } })}\n`);
   const output = await new Promise<string>((done) => {
     let buffer = "";

@@ -1,10 +1,12 @@
 import { createHash } from "node:crypto";
 
 import type { DependencyCheck } from "./check-dependency.js";
-import type { DataInfo, Finding, ScanResult, Severity } from "./domain.js";
+import type { DataInfo, Finding, ScanCoverage, ScanResult, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
 import { VERSION } from "./version.js";
+
+export type { ScanCoverage };
 
 export function renderJson(result: ScanResult): string {
   return JSON.stringify(result, null, 2);
@@ -554,6 +556,47 @@ export function renderCompact(result: ScanResult): string {
 export interface TextOptions {
   /** No Evergreen config exists yet: lead with a short summary and the next command to run. */
   firstRun?: boolean;
+  /**
+   * What a zero-finding scan checked. When omitted, uses `result.coverage`, then unclassified
+   * references on the result (or reports none).
+   */
+  coverage?: ScanCoverage;
+}
+
+function formatCoverageList(values: readonly string[]): string {
+  return values.length === 0 ? "none" : values.join(", ");
+}
+
+/** Ecosystems and paths implied by unclassified pins when the scan result has no coverage block. */
+export function deriveScanCoverage(result: ScanResult): ScanCoverage {
+  const references = result.unclassified?.references ?? [];
+  const ecosystems = [...new Set(references.map((reference) => reference.detector))].sort(compare);
+  const filesRead = [...new Set(references.map((reference) => reference.location.path))].sort(compare);
+  const unsupportedFiles = [...filesRead];
+  return { ecosystems, filesRead, unsupportedFiles };
+}
+
+function resolveCoverage(result: ScanResult, coverage?: ScanCoverage): ScanCoverage {
+  return coverage ?? result.coverage ?? deriveScanCoverage(result);
+}
+
+/**
+ * The empty-scan footer: what was checked, the data version, and what to try next. Printed only in the
+ * text report so machine-readable formats stay focused on findings.
+ */
+export function renderEmptyScanHelp(result: ScanResult, coverage?: ScanCoverage): string[] {
+  const resolved = resolveCoverage(result, coverage);
+  return [
+    "",
+    "No lifecycle risks found.",
+    `Ecosystems detected: ${formatCoverageList(resolved.ecosystems)}`,
+    `Files read: ${formatCoverageList(resolved.filesRead)}`,
+    `Data version: ${result.data?.version ?? "none"}`,
+    `Unsupported files: ${formatCoverageList(resolved.unsupportedFiles)}`,
+    "",
+    "Next: run `evergreen scan --demo` to see what a finding looks like.",
+    "Next: after a scan reports findings, run `evergreen explain <finding-id>` for details.",
+  ];
 }
 
 /** A headline, the top three findings, and the next command, for a user who has not set Evergreen up yet. */
@@ -585,6 +628,10 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
     lines.push(
       `Unclassified: ${unclassified} pinned reference${unclassified === 1 ? "" : "s"} (use JSON output for details)`,
     );
+  }
+
+  if (result.findings.length === 0) {
+    lines.push(...renderEmptyScanHelp(result, options.coverage));
   }
 
   for (const finding of result.findings) {

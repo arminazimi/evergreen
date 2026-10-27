@@ -431,6 +431,42 @@
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "The day the scan was projected onto with --as-of. Present only when one was given."
     },
+    "coverage": {
+      "type": "object",
+      "description": "What the scan checked, so a zero-finding report can say what was covered and what was not.",
+      "required": [
+        "ecosystems",
+        "filesRead",
+        "unsupportedFiles"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ecosystems": {
+          "type": "array",
+          "description": "Detector ids that matched at least one input file in the repository, sorted.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "filesRead": {
+          "type": "array",
+          "description": "Repository-relative paths matched by detector inputs, sorted.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unsupportedFiles": {
+          "type": "array",
+          "description": "Paths of unclassified pins or other unsupported declarations, sorted.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
     "suppressions": {
       "type": "object",
       "description": "What a baseline did to this scan. Present only when a baseline was applied.",

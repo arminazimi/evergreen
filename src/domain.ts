@@ -231,6 +231,16 @@ export interface SuppressionState {
   expired: SuppressionRef[];
 }
 
+/** What a scan checked, so a zero-finding report can say what was covered and what was not. */
+export interface ScanCoverage {
+  /** Detector ids that matched at least one input file in the repository, sorted. */
+  ecosystems: string[];
+  /** Repository-relative paths matched by detector inputs, sorted. */
+  filesRead: string[];
+  /** Paths of unclassified pins or other unsupported declarations, sorted. */
+  unsupportedFiles: string[];
+}
+
 export interface ScanResult {
   schemaVersion: "evergreen.scan.v1";
   root: string;
@@ -242,6 +252,8 @@ export interface ScanResult {
   suppressions?: SuppressionState;
   /** The day the scan was projected onto with `--as-of`. Present only when one was given. */
   asOf?: string;
+  /** Present when the engine recorded what the scan checked. */
+  coverage?: ScanCoverage;
 }
 
 /** The most points each input of a risk score can add; they sum to 100. */
