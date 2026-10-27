@@ -8,7 +8,7 @@ import { resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
 import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
-import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, writeBaseline } from "./baseline.js";
+import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, readBaselines, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
@@ -53,7 +53,7 @@ const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
   evergreen scan [path] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]
-  evergreen scan [path] --baseline <file> [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
+  evergreen scan [path] --baseline <file> [--baseline <file>...] [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
   evergreen scan [path] --min-support-days <n>   # warn on lines whose support ends within n days
   evergreen scan [path] --write-status
@@ -486,6 +486,16 @@ async function main(args: string[]): Promise<number> {
     const index = args.indexOf(name);
     return index === -1 ? undefined : args[index + 1];
   };
+  const optionValues = (name: string): string[] => {
+    const values: string[] = [];
+    for (let index = 0; index < args.length; index += 1) {
+      if (args[index] === name && args[index + 1] !== undefined) {
+        values.push(args[index + 1]!);
+        index += 1;
+      }
+    }
+    return values;
+  };
   if (command === "check") {
     const purl = positional[0];
     if (!purl) {
@@ -642,8 +652,8 @@ async function main(args: string[]): Promise<number> {
     return 0;
   }
   let baselineExpiredFailure = false;
-  const baselinePath = optionValue("--baseline");
-  if (baselinePath) {
+  const baselinePaths = optionValues("--baseline");
+  if (baselinePaths.length > 0) {
     const today = asOfValue ?? new Date().toISOString().slice(0, 10);
     const warnValue = optionValue("--baseline-warn-days");
     const warnWithinDays = warnValue === undefined ? DEFAULT_WARN_DAYS : Number(warnValue);
@@ -651,9 +661,9 @@ async function main(args: string[]): Promise<number> {
     if (!isIsoDate(today) || !Number.isInteger(warnWithinDays) || warnWithinDays < 0 || warnWithinDays > 365 || !expiredPolicies.includes(onExpired)) {
       return fail("usage", `--today must be a date (YYYY-MM-DD), --baseline-warn-days a whole number from 0 to 365, and --on-expired one of ${expiredPolicies.join(", ")}.`);
     }
-    let baseline: Awaited<ReturnType<typeof readBaseline>>;
+    let baseline: Awaited<ReturnType<typeof readBaselines>>;
     try {
-      baseline = await readBaseline(resolve(baselinePath));
+      baseline = await readBaselines(baselinePaths.map((path) => resolve(path)));
     } catch (error) {
       return fail("parse", error instanceof Error ? error.message : String(error));
     }

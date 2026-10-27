@@ -142,6 +142,27 @@ export async function readBaseline(path: string): Promise<Baseline> {
   return baseline;
 }
 
+/**
+ * Combines several baselines into one for suppression. Findings are concatenated; history is left out because it
+ * tracks debt for a single written file, not a union of shared and per-repository acceptances.
+ */
+export function mergeBaselines(baselines: readonly Baseline[]): Baseline {
+  if (baselines.length === 0) throw new Error("At least one baseline is required.");
+  if (baselines.length === 1) return baselines[0]!;
+  const createdAt = [...baselines].map((baseline) => baseline.createdAt).sort()[0]!;
+  return {
+    schemaVersion: "evergreen.baseline.v1",
+    createdAt,
+    findings: baselines.flatMap((baseline) => baseline.findings),
+  };
+}
+
+/** Reads every path and merges the baselines so a shared org file and a local one suppress together. */
+export async function readBaselines(paths: readonly string[]): Promise<Baseline> {
+  if (paths.length === 0) throw new Error("At least one baseline path is required.");
+  return mergeBaselines(await Promise.all(paths.map((path) => readBaseline(path))));
+}
+
 export const DEFAULT_WARN_DAYS = 14;
 
 export interface ApplyBaselineOptions {

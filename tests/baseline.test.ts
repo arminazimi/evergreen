@@ -6,7 +6,7 @@ import { test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { applyBaseline, createBaseline, findingFingerprint, readBaseline, suppressionIssues } from "../src/baseline.js";
+import { applyBaseline, createBaseline, findingFingerprint, mergeBaselines, readBaseline, readBaselines, suppressionIssues } from "../src/baseline.js";
 import type { Finding, ScanResult } from "../src/domain.js";
 
 const finding: Finding = {
@@ -79,6 +79,40 @@ test("a baseline suppresses matching findings and reports the count", () => {
 
   assert.deepEqual(filtered.findings, []);
   assert.deepEqual(filtered.diagnostics, ["Suppressed 1 finding from the baseline."]);
+});
+
+test("mergeBaselines concatenates findings so a shared baseline and a local one suppress together", () => {
+  const other: Finding = { ...finding, id: "example:file:2", ruleId: "other", summary: "Another finding", location: { path: "other.json", line: 1 } };
+  const scan: ScanResult = { ...result, findings: [finding, other] };
+  const shared = createBaseline({ ...result, findings: [finding] });
+  const local = createBaseline({ ...result, findings: [other] });
+  const merged = mergeBaselines([shared, local]);
+  assert.equal(merged.findings.length, 2);
+  assert.equal("history" in merged, false);
+  const filtered = applyBaseline(scan, merged);
+  assert.deepEqual(filtered.findings, []);
+  assert.deepEqual(filtered.diagnostics, ["Suppressed 2 findings from the baseline."]);
+  assert.equal(applyBaseline(scan, shared).findings.map((entry) => entry.ruleId).join(), "other");
+  assert.equal(applyBaseline(scan, local).findings.map((entry) => entry.ruleId).join(), "example");
+  assert.equal(mergeBaselines([shared]), shared);
+  assert.throws(() => mergeBaselines([]), /At least one baseline/);
+});
+
+test("readBaselines loads several files and suppresses with their union", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-baselines-"));
+  try {
+    const other: Finding = { ...finding, id: "example:file:2", ruleId: "other", summary: "Another finding", location: { path: "other.json", line: 1 } };
+    const scan: ScanResult = { ...result, findings: [finding, other] };
+    const sharedPath = join(directory, "shared.json");
+    const localPath = join(directory, "local.json");
+    await writeFile(sharedPath, JSON.stringify(createBaseline({ ...result, findings: [finding] })));
+    await writeFile(localPath, JSON.stringify(createBaseline({ ...result, findings: [other] })));
+    const merged = await readBaselines([sharedPath, localPath]);
+    assert.equal(applyBaseline(scan, merged).findings.length, 0);
+    assert.equal(applyBaseline(scan, await readBaseline(sharedPath)).findings.length, 1);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 
@@ -171,6 +205,31 @@ test("the CLI scans with a 0.1.0 baseline and reports only what the baseline doe
   const output = JSON.parse(stdout) as { findings: Array<{ ruleId: string }>; diagnostics: string[] };
   assert.deepEqual(output.findings.map((finding) => finding.ruleId), ["nodejs.runtime.eol-19"]);
   assert.ok(output.diagnostics.includes("Suppressed 3 findings from the baseline."));
+});
+
+test("the CLI accepts several --baseline files so a shared and a local baseline combine", async () => {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const { builtInDetectors } = await import("../src/detectors/index.js");
+  const { scanRepository } = await import("../src/engine.js");
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-multi-baseline-"));
+  try {
+    const scan = await scanRepository(smoke, builtInDetectors);
+    assert.ok(scan.findings.length >= 2, "smoke fixture needs at least two findings");
+    const sharedPath = join(directory, "shared.json");
+    const localPath = join(directory, "local.json");
+    await writeFile(sharedPath, JSON.stringify(createBaseline({ ...scan, findings: [scan.findings[0]!] })));
+    await writeFile(localPath, JSON.stringify(createBaseline({ ...scan, findings: scan.findings.slice(1) })));
+    const run = (...baselines: string[]) =>
+      promisify(execFile)(process.execPath, [resolve("dist/src/cli.js"), "scan", smoke, ...baselines.flatMap((path) => ["--baseline", path]), "--json"]);
+    const both = JSON.parse((await run(sharedPath, localPath)).stdout) as { findings: unknown[]; diagnostics: string[] };
+    assert.deepEqual(both.findings, []);
+    assert.ok(both.diagnostics.includes(`Suppressed ${scan.findings.length} findings from the baseline.`));
+    const sharedOnly = JSON.parse((await run(sharedPath)).stdout) as { findings: unknown[] };
+    assert.equal(sharedOnly.findings.length, scan.findings.length - 1);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });
 
 import { DEFAULT_WARN_DAYS, daysBetween, expiringSuppressions } from "../src/baseline.js";
