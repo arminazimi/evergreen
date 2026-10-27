@@ -1,0 +1,98 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "example",
+  "documentNamespace": "https://example.com/evergreen/spdx/example",
+  "creationInfo": {
+    "created": "2026-10-27T00:00:00Z",
+    "creators": ["Tool: evergreen-tests"]
+  },
+  "packages": [
+    {
+      "name": "request",
+      "SPDXID": "SPDXRef-request",
+      "versionInfo": "2.88.2",
+      "downloadLocation": "https://registry.npmjs.org/request/-/request-2.88.2.tgz",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/request"
+        }
+      ]
+    },
+    {
+      "name": "django-nose",
+      "SPDXID": "SPDXRef-django-nose",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:pypi/Django_Nose@1.4.7"
+        }
+      ]
+    },
+    {
+      "name": "express",
+      "SPDXID": "SPDXRef-express",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/express@4.0.0"
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "SPDXID": "SPDXRef-checkout",
+      "versionInfo": "v4",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/actions/checkout@v5"
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "SPDXID": "SPDXRef-checkout-unversioned",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:github/actions/checkout"
+        }
+      ]
+    },
+    {
+      "name": "unrelated",
+      "SPDXID": "SPDXRef-unrelated",
+      "externalRefs": [
+        {
+          "referenceCategory": "SECURITY",
+          "referenceType": "cpe23Type",
+          "referenceLocator": "cpe:2.3:a:example:example:1.0.0:*:*:*:*:*:*:*"
+        },
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/express@4.0.0"
+        }
+      ]
+    },
+    {
+      "name": "infra",
+      "SPDXID": "SPDXRef-infra"
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-infra"
+    }
+  ]
+}
