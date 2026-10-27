@@ -1,0 +1,55 @@
+name: Scorecard
+
+# Weekly OpenSSF Scorecard run. Publishes results to the Scorecard API and uploads
+# SARIF to code scanning. Uses the official workflow shape with SHA-pinned actions.
+# See SECURITY.md for checks that are intentionally not raised to 10.
+on:
+  branch_protection_rule:
+  schedule:
+    # Weekly on Saturdays (Scorecard Maintained check).
+    - cron: "27 4 * * 6"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      # Checkout the repository.
+      contents: read
+      # Upload results to the code-scanning dashboard.
+      security-events: write
+      # Publish results and enable the Scorecard badge (OIDC).
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run analysis
+        uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          # Public repositories: publish to the OpenSSF API for consumers and the badge.
+          # Branch-Protection details that need admin scope stay partial without a PAT;
+          # see SECURITY.md.
+          publish_results: true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: SARIF file
+          path: results.sarif
+          retention-days: 5
+
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
+        with:
+          sarif_file: results.sarif
