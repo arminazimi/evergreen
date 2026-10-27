@@ -19,7 +19,7 @@ test("docs/DATA.md quotes the signer policy the verifier enforces", () => {
 });
 
 test("docs/DATA.md documents the real commands, options, variables, and thresholds", async () => {
-  const cli = await read("src/cli.ts");
+  const cli = await read("src/cli-main.ts");
   for (const text of ["data status", "data update", "--data-version"]) {
     assert.ok(docs.includes(text), `docs mention ${text}`);
     assert.ok(cli.includes(text.replace("data ", "")) || cli.includes(text), `the CLI implements ${text}`);

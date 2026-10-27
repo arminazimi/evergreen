@@ -46,7 +46,7 @@ test("the README links resolve and its commands exist", async () => {
   for (const link of new Set([...readme.matchAll(/\]\((?!https?:|#)([^)#\s]+)(?:#[^)]*)?\)/g)].map((match) => match[1]!))) await access(resolve(link));
   assert.ok(manifest.bin["evergreen-deprecation"], "every `npx evergreen-deprecation …` command in the README needs a bin of that name");
   const commands = [...readme.matchAll(/npx evergreen-deprecation ([a-z-]+)/g)].map((match) => match[1]!);
-  const cli = await read("src/cli.ts");
+  const cli = await read("src/cli-main.ts");
   for (const command of new Set(commands)) assert.ok(cli.includes(`"${command}"`), `the README uses \`${command}\`, which the CLI does not implement`);
   assert.ok(readme.includes("https://arminazimi.github.io/evergreen/llms.txt"));
 });

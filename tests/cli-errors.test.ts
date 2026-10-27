@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -50,6 +50,13 @@ test("unsupported Node.js versions get a cause and a next step", () => {
   assert.match(message.nextStep, /nodejs\.org/);
   assert.equal(unsupportedNodeVersion("22.0.0"), undefined);
   assert.equal(unsupportedNodeVersion(`${REQUIRED_NODE_MAJOR}.1.0`), undefined);
+});
+
+test("the entry checks the Node version before loading any other project module", async () => {
+  const source = await readFile(resolve("dist/src/cli.js"), "utf8");
+  const projectImports = [...source.matchAll(/from "\.\/([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(projectImports, ["errors.js"]);
+  assert.match(source, /await import\("\.\/cli-main\.js"\)/);
 });
 
 test("unreadable paths get a cause and a next step", async () => {
