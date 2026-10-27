@@ -52,6 +52,31 @@ test("the publish workflow uses trusted publishing with least privilege and guar
   await access(resolve(".github/workflows/publish.yml"));
 });
 
+test("the registry job publishes server.json with a pinned, checksum-verified mcp-publisher", async () => {
+  const { parse } = await import("yaml");
+  const text = await read(".github/workflows/publish.yml");
+  const workflow = parse(text) as {
+    jobs: { registry?: { needs?: string | string[]; if?: string; permissions: Record<string, string>; steps: Array<{ uses?: string; run?: string }> } };
+  };
+  const job = workflow.jobs.registry;
+  assert.ok(job, "publish.yml needs a registry job");
+  // It only runs after smoke, never for pre-release tags, and can only read code and mint the OIDC token.
+  assert.ok([job.needs ?? []].flat().includes("smoke"), "the registry job waits for smoke");
+  assert.match(job.if ?? "", /!contains\(github\.ref_name, '-'\)/, "pre-release tags must not move the registry entry");
+  assert.deepEqual(job.permissions, { contents: "read", "id-token": "write" });
+  const run = job.steps.map((step) => step.run ?? "").join("\n");
+  assert.doesNotMatch(text, /secrets\./, "no stored secret");
+  assert.doesNotMatch(run, /latest/, "the binary is never fetched as 'latest'");
+  // The binary is pinned to an exact release and verified against the release's checksums before it runs.
+  assert.match(run, /releases\/download\/v1\.8\.6\/mcp-publisher_linux_amd64\.tar\.gz/);
+  assert.match(run, /sha256sum --check -/);
+  assert.match(run, /echo "[a-f0-9]{64} {2}mcp-publisher\.tar\.gz" \| sha256sum --check -/, "pinned to the exact SHA-256 of the tarball");
+  // It refuses a tag that disagrees with server.json, then publishes through the OIDC login.
+  assert.match(run, /GITHUB_REF_NAME/);
+  assert.match(run, /mcp-publisher login github-oidc/);
+  assert.match(run, /mcp-publisher publish/);
+});
+
 test("the release steps include publishing to the MCP Registry, after npm", async () => {
   const docs = await read("docs/RELEASING.md");
   const npmStep = docs.indexOf("**Publish to npm.**");
