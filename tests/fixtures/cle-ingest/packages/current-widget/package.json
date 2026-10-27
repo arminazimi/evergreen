@@ -1,0 +1,5 @@
+{
+  "name": "current-widget",
+  "version": "3.0.0",
+  "description": "Fixture package whose CLE does not apply to the installed version."
+}

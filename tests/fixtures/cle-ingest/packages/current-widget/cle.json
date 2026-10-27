@@ -1,0 +1,27 @@
+{
+  "$schema": "https://tc54.org/schemas/cle/cle-1.0.0.schema.json",
+  "identifier": "pkg:npm/current-widget",
+  "updatedAt": "2024-06-01T00:00:00Z",
+  "definitions": {
+    "support": [
+      {
+        "id": "standard",
+        "description": "Support for the retired 1.x line."
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": 1,
+      "type": "endOfSupport",
+      "effective": "2023-01-01T00:00:00Z",
+      "published": "2022-06-01T00:00:00Z",
+      "versions": [
+        {
+          "range": "vers:npm/<2.0.0"
+        }
+      ],
+      "supportId": "standard"
+    }
+  ]
+}

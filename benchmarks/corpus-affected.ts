@@ -35,6 +35,7 @@ export const CORPUS_ECOSYSTEMS = [
 export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   android: ["android"],
   "ci-images": ["ci-images"],
+  cle: [],
   container: ["container"],
   cpp: ["cpp"],
   dart: ["dart"],

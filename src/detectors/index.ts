@@ -1,3 +1,4 @@
+import { cleDetector } from "../cle-ingest.js";
 import type { Detector } from "../sdk.js";
 import { androidDetector } from "./android/index.js";
 import { ciImagesDetector } from "./ci-images/index.js";
@@ -24,6 +25,7 @@ import { swiftDetector } from "./swift/index.js";
 import { terraformDetector } from "./terraform/index.js";
 
 export const builtInDetectors: readonly Detector[] = [
+  cleDetector,
   githubActionsDetector,
   npmDetector,
   phpDetector,

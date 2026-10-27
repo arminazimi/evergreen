@@ -20,6 +20,7 @@ hosted service.
 - [Environment doctor and compatibility matrix](COMPATIBILITY.md)
 - [Capability manifest and auto-discovery contract](CAPABILITIES.md)
 - [Lifecycle rules](RULES.md)
+- [Maintainer CLE declarations](MAINTAINERS.md)
 - [Lifecycle importers](IMPORTERS.md)
 - [Migration packets](MIGRATION_PACKETS.md)
 - [Local MCP server](MCP.md)

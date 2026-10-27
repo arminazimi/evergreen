@@ -1,0 +1,37 @@
+{
+  "$schema": "https://tc54.org/schemas/cle/cle-1.0.0.schema.json",
+  "identifier": "pkg:npm/legacy-widget",
+  "updatedAt": "2024-06-01T00:00:00Z",
+  "definitions": {
+    "support": [
+      {
+        "id": "standard",
+        "description": "Standard support for the 1.x line until end of life."
+      }
+    ]
+  },
+  "events": [
+    {
+      "id": 2,
+      "type": "endOfLife",
+      "effective": "2024-01-01T00:00:00Z",
+      "published": "2023-06-01T00:00:00Z",
+      "versions": [
+        {
+          "range": "vers:npm/<2.0.0"
+        }
+      ],
+      "description": "The 1.x line is end of life; migrate to 2.x.",
+      "references": [
+        "https://example.com/legacy-widget/eol"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "released",
+      "effective": "2020-01-01T00:00:00Z",
+      "published": "2020-01-01T00:00:00Z",
+      "version": "1.0.0"
+    }
+  ]
+}
