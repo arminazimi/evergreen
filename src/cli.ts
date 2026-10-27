@@ -46,6 +46,16 @@ import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
 import { exportActiveCle } from "./export/cle.js";
+import {
+  invalidConfig,
+  isOfflineDataUpdateFailure,
+  offlineDataUpdate,
+  renderActionable,
+  unexpectedFailure,
+  unreadablePath,
+  unsupportedNodeVersion,
+  type ActionableMessage,
+} from "./errors.js";
 import { CycloneDxError, enrichCycloneDxFile } from "./sbom/cyclonedx.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 
@@ -90,6 +100,7 @@ Usage:
   evergreen report-issue <finding-id> [path] [--output <file>]
   evergreen capabilities [--json]
   evergreen completions <bash|zsh|fish>   # print a shell completion script
+  evergreen --debug …   # on unexpected failures, print the stack trace
   evergreen --help
   evergreen --version
 
@@ -103,6 +114,7 @@ const EXIT_CODES = { policy: 1, usage: 2, data: 3, parse: 4, internal: 5 } as co
 type FailureClass = keyof typeof EXIT_CODES;
 
 let jsonErrors = false;
+let debugErrors = false;
 
 /**
  * Reports a failure and returns its exit code. The message always goes to stderr; with `--json` it is also written to
@@ -116,6 +128,12 @@ function fail(kind: FailureClass, message: string, appendix = ""): number {
     process.stdout.write(`${JSON.stringify(document, null, 2)}\n`);
   }
   return EXIT_CODES[kind];
+}
+
+/** Reports an actionable failure: one-line cause (and JSON message) plus a stderr-only next step. */
+function failActionable(kind: FailureClass, actionable: ActionableMessage): number {
+  const { message, appendix } = renderActionable(actionable);
+  return fail(kind, message, appendix);
 }
 
 /**
@@ -136,11 +154,11 @@ function relaunchWithEnvironmentProxy(): number | undefined {
 }
 
 /** Returns why `path` cannot be scanned as a repository root, or undefined when it is an existing directory. */
-async function repositoryRootProblem(path: string): Promise<string | undefined> {
+async function repositoryRootProblem(path: string): Promise<ActionableMessage | undefined> {
   try {
-    return (await stat(path)).isDirectory() ? undefined : `Not a directory: ${path}`;
-  } catch {
-    return `Path does not exist: ${path}`;
+    return (await stat(path)).isDirectory() ? undefined : unreadablePath(path, "not-directory");
+  } catch (error) {
+    return unreadablePath(path, (error as NodeJS.ErrnoException).code === "ENOENT" ? "missing" : "unreadable");
   }
 }
 
@@ -345,9 +363,13 @@ async function watch(args: string[], json: boolean): Promise<number> {
   }
 }
 
-async function main(args: string[]): Promise<number> {
+async function main(rawArgs: string[]): Promise<number> {
+  debugErrors = rawArgs.includes("--debug");
+  const args = rawArgs.filter((argument) => argument !== "--debug");
   const formatValue = args[args.indexOf("--format") + 1];
   jsonErrors = args.includes("--json") || (args.includes("--format") && formatValue === "json");
+  const nodeProblem = unsupportedNodeVersion();
+  if (nodeProblem) return failActionable("usage", nodeProblem);
   if (args.includes("--help") || args.includes("-h") || args.length === 0) {
     process.stdout.write(HELP);
     return 0;
@@ -460,7 +482,11 @@ async function main(args: string[]): Promise<number> {
         process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDataUpdateText(result)}\n`);
         return 0;
       } catch (error) {
-        if (error instanceof DataUpdateError) return fail("data", error.message);
+        if (error instanceof DataUpdateError) {
+          return isOfflineDataUpdateFailure(error.message)
+            ? failActionable("data", offlineDataUpdate(error.message))
+            : fail("data", error.message);
+        }
         throw error;
       }
     }
@@ -579,9 +605,7 @@ async function main(args: string[]): Promise<number> {
     return 0;
   }
   const rootProblem = await repositoryRootProblem(pathArgument);
-  if (rootProblem) {
-    return fail("usage", rootProblem);
-  }
+  if (rootProblem) return failActionable("usage", rootProblem);
   const scanGate = optionValue("--fail-on") ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
     return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
@@ -655,7 +679,8 @@ async function main(args: string[]): Promise<number> {
     try {
       baseline = await readBaseline(resolve(baselinePath));
     } catch (error) {
-      return fail("parse", error instanceof Error ? error.message : String(error));
+      const detail = error instanceof Error ? error.message : String(error);
+      return failActionable("parse", invalidConfig(detail));
     }
     const evaluated = evaluateBaseline(result, baseline, { today, warnWithinDays, onExpired });
     result = evaluated.result;
@@ -721,5 +746,6 @@ async function main(args: string[]): Promise<number> {
 try {
   process.exitCode = await main(process.argv.slice(2));
 } catch (error) {
-  process.exitCode = fail("internal", `Evergreen failed unexpectedly: ${error instanceof Error ? error.message : String(error)}`);
+  const { message, appendix } = unexpectedFailure(error, debugErrors || process.argv.includes("--debug"));
+  process.exitCode = fail("internal", message, appendix);
 }
