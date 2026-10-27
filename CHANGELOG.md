@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.7.0 - 2026-10-27
+
 - Cross-reference end-of-life findings with unfixed OSV advisories: import ids into `registry/osv.json` at build time and list them on matching findings as `advisoryIds`. Scans stay offline. (#1063)
 - Judge committed `helm template` output as multi-document Kubernetes manifests, so APIs a Capabilities-guarded chart template hid become findings once rendered. Helm is never run. (#1060)
 - Add an experimental Scala and sbt detector for Scala pins in `.scala-version` and `build.sbt`, and for `sbt.version` in `project/build.properties`. (#1054)
@@ -10,6 +12,23 @@
 - Judge managed Kubernetes control-plane versions in Terraform for Amazon EKS, Google Kubernetes Engine, and Azure Kubernetes Service, taking a module's vendor from its `source`. A variable or module reference is listed as unclassified. (#1050)
 - Add `--format slack`, `--format teams`, and `--format webhook` to render a chat or generic webhook payload for a digest step. Evergreen renders the payload only and never sends it.
 - Judge Debian, Ubuntu, and Alpine base image releases in Dockerfiles and Compose files, including codename tags such as `debian:buster` and `ubuntu:focal`. (#1051)
+- Read maintainer CLE lifecycle from installed packages. (#1208)
+- Generate Renovate presets from scan findings. (#1207)
+- Scan SPDX 2.3 JSON SBOMs with dependency checks. (#1206)
+- Scan CycloneDX SBOM components with dependency checks. (#1202)
+- Enrich CycloneDX SBOMs with lifecycle milestones. (#1201)
+- Export lifecycle snapshots as CLE 1.0. (#1199)
+- Scan built image and rootfs for shipped OS and runtimes (#1057). (#1192)
+- Judge Azure and Google Cloud database engine versions (#1056). (#1193)
+- Add evergreen guard npm install (#1048). (#1190)
+- Ship a language server for lifecycle diagnostics (#1046). (#1189)
+- Add JUnit XML report format (#1045). (#1186)
+- Scan kubectl get -o yaml dumps. (#1181)
+- Add Deno and Bun runtime detection. (#1179)
+- Judge runtime pins in Dockerfile RUN lines. (#1182)
+- Scan terraform plan json. (#1180)
+- Add Spring Boot lifecycle rules and migration fixtures. (#1161)
+- Add Markdown scan report format. (#1162)
 
 ## 0.6.1 - 2026-10-25
 

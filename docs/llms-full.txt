@@ -283,7 +283,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.6.1
+      - uses: arminazimi/evergreen@v0.7.0
         with:
           baseline: .evergreen-baseline.json
           fail-on-severity: high
@@ -535,7 +535,7 @@ permissions:
 
 steps:
   - uses: actions/checkout@v7
-  - uses: arminazimi/evergreen@v0.6.1
+  - uses: arminazimi/evergreen@v0.7.0
     with:
       upload-sarif: true
 ```
@@ -674,7 +674,7 @@ Teams that use [pre-commit](https://pre-commit.com) add Evergreen with three lin
 # .pre-commit-config.yaml
 repos:
   - repo: https://github.com/arminazimi/evergreen
-    rev: v0.6.1
+    rev: v0.7.0
     hooks:
       - id: evergreen
 ```
