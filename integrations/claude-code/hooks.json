@@ -1,0 +1,17 @@
+{
+  "description": "Blocks npm, pnpm, yarn, pip, and uv install commands when Evergreen marks a package as end-of-life or deprecated.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/pre-install-guard.mjs\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

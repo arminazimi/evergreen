@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a Claude Code PreToolUse hook that blocks npm, pnpm, yarn, pip, and uv installs of packages Evergreen marks as deprecated or end-of-life. (#1273)
+
 ## 0.7.1 - 2026-10-27
 
 - Attach SLSA build provenance to the standalone release binaries. (#1351)
