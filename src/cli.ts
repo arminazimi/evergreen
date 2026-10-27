@@ -45,6 +45,7 @@ import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
 import { exportActiveCle } from "./export/cle.js";
+import { CycloneDxError, enrichCycloneDxFile } from "./sbom/cyclonedx.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
@@ -71,6 +72,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen export --format cle [--data-version <version>]   # CLE 1.0 snapshots, one JSON document per line and component; skipped rules reported on stderr
+  evergreen sbom enrich <bom.json> [--data-version <version>]   # print enriched CycloneDX JSON; leaves the input unchanged
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
   evergreen watch list [--json]
@@ -355,7 +357,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -391,6 +393,21 @@ async function main(args: string[]): Promise<number> {
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
+  if (command === "sbom") {
+    const operands = args.slice(1).filter((_, index) => dataVersionIndex === -1 ||
+      (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1));
+    if (operands.length !== 2 || operands[0] !== "enrich" || operands[1]!.startsWith("-")) {
+      return fail("usage", "Usage: evergreen sbom enrich <bom.json> [--data-version <version>]");
+    }
+    try {
+      const bom = await enrichCycloneDxFile(operands[1]!);
+      process.stdout.write(`${JSON.stringify(bom, null, 2)}\n`);
+      return 0;
+    } catch (error) {
+      if (error instanceof CycloneDxError) return fail("parse", error.message);
+      throw error;
+    }
+  }
   if (command === "export") {
     const operands = args.slice(1).filter((_, index) =>
       index + 1 !== formatIndex && index + 1 !== formatIndex + 1 &&
