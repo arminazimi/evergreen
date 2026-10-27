@@ -92,6 +92,11 @@
       "coverage": "Pinned Elixir and Erlang/OTP versions in `.tool-versions`, the project `elixir:` constraint and direct Hex deps in `mix.exs`, and resolved Hex packages in `mix.lock`, for Elixir and OTP release lines past end of support and retired Hex packages. See [Elixir and Mix](detectors/elixir.md)."
     },
     {
+      "ecosystems": ["scala"],
+      "name": "Scala and sbt",
+      "coverage": "Pinned Scala versions in `.scala-version` and literal `scalaVersion` settings in `build.sbt`, and `sbt.version` in `project/build.properties`, for Scala 2.11, frozen Scala 3.0–3.2 lines, and sbt 0.13. See [Scala and sbt](detectors/scala.md)."
+    },
+    {
       "ecosystems": ["shell"],
       "name": "Shell and PowerShell",
       "coverage": "Literal `#Requires -Version` directives in `*.ps1` and `*.psm1`, `PowerShellVersion` in `*.psd1` manifests, and pinned `mcr.microsoft.com/powershell` image tags in `.github/workflows` files, for PowerShell releases past end of support. Bundled rules cover PowerShell 6.x and 7.0 through 7.3. Shell names such as `shell: pwsh` and Bash images carry no version and are not matched. See [Shell and PowerShell](detectors/shell.md)."

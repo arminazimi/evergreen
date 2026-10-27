@@ -1,0 +1,191 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "scala",
+  "freshness": {
+    "maxReviewAgeDays": 90
+  },
+  "rules": [
+    {
+      "id": "scala.runtime.eol-2.11",
+      "ecosystem": "scala",
+      "purl": "pkg:generic/scala",
+      "vers": "vers:semver/>=2.11.0|<2.12.0",
+      "event": "end-of-life",
+      "title": "Scala 2.11 reached end of life",
+      "summary": "The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained.",
+      "severity": "high",
+      "replacement": "Scala 2.13 or Scala 3",
+      "deadline": "2016-01-01",
+      "sources": [
+        {
+          "title": "Scala development guarantees — Scala 2.11 status",
+          "url": "https://scala-lang.org/development/"
+        },
+        {
+          "title": "Scala 2 maintenance plans",
+          "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .scala-version, build.sbt scalaVersion, CI setup-java / setup-scala versions, and container images on one supported Scala release line.",
+          "Confirm libraryDependencies cross-build or resolve on the target Scala and re-resolve with sbt after changing the runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-scala-declaration",
+            "title": "Raise the Scala version",
+            "instructions": "Change the reported declaration from Scala 2.11 to a supported release (see the replacement), using the project's existing version manager or sbt setting.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-scala-surfaces",
+            "title": "Align other Scala version surfaces",
+            "instructions": "Update .scala-version, build.sbt scalaVersion, CI matrices, and Dockerfile Scala images so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "scala -version",
+            "purpose": "Confirm the active Scala runtime is the intended release."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false compile",
+            "purpose": "Compile the project on the new Scala."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false test",
+            "purpose": "Run the sbt test suite on the new Scala."
+          }
+        ]
+      }
+    },
+    {
+      "id": "scala.runtime.eos-3.0-3.2",
+      "ecosystem": "scala",
+      "purl": "pkg:generic/scala",
+      "vers": "vers:semver/>=3.0.0|<3.3.0",
+      "event": "end-of-support",
+      "title": "Scala 3.0–3.2 no longer receive patches",
+      "summary": "The Scala project's development guarantees page states that a non-LTS Scala 3 minor receives patches only until the next minor ships. Scala 3.0, 3.1, and 3.2 are frozen on their last patches; later fixes landed only in 3.3 LTS and newer lines.",
+      "severity": "high",
+      "replacement": "Scala 3.3 LTS or a current Scala Next / LTS line",
+      "sources": [
+        {
+          "title": "Scala development guarantees — Scala 3 LTS",
+          "url": "https://scala-lang.org/development/"
+        },
+        {
+          "title": "Scala 3.9 LTS released",
+          "url": "https://scala-lang.org/news/3.9/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep .scala-version, build.sbt scalaVersion, CI matrices, and container images on one supported Scala 3 LTS or Next line.",
+          "Confirm dependencies publish for the target Scala 3 line and re-resolve with sbt after changing the runtime."
+        ],
+        "steps": [
+          {
+            "id": "update-scala-declaration",
+            "title": "Raise the Scala version",
+            "instructions": "Change the reported declaration from Scala 3.0–3.2 to a supported release (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-scala-surfaces",
+            "title": "Align other Scala version surfaces",
+            "instructions": "Update .scala-version, build.sbt scalaVersion, CI matrices, and Dockerfile Scala images so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "scala -version",
+            "purpose": "Confirm the active Scala runtime is the intended release."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false compile",
+            "purpose": "Compile the project on the new Scala."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false test",
+            "purpose": "Run the sbt test suite on the new Scala."
+          }
+        ]
+      }
+    },
+    {
+      "id": "scala.sbt.eol-0.13",
+      "ecosystem": "scala",
+      "purl": "pkg:generic/sbt",
+      "vers": "vers:semver/>=0.13.0|<1.0.0",
+      "event": "end-of-life",
+      "title": "sbt 0.13 reached end of life",
+      "summary": "The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18.",
+      "severity": "high",
+      "replacement": "sbt 1.x or sbt 2.x",
+      "deadline": "2018-11-30",
+      "sources": [
+        {
+          "title": "sbt download — release timeline",
+          "url": "https://www.scala-sbt.org/download/"
+        },
+        {
+          "title": "Migrating from sbt 0.13.x",
+          "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep project/build.properties sbt.version, the installed sbt launcher, and CI sbt setup on one supported sbt major.",
+          "Migrate build definitions away from 0.13-only syntax before raising sbt.version; see the migration guide."
+        ],
+        "steps": [
+          {
+            "id": "update-sbt-declaration",
+            "title": "Raise the sbt version",
+            "instructions": "Change project/build.properties sbt.version from 0.13.x to a supported release (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "migrate-sbt-build",
+            "title": "Migrate the build definition",
+            "instructions": "Apply the sbt 0.13 → 1.x migration guide for operators, Build.scala layouts, and plugins, then re-resolve plugins.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sbt -Dsbt.supershell=false sbtVersion",
+            "purpose": "Confirm the active sbt version is the intended release."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false compile",
+            "purpose": "Compile the project on the new sbt."
+          },
+          {
+            "command": "sbt -Dsbt.supershell=false test",
+            "purpose": "Run the sbt test suite on the new sbt."
+          }
+        ]
+      }
+    }
+  ]
+}

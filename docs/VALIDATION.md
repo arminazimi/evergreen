@@ -488,6 +488,7 @@ Measured on 456 pinned repositories at commit `c7b4e14` on 2026-10-24. Regenerat
 | python | Supported | 74 | 0 | 0 | 1.000 | 1.000 |
 | ruby | Experimental | 24 | 0 | 0 | 1.000 | 1.000 |
 | rust | Experimental | 18 | 0 | 0 | 1.000 | 1.000 |
+| scala | Experimental | — | — | — | — | — |
 | serverless | Beta | 26 | 0 | 0 | 1.000 | 1.000 |
 | shell | Experimental | 12 | 0 | 0 | 1.000 | 1.000 |
 | swift | Beta | 16 | 0 | 0 | 1.000 | 1.000 |

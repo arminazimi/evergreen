@@ -53,6 +53,7 @@ export const DETECTOR_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   python: ["python"],
   ruby: ["ruby"],
   rust: ["rust"],
+  scala: [],
   serverless: ["serverless"],
   shell: ["shell"],
   swift: ["swift"],
@@ -83,18 +84,19 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
   "python.json": ["python"],
   "ruby.json": ["ruby"],
   "rust.json": ["rust"],
+  "scala.json": [],
   "serverless.json": ["serverless"],
   "shell.json": ["shell"],
   "sources.lock.json": [],
-  "terraform.json": ["terraform"],
   "swift.json": ["swift"],
+  "terraform.json": ["terraform"],
 };
 
 /** Corpus ecosystems for each directory in `tests/fixtures/`; directories absent here belong to no corpus ecosystem. */
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "php", "ruby", "rust", "serverless", "shell", "swift", "terraform"].includes(name),
+      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "php", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"].includes(name),
     ),
   ),
 };

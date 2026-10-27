@@ -542,6 +542,12 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [tempdir is no longer maintained](rust.crate.tempdir.unmaintained.html) — deprecated, `rust.crate.tempdir.unmaintained`
 - [Rust 1.98 and older are no longer supported](rust.toolchain.end-of-support-1.98-and-older.html) — end of support, `rust.toolchain.end-of-support-1.98-and-older`
 
+## scala
+
+- [Scala 2.11 reached end of life](scala.runtime.eol-2.11.html) — end of life, `scala.runtime.eol-2.11`
+- [Scala 3.0–3.2 no longer receive patches](scala.runtime.eos-3.0-3.2.html) — end of support, `scala.runtime.eos-3.0-3.2`
+- [sbt 0.13 reached end of life](scala.sbt.eol-0.13.html) — end of life, `scala.sbt.eol-0.13`
+
 ## serverless
 
 - [AWS Lambda .NET Core 3.1 runtime is end-of-life](serverless.aws-lambda.dotnetcore3.1.html) — end of life, `serverless.aws-lambda.dotnetcore3.1`

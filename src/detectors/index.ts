@@ -9,6 +9,7 @@ import { denoDetector } from "./deno/index.js";
 import { dotnetDetector } from "./dotnet/index.js";
 import { elixirDetector } from "./elixir/index.js";
 import { goDetector } from "./go/index.js";
+import { scalaDetector } from "./scala/index.js";
 import { javaDetector } from "./java/index.js";
 import { githubActionsDetector } from "./github-actions.js";
 import { kubernetesDetector } from "./kubernetes/index.js";
@@ -41,6 +42,7 @@ export const builtInDetectors: readonly Detector[] = [
   androidDetector,
   dartDetector,
   elixirDetector,
+  scalaDetector,
   terraformDetector,
   databaseDetector,
   shellDetector,

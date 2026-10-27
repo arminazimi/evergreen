@@ -40,6 +40,7 @@ const ROW_NAMES = [
   "Dart and Flutter",
   "Database runtimes",
   "Elixir and Mix",
+  "Scala and sbt",
   "Shell and PowerShell",
   "Terraform",
   "Serverless runtimes",
