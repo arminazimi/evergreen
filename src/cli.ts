@@ -44,6 +44,7 @@ import { renderCheckText, renderCodeQuality, renderCompact, renderFindingText, r
 import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
+import { exportActiveCle } from "./export/cle.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
@@ -69,6 +70,7 @@ Usage:
   evergreen usage [--file <path>] [--json]
   evergreen mcp
   evergreen data status [--json]
+  evergreen export --format cle [--data-version <version>]   # CLE 1.0 snapshots, one JSON document per line and component; skipped rules reported on stderr
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
   evergreen watch list [--json]
@@ -353,7 +355,7 @@ async function main(args: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -389,6 +391,18 @@ async function main(args: string[]): Promise<number> {
   }
   const formatIndex = args.indexOf("--format");
   const format = formatIndex === -1 ? undefined : args[formatIndex + 1];
+  if (command === "export") {
+    const operands = args.slice(1).filter((_, index) =>
+      index + 1 !== formatIndex && index + 1 !== formatIndex + 1 &&
+      (dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1)));
+    if (format !== "cle" || operands.length > 0) {
+      return fail("usage", "Usage: evergreen export --format cle [--data-version <version>]");
+    }
+    const result = await exportActiveCle();
+    for (const document of result.documents) process.stdout.write(`${JSON.stringify(document)}\n`);
+    if (result.skipped > 0) process.stderr.write(`Skipped ${result.skipped} rules: CLE requires a dated component lifecycle event; deprecation, removal, symbol rules, and undated rules cannot be faithfully represented.\n`);
+    return 0;
+  }
   if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "junit" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html" && format !== "slack" && format !== "teams" && format !== "webhook") {
     return fail("usage", `Unknown format: ${format ?? ""} (expected text, json, markdown, junit, sarif, rdjson, codequality, compact, html, slack, teams, or webhook).`);
   }
