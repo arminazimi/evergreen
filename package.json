@@ -65,6 +65,7 @@
     "registry",
     "schemas",
     "skills",
+    "!examples/demo",
     "!registry/sources.lock.json",
     "!schemas/vendor"
   ],
