@@ -67,7 +67,7 @@ Each phase is a GitHub milestone. A phase starts when the previous one is comple
 | [Phase 36 — Interop and standards](https://github.com/arminazimi/evergreen/milestone/29) | 2027-05-21 → 2027-06-10 | 12 |
 | [v0.8.0 — Adoption: get Evergreen used](https://github.com/arminazimi/evergreen/milestone/34) | 2026-10-28 → 2026-12-08 | 101 |
 | [v0.9.0 — Visibility: stars and contributors](https://github.com/arminazimi/evergreen/milestone/35) | 2026-12-09 → 2027-01-26 | 73 |
-| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/30) | 2027-01-27 → 2027-02-23 | 16 |
+| [Phase 37 — Evergreen v1 hardening](https://github.com/arminazimi/evergreen/milestone/37) | 2027-01-27 → 2027-02-23 | 16 |
 | [After v1 — Future](https://github.com/arminazimi/evergreen/milestone/36) | after v1, unscheduled | 7 |
 
 ## How work is organized
@@ -619,7 +619,7 @@ _2026-12-09 → 2027-01-26 · 65 tasks · [milestone](https://github.com/arminaz
 
 ## Phase 37 — Evergreen v1 hardening
 
-_2027-01-27 → 2027-02-23 · 12 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/30)_
+_2027-01-27 → 2027-02-23 · 12 tasks · [milestone](https://github.com/arminazimi/evergreen/milestone/37)_
 
 **When this phase is complete, Evergreen has:**
 
