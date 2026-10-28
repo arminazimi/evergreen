@@ -15,6 +15,8 @@ Evergreen has no telemetry and never will: a scan does not phone home, and nothi
 
 Repositories owned by the project (`arminazimi/*`) are left out, so dogfooding does not inflate the number. The three counts are reported separately and may overlap when one repository uses more than one integration; add them as an upper bound and compare them as a trend, not as a precise population.
 
+Teams on Azure DevOps are outside these counts by construction: their pipelines live on `dev.azure.com`, which GitHub code search cannot see. The [Azure Pipelines step template](../integrations/azure-pipelines/evergreen.yml) serves them the same scan-and-gate the other integrations provide; counting its use would need a metric of its own, not an extension of the code-search ones above.
+
 ## Measuring repeat use
 
 A repository that keeps Evergreen in CI for a month is a real user. Adding an Action once may be an experiment or a brief evaluation; continuing to run it across two consecutive calendar months reflects sustained adoption.

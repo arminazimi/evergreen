@@ -1,0 +1,66 @@
+# Evergreen lifecycle scan as an Azure Pipelines step template.
+#
+# Usage, from a pipeline in the same repository (or after vendoring this file):
+#   steps:
+#     - template: ../integrations/azure-pipelines/evergreen.yml
+#       parameters:
+#         failOn: high
+#
+# The agent needs Node.js 22 or newer. The scan itself uses no network: only npx fetches the
+# pinned evergreen-deprecation package, and the bundled lifecycle data travels inside it.
+
+parameters:
+  - name: path
+    displayName: Repository root or subdirectory to scan
+    type: string
+    default: .
+  - name: failOn
+    displayName: Lowest severity that fails the step (none, info, low, medium, high, or critical)
+    type: string
+    default: high
+    values:
+      - none
+      - info
+      - low
+      - medium
+      - high
+      - critical
+  - name: dataVersion
+    displayName: Lifecycle data to scan with — "bundled" for the data shipped with the CLI release, or a bundle version such as 2026.10.01 already in the agent's cache
+    type: string
+    default: bundled
+  - name: version
+    displayName: Version of the evergreen-deprecation npm package to run
+    type: string
+    default: 0.7.1
+  - name: reportName
+    displayName: File name of the JUnit report published to the Tests tab
+    type: string
+    default: evergreen-junit.xml
+
+steps:
+  - bash: |
+      set -u
+      evergreen() { npx --yes "evergreen-deprecation@${EVERGREEN_VERSION}" "$@"; }
+      # The JUnit report is written before the gate is applied, so it publishes even when the step fails.
+      set +e
+      evergreen scan "$EVERGREEN_PATH" --data-version "$EVERGREEN_DATA_VERSION" --fail-on "$EVERGREEN_FAIL_ON" --format junit > "$EVERGREEN_REPORT"
+      status=$?
+      set -e
+      evergreen scan "$EVERGREEN_PATH" --data-version "$EVERGREEN_DATA_VERSION" || true
+      exit "$status"
+    displayName: Evergreen lifecycle scan
+    env:
+      EVERGREEN_PATH: ${{ parameters.path }}
+      EVERGREEN_FAIL_ON: ${{ parameters.failOn }}
+      EVERGREEN_DATA_VERSION: ${{ parameters.dataVersion }}
+      EVERGREEN_VERSION: ${{ parameters.version }}
+      EVERGREEN_REPORT: ${{ parameters.reportName }}
+  - task: PublishTestResults@2
+    displayName: Publish Evergreen findings as test results
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: JUnit
+      testResultsFiles: ${{ parameters.reportName }}
+      testRunTitle: Evergreen lifecycle scan
+      failTaskOnFailedTests: false
