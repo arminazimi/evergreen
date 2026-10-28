@@ -216,3 +216,45 @@ export async function applyInitSetup(options: { plan: InitSetupPlan; gate: Sever
   }
   return { steps, written };
 }
+
+export interface InitAgentOptions {
+  /** The repository root. */
+  root: string;
+  /** Report what would change, including a diff, and write nothing. */
+  dryRun?: boolean;
+  /** Fallback file when no host is detected; defaults to AGENTS.md. */
+  file?: AgentFileName;
+}
+
+export interface InitAgentResult {
+  detected: string[];
+  entries: SetupEntry[];
+  written: string[];
+}
+
+/**
+ * Detects whichever agent host the repository uses (Claude Code, Codex, Cursor, Copilot,
+ * Windsurf, Cline, Aider, and others) and writes or updates the matching instruction file
+ * without overwriting user content. If no host is detected, it falls back to AGENTS.md.
+ */
+export async function initAgent(options: InitAgentOptions): Promise<InitAgentResult> {
+  const root = resolve(options.root);
+  if (!(await lstat(root).catch(() => undefined))?.isDirectory()) throw new AgentFileError(`${root} is not a directory.`);
+
+  const plan = await planSetup(root);
+  const detected = plan.detected;
+  const entries: SetupEntry[] =
+    plan.entries.length > 0 ? plan.entries : [await fallbackAgentEntry(root, options.file)];
+
+  if (options.dryRun) {
+    return { detected, entries, written: [] };
+  }
+
+  const written: string[] = [];
+  for (const entry of entries) {
+    if (entry.change === "unchanged") continue;
+    const result = await updateAgentFile(root, entry.file, entry.prefix ? { createPrefix: entry.prefix } : {});
+    if (result.written) written.push(result.file);
+  }
+  return { detected, entries, written };
+}

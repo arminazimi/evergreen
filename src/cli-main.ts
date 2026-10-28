@@ -21,7 +21,7 @@ import { guardCommand, GuardUsageError } from "./guard.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import { hasPersonalConfig, initPersonal } from "./init-personal.js";
-import { planInitSetup, applyInitSetup, hasWritables, planSummary } from "./init.js";
+import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary } from "./init.js";
 import type { InitStep } from "./init.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
@@ -89,6 +89,7 @@ Usage:
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
   evergreen watch list [--json]
   evergreen init [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]   # ask what to set up; apply the defaults for CI, the pre-push hook, and agents
+  evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]   # detect agent host and write matching config
   evergreen init --agents [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]
   evergreen init --hooks [path] [--fail-on <severity>] [--dry-run]   # git pre-push hook; combine with --agents
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
@@ -177,7 +178,39 @@ async function confirmOnTerminal(summary: string, defaultYes = false): Promise<b
 
 /** `init` with no flags asks what to set up (guided); `init --agents`, `--hooks`, and `--personal` do one thing without asking. */
 async function init(args: string[]): Promise<number> {
-  const usage = "Usage: evergreen init [--agents] [--hooks] [--personal] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  const usage = "Usage: evergreen init [agent] [--agents] [--hooks] [--personal] [path] [--file AGENTS.md|CLAUDE.md] [--fail-on <severity>] [--yes] [--dry-run]\n";
+  if (args[0] === "agent") {
+    const agentUsage = "Usage: evergreen init agent [path] [--file AGENTS.md|CLAUDE.md] [--dry-run]\n";
+    const agentArgs = args.slice(1);
+    const dryRun = agentArgs.includes("--dry-run");
+    const fileIndex = agentArgs.indexOf("--file");
+    const fileValue = fileIndex === -1 ? undefined : agentArgs[fileIndex + 1];
+    if (fileIndex !== -1 && fileValue !== "AGENTS.md" && fileValue !== "CLAUDE.md") {
+      return fail("usage", "--file must be AGENTS.md or CLAUDE.md.", agentUsage);
+    }
+    const flags = new Set(["--dry-run", "--file"]);
+    const positional = agentArgs.filter((argument, index) => !flags.has(argument) && (fileIndex === -1 || index !== fileIndex + 1) && !argument.startsWith("-"));
+    const unknown = agentArgs.filter((argument) => argument.startsWith("-") && !flags.has(argument));
+    if (unknown.length > 0 || positional.length > 1) {
+      return fail("usage", agentUsage.trimEnd());
+    }
+    const root = positional[0] ?? ".";
+    try {
+      const result = await initAgent({ root, dryRun, ...(fileValue ? { file: fileValue as AgentFileName } : {}) });
+      for (const entry of result.entries) {
+        if (entry.change === "unchanged") {
+          process.stdout.write(`${entry.file} already has the current Evergreen section; nothing to change.\n`);
+        } else {
+          const verb = entry.change === "created" ? "create" : entry.change === "added" ? "add the Evergreen section to" : "update the Evergreen section in";
+          process.stdout.write(dryRun ? `Would ${verb} ${entry.file}:\n\n${entry.diff}\n` : `${entry.change === "created" ? "Created" : entry.change === "added" ? "Added the Evergreen section to" : "Updated the Evergreen section in"} ${entry.file}.\n`);
+        }
+      }
+      return 0;
+    } catch (error) {
+      if (error instanceof AgentFileError) return fail("parse", error.message);
+      throw error;
+    }
+  }
   const agents = args.includes("--agents");
   const hooks = args.includes("--hooks");
   const personal = args.includes("--personal");
@@ -303,7 +336,7 @@ async function setup(args: string[]): Promise<number> {
   try {
     const plan = await planSetup(root);
     if (plan.entries.length === 0) {
-      process.stdout.write("No agent host configuration found (looked for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, and Kilo Code).\nRun `evergreen init --agents` to add the section to AGENTS.md or CLAUDE.md.\n");
+      process.stdout.write("No agent host configuration found (looked for Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Kilo Code, Windsurf, Cline, and Aider).\nRun `evergreen init --agents` to add the section to AGENTS.md or CLAUDE.md.\n");
       return 0;
     }
     process.stdout.write(`Detected: ${plan.detected.join(", ")}\n\n`);

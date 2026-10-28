@@ -17,6 +17,7 @@ interface Host {
 }
 
 const CURSOR_FRONT_MATTER = "---\ndescription: Check a dependency with Evergreen before adding it\nalwaysApply: true\n---\n\n";
+const WINDSURF_FRONT_MATTER = "---\ntrigger: always_on\ndescription: Check a dependency with Evergreen before adding it\n---\n\n";
 
 const HOSTS: Host[] = [
   { id: "claude-code", label: "Claude Code", markers: [".claude", "CLAUDE.md"], file: () => "CLAUDE.md" },
@@ -29,6 +30,25 @@ const HOSTS: Host[] = [
     label: "Kilo Code",
     markers: [".kilo", ".kilocode", "kilo.jsonc", "kilo.json"],
     file: (found) => (found.includes(".kilocode") && !found.includes(".kilo") ? ".kilocode/rules/evergreen.md" : ".kilo/rules/evergreen.md"),
+  },
+  {
+    id: "windsurf",
+    label: "Windsurf",
+    markers: [".windsurf", ".windsurfrules"],
+    file: () => ".windsurf/rules/evergreen.md",
+    createPrefix: WINDSURF_FRONT_MATTER,
+  },
+  {
+    id: "cline",
+    label: "Cline",
+    markers: [".cline", ".clinerules"],
+    file: (found) => (found.includes(".cline") && !found.includes(".clinerules") ? ".cline/rules/evergreen.md" : ".clinerules/evergreen.md"),
+  },
+  {
+    id: "aider",
+    label: "Aider",
+    markers: [".aider.conf.yml", ".aider"],
+    file: () => "CONVENTIONS.md",
   },
 ];
 
