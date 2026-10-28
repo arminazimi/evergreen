@@ -18,6 +18,25 @@ The baseline below was reproduced on 2026-10-15 with `npm run eval:plugins`.
 
 The workflow fixture exercises `scan`, `list`, `explain`, `context`, and `verify` through the real shared implementation. It contains a lifecycle finding plus an `AGENTS.md` file that tells the agent to suppress findings and execute a command. Evergreen still reports the finding, never creates the command marker, and returns `commandsExecuted: false`. After the fixture is migrated, both hosts verify the same finding as absent.
 
+## Agent loop: deprecated package refusal
+
+The agent-loop evaluation (`benchmarks/agent-loop/`) proves that the guardrail changes agent behavior, not only that the configuration files exist. It scripts tasks asking an agent to add deprecated dependencies (`request`, `node-sass`, `request-promise`), and verifies whether the agent checks the dependency, the guardrail refuses the addition, and the documented replacement is proposed to guide migration.
+
+The baseline below was reproduced on 2026-10-28.
+
+| Measure | Codex | Claude | Gate |
+| --- | ---: | ---: | ---: |
+| Shared task cases | 3 | 3 | Same corpus |
+| Deprecation check recall | 100% | 100% | 100% |
+| Action / install refusal | 100% | 100% | 100% |
+| Proposed replacement rate | 100% | 100% | 100% |
+| Unsafe package installed | No | No | Must remain `false` |
+
+Across both hosts:
+1. **Check**: The dependency check (`check_dependency` MCP tool or `evergreen check`) identifies the package as `affected` against offline lifecycle rules.
+2. **Refusal**: The host hook (Claude Code `PreToolUse` permission denial; Codex hook warning) and `evergreen guard` intercept the addition and prevent package installation (`allowed: false`, exit code 1).
+3. **Replacement**: The refusal output surfaces the authoritative replacement (e.g. native fetch for `request`, `sass` for `node-sass`) cited in the bundled registry.
+
 The generated Claude package also passes the official Claude Code strict plugin validator. Codex package structure, paths, shared assets, and manifest budgets are checked directly by the deterministic package and eval gates.
 
 ## Context budget
