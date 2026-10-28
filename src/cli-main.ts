@@ -34,6 +34,7 @@ import { applyOnBranch } from "./fix/git.js";
 import { planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
+import { scanDemo } from "./demo.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
@@ -63,6 +64,7 @@ const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
   evergreen scan [path] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]
+  evergreen scan --demo [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]   # scan an in-memory demo project that always has findings
   evergreen scan [path] --baseline <file> [--baseline <file>...] [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
   evergreen scan [path] --min-support-days <n>   # warn on lines whose support ends within n days
@@ -505,6 +507,10 @@ async function main(rawArgs: string[]): Promise<number> {
   if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || format === "html" || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
+  const demo = args.includes("--demo");
+  if (demo && command !== "scan") {
+    return fail("usage", "--demo is only available for the scan command.");
+  }
   const json = args.includes("--json") || format === "json";
   if (args.includes("--write-status") && command !== "scan") {
     return fail("usage", "--write-status is only available for the scan command.");
@@ -643,6 +649,15 @@ async function main(rawArgs: string[]): Promise<number> {
   if (allIndex !== -1 && (command !== "scan" || !allDirectory || allDirectory.startsWith("-"))) {
     return fail("usage", "--all needs a directory of repositories and is only available for the scan command.");
   }
+  if (demo && allIndex !== -1) {
+    return fail("usage", "--all is not available with --demo.");
+  }
+  if (demo && positional.length > 0) {
+    return fail("usage", "--demo does not take a path argument.");
+  }
+  if (demo && (args.includes("--baseline") || args.includes("--write-status"))) {
+    return fail("usage", "--baseline and --write-status are not available with --demo.");
+  }
   if (command === "scan" && (positional.length > 1 || allDirectory !== undefined)) {
     if (format !== undefined && format !== "text" && format !== "json") {
       return fail("usage", "Scanning several paths supports --json and --format text|json only.");
@@ -666,8 +681,10 @@ async function main(rawArgs: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
   }
-  const rootProblem = await repositoryRootProblem(pathArgument);
-  if (rootProblem) return failActionable("usage", rootProblem);
+  if (!demo) {
+    const rootProblem = await repositoryRootProblem(pathArgument);
+    if (rootProblem) return failActionable("usage", rootProblem);
+  }
   const scanGate = optionValue("--fail-on") ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
     return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
@@ -711,7 +728,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (minSupportValue !== undefined && minSupportDays === undefined) {
     return fail("usage", "--min-support-days must be a whole number of days (0 to 3650).");
   }
-  let result = await scanRepository(pathArgument, builtInDetectors);
+  let result = demo ? await scanDemo(builtInDetectors) : await scanRepository(pathArgument, builtInDetectors);
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (command === "baseline") {

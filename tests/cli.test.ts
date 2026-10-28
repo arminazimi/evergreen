@@ -121,3 +121,53 @@ test("CLI rejects a scan path that does not exist or is not a directory", async 
   assert.equal(fileScan.code, 2);
   assert.match(fileScan.stderr, /Not a directory/);
 });
+
+test("CLI scan --demo scans an in-memory fixture without shipping a manifest", async () => {
+  const textResult = await execute(process.execPath, [cli, "scan", "--demo"]);
+  assert.match(textResult.stdout, /Evergreen scan/);
+  assert.match(textResult.stdout, /Repository: demo/);
+  assert.match(textResult.stdout, /Findings: 5/);
+  assert.match(textResult.stdout, /HIGH Unsupported actions\/checkout runtime/);
+  assert.match(textResult.stdout, /HIGH request is deprecated/);
+  assert.match(textResult.stdout, /MEDIUM Node\.js 18 is end-of-life/);
+  assert.match(textResult.stdout, /Confidence:/);
+  assert.match(textResult.stdout, /Replacement:/);
+  assert.match(textResult.stdout, /Deadline:/);
+
+  const jsonResult = await execute(process.execPath, [cli, "scan", "--demo", "--json"]);
+  const scan = JSON.parse(jsonResult.stdout) as {
+    schemaVersion: string;
+    root: string;
+    findings: Array<{ id: string; ruleId: string }>;
+  };
+  assert.equal(scan.schemaVersion, "evergreen.scan.v1");
+  assert.equal(scan.root, "demo");
+  assert.equal(scan.findings.length, 5);
+  assert.deepEqual(scan.findings.map((finding) => finding.ruleId), [
+    "github-actions.checkout.node20",
+    "nodejs.runtime.eol-18",
+    "nodejs.runtime.eol-19",
+    "nodejs.runtime.eol-20",
+    "npm.package.request.deprecated",
+  ]);
+
+  const invalidUsage = await runFailing(["check", "--demo", "pkg:npm/request@2.88.2"]);
+  assert.equal(invalidUsage.code, 2);
+  assert.match(invalidUsage.stderr, /--demo is only available for the scan command/);
+
+  const pathUsage = await runFailing(["scan", ".", "--demo"]);
+  assert.equal(pathUsage.code, 2);
+  assert.match(pathUsage.stderr, /--demo does not take a path argument/);
+
+  const allUsage = await runFailing(["scan", "--demo", "--all", "dir"]);
+  assert.equal(allUsage.code, 2);
+  assert.match(allUsage.stderr, /--all is not available with --demo/);
+
+  const baselineUsage = await runFailing(["scan", "--demo", "--baseline", "file"]);
+  assert.equal(baselineUsage.code, 2);
+  assert.match(baselineUsage.stderr, /--baseline and --write-status are not available with --demo/);
+
+  const statusUsage = await runFailing(["scan", "--demo", "--write-status"]);
+  assert.equal(statusUsage.code, 2);
+  assert.match(statusUsage.stderr, /--baseline and --write-status are not available with --demo/);
+});
