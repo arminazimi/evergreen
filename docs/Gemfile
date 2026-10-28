@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+
+# The environment GitHub Pages runs, for building the site locally.
+gem "github-pages", group: :jekyll_plugins

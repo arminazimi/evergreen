@@ -1,12 +1,8 @@
 ---
-title: Evergreen documentation
+title: Evergreen
+description: Know what breaks next.
+layout: home
 ---
-
-# Evergreen
-
-<p class="evergreen-kicker">LIFECYCLE INTELLIGENCE / 01</p>
-
-<p class="evergreen-tagline">Know what breaks next.</p>
 
 Evergreen is local-first deprecation intelligence for software repositories. It
 discovers supported lifecycle risks, connects them to exact files and usages, and

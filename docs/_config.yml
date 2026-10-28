@@ -2,6 +2,24 @@ title: Evergreen
 url: https://arminazimi.github.io
 baseurl: /evergreen
 description: Local-first deprecation intelligence for software repositories.
-theme: jekyll-theme-minimal
-show_downloads: true
-logo: /evergreen/assets/brand/evergreen-mark-adaptive.svg
+remote_theme: arminazimi/slipway@v0.1.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-optional-front-matter
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: doc
+slipway:
+  source_dir: docs
+  logo:
+    light: /assets/brand/evergreen-mark-adaptive.svg
+    dark: /assets/brand/evergreen-mark-adaptive.svg
+    favicon_svg: /assets/brand/evergreen-mark-adaptive.svg
+  tokens:
+    accent: "#8f3048"
+    canvas: "#f3ece8"
+    text: "#0a0a0c"
+    font_body: 'Inter, ui-sans-serif, -apple-system, "Segoe UI", sans-serif'
