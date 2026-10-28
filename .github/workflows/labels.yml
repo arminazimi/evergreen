@@ -1,15 +1,19 @@
 name: Labels
 
 on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays, 06:00 UTC
   push:
     branches: [main]
     paths:
       - .github/labels.yml
       - .github/workflows/labels.yml
+      - tools/check-good-first-issues.ts
   pull_request:
     paths:
       - .github/labels.yml
       - .github/workflows/labels.yml
+      - tools/check-good-first-issues.ts
   workflow_dispatch:
 
 permissions:
@@ -17,6 +21,7 @@ permissions:
 
 jobs:
   sync:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,3 +34,22 @@ jobs:
           yaml-file: .github/labels.yml
           skip-delete: true
           dry-run: ${{ github.event_name == 'pull_request' }}
+
+  check-briefs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Check good first issue briefs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node dist/tools/check-good-first-issues.js --summary "$GITHUB_STEP_SUMMARY"
