@@ -106,6 +106,7 @@ Usage:
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
+  evergreen new-rule <id> [--ecosystem <slug>]   # add a rule and its match/clean fixtures to registry/<ecosystem>.json
   evergreen rules lint [file...]   # check lifecycle rules for problems before CI does; exits 1 on any problem
   evergreen rules test <id>   # run a rule against tests/fixtures/<id>/match and clean; exits 1 on a failed fixture
   evergreen data update [--data-version <version>] [--json]
@@ -447,6 +448,43 @@ async function newDetector(args: string[]): Promise<number> {
   }
 }
 
+/** Creates a rule skeleton and both fixtures in the registry for its ecosystem. The generator lives in tools/. */
+async function newRule(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen new-rule <id> [--ecosystem <slug>]";
+  let id: string | undefined;
+  let ecosystem: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    if (argument === "--ecosystem") {
+      const value = args[index + 1];
+      if (!value || value.startsWith("-")) return fail("usage", usage);
+      ecosystem = value;
+      index += 1;
+    } else if (argument.startsWith("-") || id !== undefined) {
+      return fail("usage", usage);
+    } else {
+      id = argument;
+    }
+  }
+  if (id === undefined) return fail("usage", usage);
+  let scaffold: typeof import("../tools/scaffold/index.js");
+  try {
+    scaffold = await import("../tools/scaffold/index.js");
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ERR_MODULE_NOT_FOUND") {
+      return fail("usage", "new-rule is for contributors: run it from a checkout of the Evergreen repository after npm run build.");
+    }
+    throw error;
+  }
+  try {
+    process.stdout.write(`${scaffold.renderRuleScaffoldResult(await scaffold.scaffoldRule(id, ecosystem ? { ecosystem } : {}))}\n`);
+    return 0;
+  } catch (error) {
+    if (error instanceof scaffold.ScaffoldError) return fail("usage", error.message);
+    throw error;
+  }
+}
+
 /** `rules lint` checks registry files; `rules test` runs one rule against its match and clean fixtures. */
 async function rules(args: string[]): Promise<number> {
   const [subcommand, ...rest] = args;
@@ -525,7 +563,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -540,6 +578,7 @@ async function main(rawArgs: string[]): Promise<number> {
     return 0;
   }
   if (command === "new-detector") return newDetector(args.slice(1));
+  if (command === "new-rule") return newRule(args.slice(1));
   if (command === "rules") return rules(args.slice(1));
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
