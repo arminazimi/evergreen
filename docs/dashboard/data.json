@@ -397,9 +397,9 @@
         "recall": 1
       },
       "evidence": {
-        "repositoriesWithFindings": 64,
-        "expectedFindings": 74,
-        "zeroFindingRepositories": 34,
+        "repositoriesWithFindings": 82,
+        "expectedFindings": 128,
+        "zeroFindingRepositories": 27,
         "repositories": 107,
         "blindRepositories": 90
       }
