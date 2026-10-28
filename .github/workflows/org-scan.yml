@@ -55,8 +55,8 @@ on:
       max-jobs:
         description: Maximum number of repositories scanned in parallel (bounded concurrency).
         required: false
-        default: "10"
-        type: string
+        default: 10
+        type: number
 
 permissions:
   contents: read
@@ -106,18 +106,41 @@ jobs:
 
   notify:
     name: Send digest
-    needs: scan
+    needs: [list, scan]
     # Run even when some scan jobs fail so teams always get the weekly digest.
-    if: ${{ always() && (secrets.slack-webhook-url != '' || secrets.teams-webhook-url != '') }}
+    if: ${{ always() && needs.list.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       actions: read
-    env:
-      GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Download scan reports
+      - name: Check webhook configuration
+        id: webhooks
         env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+          TEAMS_WEBHOOK_URL: ${{ secrets.teams-webhook-url }}
+        run: |
+          slack="false"
+          teams="false"
+          any="false"
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            slack="true"
+            any="true"
+          fi
+          if [ -n "$TEAMS_WEBHOOK_URL" ]; then
+            teams="true"
+            any="true"
+          fi
+          {
+            echo "slack=$slack"
+            echo "teams=$teams"
+            echo "any=$any"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Download scan reports
+        if: ${{ steps.webhooks.outputs.any == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
           RUN_ID: ${{ github.run_id }}
           REPO: ${{ github.repository }}
         run: |
@@ -134,46 +157,45 @@ jobs:
           echo "Downloaded $(find reports -name '*.json' | wc -l | tr -d ' ') report(s)."
 
       - name: Build digest text
-        id: digest
+        if: ${{ steps.webhooks.outputs.any == 'true' }}
         run: |
-          reports="$(find reports -name '*.json' | sort)"
-          if [ -z "$reports" ]; then
-            text="Evergreen organization scan complete: no reports found."
+          reports=()
+          while IFS= read -r -d '' file; do
+            reports+=("$file")
+          done < <(find reports -name '*.json' -print0 | sort -z)
+          if [ "${#reports[@]}" -eq 0 ]; then
+            echo "Evergreen organization scan complete: no reports found." > digest.txt
           else
-            text="$(npx --yes evergreen-deprecation rollup $reports 2>/dev/null)"
+            npx --yes evergreen-deprecation@0.7.1 rollup "${reports[@]}" > digest.txt
           fi
-          # Store in a file to avoid length limits in GITHUB_OUTPUT.
-          printf '%s' "$text" > digest.txt
-          echo "text<<EVERGREEN_DIGEST_EOF" >> "$GITHUB_OUTPUT"
-          cat digest.txt >> "$GITHUB_OUTPUT"
-          echo "" >> "$GITHUB_OUTPUT"
-          echo "EVERGREEN_DIGEST_EOF" >> "$GITHUB_OUTPUT"
 
       - name: Post to Slack
-        if: ${{ secrets.slack-webhook-url != '' }}
+        if: ${{ steps.webhooks.outputs.slack == 'true' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
         run: |
-          text="$(cat digest.txt)"
-          payload="$(jq -n --arg text "$text" '{
-            text: $text,
-            blocks: [
-              {type: "header", text: {type: "plain_text", text: "Evergreen organization digest", emoji: false}},
-              {type: "section", text: {type: "mrkdwn", text: ($text | gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;"))}}
-            ]
-          }')"
+          payload="$(jq -n --rawfile raw digest.txt '
+            ($raw | gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;")) as $escaped |
+            (if ($escaped | length) > 3000 then (($escaped[:2989] | sub("&[a-z]{0,3}$"; "")) + "\n…truncated") else $escaped end) as $final |
+            {
+              text: "Evergreen organization digest",
+              blocks: [
+                {type: "header", text: {type: "plain_text", text: "Evergreen organization digest", emoji: false}},
+                {type: "section", text: {type: "mrkdwn", text: $final}}
+              ]
+            }
+          ')"
           curl --silent --show-error --fail \
             -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d "$payload"
 
       - name: Post to Teams
-        if: ${{ secrets.teams-webhook-url != '' }}
+        if: ${{ steps.webhooks.outputs.teams == 'true' }}
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.teams-webhook-url }}
         run: |
-          text="$(cat digest.txt)"
-          payload="$(jq -n --arg text "$text" '{
+          payload="$(jq -n --rawfile raw digest.txt '{
             type: "message",
             attachments: [{
               contentType: "application/vnd.microsoft.card.adaptive",
@@ -184,7 +206,7 @@ jobs:
                 version: "1.4",
                 body: [
                   {type: "TextBlock", text: "Evergreen organization digest", weight: "Bolder", size: "Medium", wrap: true},
-                  {type: "TextBlock", text: $text, wrap: true}
+                  {type: "TextBlock", text: $raw, wrap: true}
                 ]
               }
             }]
