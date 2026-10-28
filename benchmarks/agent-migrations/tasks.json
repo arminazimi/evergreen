@@ -1,0 +1,489 @@
+{
+  "schemaVersion": "evergreen.agent-migrations.v1",
+  "tasks": [
+    {
+      "id": "hyperfine-atty",
+      "title": "Replace the unmaintained atty crate",
+      "repository": "https://github.com/sharkdp/hyperfine",
+      "commit": "769652353aacf84fb8ab691e4ec2c6435ad2ee3a",
+      "finding": {
+        "ruleId": "rust.crate.atty.unmaintained",
+        "path": "Cargo.toml",
+        "line": 23
+      },
+      "expectedEndState": {
+        "description": "Cargo.toml no longer depends on atty; terminal detection uses std::io::IsTerminal or an equivalent maintained API.",
+        "checks": [
+          { "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }
+        ]
+      },
+      "verification": ["cargo build --all-targets && cargo test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/sharkdp/hyperfine/commit/69ee1738d48e978a936cab07a984812ee364f8e8",
+        "summary": "Removed atty and switched to std::io::IsTerminal."
+      }
+    },
+    {
+      "id": "just-ansi-term",
+      "title": "Replace the unmaintained ansi_term crate",
+      "repository": "https://github.com/casey/just",
+      "commit": "0363b25013c193ea67ed7fea87946142393e2b21",
+      "finding": {
+        "ruleId": "rust.crate.ansi-term.unmaintained",
+        "path": "Cargo.toml",
+        "line": 21
+      },
+      "expectedEndState": {
+        "description": "Cargo.toml no longer depends on ansi_term; styling uses a maintained terminal-styling crate.",
+        "checks": [
+          { "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }
+        ]
+      },
+      "verification": ["cargo build --all-targets && cargo test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/casey/just/commit/49b5f3ba78fd58df66e72ca292700e8992aa0a1a",
+        "summary": "Switched from ansi_term to nu_ansi_term."
+      }
+    },
+    {
+      "id": "dust-ansi-term",
+      "title": "Replace the unmaintained ansi_term crate",
+      "repository": "https://github.com/bootandy/dust",
+      "commit": "6c20fae3e8bc63922e2f97dae1bdcf1512b1a255",
+      "finding": {
+        "ruleId": "rust.crate.ansi-term.unmaintained",
+        "path": "Cargo.toml",
+        "line": 30
+      },
+      "expectedEndState": {
+        "description": "Cargo.toml no longer depends on ansi_term; styling uses a maintained terminal-styling crate.",
+        "checks": [
+          { "path": "Cargo.toml", "mustNotMatch": "^ansi_term\\s*=" }
+        ]
+      },
+      "verification": ["cargo build --all-targets && cargo test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/bootandy/dust/commit/d39224d6707e7bc890ff546b2da793a5b46a2160",
+        "summary": "Switched from ansi_term to nu_ansi_term."
+      }
+    },
+    {
+      "id": "wasm-pack-atty",
+      "title": "Replace the unmaintained atty crate",
+      "repository": "https://github.com/rustwasm/wasm-pack",
+      "commit": "62ab39cf82ec4d358c1f08f348cd0dc44768f412",
+      "finding": {
+        "ruleId": "rust.crate.atty.unmaintained",
+        "path": "Cargo.toml",
+        "line": 15
+      },
+      "expectedEndState": {
+        "description": "Cargo.toml no longer depends on atty; terminal detection uses std::io::IsTerminal or an equivalent maintained API.",
+        "checks": [
+          { "path": "Cargo.toml", "mustNotMatch": "^atty\\s*=" }
+        ]
+      },
+      "verification": ["cargo test --all --locked"],
+      "migrationEvidence": {
+        "commit": "https://github.com/rustwasm/wasm-pack/commit/650936bbdd4849b8473f5c0273c02f8bb7ff5492",
+        "summary": "Removed atty and used standard-library terminal detection."
+      }
+    },
+    {
+      "id": "bubbletea-go",
+      "title": "Raise the Go directive to a supported release",
+      "repository": "https://github.com/charmbracelet/bubbletea",
+      "commit": "73b6d91ac1c3854dd4af046ab5f9e51d3b3b4290",
+      "finding": {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "go.mod",
+        "line": 5
+      },
+      "expectedEndState": {
+        "description": "go.mod declares Go 1.26 or later.",
+        "checks": [
+          {
+            "path": "go.mod",
+            "mustNotMatch": "(?:^|\\n)go 1\\.(?:[0-9]|1[0-9]|2[0-5])\\b",
+            "mustMatch": "(?:^|\\n)go 1\\.(?:2[6-9]|[3-9][0-9])\\b"
+          }
+        ]
+      },
+      "verification": ["go build ./..."],
+      "migrationEvidence": {
+        "commit": "https://github.com/charmbracelet/bubbletea/commit/657aaae216e3f87df09b60959a9fe5de7b2ca419",
+        "summary": "Bumped the go directive to 1.26.0."
+      }
+    },
+    {
+      "id": "caddy-go",
+      "title": "Raise the Go directive to a supported release",
+      "repository": "https://github.com/caddyserver/caddy",
+      "commit": "5ee9a2d424dc37ea20911026b7bf876de8f122a8",
+      "finding": {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "go.mod",
+        "line": 3
+      },
+      "expectedEndState": {
+        "description": "go.mod declares Go 1.26 or later.",
+        "checks": [
+          {
+            "path": "go.mod",
+            "mustNotMatch": "(?:^|\\n)go 1\\.(?:[0-9]|1[0-9]|2[0-5])\\b",
+            "mustMatch": "(?:^|\\n)go 1\\.(?:2[6-9]|[3-9][0-9])\\b"
+          }
+        ]
+      },
+      "verification": ["go build ./..."],
+      "migrationEvidence": {
+        "commit": "https://github.com/caddyserver/caddy/commit/90ccea768fc192ba0feff7a8df4344916eb7331f",
+        "summary": "Raised the Go floor to 1.26.0 and updated dependencies."
+      }
+    },
+    {
+      "id": "lazygit-go",
+      "title": "Raise the Go directive to a supported release",
+      "repository": "https://github.com/jesseduffield/lazygit",
+      "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
+      "finding": {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "go.mod",
+        "line": 3
+      },
+      "expectedEndState": {
+        "description": "go.mod declares Go 1.26 or later.",
+        "checks": [
+          {
+            "path": "go.mod",
+            "mustNotMatch": "(?:^|\\n)go 1\\.(?:[0-9]|1[0-9]|2[0-5])\\b",
+            "mustMatch": "(?:^|\\n)go 1\\.(?:2[6-9]|[3-9][0-9])\\b"
+          }
+        ]
+      },
+      "verification": ["go build ./..."],
+      "migrationEvidence": {
+        "commit": "https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a",
+        "summary": "Updated the go directive and the Docker build image to Go 1.26."
+      }
+    },
+    {
+      "id": "lazygit-go-image",
+      "title": "Move the Go build image to a supported release",
+      "repository": "https://github.com/jesseduffield/lazygit",
+      "commit": "5e3cd6b5408218cc55e8b26df377e3912eea3c8d",
+      "finding": {
+        "ruleId": "container.golang.eol-1.25-and-older",
+        "path": "Dockerfile",
+        "line": 5
+      },
+      "expectedEndState": {
+        "description": "The Dockerfile builds on a golang image tagged 1.26 or later.",
+        "checks": [
+          {
+            "path": "Dockerfile",
+            "mustNotMatch": "(?:^|\\n)FROM golang:1\\.(?:[0-9]|1[0-9]|2[0-5])\\b",
+            "mustMatch": "(?:^|\\n)FROM golang:1\\.(?:2[6-9]|[3-9][0-9])\\b"
+          }
+        ]
+      },
+      "verification": ["docker build ."],
+      "migrationEvidence": {
+        "commit": "https://github.com/jesseduffield/lazygit/commit/5ef318ef77f0bed4d6a7a9f32d045e998bab426a",
+        "summary": "Updated the go directive and the Docker build image to Go 1.26."
+      }
+    },
+    {
+      "id": "node-exporter-go",
+      "title": "Raise the Go directive to a supported release",
+      "repository": "https://github.com/prometheus/node_exporter",
+      "commit": "baf644aaa87148ab0068cd334730a6c9737cfb46",
+      "finding": {
+        "ruleId": "go.runtime.end-of-support-1.25",
+        "path": "go.mod",
+        "line": 3
+      },
+      "expectedEndState": {
+        "description": "go.mod declares Go 1.26 or later.",
+        "checks": [
+          {
+            "path": "go.mod",
+            "mustNotMatch": "(?:^|\\n)go 1\\.(?:[0-9]|1[0-9]|2[0-5])\\b",
+            "mustMatch": "(?:^|\\n)go 1\\.(?:2[6-9]|[3-9][0-9])\\b"
+          }
+        ]
+      },
+      "verification": ["go build ./..."],
+      "migrationEvidence": {
+        "commit": "https://github.com/prometheus/node_exporter/commit/25fbb7c67ee365afe89e42c3986964d5a2140bc8",
+        "summary": "Bumped the minimum Go version to 1.26."
+      }
+    },
+    {
+      "id": "sloth-dotnet",
+      "title": "Move the web project off .NET Core 3.1",
+      "repository": "https://github.com/ucdavis/Sloth",
+      "commit": "442c022d0d87b872209b3b810154987598c54a32",
+      "finding": {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "Sloth.Web/Sloth.Web.csproj",
+        "line": 4
+      },
+      "expectedEndState": {
+        "description": "Sloth.Web no longer targets the retired netcoreapp3.1 runtime, and the solution still builds.",
+        "checks": [
+          { "path": "Sloth.Web/Sloth.Web.csproj", "mustNotMatch": "netcoreapp3\\.1" }
+        ]
+      },
+      "verification": ["dotnet build Sloth.sln"],
+      "migrationEvidence": {
+        "commit": "https://github.com/ucdavis/Sloth/commit/ab42e927bfe7a49e47ed3893561e1fee4f7350e5",
+        "summary": "Moved the projects off netcoreapp3.1 (to net6.0) and updated NuGet packages."
+      }
+    },
+    {
+      "id": "sourcelink-dotnet",
+      "title": "Remove the .NET Core 3.1 target framework",
+      "repository": "https://github.com/dotnet/sourcelink",
+      "commit": "40a5327a26ef250235be54143138325aedd35b79",
+      "finding": {
+        "ruleId": "dotnet.runtime.end-of-support-3.1",
+        "path": "src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj",
+        "line": 5
+      },
+      "expectedEndState": {
+        "description": "The project no longer targets the retired netcoreapp3.1 runtime, and it still builds.",
+        "checks": [
+          {
+            "path": "src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj",
+            "mustNotMatch": "netcoreapp3\\.1"
+          }
+        ]
+      },
+      "verification": ["dotnet build src/Microsoft.Build.StandardCI/Microsoft.Build.StandardCI.csproj"],
+      "migrationEvidence": {
+        "commit": "https://github.com/dotnet/sourcelink/commit/87da2ffd8a1df5109a6ba23afcb5298b3cb6f894",
+        "summary": "Removed netcoreapp3.1 from the target frameworks and moved to net6.0."
+      }
+    },
+    {
+      "id": "homepage-node-image",
+      "title": "Move the Node base images to a supported release",
+      "repository": "https://github.com/gethomepage/homepage",
+      "commit": "89b0d20655ca521e55ae65097c2da4285c87a403",
+      "finding": {
+        "ruleId": "container.node.eol-22-and-older",
+        "path": "Dockerfile",
+        "line": 4
+      },
+      "expectedEndState": {
+        "description": "Every FROM node line in the Dockerfile uses Node.js 24 or later.",
+        "checks": [
+          {
+            "path": "Dockerfile",
+            "mustNotMatch": "(?:^|\\n)FROM node:2[0-2]\\b",
+            "mustMatch": "(?:^|\\n)FROM node:2[4-9]\\b"
+          }
+        ]
+      },
+      "verification": ["docker build ."],
+      "migrationEvidence": {
+        "commit": "https://github.com/gethomepage/homepage/commit/9c194137fc1124d966095ee0da8826eee9c65746",
+        "summary": "Updated the builder and runner images to node:24."
+      }
+    },
+    {
+      "id": "lighthouse-node",
+      "title": "Drop Node.js 18 from the CI matrix",
+      "repository": "https://github.com/cloudfour/lighthouse-parade",
+      "commit": "e3cddd59a47c0dfac81a1178f3e0032b6d4acc8a",
+      "finding": {
+        "ruleId": "nodejs.runtime.eol-18",
+        "path": ".github/workflows/ci.yml",
+        "line": 18
+      },
+      "expectedEndState": {
+        "description": "The CI matrix no longer runs Node.js 18 and keeps a supported release line.",
+        "checks": [
+          {
+            "path": ".github/workflows/ci.yml",
+            "mustNotMatch": "18\\.x",
+            "mustMatch": "2[2-9]\\.x"
+          }
+        ]
+      },
+      "verification": ["npm ci && npm test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/cloudfour/lighthouse-parade/commit/64e99738083115ead584d88f48bfb81b2cbcc152",
+        "summary": "Set the Node floor to 22.19+ / 24+ and removed 18.x and 20.x from CI."
+      }
+    },
+    {
+      "id": "paperhanger-node",
+      "title": "Move the CI Node version to a supported release",
+      "repository": "https://github.com/smartcrabai/paperhanger",
+      "commit": "2bb7ab4c344692f8549aef8441edafc9af614450",
+      "finding": {
+        "ruleId": "nodejs.runtime.eol-22",
+        "path": ".github/workflows/ci.yml",
+        "line": 22
+      },
+      "expectedEndState": {
+        "description": "The CI workflow pins Node.js 24 or later.",
+        "checks": [
+          {
+            "path": ".github/workflows/ci.yml",
+            "mustNotMatch": "node-version: 2[0-2]\\b",
+            "mustMatch": "node-version: 2[4-9]"
+          }
+        ]
+      },
+      "verification": ["bun install --frozen-lockfile && bun test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/smartcrabai/paperhanger/commit/39df3b58850a1faba4b2f8f3c3e5d45216beeb1e",
+        "summary": "Updated the CI Node version to 24."
+      }
+    },
+    {
+      "id": "behat-php",
+      "title": "Raise the PHP platform to PHP 8",
+      "repository": "https://github.com/MacPaw/behat-orm-context",
+      "commit": "3c4108601b840ed114d6e2c8a8f107a1778b70e5",
+      "finding": {
+        "ruleId": "php.runtime.eol-7.4",
+        "path": "composer.json",
+        "line": 82
+      },
+      "expectedEndState": {
+        "description": "composer.json no longer allows or pins PHP 7.4 and requires PHP 8.x.",
+        "checks": [
+          {
+            "path": "composer.json",
+            "mustNotMatch": "\"php\": \"[^\"]*7\\.4",
+            "mustMatch": "\"php\": \"[^\"]*8\\.[0-9]"
+          }
+        ]
+      },
+      "verification": ["composer validate && composer install && vendor/bin/phpunit"],
+      "migrationEvidence": {
+        "commit": "https://github.com/MacPaw/behat-orm-context/commit/d75eafaca845f7993723d5fa17d0bc1703557c82",
+        "summary": "Required PHP ^8.0 and raised config.platform.php to 8.0.2."
+      }
+    },
+    {
+      "id": "packwerk-ruby",
+      "title": "Raise the development Ruby version",
+      "repository": "https://github.com/Shopify/packwerk",
+      "commit": "75ce7c728fcba075eb939a7af194fc4287513a75",
+      "finding": {
+        "ruleId": "ruby.runtime.eol-3.0",
+        "path": ".ruby-version",
+        "line": 1
+      },
+      "expectedEndState": {
+        "description": ".ruby-version no longer pins the retired Ruby 3.0 line.",
+        "checks": [
+          { "path": ".ruby-version", "mustNotMatch": "^3\\.0\\." }
+        ]
+      },
+      "verification": ["bundle install && bundle exec rake test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/Shopify/packwerk/commit/3a988a04c99a1723c5eb133c31083bc736332d02",
+        "summary": "Bumped .ruby-version from 3.0.4 to 3.2.1."
+      }
+    },
+    {
+      "id": "auth0-request",
+      "title": "Replace the deprecated request client",
+      "repository": "https://github.com/auth0/db-connections-templates",
+      "commit": "d169ed32e87f5d42fece97e83fd83cd9c66d5bcb",
+      "finding": {
+        "ruleId": "npm.package.request.deprecated",
+        "path": "package.json",
+        "line": 29
+      },
+      "expectedEndState": {
+        "description": "package.json no longer depends on request; HTTP calls use native fetch or a maintained client.",
+        "checks": [
+          { "path": "package.json", "mustNotMatch": "\"request\":" }
+        ]
+      },
+      "verification": ["npm ci && npm test"],
+      "migrationEvidence": {
+        "commit": "https://github.com/auth0/db-connections-templates/commit/db86c626d9b8b4ca4f5770918100286741b52ef9",
+        "summary": "Replaced request with axios and upgraded the remaining dependencies."
+      }
+    },
+    {
+      "id": "outline-koa-router",
+      "title": "Replace the deprecated koa-router package",
+      "repository": "https://github.com/outline/outline",
+      "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
+      "finding": {
+        "ruleId": "npm.package.koa-router.deprecated",
+        "path": "package.json",
+        "line": 157
+      },
+      "expectedEndState": {
+        "description": "package.json depends on @koa/router instead of koa-router, and the repository type-checks.",
+        "checks": [
+          {
+            "path": "package.json",
+            "mustNotMatch": "\"(?:@types/)?koa-router\":",
+            "mustMatch": "\"@koa/router\":"
+          }
+        ]
+      },
+      "verification": ["yarn install --frozen-lockfile && yarn tsc"],
+      "migrationEvidence": {
+        "commit": "https://github.com/outline/outline/commit/086bd9e9e420852ea4796ffc45d820da87f1475a",
+        "summary": "Replaced koa-router with @koa/router v15."
+      }
+    },
+    {
+      "id": "fork-corner-node-sass",
+      "title": "Migrate from Node Sass to Dart Sass",
+      "repository": "https://github.com/warengonzaga/fork-corner",
+      "commit": "996156beb522c2cbb10f735d8a92d884178e1a42",
+      "finding": {
+        "ruleId": "npm.package.node-sass.eol",
+        "path": "package.json",
+        "line": 41
+      },
+      "expectedEndState": {
+        "description": "package.json builds styles with sass instead of node-sass, and the gulp build still runs.",
+        "checks": [
+          { "path": "package.json", "mustNotMatch": "\"node-sass\":", "mustMatch": "\"sass\":" },
+          { "path": "gulpfile.js", "mustNotMatch": "node-sass" }
+        ]
+      },
+      "verification": ["yarn install --frozen-lockfile && npx gulp"],
+      "migrationEvidence": {
+        "commit": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83",
+        "summary": "Migrated gulp-sass to Dart Sass and removed the node-sass compiler."
+      }
+    },
+    {
+      "id": "outline-crypto-js",
+      "title": "Replace the deprecated crypto-js package",
+      "repository": "https://github.com/outline/outline",
+      "commit": "879c568a2ce55b0462651fa580de7f65faae026c",
+      "finding": {
+        "ruleId": "npm.package.crypto-js.deprecated",
+        "path": "package.json",
+        "line": 119
+      },
+      "expectedEndState": {
+        "description": "package.json no longer depends on crypto-js; cryptography uses Web Crypto or a maintained library, and the repository type-checks.",
+        "checks": [
+          { "path": "package.json", "mustNotMatch": "\"(?:@types/)?crypto-js\":" }
+        ]
+      },
+      "verification": ["yarn install --frozen-lockfile && yarn tsc"],
+      "migrationEvidence": {
+        "commit": "https://github.com/outline/outline/commit/a2ab9ef731cd0d0a0819125f0b74d53a22cd3c7e",
+        "summary": "Replaced crypto-js and socket.io-redis with maintained packages."
+      }
+    }
+  ]
+}
