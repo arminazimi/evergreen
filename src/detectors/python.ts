@@ -7,6 +7,7 @@ import { relativePosix } from "../paths.js";
 import type { DeprecationRule, Severity, UsageMatcher } from "../domain.js";
 import { loadDataFile } from "../data-source.js";
 import { analyzeSourceUsage, impactFor } from "../source-usage.js";
+import { parseSource } from "../usage/tree-sitter.js";
 import { discoverPythonWorkspaces, usagesOwnedBy } from "../workspaces.js";
 import {
   DETECTOR_API_VERSION,
@@ -39,6 +40,7 @@ interface Declaration {
   line: number;
   value: string;
   kind: "compatibility range" | "pinned runtime";
+  identity?: string;
 }
 
 interface DirectDependency {
@@ -262,7 +264,7 @@ function unsupportedVersion(
   value: string,
   maximumVersion: string,
 ): [major: number, minor: number] | undefined {
-  const lowerBounds = [...value.matchAll(/(?:^|[,\s])(?:>=|>|~=|\^|~)?\s*(\d+)\.(\d+)/g)]
+  const lowerBounds = [...value.matchAll(/(?:^|,)\s*(?:>=|>|~=|===?|\^|~)?\s*(\d+)\.(\d+)/g)]
     .map((match) =>
       match[1] && match[2]
         ? ([Number.parseInt(match[1], 10), Number.parseInt(match[2], 10)] as const)
@@ -271,7 +273,7 @@ function unsupportedVersion(
     .filter((pair): pair is readonly [number, number] => pair !== undefined);
   const candidate = lowerBounds.sort((left, right) =>
     left[0] === right[0] ? right[1] - left[1] : right[0] - left[0],
-  )[0] ?? versionPair(value);
+  )[0] ?? (/^python-\d+\.\d+(?:\.\d+)?$/i.test(value) ? versionPair(value) : undefined);
   const maximum = versionPair(maximumVersion);
   if (!candidate || !maximum) return undefined;
   return candidate[0] < maximum[0] ||
@@ -285,6 +287,7 @@ function unsupportedVersion(
  * range with an upper bound. `>=3.11` merely allows it, so it is not a problem with the declaration.
  */
 export function staysOnScheduledLine(declaration: { kind: string; value: string }, line: [number, number]): boolean {
+  if (declaration.kind === "compatibility range" && !/(?:^|,)\s*(?:>=|>|~=|===?|\^|~)?\s*\d+\.\d+/.test(declaration.value)) return false;
   const pair = versionPair(declaration.value);
   if (!pair || pair[0] !== line[0] || pair[1] !== line[1]) return false;
   return declaration.kind === "pinned runtime" || /(?:<|==)/.test(declaration.value);
@@ -321,8 +324,13 @@ async function collectVersionFiles(root: string): Promise<Declaration[]> {
   const declarations: Declaration[] = [];
   for (const name of [".python-version", "runtime.txt"] as const) {
     const path = resolve(root, name);
-    const value = (await readOptional(path))?.trim();
-    if (value) declarations.push({ path, line: 1, value, kind: "pinned runtime" });
+    const contents = await readOptional(path);
+    for (const [index, rawLine] of (contents ?? "").split(/\r?\n/).entries()) {
+      const value = rawLine.replace(/#.*$/, "").trim();
+      if (/^(?:python-)?\d+\.\d+(?:\.\d+)?$/i.test(value)) {
+        declarations.push({ path, line: index + 1, value, kind: "pinned runtime" });
+      }
+    }
   }
   const toolVersionsPath = resolve(root, ".tool-versions");
   const toolVersions = await readOptional(toolVersionsPath);
@@ -339,7 +347,83 @@ async function collectVersionFiles(root: string): Promise<Declaration[]> {
       }
     }
   }
+  for (const name of ["setup.cfg", "tox.ini"] as const) {
+    const path = resolve(root, name);
+    const contents = await readOptional(path);
+    if (contents) declarations.push(...collectIniRuntime(path, contents, name));
+  }
+  const setupPath = resolve(root, "setup.py");
+  const setupContents = await readOptional(setupPath);
+  if (setupContents) declarations.push(...await collectSetupRuntime(setupPath, setupContents));
   return declarations;
+}
+
+function collectIniRuntime(path: string, contents: string, name: "setup.cfg" | "tox.ini"): Declaration[] {
+  const declarations: Declaration[] = [];
+  let section = "";
+  let active = false;
+  let optionIndent = 0;
+  for (const [index, rawLine] of contents.split(/\r?\n/).entries()) {
+    const text = rawLine.replace(/(?:^|\s)[#;].*$/, "").trim();
+    if (!text) continue;
+    const header = /^\[([^\]]+)\]$/.exec(text);
+    if (header) {
+      section = header[1]!.toLowerCase();
+      active = false;
+      continue;
+    }
+    const indent = rawLine.length - rawLine.trimStart().length;
+    let value = text;
+    if (!active || indent <= optionIndent) {
+      const option = /^([\w-]+)\s*[=:]\s*(.*)$/.exec(text);
+      active = name === "setup.cfg"
+        ? section === "options" && option?.[1] === "python_requires"
+        : section === "tox" && ["envlist", "env_list"].includes(option?.[1] ?? "");
+      optionIndent = indent;
+      value = option?.[2] ?? "";
+    }
+    if (!active || !value) continue;
+    if (name === "setup.cfg") {
+      const previous = declarations[0];
+      if (previous) previous.value += `,${value}`;
+      else declarations.push({ path, line: index + 1, value, kind: "compatibility range" });
+      continue;
+    }
+    const versions = new Set<string>();
+    for (const environment of value.match(/(?:[^,\s{}]+|\{[^{}]*\})+/g) ?? []) {
+      const python = /(?:^|-)py(?:(\d)(\d{1,2})|\{(\d{2,3}(?:,\s*\d{2,3})*)\})(?=-|$)/.exec(environment);
+      if (!python) continue;
+      const pins = python[3]?.split(/,\s*/) ?? [`${python[1]}${python[2]}`];
+      for (const pin of pins) versions.add(`${pin[0]}.${Number(pin.slice(1))}`);
+    }
+    for (const value of versions) {
+      declarations.push({ path, line: index + 1, value, kind: "pinned runtime", identity: value });
+    }
+  }
+  return declarations;
+}
+
+/** Only literal keyword arguments to conventional setup calls are read; repository code is never run. */
+async function collectSetupRuntime(path: string, contents: string): Promise<Declaration[]> {
+  const tree = await parseSource("python", contents);
+  if (!tree) return [];
+  try {
+    if (tree.rootNode.hasError) return [];
+    const declarations: Declaration[] = [];
+    for (const call of tree.rootNode.descendantsOfType("call")) {
+      if (!call || !["setup", "setuptools.setup", "distutils.core.setup"].includes(call.childForFieldName("function")?.text ?? "")) continue;
+      for (const argument of call.childForFieldName("arguments")?.namedChildren ?? []) {
+        if (argument?.type !== "keyword_argument" || argument.childForFieldName("name")?.text !== "python_requires") continue;
+        const literal = argument.childForFieldName("value");
+        if (literal?.type !== "string") continue;
+        const value = /^(?:'([^'\\\r\n]*)'|"([^"\\\r\n]*)")$/.exec(literal.text);
+        if (value) declarations.push({ path, line: argument.startPosition.row + 1, value: value[1] ?? value[2]!, kind: "compatibility range" });
+      }
+    }
+    return declarations;
+  } finally {
+    tree.delete();
+  }
 }
 
 function isPythonRule(value: unknown): value is PythonRule {
@@ -389,7 +473,7 @@ export class PythonDetector implements Detector {
   readonly id = "python";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["pyproject.toml", ".python-version", "runtime.txt", ".tool-versions", "uv.lock", "poetry.lock", "pdm.lock", "Pipfile.lock", "requirements*.txt"],
+    fileNames: ["pyproject.toml", ".python-version", "runtime.txt", ".tool-versions", "setup.cfg", "setup.py", "tox.ini", "uv.lock", "poetry.lock", "pdm.lock", "Pipfile.lock", "requirements*.txt"],
     sourceExtensions: [".py", ".ini", ".cfg"],
   };
 
@@ -451,7 +535,7 @@ export class PythonDetector implements Detector {
           declaration.kind === "pinned runtime" ? runtimeRule.severity : "medium";
         const path = relativePosix(context.root, declaration.path);
         findings.push({
-          id: `${runtimeRule.id}:${path}:${declaration.line}`,
+          id: `${runtimeRule.id}:${path}:${declaration.line}${declaration.identity ? `:${declaration.identity}` : ""}`,
           ruleId: runtimeRule.id,
           title: runtimeRule.title,
           summary: `${declaration.kind} ${declaration.value} includes Python ${version.join(".")}. ${runtimeRule.summary}`,

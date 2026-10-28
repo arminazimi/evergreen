@@ -41,6 +41,14 @@ See [`examples/detectors/todo-comments.ts`](../examples/detectors/todo-comments.
 
 Built-in detectors with their own pages: [Container base images](detectors/container.md), [Dart and Flutter](detectors/dart.md), [Database runtimes](detectors/database.md), [.NET](detectors/dotnet.md), [Elixir and Mix](detectors/elixir.md), [Go](detectors/go.md), [Java and Kotlin](detectors/java.md), [Kubernetes APIs](detectors/kubernetes.md), [Rust](detectors/rust.md), [Scala and sbt](detectors/scala.md), [Serverless runtimes](detectors/serverless.md), [Shell and PowerShell](detectors/shell.md), [Swift](detectors/swift.md), [Terraform](detectors/terraform.md). The C and C++, Ruby, PHP, Android, and CI runner images detectors have no separate pages yet; their supported declarations and limits are in [Compatibility](COMPATIBILITY.md#c-and-c-detector), [Compatibility](COMPATIBILITY.md#ruby-detector), [Compatibility](COMPATIBILITY.md#php-detector), [Compatibility](COMPATIBILITY.md#android-detector), and [Compatibility](COMPATIBILITY.md#ci-runner-images-detector).
 
+## Python runtime declarations
+
+The Python detector reads `.python-version` (one concrete version per line), `runtime.txt`, `.tool-versions`, `[project].requires-python` and Poetry's Python constraint in `pyproject.toml`, `python_requires` in the `[options]` section of `setup.cfg`, and literal `python_requires` keyword arguments to `setup(...)`, `setuptools.setup(...)`, or `distutils.core.setup(...)` in `setup.py`. Python source is parsed, never executed; computed values, variable references, concatenation, interpolation, and import aliases in `setup.py` are not resolved.
+
+It also reads `envlist` and `env_list` in the `[tox]` section of `tox.ini`, including continuation lines, factors such as `py39-unit`, and Python brace lists such as `py{39,310}-unit`. These name pinned CPython release lines. Generic `py3`, PyPy environments, substitutions, and non-Python environments are skipped. Repeated factors for the same release on one line produce one finding.
+
+A finding points at the pin, keyword, or value's exact line. Runtime pins use the rule's severity; compatibility ranges use medium severity and report a concrete lower bound. An upper-bound-only range such as `<3.9`, an exclusion such as `!=3.9.*`, or a floating value does not establish a runtime version and produces no finding. These declarations are read in the root project and each discovered uv workspace member.
+
 ## Ruby detector layout
 
 The Ruby detector is a useful example of the layout a built-in detector follows. Its entry point, `src/detectors/ruby/index.ts`, finds the files, reads them, and matches each declaration to a rule. One pure parser per file type sits beside it (`parse-ruby-runtime.ts`, `parse-gemfile.ts`, `parse-gemfile-lock.ts`, and `parse-gemspec.ts`):
