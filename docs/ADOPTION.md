@@ -136,8 +136,8 @@ node dist/src/cli.js dependabot-config .
 ```
 
 - The command prints YAML only; it never writes `.github/dependabot.yml` or any other file. Review the fragment before merging it into your existing config.
-- Package ecosystems map to their Dependabot `package-ecosystem` (npm → npm, Python → pip, Java → maven, .NET → nuget, Go → gomod, and so on). Runtime findings such as Node.js and Python end of life have no Dependabot equivalent and produce no entry.
-- Grouped `patterns` come from the deprecated packages' PURL identities; ecosystems whose findings have no usable package name get a plain weekly entry without a group.
+- Package ecosystems map to their Dependabot `package-ecosystem` (npm → npm, Python → pip, .NET → nuget, Go → gomod, and so on). On the JVM the finding's build file decides: `pom.xml` → maven, and Gradle build files (`build.gradle`, `build.gradle.kts`, `gradle/libs.versions.toml`) → gradle. Workflow findings always point at `/`, because Dependabot picks the workflows up there itself. Runtime findings such as Node.js and Python end of life have no Dependabot equivalent and produce no entry.
+- Grouped `patterns` come from the deprecated packages' PURL identities; ecosystems whose findings have no usable package name get a plain weekly entry without a group. When the scan finds nothing mappable, the fragment is comments only explaining that, because Dependabot requires at least one `updates` entry and an empty `updates: []` is not accepted.
 
 ## Socket report for 0.7.1
 
