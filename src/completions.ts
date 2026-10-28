@@ -29,6 +29,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "init", flags: ["--agents", "--hooks", "--personal", "--file", "--fail-on", "--yes", "--dry-run"], example: "evergreen init --hooks --dry-run" },
   { name: "setup", flags: ["--yes", "--dry-run"], example: "evergreen setup --dry-run" },
   { name: "new-detector", flags: ["--ecosystem"], example: "evergreen new-detector my-lang --ecosystem my-lang" },
+  { name: "new-rule", flags: ["--ecosystem"], example: "evergreen new-rule npm.package.sample.deprecated" },
   { name: "rules", flags: [], example: "evergreen rules lint" },
   { name: "explain", flags: ["--json", "--data-version"], example: "evergreen explain <finding-id> ." },
   { name: "context", flags: ["--json", "--data-version"], example: "evergreen context <finding-id> ." },
