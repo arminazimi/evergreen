@@ -1,0 +1,29 @@
+name: Fuzz
+
+on:
+  schedule:
+    # Nightly.
+    - cron: "23 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    name: fuzz parsers
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Fuzz the manifest parsers
+        # A deeper budget than `npm run check` runs on every commit.
+        env:
+          EVERGREEN_FUZZ_RUNS: "1000"
+          EVERGREEN_FUZZ_MS: "60000"
+        run: npm run test:fuzz

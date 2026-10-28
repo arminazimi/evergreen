@@ -119,7 +119,12 @@ function maskHcl(source: string): string | undefined {
       if (character === "<" && source.startsWith("<<", index)) break;
       index++;
     }
-    if (index > plainStart) chunks.push(source.slice(plainStart, index));
+    if (index > plainStart) {
+      chunks.push(source.slice(plainStart, index));
+    } else {
+      // `<<` that the heredoc pattern rejected (for example `<<1`) would otherwise stall here forever.
+      index++;
+    }
   }
 
   return chunks.join("");
