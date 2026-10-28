@@ -1,0 +1,13 @@
+# Evergreen lifecycle scan. The step image must provide Node.js 22 or newer for npx to run the package.
+# For reproducible builds, pin the version in both commands (evergreen-deprecation@X.Y.Z).
+pipelines:
+  default:
+    - step:
+        name: Evergreen lifecycle scan
+        image: node:24
+        # The report is written before the gate is applied, so it is kept even when the step fails.
+        script:
+          - npx --yes evergreen-deprecation scan . --json > evergreen-report.json || true
+          - npx --yes evergreen-deprecation scan . --fail-on high
+        artifacts:
+          - evergreen-report.json

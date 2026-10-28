@@ -1,0 +1,19 @@
+// Evergreen lifecycle scan. The agent needs Node.js 22 or newer for npx to run the package.
+// For reproducible builds, pin the version in both commands (evergreen-deprecation@X.Y.Z).
+pipeline {
+  agent any
+  stages {
+    stage('Evergreen lifecycle scan') {
+      steps {
+        // The report is written before the gate is applied, so it is kept even when the build fails.
+        sh 'npx --yes evergreen-deprecation scan . --format junit > evergreen-report.xml || true'
+        sh 'npx --yes evergreen-deprecation scan . --fail-on high'
+      }
+      post {
+        always {
+          junit 'evergreen-report.xml'
+        }
+      }
+    }
+  }
+}
