@@ -64,7 +64,7 @@ import { applyIgnore, ConfigError, loadConfig } from "./config.js";
 const HELP = `Evergreen — local-first deprecation intelligence
 
 Usage:
-  evergreen scan [path] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]
+  evergreen scan [path] [--no-cache] [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]
   evergreen scan --demo [--json | --format <text|json|markdown|junit|sarif|rdjson|codequality|compact|html|slack|teams|webhook>]   # scan an in-memory demo project that always has findings
   evergreen scan [path] --baseline <file> [--baseline <file>...] [--baseline-warn-days <n>] [--on-expired resurface|fail] [--today <YYYY-MM-DD>] [--json]
   evergreen scan [path] --as-of <YYYY-MM-DD> [--json]   # scan as the world will look on a date; --today is an alias
@@ -73,6 +73,7 @@ Usage:
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan [path] --ignore <path>   # ignore paths or glob patterns during scan
+  evergreen scan [path] --no-cache   # bypass the scan cache and re-scan all files fresh
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
@@ -611,6 +612,10 @@ async function main(rawArgs: string[]): Promise<number> {
   if (args.includes("--write-status") && command !== "scan") {
     return fail("usage", "--write-status is only available for the scan command.");
   }
+  if (args.includes("--no-cache") && command !== "scan") {
+    return fail("usage", "--no-cache is only available for the scan command.");
+  }
+  const noCache = args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1";
   if (command === "guard") {
     try {
       const result = await guardCommand(args.slice(1), { report: (output) => process.stderr.write(`${output}\n`) });
@@ -694,7 +699,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
   if (command === "renovate-preset") {
     if (positional.length > 1) return fail("usage", "Usage: evergreen renovate-preset [path]");
-    const result = await scanRepository(resolve(pathArgument), builtInDetectors);
+    const result = await scanRepository(resolve(pathArgument), builtInDetectors, { noCache });
     const preset = buildRenovatePreset(result.findings, await bundledRules());
     process.stdout.write(`${JSON.stringify(preset, null, 2)}\n`);
     return 0;
@@ -744,7 +749,7 @@ async function main(rawArgs: string[]): Promise<number> {
     if (paths.length === 0) {
       return fail("usage", `No Git repositories found in ${allDirectory}.`);
     }
-    const multi = await scanProjects(paths, builtInDetectors);
+    const multi = await scanProjects(paths, builtInDetectors, { noCache });
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
   }
@@ -766,7 +771,7 @@ async function main(rawArgs: string[]): Promise<number> {
     if (!Number.isInteger(months) || months < 1 || months > MAX_FORECAST_MONTHS) {
       return fail("usage", `--months must be a whole number from 1 to ${MAX_FORECAST_MONTHS}.`);
     }
-    const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
+    const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors, { noCache }), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
     process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
     return 0;
   }
@@ -774,7 +779,7 @@ async function main(rawArgs: string[]): Promise<number> {
     // Patches are printed unless --branch asks for a local, reviewable commit; nothing is ever pushed.
     const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--branch" && argument !== "--data-version");
     if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch"))) return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch]");
-    const scanned = await scanRepository(pathArgument, builtInDetectors);
+    const scanned = await scanRepository(pathArgument, builtInDetectors, { noCache });
     const patches = await planFixes(scanned);
     if (patches.length === 0) {
       process.stderr.write("No deterministic fixes found.\n");
@@ -783,7 +788,7 @@ async function main(rawArgs: string[]): Promise<number> {
     if (args.includes("--branch")) {
       const applied = await applyOnBranch(pathArgument, patches);
       process.stderr.write(`Committed ${applied.files.length} file${applied.files.length === 1 ? "" : "s"} on branch ${applied.branch} (${applied.commit}). Nothing was pushed; undo with: git branch -D ${applied.branch}\n`);
-      process.stderr.write(renderVerification(verifyFix(scanned, await scanRepository(pathArgument, builtInDetectors))));
+      process.stderr.write(renderVerification(verifyFix(scanned, await scanRepository(pathArgument, builtInDetectors, { noCache }))));
       return 0;
     }
     process.stdout.write(renderPatches(patches));
@@ -798,7 +803,7 @@ async function main(rawArgs: string[]): Promise<number> {
   const cliIgnore = optionValues("--ignore");
   const ignorePatterns = args.includes("--ignore") ? cliIgnore : (config?.ignore ?? []);
 
-  let result = demo ? await scanDemo(builtInDetectors) : await scanRepository(pathArgument, builtInDetectors);
+  let result = demo ? await scanDemo(builtInDetectors) : await scanRepository(pathArgument, builtInDetectors, { noCache });
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (ignorePatterns.length > 0) result = applyIgnore(result, ignorePatterns);
