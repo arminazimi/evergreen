@@ -42,6 +42,7 @@ Exits `0` and prints a scan result where:
 - `schemaVersion` is `evergreen.scan.v1`.
 - The findings include `npm.package.request.deprecated` at `package.json:5` and at least one `nodejs.runtime.*` rule.
 - `unclassified.count` is `0`.
+- Wall-clock duration is under the two-minute adoption goal (< 120 s), and the measured time is recorded in the job summary.
 
 ### `scan . --format compact`
 

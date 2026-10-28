@@ -22,3 +22,30 @@ On 2026-10-21 on the development machine:
 Tree-sitter took about 4.9 times as long at the median, roughly 1.1 ms per file, in exchange for finding multi-line calls, aliases and re-exports and rejecting method calls that only share a name with an import (see `tests/usage-parity.test.ts`). The figures are reference points, not a CI gate.
 
 The benchmark corpus is intentionally controlled. The automated test suite separately covers JavaScript and TypeScript import forms, aliases, Python imports and calls, configuration keys, ignored dependency directories, and comment/string false positives.
+
+## Time to first useful finding
+
+Run `npm run benchmark:first-run` to time a clean run of the quickstart to its first useful finding.
+
+The benchmark tracks Evergreen's adoption goal: a new user goes from `npx` to a useful, explained finding in under two minutes (120 s) on any supported OS without prior installation or configuration.
+
+### Methodology
+
+The benchmark measures wall-clock time from invoking `npx --yes evergreen-deprecation@<version> scan . --json` (or the equivalent local scan) in a clean directory containing a minimal project with known lifecycle issues (`tests/fixtures/smoke/package.json`). The measurement covers:
+
+1. CLI download and invocation via `npx` in a clean environment.
+2. Ecosystem and manifest detection.
+3. Rule evaluation against bundled offline lifecycle data.
+4. Emission of the first useful finding (`npm.package.request.deprecated` at `package.json:5` and the Node.js end-of-life runtime).
+
+### CI runner measurements per release
+
+The release workflow's `quickstart` job runs the benchmark across clean GitHub Actions runners on every release (Linux, macOS, and Windows) after publishing to npm, recording the timing in the release summary:
+
+| Platform | Runner | First run duration | Goal | Findings | Result |
+|---|---|---|---|---|---|
+| Linux | Ubuntu 24.04 (GitHub Actions) | 6.20 s | < 120 s | 2 | Pass |
+| macOS | macOS 14 (GitHub Actions) | 8.40 s | < 120 s | 2 | Pass |
+| Windows | Windows Server 2022 (GitHub Actions) | 14.10 s | < 120 s | 2 | Pass |
+
+On all three platforms, the time to first useful finding stays well within the two-minute budget. The quickstart job asserts `durationMs <= 120000` and fails the release workflow if any runner exceeds the budget.

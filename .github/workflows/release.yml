@@ -214,7 +214,7 @@ jobs:
           # The quickstart commands of tests/quickstart.md, against the published package.
           node - "$VERSION" <<'NODE'
           const { spawnSync } = require("node:child_process");
-          const { existsSync } = require("node:fs");
+          const { appendFileSync, existsSync, readFileSync } = require("node:fs");
 
           const version = process.argv[2];
           const windows = process.platform === "win32";
@@ -252,12 +252,28 @@ jobs:
 
           const id = "npm.package.request.deprecated:package.json:5";
 
+          const startedAt = Date.now();
           const scan = jsonOf(run(["scan", ".", "--json"]), ["scan", ".", "--json"], 0);
+          const durationMs = Date.now() - startedAt;
+          const durationSec = (durationMs / 1000).toFixed(2);
           parseJson("evergreen.scan.v1", scan, "the JSON scan");
           const ruleIds = new Set((scan.findings ?? []).map((finding) => finding.ruleId));
           expect(ruleIds.has("npm.package.request.deprecated"), "the scan finds the deprecated package");
           expect([...ruleIds].some((ruleId) => ruleId.startsWith("nodejs.runtime.")), "the scan finds the end-of-life Node.js range");
           expect(scan.unclassified?.count === 0, "the smoke fixture has nothing unclassified");
+          expect(durationMs <= 120000, `time to first useful finding stays under the two-minute budget (${durationSec}s <= 120s)`);
+          console.log(`Time to first useful finding: ${durationSec}s on ${process.platform} (goal: under 120s)`);
+
+          const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+          if (summaryPath) {
+            const osName = process.platform === "win32" ? "Windows" : process.platform === "darwin" ? "macOS" : "Linux";
+            const row = `| ${osName} | ${durationSec} s | < 120 s | ${(scan.findings ?? []).length} | \`npm.package.request.deprecated\` | Pass |\n`;
+            if (!existsSync(summaryPath) || !readFileSync(summaryPath, "utf8").includes("Time to first useful finding")) {
+              appendFileSync(summaryPath, "\n### Time to first useful finding\n\n| Platform | First run duration | Goal | Findings | First finding | Result |\n|---|---|---|---|---|---|\n" + row);
+            } else {
+              appendFileSync(summaryPath, row);
+            }
+          }
 
           const compact = run(["scan", ".", "--format", "compact"]);
           expect(compact.status === 0, `scan --format compact exits 0 (got ${compact.status})`);

@@ -85,6 +85,7 @@
     "check:plugins": "npm run build --silent && node dist/tools/plugin-packages.js --check",
     "check:sources": "npm run build --silent && node dist/tools/check-sources.js",
     "benchmark:usage": "npm run build --silent && node dist/benchmarks/source-usage.js",
+    "benchmark:first-run": "npm run build --silent && node dist/benchmarks/first-run.js",
     "eval:skill-triggers": "npm run build --silent && node dist/benchmarks/skill-trigger-eval.js",
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",
     "validate:codex-plugin": "npm run build --silent && node dist/tools/validate-codex-plugin.js",
