@@ -115,6 +115,7 @@ does not provide a `with` entry.
 | `baseline-warn-days` | `14` | Warn when a baseline suppression expires within this many days (0 to 365). |
 | `on-expired` | `resurface` | What a baseline suppression does after its `expires` day: `resurface` (its finding is reported again) or `fail` (also fail the job). |
 | `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
+| `mode` | `scan` | `scan` scans the checked-out tree. `diff` compares the pull request base and head SHAs from the event payload and fails only on findings the pull request introduces. See [pull request diff mode](#pull-request-diff-mode). |
 | `report-name` | `evergreen-report` | Artifact name for the JSON report when `upload-report` is `true`. |
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
@@ -151,6 +152,22 @@ steps:
 ```
 
 Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
+
+## Pull request diff mode
+
+`finding-count` and the severity gate cover every finding in the checkout. On a busy repository that backlog grows, so reviewers cannot see which findings a pull request actually introduced. `mode: diff` fixes that: the Action scans the pull request base and head refs with the same engine as `evergreen diff`, and the gate, annotations, badge, comment, and summary count only what the pull request introduced. Findings the pull request fixes are listed in a "Fixed by this pull request" table in the summary and the pull request comment.
+
+```yaml
+steps:
+  - uses: actions/checkout@v7
+    with:
+      fetch-depth: 0   # diff mode archives the base and head SHAs from git objects, so fetch their history
+  - uses: arminazimi/evergreen@v0
+    with:
+      mode: diff
+```
+
+The base and head come from the `pull_request` event payload (`pull_request.base.sha` and `pull_request.head.sha`); the comparison stays offline — both refs are unpacked with `git archive` and scanned locally. Outside a `pull_request` event, or when the payload lacks those SHAs, the Action logs a notice and runs a regular scan instead. The baseline input does not apply in diff mode: it describes accepted findings in the whole repository, not in one pull request, and the Action says so with a notice. Because the gate judges only introduced findings, a pull request that adds a deprecated package fails and one that only edits documentation passes.
 
 ## End-of-life reminder issue
 

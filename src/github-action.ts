@@ -9,6 +9,8 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
+import { diffRefs } from "./diff.js";
+import type { DiffResult } from "./diff.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
 import type { DataInfo, SuppressionState } from "./domain.js";
 
@@ -39,6 +41,10 @@ export interface GitHubActionOptions {
   /** Warn on lines whose support ends within this many days; off when unset. */
   minSupportDays?: number;
   failOnSeverity?: SeverityGate;
+  /** `"diff"` scans the pull request `base..head` refs and judges only what the PR introduces; `"scan"` (default) scans the checked-out tree. */
+  mode?: "scan" | "diff";
+  /** The `<base>..<head>` refs compared when `mode` is `"diff"`; the pull request event's base and head SHAs. */
+  diffRange?: string;
 }
 
 export interface GitHubActionOutcome {
@@ -56,6 +62,8 @@ export interface GitHubActionOutcome {
   gate: SeverityGate;
   /** True when the `fail` policy is set and a baseline suppression had expired. */
   expiredFailure: boolean;
+  /** Present in diff mode: the compared range, the findings the PR fixed, and how many were unchanged. */
+  diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">;
 }
 
 type GitHubActionFailure = Pick<GitHubActionOutcome, "result" | "reportPath" | "failed" | "gateFailed" | "gate" | "expiredFailure">;
@@ -94,19 +102,29 @@ function parseGate(value: SeverityGate | undefined): SeverityGate {
 export async function runGitHubAction(options: GitHubActionOptions): Promise<GitHubActionOutcome> {
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);
-  let result = await scanRepository(root, builtInDetectors);
-  if (options.minSupportDays !== undefined) {
-    result = applyMinSupport(result, options.minSupportDays, options.today ?? new Date().toISOString().slice(0, 10));
-  }
   let expiredFailure = false;
-  if (options.baselinePath) {
-    const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
-      today: options.today ?? new Date().toISOString().slice(0, 10),
-      ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
-      ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
-    });
-    result = evaluated.result;
-    expiredFailure = expiredSuppressionsFail(options.onExpired, evaluated.expired);
+  let result: ScanResult;
+  let diff: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged"> | undefined;
+  if (options.mode === "diff") {
+    if (!options.diffRange) throw new Error("mode: diff needs the base and head refs of the pull request.");
+    const compared = await diffRefs(root, options.diffRange, builtInDetectors);
+    // The diff gate judges only what the PR introduces, so no baseline and no min-support run over the whole backlog.
+    result = { schemaVersion: "evergreen.scan.v1", root, scannedAt: new Date().toISOString(), findings: compared.introduced, diagnostics: [] };
+    diff = { base: compared.base, head: compared.head, fixed: compared.fixed, unchanged: compared.unchanged };
+  } else {
+    result = await scanRepository(root, builtInDetectors);
+    if (options.minSupportDays !== undefined) {
+      result = applyMinSupport(result, options.minSupportDays, options.today ?? new Date().toISOString().slice(0, 10));
+    }
+    if (options.baselinePath) {
+      const evaluated = evaluateBaseline(result, await readBaseline(resolve(root, options.baselinePath)), {
+        today: options.today ?? new Date().toISOString().slice(0, 10),
+        ...(options.baselineWarnDays === undefined ? {} : { warnWithinDays: options.baselineWarnDays }),
+        ...(options.onExpired === undefined ? {} : { onExpired: options.onExpired }),
+      });
+      result = evaluated.result;
+      expiredFailure = expiredSuppressionsFail(options.onExpired, evaluated.expired);
+    }
   }
 
   const reportPath = resolve(options.reportPath);
@@ -141,6 +159,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     gateFailed,
     gate,
     expiredFailure,
+    ...(diff ? { diff } : {}),
   };
 }
 
@@ -180,10 +199,14 @@ const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g
 /**
  * The job summary the Action writes: a count per severity, the most severe findings with a link to their
  * evidence, the age of the lifecycle data, and (when `attribution` is on) one small line linking to Evergreen.
+ * When `diff` is set the scan covered a pull request range: the header and a fixed-findings table say so.
  */
-export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState): string {
+export function renderSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState, diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
-  const lines = ["## Evergreen", "", `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`, ""];
+  const counts = !diff
+    ? `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`
+    : `Found **${findings.length}** lifecycle finding${findings.length === 1 ? "" : "s"} introduced by this pull request (${diff.base}..${diff.head}); ${status}.`;
+  const lines = ["## Evergreen", "", counts, ""];
 
   if (findings.length > 0) {
     const counts = new Map<Severity, number>();
@@ -204,6 +227,19 @@ export function renderSummary(findings: readonly Finding[], failed: boolean, gat
     }
     if (findings.length > top.length) lines.push("", `…and ${findings.length - top.length} more; the JSON report artifact lists every finding.`);
     lines.push("");
+  }
+
+  if (diff) {
+    lines.push(`Fixed by this pull request: **${diff.fixed.length}** finding${diff.fixed.length === 1 ? "" : "s"} (${diff.unchanged} unchanged).`, "");
+    if (diff.fixed.length > 0) {
+      lines.push("| Severity | Fixed finding | Location |", "|---|---|---|");
+      for (const finding of diff.fixed.slice(0, SUMMARY_FINDINGS)) {
+        const location = `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
+        lines.push(`| ${finding.severity} | ${cell(finding.title)} | \`${cell(location)}\` |`);
+      }
+      if (diff.fixed.length > SUMMARY_FINDINGS) lines.push("", `…and ${diff.fixed.length - SUMMARY_FINDINGS} more.`);
+      lines.push("");
+    }
   }
 
   if (suppressions) {
@@ -230,6 +266,6 @@ export function renderSummary(findings: readonly Finding[], failed: boolean, gat
 export const PR_COMMENT_MARKER = "<!-- evergreen-pr-comment -->";
 
 /** The pull-request comment: the marker, then the same counts and top findings as the job summary. */
-export function renderComment(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState): string {
-  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions)}`;
+export function renderComment(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data: DataInfo | undefined, attribution: boolean, suppressions?: SuppressionState, diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">): string {
+  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions, diff)}`;
 }

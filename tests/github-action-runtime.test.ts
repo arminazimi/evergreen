@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -450,4 +450,104 @@ test("action.yml declares pr-comment off by default and passes it and the token 
   assert.equal(action.inputs["pr-comment"]?.default, "false");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_PR-COMMENT"], "${{ inputs.pr-comment }}");
   assert.equal(action.runs.steps[0]?.env?.["INPUT_GITHUB-TOKEN"], "${{ inputs.github-token }}");
+});
+
+function git(root: string, args: string[]): string {
+  return execFileSync("git", ["-C", root, ...args], { encoding: "utf8" });
+}
+
+/** A commit with a clean `package.json`, then a commit that adds an unsupported checkout pin. */
+async function gitRepositoryWithFinding(): Promise<{ root: string; base: string; head: string }> {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-action-diff-"));
+  temporaryRoots.push(root);
+  git(root, ["init", "-q"]);
+  git(root, ["config", "user.email", "evergreen@example.com"]);
+  git(root, ["config", "user.name", "Evergreen test"]);
+  await writeFile(join(root, "package.json"), JSON.stringify({ engines: { node: "24" } }));
+  git(root, ["add", "."]);
+  git(root, ["commit", "-q", "-m", "base"]);
+  const base = git(root, ["rev-parse", "HEAD"]).trim();
+  await mkdir(join(root, ".github", "workflows"), { recursive: true });
+  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+  git(root, ["add", "."]);
+  git(root, ["commit", "-q", "-m", "head"]);
+  const head = git(root, ["rev-parse", "HEAD"]).trim();
+  return { root, base, head };
+}
+
+test("diff mode gates only what the pull request introduces and reports what it fixed", async () => {
+  const { root, base, head } = await gitRepositoryWithFinding();
+  const reportPath = join(root, "report.json");
+
+  const introduced = await runGitHubAction({ root, reportPath, mode: "diff", diffRange: `${base}..${head}`, failOnSeverity: "high" });
+  assert.equal(introduced.result.findings.length, 1);
+  assert.equal(introduced.failed, true, "the PR introduced the checkout finding, so the gate fails");
+  assert.equal(introduced.gateFailed, true);
+  assert.deepEqual(introduced.diff, { base, head, fixed: [], unchanged: 0 });
+  assert.deepEqual(introduced.result.diagnostics, [], "the diff path adds no baseline diagnostics");
+
+  const fixed = await runGitHubAction({ root, reportPath, mode: "diff", diffRange: `${head}..${base}`, failOnSeverity: "high" });
+  assert.deepEqual(fixed.result.findings, []);
+  assert.equal(fixed.failed, false, "a PR that only removes findings passes");
+  assert.equal(fixed.gateFailed, false);
+  assert.equal(fixed.diff?.fixed.length, 1);
+});
+
+test("diff mode needs the pull request refs and refuses every other mode value", async () => {
+  const root = await fixtureRepository();
+  await assert.rejects(
+    runGitHubAction({ root, reportPath: join(root, "report.json"), mode: "diff" }),
+    /diff needs the base and head refs/,
+  );
+});
+
+test("the job summary in diff mode lists the findings the pull request fixed", async () => {
+  const { renderSummary } = await import("../src/github-action.js");
+  const text = renderSummary([], false, "high", undefined, false, undefined, {
+    base: "abc",
+    head: "def",
+    fixed: [finding("r.high:p:1", "high", "High one", "package.json", 2), finding("s.low:p:2", "low", "Low one", "package.json", 4)],
+    unchanged: 3,
+  });
+  assert.match(text, /Found \*\*0\*\* lifecycle findings introduced by this pull request \(abc\.\.def\); passed the severity gate\./);
+  assert.match(text, /Fixed by this pull request: \*\*2\*\* findings \(3 unchanged\)\./);
+  assert.match(text, /\| high \| High one \| `package\.json:2` \|/);
+  assert.match(text, /\| low \| Low one \| `package\.json:4` \|/);
+  assert.equal(text.includes("Baseline:"), false, "diff mode has no baseline line");
+  const scan = renderSummary([], false, "high", undefined, false);
+  assert.equal(scan.includes("introduced by this pull request"), false, "the plain scan summary is unchanged");
+});
+
+test("mode: diff reads the pull request base and head from the event payload", async () => {
+  const { root, base, head } = await gitRepositoryWithFinding();
+  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  const run = await runActionFixture(root, { INPUT_MODE: "diff", GITHUB_EVENT_PATH: join(root, "event.json") });
+  assert.equal(run.code, 1);
+  assert.match(run.summary, /introduced by this pull request/);
+  assert.match(run.summary, /Fixed by this pull request: \*\*0\*\* findings \(0 unchanged\)\./);
+  assert.match(run.stdout, /1 finding met or exceeded the high severity gate/);
+  assert.match(run.outputs, /finding-count=1/);
+});
+
+test("mode: diff falls back to a scan outside pull request events", async () => {
+  const { root } = await gitRepositoryWithFinding();
+  await writeFile(join(root, "event.json"), JSON.stringify({ push: { after: "abc" } }));
+  const run = await runActionFixture(root, { INPUT_MODE: "diff", GITHUB_EVENT_PATH: join(root, "event.json"), "INPUT_FAIL-ON-SEVERITY": "high" });
+  assert.equal(run.code, 1, "the fallback scans the checked-out tree, which carries the finding");
+  assert.match(run.stdout, /diff mode skipped/);
+  assert.match(run.summary, /Found \*\*1\*\* new lifecycle finding; failed the \*\*high\*\* severity gate/);
+  assert.equal(run.summary.includes("Fixed by this pull request"), false);
+});
+
+test("an invalid mode fails the run before any scan", async () => {
+  const root = await fixtureRepository();
+  const run = await runActionFixture(root, { INPUT_MODE: "fast", "INPUT_FAIL-ON-SEVERITY": "none" });
+  assert.equal(run.code, 1);
+  assert.match(run.stdout, /Invalid mode: fast/);
+});
+
+test("action.yml declares mode with a scan default and passes it to the scan step", async () => {
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { inputs: Record<string, { default?: string }>; runs: { steps: Array<{ env?: Record<string, string> }> } };
+  assert.equal(action.inputs.mode?.default, "scan");
+  assert.equal(action.runs.steps[0]?.env?.INPUT_MODE, "${{ inputs.mode }}");
 });

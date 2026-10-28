@@ -35,6 +35,13 @@ inputs:
     description: Lowest severity that fails the job (none, info, low, medium, high, or critical).
     required: false
     default: high
+  mode:
+    description: >-
+      scan (default) scans the checked-out tree. diff compares the pull request base and head from the
+      event payload, fails only on findings the pull request introduces, and lists the fixed ones in the
+      summary. Outside pull request events, or when the event lacks those SHAs, it falls back to scan.
+    required: false
+    default: scan
   report-name:
     description: Artifact name for the JSON report when upload-report is true.
     required: false
@@ -101,6 +108,7 @@ runs:
         INPUT_ON-EXPIRED: ${{ inputs.on-expired }}
         INPUT_MIN-SUPPORT-DAYS: ${{ inputs.min-support-days }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
+        INPUT_MODE: ${{ inputs.mode }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
