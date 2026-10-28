@@ -249,3 +249,46 @@ test("Microsoft .NET images with a variable, floating, unknown, or malformed tag
     ],
   );
 });
+
+test("reads images in Compose override files and skips services built from local Dockerfiles", async () => {
+  const root = await repository({
+    "compose.yaml": [
+      "services:",
+      "  app:",
+      "    build: .",
+      "    image: node:16",
+      "  backend:",
+      "    build:",
+      "      context: ./backend",
+      "    image: python:3.8",
+      "  db:",
+      "    image: postgres:11",
+      "",
+    ].join("\n"),
+    "compose.override.yaml": [
+      "services:",
+      "  cache:",
+      "    image: redis:5-alpine",
+      "  local-service:",
+      "    build: ./service",
+      "    image: node:18",
+      "",
+    ].join("\n"),
+    "docker-compose.override.yml": [
+      "services:",
+      "  secondary-db:",
+      "    image: postgres:10",
+      "",
+    ].join("\n"),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((f) => [f.location.path, f.location.line, f.ruleId]),
+    [
+      ["compose.override.yaml", 3, "container.redis.eol-6.0-and-older"],
+      ["compose.yaml", 10, "container.postgres.eol-13-and-older"],
+      ["docker-compose.override.yml", 3, "container.postgres.eol-13-and-older"],
+    ],
+  );
+  assert.deepEqual(analysis.unclassified, []);
+});

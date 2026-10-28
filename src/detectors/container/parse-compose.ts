@@ -5,10 +5,11 @@ import { isInterpolated, parseImageReference } from "./parse-image.js";
 /**
  * Pure, bounded parser for `services.*.image` in Compose files.
  *
- * Only a literal string at `services.<name>.image` is read. Interpolated values
- * (`${IMAGE}`) are returned as `dynamic`; they are never expanded. Other keys
- * that happen to hold image-looking text (labels, container_name, extension
- * fields), YAML aliases, merge-key expansion, and invalid YAML produce nothing.
+ * Only a literal string at `services.<name>.image` is read. Services built from
+ * a local Dockerfile (`build:`) are skipped. Interpolated values (`${IMAGE}`)
+ * are returned as `dynamic`; they are never expanded. Other keys that happen
+ * to hold image-looking text (labels, container_name, extension fields),
+ * YAML aliases, merge-key expansion, and invalid YAML produce nothing.
  * The parser never evaluates contents or executes tools.
  */
 
@@ -27,6 +28,16 @@ export interface ComposeDynamicDeclaration {
 }
 
 export type ComposeDeclaration = ComposeImageDeclaration | ComposeDynamicDeclaration;
+
+function hasLocalBuild(service: unknown): boolean {
+  if (!isMap(service)) return false;
+  const build = service.get("build", true);
+  if (build === undefined) return false;
+  if (isScalar(build)) {
+    return build.value !== null && build.value !== undefined && build.value !== false && build.value !== "";
+  }
+  return isMap(build);
+}
 
 /** Parse service image declarations without file, network, or process I/O. */
 export function parseCompose(contents: string): ComposeDeclaration[] {
@@ -48,6 +59,7 @@ export function parseCompose(contents: string): ComposeDeclaration[] {
     const declarations: ComposeDeclaration[] = [];
     for (const service of services.items) {
       if (!isMap(service.value)) continue;
+      if (hasLocalBuild(service.value)) continue;
       const image = service.value.get("image", true);
       if (!isScalar(image) || typeof image.value !== "string" || !image.range) continue;
       const value = image.value.trim();
