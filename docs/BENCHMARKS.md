@@ -42,3 +42,29 @@ On 2026-10-28, running `npm run benchmark:first-run` against the local build on 
 ### Release workflow timing
 
 In CI, the release workflow (`.github/workflows/release.yml`) uses its own inline timing in the `quickstart` job across clean Linux, macOS, and Windows runners after npm publish. The runner executes the package smoke script first (which warms the npm package cache) and then times `scan . --json` on the smoke fixture, isolating execution from npm registry latency. The job asserts that the scan finishes within the two-minute budget (`durationMs <= 120000`) and writes the measured duration to `$GITHUB_STEP_SUMMARY`. Actual per-release runner measurements appear in each release run's summary.
+
+## Scan performance budget
+
+Unlike the reference points above, the performance budget is a hard gate: the CI workflow runs the `perf-budget` job on every pull request, and the job fails when a scan of the fixed smoke fixture (`tests/fixtures/smoke`) exceeds a documented time or memory budget.
+
+Run `npm run benchmark:perf-budget` to reproduce it locally. The benchmark (`benchmarks/perf-budget.ts`) scans a clean temporary copy of the fixture in-process with the built-in detectors, scan caches disabled, and no network access. It runs one warm-up scan, then three measured runs, and reports the mean wall-clock time and the peak resident set size of the process. A scan that reports no findings also fails the gate, so a broken-but-fast scan cannot pass.
+
+### Budgets
+
+| Measurement | Budget | Reference (2026-10-28, macOS, Apple silicon, Node.js 22) |
+|---|---|---|
+| Mean wall time over the measured runs | 2,000 ms | 4–11 ms |
+| Peak resident set size | 768 MB | 87 MB |
+
+Both budgets carry roughly an order of magnitude of margin over the reference measurement so that runner noise never trips the gate — only a deliberate or catastrophic slowdown does. Raise a budget in the same commit that intentionally regresses scans, state the reason in that commit, and update this table; the ceilings live in `PERF_BUDGET` in `benchmarks/perf-budget.ts` and are enforced by `tests/perf-budget.test.ts`.
+
+### Verifying the gate trips
+
+A deliberate slowdown fails the check with exit code 1 and a `::error::` annotation:
+
+```bash
+node dist/benchmarks/perf-budget.js --simulate-slowdown-ms 3000 --check
+# mean scan wall time 3012 ms exceeded the 2000 ms budget
+```
+
+The unit tests cover the same path with a smaller simulated slowdown, so a gate that stopped tripping would fail `npm run check`.
