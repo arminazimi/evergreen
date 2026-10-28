@@ -40,6 +40,7 @@ import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupHtml, renderRollupText, rollupFiles } from "./rollup.js";
+import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "./rule-lint.js";
 import { buildRenovatePreset } from "./renovate-preset.js";
 import { buildDependabotConfig } from "./dependabot-config.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
@@ -104,6 +105,7 @@ Usage:
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
+  evergreen rules lint [file...]   # check lifecycle rules for problems before CI does; exits 1 on any problem
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
@@ -443,6 +445,22 @@ async function newDetector(args: string[]): Promise<number> {
   }
 }
 
+/** `rules lint`: checks registry files and reports every problem with its line and a fix hint. */
+async function rules(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen rules lint [file...]";
+  const [subcommand, ...rest] = args;
+  if (subcommand !== "lint" || rest.some((argument) => argument.startsWith("-"))) return fail("usage", usage);
+  let files: string[];
+  try {
+    files = rest.length > 0 ? rest : await defaultRuleFiles();
+  } catch (error) {
+    return fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+  }
+  const result = await lintRuleFiles(files);
+  process.stdout.write(`${renderRuleLintText(result)}\n`);
+  return result.issues.length === 0 ? 0 : EXIT_CODES.policy;
+}
+
 /** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */
 async function watch(args: string[], json: boolean): Promise<number> {
   const usageText = "Usage: evergreen watch add|remove <path> | list [--json] | [run] [--weekly] [--json]";
@@ -492,7 +510,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -507,6 +525,7 @@ async function main(rawArgs: string[]): Promise<number> {
     return 0;
   }
   if (command === "new-detector") return newDetector(args.slice(1));
+  if (command === "rules") return rules(args.slice(1));
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
