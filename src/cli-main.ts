@@ -41,6 +41,7 @@ import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupHtml, renderRollupText, rollupFiles } from "./rollup.js";
 import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "./rule-lint.js";
+import { renderRuleTestText, RuleTestError, testRule } from "./rule-test.js";
 import { buildRenovatePreset } from "./renovate-preset.js";
 import { buildDependabotConfig } from "./dependabot-config.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
@@ -106,6 +107,7 @@ Usage:
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen rules lint [file...]   # check lifecycle rules for problems before CI does; exits 1 on any problem
+  evergreen rules test <id>   # run a rule against tests/fixtures/<id>/match and clean; exits 1 on a failed fixture
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
@@ -445,20 +447,33 @@ async function newDetector(args: string[]): Promise<number> {
   }
 }
 
-/** `rules lint`: checks registry files and reports every problem with its line and a fix hint. */
+/** `rules lint` checks registry files; `rules test` runs one rule against its match and clean fixtures. */
 async function rules(args: string[]): Promise<number> {
-  const usage = "Usage: evergreen rules lint [file...]";
   const [subcommand, ...rest] = args;
-  if (subcommand !== "lint" || rest.some((argument) => argument.startsWith("-"))) return fail("usage", usage);
-  let files: string[];
-  try {
-    files = rest.length > 0 ? rest : await defaultRuleFiles();
-  } catch (error) {
-    return fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+  if (subcommand === "lint") {
+    if (rest.some((argument) => argument.startsWith("-"))) return fail("usage", "Usage: evergreen rules lint [file...]");
+    let files: string[];
+    try {
+      files = rest.length > 0 ? rest : await defaultRuleFiles();
+    } catch (error) {
+      return fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+    }
+    const result = await lintRuleFiles(files);
+    process.stdout.write(`${renderRuleLintText(result)}\n`);
+    return result.issues.length === 0 ? 0 : EXIT_CODES.policy;
   }
-  const result = await lintRuleFiles(files);
-  process.stdout.write(`${renderRuleLintText(result)}\n`);
-  return result.issues.length === 0 ? 0 : EXIT_CODES.policy;
+  if (subcommand === "test") {
+    if (rest.length !== 1 || rest[0]!.startsWith("-")) return fail("usage", "Usage: evergreen rules test <rule-id>");
+    try {
+      const result = await testRule(rest[0]!);
+      process.stdout.write(`${renderRuleTestText(result)}\n`);
+      return result.passed ? 0 : EXIT_CODES.policy;
+    } catch (error) {
+      if (error instanceof RuleTestError) return fail("usage", error.message);
+      throw error;
+    }
+  }
+  return fail("usage", "Usage: evergreen rules <lint|test> ...");
 }
 
 /** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */
