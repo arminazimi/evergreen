@@ -1,0 +1,142 @@
+version: 2.1
+
+description: >-
+  Scan a checked-out repository for evidence-backed deprecations and lifecycle
+  risks with Evergreen, and fail the job at a severity gate. Scans read
+  repository files and bundled lifecycle data only; no repository contents
+  leave the runner.
+
+display:
+  home_url: https://github.com/arminazimi/evergreen
+  source_url: https://github.com/arminazimi/evergreen
+
+commands:
+  scan:
+    description: >-
+      Run evergreen scan at a severity gate and write the JSON report to
+      << parameters.path >>/<< parameters.report-name >>. The report is written
+      and stored before the gate is applied, so it is kept even when the gate fails.
+    parameters:
+      path:
+        description: Repository root or subdirectory to scan.
+        type: string
+        default: .
+      baseline:
+        description: Optional baseline path relative to path. Leave empty to report every finding.
+        type: string
+        default: ""
+      baseline-warn-days:
+        description: Warn when a suppression in the baseline expires within this many days (0 to 365).
+        type: integer
+        default: 14
+      on-expired:
+        description: What a baseline suppression does after its expires date.
+        type: enum
+        enum: [resurface, fail]
+        default: resurface
+      min-support-days:
+        description: >-
+          Warn (medium severity) on lines whose support ends within this many days.
+          Leave empty to report only what the data already marks.
+        type: string
+        default: ""
+      fail-on-severity:
+        description: Lowest severity that fails the job.
+        type: enum
+        enum: [none, info, low, medium, high, critical]
+        default: high
+      report-name:
+        description: File name of the JSON report, kept as a job artifact.
+        type: string
+        default: evergreen-report.json
+      version:
+        description: Version of the evergreen-deprecation npm package to run.
+        type: string
+        default: 0.7.1
+    steps:
+      - run:
+          name: Evergreen scan (evergreen-deprecation@<< parameters.version >>)
+          command: |
+            set -u
+            report="<< parameters.path >>/<< parameters.report-name >>"
+            status_file="/tmp/evergreen-scan-status"
+            set -- "<< parameters.path >>"
+            if [ -n "<< parameters.baseline >>" ]; then
+              set -- "$@" --baseline "<< parameters.path >>/<< parameters.baseline >>" --baseline-warn-days << parameters.baseline-warn-days >> --on-expired << parameters.on-expired >>
+            fi
+            if [ -n "<< parameters.min-support-days >>" ]; then
+              set -- "$@" --min-support-days "<< parameters.min-support-days >>"
+            fi
+            evergreen() { npx --yes "evergreen-deprecation@<< parameters.version >>" "$@"; }
+            # The report is written before the gate is applied, so it survives a failing gate.
+            set +e
+            evergreen scan "$@" --json --fail-on << parameters.fail-on-severity >> > "$report"
+            status=$?
+            set -e
+            printf '%s' "$status" > "$status_file"
+            evergreen scan "$@" || true
+      - store_artifacts:
+          path: << parameters.path >>/<< parameters.report-name >>
+      - run:
+          name: Apply the Evergreen severity gate
+          command: exit "$(cat /tmp/evergreen-scan-status)"
+
+jobs:
+  scan:
+    description: >-
+      Check out the repository, scan it with Evergreen, and keep the JSON report
+      as an artifact. Fails at the fail-on-severity gate.
+    parameters:
+      image:
+        description: Node.js 22 or newer image the job runs in.
+        type: string
+        default: node:24-trixie-slim
+      path:
+        description: Repository root or subdirectory to scan.
+        type: string
+        default: .
+      baseline:
+        description: Optional baseline path relative to path. Leave empty to report every finding.
+        type: string
+        default: ""
+      baseline-warn-days:
+        description: Warn when a suppression in the baseline expires within this many days (0 to 365).
+        type: integer
+        default: 14
+      on-expired:
+        description: What a baseline suppression does after its expires date.
+        type: enum
+        enum: [resurface, fail]
+        default: resurface
+      min-support-days:
+        description: >-
+          Warn (medium severity) on lines whose support ends within this many days.
+          Leave empty to report only what the data already marks.
+        type: string
+        default: ""
+      fail-on-severity:
+        description: Lowest severity that fails the job.
+        type: enum
+        enum: [none, info, low, medium, high, critical]
+        default: high
+      report-name:
+        description: File name of the JSON report, kept as a job artifact.
+        type: string
+        default: evergreen-report.json
+      version:
+        description: Version of the evergreen-deprecation npm package to run.
+        type: string
+        default: 0.7.1
+    docker:
+      - image: << parameters.image >>
+    steps:
+      - checkout
+      - scan:
+          path: << parameters.path >>
+          baseline: << parameters.baseline >>
+          baseline-warn-days: << parameters.baseline-warn-days >>
+          on-expired: << parameters.on-expired >>
+          min-support-days: << parameters.min-support-days >>
+          fail-on-severity: << parameters.fail-on-severity >>
+          report-name: << parameters.report-name >>
+          version: << parameters.version >>
