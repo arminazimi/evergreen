@@ -11,6 +11,7 @@ import { EXISTING_LABELS, LABELS, LANES, MILESTONE, MONTHS, SIZES, ecosystemLabe
 import { reassign } from "./reorg.mjs";
 import { EPICS, TASKS } from "./workstreams.mjs";
 import { TASKS_REORG } from "./workstreams-reorg.mjs";
+import { EPICS_CODE, TASKS_CODE } from "./workstreams-code.mjs";
 import { EPICS_V08, TASKS_V08 } from "./workstreams-v08.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -19,8 +20,8 @@ const outDir = join(here, "out");
 // Open issues on GitHub at planning time; every one must be mapped.
 const OPEN_ISSUES = [15, 16, 17, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62];
 
-const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic), ...EPICS_V08]);
-const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks), ...TASKS_V08]);
+const epics = reassign([...EPICS, ...ECOSYSTEMS.map(ecosystemEpic), ...EPICS_V08, ...EPICS_CODE]);
+const tasks = reassign([...TASKS, ...TASKS_REORG, ...ECOSYSTEMS.flatMap(ecosystemTasks), ...TASKS_V08, ...TASKS_CODE]);
 const all = [...epics, ...tasks];
 
 // ── Validation
