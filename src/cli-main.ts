@@ -41,6 +41,7 @@ import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupHtml, renderRollupText, rollupFiles } from "./rollup.js";
 import { buildRenovatePreset } from "./renovate-preset.js";
+import { buildDependabotConfig } from "./dependabot-config.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
 import { renderCheckText, renderCodeQuality, renderCompact, renderFindingText, renderHtml, renderJson, renderJunit, renderMarkdown, renderMigrationPacketText, renderRdjson, renderSarif, renderSlack, renderTeams, renderText, renderWebhook } from "./reporters.js";
@@ -80,6 +81,7 @@ Usage:
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
   evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config
+  evergreen dependabot-config [path]   # print a dependabot.yml that groups updates for deprecated packages; does not write files
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
@@ -471,7 +473,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -702,6 +704,12 @@ async function main(rawArgs: string[]): Promise<number> {
     const result = await scanRepository(resolve(pathArgument), builtInDetectors, { noCache });
     const preset = buildRenovatePreset(result.findings, await bundledRules());
     process.stdout.write(`${JSON.stringify(preset, null, 2)}\n`);
+    return 0;
+  }
+  if (command === "dependabot-config") {
+    if (positional.length > 1) return fail("usage", "Usage: evergreen dependabot-config [path]");
+    const result = await scanRepository(resolve(pathArgument), builtInDetectors, { noCache });
+    process.stdout.write(buildDependabotConfig(result, await bundledRules()));
     return 0;
   }
   if (command === "diff") {

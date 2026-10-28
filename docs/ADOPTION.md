@@ -127,6 +127,18 @@ node dist/src/cli.js renovate-preset .
 - **Runtime pins** become `allowedVersions` rules for Node.js (`node-version` / `node`) and Python (`docker` / `python`) so Renovate stays on a supported release line.
 - Validate the printed JSON with Renovate before merging it into config: `npx --yes --package renovate -- renovate-config-validator path/to/preset.json`.
 
+## Feeding Dependabot
+
+Repositories that run Dependabot instead get a `dependabot.yml` fragment printed to stdout. Each mapped ecosystem and directory with deprecated-package findings becomes a weekly `updates` entry whose `groups.patterns` list the deprecated packages, so their updates land in one grouped pull request per directory.
+
+```bash
+node dist/src/cli.js dependabot-config .
+```
+
+- The command prints YAML only; it never writes `.github/dependabot.yml` or any other file. Review the fragment before merging it into your existing config.
+- Package ecosystems map to their Dependabot `package-ecosystem` (npm → npm, Python → pip, Java → maven, .NET → nuget, Go → gomod, and so on). Runtime findings such as Node.js and Python end of life have no Dependabot equivalent and produce no entry.
+- Grouped `patterns` come from the deprecated packages' PURL identities; ecosystems whose findings have no usable package name get a plain weekly entry without a group.
+
 ## Socket report for 0.7.1
 
 Socket scans the published version, so the 0.7.1 release (2026-10-27) is the first one whose report reflects the tarball fix from #1350 and the trimmed WASM from #1352. Its score page shows Vulnerability 100, Quality 100, License 100, Maintenance 94, and Supply Chain Security 79. Socket lists no CVE alert and no deprecation alert for the package or its dependencies. Five package alerts remain, and each is expected:

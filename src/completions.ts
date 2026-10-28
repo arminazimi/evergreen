@@ -18,6 +18,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "diff", flags: ["--json", "--data-version"], example: "evergreen diff main..HEAD" },
   { name: "rollup", flags: ["--owners", "--json", "--html", "--format"], example: "evergreen rollup reports/*.json --owners owners.json --html" },
   { name: "renovate-preset", flags: ["--data-version"], example: "evergreen renovate-preset ." },
+  { name: "dependabot-config", flags: ["--data-version"], example: "evergreen dependabot-config ." },
   { name: "fix", flags: ["--dry-run", "--data-version"], example: "evergreen fix . --dry-run" },
   { name: "check", flags: ["--fail-on", "--json", "--format", "--data-version"], example: "evergreen check pkg:npm/request@2.88.2" },
   { name: "guard", flags: ["--fail-on", "--force", "--data-version"], example: "evergreen guard npm install request" },
