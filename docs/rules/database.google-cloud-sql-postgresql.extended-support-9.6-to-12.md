@@ -24,8 +24,8 @@ The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12
 
 ## Sources
 
-- [Cloud SQL for PostgreSQL database versions and version policies](https://cloud.google.com/sql/docs/postgres/db-versions)
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
+- [Cloud SQL for PostgreSQL database versions and version policies](https://cloud.google.com/sql/docs/postgres/db-versions) (accessed 2026-10-26)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-26)
 
 ## Migration
 

@@ -24,8 +24,8 @@ The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hoste
 
 ## Sources
 
-- [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted)
-- [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)
+- [Microsoft-hosted agents for Azure Pipelines](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted) (accessed 2026-10-21)
+- [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/) (accessed 2026-10-21)
 
 ## Migration
 

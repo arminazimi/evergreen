@@ -24,7 +24,7 @@ The Google Play Billing Library version deprecation page states that all version
 
 ## Sources
 
-- [Google Play Billing Library version deprecation — support timeline](https://developer.android.com/google/play/billing/deprecation-faq)
+- [Google Play Billing Library version deprecation — support timeline](https://developer.android.com/google/play/billing/deprecation-faq) (accessed 2026-10-19)
 
 ## Migration
 

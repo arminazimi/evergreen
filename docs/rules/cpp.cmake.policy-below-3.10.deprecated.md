@@ -6,7 +6,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-be
 
 # CMake policy versions older than 3.10 are deprecated
 
-CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...<policy_max>) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions older than 3.5 are covered by the removal rule instead.
+CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10 (optionally via ...&lt;policy_max&gt;) produces a deprecation warning on CMake 3.31 and newer. CMake 3.31.0 was published on 2024-11-06. Versions older than 3.5 are covered by the removal rule instead.
 
 | | |
 | --- | --- |
@@ -16,7 +16,7 @@ CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmak
 | Component | `pkg:generic/cmake` |
 | Affected versions | `vers:semver/>=3.5.0\|<3.10.0` |
 | Date from the source | 2024-11-06 |
-| Replacement | cmake_minimum_required(VERSION 3.10) or newer, or VERSION <min>...<max> with <max> at least 3.10 |
+| Replacement | cmake_minimum_required(VERSION 3.10) or newer, or VERSION &lt;min&gt;...&lt;max&gt; with &lt;max&gt; at least 3.10 |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-04-17 (180 days after the last review) |

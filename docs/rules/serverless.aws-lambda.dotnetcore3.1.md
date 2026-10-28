@@ -24,7 +24,7 @@ The AWS Lambda runtimes table lists dotnetcore3.1 under Deprecated runtimes with
 
 ## Sources
 
-- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (accessed 2026-10-21)
 
 ## Migration
 

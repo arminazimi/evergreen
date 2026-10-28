@@ -24,9 +24,9 @@ The Django project lists the 1.10 release series as unsupported: it no longer re
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 1.10 release notes (1.10.8)](https://docs.djangoproject.com/en/1.10/releases/1.10.8/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 1.10 release notes (1.10.8)](https://docs.djangoproject.com/en/1.10/releases/1.10.8/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 

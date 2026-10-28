@@ -24,7 +24,7 @@ The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with dep
 
 ## Sources
 
-- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)
+- [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (accessed 2026-10-21)
 
 ## Migration
 

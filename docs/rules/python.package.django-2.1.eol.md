@@ -24,9 +24,9 @@ The Django project lists the 2.1 release series as unsupported: it no longer rec
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 2.1 release notes (2.1.15)](https://docs.djangoproject.com/en/2.1/releases/2.1.15/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 2.1 release notes (2.1.15)](https://docs.djangoproject.com/en/2.1/releases/2.1.15/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 

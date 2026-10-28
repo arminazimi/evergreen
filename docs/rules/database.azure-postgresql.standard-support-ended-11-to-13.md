@@ -24,8 +24,8 @@ The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standar
 
 ## Sources
 
-- [Azure Database for PostgreSQL version policy](https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy)
-- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/)
+- [Azure Database for PostgreSQL version policy](https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy) (accessed 2026-10-26)
+- [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/) (accessed 2026-10-26)
 
 ## Migration
 

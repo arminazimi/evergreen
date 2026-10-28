@@ -17,6 +17,7 @@ npm states that request-promise-native is deprecated because it extends the depr
 | Affected versions | `vers:npm/*` |
 | Date from the source | The source gives no day |
 | Replacement | Native fetch or a maintained promise-based HTTP client |
+| Replacement requires | Node.js 18.0.0 or newer |
 | Evidence last seen | 2026-10-16 |
 | Reviewed | 2026-10-16 by arminazimi, drafted by the `npm-deprecated` importer |
 | Review due | 2027-10-16 (365 days after the last review) |

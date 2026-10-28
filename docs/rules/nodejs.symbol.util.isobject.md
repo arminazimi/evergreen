@@ -16,7 +16,7 @@ Node.js removed util.isObject (DEP0053: documentation-only since v4.0.0, runtime
 | Component | `pkg:generic/nodejs` |
 | Affected versions | `vers:semver/>=23.0.0` |
 | Date from the source | The source gives no day |
-| Replacement | arg && typeof arg === 'object' |
+| Replacement | arg &amp;&amp; typeof arg === 'object' |
 | Evidence last seen | 2026-10-21 |
 | Reviewed | 2026-10-21 by arminazimi |
 | Review due | 2027-10-21 (365 days after the last review) |
@@ -34,7 +34,7 @@ Node.js removed util.isObject (DEP0053: documentation-only since v4.0.0, runtime
 
 **Steps**
 
-1. **Replace the usage.** Replace each reported use of util.isObject with arg && typeof arg === 'object'.
+1. **Replace the usage.** Replace each reported use of util.isObject with arg &amp;&amp; typeof arg === 'object'.
 
 **Verification**
 

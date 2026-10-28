@@ -24,7 +24,7 @@ Vue 2 has reached end of life and is no longer actively maintained. After Decemb
 
 ## Sources
 
-- [Vue 2 LTS, EOL & Extended Support](https://v2.vuejs.org/lts/)
+- [Vue 2 LTS, EOL &amp; Extended Support](https://v2.vuejs.org/lts/)
 - [Vue 3 Migration Guide](https://v3-migration.vuejs.org/)
 - [Vue 3 Migration Guide: Migration Build](https://v3-migration.vuejs.org/migration-build.html)
 - [Vue 3 Migration Guide: Breaking Changes](https://v3-migration.vuejs.org/breaking-changes/)

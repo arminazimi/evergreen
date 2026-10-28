@@ -24,7 +24,7 @@ The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID
 
 ## Sources
 
-- [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support)
+- [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support) (accessed 2026-10-21)
 
 ## Migration
 

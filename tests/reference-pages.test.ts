@@ -9,7 +9,7 @@ import { promisify } from "node:util";
 import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { SITE_URL, buildFiles, drift, loadRegistries, pageTitle, renderRulePage, renderSitemap, ruleUrl, write } from "../tools/build-reference-pages.js";
+import { SITE_URL, buildFiles, drift, loadRegistries, pageTitle, renderIndex, renderRulePage, renderSitemap, ruleUrl, write } from "../tools/build-reference-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -160,6 +160,70 @@ test("drift names a changed page, a missing page, and a stale page", async () =>
     "differs: docs/sitemap.xml",
     "missing: docs/rules/demo.new.eol-3.md",
   ]);
+});
+
+test("every rule field is rendered in its context and escaped there", () => {
+  const fixture = rule({
+    title: "Demo 1 <script>alert(1)</script> | upgrade",
+    summary: "The vendor says </script><script>alert(2)</script> & more.",
+    replacement: "Demo 2 <new> | later",
+    requires: { node: "18.0.0", python: "3.10" },
+    sources: [{ title: "Demo [lifecycle] <doc>", url: "https://example.com/demo", accessedAt: "2026-10-03" }],
+    provenance: { observedAt: "2026-10-01", reviewedAt: "2026-10-02", reviewer: "A <reviewer> | team", importer: "demo-import" },
+    migration: {
+      constraints: ["Keep <behavior>."],
+      steps: [{ id: "internal-step", title: "Change <it>", instructions: "Do <the> change.", targets: "declaration" }],
+      verification: [{ command: "make <test>", purpose: "Run <tests>." }],
+    },
+    usage: [{ kind: "import", language: "javascript", module: "internal-matcher" }],
+  });
+  const page = renderRulePage(fixture, 180);
+
+  // Front matter stays a quoted YAML scalar, and the structured data gets the unescaped facts.
+  const frontMatter = parse(page.slice(4, page.indexOf("\n---\n", 4))) as { title: string; description: string; canonical_url: string };
+  assert.equal(frontMatter.title, pageTitle(fixture));
+  assert.equal(frontMatter.description, fixture.summary);
+  assert.equal(frontMatter.canonical_url, ruleUrl(fixture.id));
+
+  // Prose is HTML-escaped, so a rule can never inject markup into the page.
+  assert.match(page, /^# Demo 1 &lt;script&gt;alert\(1\)&lt;\/script&gt; \| upgrade$/m);
+  assert.match(page, /^The vendor says &lt;\/script&gt;&lt;script&gt;alert\(2\)&lt;\/script&gt; &amp; more\.$/m);
+  assert.match(page, /\| Replacement \| Demo 2 &lt;new&gt; \\\| later \|/);
+  assert.match(page, /\| Replacement requires \| Node\.js 18\.0\.0 or newer and Python 3\.10 or newer \|/);
+  assert.match(page, /\| Reviewed \| 2026-10-02 by A &lt;reviewer&gt; \\\| team, drafted by the `demo-import` importer \|/);
+  assert.match(page, /- \[Demo \\\[lifecycle\\\] &lt;doc&gt;\]\(https:\/\/example\.com\/demo\) \(accessed 2026-10-03\)/);
+  assert.match(page, /- Keep &lt;behavior&gt;\./);
+  assert.match(page, /1\. \*\*Change &lt;it&gt;\.\*\* Do &lt;the&gt; change\./);
+  // Inside a code span entities do not decode, so `<` stays literal there.
+  assert.match(page, /- `make <test>`: Run &lt;tests&gt;\./);
+  assert.doesNotMatch(page, /internal-matcher|internal-step/);
+  assert.doesNotMatch(page, /<new>|<reviewer>|<behavior>|<the>|<tests>/);
+
+  // The index escapes link labels and links every rule.
+  assert.match(
+    renderIndex([registry([rule({ title: "Demo [1] <x>" })])]),
+    /- \[Demo \\\[1\\\] &lt;x&gt;\]\(demo\.thing\.eol-1\.html\) — end of life, `demo\.thing\.eol-1`/,
+  );
+});
+
+test("a rule without requires or an access date says nothing about them", () => {
+  const page = renderRulePage(rule(), 365);
+  assert.doesNotMatch(page, /Replacement requires/);
+  assert.doesNotMatch(page, /\(accessed /);
+});
+
+test("every registry rule appears in the index and the sitemap", async () => {
+  const registries = await loadRegistries();
+  const index = renderIndex(registries);
+  const sitemap = renderSitemap(registries);
+  for (const item of registries) {
+    for (const entry of item.rules) {
+      assert.ok(index.includes(`](${entry.id}.html)`), `${entry.id} is missing from the index`);
+      assert.ok(sitemap.includes(`<loc>${ruleUrl(entry.id)}</loc>`), `${entry.id} is missing from the sitemap`);
+    }
+  }
+  const links = [...index.matchAll(/^- \[.*\]\(([^)]+\.html)\) — /gm)];
+  assert.equal(links.length, registries.reduce((sum, item) => sum + item.rules.length, 0));
 });
 
 test("a rule id in two registries is an error", () => {

@@ -24,9 +24,9 @@ The Azure Database for MySQL version support policy lists 2026-09-30 as the stan
 
 ## Sources
 
-- [Azure Database for MySQL version support policy](https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions)
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html)
-- [endoflife.date: MySQL](https://endoflife.date/mysql)
+- [Azure Database for MySQL version support policy](https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions) (accessed 2026-10-26)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-26)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-26)
 
 ## Migration
 

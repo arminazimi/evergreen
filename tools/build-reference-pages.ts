@@ -26,6 +26,8 @@ const EVENT_LABELS: Record<RegistryV2Rule["event"], string> = {
   "scheduled-end-of-life": "Scheduled end of life",
 };
 
+const RUNTIME_LABELS: Record<"node" | "python", string> = { node: "Node.js", python: "Python" };
+
 /** Detector pages that exist; other detectors are described in the detector guide. */
 const DETECTOR_PAGES = new Set(["container", "go", "java", "kubernetes"]);
 
@@ -47,11 +49,32 @@ function addDays(date: string, days: number): string {
 /** A string safe inside a YAML double-quoted scalar. */
 const yaml = (value: string) => JSON.stringify(value);
 
+/** Prose for Markdown: HTML in a rule can never turn into markup, but inline code spans stay literal. */
+const inline = (value: string) =>
+  value
+    .split(/(`[^`\n]*`)/)
+    .map((part, index) => (index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")))
+    .join("");
+
+/** A code span: no pipes or newlines, but keep `<` literal, because entities inside code do not decode. */
+const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
+
+/** A prose table cell: escaped for both the table and Markdown. */
+const proseCell = (value: string) => inline(cell(value));
+
+/** A link label: no square brackets that would end the label early. */
+const linkLabel = (value: string) => proseCell(value).replace(/[[\]]/g, "\\$&");
+
 /** JSON for a `<script>` element: `<` is escaped so the data can never close the element. */
 const scriptJson = (value: unknown) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
 
-/** A table cell: no pipes or newlines. */
-const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
+/** The runtimes a replacement needs, as one table cell. */
+function requirements(requires: NonNullable<RegistryV2Rule["requires"]>): string {
+  return (Object.keys(RUNTIME_LABELS) as Array<keyof typeof RUNTIME_LABELS>)
+    .filter((runtime) => requires[runtime] !== undefined)
+    .map((runtime) => `${RUNTIME_LABELS[runtime]} ${requires[runtime]!} or newer`)
+    .join(" and ");
+}
 
 /** The page title: the rule's own title (which names the product and version) plus what the page offers. */
 export const pageTitle = (rule: RegistryV2Rule) => `${rule.title} — dates, impact, migration`;
@@ -98,9 +121,9 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     `canonical_url: ${yaml(ruleUrl(rule.id))}`,
     "---",
     "",
-    `# ${rule.title}`,
+    `# ${inline(rule.title)}`,
     "",
-    rule.summary,
+    inline(rule.summary),
     "",
     "| | |",
     "| --- | --- |",
@@ -110,21 +133,22 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     `| Component | \`${cell(rule.purl)}\` |`,
     `| Affected versions | \`${cell(rule.vers)}\` |`,
     `| Date from the source | ${rule.deadline ?? "The source gives no day"} |`,
-    ...(rule.replacement ? [`| Replacement | ${cell(rule.replacement)} |`] : []),
+    ...(rule.replacement ? [`| Replacement | ${proseCell(rule.replacement)} |`] : []),
+    ...(rule.requires ? [`| Replacement requires | ${proseCell(requirements(rule.requires))} |`] : []),
     `| Evidence last seen | ${rule.provenance.observedAt} |`,
-    `| Reviewed | ${rule.provenance.reviewedAt} by ${cell(rule.provenance.reviewer)}${rule.provenance.importer ? `, drafted by the \`${rule.provenance.importer}\` importer` : ""} |`,
+    `| Reviewed | ${rule.provenance.reviewedAt} by ${proseCell(rule.provenance.reviewer)}${rule.provenance.importer ? `, drafted by the \`${rule.provenance.importer}\` importer` : ""} |`,
     `| Review due | ${reviewDue} (${maxReviewAgeDays} days after the last review) |`,
     `| Rule ID | \`${rule.id}\` |`,
     "",
     "## Sources",
     "",
-    ...rule.sources.map((source) => `- [${source.title}](${source.url})`),
+    ...rule.sources.map((source) => `- [${linkLabel(source.title)}](${source.url})${source.accessedAt ? ` (accessed ${source.accessedAt})` : ""}`),
   ];
 
   if (rule.migration) {
-    lines.push("", "## Migration", "", "**Constraints**", "", ...rule.migration.constraints.map((constraint) => `- ${constraint}`));
-    lines.push("", "**Steps**", "", ...rule.migration.steps.map((step, index) => `${index + 1}. **${step.title}.** ${step.instructions}`));
-    lines.push("", "**Verification**", "", ...rule.migration.verification.map((check) => `- \`${check.command}\`: ${check.purpose}`));
+    lines.push("", "## Migration", "", "**Constraints**", "", ...rule.migration.constraints.map((constraint) => `- ${inline(constraint)}`));
+    lines.push("", "**Steps**", "", ...rule.migration.steps.map((step, index) => `${index + 1}. **${inline(step.title)}.** ${inline(step.instructions)}`));
+    lines.push("", "**Verification**", "", ...rule.migration.verification.map((check) => `- \`${check.command}\`: ${inline(check.purpose)}`));
   }
 
   const url = ruleUrl(rule.id);
@@ -166,7 +190,7 @@ export function renderIndex(registries: readonly RegistryV2[]): string {
   for (const registry of registries) {
     lines.push("", `## ${registry.ecosystem}`, "");
     for (const rule of [...registry.rules].sort((left, right) => left.id.localeCompare(right.id))) {
-      lines.push(`- [${rule.title}](${rule.id}.html) — ${EVENT_LABELS[rule.event].toLowerCase()}, \`${rule.id}\``);
+      lines.push(`- [${linkLabel(rule.title)}](${rule.id}.html) — ${EVENT_LABELS[rule.event].toLowerCase()}, \`${rule.id}\``);
     }
   }
   lines.push("");

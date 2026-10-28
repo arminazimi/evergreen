@@ -24,9 +24,9 @@ The Django project lists the 5.1 release series as unsupported: it no longer rec
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 5.1 release notes (5.1.15)](https://docs.djangoproject.com/en/5.1/releases/5.1.15/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 5.1 release notes (5.1.15)](https://docs.djangoproject.com/en/5.1/releases/5.1.15/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 

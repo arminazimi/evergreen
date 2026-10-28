@@ -24,9 +24,9 @@ The Django project lists the 4.2 release series as unsupported: it no longer rec
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 4.2 release notes (4.2.30)](https://docs.djangoproject.com/en/4.2/releases/4.2.30/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 4.2 release notes (4.2.30)](https://docs.djangoproject.com/en/4.2/releases/4.2.30/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 

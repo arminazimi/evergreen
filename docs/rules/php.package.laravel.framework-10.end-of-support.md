@@ -24,10 +24,10 @@ Laravel's support policy states that security fixes for Laravel 10 ended on 2025
 
 ## Sources
 
-- [Laravel support policy](https://laravel.com/docs/releases#support-policy)
-- [Laravel 11 upgrade guide](https://laravel.com/docs/11.x/upgrade)
-- [Laravel 12 upgrade guide](https://laravel.com/docs/12.x/upgrade)
-- [Laravel 13 upgrade guide](https://laravel.com/docs/13.x/upgrade)
+- [Laravel support policy](https://laravel.com/docs/releases#support-policy) (accessed 2026-10-23)
+- [Laravel 11 upgrade guide](https://laravel.com/docs/11.x/upgrade) (accessed 2026-10-23)
+- [Laravel 12 upgrade guide](https://laravel.com/docs/12.x/upgrade) (accessed 2026-10-23)
+- [Laravel 13 upgrade guide](https://laravel.com/docs/13.x/upgrade) (accessed 2026-10-23)
 
 ## Migration
 

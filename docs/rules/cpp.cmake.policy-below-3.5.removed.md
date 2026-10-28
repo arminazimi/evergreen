@@ -6,7 +6,7 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-be
 
 # CMake policy versions older than 3.5 are removed
 
-CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.5 (optionally via ...<policy_max>) produces an error on CMake 4.0 and newer. CMake 4.0.0 was published on 2025-03-27.
+CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.5 (optionally via ...&lt;policy_max&gt;) produces an error on CMake 4.0 and newer. CMake 4.0.0 was published on 2025-03-27.
 
 | | |
 | --- | --- |
@@ -16,7 +16,7 @@ CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_min
 | Component | `pkg:generic/cmake` |
 | Affected versions | `vers:semver/<3.5.0` |
 | Date from the source | 2025-03-27 |
-| Replacement | cmake_minimum_required(VERSION 3.5) or newer, or VERSION <min>...<max> with <max> at least 3.5 |
+| Replacement | cmake_minimum_required(VERSION 3.5) or newer, or VERSION &lt;min&gt;...&lt;max&gt; with &lt;max&gt; at least 3.5 |
 | Evidence last seen | 2026-10-19 |
 | Reviewed | 2026-10-19 by arminazimi |
 | Review due | 2027-04-17 (180 days after the last review) |
@@ -33,7 +33,7 @@ CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_min
 **Constraints**
 
 - Raising the policy version can change NEW policy behavior; read the policies introduced between the old and new floor before committing.
-- Projects that must still configure on older CMake can use VERSION <min>...<max> so the minimum stays low while the policy max is at least 3.5 on newer CMake.
+- Projects that must still configure on older CMake can use VERSION &lt;min&gt;...&lt;max&gt; so the minimum stays low while the policy max is at least 3.5 on newer CMake.
 
 **Steps**
 

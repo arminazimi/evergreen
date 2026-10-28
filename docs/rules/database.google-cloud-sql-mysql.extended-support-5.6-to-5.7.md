@@ -24,9 +24,9 @@ The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended sup
 
 ## Sources
 
-- [Cloud SQL for MySQL database versions and version policies](https://cloud.google.com/sql/docs/mysql/db-versions)
-- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html)
-- [endoflife.date: MySQL](https://endoflife.date/mysql)
+- [Cloud SQL for MySQL database versions and version policies](https://cloud.google.com/sql/docs/mysql/db-versions) (accessed 2026-10-26)
+- [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html) (accessed 2026-10-26)
+- [endoflife.date: MySQL](https://endoflife.date/mysql) (accessed 2026-10-26)
 
 ## Migration
 

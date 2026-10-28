@@ -24,9 +24,9 @@ The Django project lists the 3.1 release series as unsupported: it no longer rec
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 3.1 release notes (3.1.14)](https://docs.djangoproject.com/en/3.1/releases/3.1.14/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 3.1 release notes (3.1.14)](https://docs.djangoproject.com/en/3.1/releases/3.1.14/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 

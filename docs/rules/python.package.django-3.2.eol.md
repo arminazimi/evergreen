@@ -24,9 +24,9 @@ The Django project lists the 3.2 release series as unsupported: it no longer rec
 
 ## Sources
 
-- [Django supported versions](https://www.djangoproject.com/download/#supported-versions)
-- [Django 3.2 release notes (3.2.25)](https://docs.djangoproject.com/en/3.2/releases/3.2.25/)
-- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/)
+- [Django supported versions](https://www.djangoproject.com/download/#supported-versions) (accessed 2026-10-21)
+- [Django 3.2 release notes (3.2.25)](https://docs.djangoproject.com/en/3.2/releases/3.2.25/) (accessed 2026-10-21)
+- [Django upgrade guide](https://docs.djangoproject.com/en/5.2/howto/upgrade-version/) (accessed 2026-10-21)
 
 ## Migration
 
