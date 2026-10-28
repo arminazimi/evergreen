@@ -8,6 +8,7 @@ The `container` detector reports base images whose release line has reached a ve
 | --- | --- |
 | `Dockerfile`, `Dockerfile.*`, `*.Dockerfile`, `Containerfile`, `Containerfile.*` | `FROM <image>[:<tag>][@<digest>]`, with `--platform` and `AS <stage>` accepted and line continuations joined |
 | `compose.yaml`, `compose.yml`, `compose.*.yaml`, `compose.*.yml`, `docker-compose.yaml`, `docker-compose.yml`, `docker-compose.*.yaml`, `docker-compose.*.yml` | `services.<name>.image` (services built from a local Dockerfile via `build:` are skipped) |
+| `devcontainer.json`, `.devcontainer/devcontainer.json` | `image` (top-level string; JSONC comments are accepted) |
 
 It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata`.
 

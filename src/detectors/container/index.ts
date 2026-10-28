@@ -11,6 +11,7 @@ import type { Detector, DetectorAnalysis, DetectorContext, DetectorFinding, Dete
 import { versContains } from "../../vers.js";
 import { jdkRuleVersion, parseJdkVersion } from "../java/jdk-version.js";
 import { parseCompose } from "./parse-compose.js";
+import { parseDevcontainer } from "./parse-devcontainer.js";
 import { parseDockerfile } from "./parse-dockerfile.js";
 import type { Runtime } from "./parse-dockerfile.js";
 import { parseImageReference } from "./parse-image.js";
@@ -33,6 +34,7 @@ const MAXIMUM_FILES = 2000;
 const SKIPPED_DIRECTORIES = new Set([".git", "node_modules", "vendor", "dist", "build", "target", ".venv", "venv", "fixtures", "__fixtures__", "testdata"]);
 const DOCKERFILE_NAME = /^(?:Dockerfile|Containerfile)(?:\.[A-Za-z0-9_.-]+)?$|\.(?:Dockerfile|Containerfile)$/;
 const COMPOSE_NAME = /^(?:docker-)?compose(?:\.[A-Za-z0-9_.-]+)?\.ya?ml$/;
+const DEVCONTAINER_NAME = /^devcontainer\.json$/;
 const VARIANT = /^(?:alpine(?:\d+(?:\.\d+)*)?|slim|bookworm|bullseye|buster|stretch|trixie|jessie|jammy|noble|focal|oracle|oraclelinux\d*|debian|ubuntu|minimal)$/;
 
 const DEBIAN_CODENAMES = new Map<string, string>([
@@ -146,7 +148,7 @@ async function candidateFiles(root: string): Promise<string[]> {
       if (entry.isSymbolicLink()) continue;
       if (entry.isDirectory()) {
         if (!SKIPPED_DIRECTORIES.has(entry.name)) await walk(join(directory, entry.name), depth + 1);
-      } else if (entry.isFile() && (DOCKERFILE_NAME.test(entry.name) || COMPOSE_NAME.test(entry.name))) {
+      } else if (entry.isFile() && (DOCKERFILE_NAME.test(entry.name) || COMPOSE_NAME.test(entry.name) || DEVCONTAINER_NAME.test(entry.name))) {
         files.push(join(directory, entry.name));
       }
     }
@@ -166,7 +168,7 @@ async function candidates(root: string): Promise<Candidate[]> {
     }
     const path = relativePosix(root, file);
     const name = basename(file);
-    const declarations = COMPOSE_NAME.test(name) ? parseCompose(contents) : parseDockerfile(contents);
+    const declarations = COMPOSE_NAME.test(name) ? parseCompose(contents) : DEVCONTAINER_NAME.test(name) ? parseDevcontainer(contents) : parseDockerfile(contents);
     for (const declaration of declarations) {
       if (declaration.kind === "runtime") {
         result.push({
@@ -371,6 +373,7 @@ export class ContainerDetector implements Detector {
       "docker-compose*.yaml",
       "compose*.yml",
       "compose*.yaml",
+      "devcontainer.json",
       "os-release",
       "node_version.h",
       "VERSION",
