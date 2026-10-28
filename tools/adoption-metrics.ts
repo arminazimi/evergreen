@@ -17,6 +17,14 @@ const REPOSITORY = `${OWNER}/evergreen`;
 const PACKAGE = "evergreen-deprecation";
 const MAXIMUM_SEARCH_PAGES = 10;
 
+export const SERVICE_REPORTS: Record<string, string> = {
+  openSsfScorecard: `https://securityscorecards.dev/viewer/?uri=github.com/${REPOSITORY}`,
+  socket: `https://socket.dev/npm/package/${PACKAGE}`,
+  depsDev: `https://deps.dev/npm/${PACKAGE}`,
+  npmsIo: `https://npms.io/search?q=${PACKAGE}`,
+  snykAdvisor: `https://security.snyk.io/package/npm/${PACKAGE}`,
+};
+
 export type Metric =
   | { status: "ok"; value: number | boolean; detail?: string; source: string }
   | { status: "unavailable"; reason: string; source: string };
@@ -25,6 +33,7 @@ export interface Snapshot {
   schemaVersion: typeof SCHEMA_VERSION;
   date: string;
   metrics: Record<string, Metric>;
+  serviceReports?: Record<string, string>;
 }
 
 export interface Fetcher {
@@ -73,6 +82,20 @@ export function parseSkillsInstalls(status: number, text: string): Metric {
   return match
     ? { status: "ok", value: Number(match[1]), source }
     : { status: "unavailable", reason: "The page does not publish an install count.", source };
+}
+
+export function parseScorecard(status: number, text: string): Metric {
+  const source = `https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`;
+  if (status === 404) return { status: "unavailable", reason: "The repository is not indexed by OpenSSF Scorecard yet.", source };
+  if (status !== 200) return { status: "unavailable", reason: `Scorecard returned HTTP ${status}.`, source };
+  try {
+    const data = JSON.parse(text) as { score?: unknown };
+    return typeof data.score === "number"
+      ? { status: "ok", value: data.score, detail: `https://securityscorecards.dev/viewer/?uri=github.com/${REPOSITORY}`, source }
+      : { status: "unavailable", reason: "The response had no score.", source };
+  } catch (error) {
+    return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
+  }
 }
 
 async function searchRepositories(query: string, fetcher: Fetcher, token: string | undefined): Promise<Metric> {
@@ -127,8 +150,9 @@ export async function collect(date: string, fetcher: Fetcher = defaultFetch, tok
     skillsShInstalls: await guarded(async () => { const r = await get(`https://www.skills.sh/${REPOSITORY}/${PACKAGE}`); return parseSkillsInstalls(r.status, r.text); }, "skills.sh"),
     githubStars: await guarded(() => repositoryStat("stargazers_count", fetcher, token), "GitHub"),
     githubForks: await guarded(() => repositoryStat("forks_count", fetcher, token), "GitHub"),
+    scorecardScore: await guarded(async () => { const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`); return parseScorecard(r.status, r.text); }, "OpenSSF Scorecard"),
   };
-  return { schemaVersion: SCHEMA_VERSION, date, metrics };
+  return { schemaVersion: SCHEMA_VERSION, date, metrics, serviceReports: { ...SERVICE_REPORTS } };
 }
 
 function option(name: string): string | undefined {

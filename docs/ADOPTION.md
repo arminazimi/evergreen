@@ -22,8 +22,9 @@ Repositories owned by the project (`arminazimi/*`) are left out, so dogfooding d
 | `mcpRegistryListed` | Whether the official MCP Registry has an entry whose repository is `arminazimi/evergreen` |
 | `skillsShInstalls` | The install count published on the skills.sh page of the Evergreen skill |
 | `githubStars`, `githubForks` | The GitHub repository |
+| `scorecardScore` | OpenSSF Scorecard API, overall score (0–10) for `github.com/arminazimi/evergreen` |
 
-npm downloads include CI installs and mirrors, so they overstate unique users; the skills.sh figure only counts installs through that registry.
+npm downloads include CI installs and mirrors, so they overstate unique users; the skills.sh figure only counts installs through that registry. Snapshots also link to each external service's latest report under `serviceReports` (`openSsfScorecard`, `socket`, `depsDev`, `npmsIo`, `snykAdvisor`).
 
 ## Taking a snapshot
 

@@ -3,7 +3,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { collect, distinctRepositories, parseDownloads, parseMcpRegistry, parseSkillsInstalls, SCHEMA_VERSION } from "../tools/adoption-metrics.js";
+import { collect, distinctRepositories, parseDownloads, parseMcpRegistry, parseScorecard, parseSkillsInstalls, SCHEMA_VERSION, SERVICE_REPORTS } from "../tools/adoption-metrics.js";
 import type { Fetcher, Metric, Snapshot } from "../tools/adoption-metrics.js";
 
 test("counts distinct repositories and leaves out the project's own", () => {
@@ -32,12 +32,26 @@ test("reads the skills.sh install count from the page's structured data", () => 
   assert.equal(parseSkillsInstalls(404, "").status, "unavailable");
 });
 
+test("reads the Scorecard score and reports a missing score as unavailable", () => {
+  assert.deepEqual(parseScorecard(200, '{"score": 3.1}'), {
+    status: "ok",
+    value: 3.1,
+    detail: "https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen",
+    source: "https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen",
+  });
+  assert.equal(parseScorecard(404, '{"message":"repo not found"}').status, "unavailable");
+  assert.equal(parseScorecard(500, "").status, "unavailable");
+  assert.equal(parseScorecard(200, "{}").status, "unavailable");
+  assert.equal(parseScorecard(200, "invalid-json").status, "unavailable");
+});
+
 test("one failing source is recorded and does not stop the others", async () => {
   const fetcher: Fetcher = async (url) => {
     if (url.includes("npmjs.org")) throw new Error("network down");
     if (url.includes("skills.sh")) return { status: 200, text: '"userInteractionCount": 7' };
     if (url.includes("registry.modelcontextprotocol.io")) return { status: 200, text: '{"servers":[]}' };
     if (url.includes("api.github.com/repos/")) return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
+    if (url.includes("securityscorecards.dev")) return { status: 200, text: '{"score": 3.1}' };
     return { status: 200, text: JSON.stringify({ total_count: 2, items: [{ repository: { full_name: "x/a" } }, { repository: { full_name: "x/b" } }] }) };
   };
   const snapshot = await collect("2026-10-16", fetcher, "token");
@@ -46,6 +60,8 @@ test("one failing source is recorded and does not stop the others", async () => 
   assert.equal((snapshot.metrics.githubActionRepositories as { value: number }).value, 2);
   assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 7);
   assert.equal((snapshot.metrics.githubStars as { value: number }).value, 3);
+  assert.equal((snapshot.metrics.scorecardScore as { value: number }).value, 3.1);
+  assert.deepEqual(snapshot.serviceReports, SERVICE_REPORTS);
 });
 
 test("without a token the code-search metrics are unavailable, never zero", async () => {
@@ -67,6 +83,12 @@ test("every committed snapshot is well formed and named after its date", async (
       assert.ok(documented.includes(`\`${metric}\``), `${metric} is not documented in docs/ADOPTION.md`);
       assert.ok(value.status === "ok" || value.reason.length > 0, metric);
       assert.match(value.source, /^https:\/\//, metric);
+    }
+    if (snapshot.serviceReports) {
+      for (const [service, url] of Object.entries(snapshot.serviceReports)) {
+        assert.ok(documented.includes(`\`${service}\``), `${service} is not documented in docs/ADOPTION.md`);
+        assert.match(url, /^https:\/\//, service);
+      }
     }
   }
 });

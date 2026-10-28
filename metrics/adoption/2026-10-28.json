@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "evergreen.adoption-snapshot.v1",
+  "date": "2026-10-28",
+  "metrics": {
+    "githubActionRepositories": {
+      "status": "ok",
+      "value": 0,
+      "source": "https://github.com/search?type=code&q=%22arminazimi%2Fevergreen%40%22%20path%3A.github%2Fworkflows"
+    },
+    "preCommitRepositories": {
+      "status": "ok",
+      "value": 0,
+      "source": "https://github.com/search?type=code&q=%22https%3A%2F%2Fgithub.com%2Farminazimi%2Fevergreen%22%20filename%3A.pre-commit-config.yaml"
+    },
+    "gitlabComponentRepositories": {
+      "status": "ok",
+      "value": 0,
+      "source": "https://github.com/search?type=code&q=%22arminazimi%2Fevergreen%22%20filename%3A.gitlab-ci.yml"
+    },
+    "npmWeeklyDownloads": {
+      "status": "ok",
+      "value": 525,
+      "source": "https://api.npmjs.org/downloads/point/last-week/evergreen-deprecation"
+    },
+    "mcpRegistryListed": {
+      "status": "ok",
+      "value": false,
+      "source": "https://registry.modelcontextprotocol.io/v0/servers?search=evergreen-deprecation"
+    },
+    "skillsShInstalls": {
+      "status": "ok",
+      "value": 4,
+      "source": "https://www.skills.sh/arminazimi/evergreen/evergreen-deprecation"
+    },
+    "githubStars": {
+      "status": "ok",
+      "value": 0,
+      "source": "https://api.github.com/repos/arminazimi/evergreen"
+    },
+    "githubForks": {
+      "status": "ok",
+      "value": 2,
+      "source": "https://api.github.com/repos/arminazimi/evergreen"
+    },
+    "scorecardScore": {
+      "status": "ok",
+      "value": 3.1,
+      "detail": "https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen",
+      "source": "https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen"
+    }
+  },
+  "serviceReports": {
+    "openSsfScorecard": "https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen",
+    "socket": "https://socket.dev/npm/package/evergreen-deprecation",
+    "depsDev": "https://deps.dev/npm/evergreen-deprecation",
+    "npmsIo": "https://npms.io/search?q=evergreen-deprecation",
+    "snykAdvisor": "https://security.snyk.io/package/npm/evergreen-deprecation"
+  }
+}
