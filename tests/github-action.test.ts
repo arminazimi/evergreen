@@ -60,9 +60,10 @@ async function runAction(root: string, inputs: Record<string, string> = {}): Pro
   };
 }
 
-// The bundled lifecycle data grows one day older per day, so its age is normalized before snapshotting.
-function normalizeDataAge(summary: string): string {
-  return summary.replace(/(evidence reviewed through [0-9-]+) \([^)]+\)/, "$1 (<age>)");
+// The bundled lifecycle data's version, review date, and age all change over time, so the whole data
+// line is normalized before snapshotting.
+function normalizeDataLine(summary: string): string {
+  return summary.replace(/^Data: .+$/m, "Data: <data>");
 }
 
 async function repositoryWithoutFindings(): Promise<string> {
@@ -90,9 +91,10 @@ test("a clean run writes the zero-findings summary, no annotations, and exits 0"
   assert.deepEqual(run.annotations, []);
   assert.equal(run.outputs, `report-path=${join(root, ".runner", "evergreen-report.json")}\nfinding-count=0\n`);
   assert.equal(
-    normalizeDataAge(run.summary),
-    `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\nData: bundled 0.7.1, evidence reviewed through 2026-10-27 (<age>)\n`,
+    normalizeDataLine(run.summary),
+    `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\nData: <data>\n`,
   );
+  assert.match(run.summary, /^Data: bundled .+, evidence reviewed through \d{4}-\d{2}-\d{2} \(.+\)$/m);
 });
 
 test("a run whose findings meet the severity gate fails with the finding and gate annotations", async () => {
@@ -107,7 +109,7 @@ test("a run whose findings meet the severity gate fails with the finding and gat
   ]);
   assert.equal(run.outputs, `report-path=${reportPath}\nfinding-count=1\n`);
   assert.equal(
-    normalizeDataAge(run.summary),
+    normalizeDataLine(run.summary),
     [
       "## Evergreen",
       "",
@@ -121,8 +123,9 @@ test("a run whose findings meet the severity gate fails with the finding and gat
       "|---|---|---|---|",
       "| high | Unsupported actions/checkout runtime | `.github/workflows/ci.yml:4` | [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/) |",
       "",
-      `Data: bundled 0.7.1, evidence reviewed through 2026-10-27 (<age>)`,
+      "Data: <data>",
       "",
     ].join("\n"),
   );
+  assert.match(run.summary, /^Data: bundled .+, evidence reviewed through \d{4}-\d{2}-\d{2} \(.+\)$/m);
 });
