@@ -1,14 +1,12 @@
 name: Evergreen organization rollup
 
 on:
-  schedule:
-    - cron: "0 5 * * 1"
-  workflow_dispatch:
   workflow_run:
     workflows: ["Evergreen organization scan"]
     types: [completed]
 
 permissions:
+  actions: read
   contents: read
   pages: write
   id-token: write
@@ -18,8 +16,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  rollup:
-    name: Build and publish rollup report
+  build:
+    name: Build rollup report
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -29,27 +28,44 @@ jobs:
       - name: Download scan report artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
+          pattern: evergreen-report-*
           path: reports
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate static rollup report
         run: |
           mkdir -p _site
-          owners_arg=""
+          owners_arg=()
           if [ -f "owners.json" ]; then
-            owners_arg="--owners owners.json"
+            owners_arg=(--owners owners.json)
           fi
-          report_files=$(find reports -name "*.json" | sort)
-          if [ -z "$report_files" ]; then
+
+          report_files=()
+          while IFS= read -r -d '' file; do
+            report_files+=("$file")
+          done < <(find reports -name "*.json" -print0 | sort -z)
+
+          if [ ${#report_files[@]} -eq 0 ]; then
             echo "No scan report artifacts found in reports/." >&2
             exit 1
           fi
-          npx --yes evergreen-deprecation rollup $report_files $owners_arg --html > _site/index.html
+
+          npx --yes evergreen-deprecation rollup "${report_files[@]}" "${owners_arg[@]}" --html > _site/index.html
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: _site
 
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

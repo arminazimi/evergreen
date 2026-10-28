@@ -188,11 +188,44 @@ test("templates/rollup contains a valid GitHub Pages workflow and owners file", 
   const readmePath = resolve("templates/rollup/README.md");
 
   const workflowText = await readFile(workflowPath, "utf8");
-  const workflow = parse(workflowText) as { name?: string; permissions?: Record<string, string>; jobs?: Record<string, { steps?: Array<{ uses?: string }> }> };
+  interface Step {
+    name?: string;
+    uses?: string;
+    with?: Record<string, unknown>;
+  }
+  interface Job {
+    if?: string;
+    needs?: string;
+    environment?: { name?: string; url?: string };
+    steps?: Step[];
+  }
+  const workflow = parse(workflowText) as {
+    name?: string;
+    permissions?: Record<string, string>;
+    jobs?: Record<string, Job>;
+  };
+
   assert.equal(workflow.name, "Evergreen organization rollup");
+  assert.equal(workflow.permissions?.actions, "read");
+  assert.equal(workflow.permissions?.contents, "read");
   assert.equal(workflow.permissions?.pages, "write");
   assert.equal(workflow.permissions?.["id-token"], "write");
-  assert.ok(workflow.jobs?.rollup?.steps && workflow.jobs.rollup.steps.length >= 4);
+
+  const buildJob = workflow.jobs?.build;
+  assert.ok(buildJob, "build job must exist");
+  assert.equal(buildJob.if, "github.event.workflow_run.conclusion == 'success'");
+
+  const downloadStep = buildJob.steps?.find((step) => step.uses?.includes("actions/download-artifact"));
+  assert.ok(downloadStep, "download step must exist");
+  assert.equal(downloadStep.with?.["run-id"], "${{ github.event.workflow_run.id }}");
+  assert.equal(downloadStep.with?.["github-token"], "${{ secrets.GITHUB_TOKEN }}");
+  assert.equal(downloadStep.with?.pattern, "evergreen-report-*");
+
+  const deployJob = workflow.jobs?.deploy;
+  assert.ok(deployJob, "deploy job must exist");
+  assert.equal(deployJob.needs, "build");
+  assert.equal(deployJob.environment?.name, "github-pages");
+  assert.equal(deployJob.environment?.url, "${{ steps.deployment.outputs.page_url }}");
 
   const owners = JSON.parse(await readFile(ownersPath, "utf8")) as Record<string, string>;
   assert.equal(typeof owners, "object");

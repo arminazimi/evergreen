@@ -4,7 +4,9 @@ This template deploys a static, single-page lifecycle risk dashboard for your or
 
 ## Overview
 
-The workflow (`pages.yml`) runs after the organization scan workflow completes (or on a schedule/dispatch), downloads the matrix report artifacts (`evergreen-report-<repository>`), builds a self-contained HTML page using `evergreen rollup --html`, and publishes it to GitHub Pages.
+The workflow (`pages.yml`) runs via `workflow_run` after the "Evergreen organization scan" workflow completes successfully. It downloads the matrix report artifacts (`evergreen-report-<repository>`) from the triggering scan run using `run-id`, builds a self-contained HTML page using `evergreen rollup --html`, and publishes it to GitHub Pages.
+
+Independent schedule and manual triggers are omitted because artifacts belong to the triggering scan run; running on an uncoupled schedule is redundant since the scan workflow itself is already scheduled.
 
 ## Setup
 
