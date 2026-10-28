@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/config.v1.schema.json",
+  "title": "Evergreen configuration v1",
+  "description": "Configuration loaded from .evergreen.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference for editor validation and autocompletion."
+    },
+    "schemaVersion": {
+      "type": "string",
+      "const": "evergreen.config.v1",
+      "description": "Evergreen configuration schema version."
+    },
+    "failOn": {
+      "enum": ["none", "info", "low", "medium", "high", "critical"],
+      "description": "Exit with code 1 when a finding is at or above this severity."
+    },
+    "fail-on": {
+      "enum": ["none", "info", "low", "medium", "high", "critical"],
+      "description": "Alias for failOn."
+    },
+    "ignore": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      ],
+      "description": "Paths or glob patterns to ignore during scan."
+    },
+    "ignorePaths": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      ],
+      "description": "Alias for ignore."
+    },
+    "ignore-paths": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      ],
+      "description": "Alias for ignore."
+    },
+    "dataVersion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Pinned lifecycle data version, for example 2026.10.01, or 'bundled'."
+    },
+    "data-version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Alias for dataVersion."
+    },
+    "baseline": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      ],
+      "description": "Path or paths to baseline files to suppress known findings."
+    },
+    "baselines": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Alias for baseline."
+    },
+    "baselineFiles": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Alias for baseline."
+    },
+    "baseline-files": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Alias for baseline."
+    }
+  }
+}

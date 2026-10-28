@@ -59,6 +59,7 @@ import {
 } from "./errors.js";
 import { CycloneDxError, enrichCycloneDxFile } from "./sbom/cyclonedx.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
+import { applyIgnore, ConfigError, loadConfig } from "./config.js";
 
 const HELP = `Evergreen — local-first deprecation intelligence
 
@@ -71,6 +72,7 @@ Usage:
   evergreen scan [path] --write-status
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
+  evergreen scan [path] --ignore <path>   # ignore paths or glob patterns during scan
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
@@ -486,13 +488,75 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
+
+  const optionValue = (name: string): string | undefined => {
+    const index = args.indexOf(name);
+    return index === -1 ? undefined : args[index + 1];
+  };
+  const optionValues = (name: string): string[] => {
+    const values: string[] = [];
+    for (let index = 0; index < args.length; index += 1) {
+      if (args[index] === name && args[index + 1] !== undefined) {
+        values.push(args[index + 1]!);
+        index += 1;
+      }
+    }
+    return values;
+  };
+  const valueOptions = new Set([
+    "--baseline",
+    "--output",
+    "--format",
+    "--fail-on",
+    "--data-version",
+    "--today",
+    "--as-of",
+    "--min-support-days",
+    "--baseline-warn-days",
+    "--on-expired",
+    "--all",
+    "--months",
+    "--owners",
+    "--ignore",
+  ]);
+  const positional: string[] = [];
+  for (let index = 1; index < args.length; index += 1) {
+    const argument = args[index];
+    if (!argument) continue;
+    if (valueOptions.has(argument)) {
+      index += 1;
+    } else if (!argument.startsWith("-")) {
+      positional.push(argument);
+    }
+  }
+
+  const takesFindingId = command === "explain" || command === "context" || command === "report-issue";
+  const findingId = takesFindingId ? positional[0] : undefined;
+  const pathArgument = takesFindingId
+    ? (positional[1] ?? ".")
+    : command === "check"
+      ? "."
+      : (positional[0] ?? ".");
+
+  const demo = args.includes("--demo");
+
+  let config: Awaited<ReturnType<typeof loadConfig>> | undefined;
+  if (!demo && command !== "capabilities" && command !== "data") {
+    try {
+      config = await loadConfig(pathArgument);
+    } catch (error) {
+      if (error instanceof ConfigError) return fail("usage", error.message);
+      throw error;
+    }
+  }
+
   const dataVersionIndex = args.indexOf("--data-version");
   const dataVersionFlag = dataVersionIndex === -1 ? undefined : args[dataVersionIndex + 1];
   if (dataVersionIndex !== -1 && (!dataVersionFlag || dataVersionFlag.startsWith("-"))) {
     return fail("usage", "--data-version needs a version, for example 2026.10.01, or \"bundled\".");
   }
   const isUpdate = command === "data" && args[1] === "update";
-  const dataPin = isUpdate ? undefined : (dataVersionFlag ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
+  const dataPin = isUpdate ? undefined : (dataVersionFlag ?? config?.dataVersion ?? (process.env.EVERGREEN_DATA_VERSION || undefined));
   if (command !== "capabilities" && !isUpdate) {
     configureActiveData(dataPin === undefined ? {} : { pinnedVersion: dataPin });
     try {
@@ -540,7 +604,6 @@ async function main(rawArgs: string[]): Promise<number> {
   if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || (format === "html" && command !== "rollup") || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
-  const demo = args.includes("--demo");
   if (demo && command !== "scan") {
     return fail("usage", "--demo is only available for the scan command.");
   }
@@ -588,37 +651,12 @@ async function main(rawArgs: string[]): Promise<number> {
     process.stdout.write(`${json ? JSON.stringify(status, null, 2) : renderDataStatusText(status)}\n`);
     return 0;
   }
-  const valueOptions = new Set(["--baseline", "--output", "--format", "--fail-on", "--data-version", "--today", "--as-of", "--min-support-days", "--baseline-warn-days", "--on-expired", "--all", "--months", "--owners"]);
-  const positional: string[] = [];
-  for (let index = 1; index < args.length; index += 1) {
-    const argument = args[index];
-    if (!argument) continue;
-    if (valueOptions.has(argument)) {
-      index += 1;
-    } else if (!argument.startsWith("-")) {
-      positional.push(argument);
-    }
-  }
-  const optionValue = (name: string): string | undefined => {
-    const index = args.indexOf(name);
-    return index === -1 ? undefined : args[index + 1];
-  };
-  const optionValues = (name: string): string[] => {
-    const values: string[] = [];
-    for (let index = 0; index < args.length; index += 1) {
-      if (args[index] === name && args[index + 1] !== undefined) {
-        values.push(args[index + 1]!);
-        index += 1;
-      }
-    }
-    return values;
-  };
   if (command === "check") {
     const purl = positional[0];
     if (!purl) {
       return fail("usage", "Missing package URL, for example pkg:npm/request@2.88.2.", `\n${HELP}`);
     }
-    const gate = optionValue("--fail-on") ?? "high";
+    const gate = optionValue("--fail-on") ?? config?.failOn ?? "high";
     if (gate !== "none" && !severityValues.includes(gate as Severity)) {
       return fail("usage", `Unknown severity for --fail-on: ${gate} (expected none, ${severityValues.join(", ")}).`);
     }
@@ -632,14 +670,9 @@ async function main(rawArgs: string[]): Promise<number> {
       throw error;
     }
   }
-  const takesFindingId = command === "explain" || command === "context" || command === "report-issue";
-  const findingId = takesFindingId ? positional[0] : undefined;
   if (takesFindingId && !findingId) {
     return fail("usage", "Missing finding ID.", `\n${HELP}`);
   }
-  const pathArgument = takesFindingId
-    ? (positional[1] ?? ".")
-    : (positional[0] ?? ".");
   if (command === "doctor") {
     const result = await diagnoseEnvironment(pathArgument, { system: args.includes("--system") });
     process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderDoctorText(result)}\n`);
@@ -719,7 +752,7 @@ async function main(rawArgs: string[]): Promise<number> {
     const rootProblem = await repositoryRootProblem(pathArgument);
     if (rootProblem) return failActionable("usage", rootProblem);
   }
-  const scanGate = optionValue("--fail-on") ?? "none";
+  const scanGate = optionValue("--fail-on") ?? config?.failOn ?? "none";
   if (command === "scan" && scanGate !== "none" && !severityValues.includes(scanGate as Severity)) {
     return fail("usage", `Unknown severity for --fail-on: ${scanGate} (expected none, ${severityValues.join(", ")}).`);
   }
@@ -762,9 +795,13 @@ async function main(rawArgs: string[]): Promise<number> {
   if (minSupportValue !== undefined && minSupportDays === undefined) {
     return fail("usage", "--min-support-days must be a whole number of days (0 to 3650).");
   }
+  const cliIgnore = optionValues("--ignore");
+  const ignorePatterns = args.includes("--ignore") ? cliIgnore : (config?.ignore ?? []);
+
   let result = demo ? await scanDemo(builtInDetectors) : await scanRepository(pathArgument, builtInDetectors);
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
+  if (ignorePatterns.length > 0) result = applyIgnore(result, ignorePatterns);
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
     // A missing or unreadable earlier file just means there is no history to carry forward.
@@ -779,7 +816,8 @@ async function main(rawArgs: string[]): Promise<number> {
     return 0;
   }
   let baselineExpiredFailure = false;
-  const baselinePaths = optionValues("--baseline");
+  const cliBaselinePaths = optionValues("--baseline");
+  const baselinePaths = args.includes("--baseline") ? cliBaselinePaths : (config?.baseline ?? []);
   if (baselinePaths.length > 0) {
     const today = asOfValue ?? new Date().toISOString().slice(0, 10);
     const warnValue = optionValue("--baseline-warn-days");
