@@ -176,6 +176,14 @@ export interface Finding {
   migration?: MigrationGuidance;
 }
 
+/** The `--only`/`--exclude` selectors that were applied to a scan. Present only when one was given. */
+export interface ScanSelection {
+  /** Ecosystem ids or rule-id prefixes the scan kept. */
+  only?: string[];
+  /** Ecosystem ids or rule-id prefixes the scan dropped. */
+  exclude?: string[];
+}
+
 export interface UnclassifiedReference {
   detector: string;
   component: string;
@@ -253,6 +261,8 @@ export interface ScanResult {
   findings: Finding[];
   unclassified?: UnclassifiedSummary;
   diagnostics: string[];
+  /** The `--only`/`--exclude` selectors applied. Present only when one was given. */
+  selection?: ScanSelection;
   data?: DataInfo;
   suppressions?: SuppressionState;
   /** The day the scan was projected onto with `--as-of`. Present only when one was given. */

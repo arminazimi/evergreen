@@ -431,6 +431,31 @@
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "The day the scan was projected onto with --as-of. Present only when one was given."
     },
+    "selection": {
+      "type": "object",
+      "description": "The --only/--exclude selectors applied to the scan. Present only when one was given.",
+      "additionalProperties": false,
+      "properties": {
+        "only": {
+          "type": "array",
+          "description": "Ecosystem ids or rule-id prefixes the scan kept.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "exclude": {
+          "type": "array",
+          "description": "Ecosystem ids or rule-id prefixes the scan dropped.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
     "coverage": {
       "type": "object",
       "description": "What the scan checked, so a zero-finding report can say what was covered and what was not. Path arrays are complete here; the text report may show only the first ten of each.",

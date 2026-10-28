@@ -637,6 +637,8 @@ export function renderText(result: ScanResult, options: TextOptions = {}): strin
     "Evergreen scan",
     `Repository: ${result.root}`,
     `Findings: ${result.findings.length}`,
+    ...(result.selection?.only?.length ? [`Only: ${result.selection.only.join(", ")}`] : []),
+    ...(result.selection?.exclude?.length ? [`Excluded: ${result.selection.exclude.join(", ")}`] : []),
     ...(result.data ? [describeData(result.data)] : []),
   ];
   const unclassified = result.unclassified?.count ?? 0;

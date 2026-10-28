@@ -27,13 +27,13 @@ import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
-import type { Severity } from "./domain.js";
+import type { ScanSelection, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { applyOnBranch } from "./fix/git.js";
 import { planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
-import { findRepositories, renderMultiScanText, scanProjects, scanRepository } from "./engine.js";
+import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
 import { scanDemo } from "./demo.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -73,6 +73,8 @@ Usage:
   evergreen scan [path] --interactive   # browse findings and open them in $EDITOR; plain text when not a terminal
   evergreen scan [path] --fail-on <severity|none>   # exit 1 when a finding is at or above the severity
   evergreen scan [path] --ignore <path>   # ignore paths or glob patterns during scan
+  evergreen scan [path] --only <ecosystem|rule-prefix>   # keep only matching findings; repeatable
+  evergreen scan [path] --exclude <ecosystem|rule-prefix>   # drop matching findings; repeatable
   evergreen scan [path] --no-cache   # bypass the scan cache and re-scan all files fresh
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
@@ -395,6 +397,23 @@ async function usage(args: string[]): Promise<number> {
   return 0;
 }
 
+/** Valid `--only`/`--exclude` values: ecosystem ids, rule ids, and their dotted prefixes. */
+async function selectorValues(): Promise<Set<string>> {
+  const values = new Set<string>(builtInDetectors.map((detector) => detector.id));
+  for (const rule of await bundledRules()) {
+    const parts = rule.id.split(".");
+    for (let index = 1; index <= parts.length; index += 1) values.add(parts.slice(0, index).join("."));
+  }
+  return values;
+}
+
+/** Lists the ecosystems and rule-id families a selector may name, for the unknown-selector error. */
+async function selectorValuesSummary(): Promise<string> {
+  const ecosystems = builtInDetectors.map((detector) => detector.id).sort();
+  const prefixes = [...new Set((await bundledRules()).map((rule) => rule.id.split(".").slice(0, 2).join(".")))].sort((left, right) => left.localeCompare(right));
+  return `Valid ecosystems: ${ecosystems.join(", ")}. Valid rule prefixes: ${[...ecosystems, ...prefixes].filter((value, index, all) => all.indexOf(value) === index).sort((left, right) => left.localeCompare(right)).join(", ")}.`;
+}
+
 /** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
 async function newDetector(args: string[]): Promise<number> {
   const ecosystemIndex = args.indexOf("--ecosystem");
@@ -519,6 +538,8 @@ async function main(rawArgs: string[]): Promise<number> {
     "--months",
     "--owners",
     "--ignore",
+    "--only",
+    "--exclude",
   ]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
@@ -616,6 +637,22 @@ async function main(rawArgs: string[]): Promise<number> {
     return fail("usage", "--no-cache is only available for the scan command.");
   }
   const noCache = args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1";
+  const onlySelectors = optionValues("--only");
+  const excludeSelectors = optionValues("--exclude");
+  if ((onlySelectors.length > 0 || excludeSelectors.length > 0) && command !== "scan") {
+    return fail("usage", "--only and --exclude are only available for the scan command.");
+  }
+  const selection: ScanSelection | undefined =
+    onlySelectors.length > 0 || excludeSelectors.length > 0
+      ? { ...(onlySelectors.length > 0 ? { only: onlySelectors } : {}), ...(excludeSelectors.length > 0 ? { exclude: excludeSelectors } : {}) }
+      : undefined;
+  if (selection) {
+    const known = await selectorValues();
+    const invalid = [...new Set([...onlySelectors, ...excludeSelectors])].filter((value) => !known.has(value) || value === "" || value.startsWith("-"));
+    if (invalid.length > 0) {
+      return fail("usage", `Unknown selector: ${invalid.join(", ")}. Use an ecosystem or a rule-id prefix (for example npm.package.request).`, `\n${await selectorValuesSummary()}\n`);
+    }
+  }
   if (command === "guard") {
     try {
       const result = await guardCommand(args.slice(1), { report: (output) => process.stderr.write(`${output}\n`) });
@@ -750,6 +787,13 @@ async function main(rawArgs: string[]): Promise<number> {
       return fail("usage", `No Git repositories found in ${allDirectory}.`);
     }
     const multi = await scanProjects(paths, builtInDetectors, { noCache });
+    if (selection) {
+      multi.projects = multi.projects.map((project) => {
+        const result = applyScanSelection(project.result, selection);
+        return { ...project, findings: result.findings.length, result };
+      });
+      multi.total = { projects: multi.projects.length, findings: multi.projects.reduce((sum, project) => sum + project.findings, 0) };
+    }
     process.stdout.write(`${json ? JSON.stringify(multi, null, 2) : renderMultiScanText(multi)}\n`);
     return 0;
   }
@@ -807,6 +851,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (asOfValue !== undefined) result = await applyAsOf(result, asOfValue);
   if (minSupportDays !== undefined) result = applyMinSupport(result, minSupportDays, asOfValue ?? new Date().toISOString().slice(0, 10));
   if (ignorePatterns.length > 0) result = applyIgnore(result, ignorePatterns);
+  if (selection) result = applyScanSelection(result, selection);
   if (command === "baseline") {
     const output = resolve(optionValue("--output") ?? ".evergreen-baseline.json");
     // A missing or unreadable earlier file just means there is no history to carry forward.
