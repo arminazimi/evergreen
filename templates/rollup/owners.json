@@ -1,0 +1,5 @@
+{
+  "api": "platform",
+  "web": "frontend",
+  "worker": "infrastructure"
+}

@@ -38,7 +38,7 @@ import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
-import { RollupError, renderRollupText, rollupFiles } from "./rollup.js";
+import { RollupError, renderRollupHtml, renderRollupText, rollupFiles } from "./rollup.js";
 import { buildRenovatePreset } from "./renovate-preset.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
 import { createIssueReport, ReportIssueError } from "./report-issue.js";
@@ -73,7 +73,7 @@ Usage:
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
-  evergreen rollup <report.json>... [--owners <file>] [--json]   # merge saved scan reports by product and owner; reads files only
+  evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
   evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config
   evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
@@ -502,7 +502,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "check" && format !== undefined && format !== "json" && format !== "text") {
     return fail("usage", "check supports --json and --format text|json only.");
   }
-  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || format === "html" || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
+  if ((format === "markdown" || format === "junit" || format === "sarif" || format === "rdjson" || format === "codequality" || format === "compact" || (format === "html" && command !== "rollup") || format === "slack" || format === "teams" || format === "webhook") && command !== "scan") {
     return fail("usage", `--format ${format} is only available for the scan command.`);
   }
   const json = args.includes("--json") || format === "json";
@@ -610,9 +610,10 @@ async function main(rawArgs: string[]): Promise<number> {
     const ownersIndex = args.indexOf("--owners");
     const ownersFile = ownersIndex === -1 ? undefined : args[ownersIndex + 1];
     if (ownersIndex !== -1 && (!ownersFile || ownersFile.startsWith("-"))) return fail("usage", "--owners needs a file.");
+    const html = args.includes("--html") || format === "html";
     try {
       const result = await rollupFiles(positional.map((path) => resolve(path)), ownersFile && resolve(ownersFile));
-      process.stdout.write(`${json ? JSON.stringify(result, null, 2) : renderRollupText(result)}\n`);
+      process.stdout.write(`${json ? JSON.stringify(result, null, 2) : html ? renderRollupHtml(result) : renderRollupText(result)}\n`);
       return 0;
     } catch (error) {
       if (error instanceof RollupError) return fail("usage", error.message);
