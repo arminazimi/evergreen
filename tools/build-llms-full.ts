@@ -6,6 +6,7 @@
 //
 // docs/llms.txt is the curated index and the only thing edited by hand; the full file is generated from it, so the
 // two cannot disagree about which pages exist. Output is deterministic.
+// Both files are committed without front matter, so Jekyll serves them verbatim at the site root instead of a Slipway layout replacing them.
 
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";

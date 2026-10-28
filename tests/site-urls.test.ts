@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -65,6 +65,32 @@ test("the committed inventory matches the sitemap and every docs page, and every
   assert.ok(urls.includes(`${SITE_URL}/MCP.html`));
   assert.equal(new Set(urls).size, urls.length);
   assert.deepEqual(urls, [...urls].sort((left, right) => left.localeCompare(right)));
+});
+
+test("the machine files stay static and served at their old root URLs", async () => {
+  const urls = await collectSiteUrls();
+  const machineFiles = ["llms.txt", "llms-full.txt", "sitemap.xml"];
+  for (const file of machineFiles) {
+    assert.ok(urls.includes(`${SITE_URL}/${file}`), `${file} is missing from the URL inventory`);
+    assert.deepEqual(docsPathsForUrl(`${SITE_URL}/${file}`), [file]);
+    const text = await readFile(resolve("docs", file), "utf8");
+    assert.doesNotMatch(
+      text,
+      /^---\r?\n/,
+      `docs/${file} must stay a static file: front matter would make Jekyll render it through a layout instead of serving it as is`,
+    );
+  }
+
+  const claimed = new Set(machineFiles.map((file) => `/${file}`));
+  for (const entry of await readdir(resolve("docs"), { recursive: true })) {
+    if (!entry.endsWith(".md") && !entry.endsWith(".html")) continue;
+    const frontMatter = (await readFile(resolve("docs", entry), "utf8")).match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
+    const permalink = frontMatter.match(/^permalink:\s*["']?([^"'\s]+)/m)?.[1];
+    assert.ok(
+      permalink === undefined || !claimed.has(permalink),
+      `docs/${entry} publishes ${permalink}, which the machine files own; add the page to llms.txt and sitemap generation instead`,
+    );
+  }
 });
 
 test("--check fails when a listed URL has no file and when the fixture drifts", async () => {
