@@ -28,6 +28,18 @@ on:
           `GITHUB_TOKEN` when the caller can read the organization with its
           default token; otherwise pass a dedicated read-only token.
         required: false
+      slack-webhook-url:
+        description: >-
+          Incoming-webhook URL for a Slack channel. When set, a digest of the
+          rollup result is posted after every scan. Leave empty to skip Slack
+          notifications.
+        required: false
+      teams-webhook-url:
+        description: >-
+          Workflow-webhook URL for a Microsoft Teams channel. When set, a digest
+          of the rollup result is posted after every scan. Leave empty to skip
+          Teams notifications.
+        required: false
   workflow_dispatch:
     inputs:
       organization:
@@ -91,3 +103,93 @@ jobs:
         with:
           fail-on-severity: ${{ inputs.fail-on-severity }}
           report-name: evergreen-report-${{ matrix.repo }}
+
+  notify:
+    name: Send digest
+    needs: scan
+    # Run even when some scan jobs fail so teams always get the weekly digest.
+    if: ${{ always() && (secrets.slack-webhook-url != '' || secrets.teams-webhook-url != '') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download scan reports
+        env:
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          mkdir -p reports
+          gh api \
+            "/repos/$REPO/actions/runs/$RUN_ID/artifacts?per_page=100" \
+            --paginate \
+            --jq '.artifacts[] | select(.name | startswith("evergreen-report-")) | .id' \
+          | while read -r id; do
+              gh api "/repos/$REPO/actions/artifacts/$id/zip" > "reports/${id}.zip" 2>/dev/null || true
+              unzip -q -o "reports/${id}.zip" -d "reports/${id}" 2>/dev/null || true
+              rm -f "reports/${id}.zip"
+            done
+          echo "Downloaded $(find reports -name '*.json' | wc -l | tr -d ' ') report(s)."
+
+      - name: Build digest text
+        id: digest
+        run: |
+          reports="$(find reports -name '*.json' | sort)"
+          if [ -z "$reports" ]; then
+            text="Evergreen organization scan complete: no reports found."
+          else
+            text="$(npx --yes evergreen-deprecation rollup $reports 2>/dev/null)"
+          fi
+          # Store in a file to avoid length limits in GITHUB_OUTPUT.
+          printf '%s' "$text" > digest.txt
+          echo "text<<EVERGREEN_DIGEST_EOF" >> "$GITHUB_OUTPUT"
+          cat digest.txt >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "EVERGREEN_DIGEST_EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post to Slack
+        if: ${{ secrets.slack-webhook-url != '' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.slack-webhook-url }}
+        run: |
+          text="$(cat digest.txt)"
+          payload="$(jq -n --arg text "$text" '{
+            text: $text,
+            blocks: [
+              {type: "header", text: {type: "plain_text", text: "Evergreen organization digest", emoji: false}},
+              {type: "section", text: {type: "mrkdwn", text: ($text | gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;"))}}
+            ]
+          }')"
+          curl --silent --show-error --fail \
+            -X POST "$SLACK_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "$payload"
+
+      - name: Post to Teams
+        if: ${{ secrets.teams-webhook-url != '' }}
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.teams-webhook-url }}
+        run: |
+          text="$(cat digest.txt)"
+          payload="$(jq -n --arg text "$text" '{
+            type: "message",
+            attachments: [{
+              contentType: "application/vnd.microsoft.card.adaptive",
+              contentUrl: null,
+              content: {
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                type: "AdaptiveCard",
+                version: "1.4",
+                body: [
+                  {type: "TextBlock", text: "Evergreen organization digest", weight: "Bolder", size: "Medium", wrap: true},
+                  {type: "TextBlock", text: $text, wrap: true}
+                ]
+              }
+            }]
+          }')"
+          curl --silent --show-error --fail \
+            -X POST "$TEAMS_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "$payload"

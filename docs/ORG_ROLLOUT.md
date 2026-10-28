@@ -25,6 +25,8 @@ jobs:
       organization: your-org
     secrets:
       github-token: ${{ secrets.EVERGREEN_ORG_TOKEN }}
+      slack-webhook-url: ${{ secrets.EVERGREEN_SLACK_WEBHOOK }}   # optional
+      teams-webhook-url: ${{ secrets.EVERGREEN_TEAMS_WEBHOOK }}   # optional
 ```
 
 Run it on a schedule, dispatch it manually, or gate your own workflow on it with `needs`.
@@ -48,6 +50,54 @@ Each scan job checks out its repository at the default branch and runs the Everg
 A scan job fails when a repository has findings at or above `fail-on-severity`, so the calling workflow fails if any repository crossed the gate. To get an organization-wide view instead of a gate, set `fail-on-severity: none`.
 
 SARIF uploads to code scanning are per-repository, and the reusable workflow keeps them off by default. A repository that wants its findings in code scanning is better served by its own pull-request workflow with `upload-sarif: true` (see [GitHub Action](GITHUB_ACTION.md)).
+
+## Weekly digest to Slack or Teams
+
+After all scan jobs finish, the reusable workflow can post a rollup digest to a Slack channel or a Microsoft Teams channel. The digest lists the total findings across every repository, broken down by severity, product, and owner — the same text `evergreen rollup` prints locally.
+
+To enable it, pass one or both webhook secrets from your caller:
+
+```yaml
+jobs:
+  org-scan:
+    uses: arminazimi/evergreen/.github/workflows/org-scan.yml@v0.8.0
+    with:
+      organization: your-org
+    secrets:
+      github-token: ${{ secrets.EVERGREEN_ORG_TOKEN }}
+      slack-webhook-url: ${{ secrets.EVERGREEN_SLACK_WEBHOOK }}
+      teams-webhook-url: ${{ secrets.EVERGREEN_TEAMS_WEBHOOK }}
+```
+
+If neither secret is set, the notify step is skipped entirely and no outbound request is made.
+
+### Setting up the Slack webhook
+
+1. Open [api.slack.com/apps](https://api.slack.com/apps) and create (or choose) an app for the channel that should receive digests.
+2. Under **Features → Incoming Webhooks**, enable incoming webhooks and click **Add New Webhook to Workspace**.
+3. Select the target channel and confirm. Slack shows a URL of the form `https://hooks.slack.com/services/T…/B…/…`.
+4. In GitHub, open **Settings → Secrets and variables → Actions** in the repository that calls the org-scan workflow.
+5. Create a secret named `EVERGREEN_SLACK_WEBHOOK` and paste the webhook URL as its value. Treat the URL as a credential — anyone who has it can post to the channel.
+6. Pass it to the workflow with `secrets: slack-webhook-url: ${{ secrets.EVERGREEN_SLACK_WEBHOOK }}`.
+
+### Setting up the Teams webhook
+
+Teams uses Workflow webhooks (not the legacy Incoming Webhook connector, which Microsoft is retiring). The Workflow webhook produces a URL compatible with Evergreen's Adaptive Card payload.
+
+1. In the Teams channel that should receive digests, open **… → Workflows**.
+2. Search for **Post to a channel when a webhook request is received** and select it.
+3. Follow the setup wizard. Teams generates a URL of the form `https://prod-XX.westeurope.logic.azure.com/…`.
+4. In GitHub, create a secret named `EVERGREEN_TEAMS_WEBHOOK` and paste the URL.
+5. Pass it to the workflow with `secrets: teams-webhook-url: ${{ secrets.EVERGREEN_TEAMS_WEBHOOK }}`.
+
+### Secrets table
+
+| Secret | Required | Meaning |
+| --- | --- | --- |
+| `slack-webhook-url` | No | Incoming-webhook URL. When set, a Slack digest is posted after every scan. |
+| `teams-webhook-url` | No | Workflow-webhook URL. When set, a Teams digest is posted after every scan. |
+
+Both secrets are optional and independent. You can enable Slack, Teams, both, or neither.
 
 ## Limits
 
