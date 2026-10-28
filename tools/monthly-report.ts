@@ -62,6 +62,7 @@ export interface ContributorMetrics {
   monthContributors: number;
   contributors: string[];
   monthContributorsList: string[];
+  isShallow: boolean;
 }
 
 export interface MonthlyReportData {
@@ -75,6 +76,10 @@ export interface MonthlyReportData {
 }
 
 export type GitRunner = (args: readonly string[]) => string;
+
+export const createGitRunner = (cwd: string): GitRunner => (args) => {
+  return execFileSync("git", [...args], { cwd, encoding: "utf8" });
+};
 
 const defaultGitRunner: GitRunner = (args) => {
   return execFileSync("git", [...args], { encoding: "utf8" });
@@ -224,6 +229,14 @@ export function collectContributorMetrics(
   gitRunner: GitRunner = defaultGitRunner,
   month?: string,
 ): ContributorMetrics {
+  let isShallow = false;
+  try {
+    const shallowOutput = gitRunner(["rev-parse", "--is-shallow-repository"]).trim();
+    isShallow = shallowOutput === "true";
+  } catch {
+    // If command fails or git is not available, ignore
+  }
+
   try {
     const commitCountStr = gitRunner(["rev-list", "--count", "HEAD"]).trim();
     const totalCommits = parseInt(commitCountStr, 10) || 0;
@@ -289,6 +302,7 @@ export function collectContributorMetrics(
       monthContributors: monthContributorsList.length,
       contributors,
       monthContributorsList,
+      isShallow,
     };
   } catch {
     return {
@@ -298,6 +312,7 @@ export function collectContributorMetrics(
       monthContributors: 0,
       contributors: [],
       monthContributorsList: [],
+      isShallow,
     };
   }
 }
@@ -321,7 +336,8 @@ export async function collectReportData(options: CollectReportOptions = {}): Pro
     collectCorpusMetrics(join(root, "benchmarks", "public-repositories.json")),
   ]);
 
-  const contributors = collectContributorMetrics(options.gitRunner, month);
+  const gitRunner = options.gitRunner ?? createGitRunner(root);
+  const contributors = collectContributorMetrics(gitRunner, month);
 
   return {
     month,
@@ -357,7 +373,10 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push(`| Lifecycle rules | ${formatNumber(data.rules.total)} rules | ${formatNumber(data.rules.reviewedInMonth || data.rules.total)} reviewed across ${Object.keys(data.rules.byEcosystem).length} ecosystems |`);
   lines.push(`| Supported ecosystems | ${data.ecosystems.total} ecosystems | ${data.ecosystems.supported} supported, ${data.ecosystems.experimental} experimental |`);
   lines.push(`| Validation corpus | ${formatNumber(data.corpus.totalRepositories)} repositories | ${formatNumber(data.corpus.totalExpectedFindings)} expected findings across ${Object.keys(data.corpus.byEcosystem).length} ecosystems |`);
-  lines.push(`| Contributors | ${data.contributors.totalContributors} contributors | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month} |`);
+  const contributorHighlight = data.contributors.isShallow
+    ? `${data.contributors.totalContributors} contributors (partial: shallow history)`
+    : `${data.contributors.totalContributors} contributors`;
+  lines.push(`| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month} |`);
   lines.push("");
 
   // Lifecycle rules section
@@ -445,6 +464,10 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Contributors section
   lines.push("## Contributors");
   lines.push("");
+  if (data.contributors.isShallow) {
+    lines.push("*Note: Contributor counts are partial because the history is shallow.*");
+    lines.push("");
+  }
   lines.push(`Evergreen is built with contributions from ${data.contributors.totalContributors} authors and co-authors across ${formatNumber(data.contributors.totalCommits)} commits:`);
   lines.push("");
   for (const contributor of data.contributors.contributors) {
