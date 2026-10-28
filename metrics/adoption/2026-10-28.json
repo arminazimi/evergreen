@@ -53,6 +53,16 @@
       "value": 3.1,
       "detail": "https://securityscorecards.dev/viewer/?uri=github.com/arminazimi/evergreen",
       "source": "https://api.securityscorecards.dev/projects/github.com/arminazimi/evergreen"
+    },
+    "externalContributors": {
+      "status": "ok",
+      "value": 2,
+      "source": "https://github.com/arminazimi/evergreen/pulls?q=is%3Apr+is%3Amerged+-author%3Aarminazimi"
+    },
+    "firstTimeContributors": {
+      "status": "ok",
+      "value": 2,
+      "source": "https://github.com/arminazimi/evergreen/pulls?q=is%3Apr+is%3Amerged+-author%3Aarminazimi"
     }
   },
   "serviceReports": {
@@ -60,6 +70,7 @@
     "socket": "https://socket.dev/npm/package/evergreen-deprecation",
     "depsDev": "https://deps.dev/npm/evergreen-deprecation",
     "npmsIo": "https://npms.io/search?q=evergreen-deprecation",
-    "snykAdvisor": "https://security.snyk.io/package/npm/evergreen-deprecation"
+    "snykAdvisor": "https://security.snyk.io/package/npm/evergreen-deprecation",
+    "starHistory": "https://star-history.com/#arminazimi/evergreen&Date"
   }
 }

@@ -40,8 +40,9 @@ Each snapshot records the distinct public repositories whose `.github/workflows`
 | `skillsShInstalls` | The install count published on the skills.sh page of the Evergreen skill |
 | `githubStars`, `githubForks` | The GitHub repository |
 | `scorecardScore` | OpenSSF Scorecard API, overall score (0–10) for `github.com/arminazimi/evergreen` |
+| `externalContributors`, `firstTimeContributors` | External (non-owner, non-bot) contributors with merged pull requests, and first-time contributors whose earliest merged pull request was merged in the snapshot's calendar month, from merged PRs in the GitHub search API (max 1,000 results) |
 
-npm downloads include CI installs and mirrors, so they overstate unique users; the skills.sh figure only counts installs through that registry. Snapshots also link to each external service's latest report under `serviceReports` (`openSsfScorecard`, `socket`, `depsDev`, `npmsIo`, `snykAdvisor`).
+npm downloads include CI installs and mirrors, so they overstate unique users; the skills.sh figure only counts installs through that registry. Snapshots also link to each external service's latest report under `serviceReports` (`openSsfScorecard`, `socket`, `depsDev`, `npmsIo`, `snykAdvisor`, `starHistory`).
 
 ## Taking a snapshot
 

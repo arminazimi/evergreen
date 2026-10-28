@@ -23,6 +23,7 @@ export const SERVICE_REPORTS: Record<string, string> = {
   depsDev: `https://deps.dev/npm/${PACKAGE}`,
   npmsIo: `https://npms.io/search?q=${PACKAGE}`,
   snykAdvisor: `https://security.snyk.io/package/npm/${PACKAGE}`,
+  starHistory: `https://star-history.com/#${REPOSITORY}&Date`,
 };
 
 export type Metric =
@@ -101,6 +102,110 @@ export function parseScorecard(status: number, text: string): Metric {
   } catch (error) {
     return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
   }
+}
+
+export interface ContributorMetrics {
+  externalContributors: Metric;
+  firstTimeContributors: Metric;
+}
+
+export function parseContributorMetrics(
+  status: number,
+  text: string,
+  date: string,
+  source: string = `https://github.com/${REPOSITORY}/pulls?q=${encodeURIComponent(`is:pr is:merged -author:${OWNER}`)}`,
+): ContributorMetrics {
+  if (status !== 200) {
+    const reason = `GitHub returned HTTP ${status}.`;
+    return {
+      externalContributors: { status: "unavailable", reason, source },
+      firstTimeContributors: { status: "unavailable", reason, source },
+    };
+  }
+  try {
+    const data = JSON.parse(text) as {
+      items?: Array<{
+        user?: { login?: string; type?: string };
+        closed_at?: string | null;
+      }>;
+    };
+    if (!data || !Array.isArray(data.items)) {
+      return {
+        externalContributors: { status: "unavailable", reason: "GitHub response did not contain items.", source },
+        firstTimeContributors: { status: "unavailable", reason: "GitHub response did not contain items.", source },
+      };
+    }
+    const authors = new Set<string>();
+    const earliestClosedAt = new Map<string, string>();
+    for (const item of data.items) {
+      const login = item.user?.login;
+      if (!login) continue;
+      if (login.toLowerCase() === OWNER.toLowerCase()) continue;
+      if (item.user?.type === "Bot" || login.endsWith("[bot]")) continue;
+      const key = login.toLowerCase();
+      authors.add(key);
+      if (item.closed_at) {
+        const existing = earliestClosedAt.get(key);
+        if (!existing || item.closed_at < existing) {
+          earliestClosedAt.set(key, item.closed_at);
+        }
+      }
+    }
+    const targetMonth = date.slice(0, 7);
+    let firstTimers = 0;
+    for (const earliest of earliestClosedAt.values()) {
+      if (earliest.startsWith(targetMonth)) {
+        firstTimers++;
+      }
+    }
+    return {
+      externalContributors: { status: "ok", value: authors.size, source },
+      firstTimeContributors: { status: "ok", value: firstTimers, source },
+    };
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error);
+    return {
+      externalContributors: { status: "unavailable", reason, source },
+      firstTimeContributors: { status: "unavailable", reason, source },
+    };
+  }
+}
+
+async function fetchContributorMetrics(fetcher: Fetcher, token: string | undefined, date: string): Promise<ContributorMetrics> {
+  const query = `repo:${REPOSITORY} is:pr is:merged -author:${OWNER}`;
+  const source = `https://github.com/${REPOSITORY}/pulls?q=${encodeURIComponent(`is:pr is:merged -author:${OWNER}`)}`;
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  const items: Array<{ user?: { login?: string; type?: string }; closed_at?: string | null }> = [];
+  let total = 0;
+  for (let page = 1; page <= MAXIMUM_SEARCH_PAGES; page++) {
+    const response = await fetcher(`https://api.github.com/search/issues?q=${encodeURIComponent(query)}&per_page=100&page=${page}`, headers);
+    if (response.status !== 200) {
+      if (page === 1) {
+        return parseContributorMetrics(response.status, response.text, date, source);
+      }
+      break;
+    }
+    let body: { total_count?: number; items?: typeof items };
+    try {
+      body = JSON.parse(response.text) as typeof body;
+    } catch (error) {
+      if (page === 1) {
+        return {
+          externalContributors: { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source },
+          firstTimeContributors: { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source },
+        };
+      }
+      break;
+    }
+    total = body.total_count ?? total;
+    items.push(...(body.items ?? []));
+    if ((body.items?.length ?? 0) < 100 || items.length >= total) break;
+  }
+  return parseContributorMetrics(200, JSON.stringify({ items }), date, source);
 }
 
 async function searchRepositories(query: string, fetcher: Fetcher, token: string | undefined): Promise<Metric> {
@@ -235,6 +340,18 @@ export async function collect(
     };
   }, "GitHub code search");
 
+  let contributors: ContributorMetrics;
+  try {
+    contributors = await fetchContributorMetrics(fetcher, token, date);
+  } catch (error) {
+    const source = `https://github.com/${REPOSITORY}/pulls?q=${encodeURIComponent(`is:pr is:merged -author:${OWNER}`)}`;
+    const reason = error instanceof Error ? error.message : String(error);
+    contributors = {
+      externalContributors: { status: "unavailable", reason, source },
+      firstTimeContributors: { status: "unavailable", reason, source },
+    };
+  }
+
   const metrics: Record<string, Metric> = {
     githubActionRepositories: actionMetric,
     repeatActionRepositories: repeatMetric,
@@ -246,6 +363,8 @@ export async function collect(
     githubStars: await guarded(() => repositoryStat("stargazers_count", fetcher, token), "GitHub"),
     githubForks: await guarded(() => repositoryStat("forks_count", fetcher, token), "GitHub"),
     scorecardScore: await guarded(async () => { const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`); return parseScorecard(r.status, r.text); }, "OpenSSF Scorecard"),
+    externalContributors: contributors.externalContributors,
+    firstTimeContributors: contributors.firstTimeContributors,
   };
   return { schemaVersion: SCHEMA_VERSION, date, metrics, serviceReports: { ...SERVICE_REPORTS } };
 }

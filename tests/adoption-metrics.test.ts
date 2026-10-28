@@ -9,6 +9,7 @@ import {
   countRepeatRepositories,
   distinctRepositories,
   distinctRepositoryNames,
+  parseContributorMetrics,
   parseDownloads,
   parseMcpRegistry,
   parseScorecard,
@@ -73,6 +74,47 @@ test("reads the Scorecard score and reports a missing score as unavailable", () 
   assert.equal(parseScorecard(200, "invalid-json").status, "unavailable");
 });
 
+test("parses external and first-time contributors from merged PR search results", () => {
+  const data = JSON.stringify({
+    items: [
+      // September contributor with an October PR (not first-time in October)
+      { user: { login: "sept-user", type: "User" }, closed_at: "2026-09-20T10:00:00Z" },
+      { user: { login: "sept-user", type: "User" }, closed_at: "2026-10-05T10:00:00Z" },
+      // Contributor whose only PR is in October (first-time in October)
+      { user: { login: "oct-user", type: "User" }, closed_at: "2026-10-12T10:00:00Z" },
+      // Contributor with two PRs both in October (first-time in October)
+      { user: { login: "oct-repeat", type: "User" }, closed_at: "2026-10-02T10:00:00Z" },
+      { user: { login: "oct-repeat", type: "User" }, closed_at: "2026-10-14T10:00:00Z" },
+      // Contributor with no closed_at (counts as external, but ignored for first-time)
+      { user: { login: "no-date", type: "User" } },
+      // Owner (excluded)
+      { user: { login: "arminazimi", type: "User" }, closed_at: "2026-10-01T10:00:00Z" },
+      // Bots (excluded)
+      { user: { login: "renovate[bot]", type: "Bot" }, closed_at: "2026-10-01T10:00:00Z" },
+      { user: { login: "custom-bot[bot]", type: "User" }, closed_at: "2026-10-01T10:00:00Z" },
+    ],
+  });
+  const result = parseContributorMetrics(200, data, "2026-10-28");
+  assert.equal(result.externalContributors.status, "ok");
+  assert.equal((result.externalContributors as { value: number }).value, 4);
+  assert.equal(result.firstTimeContributors.status, "ok");
+  assert.equal((result.firstTimeContributors as { value: number }).value, 2);
+});
+
+test("reports contributor metrics as unavailable on HTTP error or invalid response", () => {
+  const httpErr = parseContributorMetrics(500, "", "2026-10-28");
+  assert.equal(httpErr.externalContributors.status, "unavailable");
+  assert.equal(httpErr.firstTimeContributors.status, "unavailable");
+
+  const badJson = parseContributorMetrics(200, "not json", "2026-10-28");
+  assert.equal(badJson.externalContributors.status, "unavailable");
+  assert.equal(badJson.firstTimeContributors.status, "unavailable");
+
+  const noItems = parseContributorMetrics(200, "{}", "2026-10-28");
+  assert.equal(noItems.externalContributors.status, "unavailable");
+  assert.equal(noItems.firstTimeContributors.status, "unavailable");
+});
+
 test("one failing source is recorded and does not stop the others", async () => {
   const fetcher: Fetcher = async (url) => {
     if (url.includes("npmjs.org")) throw new Error("network down");
@@ -80,6 +122,19 @@ test("one failing source is recorded and does not stop the others", async () => 
     if (url.includes("registry.modelcontextprotocol.io")) return { status: 200, text: '{"servers":[]}' };
     if (url.includes("api.github.com/repos/")) return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
     if (url.includes("securityscorecards.dev")) return { status: 200, text: '{"score": 3.1}' };
+    if (url.includes("search/issues")) {
+      return {
+        status: 200,
+        text: JSON.stringify({
+          total_count: 3,
+          items: [
+            { user: { login: "contributor-one", type: "User" }, closed_at: "2026-10-05T12:00:00Z" },
+            { user: { login: "contributor-one", type: "User" }, closed_at: "2026-10-10T12:00:00Z" },
+            { user: { login: "contributor-two", type: "User" }, closed_at: "2026-10-15T12:00:00Z" },
+          ],
+        }),
+      };
+    }
     return { status: 200, text: JSON.stringify({ total_count: 2, items: [{ repository: { full_name: "x/a" } }, { repository: { full_name: "x/b" } }] }) };
   };
   const snapshot = await collect("2026-10-16", fetcher, "token");
@@ -90,6 +145,8 @@ test("one failing source is recorded and does not stop the others", async () => 
   assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 7);
   assert.equal((snapshot.metrics.githubStars as { value: number }).value, 3);
   assert.equal((snapshot.metrics.scorecardScore as { value: number }).value, 3.1);
+  assert.equal((snapshot.metrics.externalContributors as { value: number }).value, 2);
+  assert.equal((snapshot.metrics.firstTimeContributors as { value: number }).value, 2);
   assert.deepEqual(snapshot.serviceReports, SERVICE_REPORTS);
 });
 
