@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "example",
+  "rules": [
+    {
+      "id": "example.package.dates.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/dates",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "dates is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/dates" }
+      ],
+      "provenance": { "observedAt": "2026-01-02", "reviewedAt": "2026-01-01", "reviewer": "arminazimi" }
+    }
+  ]
+}

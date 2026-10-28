@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "example",
+  "rules": [
+    {
+      "id": "example.package.source.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/source",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "source is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "http://example.com/source" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    }
+  ]
+}

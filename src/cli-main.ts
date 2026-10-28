@@ -10,6 +10,7 @@ import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
 import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, readBaselines, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
 import { isIsoDate } from "./registry.js";
+import { lintRulePaths, renderRuleLintJson, renderRuleLintText, RuleLintError } from "./rule-lint.js";
 import { getCapabilityManifest, renderCapabilitiesText } from "./capabilities.js";
 import { isCompletionShell, renderCompletions, renderExamples } from "./completions.js";
 import { bundledRules, checkDependency, CheckDependencyError } from "./check-dependency.js";
@@ -102,6 +103,7 @@ Usage:
   evergreen init --personal [--fail-on <severity>] [--yes] [--dry-run]   # global config and pre-push hook for every repository
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
+  evergreen rules lint [path...] [--json]   # check registry rule files and print file, line, and a fix hint
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
@@ -414,6 +416,24 @@ async function selectorValuesSummary(): Promise<string> {
   return `Valid ecosystems: ${ecosystems.join(", ")}. Valid rule prefixes: ${[...ecosystems, ...prefixes].filter((value, index, all) => all.indexOf(value) === index).sort((left, right) => left.localeCompare(right)).join(", ")}.`;
 }
 
+/** `rules lint`: validates registry files the way scans do, and adds file, line, and a fix hint to each problem. */
+async function rules(args: string[]): Promise<number> {
+  const usage = "Usage: evergreen rules lint [path...] [--json]";
+  const [subcommand, ...rest] = args;
+  if (subcommand !== "lint") return fail("usage", usage);
+  if (rest.some((argument) => argument.startsWith("-") && argument !== "--json")) return fail("usage", usage);
+  const json = rest.includes("--json");
+  const paths = rest.filter((argument) => !argument.startsWith("-"));
+  try {
+    const result = await lintRulePaths(paths.length > 0 ? paths : ["registry"]);
+    process.stdout.write(`${json ? renderRuleLintJson(result) : renderRuleLintText(result)}\n`);
+    return result.problems.length > 0 ? EXIT_CODES.policy : 0;
+  } catch (error) {
+    if (error instanceof RuleLintError) return fail("usage", error.message);
+    throw error;
+  }
+}
+
 /** Creates a detector skeleton. The generator lives in the repository's tools, so this works in a checkout only. */
 async function newDetector(args: string[]): Promise<number> {
   const ecosystemIndex = args.indexOf("--ecosystem");
@@ -490,7 +510,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -505,6 +525,7 @@ async function main(rawArgs: string[]): Promise<number> {
     return 0;
   }
   if (command === "new-detector") return newDetector(args.slice(1));
+  if (command === "rules") return rules(args.slice(1));
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));

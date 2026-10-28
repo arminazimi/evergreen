@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "example",
+  "rules": [
+    {
+      "id": "example.package.dup.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/dup",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "dup is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/dup" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    },
+    {
+      "id": "example.package.dup.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/dup-two",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "dup-two is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/dup-two" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    }
+  ]
+}

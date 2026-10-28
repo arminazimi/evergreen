@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "example",
+  "rules": [
+    {
+      "id": "example.package.nosummary.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/nosummary",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "nosummary is deprecated",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/nosummary" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    }
+  ]
+}

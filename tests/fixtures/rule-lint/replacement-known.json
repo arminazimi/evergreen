@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "evergreen.registry.v2",
+  "ecosystem": "example",
+  "rules": [
+    {
+      "id": "example.package.known.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/known",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "known is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "replacement": "example.package.new.deprecated",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/known" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    },
+    {
+      "id": "example.package.new.deprecated",
+      "ecosystem": "example",
+      "purl": "pkg:npm/new",
+      "vers": "vers:npm/*",
+      "event": "deprecated",
+      "title": "new is deprecated",
+      "summary": "The publisher deprecated the package.",
+      "severity": "high",
+      "sources": [
+        { "title": "Deprecation notice", "url": "https://example.com/new" }
+      ],
+      "provenance": { "observedAt": "2026-01-01", "reviewedAt": "2026-01-02", "reviewer": "arminazimi" }
+    }
+  ]
+}
