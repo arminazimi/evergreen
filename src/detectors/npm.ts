@@ -242,10 +242,89 @@ function packageFromBunDescriptor(rawKey: string): { name: string; version: stri
   return semver.valid(version) ? { name, version } : undefined;
 }
 
+function stripJsonc(contents: string): string {
+  let result = "";
+  let i = 0;
+  const len = contents.length;
+  let inString = false;
+
+  while (i < len) {
+    const char = contents[i]!;
+
+    if (inString) {
+      result += char;
+      if (char === "\\") {
+        i++;
+        if (i < len) result += contents[i]!;
+      } else if (char === '"') {
+        inString = false;
+      }
+      i++;
+      continue;
+    }
+
+    if (char === '"') {
+      inString = true;
+      result += char;
+      i++;
+    } else if (char === "/" && contents[i + 1] === "/") {
+      i += 2;
+      while (i < len && contents[i] !== "\n" && contents[i] !== "\r") {
+        i++;
+      }
+    } else if (char === "/" && contents[i + 1] === "*") {
+      i += 2;
+      while (i < len && !(contents[i] === "*" && contents[i + 1] === "/")) {
+        if (contents[i] === "\n" || contents[i] === "\r") {
+          result += contents[i];
+        }
+        i++;
+      }
+      if (i < len) i += 2;
+    } else if (char === ",") {
+      let nextPos = i + 1;
+      let isTrailing = false;
+      while (nextPos < len) {
+        const nextChar = contents[nextPos]!;
+        if (nextChar === " " || nextChar === "\t" || nextChar === "\n" || nextChar === "\r") {
+          nextPos++;
+        } else if (nextChar === "/" && contents[nextPos + 1] === "/") {
+          nextPos += 2;
+          while (nextPos < len && contents[nextPos] !== "\n" && contents[nextPos] !== "\r") {
+            nextPos++;
+          }
+        } else if (nextChar === "/" && contents[nextPos + 1] === "*") {
+          nextPos += 2;
+          while (nextPos < len && !(contents[nextPos] === "*" && contents[nextPos + 1] === "/")) {
+            nextPos++;
+          }
+          if (nextPos < len) nextPos += 2;
+        } else if (nextChar === "}" || nextChar === "]") {
+          isTrailing = true;
+          break;
+        } else {
+          break;
+        }
+      }
+      if (isTrailing) {
+        result += " ";
+      } else {
+        result += ",";
+      }
+      i++;
+    } else {
+      result += char;
+      i++;
+    }
+  }
+
+  return result;
+}
+
 function parseBunLock(contents: string, { versions: target, graph }: LockData): void {
   let lock: { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
   try {
-    lock = JSON.parse(contents) as { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
+    lock = JSON.parse(stripJsonc(contents)) as { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
   } catch {
     return;
   }
@@ -254,33 +333,17 @@ function parseBunLock(contents: string, { versions: target, graph }: LockData): 
   if (!packages || typeof packages !== "object") return;
 
   for (const [key, entry] of Object.entries(packages)) {
-    if (Array.isArray(entry) && entry.length > 0) {
-      const descriptor = typeof entry[0] === "string" ? entry[0] : "";
-      const parsed = packageFromBunDescriptor(descriptor) ?? packageFromBunDescriptor(key);
-      if (!parsed) continue;
-      addResolved(target, parsed.name, parsed.version);
+    if (!Array.isArray(entry) || entry.length === 0) continue;
+    const descriptor = typeof entry[0] === "string" ? entry[0] : "";
+    const parsed = packageFromBunDescriptor(descriptor) ?? packageFromBunDescriptor(key);
+    if (!parsed) continue;
+    addResolved(target, parsed.name, parsed.version);
 
-      const meta = entry[1];
-      if (meta && typeof meta === "object" && !Array.isArray(meta)) {
-        const asMeta = meta as {
-          dependencies?: Record<string, unknown>;
-          optionalDependencies?: Record<string, unknown>;
-        };
-        if (asMeta.dependencies || asMeta.optionalDependencies) {
-          addEdges(graph, parsed.name, asMeta.dependencies, asMeta.optionalDependencies);
-        } else {
-          addEdges(graph, parsed.name, meta as Record<string, unknown>);
-        }
-      }
-    } else if (typeof entry === "object" && entry !== null && !Array.isArray(entry)) {
-      const obj = entry as { version?: unknown; dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> };
-      const parsed = packageFromBunDescriptor(key);
-      const name = parsed?.name ?? key;
-      const version = typeof obj.version === "string" && semver.valid(obj.version) ? obj.version : parsed?.version;
-      if (version) {
-        addResolved(target, name, version);
-        addEdges(graph, name, obj.dependencies, obj.optionalDependencies);
-      }
+    const meta = entry.slice(1).find((item): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item));
+    if (meta) {
+      const deps = meta.dependencies as Record<string, unknown> | undefined;
+      const optDeps = meta.optionalDependencies as Record<string, unknown> | undefined;
+      addEdges(graph, parsed.name, deps, optDeps);
     }
   }
 }
