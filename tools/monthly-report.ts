@@ -477,22 +477,27 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
     ? `${data.contributors.totalContributors} contributors (partial: shallow history)`
     : `${data.contributors.totalContributors} contributors`;
   lines.push(`| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month} |`);
-  const starsHighlight =
-    data.adoption.githubStars !== "unavailable"
-      ? (() => {
-          const trend =
-            data.adoption.previousStars !== null && data.adoption.previousStars !== data.adoption.githubStars
-              ? ` (${data.adoption.githubStars > data.adoption.previousStars ? "+" : ""}${data.adoption.githubStars - data.adoption.previousStars} vs last month)`
-              : "";
-          return `${formatNumber(data.adoption.githubStars)} stars${trend}`;
-        })()
-      : "unavailable";
-  const totalAdopters = data.adoption.channels
-    .filter((c) => c.value !== "unavailable")
-    .reduce((sum, c) => sum + (typeof c.value === "number" ? c.value : 0), 0);
   const starsCell =
     data.adoption.githubStars !== "unavailable" ? `${formatNumber(data.adoption.githubStars)} GitHub stars` : "unavailable";
-  lines.push(`| Adoption | ${starsCell} | ${starsHighlight}, ${totalAdopters} total across channels |`);
+  const adoptionMomentum = (() => {
+    if (
+      data.adoption.githubStars !== "unavailable" &&
+      data.adoption.previousStars !== null &&
+      data.adoption.previousStars !== data.adoption.githubStars
+    ) {
+      const diff = data.adoption.githubStars - data.adoption.previousStars;
+      const sign = diff > 0 ? "+" : "";
+      return `${formatNumber(data.adoption.githubStars)} stars (${sign}${diff} vs last month)`;
+    }
+    if (data.adoption.snapshotDate) {
+      return `snapshot ${data.adoption.snapshotDate}`;
+    }
+    if (data.adoption.githubStars !== "unavailable") {
+      return `${formatNumber(data.adoption.githubStars)} stars`;
+    }
+    return "unavailable";
+  })();
+  lines.push(`| Adoption | ${starsCell} | ${adoptionMomentum} |`);
   lines.push("");
 
   // Lifecycle rules section
@@ -580,7 +585,7 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   // Adoption section
   lines.push("## Adoption");
   lines.push("");
-  lines.push("Public signals from open sources only. Evergreen has no telemetry; every number can be reproduced from the links below.");
+  lines.push("Public signals from open sources only. Evergreen has no telemetry.");
   lines.push("");
   if (data.adoption.snapshotDate) {
     lines.push(`*Snapshot: ${data.adoption.snapshotDate}*`);
@@ -610,6 +615,12 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
           ? `${formatNumber(channel.value)} (${channel.note})`
           : formatNumber(channel.value);
     lines.push(`| ${channel.label} | ${countCell} |`);
+  }
+  lines.push("");
+  if (data.adoption.snapshotDate) {
+    lines.push(`Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md) · Snapshot: [\`metrics/adoption/${data.adoption.snapshotDate}.json\`](metrics/adoption/${data.adoption.snapshotDate}.json)`);
+  } else {
+    lines.push("Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md)");
   }
   lines.push("");
 

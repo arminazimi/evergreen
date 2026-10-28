@@ -300,7 +300,8 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Supported ecosystems \| 2 ecosystems \| 1 supported, 1 experimental \|/);
   assert.match(report, /\| Validation corpus \| 50 repositories \| 200 expected findings across 2 ecosystems \|/);
   assert.match(report, /\| Contributors \| 2 contributors \| 30 commits in 2026-10 \|/);
-  assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\), 526 total across channels \|/);
+  assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\) \|/);
+  assert.doesNotMatch(report, /total across channels/);
   assert.match(report, /^## Lifecycle rules$/m);
   assert.match(report, /\*\*Total rules:\*\* 100/);
   assert.match(report, /\*\*Rules with replacements:\*\* 90 \(90\.0%\)/);
@@ -315,9 +316,20 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /### Channel breakdown/);
   assert.match(report, /\| GitHub Action repositories \| 5 \(2 recurring\) \|/);
   assert.match(report, /\| npm weekly downloads \| 500 \|/);
+  assert.match(report, /\[docs\/ADOPTION\.md\]\(docs\/ADOPTION\.md\)/);
+  assert.match(report, /\[`metrics\/adoption\/2026-10-28\.json`\]\(metrics\/adoption\/2026-10-28\.json\)/);
   assert.match(report, /^## Contributors$/m);
   assert.match(report, /- Alice Smith/);
   assert.match(report, /- Bob Jones/);
+
+  const noTrendReport = generateMonthlyReport({
+    ...mockData,
+    adoption: {
+      ...mockData.adoption,
+      previousStars: null,
+    },
+  });
+  assert.match(noTrendReport, /\| Adoption \| 10 GitHub stars \| snapshot 2026-10-28 \|/);
 });
 
 test("collectAdoptionMetrics reads current and previous month snapshots", async () => {
