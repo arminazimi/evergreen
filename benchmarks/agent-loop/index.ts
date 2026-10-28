@@ -6,8 +6,11 @@
  * packages, then exercises both supported hosts (Codex and Claude) as well as the
  * underlying guardrail to verify:
  *   1. The dependency is checked via Evergreen lifecycle rules (check recall).
- *   2. The action / installation is refused before code executes or installs (refusal rate).
- *   3. The documented replacement is surfaced to guide migration (proposed replacement rate).
+ *   2. The action is intercepted by each host's own hook:
+ *      - Claude Code: PreToolUse hook denies the install command (refusal rate).
+ *      - Codex: PostToolUse hook warns on manifest edit and advises replacement (warning rate).
+ *   3. The documented replacement is surfaced from the host's own hook output (replacement rate).
+ *   4. Package manager execution is blocked via evergreen guard CLI (installBlocked rate).
  *
  * Run:
  *   npm run build --silent && node dist/benchmarks/agent-loop/index.js
@@ -42,13 +45,20 @@ export interface AgentLoopCaseResult {
   version: string;
   /** `check_dependency` reported the package as affected. */
   checked: boolean;
-  /** The host guardrail or CLI guard refused the action. */
+  /** For Claude: hook denied the tool call before execution (`permissionDecision: "deny"`). */
   refused: boolean;
-  /** The refusal or guard warning proposed the replacement. */
+  /** For Codex: hook warned about deprecation and advised replacement. */
+  warned: boolean;
+  /** CLI guard (`evergreen guard`) refused the install. */
+  cliGuardRefused: boolean;
+  /** The host's own hook output proposed the replacement (tested independently of CLI output). */
   proposedReplacement: boolean;
-  /** Extracted replacement text. */
+  /** Extracted replacement text from the host's own hook output. */
   replacement: string | null;
-  /** The package manager was never allowed to execute. */
+  /**
+   * The package manager was never allowed to execute.
+   * Note: For Codex, blocking is enforced via the evergreen guard CLI path, not the post-edit hook.
+   */
   installBlocked: boolean;
   /** All criteria passed for this case. */
   passed: boolean;
@@ -58,8 +68,14 @@ export interface HostEvalResult {
   host: SupportedHost;
   cases: AgentLoopCaseResult[];
   checkRecall: number;
-  refusalRate: number;
+  /** PreToolUse refusal rate (Claude). */
+  refusalRate?: number;
+  /** PostToolUse warning rate (Codex). */
+  warningRate?: number;
+  /** CLI guard refusal rate. */
+  cliGuardRefusalRate: number;
   replacementRate: number;
+  installBlockedRate: number;
   allPassed: boolean;
 }
 
@@ -98,7 +114,7 @@ export const TASK_CASES: AgentTaskCase[] = [
   },
 ];
 
-interface ClaudeGuard {
+export interface ClaudeGuard {
   run: (
     payload: object,
     runner?: (purl: string, version?: string) => Promise<{ check?: DependencyCheck; error?: string }>,
@@ -112,7 +128,7 @@ interface ClaudeGuard {
   } | undefined>;
 }
 
-interface CodexGuard {
+export interface CodexGuard {
   run: (
     payload: object,
     runner?: (purl: string, version?: string) => { check?: DependencyCheck; error?: string },
@@ -125,7 +141,17 @@ interface CodexGuard {
   } | undefined;
 }
 
-async function loadHooks(): Promise<{ claudeGuard: ClaudeGuard; codexGuard: CodexGuard }> {
+export interface AgentLoopEvalHooks {
+  claudeGuard: ClaudeGuard;
+  codexGuard: CodexGuard;
+}
+
+export interface RunAgentLoopEvalOptions {
+  /** Optional custom or stubbed hooks for testing. */
+  hooks?: Partial<AgentLoopEvalHooks>;
+}
+
+async function loadHooks(): Promise<AgentLoopEvalHooks> {
   const claudePath = resolve("integrations/claude-code/pre-install-guard.mjs");
   const codexPath = resolve("integrations/dependency-guard/guard.mjs");
   const [claudeGuard, codexGuard] = await Promise.all([
@@ -138,7 +164,7 @@ async function loadHooks(): Promise<{ claudeGuard: ClaudeGuard; codexGuard: Code
 async function evaluateHostCase(
   host: SupportedHost,
   taskCase: AgentTaskCase,
-  hooks: { claudeGuard: ClaudeGuard; codexGuard: CodexGuard },
+  hooks: AgentLoopEvalHooks,
 ): Promise<AgentLoopCaseResult> {
   // Step 1: Pre-check via Evergreen check_dependency tool / API
   const depCheck = await checkDependency({
@@ -147,7 +173,7 @@ async function evaluateHostCase(
   });
   const checked = depCheck.status === "affected";
 
-  // Step 2: Agent attempts to add the package
+  // Step 2: Agent attempts to add the package via CLI guard
   let installAttempted = false;
   const guardResult = await guardCommand(["npm", "install", taskCase.spec], {
     run: (_req: GuardRequest) => {
@@ -158,7 +184,8 @@ async function evaluateHostCase(
   const cliGuardRefused = !guardResult.allowed && guardResult.exitCode === 1;
   const installBlocked = !installAttempted;
 
-  let hostRefused = false;
+  let refused = false;
+  let warned = false;
   let hostOutput = "";
 
   if (host === "claude") {
@@ -170,7 +197,7 @@ async function evaluateHostCase(
         return { check };
       },
     );
-    hostRefused = hookResult?.hookSpecificOutput?.permissionDecision === "deny";
+    refused = hookResult?.hookSpecificOutput?.permissionDecision === "deny";
     hostOutput = hookResult?.hookSpecificOutput?.permissionDecisionReason ?? "";
   } else if (host === "codex") {
     // Codex PostToolUse hook intercepts adding dependency to package.json
@@ -189,23 +216,23 @@ async function evaluateHostCase(
       },
     );
     // Codex warns post-tool-use and urges replacement preference
-    hostRefused = Boolean(
+    warned = Boolean(
       hookResult?.hookSpecificOutput?.additionalContext &&
       hookResult.hookSpecificOutput.additionalContext.includes("prefer the replacement"),
     );
     hostOutput = hookResult?.hookSpecificOutput?.additionalContext ?? "";
   }
 
-  // Combined refusal: host hook refused/warned and CLI guard blocked
-  const refused = (hostRefused || cliGuardRefused) && installBlocked;
-
-  // Step 3: Propose replacement
-  const combinedOutput = `${hostOutput}\n${guardResult.output}`;
-  const proposedReplacement = taskCase.expectedReplacementPattern.test(combinedOutput);
-  const replacementMatch = /Replacement:\s*([^.\n]+)/i.exec(combinedOutput);
+  // Step 3: Propose replacement (tested ONLY against the host's own hook output)
+  const proposedReplacement = taskCase.expectedReplacementPattern.test(hostOutput);
+  const replacementMatch = /Replacement:\s*([^.\n]+)/i.exec(hostOutput);
   const replacement = replacementMatch?.[1]?.trim() ?? null;
 
-  const passed = checked && refused && proposedReplacement && installBlocked;
+  // Passed criteria:
+  // For Claude: checked && refused (from hook) && proposedReplacement (from hook) && installBlocked
+  // For Codex: checked && warned (from hook) && proposedReplacement (from hook) && installBlocked
+  const hostActionPassed = host === "claude" ? refused : warned;
+  const passed = checked && hostActionPassed && proposedReplacement && installBlocked;
 
   return {
     id: taskCase.id,
@@ -214,6 +241,8 @@ async function evaluateHostCase(
     version: taskCase.version,
     checked,
     refused,
+    warned,
+    cliGuardRefused,
     proposedReplacement,
     replacement,
     installBlocked,
@@ -221,8 +250,14 @@ async function evaluateHostCase(
   };
 }
 
-export async function runAgentLoopEval(): Promise<AgentLoopEvalResult> {
-  const hooks = await loadHooks();
+export async function runAgentLoopEval(
+  options: RunAgentLoopEvalOptions = {},
+): Promise<AgentLoopEvalResult> {
+  const loaded = await loadHooks();
+  const hooks: AgentLoopEvalHooks = {
+    claudeGuard: options.hooks?.claudeGuard ?? loaded.claudeGuard,
+    codexGuard: options.hooks?.codexGuard ?? loaded.codexGuard,
+  };
   const hosts = {} as Record<SupportedHost, HostEvalResult>;
 
   for (const host of SUPPORTED_HOSTS) {
@@ -230,16 +265,22 @@ export async function runAgentLoopEval(): Promise<AgentLoopEvalResult> {
       TASK_CASES.map((taskCase) => evaluateHostCase(host, taskCase, hooks)),
     );
     const checkRecall = cases.filter((c) => c.checked).length / cases.length;
-    const refusalRate = cases.filter((c) => c.refused).length / cases.length;
+    const refusalRate = host === "claude" ? cases.filter((c) => c.refused).length / cases.length : undefined;
+    const warningRate = host === "codex" ? cases.filter((c) => c.warned).length / cases.length : undefined;
+    const cliGuardRefusalRate = cases.filter((c) => c.cliGuardRefused).length / cases.length;
     const replacementRate = cases.filter((c) => c.proposedReplacement).length / cases.length;
+    const installBlockedRate = cases.filter((c) => c.installBlocked).length / cases.length;
     const allPassed = cases.every((c) => c.passed);
 
     hosts[host] = {
       host,
       cases,
       checkRecall,
-      refusalRate,
+      ...(refusalRate !== undefined ? { refusalRate } : {}),
+      ...(warningRate !== undefined ? { warningRate } : {}),
+      cliGuardRefusalRate,
       replacementRate,
+      installBlockedRate,
       allPassed,
     };
   }

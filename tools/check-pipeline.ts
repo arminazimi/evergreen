@@ -141,6 +141,7 @@ export async function runCheck(options: RunCheckOptions = {}): Promise<void> {
       { id: "test", run: () => run(process.execPath, ["tools/run-tests.mjs"]) },
       { id: "check:plugins", run: () => run(process.execPath, ["dist/tools/plugin-packages.js", "--check"]) },
       { id: "eval:plugins", run: () => run(process.execPath, ["dist/benchmarks/plugin-host-eval.js"]) },
+      { id: "eval:agent-loop", run: () => run(process.execPath, ["dist/benchmarks/agent-loop/index.js"]) },
       ...(verifyActionBundle
         ? [
             { id: "publish-action", after: ["build:action", "test"], run: () => publish(stagingDir) },

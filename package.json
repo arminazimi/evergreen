@@ -88,6 +88,7 @@
     "benchmark:first-run": "npm run build --silent && node dist/benchmarks/first-run.js",
     "eval:skill-triggers": "npm run build --silent && node dist/benchmarks/skill-trigger-eval.js",
     "eval:plugins": "npm run build --silent && node dist/benchmarks/plugin-host-eval.js",
+    "eval:agent-loop": "npm run build --silent && node dist/benchmarks/agent-loop/index.js",
     "validate:codex-plugin": "npm run build --silent && node dist/tools/validate-codex-plugin.js",
     "validate:public-repos": "npm run build --silent && node dist/benchmarks/public-repositories.js",
     "differential:report": "npm run build --silent && node dist/benchmarks/differential/report.js",

@@ -20,22 +20,27 @@ The workflow fixture exercises `scan`, `list`, `explain`, `context`, and `verify
 
 ## Agent loop: deprecated package refusal
 
-The agent-loop evaluation (`benchmarks/agent-loop/`) proves that the guardrail changes agent behavior, not only that the configuration files exist. It scripts tasks asking an agent to add deprecated dependencies (`request`, `node-sass`, `request-promise`), and verifies whether the agent checks the dependency, the guardrail refuses the addition, and the documented replacement is proposed to guide migration.
+The agent-loop evaluation (`benchmarks/agent-loop/`) proves that the guardrail changes agent behavior, not only that the configuration files exist. It scripts tasks asking an agent to add deprecated dependencies (`request`, `node-sass`, `request-promise`), and verifies whether the agent checks the dependency, the host's own hook warns or refuses the addition, and the documented replacement is proposed to guide migration.
 
-The baseline below was reproduced on 2026-10-28.
+The baseline below was reproduced on 2026-10-28 with `npm run eval:agent-loop`.
 
 | Measure | Codex | Claude | Gate |
 | --- | ---: | ---: | ---: |
 | Shared task cases | 3 | 3 | Same corpus |
 | Deprecation check recall | 100% | 100% | 100% |
-| Action / install refusal | 100% | 100% | 100% |
-| Proposed replacement rate | 100% | 100% | 100% |
+| Host action: warn (Codex hook) | 100% | n/a | 100% |
+| Host action: refusal (Claude hook) | n/a | 100% | 100% |
+| Proposed replacement rate (from hook) | 100% | 100% | 100% |
+| Package install blocked (CLI guard) | 100% | 100% | 100% |
 | Unsafe package installed | No | No | Must remain `false` |
 
-Across both hosts:
-1. **Check**: The dependency check (`check_dependency` MCP tool or `evergreen check`) identifies the package as `affected` against offline lifecycle rules.
-2. **Refusal**: The host hook (Claude Code `PreToolUse` permission denial; Codex hook warning) and `evergreen guard` intercept the addition and prevent package installation (`allowed: false`, exit code 1).
-3. **Replacement**: The refusal output surfaces the authoritative replacement (e.g. native fetch for `request`, `sass` for `node-sass`) cited in the bundled registry.
+All host metrics are measured directly from each host's own hook output independently of the CLI guard:
+1. **Check**: The dependency check (`check_dependency` MCP tool or `evergreen check`) identifies the package as `affected` against offline lifecycle rules (100% recall).
+2. **Host intervention**:
+   - **Claude Code**: The `PreToolUse` hook intercepts the install command and denies permission (`permissionDecision: "deny"`), preventing execution before the tool runs.
+   - **Codex**: The `PostToolUse` hook intercepts the manifest edit in `package.json` and issues a deprecation warning advising the agent to prefer the replacement (warn, not refusal).
+   - **CLI Guard**: Both hosts rely on `evergreen guard` to intercept and refuse package manager commands (`allowed: false`, exit code 1) so no unsafe package is installed. For Codex, blocking is enforced via this CLI execution path rather than the post-edit hook.
+3. **Replacement**: The host's own hook output surfaces the authoritative replacement (e.g. native fetch for `request`, `sass` for `node-sass`) cited in the bundled registry.
 
 The generated Claude package also passes the official Claude Code strict plugin validator. Codex package structure, paths, shared assets, and manifest budgets are checked directly by the deterministic package and eval gates.
 
