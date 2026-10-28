@@ -29,7 +29,17 @@ Pick an issue whose **Depends on** issues are closed, and comment on it to claim
 
 ## Set up
 
-Requires Node.js 22 or newer. You can also open a GitHub Codespace, which installs everything for you.
+Requires Node.js 22 or newer. You can start developing in one click using GitHub Codespaces, which automatically configures the dev container and installs dependencies:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/arminazimi/evergreen)
+
+Once the Codespace opens, verify everything is green:
+
+```bash
+npm run check
+```
+
+For local set up:
 
 ```bash
 git clone https://github.com/arminazimi/evergreen.git
