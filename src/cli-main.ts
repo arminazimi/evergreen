@@ -31,7 +31,7 @@ import type { ScanSelection, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
 import { applyOnBranch } from "./fix/git.js";
-import { planFixes, renderPatches } from "./fix/index.js";
+import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
 import { scanDemo } from "./demo.js";
@@ -84,8 +84,8 @@ Usage:
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
   evergreen renovate-preset [path]   # print Renovate packageRules for replacements and runtime pins; does not edit config
   evergreen dependabot-config [path]   # print a dependabot.yml that groups updates for deprecated packages; does not write files
-  evergreen fix [path] [--dry-run]   # print patches for deterministic fixes; nothing is written
-  evergreen fix [path] --branch      # apply the fixes on a local evergreen/fix branch and commit; never pushes
+  evergreen fix [path] [--dry-run] [--json]   # print patches for deterministic fixes; nothing is written
+  evergreen fix [path] --branch               # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm
@@ -829,9 +829,17 @@ async function main(rawArgs: string[]): Promise<number> {
   }
   if (command === "fix") {
     // Patches are printed unless --branch asks for a local, reviewable commit; nothing is ever pushed.
-    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && argument !== "--dry-run" && argument !== "--branch" && argument !== "--data-version");
-    if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch"))) return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch]");
+    const json = args.includes("--json");
+    const fixFlags = new Set(["--dry-run", "--branch", "--data-version", "--json"]);
+    const unknownFlag = args.slice(1).find((argument) => argument.startsWith("-") && !fixFlags.has(argument));
+    if (unknownFlag !== undefined || positional.length > 1 || (args.includes("--dry-run") && args.includes("--branch")) || (json && args.includes("--branch"))) {
+      return fail("usage", "Usage: evergreen fix [path] [--dry-run | --branch] [--json]");
+    }
     const scanned = await scanRepository(pathArgument, builtInDetectors, { noCache });
+    if (json) {
+      process.stdout.write(`${JSON.stringify({ schemaVersion: "evergreen.fix.v1", ...await planFixReport(scanned) }, null, 2)}\n`);
+      return 0;
+    }
     const patches = await planFixes(scanned);
     if (patches.length === 0) {
       process.stderr.write("No deterministic fixes found.\n");

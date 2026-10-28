@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/fix.v1.schema.json",
+  "title": "Evergreen fix plan v1",
+  "description": "The patches `evergreen fix` would apply to a repository, the fixer behind each one, and the findings the fixers left unchanged with the reason. Reading a repository only; the plan never includes network access or a written file.",
+  "type": "object",
+  "required": ["schemaVersion", "patches", "refusals"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "evergreen.fix.v1" },
+    "patches": {
+      "type": "array",
+      "description": "Unified diffs ordered by path, so the array pipes into `git apply` when the patches are concatenated.",
+      "items": {
+        "type": "object",
+        "required": ["path", "diff", "fixer"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "minLength": 1, "description": "Repository-relative path, exactly as the diff header names it." },
+          "diff": { "type": "string", "pattern": "^--- a/", "description": "One hunk that `git apply` accepts, starting with its `--- a/` header line." },
+          "fixer": { "type": "string", "minLength": 1, "description": "Stable id of the fixer that produced the patch, such as `runtime-pins`." }
+        }
+      }
+    },
+    "refusals": {
+      "type": "array",
+      "description": "Findings a fixer recognized as its own and left unchanged, ordered by path, line, finding id, and fixer. A finding outside every fixer's scope is not a refusal and is not listed.",
+      "items": {
+        "type": "object",
+        "required": ["fixer", "findingId", "ruleId", "path", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "fixer": { "type": "string", "minLength": 1, "description": "Stable id of the fixer that declined the finding." },
+          "findingId": { "type": "string", "minLength": 1, "description": "The scan's finding id, so the refusal joins the finding in `scan --json`." },
+          "ruleId": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "line": { "type": "integer", "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1, "description": "Short explanation of why the finding was left unchanged; deterministic for the same repository and data." }
+        }
+      }
+    }
+  }
+}

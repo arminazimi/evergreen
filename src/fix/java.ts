@@ -6,6 +6,7 @@ import { parseJdkVersion } from "../detectors/java/jdk-version.js";
 import type { DependencyDeclaration, DynamicJdkDeclaration, JdkDeclaration, KotlinPluginDeclaration } from "../detectors/java/jdk-version.js";
 import { parseGradle } from "../detectors/java/parse-gradle.js";
 import { parsePom } from "../detectors/java/parse-pom.js";
+import type { Finding } from "../domain.js";
 import type { FilePatch, Fixer } from "./index.js";
 
 const JAVA_REPLACEMENT = /^Java (\d+)(?: \(LTS\))? or later$/;
@@ -55,6 +56,11 @@ function rewriteLine(name: string, line: string, target: string): string | undef
   return `${match[1]}${match[3]}${target}${match[5]}${match[6]}`;
 }
 
+interface Targets {
+  lines: Map<number, string>;
+  findings: Finding[];
+}
+
 /**
  * Raises the Java level a `java.jdk.` finding names to the replacement's feature release: the `maven.compiler.release`
  * property and a `maven-compiler-plugin` `<release>` in a `pom.xml`, `sourceCompatibility` and the toolchain language
@@ -65,35 +71,55 @@ function rewriteLine(name: string, line: string, target: string): string | undef
  */
 export const javaFixer: Fixer = {
   id: "java",
-  async plan(result) {
-    const targets = new Map<string, Map<number, string>>();
+  async plan(result, refuse) {
+    const targets = new Map<string, Targets>();
     for (const finding of result.findings) {
-      if (!finding.ruleId.startsWith("java.jdk.") || finding.location.line === undefined) continue;
-      const name = basename(finding.location.path);
-      if (!SUPPORTED_FILES.has(name)) continue;
+      if (!finding.ruleId.startsWith("java.jdk.") || !SUPPORTED_FILES.has(basename(finding.location.path))) continue;
+      if (finding.location.line === undefined) {
+        refuse?.(finding, "The finding names no line to rewrite.");
+        continue;
+      }
       const target = JAVA_REPLACEMENT.exec(finding.replacement ?? "")?.[1];
-      if (!target) continue;
-      const lines = targets.get(finding.location.path) ?? new Map();
-      const previous = lines.get(finding.location.line);
-      if (previous === undefined || Number(target) > Number(previous)) lines.set(finding.location.line, target);
-      targets.set(finding.location.path, lines);
+      if (!target) {
+        refuse?.(finding, "The rule's replacement does not name a Java release.");
+        continue;
+      }
+      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
+      const previous = entry.lines.get(finding.location.line);
+      if (previous === undefined || Number(target) > Number(previous)) entry.lines.set(finding.location.line, target);
+      entry.findings.push(finding);
+      targets.set(finding.location.path, entry);
     }
 
     const patches: FilePatch[] = [];
-    for (const [path, lines] of [...targets].sort(([left], [right]) => left.localeCompare(right))) {
+    for (const [path, { lines, findings }] of [...targets].sort(([left], [right]) => left.localeCompare(right))) {
+      const decline = (reason: string) => {
+        for (const finding of findings) refuse?.(finding, reason);
+      };
       const name = basename(path);
       const parse = name === "pom.xml" ? parsePom : parseGradle;
       const absolute = resolve(result.root, path);
       const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) continue;
+      if (inside.startsWith("..") || isAbsolute(inside)) {
+        decline("The path resolves outside the repository.");
+        continue;
+      }
       const before = await readFile(absolute, "utf8").catch(() => undefined);
-      if (!before?.endsWith("\n")) continue;
+      if (before === undefined) {
+        decline("The build file could not be read.");
+        continue;
+      }
+      if (!before.endsWith("\n")) {
+        decline("The build file does not end with a newline.");
+        continue;
+      }
       const declarations: Declaration[] = parse(before);
       // Only a line the detector itself parsed as a literal JDK declaration is safe to rewrite; a computed value,
       // an unsupported form, or a line the file has drifted away from is left as it is.
       const declared = new Set(declarations.filter((declaration) => declaration.kind === "jdk").map((declaration) => declaration.line));
       const rewritten = new Set<number>();
-      const text = before.split("\n").map((line, index) => {
+      const original = before.split("\n");
+      const text = original.map((line, index) => {
         const target = lines.get(index + 1);
         if (target === undefined || !declared.has(index + 1)) return line;
         const raised = rewriteLine(name, line, target);
@@ -101,15 +127,54 @@ export const javaFixer: Fixer = {
         rewritten.add(index + 1);
         return raised;
       }).join("\n");
-      if (text === before) continue;
-      const expected = declarations.map((declaration) => {
-        if (declaration.kind !== "jdk" || !rewritten.has(declaration.line)) return declaration;
-        const target = lines.get(declaration.line)!;
-        return { kind: "jdk" as const, role: declaration.role, value: target, major: Number(target), line: declaration.line };
-      });
-      if (JSON.stringify(expected) !== JSON.stringify(parse(text))) continue;
-      patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
+      if (text !== before) {
+        const expected = declarations.map((declaration) => {
+          if (declaration.kind !== "jdk" || !rewritten.has(declaration.line)) return declaration;
+          const target = lines.get(declaration.line)!;
+          return { kind: "jdk" as const, role: declaration.role, value: target, major: Number(target), line: declaration.line };
+        });
+        if (JSON.stringify(expected) !== JSON.stringify(parse(text))) {
+          decline("The edit would change other declarations in the file.");
+          continue;
+        }
+        patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
+      }
+      for (const finding of findings) {
+        const index = finding.location.line! - 1;
+        if (rewritten.has(index + 1)) continue;
+        if (!declared.has(index + 1)) {
+          refuse?.(finding, "The declaration is computed or not a literal Java level.");
+          continue;
+        }
+        const reason = refusalReason(name, original[index] ?? "", lines.get(index + 1)!);
+        if (reason !== undefined) refuse?.(finding, reason);
+      }
     }
     return patches;
   },
 };
+
+/** Why the declaration was left as it is, or undefined when it already names the target or a later release. */
+function refusalReason(name: string, line: string, target: string): string | undefined {
+  const literal = name === "pom.xml" ? pomLine(line) : gradleLine(line);
+  if (literal === undefined) return "The declaration is computed or not a literal Java level.";
+  const current = parseJdkVersion(literal);
+  if (current && current.major >= Number(target)) return undefined;
+  return "The declaration is computed or not a literal Java level.";
+}
+
+/** The release `line` names in a `pom.xml`, or undefined when it is not a literal release element. */
+function pomLine(line: string): string | undefined {
+  return POM_RELEASE.exec(line)?.[4];
+}
+
+/** The Java version `line` names in a Gradle script, or undefined when it is not one of the literal forms. */
+function gradleLine(line: string): string | undefined {
+  const language = LANGUAGE_VERSION.exec(line);
+  if (language) return language[2];
+  const toolchain = TOOLCHAIN.exec(line);
+  if (toolchain) return toolchain[4] ?? toolchain[5];
+  const compatibility = COMPATIBILITY.exec(line);
+  if (!compatibility) return undefined;
+  return compatibility[3]?.replace(/_/g, ".") ?? compatibility[5] ?? compatibility[6];
+}

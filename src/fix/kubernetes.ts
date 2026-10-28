@@ -42,7 +42,7 @@ const API_VERSIONS: Record<string, Record<string, string>> = {
 const API_VERSION_LINE = /^(\s*(?:-\s*)?apiVersion\s*:\s*["']?)([^\s#"']+)(.*)$/;
 const DECLARATION = /^.* declares (\S+) (\S+)\. /;
 
-function rewriteTarget(finding: Finding): { from: string; to: string } | undefined {
+function rewriteTarget(finding: Finding): ApiEdit | undefined {
   const match = DECLARATION.exec(finding.summary);
   if (!match) return undefined;
   const from = match[1]!;
@@ -51,36 +51,92 @@ function rewriteTarget(finding: Finding): { from: string; to: string } | undefin
   return to ? { from, to } : undefined;
 }
 
+interface ApiEdit {
+  from: string;
+  to: string;
+}
+
+interface Targets {
+  lines: Map<number, ApiEdit>;
+  findings: Finding[];
+}
+
 /** Rewrites the `apiVersion` of a removed API whose schema is unchanged; every other finding is left alone. */
 export const kubernetesApiVersionFixer: Fixer = {
   id: "kubernetes",
-  async plan(result) {
-    const edits = new Map<string, Map<number, { from: string; to: string }>>();
+  async plan(result, refuse) {
+    const targets = new Map<string, Targets>();
     for (const finding of result.findings) {
-      if (finding.detector !== "kubernetes" || finding.location.line === undefined) continue;
+      if (finding.detector !== "kubernetes") continue;
+      if (finding.location.line === undefined) {
+        refuse?.(finding, "The finding names no line to rewrite.");
+        continue;
+      }
       const edit = rewriteTarget(finding);
-      if (!edit) continue;
-      const lines = edits.get(finding.location.path) ?? new Map();
-      lines.set(finding.location.line, edit);
-      edits.set(finding.location.path, lines);
+      if (!edit) {
+        refuse?.(finding, refusedReason(finding));
+        continue;
+      }
+      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
+      entry.lines.set(finding.location.line, edit);
+      entry.findings.push(finding);
+      targets.set(finding.location.path, entry);
     }
 
     const patches: FilePatch[] = [];
-    for (const [path, lines] of [...edits].sort(([a], [b]) => a.localeCompare(b))) {
+    for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
+      const decline = (reason: string) => {
+        for (const finding of findings) refuse?.(finding, reason);
+      };
       const absolute = resolve(result.root, path);
       const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) continue;
-      const before = await readFile(absolute, "utf8");
-      const text = before.split("\n").map((line, index) => {
+      if (inside.startsWith("..") || isAbsolute(inside)) {
+        decline("The path resolves outside the repository.");
+        continue;
+      }
+      const before = await readFile(absolute, "utf8").catch(() => undefined);
+      if (before === undefined) {
+        decline("The manifest could not be read.");
+        continue;
+      }
+      if (!before.endsWith("\n")) {
+        decline("The manifest does not end with a newline.");
+        continue;
+      }
+      const original = before.split("\n");
+      const text = original.map((line, index) => {
         const edit = lines.get(index + 1);
         if (!edit) return line;
         const match = API_VERSION_LINE.exec(line);
         // The summary named the declaration; the line must still carry that exact value.
         return match && match[2] === edit.from ? `${match[1]}${edit.to}${match[3]}` : line;
       }).join("\n");
-      // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (text !== before && before.endsWith("\n")) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
+      if (text !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), text.slice(0, -1)) });
+      const updated = text.split("\n");
+      for (const finding of findings) {
+        const index = finding.location.line! - 1;
+        if (updated[index] !== original[index]) continue;
+        const reason = lineRefusal(original[index] ?? "", lines.get(index + 1)!);
+        if (reason !== undefined) refuse?.(finding, reason);
+      }
     }
     return patches;
   },
 };
+
+/** Why the finding names no safe rewrite, decided from the finding itself. */
+function refusedReason(finding: Finding): string {
+  const match = DECLARATION.exec(finding.summary);
+  if (!match) return "The finding does not name the declaration's API version.";
+  const parts = splitApiVersion(match[1]!);
+  if (!parts) return "The finding's API version could not be parsed.";
+  return "The replacement needs a spec change, not only an `apiVersion` rewrite.";
+}
+
+/** Why the line was left as it is, or undefined when the line no longer carries the old value. */
+function lineRefusal(line: string, edit: ApiEdit): string | undefined {
+  const match = API_VERSION_LINE.exec(line);
+  if (!match) return "The line is not an `apiVersion` declaration.";
+  if (match[2] !== edit.from) return "The line no longer carries the API version the finding names.";
+  return undefined;
+}

@@ -20,6 +20,8 @@ type Runtime = "node" | "python";
 
 interface Pin {
   runtime: Runtime;
+  /** Whether the whole line is the pin or the pin is an `engines.node` value inside it. */
+  kind: "file" | "engines";
   /** The exact value the line pins, or undefined when the line does not hold an exact pin. */
   value(line: string): string | undefined;
   /** Rewrites the pinned value on its line, or returns the line unchanged when it is not an exact pin. */
@@ -32,8 +34,8 @@ const VERSION_FILES: Record<string, Runtime> = { ".nvmrc": "node", ".node-versio
 function pinFor(path: string): Pin | undefined {
   const name = path.slice(path.lastIndexOf("/") + 1);
   const runtime = VERSION_FILES[name];
-  if (runtime) return { runtime, value: versionFileValue, rewrite: rewriteVersionFile };
-  if (name === "package.json") return { runtime: "node", value: enginesValue, rewrite: rewriteEngines };
+  if (runtime) return { runtime, kind: "file", value: versionFileValue, rewrite: rewriteVersionFile };
+  if (name === "package.json") return { runtime: "node", kind: "engines", value: enginesValue, rewrite: rewriteEngines };
   return undefined;
 }
 
@@ -69,24 +71,35 @@ function isRuntimeRule(finding: Finding, runtime: Runtime): boolean {
   return runtime === "node" ? finding.ruleId.startsWith("nodejs.runtime.") : finding.ruleId.startsWith("python.runtime.");
 }
 
+interface Targets {
+  lines: Map<number, Pin>;
+  findings: Finding[];
+}
+
 /**
  * Moves an exact Node.js or Python pin past every runtime rule that covers it. A Node.js pin goes to the lowest line
  * at or above it that no runtime rule covers, so it never stops on a line another rule reports (including a scheduled
  * end of life); Python goes to the highest end-of-life bound. It handles `.nvmrc`, `.node-version`, `.python-version`,
- * and an exact `engines.node`; a range is a compatibility statement, not a pin, and is never rewritten.
+ * and an exact `engines.node`; a range is a compatibility statement, not a pin, and is never rewritten. A finding it
+ * cannot rewrite is reported through `refuse` with the reason.
  */
 export const runtimePinsFixer: Fixer = {
   id: "runtime-pins",
-  async plan(result) {
-    const edits = new Map<string, Map<number, Pin>>();
+  async plan(result, refuse) {
+    const targets = new Map<string, Targets>();
     for (const finding of result.findings) {
       const pin = pinFor(finding.location.path);
-      if (!pin || finding.location.line === undefined || !isRuntimeRule(finding, pin.runtime)) continue;
-      const lines = edits.get(finding.location.path) ?? new Map<number, Pin>();
-      lines.set(finding.location.line, pin);
-      edits.set(finding.location.path, lines);
+      if (!pin || !isRuntimeRule(finding, pin.runtime)) continue;
+      if (finding.location.line === undefined) {
+        refuse?.(finding, "The finding names no line to rewrite.");
+        continue;
+      }
+      const entry: Targets = targets.get(finding.location.path) ?? { lines: new Map(), findings: [] };
+      entry.lines.set(finding.location.line, pin);
+      entry.findings.push(finding);
+      targets.set(finding.location.path, entry);
     }
-    if (edits.size === 0) return [];
+    if (targets.size === 0) return [];
 
     let covered: Promise<Set<number>> | undefined;
     let python: Promise<string | undefined> | undefined;
@@ -96,26 +109,64 @@ export const runtimePinsFixer: Fixer = {
     };
 
     const patches: FilePatch[] = [];
-    for (const [path, lines] of [...edits].sort(([a], [b]) => a.localeCompare(b))) {
+    for (const [path, { lines, findings }] of [...targets].sort(([a], [b]) => a.localeCompare(b))) {
+      const decline = (reason: string) => {
+        for (const finding of findings) refuse?.(finding, reason);
+      };
       const absolute = resolve(result.root, path);
       const inside = relative(resolve(result.root), absolute);
-      if (inside.startsWith("..") || isAbsolute(inside)) continue;
+      if (inside.startsWith("..") || isAbsolute(inside)) {
+        decline("The path resolves outside the repository.");
+        continue;
+      }
       const before = await readFile(absolute, "utf8");
-      const text = before.split("\n");
+      if (!before.endsWith("\n")) {
+        decline("The pin file does not end with a newline.");
+        continue;
+      }
+      const original = before.split("\n");
+      const text = [...original];
+      const rewritten = new Set<number>();
       for (let index = 0; index < text.length; index += 1) {
         const pin = lines.get(index + 1);
         const value = pin?.value(text[index]!);
         if (!pin || value === undefined) continue;
         const next = await target(pin, value);
-        if (next !== undefined) text[index] = pin.rewrite(text[index]!, next);
+        if (next === undefined) continue;
+        const line = pin.rewrite(text[index]!, next);
+        if (line === text[index]) continue;
+        text[index] = line;
+        rewritten.add(index + 1);
       }
       const after = text.join("\n");
       // renderDiff treats the text after the last newline as a line; dropping the newline keeps git apply from seeing a phantom one.
-      if (after !== before && before.endsWith("\n")) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)) });
+      if (after !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)) });
+      for (const finding of findings) {
+        const index = finding.location.line! - 1;
+        if (rewritten.has(index + 1)) continue;
+        const pin = lines.get(index + 1)!;
+        const line = original[index] ?? "";
+        const value = pin.value(line);
+        const reason = refusalReason(line, pin, value === undefined ? undefined : await target(pin, value));
+        if (reason !== undefined) refuse?.(finding, reason);
+      }
     }
     return patches;
   },
 };
+
+/** Why the pin on `line` still holds the finding's value, or undefined when it is already past the target. */
+function refusalReason(line: string, pin: Pin, target: string | undefined): string | undefined {
+  if (pin.value(line) === undefined) {
+    if (pin.kind === "engines" && !ENGINES_NODE.test(line)) return "The file has no `engines.node` value to rewrite.";
+    if (pin.kind === "file" && line.trim() === "") return "The file has no version to rewrite.";
+    return "The pin is a range, not an exact version.";
+  }
+  if (target === undefined) {
+    return pin.runtime === "node" ? "The rule names no supported Node.js line." : "No supported Python line is known for the scan date.";
+  }
+  return undefined;
+}
 
 /** Every Node.js major an active runtime rule covers; `<18.0.0` covers 0 through 17. */
 async function coveredNodeMajors(): Promise<Set<number>> {
