@@ -38,7 +38,8 @@ test("raises only Go directive values, preserves formatting, and produces an app
   await writeFile(join(root, "fix.patch"), patch);
   await execute("git", ["apply", "--check", "fix.patch"], { cwd: root });
   await execute("git", ["apply", "fix.patch"], { cwd: root });
-  assert.equal(await readFile(join(root, "go.mod"), "utf8"), before.replace("1.24.3", "1.26.0").replace("go1.25.1", "go1.26.0"));
+  const fixed = (await readFile(join(root, "go.mod"), "utf8")).replace(/\r\n/g, "\n");
+  assert.equal(fixed, before.replace("1.24.3", "1.26.0").replace("go1.25.1", "go1.26.0"));
   assert.equal(await readFile(join(root, "go.sum"), "utf8"), "unchanged\n");
   assert.equal(await fix(root), "");
 });
