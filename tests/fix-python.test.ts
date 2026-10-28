@@ -21,6 +21,7 @@ async function repository(t: TestContext, files: Record<string, string>): Promis
     await writeFile(join(root, path), contents);
   }
   await execute("git", ["init", "-q"], { cwd: root });
+  await execute("git", ["config", "core.autocrlf", "false"], { cwd: root });
   return root;
 }
 
