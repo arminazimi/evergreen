@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import {
+  collectAdoptionMetrics,
   collectCorpusMetrics,
   collectContributorMetrics,
   collectEcosystemMetrics,
@@ -206,6 +207,12 @@ test("collectContributorMetrics degrades gracefully in a shallow repository", as
         bySelection: { targeted: 1 },
       },
       contributors: metrics,
+      adoption: {
+        snapshotDate: null,
+        githubStars: "unavailable",
+        previousStars: null,
+        channels: [],
+      },
     };
 
     const report = generateMonthlyReport(mockData);
@@ -270,6 +277,18 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
       monthContributorsList: ["Alice Smith", "Bob Jones"],
       isShallow: false,
     },
+    adoption: {
+      snapshotDate: "2026-10-28",
+      githubStars: 10,
+      previousStars: 8,
+      channels: [
+        { label: "GitHub Action repositories", value: 5, note: "2 recurring" },
+        { label: "Pre-commit hook repositories", value: 1 },
+        { label: "GitLab component repositories", value: 0 },
+        { label: "npm weekly downloads", value: 500 },
+        { label: "skills.sh installs", value: 20 },
+      ],
+    },
   };
 
   const report = generateMonthlyReport(mockData);
@@ -281,6 +300,7 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Supported ecosystems \| 2 ecosystems \| 1 supported, 1 experimental \|/);
   assert.match(report, /\| Validation corpus \| 50 repositories \| 200 expected findings across 2 ecosystems \|/);
   assert.match(report, /\| Contributors \| 2 contributors \| 30 commits in 2026-10 \|/);
+  assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\), 526 total across channels \|/);
   assert.match(report, /^## Lifecycle rules$/m);
   assert.match(report, /\*\*Total rules:\*\* 100/);
   assert.match(report, /\*\*Rules with replacements:\*\* 90 \(90\.0%\)/);
@@ -288,9 +308,69 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| npm \| supported \| stable \| `npm` \|/);
   assert.match(report, /^## Validation corpus$/m);
   assert.match(report, /\*\*Total repositories:\*\* 50/);
+  assert.match(report, /^## Adoption$/m);
+  assert.match(report, /\*Snapshot: 2026-10-28\*/);
+  assert.match(report, /### North-star trend/);
+  assert.match(report, /\*\*GitHub stars:\*\* 10 \(\+2 vs previous month\)/);
+  assert.match(report, /### Channel breakdown/);
+  assert.match(report, /\| GitHub Action repositories \| 5 \(2 recurring\) \|/);
+  assert.match(report, /\| npm weekly downloads \| 500 \|/);
   assert.match(report, /^## Contributors$/m);
   assert.match(report, /- Alice Smith/);
   assert.match(report, /- Bob Jones/);
+});
+
+test("collectAdoptionMetrics reads current and previous month snapshots", async () => {
+  const tempDir = await mkdtemp(join(tmpdir(), "evergreen-test-adoption-"));
+  try {
+    const prevSnapshot = {
+      schemaVersion: "evergreen.adoption-snapshot.v1",
+      date: "2026-09-20",
+      metrics: {
+        githubStars: { status: "ok", value: 15, source: "https://api.github.com/repos/test" },
+      },
+    };
+    const currSnapshot = {
+      schemaVersion: "evergreen.adoption-snapshot.v1",
+      date: "2026-10-15",
+      metrics: {
+        githubStars: { status: "ok", value: 25, source: "https://api.github.com/repos/test" },
+        githubActionRepositories: { status: "ok", value: 4, source: "https://github.com/search" },
+        repeatActionRepositories: { status: "ok", value: 2, source: "https://github.com/search" },
+        preCommitRepositories: { status: "ok", value: 1, source: "https://github.com/search" },
+        gitlabComponentRepositories: { status: "unavailable", reason: "none", source: "gitlab" },
+        npmWeeklyDownloads: { status: "ok", value: 120, source: "npm" },
+        skillsShInstalls: { status: "ok", value: 10, source: "skills" },
+      },
+    };
+    await writeFile(join(tempDir, "2026-09-20.json"), JSON.stringify(prevSnapshot));
+    await writeFile(join(tempDir, "2026-10-15.json"), JSON.stringify(currSnapshot));
+
+    const metrics = await collectAdoptionMetrics({ adoptionDir: tempDir, month: "2026-10" });
+    assert.equal(metrics.snapshotDate, "2026-10-15");
+    assert.equal(metrics.githubStars, 25);
+    assert.equal(metrics.previousStars, 15);
+
+    const actionChannel = metrics.channels.find((c) => c.label === "GitHub Action repositories");
+    assert.equal(actionChannel?.value, 4);
+    assert.equal(actionChannel?.note, "2 recurring");
+
+    const gitlabChannel = metrics.channels.find((c) => c.label === "GitLab component repositories");
+    assert.equal(gitlabChannel?.value, "unavailable");
+  } finally {
+    await rm(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("collectAdoptionMetrics handles missing adoption directories gracefully", async () => {
+  const metrics = await collectAdoptionMetrics({ adoptionDir: "non-existent-metrics-dir-12345", month: "2026-10" });
+  assert.equal(metrics.snapshotDate, null);
+  assert.equal(metrics.githubStars, "unavailable");
+  assert.equal(metrics.previousStars, null);
+  assert.ok(metrics.channels.length > 0);
+  for (const c of metrics.channels) {
+    assert.equal(c.value, "unavailable");
+  }
 });
 
 test("collectReportData returns well-formed data structure without hardcoded repository size thresholds", async () => {
@@ -308,6 +388,8 @@ test("collectReportData returns well-formed data structure without hardcoded rep
   assert.ok(typeof data.contributors.totalContributors === "number" && data.contributors.totalContributors >= 0);
   assert.ok(Array.isArray(data.contributors.contributors));
   assert.ok(typeof data.contributors.isShallow === "boolean");
+  assert.ok(typeof data.adoption === "object" && data.adoption !== null);
+  assert.ok(Array.isArray(data.adoption.channels));
 });
 
 test("CLI execution runs and exits successfully", async () => {
