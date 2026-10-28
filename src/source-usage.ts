@@ -33,6 +33,9 @@ const ignoredDirectories = new Set([
 
 const maximumFileBytes = 1_000_000;
 
+/** Directory read errors that skip the subtree instead of failing every finding in the scan. */
+const skippedReadCodes = new Set(["EACCES", "ENOENT", "ENOTDIR", "EPERM"]);
+
 interface SourceFile {
   absolutePath: string;
   path: string;
@@ -80,7 +83,14 @@ function languageFor(path: string): SourceLanguage | undefined {
 async function sourceFiles(root: string): Promise<SourceFile[]> {
   const files: SourceFile[] = [];
   const walk = async (directory: string): Promise<void> => {
-    const entries = await readdir(directory, { withFileTypes: true });
+    let entries;
+    try {
+      entries = await readdir(directory, { withFileTypes: true });
+    } catch (error) {
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code && skippedReadCodes.has(code)) return;
+      throw error;
+    }
     for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
       const path = resolve(directory, entry.name);
       if (entry.isDirectory()) {

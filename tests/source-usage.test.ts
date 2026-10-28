@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { after, test } from "node:test";
@@ -151,4 +151,32 @@ test("evaluates symbol matchers with the parser and ignores them in the regex sc
   );
   const [regex] = await analyzeSourceUsage(root, contracts, { parser: false });
   assert.deepEqual(regex?.usages, []);
+});
+
+test("skips a directory that cannot be read and keeps usages from the rest of the tree", async (t) => {
+  if (process.platform === "win32") return t.skip("chmod 000 is not meaningful on Windows");
+  if (typeof process.getuid === "function" && process.getuid() === 0) return t.skip("root can read chmod 000 directories");
+
+  const root = await repository({
+    "src/client.ts": `import legacyRequest from "request";
+legacyRequest.get("https://example.com");
+`,
+    "locked/hidden.ts": `import legacyRequest from "request";
+legacyRequest.get("https://example.com");
+`,
+  });
+  const locked = join(root, "locked");
+  await chmod(locked, 0o000);
+  try {
+    const [analysis] = await analyzeSourceUsage(root, [requestContract]);
+    assert.deepEqual(
+      analysis?.usages.map((usage) => [usage.kind, usage.location.path, usage.location.line]),
+      [
+        ["import", "src/client.ts", 1],
+        ["call", "src/client.ts", 2],
+      ],
+    );
+  } finally {
+    await chmod(locked, 0o700);
+  }
 });
