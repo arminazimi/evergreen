@@ -9,10 +9,27 @@ Evergreen has no telemetry and never will: a scan does not phone home, and nothi
 | Metric | What it counts |
 | --- | --- |
 | `githubActionRepositories` | Repositories whose `.github/workflows` use `arminazimi/evergreen@…` |
+| `repeatActionRepositories` | Public repositories whose `.github/workflows` reference the Action in two consecutive monthly snapshots |
 | `preCommitRepositories` | Repositories whose `.pre-commit-config.yaml` lists the Evergreen hook |
 | `gitlabComponentRepositories` | Repositories whose `.gitlab-ci.yml` references Evergreen |
 
 Repositories owned by the project (`arminazimi/*`) are left out, so dogfooding does not inflate the number. The three counts are reported separately and may overlap when one repository uses more than one integration; add them as an upper bound and compare them as a trend, not as a precise population.
+
+## Measuring repeat use
+
+A repository that keeps Evergreen in CI for a month is a real user. Adding an Action once may be an experiment or a brief evaluation; continuing to run it across two consecutive calendar months reflects sustained adoption.
+
+### Method
+
+Each snapshot records the distinct public repositories whose `.github/workflows` reference the Action (`arminazimi/evergreen@…`). The `repeatActionRepositories` metric compares the repositories observed in the current month against the union of all repositories observed in snapshots from the immediately preceding calendar month (`YYYY-(MM-1)`). Any repository present in both months counts as a repeat user.
+
+### Limits
+
+1. **Code search indexing and ceilings**: GitHub code search indexes repositories asynchronously and returns at most 1,000 files per query. Repositories in private code, unindexed forks, or past the 1,000-result threshold are omitted.
+2. **Snapshot frequency and timing**: Snapshots capture point-in-time state. A repository that introduces and removes the Action between snapshots is not captured.
+3. **Calendar-month boundaries**: A repository adopting the Action near the end of one month and keeping it for a few days into the next counts as two consecutive months despite brief duration; conversely, an installation spanning 30 days entirely within one calendar month requires a subsequent month's snapshot to register as repeat use.
+4. **Renames and migrations**: A repository renamed between months is treated as a departure and a new arrival rather than repeat use.
+5. **Configuration vs. execution**: Public code search observes workflow configuration files, not private workflow run histories or execution success.
 
 ## Supporting signals
 

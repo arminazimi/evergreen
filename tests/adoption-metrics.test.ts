@@ -1,15 +1,43 @@
 import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { test } from "node:test";
 
-import { collect, distinctRepositories, parseDownloads, parseMcpRegistry, parseScorecard, parseSkillsInstalls, SCHEMA_VERSION, SERVICE_REPORTS } from "../tools/adoption-metrics.js";
+import {
+  collect,
+  countRepeatRepositories,
+  distinctRepositories,
+  distinctRepositoryNames,
+  parseDownloads,
+  parseMcpRegistry,
+  parseScorecard,
+  parseSkillsInstalls,
+  previousMonth,
+  SCHEMA_VERSION,
+  SERVICE_REPORTS,
+} from "../tools/adoption-metrics.js";
 import type { Fetcher, Metric, Snapshot } from "../tools/adoption-metrics.js";
 
 test("counts distinct repositories and leaves out the project's own", () => {
   const item = (name: string) => ({ repository: { full_name: name } });
   assert.equal(distinctRepositories([item("a/one"), item("a/one"), item("B/Two"), item("b/two"), item("arminazimi/evergreen"), item("arminazimi/other"), {}]), 2);
   assert.equal(distinctRepositories([]), 0);
+  assert.deepEqual(distinctRepositoryNames([item("b/two"), item("a/one"), item("arminazimi/evergreen")]), ["a/one", "b/two"]);
+});
+
+test("calculates previous calendar month correctly across month and year boundaries", () => {
+  assert.equal(previousMonth("2026-10-28"), "2026-09");
+  assert.equal(previousMonth("2026-01-15"), "2025-12");
+  assert.equal(previousMonth("2027-03-01"), "2027-02");
+});
+
+test("counts repeat repositories active in consecutive months", () => {
+  const current = ["org/repo-a", "org/repo-b", "org/repo-c"];
+  const previous = ["org/repo-b", "ORG/REPO-C", "org/repo-d"];
+  assert.equal(countRepeatRepositories(current, previous), 2);
+  assert.equal(countRepeatRepositories(current, []), 0);
+  assert.equal(countRepeatRepositories([], previous), 0);
 });
 
 test("reads npm downloads and reports an unpublished package as unavailable", () => {
@@ -58,6 +86,7 @@ test("one failing source is recorded and does not stop the others", async () => 
   assert.equal(snapshot.schemaVersion, SCHEMA_VERSION);
   assert.deepEqual([snapshot.metrics.npmWeeklyDownloads!.status, (snapshot.metrics.npmWeeklyDownloads as { reason: string }).reason], ["unavailable", "network down"]);
   assert.equal((snapshot.metrics.githubActionRepositories as { value: number }).value, 2);
+  assert.equal((snapshot.metrics.repeatActionRepositories as { value: number }).value, 0);
   assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 7);
   assert.equal((snapshot.metrics.githubStars as { value: number }).value, 3);
   assert.equal((snapshot.metrics.scorecardScore as { value: number }).value, 3.1);
@@ -66,8 +95,46 @@ test("one failing source is recorded and does not stop the others", async () => 
 
 test("without a token the code-search metrics are unavailable, never zero", async () => {
   const snapshot = await collect("2026-10-16", async () => ({ status: 404, text: "" }), undefined);
-  for (const name of ["githubActionRepositories", "preCommitRepositories", "gitlabComponentRepositories"]) {
+  for (const name of ["githubActionRepositories", "repeatActionRepositories", "preCommitRepositories", "gitlabComponentRepositories"]) {
     assert.equal(snapshot.metrics[name]!.status, "unavailable", name);
+  }
+});
+
+test("counts repeat action repositories across consecutive months", async () => {
+  const tmp = await mkdtemp(resolve(tmpdir(), "evergreen-repeat-"));
+  try {
+    const prevSnapshot: Snapshot = {
+      schemaVersion: SCHEMA_VERSION,
+      date: "2026-09-15",
+      metrics: {
+        githubActionRepositories: {
+          status: "ok",
+          value: 2,
+          repositories: ["user/retained", "user/churned"],
+          source: "https://github.com/search?type=code&q=test",
+        },
+      },
+    };
+    await writeFile(resolve(tmp, "2026-09-15.json"), JSON.stringify(prevSnapshot));
+
+    const fetcher: Fetcher = async (url) => {
+      if (url.includes("search/code")) {
+        return {
+          status: 200,
+          text: JSON.stringify({
+            total_count: 2,
+            items: [{ repository: { full_name: "USER/RETAINED" } }, { repository: { full_name: "user/new" } }],
+          }),
+        };
+      }
+      return { status: 200, text: "{}" };
+    };
+
+    const snapshot = await collect("2026-10-15", fetcher, "token", tmp);
+    assert.equal((snapshot.metrics.githubActionRepositories as { value: number }).value, 2);
+    assert.equal((snapshot.metrics.repeatActionRepositories as { value: number }).value, 1);
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
   }
 });
 

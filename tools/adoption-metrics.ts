@@ -7,7 +7,7 @@
 // without one those metrics are recorded as unavailable. Nothing is collected from users: Evergreen has no
 // telemetry, and every number below can be reproduced by anyone from the public sources named in the file.
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -26,7 +26,7 @@ export const SERVICE_REPORTS: Record<string, string> = {
 };
 
 export type Metric =
-  | { status: "ok"; value: number | boolean; detail?: string; source: string }
+  | { status: "ok"; value: number | boolean; detail?: string; source: string; repositories?: string[] }
   | { status: "unavailable"; reason: string; source: string };
 
 export interface Snapshot {
@@ -45,14 +45,19 @@ const defaultFetch: Fetcher = async (url, headers = {}) => {
   return { status: response.status, text: await response.text() };
 };
 
-/** Distinct repositories among code-search hits, leaving out the project's own repositories. */
-export function distinctRepositories(items: Array<{ repository?: { full_name?: string } }>): number {
+/** Distinct repository names among code-search hits, leaving out the project's own repositories. */
+export function distinctRepositoryNames(items: Array<{ repository?: { full_name?: string } }>): string[] {
   const names = new Set<string>();
   for (const item of items) {
     const name = item.repository?.full_name;
     if (name && !name.toLowerCase().startsWith(`${OWNER}/`)) names.add(name.toLowerCase());
   }
-  return names.size;
+  return [...names].sort();
+}
+
+/** Distinct repositories among code-search hits, leaving out the project's own repositories. */
+export function distinctRepositories(items: Array<{ repository?: { full_name?: string } }>): number {
+  return distinctRepositoryNames(items).length;
 }
 
 export function parseDownloads(status: number, text: string): Metric {
@@ -107,9 +112,10 @@ async function searchRepositories(query: string, fetcher: Fetcher, token: string
   for (let page = 1; page <= MAXIMUM_SEARCH_PAGES; page++) {
     const response = await fetcher(`https://api.github.com/search/code?q=${encodeURIComponent(query)}&per_page=100&page=${page}`, headers);
     if (response.status !== 200) {
+      const repoNames = distinctRepositoryNames(items);
       return page === 1
         ? { status: "unavailable", reason: `GitHub code search returned HTTP ${response.status}.`, source }
-        : { status: "ok", value: distinctRepositories(items), detail: `lower bound: stopped at page ${page} with HTTP ${response.status}`, source };
+        : { status: "ok", value: repoNames.length, repositories: repoNames, detail: `lower bound: stopped at page ${page} with HTTP ${response.status}`, source };
     }
     const body = JSON.parse(response.text) as { total_count?: number; items?: typeof items };
     total = body.total_count ?? total;
@@ -118,8 +124,73 @@ async function searchRepositories(query: string, fetcher: Fetcher, token: string
     // Code search allows about ten requests a minute.
     await new Promise((done) => setTimeout(done, 7000));
   }
+  const repoNames = distinctRepositoryNames(items);
   const truncated = total > items.length;
-  return { status: "ok", value: distinctRepositories(items), ...(truncated ? { detail: `lower bound: GitHub returns at most ${items.length} of ${total} matching files` } : {}), source };
+  return {
+    status: "ok",
+    value: repoNames.length,
+    repositories: repoNames,
+    ...(truncated ? { detail: `lower bound: GitHub returns at most ${items.length} of ${total} matching files` } : {}),
+    source,
+  };
+}
+
+/**
+ * Previous calendar month formatted as YYYY-MM from a YYYY-MM-DD (or YYYY-MM) date string.
+ */
+export function previousMonth(date: string): string {
+  const [yearStr, monthStr] = date.split("-");
+  let year = Number(yearStr);
+  let month = Number(monthStr) - 1;
+  if (month === 0) {
+    month = 12;
+    year -= 1;
+  }
+  return `${year}-${String(month).padStart(2, "0")}`;
+}
+
+/**
+ * Counts repositories present in both the current list and the previous month's repository collection.
+ */
+export function countRepeatRepositories(currentRepos: string[], previousMonthRepos: Iterable<string>): number {
+  const previousSet = new Set(Array.from(previousMonthRepos, (name) => name.toLowerCase()));
+  const seen = new Set<string>();
+  for (const repo of currentRepos) {
+    const lower = repo.toLowerCase();
+    if (previousSet.has(lower)) {
+      seen.add(lower);
+    }
+  }
+  return seen.size;
+}
+
+/**
+ * Reads all Action repositories recorded in snapshots for a given month (YYYY-MM) from disk.
+ */
+export async function readActionRepositoriesForMonth(
+  month: string,
+  dir: string = resolve("metrics/adoption"),
+): Promise<Set<string>> {
+  const names = new Set<string>();
+  try {
+    const files = await readdir(dir);
+    for (const file of files) {
+      if (file.startsWith(month) && file.endsWith(".json")) {
+        const text = await readFile(resolve(dir, file), "utf8");
+        const snapshot = JSON.parse(text) as Snapshot;
+        const metric = snapshot.metrics?.githubActionRepositories;
+        if (metric && metric.status === "ok") {
+          const list = (metric as { repositories?: string[] }).repositories;
+          if (Array.isArray(list)) {
+            for (const repo of list) names.add(repo.toLowerCase());
+          }
+        }
+      }
+    }
+  } catch {
+    // If the directory does not exist or cannot be read, return empty set.
+  }
+  return names;
 }
 
 async function repositoryStat(field: "stargazers_count" | "forks_count", fetcher: Fetcher, token: string | undefined): Promise<Metric> {
@@ -131,7 +202,12 @@ async function repositoryStat(field: "stargazers_count" | "forks_count", fetcher
 }
 
 /** Collects the snapshot. A source that fails is recorded as unavailable and never stops the others. */
-export async function collect(date: string, fetcher: Fetcher = defaultFetch, token: string | undefined = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN): Promise<Snapshot> {
+export async function collect(
+  date: string,
+  fetcher: Fetcher = defaultFetch,
+  token: string | undefined = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN,
+  snapshotDir: string = resolve("metrics/adoption"),
+): Promise<Snapshot> {
   const guarded = async (run: () => Promise<Metric>, source: string): Promise<Metric> => {
     try {
       return await run();
@@ -141,8 +217,27 @@ export async function collect(date: string, fetcher: Fetcher = defaultFetch, tok
   };
   const get = async (url: string) => fetcher(url);
 
+  const actionMetric = await guarded(() => searchRepositories(`"${REPOSITORY}@" path:.github/workflows`, fetcher, token), "GitHub code search");
+  const repeatMetric: Metric = await guarded(async () => {
+    if (!token) return { status: "unavailable", reason: "GitHub code search needs GITHUB_TOKEN or GH_TOKEN.", source: `https://github.com/search?type=code&q=${encodeURIComponent(`"${REPOSITORY}@" path:.github/workflows`)}` };
+    if (actionMetric.status !== "ok") {
+      return { status: "unavailable", reason: (actionMetric as { reason: string }).reason, source: actionMetric.source };
+    }
+    const currentRepos = (actionMetric as { repositories?: string[] }).repositories ?? [];
+    const prev = previousMonth(date);
+    const prevRepos = await readActionRepositoriesForMonth(prev, snapshotDir);
+    const count = countRepeatRepositories(currentRepos, prevRepos);
+    return {
+      status: "ok",
+      value: count,
+      source: actionMetric.source,
+      ...(actionMetric.detail ? { detail: actionMetric.detail } : {}),
+    };
+  }, "GitHub code search");
+
   const metrics: Record<string, Metric> = {
-    githubActionRepositories: await guarded(() => searchRepositories(`"${REPOSITORY}@" path:.github/workflows`, fetcher, token), "GitHub code search"),
+    githubActionRepositories: actionMetric,
+    repeatActionRepositories: repeatMetric,
     preCommitRepositories: await guarded(() => searchRepositories(`"https://github.com/${REPOSITORY}" filename:.pre-commit-config.yaml`, fetcher, token), "GitHub code search"),
     gitlabComponentRepositories: await guarded(() => searchRepositories(`"${REPOSITORY}" filename:.gitlab-ci.yml`, fetcher, token), "GitHub code search"),
     npmWeeklyDownloads: await guarded(async () => { const r = await get(`https://api.npmjs.org/downloads/point/last-week/${PACKAGE}`); return parseDownloads(r.status, r.text); }, "npm"),
