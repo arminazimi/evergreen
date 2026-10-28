@@ -13,6 +13,7 @@ A start-to-finish guide for checking a repository by hand with the Evergreen CLI
 
 ### 1. Scan
 
+<!-- testable -->
 ```bash
 evergreen scan .
 ```
@@ -33,6 +34,7 @@ A finding ID has the form `<rule-id>:<path>:<line>`, for example `nodejs.runtime
 
 You do not need to scan to ask about one thing. Use a Package URL:
 
+<!-- testable expect=1 -->
 ```bash
 evergreen check pkg:npm/request@2.88.2
 evergreen check pkg:github/actions/setup-node@v3
@@ -48,6 +50,7 @@ evergreen check pkg:github/actions/setup-node@v3
 
 ### 3. Explain
 
+<!-- testable -->
 ```bash
 evergreen explain 'nodejs.runtime.eol-18:package.json:1' .
 ```
@@ -56,6 +59,7 @@ Read the rule, the exact location, and the authoritative source link. Open the s
 
 ### 4. Get the migration context
 
+<!-- testable -->
 ```bash
 evergreen context 'nodejs.runtime.eol-18:package.json:1' .
 ```
@@ -66,6 +70,7 @@ The packet lists the declaration, every usage, behavioral constraints, ordered s
 
 Make the change, run the project's own tests, then:
 
+<!-- testable -->
 ```bash
 evergreen scan .
 ```
@@ -76,6 +81,7 @@ You are done when the tests pass **and** that rule no longer appears at that loc
 
 Some findings cannot be fixed today (a customer pins you to an old runtime, a vendor has not shipped the replacement). Record that decision instead of ignoring the output:
 
+<!-- testable -->
 ```bash
 evergreen baseline . --output evergreen-baseline.json
 evergreen scan . --baseline evergreen-baseline.json --on-expired fail
@@ -85,6 +91,7 @@ Findings in the baseline are suppressed and counted (`Baseline: 4 findings suppr
 
 ## Scanning as of a date
 
+<!-- testable -->
 ```bash
 evergreen scan . --as-of 2027-07-01
 ```
@@ -97,6 +104,7 @@ This is not a forecast: `--as-of` projects the findings you have onto one day, w
 
 ## Forecasting what breaks next
 
+<!-- testable -->
 ```bash
 evergreen forecast .                       # the next 12 months
 evergreen forecast . --months 6 --json
@@ -107,9 +115,13 @@ evergreen forecast . --as-of 2027-01-01    # count from another day
 
 ## Gating a push or CI
 
+<!-- testable -->
 ```bash
 evergreen scan . --fail-on high      # exit 1 when a finding is high or critical
 evergreen init --hooks --dry-run     # preview a pre-push hook for this repository
+```
+
+```bash
 evergreen init --personal --dry-run  # preview a global hook for every repository
 ```
 

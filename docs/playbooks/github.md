@@ -65,12 +65,14 @@ Change the workflow, let the project's own CI run, then confirm the rule no long
 
 Some findings cannot be fixed in this pull request: a matrix that a downstream consumer still tests, or a vendor action that has not shipped its replacement. Record the decision in the repository:
 
+<!-- testable -->
 ```bash
 evergreen baseline . --output .evergreen-baseline.json
 ```
 
 Commit the file so the acceptance is reviewable. Each entry can carry an `owner`, a `reason`, and an `expires` date. Add them for every accepted finding; a suppression without an owner is one nobody will revisit.
 
+<!-- testable -->
 ```bash
 evergreen scan . --baseline .evergreen-baseline.json --on-expired fail
 ```
