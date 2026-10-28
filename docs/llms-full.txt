@@ -2799,6 +2799,13 @@ Besides the action reference itself, the GitHub Actions detector reads one runti
 - An expression such as `${{ matrix.dotnet }}`, a floating major (`6.x`, `6`), a pre-release (`7.0.100-preview.1`), or any other form is unclassified with its file and line, never guessed.
 - The `global-json-file` input, `dotnet-quality`, and the other `setup-*` actions (`setup-node`, `setup-python`, and so on) are not read. Each needs its own mapping to a lifecycle rule set; they are follow-up work, not part of this decision.
 
+### Bun lockfile resolution and diagnostics
+
+The `npm` detector reads lockfiles to resolve exact package versions and build dependency paths: `package-lock.json`, `npm-shrinkwrap.json`, `pnpm-lock.yaml`, `yarn.lock`, and Bun's text lockfile (`bun.lock`).
+
+- **`bun.lock` (text)**: Parsed as JSON. Direct and transitive packages in the `packages` dictionary resolve exact versions and dependency edges, matching them against lifecycle rules.
+- **`bun.lockb` (binary)**: Bun's legacy binary lockfile format is not parsed. Rather than guessing versions from manifest ranges, the binary lockfile is reported as an unclassified diagnostic reference (`bun.lockb` at line 1). Running `bun install` with Bun 1.2+ generates a text `bun.lock` file that Evergreen resolves.
+
 ## Declaring the files a detector reads
 
 A detector may declare, in one place, which repository files its `scan` reads. The optional `inputs` field on `Detector` (added to the `evergreen.detector.v1` interface without changing anything that exists) has four parts, all relative to the scanned root with forward slashes:

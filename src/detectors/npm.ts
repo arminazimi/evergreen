@@ -26,6 +26,8 @@ import type {
   DetectorFinding,
   RegistryDefinition,
   DetectorInputs,
+  DetectorAnalysis,
+  DetectorUnclassifiedReference,
 } from "../sdk.js";
 
 interface PackageRule extends DeprecationRule {
@@ -225,6 +227,64 @@ function parseYarnLock(contents: string, { versions: target, graph }: LockData):
   }
 }
 
+function packageFromBunDescriptor(rawKey: string): { name: string; version: string } | undefined {
+  const key = rawKey.replace(/\(.+\)$/, "");
+  const separator = key.lastIndexOf("@");
+  if (separator <= 0) return undefined;
+  let name = key.slice(0, separator);
+  let version = key.slice(separator + 1);
+  if (name.includes("@npm:")) {
+    name = name.slice(name.indexOf("@npm:") + 5);
+  } else if (name.startsWith("npm:")) {
+    name = name.slice(4);
+  }
+  if (version.startsWith("npm:")) version = version.slice(4);
+  return semver.valid(version) ? { name, version } : undefined;
+}
+
+function parseBunLock(contents: string, { versions: target, graph }: LockData): void {
+  let lock: { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
+  try {
+    lock = JSON.parse(contents) as { packages?: Record<string, unknown>; workspaces?: Record<string, unknown> };
+  } catch {
+    return;
+  }
+  if (!lock || typeof lock !== "object") return;
+  const packages = lock.packages;
+  if (!packages || typeof packages !== "object") return;
+
+  for (const [key, entry] of Object.entries(packages)) {
+    if (Array.isArray(entry) && entry.length > 0) {
+      const descriptor = typeof entry[0] === "string" ? entry[0] : "";
+      const parsed = packageFromBunDescriptor(descriptor) ?? packageFromBunDescriptor(key);
+      if (!parsed) continue;
+      addResolved(target, parsed.name, parsed.version);
+
+      const meta = entry[1];
+      if (meta && typeof meta === "object" && !Array.isArray(meta)) {
+        const asMeta = meta as {
+          dependencies?: Record<string, unknown>;
+          optionalDependencies?: Record<string, unknown>;
+        };
+        if (asMeta.dependencies || asMeta.optionalDependencies) {
+          addEdges(graph, parsed.name, asMeta.dependencies, asMeta.optionalDependencies);
+        } else {
+          addEdges(graph, parsed.name, meta as Record<string, unknown>);
+        }
+      }
+    } else if (typeof entry === "object" && entry !== null && !Array.isArray(entry)) {
+      const obj = entry as { version?: unknown; dependencies?: Record<string, unknown>; optionalDependencies?: Record<string, unknown> };
+      const parsed = packageFromBunDescriptor(key);
+      const name = parsed?.name ?? key;
+      const version = typeof obj.version === "string" && semver.valid(obj.version) ? obj.version : parsed?.version;
+      if (version) {
+        addResolved(target, name, version);
+        addEdges(graph, name, obj.dependencies, obj.optionalDependencies);
+      }
+    }
+  }
+}
+
 async function collectLockData(root: string): Promise<LockData> {
   const resolved: LockData = { versions: new Map(), graph: new Map() };
   const lockfiles = await Promise.all([
@@ -232,12 +292,14 @@ async function collectLockData(root: string): Promise<LockData> {
     readOptional(resolve(root, "npm-shrinkwrap.json")),
     readOptional(resolve(root, "pnpm-lock.yaml")),
     readOptional(resolve(root, "yarn.lock")),
+    readOptional(resolve(root, "bun.lock")),
   ]);
 
   if (lockfiles[0]) parsePackageLock(lockfiles[0], resolved);
   if (lockfiles[1]) parsePackageLock(lockfiles[1], resolved);
   if (lockfiles[2]) parsePnpmLock(lockfiles[2], resolved);
   if (lockfiles[3]) parseYarnLock(lockfiles[3], resolved);
+  if (lockfiles[4]) parseBunLock(lockfiles[4], resolved);
   return resolved;
 }
 
@@ -384,14 +446,29 @@ export class NpmDetector implements Detector {
   readonly id = "npm";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["package.json", "package-lock.json", "npm-shrinkwrap.json", "pnpm-lock.yaml", "yarn.lock", ".nvmrc", ".node-version", "pnpm-workspace.yaml", "lerna.json"],
+    fileNames: ["package.json", "package-lock.json", "npm-shrinkwrap.json", "pnpm-lock.yaml", "yarn.lock", "bun.lock", "bun.lockb", ".nvmrc", ".node-version", "pnpm-workspace.yaml", "lerna.json"],
     sourceExtensions: [".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts", ".json", ".yaml", ".yml"],
   };
 
   async scan(context: DetectorContext): Promise<DetectorFinding[]> {
+    return [...(await this.analyze(context)).findings];
+  }
+
+  async analyze(context: DetectorContext): Promise<DetectorAnalysis> {
     const rootManifest = await readOptional(resolve(context.root, "package.json"));
     const workspaceDirectories = await discoverNpmWorkspaces(context.root);
-    if (!rootManifest && workspaceDirectories.length === 0) return [];
+    if (!rootManifest && workspaceDirectories.length === 0) return { findings: [], unclassified: [] };
+
+    const unclassified: DetectorUnclassifiedReference[] = [];
+    const rootLockb = await readOptional(resolve(context.root, "bun.lockb"));
+    if (rootLockb !== undefined) {
+      unclassified.push({
+        component: "bun.lockb",
+        reference: "bun.lockb",
+        reason: "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
+        location: { path: "bun.lockb", line: 1 },
+      });
+    }
 
     const [packageRules, nodeRules, rootLock] = await Promise.all([
       loadRegistry(
@@ -434,6 +511,17 @@ export class NpmDetector implements Detector {
         return;
       }
       const own = directory === "" ? { versions: new Map<string, Set<string>>(), graph: new Map<string, Set<string>>() } : await collectLockData(resolve(context.root, directory));
+      if (directory !== "") {
+        const workspaceLockb = await readOptional(resolve(context.root, directory, "bun.lockb"));
+        if (workspaceLockb !== undefined) {
+          unclassified.push({
+            component: "bun.lockb",
+            reference: "bun.lockb",
+            reason: "the lockfile is binary (bun.lockb), which Evergreen does not parse; run `bun install` with Bun 1.2+ to generate a text bun.lock file",
+            location: { path: relativePosix(context.root, resolve(context.root, directory, "bun.lockb")), line: 1 },
+          });
+        }
+      }
       const resolved: ResolvedVersions = new Map(rootLock.versions);
       for (const [name, versions] of own.versions) resolved.set(name, new Set([...(resolved.get(name) ?? []), ...versions]));
       const graph: DependencyGraph = new Map(rootLock.graph);
@@ -535,7 +623,7 @@ export class NpmDetector implements Detector {
       });
     }
 
-    return findings;
+    return { findings, unclassified };
   }
 }
 
