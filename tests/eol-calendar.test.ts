@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
 import type { RegistryV2Rule } from "../src/registry.js";
-import { buildCalendar, loadRules, main, renderIcs, renderMarkdown } from "../tools/eol-calendar.js";
+import { buildCalendar, loadRules, loadRulesFromBundle, main, renderAtom, renderIcs, renderMarkdown, renderRss } from "../tools/eol-calendar.js";
 
 const rule = (id: string, deadline: string | undefined, title = `Title ${id}`): RegistryV2Rule => ({
   id,
@@ -56,13 +56,76 @@ test("renders a deterministic iCalendar file with CRLF lines and all-day events"
   assert.match(ics, /UID:a\.soon@evergreen\r\n/);
 });
 
-test("the real registry loads and the command writes both files", async () => {
+test("renders a deterministic RSS 2.0 feed with escaped entities and item metadata", () => {
+  const calendar = buildCalendar([rule("a.soon", "2026-11-12", "Ends <soon> & 'really'")], "2026-10-16");
+  const rss = renderRss(calendar);
+  assert.equal(rss, renderRss(calendar));
+  assert.ok(rss.startsWith('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"'));
+  assert.ok(rss.endsWith("</rss>\n"));
+  assert.match(rss, /<title>Evergreen Lifecycle Calendar<\/title>/);
+  assert.match(rss, /<lastBuildDate>Fri, 16 Oct 2026 00:00:00 GMT<\/lastBuildDate>/);
+  assert.match(rss, /<title>Ends &lt;soon&gt; &amp; &apos;really&apos;<\/title>/);
+  assert.match(rss, /<guid isPermaLink="false">a\.soon@evergreen<\/guid>/);
+  assert.match(rss, /<pubDate>Thu, 12 Nov 2026 00:00:00 GMT<\/pubDate>/);
+  assert.match(rss, /<category>demo<\/category>/);
+});
+
+test("renders a deterministic Atom 1.0 feed with author, entries, and categories", () => {
+  const calendar = buildCalendar([rule("a.soon", "2026-11-12", "Ends <soon> & 'really'")], "2026-10-16");
+  const atom = renderAtom(calendar);
+  assert.equal(atom, renderAtom(calendar));
+  assert.ok(atom.startsWith('<?xml version="1.0" encoding="UTF-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">'));
+  assert.ok(atom.endsWith("</feed>\n"));
+  assert.match(atom, /<title>Evergreen Lifecycle Calendar<\/title>/);
+  assert.match(atom, /<updated>2026-10-16T00:00:00Z<\/updated>/);
+  assert.match(atom, /<author>\s*<name>Evergreen<\/name>\s*<\/author>/);
+  assert.match(atom, /<title>Ends &lt;soon&gt; &amp; &apos;really&apos;<\/title>/);
+  assert.match(atom, /<id>urn:evergreen:rule:a\.soon<\/id>/);
+  assert.match(atom, /<updated>2026-11-12T00:00:00Z<\/updated>/);
+  assert.match(atom, /<category term="demo"\/>/);
+});
+
+test("loads rules from a data bundle file", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-bundle-"));
+  try {
+    const bundlePath = join(directory, "bundle.json");
+    const fakeBundle = {
+      manifest: { schemaVersion: "evergreen.data-bundle.v1" },
+      files: {
+        "registry/demo.json": {
+          schemaVersion: "evergreen.registry.v2",
+          ecosystem: "demo",
+          rules: [rule("b.bundle", "2026-12-01", "Bundle rule")],
+        },
+      },
+    };
+    await writeFile(bundlePath, JSON.stringify(fakeBundle));
+    const loaded = await loadRulesFromBundle(bundlePath);
+    assert.equal(loaded.length, 1);
+    assert.equal(loaded[0]!.id, "b.bundle");
+
+    const loadedViaSource = await loadRules(bundlePath);
+    assert.equal(loadedViaSource.length, 1);
+    assert.equal(loadedViaSource[0]!.id, "b.bundle");
+
+    const outDir = join(directory, "out");
+    assert.equal(await main(["--bundle", bundlePath, "--today", "2026-10-16", "--out-dir", outDir]), 0);
+    assert.match(await readFile(join(outDir, "eol-calendar.rss"), "utf8"), /<title>Bundle rule<\/title>/);
+    assert.match(await readFile(join(outDir, "eol-calendar.atom"), "utf8"), /<title>Bundle rule<\/title>/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("the real registry loads and the command writes all calendar and feed files", async () => {
   assert.ok((await loadRules()).length > 100);
   const directory = await mkdtemp(join(tmpdir(), "evergreen-calendar-"));
   try {
     assert.equal(await main(["--today", "2026-10-16", "--out-dir", directory]), 0);
     assert.match(await readFile(join(directory, "eol-calendar.md"), "utf8"), /^# Lifecycle calendar/);
     assert.match(await readFile(join(directory, "eol-calendar.ics"), "utf8"), /^BEGIN:VCALENDAR/);
+    assert.match(await readFile(join(directory, "eol-calendar.rss"), "utf8"), /^<\?xml version="1.0" encoding="UTF-8"\?>\n<rss/);
+    assert.match(await readFile(join(directory, "eol-calendar.atom"), "utf8"), /^<\?xml version="1.0" encoding="UTF-8"\?>\n<feed/);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
