@@ -1,0 +1,9 @@
+name: CI
+jobs:
+  test:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: "actions/setup-node@v4" # old runtime
+      - uses: actions/cache@v4.2.0
+      - uses: actions/upload-artifact@v6
+      - uses: actions/checkout@0123456789abcdef0123456789abcdef01234567 # v4.1.1
