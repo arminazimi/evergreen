@@ -1,3 +1,4 @@
+{% raw %}
 # Kubernetes APIs
 
 The `kubernetes` detector reports API versions that the Kubernetes project says are no longer served, as declared in manifests, Helm chart templates, and kustomizations, and Helm chart dependencies that still point at the retired stable or incubator chart repositories. It is **beta**: its level is recorded as `beta` in `benchmarks/thresholds.json`, and the precision floor is enforced on the [public corpus](../VALIDATION.md#kubernetes-corpus) (seventeen repositories, twelve chosen blind). The evidence required for `beta` is in [Decision 0013](../decisions/0013-detector-maturity.md). The reasoning for API detection is in [Decision 0008](../decisions/0008-kubernetes-detector.md).
@@ -65,3 +66,4 @@ The rules are in `registry/kubernetes.json` and ship in the [data bundle](../DAT
 ## Validation
 
 Seventeen public repositories at pinned commits cover this detector: five targeted and twelve chosen blind by the rule in [Validation](../VALIDATION.md#kubernetes-blind-selection). Every expected finding has a `maintainer-review` note naming the path and line. Recall was checked by hand over the blind repositories by searching every YAML file for removed `apiVersion` values and comparing the hits with the report. The hits not reported are the forms this page lists as not judged: `kind: List` items, references below the top level of a document (a Flagger `autoscalerRef`), and files under `fixtures`, `testdata`, and similar skipped directories.
+{% endraw %}

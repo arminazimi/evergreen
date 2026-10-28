@@ -1,3 +1,4 @@
+{% raw %}
 # 0014 — Detect retired CI runner images
 
 Status: accepted
@@ -84,3 +85,4 @@ GitLab lifecycle coverage may be proposed separately only with an official GitLa
 - Future-dated retirements are low-severity scheduled findings until the date passes and a reviewed data update promotes the rule; scan output remains deterministic for a fixed bundle.
 - The detector starts at `experimental` with `stable: false`, as required by [decision 0013](0013-detector-maturity.md). It is not Beta or Supported. Promotion requires the independent corpus evidence defined there.
 - Fixtures and each parser are separate issues, followed by curated rules, importer, detector wiring, migration guidance, and docs. The detector skeleton must be generated with the repository's `new-detector` command, not copied by hand.
+{% endraw %}

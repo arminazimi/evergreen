@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import { buildLlmsFull, indexedPages, renderLlmsFull, SITE, stripFrontMatter } from "../tools/build-llms-full.js";
+import { buildLlmsFull, indexedPages, renderLlmsFull, SITE, stripFrontMatter, stripLiquidRaw } from "../tools/build-llms-full.js";
 
 const execute = promisify(execFile);
 const read = (path: string) => readFile(resolve(path), "utf8");
@@ -51,7 +51,7 @@ test("the full file has every linked page, in order, without Jekyll front matter
   assert.doesNotMatch(full, /\r/);
   assert.ok(full.endsWith("\n") && !full.endsWith("\n\n"));
   for (const page of indexedPages(index)) {
-    const heading = stripFrontMatter(await read(`docs/${page.file}`)).trim().split("\n")[0]!;
+    const heading = stripLiquidRaw(stripFrontMatter(await read(`docs/${page.file}`))).trim().split("\n")[0]!;
     assert.ok(full.includes(`\n${heading}\n`), `${page.file}'s first line is in the full file`);
   }
   assert.ok(full.length > 50_000);

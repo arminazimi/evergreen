@@ -36,6 +36,11 @@ export function stripFrontMatter(text: string): string {
   return text.startsWith("---\n") ? text.slice(text.indexOf("\n---\n", 4) + 5).replace(/^\n+/, "") : text;
 }
 
+/** Drops the `{% raw %}` guards that keep Jekyll from reading `{{ }}` in examples as Liquid. */
+export function stripLiquidRaw(text: string): string {
+  return text.replace(/^\{% (?:end)?raw %\}\r?\n/gm, "");
+}
+
 export function buildLlmsFull(index: string, pages: ReadonlyMap<string, string>): string {
   const parts = [
     "# Evergreen: full documentation",
@@ -46,7 +51,7 @@ export function buildLlmsFull(index: string, pages: ReadonlyMap<string, string>)
   for (const page of indexedPages(index)) {
     const body = pages.get(page.file);
     if (body === undefined) throw new Error(`docs/llms.txt links to ${page.url}, but docs/${page.file} does not exist.`);
-    parts.push("---", "", `Source: ${page.url}`, "", stripFrontMatter(body).replaceAll("\r\n", "\n").trim(), "");
+    parts.push("---", "", `Source: ${page.url}`, "", stripLiquidRaw(stripFrontMatter(body)).replaceAll("\r\n", "\n").trim(), "");
   }
   return `${parts.join("\n").trimEnd()}\n`;
 }

@@ -1,3 +1,4 @@
+{% raw %}
 # 0008 — Detect removed and deprecated Kubernetes APIs in manifests, Helm charts, and kustomizations
 
 Status: accepted
@@ -99,3 +100,4 @@ Malformed: a valid document followed by a broken one, tab indentation, a NUL byt
 - A kind removed in different releases for different versions needs several small rules. That cost is accepted so each rule states one checkable fact.
 - The version translation is a convention of Evergreen's registry, documented here and used by the detector, the importers, and the rules. It is not a general Kubernetes version scheme.
 - Adding the detector means adding the scaffolded files and two registrations (`src/detectors/index.ts` and `BUNDLED_ECOSYSTEMS` in `src/data-bundle.ts`), as described in [DETECTORS.md](../DETECTORS.md).
+{% endraw %}

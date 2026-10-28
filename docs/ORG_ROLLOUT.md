@@ -1,3 +1,4 @@
+{% raw %}
 # Organization rollout
 
 Evergreen ships a reusable workflow, [`.github/workflows/org-scan.yml`](../.github/workflows/org-scan.yml), that one repository in an organization calls to scan every repository in the same organization. It lists the organization's repositories with a read-only token, scans each one in a matrix with bounded concurrency through the first-party Evergreen Action (pinned inside the workflow, so the Action version follows the workflow tag you call), and uploads one JSON report artifact per repository. Scans stay local: the Action reads the checked-out repository and bundled data only, and makes no network requests.
@@ -93,3 +94,4 @@ npx evergreen-deprecation baseline . --output .evergreen-baseline.json
 - **Reviewed, never silent.** A rollout starts as a printed plan; opening pull requests is a deliberate `--apply`. Closing a pull request opts that repository out.
 - **Idempotent in review.** Re-running the dry run after some merges only plans the repositories still missing the workflow.
 - **Failures are reported, not hidden.** A repository that cannot take its pull request (no token, branch conflict) is listed at the end with its GitHub API error and the run exits nonzero; the rest still complete.
+{% endraw %}

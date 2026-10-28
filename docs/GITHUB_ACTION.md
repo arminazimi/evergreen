@@ -1,3 +1,4 @@
+{% raw %}
 # GitHub Action
 
 Evergreen's reusable Action scans the checked-out repository locally, emits GitHub annotations for findings, compares against an optional baseline, enforces a severity gate, and uploads the versioned JSON result.
@@ -305,3 +306,4 @@ Output is deterministic: rules and results are sorted, paths are repository-rela
 JSON, text, annotations, and SARIF are renderings of the same findings. A finding suppressed by a baseline is absent from all of them.
 
 **Privacy.** SARIF contains no source code: only file paths, line numbers, and Evergreen's own rule text and evidence links. It is uploaded only when `upload-sarif` is `true`, and then only to GitHub code scanning in the same repository. Nothing is sent to an Evergreen service.
+{% endraw %}
