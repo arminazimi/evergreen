@@ -13,6 +13,7 @@ import { analyzeSourceUsage } from "../../source-usage.js";
 import { versContains } from "../../vers/index.js";
 import { jdkRuleVersion } from "./jdk-version.js";
 import type { DependencyDeclaration, DynamicJdkDeclaration, JdkDeclaration } from "./jdk-version.js";
+import { parseCatalog } from "./parse-catalog.js";
 import { parseGradle } from "./parse-gradle.js";
 import { parseJavaVersion, parseSdkmanrc, parseToolVersions } from "./parse-pins.js";
 import { MAXIMUM_INPUT_BYTES, parsePom } from "./parse-pom.js";
@@ -38,6 +39,7 @@ const PARSERS = new Map<string, Parser>([
   ["pom.xml", parsePom],
   ["build.gradle", parseGradle],
   ["build.gradle.kts", parseGradle],
+  ["libs.versions.toml", parseCatalog],
   [".java-version", parseJavaVersion],
   [".sdkmanrc", parseSdkmanrc],
   [".tool-versions", parseToolVersions],
@@ -91,7 +93,7 @@ export class JavaDetector implements Detector {
   readonly id = "java";
   /** The files `scan` may read; conformance fails a scan that reads another. */
   readonly inputs: DetectorInputs = {
-    fileNames: ["pom.xml", "build.gradle", "build.gradle.kts", ".java-version", ".sdkmanrc", ".tool-versions"],
+    fileNames: ["pom.xml", "build.gradle", "build.gradle.kts", "libs.versions.toml", ".java-version", ".sdkmanrc", ".tool-versions"],
     sourceExtensions: [".java", ".kt"],
   };
 

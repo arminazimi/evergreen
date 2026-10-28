@@ -63,6 +63,8 @@ test("java passes detector conformance on every fixture", async () => {
         name: "java positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: await Promise.all([
+          expected("java.maven.spring-boot.legacy-2x.end-of-support", "gradle-catalog/gradle/libs.versions.toml", 5, "org.springframework.boot:spring-boot:2.7.18"),
+          expected("java.maven.org.hibernate.hibernate-entitymanager.relocated", "gradle-catalog/gradle/libs.versions.toml", 6, "org.hibernate:hibernate-entitymanager:6.0.0.Alpha7"),
           expected(R18_20, "gradle-groovy/build.gradle", 8, `JDK 20, ${TOOLCHAIN},`),
           expected(R18_20, "gradle-groovy/build.gradle", 10, `JDK 19, ${COMPILE},`, "medium"),
           expected(R18_20, "gradle-groovy/build.gradle", 11, `JDK 18, ${COMPILE},`, "medium"),
@@ -200,4 +202,22 @@ test("Spring Boot findings produce a migration packet with upgrade guidance", as
   assert.ok(packet.affectedFiles.includes("spring-boot/pom.xml"));
   assert.ok(packet.steps.some((step) => step.id === "update-spring-boot-version"));
   assert.ok(packet.verification.some((check) => check.command.startsWith("./mvnw -B verify")));
+});
+
+test("a deprecated library declared only in the version catalog produces a finding attributed to the catalog line", async () => {
+  const root = await repository({
+    "gradle/libs.versions.toml": [
+      "[versions]",
+      'mysqlVersion = "8.0.33"',
+      "",
+      "[libraries]",
+      'mysql-connector = { group = "mysql", name = "mysql-connector-java", version.ref = "mysqlVersion" }',
+    ].join("\n") + "\n",
+  });
+  const findings = await javaDetector.scan({ root });
+  assert.equal(findings.length, 1);
+  assert.equal(findings[0]!.ruleId, "java.maven.mysql.mysql-connector-java.relocated");
+  assert.equal(findings[0]!.location.path, "gradle/libs.versions.toml");
+  assert.equal(findings[0]!.location.line, 5);
+  assert.equal(findings[0]!.severity, "medium");
 });

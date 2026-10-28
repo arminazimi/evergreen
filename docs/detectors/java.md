@@ -8,6 +8,7 @@ The `java` detector reports JDK feature releases that are out of support, as pin
 | --- | --- |
 | `pom.xml` | the `maven.compiler.release`, `maven.compiler.source`, `maven.compiler.target`, and `java.version` properties; `release`, `source`, and `target` in a `maven-compiler-plugin` configuration; direct `<dependency>` entries with a literal version |
 | `build.gradle`, `build.gradle.kts` | toolchain `languageVersion` (`JavaLanguageVersion.of(N)`, `jvmToolchain(N)`); `sourceCompatibility` and `targetCompatibility`; string-notation dependencies such as `implementation("g:a:v")` |
+| `gradle/libs.versions.toml` | `[libraries]` entries with a literal `version` or a `version.ref` resolved from `[versions]` |
 | `.java-version`, `.sdkmanrc`, `.tool-versions` | the pinned JDK (`java=` in `.sdkmanrc`, the `java` entry in `.tool-versions`) |
 
 It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.gradle`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata`. Files over 1 MiB are skipped. Gradle scripts are never evaluated and `mvn`, `gradle`, and the wrappers are never run.
@@ -28,7 +29,7 @@ These produce no finding and are not guessed:
 - **Dynamic JDK values** are listed as [unclassified references](../DETECTORS.md#unclassified-references) with file and line: a Maven `${property}`, a version catalog entry, `JavaVersion.toVersion(x)`, a project or `ext` property, a convention plugin, and `latest` or `system`.
 - **The vendor**: `temurin-22`, `22-tem`, and `22` are the same release. Only facts that hold across distributions are used.
 - **Gradle, Kotlin, and Maven plugin versions** are read as evidence (the wrapper's `distributionUrl`, the Kotlin plugin version) but no rule uses them: no listed source states when they stop being supported, and the Gradle compatibility matrix is about compatibility.
-- Version catalogs (`gradle/libs.versions.toml`), `buildSrc`, `settings.gradle`, Maven profiles, parent POMs, `<dependencyManagement>`, dependency versions given as properties, and transitive dependencies.
+- `buildSrc`, `settings.gradle`, Maven profiles, parent POMs, `<dependencyManagement>`, dependency versions given as properties, version catalog entries that use property interpolation or multi-line tables, and transitive dependencies.
 - A file with a syntax error: an unclosed XML tag, a `DOCTYPE` or entity in a POM, or an unterminated comment or string in a Gradle script yields nothing, including the declarations before the error.
 
 ## Known limits and false-positive boundaries
