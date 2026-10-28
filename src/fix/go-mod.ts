@@ -3,7 +3,6 @@ import { basename, dirname, isAbsolute, relative, resolve } from "node:path";
 
 import semver from "semver";
 
-import { renderDiff } from "../agent-instructions.js";
 import { parseGoMod } from "../detectors/go/parse-go-mod.js";
 import type { FilePatch, Fixer } from "./index.js";
 
@@ -81,13 +80,24 @@ export const goModFixer: Fixer = {
       if (!floor || semver.gt(floor, normalized) || toolchain.some((item) => !version(item.value.replace(/^go/, "")))) continue;
       if (!await compatibleDependencies(result.root, absolute, before, normalized)) continue;
       const lines = new Set(declarations.filter((item) => item.kind !== "require").map((item) => item.line));
-      const after = before.split("\n").map((line, index) => {
+      const edits = new Map<number, string>();
+      const text = before.slice(0, -1).split("\n");
+      text.forEach((line, index) => {
         const match = lines.has(index + 1) && DIRECTIVE.exec(line);
         const current = match && version(match[3]!.replace(/^go/, ""));
-        if (!match || !current || !semver.lt(current, normalized)) return line;
-        return `${match[1]}${match[2] === "toolchain" ? "go" : ""}${normalized}${match[4]}`;
-      }).join("\n");
-      if (after !== before) patches.push({ path, diff: renderDiff(path, before.slice(0, -1), after.slice(0, -1)) });
+        if (!match || !current || !semver.lt(current, normalized)) return;
+        const after = `${match[1]}${match[2] === "toolchain" ? "go" : ""}${normalized}${match[4]}`;
+        edits.set(index, after);
+      });
+      if (!edits.size) continue;
+      const start = Math.max(0, Math.min(...edits.keys()) - 2);
+      const end = Math.min(text.length, Math.max(...edits.keys()) + 3);
+      // Intervening declarations are context, never removed and re-added.
+      const hunk = text.slice(start, end).flatMap((line, offset) => {
+        const after = edits.get(start + offset);
+        return after === undefined ? [` ${line}`] : [`-${line}`, `+${after}`];
+      });
+      patches.push({ path, diff: [`--- a/${path}`, `+++ b/${path}`, `@@ -${start + 1},${end - start} +${start + 1},${end - start} @@`, ...hunk].join("\n") });
     }
     return patches;
   },

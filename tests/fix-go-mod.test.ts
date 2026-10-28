@@ -24,7 +24,7 @@ async function fix(root: string): Promise<string> {
 }
 
 test("raises only Go directive values, preserves formatting, and produces an applicable, idempotent patch", async (t) => {
-  const before = "module example.com/app\n\ngo\t1.24.3 // floor\ntoolchain go1.25.1 // builder\n\nrequire example.com/dep v1.0.0 // indirect\n";
+  const before = "module example.com/app\n\ngo\t1.24.3 // floor\n\nrequire example.com/dep v1.0.0 // indirect\n\ntoolchain go1.25.1 // builder\n";
   const root = await repository(t, {
     "go.mod": before,
     "go.sum": "unchanged\n",
