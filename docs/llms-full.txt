@@ -1765,6 +1765,24 @@ This example adds a rule for `fs.exists`, which Node.js documents as deprecated 
    Cover at least one reported usage per shape the rule declares, one alias, and the lookalikes above. A lookalike that the analysis reports is a bug in the rule or the analysis; fix it before the rule merges.
 7. **Check it.** Run `npm run check`. It validates the rule against the schema, including every symbol entry, and fails when the reference pages under `docs/rules/` have drifted (run `npm run build:reference` to regenerate them). Open the pull request with `Closes #<issue>` and link the deprecation notice.
 
+### Test a rule
+
+A rule ships with two fixtures, and the harness runs them without any test code:
+
+```
+tests/fixtures/<rule-id>/match/   # a small repository the rule must report
+tests/fixtures/<rule-id>/clean/   # a lookalike repository the rule must not report
+```
+
+Both directories are scanned offline as untrusted input, exactly like a repository. The `match` fixture must observe the rule and `clean` must not. A rule is observed when a detector reports it or, for a rule with `usage` matchers, when the usage analysis finds a match; a rule without both directories fails.
+
+```bash
+evergreen rules test <rule-id>          # exits 1 when a fixture fails and prints the expected and actual observations
+evergreen rules lint [file...]          # checks schema, dates, source URLs, and duplicate ids with a fix hint
+```
+
+Keep fixtures tiny and give each one only the files its detector reads. The fixtures are also the reviewable evidence that the rule matches what you say it matches; when the detector or the rule changes, update them in the same pull request.
+
 ### Provenance
 
 Provenance makes a rule auditable.
