@@ -41,6 +41,7 @@ import { DiffError, diffRefs, renderDiffText } from "./diff.js";
 import { groupScanByOwner, renderOwnerGroupsText } from "./codeowners.js";
 import { RollupError, renderRollupHtml, renderRollupText, rollupFiles } from "./rollup.js";
 import { defaultRuleFiles, lintRuleFiles, renderRuleLintText } from "./rule-lint.js";
+import { findRule, renderRuleTestText, RuleTestError, testRule } from "./rule-test.js";
 import { buildRenovatePreset } from "./renovate-preset.js";
 import { buildDependabotConfig } from "./dependabot-config.js";
 import { diagnoseEnvironment, renderDoctorText } from "./doctor.js";
@@ -106,6 +107,7 @@ Usage:
   evergreen setup [path] [--yes] [--dry-run]
   evergreen new-detector <id> [--ecosystem <slug>]
   evergreen rules lint [file...]   # check lifecycle rules for problems before CI does; exits 1 on any problem
+  evergreen rules test <id>... [--fixtures <dir>]   # run rules against fixtures/<id>/match and fixtures/<id>/clean
   evergreen data update [--data-version <version>] [--json]
   evergreen explain <finding-id> [path] [--json]
   evergreen context <finding-id> [path] [--json]
@@ -447,18 +449,42 @@ async function newDetector(args: string[]): Promise<number> {
 
 /** `rules lint`: checks registry files and reports every problem with its line and a fix hint. */
 async function rules(args: string[]): Promise<number> {
-  const usage = "Usage: evergreen rules lint [file...]";
+  const usage = "Usage: evergreen rules lint [file...] | evergreen rules test <id>... [--fixtures <dir>]";
   const [subcommand, ...rest] = args;
-  if (subcommand !== "lint" || rest.some((argument) => argument.startsWith("-"))) return fail("usage", usage);
-  let files: string[];
-  try {
-    files = rest.length > 0 ? rest : await defaultRuleFiles();
-  } catch (error) {
-    return fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+  if (subcommand === "lint") {
+    if (rest.some((argument) => argument.startsWith("-"))) return fail("usage", "Usage: evergreen rules lint [file...]");
+    let files: string[];
+    try {
+      files = rest.length > 0 ? rest : await defaultRuleFiles();
+    } catch (error) {
+      return fail("usage", `No registry directory here (${(error as Error).message}). Run evergreen rules lint from the repository root, or pass rule files.`);
+    }
+    const result = await lintRuleFiles(files);
+    process.stdout.write(`${renderRuleLintText(result)}\n`);
+    return result.issues.length === 0 ? 0 : EXIT_CODES.policy;
   }
-  const result = await lintRuleFiles(files);
-  process.stdout.write(`${renderRuleLintText(result)}\n`);
-  return result.issues.length === 0 ? 0 : EXIT_CODES.policy;
+  if (subcommand === "test") {
+    const fixturesIndex = rest.indexOf("--fixtures");
+    const fixturesValueIndex = fixturesIndex === -1 ? -1 : fixturesIndex + 1;
+    const fixtures = fixturesIndex === -1 ? undefined : rest[fixturesValueIndex];
+    const ids = [...new Set(rest.filter((argument, index) => !argument.startsWith("-") && index !== fixturesValueIndex))];
+    const unknown = rest.filter((argument, index) => argument.startsWith("-") && !(argument === "--fixtures" && index === fixturesIndex));
+    if (unknown.length > 0 || ids.length === 0 || (fixturesIndex !== -1 && (fixtures === undefined || fixtures.startsWith("-")))) return fail("usage", usage);
+    try {
+      const outcomes = [];
+      for (const id of ids) {
+        const rule = await findRule(id);
+        if (rule === undefined) throw new RuleTestError(`No rule with id "${id}" in registry/.`);
+        outcomes.push(await testRule(rule, fixtures === undefined ? {} : { fixturesDirectory: fixtures }));
+      }
+      process.stdout.write(`${renderRuleTestText(outcomes)}\n`);
+      return outcomes.every((outcome) => outcome.passed) ? 0 : EXIT_CODES.policy;
+    } catch (error) {
+      if (error instanceof RuleTestError) return fail("usage", error.message);
+      throw error;
+    }
+  }
+  return fail("usage", usage);
 }
 
 /** `watch`: keeps a list of projects and prints only the findings that are new since the last digest. */

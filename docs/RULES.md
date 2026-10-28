@@ -288,6 +288,29 @@ Beyond the schema, validation checks that:
 
 Supported version schemes are `semver`, `npm`, `cargo`, `golang`, `composer` (Semantic Versioning), `pypi` (PEP 440), `maven`, `nuget`, `gem`, and `intdot`.
 
+## Linting and testing a rule
+
+Run the linter before you push:
+
+```bash
+evergreen rules lint
+```
+
+With no file arguments it checks every registry under `registry/`; pass files to narrow the run. It checks the schema, date order, https source URLs, ids duplicated within or across registry files, and replacements that name an unknown rule id. Every problem names its `file:line`, the rule, and a fix hint, and the command exits 1 when it finds any.
+
+A rule ships with a positive and a negative fixture under `fixtures/<id>/`:
+
+- `match/` is a small project that must produce at least one finding for the rule.
+- `clean/` is a small project that must produce none.
+
+Run the harness for the rules you changed:
+
+```bash
+evergreen rules test npm.package.request.deprecated
+```
+
+The harness fails, naming the rule, when a directory is missing, `match/` produces no finding, or `clean/` produces one, and prints the expected result with the actual findings. It scans offline with the bundled data, like every other scan; `--fixtures <dir>` points it at a different fixtures directory. The example above ships in [`fixtures/npm.package.request.deprecated/`](../fixtures/npm.package.request.deprecated/).
+
 ## Freshness and sources
 
 Scans never check freshness and never use the network, so results stay deterministic. A weekly workflow, [`.github/workflows/sources.yml`](../.github/workflows/sources.yml), runs `tools/check-sources.ts` and reports, separately:
