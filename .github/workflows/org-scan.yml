@@ -11,11 +11,6 @@ on:
         required: false
         default: ""
         type: string
-      evergreen-version:
-        description: Version of the first-party Evergreen Action used to scan each repository.
-        required: false
-        default: v0.7.1
-        type: string
       fail-on-severity:
         description: Lowest severity that fails a scan job (none, info, low, medium, high, or critical).
         required: false
@@ -39,11 +34,6 @@ on:
         description: GitHub organization to scan. Defaults to the owner of this repository.
         required: false
         default: ""
-        type: string
-      evergreen-version:
-        description: Version of the first-party Evergreen Action used to scan each repository.
-        required: false
-        default: v0.7.1
         type: string
       fail-on-severity:
         description: Lowest severity that fails a scan job (none, info, low, medium, high, or critical).
@@ -83,7 +73,7 @@ jobs:
   scan:
     name: scan ${{ matrix.repo }}
     needs: list
-    if: ${{ fromJSON(needs.list.outputs.repositories) | length > 0 }}
+    if: ${{ needs.list.outputs.repositories != '[]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -97,7 +87,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: ${{ needs.list.outputs.organization }}/${{ matrix.repo }}
-      - uses: arminazimi/evergreen@${{ inputs.evergreen-version }}
+      - uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
         with:
           fail-on-severity: ${{ inputs.fail-on-severity }}
           report-name: evergreen-report-${{ matrix.repo }}

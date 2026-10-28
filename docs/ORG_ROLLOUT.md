@@ -1,6 +1,6 @@
 # Organization rollout
 
-Evergreen ships a reusable workflow, [`.github/workflows/org-scan.yml`](../.github/workflows/org-scan.yml), that one repository in an organization calls to scan every repository in the same organization. It lists the organization's repositories with a read-only token, scans each one in a matrix with bounded concurrency through the first-party Evergreen Action, and uploads one JSON report artifact per repository. Scans stay local: the Action reads the checked-out repository and bundled data only, and makes no network requests.
+Evergreen ships a reusable workflow, [`.github/workflows/org-scan.yml`](../.github/workflows/org-scan.yml), that one repository in an organization calls to scan every repository in the same organization. It lists the organization's repositories with a read-only token, scans each one in a matrix with bounded concurrency through the first-party Evergreen Action (pinned inside the workflow, so the Action version follows the workflow tag you call), and uploads one JSON report artifact per repository. Scans stay local: the Action reads the checked-out repository and bundled data only, and makes no network requests.
 
 ## Calling the workflow
 
@@ -33,7 +33,6 @@ Run it on a schedule, dispatch it manually, or gate your own workflow on it with
 | Input | Default | Meaning |
 | --- | --- | --- |
 | `organization` | callers repository owner | The GitHub organization to scan. It must be an organization; user accounts are not supported. |
-| `evergreen-version` | `v0.7.1` | The version of the first-party Evergreen Action used to scan each repository. Moving it forward is a one-line change in the caller. |
 | `fail-on-severity` | `high` | Lowest severity that fails one repository's scan job: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
 | `max-jobs` | `10` | Maximum number of repositories scanned in parallel. Concurrency stays bounded while the matrix scales with the repository count. |
 
