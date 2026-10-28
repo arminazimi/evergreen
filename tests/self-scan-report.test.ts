@@ -5,7 +5,7 @@ import { test } from "node:test";
 
 const directory = resolve("reports");
 
-test("each monthly self-scan report is named by month and has counts and outcomes", async () => {
+test("each monthly self-scan report is named by month and has counts, outcomes, and other repositories", async () => {
   const reports = (await readdir(directory)).filter((name) => name !== "README.md");
   assert.ok(reports.length > 0, "the first monthly report is published");
   for (const name of reports) {
@@ -14,6 +14,7 @@ test("each monthly self-scan report is named by month and has counts and outcome
     assert.match(text, /^# Self-scan report: \d{4}-\d{2}$/m, name);
     assert.match(text, /^## Counts$/m, name);
     assert.match(text, /^## Outcomes$/m, name);
+    assert.match(text, /^## Other repositories$/m, name);
     assert.match(text, /\| Findings \| \d+ \|/, name);
   }
 });
