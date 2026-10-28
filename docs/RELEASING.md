@@ -19,8 +19,21 @@ Every gate must pass on the commit you will tag. None of them is optional.
 | Public corpus | `npm run validate:public-repos` | Exact findings on every pinned public repository, and each detector's precision above its floor in `benchmarks/thresholds.json`. Needs network. |
 | Source freshness | `npm run check:sources` | No rule is stale and no source has moved or disappeared. Needs network. Review anything it reports before releasing. |
 | Package contents | `npm pack --dry-run` | Only `dist/src`, `examples`, `registry`, `schemas`, and `skills` ship; `registry/sources.lock.json` does not. |
+| Reproducible package | `npm run check:reproducible` | Two clean builds of the same commit pack to byte-identical npm tarballs. The release workflow runs the same check and fails on a mismatch. |
 
 The last weekly runs of the corpus and source-freshness workflows should also be green. If either is red, fix or explain it before tagging.
+
+## Verifying a published release
+
+The package is reproducible: rebuilding the tagged commit packs the same tarball, byte for byte, so anyone can check that a published version was built from its source. On any machine with Node.js 22 or newer:
+
+```bash
+git clone --branch vX.Y.Z --depth 1 https://github.com/arminazimi/evergreen
+cd evergreen
+npm ci && npm run check:reproducible
+```
+
+The printed SHA-256 must match the tarball npm serves for the version, which you can download and hash separately with `npm pack evergreen-deprecation@X.Y.Z` in an empty directory and `shasum -a 256 evergreen-deprecation-X.Y.Z.tgz`. npm normalizes the tar metadata (uid, gid, and mtimes) when packing, so the bytes depend on the shipped file contents only; a mismatch means the build is nondeterministic, and the check keeps both tarballs for diffing.
 
 ## One-time npm setup
 

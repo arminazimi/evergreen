@@ -168,6 +168,27 @@ jobs:
       - name: Compare the summaries
         run: node .github/scripts/release-smoke.mjs "$RUNNER_TEMP/built.json" "$RUNNER_TEMP/published.json"
 
+  reproducible:
+    # The published tarball must be rebuildable from the source, byte for byte. This job builds the
+    # release commit twice, each from a clean dist, and fails the release when the packed tarballs
+    # differ in one byte (npm run check:reproducible). npm pack normalizes the tar metadata (uid, gid,
+    # and mtimes), so a difference means the shipped file contents themselves are nondeterministic.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check:reproducible --silent
+
   quickstart:
     # The README quickstart must work from what users install, not from a local build. This job runs the commands of
     # tests/quickstart.md with the published package on the three release platforms and fails when any output differs
