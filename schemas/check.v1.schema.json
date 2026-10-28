@@ -39,10 +39,11 @@
             "items": {
               "type": "object",
               "required": ["title", "url"],
+              "additionalProperties": false,
               "properties": { "title": { "type": "string" }, "url": { "type": "string", "pattern": "^https://" }, "accessedAt": { "type": "string" } }
             }
           },
-          "migration": { "type": "object" }
+          "migration": { "$ref": "scan.v1.schema.json#/properties/findings/items/properties/migration" }
         }
       }
     }

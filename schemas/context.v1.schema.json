@@ -61,6 +61,42 @@
           "purpose": { "type": "string" }
         }
       }
+    },
+    "upgradePath": {
+      "type": "object",
+      "required": ["from", "skipped", "target"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "$ref": "#/$defs/upgradeLine" },
+        "skipped": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/upgradeLine" }
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "versions": { "type": "string" },
+            "title": { "type": "string" },
+            "endsOn": { "type": "string" },
+            "replacement": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "upgradeLine": {
+      "type": "object",
+      "required": ["ruleId", "versions", "title", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "ruleId": { "type": "string" },
+        "versions": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "enum": ["ended", "ending-soon"] },
+        "endsOn": { "type": "string" }
+      }
     }
   }
 }

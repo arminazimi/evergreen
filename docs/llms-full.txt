@@ -936,6 +936,29 @@ added in a compatible v1 minor manifest update. Removing or redefining an existi
 identifier, changing required field meaning or status vocabulary, or weakening the
 rules above requires a new schema major version.
 
+## JSON output schemas and policy for adding fields
+
+Every command supporting `--json` (or `--format json`) produces output that strictly conforms
+to its published JSON Schema in `schemas/*.v1.schema.json` (such as `scan.v1.schema.json`,
+`check.v1.schema.json`, `finding.v1.schema.json`, `context.v1.schema.json`,
+`doctor.v1.schema.json`, and `data-status.v1.schema.json`).
+
+Because scripts, agents, and CI automations depend on exact JSON structures,
+Evergreen locks all published schemas with strict contract tests:
+
+1. **Strict property validation:** Output schemas enforce `additionalProperties: false`
+   across all object definitions. CLI output must not contain properties undeclared in the schema.
+2. **Deliberate schema updates:** Adding a field to any `--json` output is never done
+   implicitly. It requires an explicit, reviewed update to the relevant JSON Schema under
+   `schemas/`, defining the property's type, constraints, and intent.
+3. **Additive changes in v1:** New optional fields can be introduced in the current `v1`
+   major schema release without breaking backward-compatible consumers.
+4. **Breaking changes require a schema bump:** Removing existing properties, renaming
+   fields, or altering requiredness / types requires a new schema major version (such as `v2`).
+5. **Contract test enforcement:** Snapshot tests in `tests/schema-snapshots.test.ts`
+   validate real execution output for every command against its schema and assert that any
+   undeclared property triggers schema validation failure.
+
 ## Stability and privacy
 
 The command reads a packaged constant and performs no repository scan, network
