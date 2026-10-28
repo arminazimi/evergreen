@@ -1,0 +1,78 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-npmcli-move-file",
+  "latestReview": "2026-10-16",
+  "name": "move-file",
+  "namespace": "@npmcli",
+  "purl": "pkg:npm/%40npmcli/move-file",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.npmcli-move-file.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve overwrite, cross-device fallback, directory creation, permissions, error propagation, and platform-specific move behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-npmcli-move-file",
+            "instructions": "Replace the dependency and imports with the move-file functionality exposed by @npmcli/fs, adapting changed exports and options.",
+            "targets": "all",
+            "title": "Move to @npmcli/fs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run same-device, cross-device, overwrite, failure, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40npmcli/move-file",
+      "replacement": "@npmcli/fs",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@npmcli/move-file package deprecation notice",
+          "url": "https://www.npmjs.com/package/@npmcli/move-file"
+        },
+        {
+          "title": "@npmcli/move-file registry metadata",
+          "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest"
+        }
+      ],
+      "summary": "npm states that @npmcli/move-file functionality moved to @npmcli/fs.",
+      "title": "@npmcli/move-file is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@npmcli/move-file"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@npmcli/move-file"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "@npmcli/move-file"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

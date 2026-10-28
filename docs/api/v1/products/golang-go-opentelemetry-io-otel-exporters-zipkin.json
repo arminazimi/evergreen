@@ -1,0 +1,72 @@
+{
+  "ecosystems": [
+    "go"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "golang-go-opentelemetry-io-otel-exporters-zipkin",
+  "latestReview": "2026-10-20",
+  "name": "zipkin",
+  "namespace": "go.opentelemetry.io/otel/exporters",
+  "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+  "rules": [
+    {
+      "ecosystem": "go",
+      "event": "deprecated",
+      "id": "go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated",
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require go.opentelemetry.io/otel/exporters/zipkin, directly or through a replace directive.",
+          "go.opentelemetry.io/otel/exporters/zipkin names no replacement module; pick a maintained alternative or accept the risk, and record the decision."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "instructions": "Replace the go.opentelemetry.io/otel/exporters/zipkin requirement with a maintained alternative that fits how the project uses it, then run `go mod tidy`.",
+            "targets": "declaration",
+            "title": "Replace the deprecated module"
+          },
+          {
+            "id": "migrate-module-usages",
+            "instructions": "Update imports and calls of go.opentelemetry.io/otel/exporters/zipkin in the reported files to the chosen alternative.",
+            "targets": "usages",
+            "title": "Migrate imports and calls"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "go.opentelemetry.io/otel/exporters/zipkin v1.47.0 go.mod",
+          "url": "https://proxy.golang.org/go.opentelemetry.io/otel/exporters/zipkin/@v/v1.47.0.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "summary": "The latest go.opentelemetry.io/otel/exporters/zipkin module declares: \"The zipkin exporter is deprecated and will be removed in early 2027. See the blog post \"Deprecating Zipkin Exporter\": https://opentelemetry.io/blog/2025/deprecating-zipkin-exporters/\"",
+      "title": "go.opentelemetry.io/otel/exporters/zipkin is deprecated",
+      "vers": "vers:golang/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "golang"
+}

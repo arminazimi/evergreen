@@ -1,0 +1,177 @@
+{
+  "earliestDeadline": "2025-02-01",
+  "ecosystems": [
+    "database"
+  ],
+  "events": [
+    "end-of-support"
+  ],
+  "id": "generic-google-cloud-sql-postgresql",
+  "latestReview": "2026-10-26",
+  "name": "google-cloud-sql-postgresql",
+  "purl": "pkg:generic/google-cloud-sql-postgresql",
+  "rules": [
+    {
+      "deadline": "2026-02-01",
+      "ecosystem": "database",
+      "event": "end-of-support",
+      "id": "database.google-cloud-sql-postgresql.extended-support-13",
+      "migration": {
+        "constraints": [
+          "Cloud SQL moves an instance to extended support when the PostgreSQL community reaches end of life. Extended support is time-boxed to three years and is charged.",
+          "Changing database_version can upgrade the instance in place or recreate it, depending on the target. Read the plan before applying and take a backup first.",
+          "A major version upgrade cannot be reversed by changing database_version back; restore the backup instead."
+        ],
+        "steps": [
+          {
+            "id": "back-up-data",
+            "instructions": "Take an on-demand backup of every Cloud SQL for PostgreSQL 13 instance reported, before changing its major version.",
+            "targets": "all",
+            "title": "Back up the instance"
+          },
+          {
+            "id": "upgrade-instance",
+            "instructions": "Upgrade the instance to PostgreSQL 14 or later with Cloud SQL's in-place major version upgrade, or restore the backup into a new instance on the replacement major and move the application connection string.",
+            "targets": "declaration",
+            "title": "Upgrade the instance"
+          },
+          {
+            "id": "raise-declared-version",
+            "instructions": "Change database_version in every google_sql_database_instance and google_sql_source_representation_instance block that runs this database, using the POSTGRES_ prefix for the replacement major.",
+            "targets": "all",
+            "title": "Raise the declared version"
+          },
+          {
+            "id": "align-clients",
+            "instructions": "Update PostgreSQL drivers, ORMs, extensions, and any maintenance or backup automation that names PostgreSQL 13.",
+            "targets": "all",
+            "title": "Check clients and extensions"
+          }
+        ],
+        "verification": [
+          {
+            "command": "terraform validate",
+            "purpose": "Check that the Terraform configuration is valid with the new database_version."
+          },
+          {
+            "command": "terraform plan",
+            "purpose": "Review the plan and confirm the database_version change is intended and is the only instance change."
+          },
+          {
+            "command": "gcloud sql instances list --format=\"table(name,databaseVersion)\"",
+            "purpose": "Confirm each reported instance now reports a supported PostgreSQL database version."
+          },
+          {
+            "command": "docker compose config",
+            "purpose": "Confirm any local Compose service that mirrors this database is valid and uses a PostgreSQL image tag that matches the replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-26",
+        "reviewedAt": "2026-10-26",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/google-cloud-sql-postgresql",
+      "replacement": "PostgreSQL 14 or later",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-26",
+          "title": "Cloud SQL for PostgreSQL database versions and version policies",
+          "url": "https://cloud.google.com/sql/docs/postgres/db-versions"
+        },
+        {
+          "accessedAt": "2026-10-26",
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "summary": "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 13 with extended support starting 2026-02-01 and deprecation on 2029-02-01. The PostgreSQL community no longer supports 13, and Cloud SQL charges for extended support.",
+      "title": "Cloud SQL for PostgreSQL 13 is in extended support",
+      "vers": "vers:semver/>=13.0.0|<14.0.0"
+    },
+    {
+      "deadline": "2025-02-01",
+      "ecosystem": "database",
+      "event": "end-of-support",
+      "id": "database.google-cloud-sql-postgresql.extended-support-9.6-to-12",
+      "migration": {
+        "constraints": [
+          "Cloud SQL moves an instance to extended support when the PostgreSQL community reaches end of life. Extended support is time-boxed to three years and is charged from 2025-05-01.",
+          "Changing database_version can upgrade the instance in place or recreate it, depending on the target. Read the plan before applying and take a backup first.",
+          "A major version upgrade cannot be reversed by changing database_version back; restore the backup instead."
+        ],
+        "steps": [
+          {
+            "id": "back-up-data",
+            "instructions": "Take an on-demand backup of every Cloud SQL for PostgreSQL instance reported, before changing its major version.",
+            "targets": "all",
+            "title": "Back up the instance"
+          },
+          {
+            "id": "upgrade-instance",
+            "instructions": "Upgrade the instance to PostgreSQL 14 or later with Cloud SQL's in-place major version upgrade, or restore the backup into a new instance on the replacement major and move the application connection string.",
+            "targets": "declaration",
+            "title": "Upgrade the instance"
+          },
+          {
+            "id": "raise-declared-version",
+            "instructions": "Change database_version in every google_sql_database_instance and google_sql_source_representation_instance block that runs this database, using the POSTGRES_ prefix for the replacement major.",
+            "targets": "all",
+            "title": "Raise the declared version"
+          },
+          {
+            "id": "align-clients",
+            "instructions": "Update PostgreSQL drivers, ORMs, extensions, and any maintenance or backup automation that names the old major version.",
+            "targets": "all",
+            "title": "Check clients and extensions"
+          }
+        ],
+        "verification": [
+          {
+            "command": "terraform validate",
+            "purpose": "Check that the Terraform configuration is valid with the new database_version."
+          },
+          {
+            "command": "terraform plan",
+            "purpose": "Review the plan and confirm the database_version change is intended and is the only instance change."
+          },
+          {
+            "command": "gcloud sql instances list --format=\"table(name,databaseVersion)\"",
+            "purpose": "Confirm each reported instance now reports a supported PostgreSQL database version."
+          },
+          {
+            "command": "docker compose config",
+            "purpose": "Confirm any local Compose service that mirrors this database is valid and uses a PostgreSQL image tag that matches the replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-26",
+        "reviewedAt": "2026-10-26",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/google-cloud-sql-postgresql",
+      "replacement": "PostgreSQL 14 or later",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-26",
+          "title": "Cloud SQL for PostgreSQL database versions and version policies",
+          "url": "https://cloud.google.com/sql/docs/postgres/db-versions"
+        },
+        {
+          "accessedAt": "2026-10-26",
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "summary": "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12 with extended support starting 2025-02-01 and deprecation on 2028-02-01. The PostgreSQL community no longer supports those majors, and Cloud SQL charges for extended support.",
+      "title": "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support",
+      "vers": "vers:semver/>=9.6.0|<13.0.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

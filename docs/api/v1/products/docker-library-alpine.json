@@ -1,0 +1,125 @@
+{
+  "earliestDeadline": "2026-04-01",
+  "ecosystems": [
+    "container"
+  ],
+  "events": [
+    "end-of-life",
+    "scheduled-end-of-life"
+  ],
+  "id": "docker-library-alpine",
+  "latestReview": "2026-10-26",
+  "name": "alpine",
+  "namespace": "library",
+  "purl": "pkg:docker/library/alpine",
+  "rules": [
+    {
+      "deadline": "2026-04-01",
+      "ecosystem": "container",
+      "event": "end-of-life",
+      "id": "container.alpine.eol-3.20-and-older",
+      "migration": {
+        "constraints": [
+          "Keep the base image and deployment manifests that use alpine on one supported Alpine release line.",
+          "Confirm the application and its dependencies work on the target Alpine release."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-26",
+        "reviewedAt": "2026-10-26",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/alpine",
+      "replacement": "An alpine image on a supported release line",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Alpine Linux releases",
+          "url": "https://alpinelinux.org/releases/"
+        }
+      ],
+      "summary": "These Alpine Linux releases no longer receive security updates from the vendor.",
+      "title": "Alpine Linux image release lines 3.20 and older are end-of-life",
+      "vers": "vers:semver/<3.21.0"
+    },
+    {
+      "deadline": "2026-11-01",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "id": "container.alpine.eol-3.21",
+      "migration": {
+        "constraints": [
+          "Keep the base image and deployment manifests that use alpine on one supported Alpine release line.",
+          "Confirm the application and its dependencies work on the target Alpine release."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-26",
+        "reviewedAt": "2026-10-26",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/alpine",
+      "replacement": "An alpine image on a later supported release line",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Alpine Linux releases",
+          "url": "https://alpinelinux.org/releases/"
+        }
+      ],
+      "summary": "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01.",
+      "title": "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01",
+      "vers": "vers:semver/>=3.21.0|<3.22.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "docker"
+}

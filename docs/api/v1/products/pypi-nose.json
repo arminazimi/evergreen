@@ -1,0 +1,103 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-nose",
+  "latestReview": "2026-10-14",
+  "name": "nose",
+  "purl": "pkg:pypi/nose",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.nose.maintenance-only",
+      "migration": {
+        "constraints": [
+          "Choose one target test runner before editing tests and preserve discovery rules, fixtures, setup/teardown behavior, plugins, and command-line options."
+        ],
+        "steps": [
+          {
+            "id": "choose-test-runner",
+            "instructions": "Select pytest, nose2, or unittest based on the suite features and existing project tooling.",
+            "targets": "all",
+            "title": "Choose the target runner"
+          },
+          {
+            "id": "migrate-nose-usages",
+            "instructions": "Replace reported imports, runner calls, test_suite configuration, and nose-specific assertions or plugins.",
+            "targets": "usages",
+            "title": "Migrate nose usages"
+          },
+          {
+            "id": "replace-nose-dependency",
+            "instructions": "Remove nose from dependency declarations and add the selected runner and required plugins.",
+            "targets": "declaration",
+            "title": "Replace the dependency"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the migrated test suite with pytest when selected."
+          },
+          {
+            "command": "python -m unittest discover",
+            "purpose": "Check standard-library test discovery when applicable."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Check installed dependency compatibility."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-14",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/nose",
+      "replacement": "pytest, nose2, or unittest",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "nose note to users",
+          "url": "https://nose.readthedocs.io/en/latest/"
+        }
+      ],
+      "summary": "The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
+      "title": "nose is maintenance-only",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "nose"
+        },
+        {
+          "kind": "call",
+          "language": "python",
+          "module": "nose",
+          "targets": [
+            "run",
+            "main"
+          ]
+        },
+        {
+          "key": "test_suite",
+          "kind": "config-key",
+          "language": "ini",
+          "valueIncludes": "nose.collector"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "nose"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

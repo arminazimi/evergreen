@@ -1,0 +1,75 @@
+{
+  "earliestDeadline": "2020-11-13",
+  "ecosystems": [
+    "kubernetes"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "generic-helm-repository-incubator",
+  "latestReview": "2026-10-26",
+  "name": "incubator",
+  "namespace": "helm-repository",
+  "purl": "pkg:generic/helm-repository/incubator",
+  "rules": [
+    {
+      "deadline": "2020-11-13",
+      "ecosystem": "kubernetes",
+      "event": "end-of-life",
+      "id": "kubernetes.helm.repository.incubator.end-of-life",
+      "migration": {
+        "constraints": [
+          "Replace only Chart.yaml dependencies whose repository is the retired incubator URL (https://charts.helm.sh/incubator or https://kubernetes-charts-incubator.storage.googleapis.com).",
+          "Look up the chart name in Helm's relocation lists for the maintainer's new repository; if none exists, consider adopting the chart rather than pinning the archive."
+        ],
+        "steps": [
+          {
+            "id": "retarget-repository",
+            "instructions": "Change the reported dependency's repository URL to the chart's new location from the relocation list (or another maintainer-published repository), and set version to a release published there.",
+            "targets": "declaration",
+            "title": "Point the dependency at a maintained repository"
+          },
+          {
+            "id": "align-chart-dependencies",
+            "instructions": "Update every other Chart.yaml dependency that still names the retired incubator repository URL.",
+            "targets": "all",
+            "title": "Align other Chart.yaml dependencies"
+          }
+        ],
+        "verification": [
+          {
+            "command": "helm dependency update <chart-path>",
+            "purpose": "Fetch the dependency from the new repository and refresh Chart.lock."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "Render the chart and validate the output against Kubernetes schemas."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-26",
+        "reviewedAt": "2026-10-26",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/helm-repository/incubator",
+      "replacement": "The chart's new maintained repository (see Helm's stable-repo-charts-new-locations list), or adopt the chart yourself",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Helm Chart Repository Deprecation Update (2020-10-30)",
+          "url": "https://helm.sh/blog/charts-repo-deprecation/"
+        },
+        {
+          "title": "Helm community: stable repository charts — new locations",
+          "url": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md"
+        }
+      ],
+      "summary": "The Helm project retired the incubator chart repository with the same timeline as stable: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a read-only archive that receives no bug fixes or security patches. The Helm Chart Repository Deprecation Update states those dates and recommended actions.",
+      "title": "Helm incubator chart repository is end of life",
+      "vers": "vers:semver/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

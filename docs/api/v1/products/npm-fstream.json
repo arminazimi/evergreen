@@ -1,0 +1,76 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "npm-fstream",
+  "latestReview": "2026-10-16",
+  "name": "fstream",
+  "purl": "pkg:npm/fstream",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "end-of-life",
+      "id": "npm.package.fstream.eol",
+      "migration": {
+        "constraints": [
+          "Preserve filesystem traversal, filtering, permissions, ownership, symlink handling, stream backpressure, and archive boundary security."
+        ],
+        "steps": [
+          {
+            "id": "replace-fstream",
+            "instructions": "Select maintained filesystem and archive primitives for the used fstream behavior, migrate readers and writers, then remove fstream.",
+            "targets": "all",
+            "title": "Replace filesystem streaming"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run files, directories, symlinks, permissions, errors, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/fstream",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "fstream package deprecation notice",
+          "url": "https://www.npmjs.com/package/fstream"
+        },
+        {
+          "title": "fstream registry metadata",
+          "url": "https://registry.npmjs.org/fstream/latest"
+        }
+      ],
+      "summary": "npm states that the fstream package is no longer supported.",
+      "title": "fstream is no longer supported",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "fstream"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "fstream"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "fstream"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

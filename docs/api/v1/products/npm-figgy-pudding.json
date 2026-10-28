@@ -1,0 +1,76 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "npm-figgy-pudding",
+  "latestReview": "2026-10-16",
+  "name": "figgy-pudding",
+  "purl": "pkg:npm/figgy-pudding",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "end-of-life",
+      "id": "npm.package.figgy-pudding.eol",
+      "migration": {
+        "constraints": [
+          "Preserve option defaults, validation, inheritance, provider lookup, key enumeration, and sensitive-value handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-figgy-pudding",
+            "instructions": "Replace figgy-pudding instances with explicit validated configuration objects or a maintained configuration library, then remove the package.",
+            "targets": "all",
+            "title": "Replace configuration wrappers"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run configuration defaults, validation, inheritance, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/figgy-pudding",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "figgy-pudding package deprecation notice",
+          "url": "https://www.npmjs.com/package/figgy-pudding"
+        },
+        {
+          "title": "figgy-pudding registry metadata",
+          "url": "https://registry.npmjs.org/figgy-pudding/latest"
+        }
+      ],
+      "summary": "npm states that the figgy-pudding module is no longer supported.",
+      "title": "figgy-pudding is no longer supported",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "figgy-pudding"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "figgy-pudding"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "figgy-pudding"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

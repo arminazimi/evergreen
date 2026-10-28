@@ -1,0 +1,94 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-nuxt-types",
+  "latestReview": "2026-10-19",
+  "name": "types",
+  "namespace": "@nuxt",
+  "purl": "pkg:npm/%40nuxt/types",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.nuxt.types.deprecated",
+      "migration": {
+        "constraints": [
+          "Nuxt 2 is end of life; preserve routing, data fetching, build modules, and the TypeScript coverage the project relies on while moving to Nuxt 3."
+        ],
+        "steps": [
+          {
+            "id": "plan-nuxt3-upgrade",
+            "instructions": "Follow the Nuxt 3 migration guidance for pages, plugins, modules, and the build configuration before removing the Nuxt 2 type packages.",
+            "targets": "all",
+            "title": "Plan the Nuxt 3 upgrade"
+          },
+          {
+            "id": "replace-nuxt-types",
+            "instructions": "Remove @nuxt/types once the project runs on Nuxt 3, which ships its own types.",
+            "targets": "declaration",
+            "title": "Remove the Nuxt 2 type package"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on Nuxt 3 with its bundled types."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the application and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40nuxt/types",
+      "replacement": "Nuxt 3",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@nuxt/types on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/types"
+        },
+        {
+          "title": "@nuxt/types registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest"
+        }
+      ],
+      "summary": "npm marks @nuxt/types as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "title": "@nuxt/types is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@nuxt/types"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@nuxt/types"
+        },
+        {
+          "key": "types",
+          "kind": "config-key",
+          "language": "json",
+          "valueIncludes": "@nuxt/types"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "@nuxt/types"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

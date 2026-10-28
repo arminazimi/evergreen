@@ -1,0 +1,72 @@
+{
+  "earliestDeadline": "2026-08-19",
+  "ecosystems": [
+    "container"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "docker-library-golang",
+  "latestReview": "2026-10-20",
+  "name": "golang",
+  "namespace": "library",
+  "purl": "pkg:docker/library/golang",
+  "rules": [
+    {
+      "deadline": "2026-08-19",
+      "ecosystem": "container",
+      "event": "end-of-life",
+      "id": "container.golang.eol-1.25-and-older",
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use golang on one supported Go release line.",
+          "Confirm the application and its data or configuration work on the target Go release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "endoflife-date",
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/golang",
+      "replacement": "A golang image on a supported release line",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Go release policy (vendor)",
+          "url": "https://go.dev/doc/devel/release#policy"
+        }
+      ],
+      "summary": "These Go release lines no longer receive fixes from the vendor.",
+      "title": "Go image release lines 1.25 and older are end-of-life",
+      "vers": "vers:semver/<1.26.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "docker"
+}

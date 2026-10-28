@@ -1,0 +1,4359 @@
+{
+  "latestReview": "2026-10-27",
+  "products": [
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-ansi-term",
+      "latestReview": "2026-10-17",
+      "name": "ansi_term",
+      "path": "products/cargo-ansi-term.json",
+      "purl": "pkg:cargo/ansi_term",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-atty",
+      "latestReview": "2026-10-17",
+      "name": "atty",
+      "path": "products/cargo-atty.json",
+      "purl": "pkg:cargo/atty",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-failure",
+      "latestReview": "2026-10-17",
+      "name": "failure",
+      "path": "products/cargo-failure.json",
+      "purl": "pkg:cargo/failure",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-tempdir",
+      "latestReview": "2026-10-17",
+      "name": "tempdir",
+      "path": "products/cargo-tempdir.json",
+      "purl": "pkg:cargo/tempdir",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-doctrine-cache",
+      "latestReview": "2026-10-20",
+      "name": "cache",
+      "namespace": "doctrine",
+      "path": "products/composer-doctrine-cache.json",
+      "purl": "pkg:composer/doctrine/cache",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-fzaninotto-faker",
+      "latestReview": "2026-10-20",
+      "name": "faker",
+      "namespace": "fzaninotto",
+      "path": "products/composer-fzaninotto-faker.json",
+      "purl": "pkg:composer/fzaninotto/faker",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2025-02-04",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "composer-laravel-framework",
+      "latestReview": "2026-10-23",
+      "name": "framework",
+      "namespace": "laravel",
+      "path": "products/composer-laravel-framework.json",
+      "purl": "pkg:composer/laravel/framework",
+      "rules": 2,
+      "type": "composer"
+    },
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-sensiolabs-security-checker",
+      "latestReview": "2026-10-20",
+      "name": "security-checker",
+      "namespace": "sensiolabs",
+      "path": "products/composer-sensiolabs-security-checker.json",
+      "purl": "pkg:composer/sensiolabs/security-checker",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2021-11-30",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-swiftmailer-swiftmailer",
+      "latestReview": "2026-10-19",
+      "name": "swiftmailer",
+      "namespace": "swiftmailer",
+      "path": "products/composer-swiftmailer-swiftmailer.json",
+      "purl": "pkg:composer/swiftmailer/swiftmailer",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2019-12-31",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-zendframework-zend-stdlib",
+      "latestReview": "2026-10-19",
+      "name": "zend-stdlib",
+      "namespace": "zendframework",
+      "path": "products/composer-zendframework-zend-stdlib.json",
+      "purl": "pkg:composer/zendframework/zend-stdlib",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2026-04-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-alpine",
+      "latestReview": "2026-10-26",
+      "name": "alpine",
+      "namespace": "library",
+      "path": "products/docker-library-alpine.json",
+      "purl": "pkg:docker/library/alpine",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2020-07-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-caddy",
+      "latestReview": "2026-10-20",
+      "name": "caddy",
+      "namespace": "library",
+      "path": "products/docker-library-caddy.json",
+      "purl": "pkg:docker/library/caddy",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-clickhouse",
+      "latestReview": "2026-10-20",
+      "name": "clickhouse",
+      "namespace": "library",
+      "path": "products/docker-library-clickhouse.json",
+      "purl": "pkg:docker/library/clickhouse",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-couchbase",
+      "latestReview": "2026-10-20",
+      "name": "couchbase",
+      "namespace": "library",
+      "path": "products/docker-library-couchbase.json",
+      "purl": "pkg:docker/library/couchbase",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-couchdb",
+      "latestReview": "2026-10-20",
+      "name": "couchdb",
+      "namespace": "library",
+      "path": "products/docker-library-couchdb.json",
+      "purl": "pkg:docker/library/couchdb",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-debian",
+      "latestReview": "2026-10-26",
+      "name": "debian",
+      "namespace": "library",
+      "path": "products/docker-library-debian.json",
+      "purl": "pkg:docker/library/debian",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-drupal",
+      "latestReview": "2026-10-20",
+      "name": "drupal",
+      "namespace": "library",
+      "path": "products/docker-library-drupal.json",
+      "purl": "pkg:docker/library/drupal",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-19",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-golang",
+      "latestReview": "2026-10-20",
+      "name": "golang",
+      "namespace": "library",
+      "path": "products/docker-library-golang.json",
+      "purl": "pkg:docker/library/golang",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-06",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-mariadb",
+      "latestReview": "2026-10-20",
+      "name": "mariadb",
+      "namespace": "library",
+      "path": "products/docker-library-mariadb.json",
+      "purl": "pkg:docker/library/mariadb",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-21",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-mysql",
+      "latestReview": "2026-10-16",
+      "name": "mysql",
+      "namespace": "library",
+      "path": "products/docker-library-mysql.json",
+      "purl": "pkg:docker/library/mysql",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-30",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-node",
+      "latestReview": "2026-10-24",
+      "name": "node",
+      "namespace": "library",
+      "path": "products/docker-library-node.json",
+      "purl": "pkg:docker/library/node",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-phpmyadmin",
+      "latestReview": "2026-10-20",
+      "name": "phpmyadmin",
+      "namespace": "library",
+      "path": "products/docker-library-phpmyadmin.json",
+      "purl": "pkg:docker/library/phpmyadmin",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2025-11-13",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-postgres",
+      "latestReview": "2026-10-24",
+      "name": "postgres",
+      "namespace": "library",
+      "path": "products/docker-library-postgres.json",
+      "purl": "pkg:docker/library/postgres",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-10-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-python",
+      "latestReview": "2026-10-16",
+      "name": "python",
+      "namespace": "library",
+      "path": "products/docker-library-python.json",
+      "purl": "pkg:docker/library/python",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2022-05-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-redis",
+      "latestReview": "2026-10-20",
+      "name": "redis",
+      "namespace": "library",
+      "path": "products/docker-library-redis.json",
+      "purl": "pkg:docker/library/redis",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-ruby",
+      "latestReview": "2026-10-16",
+      "name": "ruby",
+      "namespace": "library",
+      "path": "products/docker-library-ruby.json",
+      "purl": "pkg:docker/library/ruby",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-16",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-traefik",
+      "latestReview": "2026-10-20",
+      "name": "traefik",
+      "namespace": "library",
+      "path": "products/docker-library-traefik.json",
+      "purl": "pkg:docker/library/traefik",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2025-05-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-ubuntu",
+      "latestReview": "2026-10-26",
+      "name": "ubuntu",
+      "namespace": "library",
+      "path": "products/docker-library-ubuntu.json",
+      "purl": "pkg:docker/library/ubuntu",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2024-01-19",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-zookeeper",
+      "latestReview": "2026-10-20",
+      "name": "zookeeper",
+      "namespace": "library",
+      "path": "products/docker-library-zookeeper.json",
+      "purl": "pkg:docker/library/zookeeper",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "ruby"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "gem-json",
+      "latestReview": "2026-10-18",
+      "name": "json",
+      "path": "products/gem-json.json",
+      "purl": "pkg:gem/json",
+      "rules": 1,
+      "type": "gem"
+    },
+    {
+      "earliestDeadline": "2026-08-09",
+      "ecosystems": [
+        "ruby"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "gem-rails",
+      "latestReview": "2026-10-23",
+      "name": "rails",
+      "path": "products/gem-rails.json",
+      "purl": "pkg:gem/rails",
+      "rules": 2,
+      "type": "gem"
+    },
+    {
+      "earliestDeadline": "2025-11-26",
+      "ecosystems": [
+        "terraform"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life"
+      ],
+      "id": "generic-amazon-eks",
+      "latestReview": "2026-10-26",
+      "name": "amazon-eks",
+      "path": "products/generic-amazon-eks.json",
+      "purl": "pkg:generic/amazon-eks",
+      "rules": 4,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-04-03",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-dotnetcore3-1",
+      "latestReview": "2026-10-21",
+      "name": "dotnetcore3.1",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-dotnetcore3-1.json",
+      "purl": "pkg:generic/aws-lambda-runtime/dotnetcore3.1",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-nodejs14-x",
+      "latestReview": "2026-10-21",
+      "name": "nodejs14.x",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-nodejs14-x.json",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-10-14",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-8",
+      "latestReview": "2026-10-21",
+      "name": "python3.8",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-8.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.8",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-12-07",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-ruby2-7",
+      "latestReview": "2026-10-21",
+      "name": "ruby2.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-ruby2-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/ruby2.7",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-09-30",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-azure-database-mysql",
+      "latestReview": "2026-10-26",
+      "name": "azure-database-mysql",
+      "path": "products/generic-azure-database-mysql.json",
+      "purl": "pkg:generic/azure-database-mysql",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-07-31",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-azure-database-postgresql",
+      "latestReview": "2026-10-26",
+      "name": "azure-database-postgresql",
+      "path": "products/generic-azure-database-postgresql.json",
+      "purl": "pkg:generic/azure-database-postgresql",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-11-01",
+      "ecosystems": [
+        "terraform"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life"
+      ],
+      "id": "generic-azure-kubernetes-service",
+      "latestReview": "2026-10-26",
+      "name": "azure-kubernetes-service",
+      "path": "products/generic-azure-kubernetes-service.json",
+      "purl": "pkg:generic/azure-kubernetes-service",
+      "rules": 6,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-12-04",
+      "ecosystems": [
+        "ci-images"
+      ],
+      "events": [
+        "removed",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-azure-pipelines-macos-image",
+      "latestReview": "2026-10-21",
+      "name": "macos-image",
+      "namespace": "azure-pipelines",
+      "path": "products/generic-azure-pipelines-macos-image.json",
+      "purl": "pkg:generic/azure-pipelines/macos-image",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-04-30",
+      "ecosystems": [
+        "ci-images"
+      ],
+      "events": [
+        "removed",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-azure-pipelines-ubuntu-image",
+      "latestReview": "2026-10-21",
+      "name": "ubuntu-image",
+      "namespace": "azure-pipelines",
+      "path": "products/generic-azure-pipelines-ubuntu-image.json",
+      "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-12-31",
+      "ecosystems": [
+        "ci-images"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-azure-pipelines-windows-image",
+      "latestReview": "2026-10-21",
+      "name": "windows-image",
+      "namespace": "azure-pipelines",
+      "path": "products/generic-azure-pipelines-windows-image.json",
+      "purl": "pkg:generic/azure-pipelines/windows-image",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-09-08",
+      "ecosystems": [
+        "deno"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-bun",
+      "latestReview": "2026-10-26",
+      "name": "bun",
+      "path": "products/generic-bun.json",
+      "purl": "pkg:generic/bun",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-11-06",
+      "ecosystems": [
+        "cpp"
+      ],
+      "events": [
+        "deprecated",
+        "removed"
+      ],
+      "id": "generic-cmake",
+      "latestReview": "2026-10-19",
+      "name": "cmake",
+      "path": "products/generic-cmake.json",
+      "purl": "pkg:generic/cmake",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-11-06",
+      "ecosystems": [
+        "cpp"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-cmake-generator-visual-studio-12-2013",
+      "latestReview": "2026-10-19",
+      "name": "visual-studio-12-2013",
+      "namespace": "cmake-generator",
+      "path": "products/generic-cmake-generator-visual-studio-12-2013.json",
+      "purl": "pkg:generic/cmake-generator/visual-studio-12-2013",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-11-06",
+      "ecosystems": [
+        "cpp"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "generic-cmake-module-cmake-find-frameworks",
+      "latestReview": "2026-10-19",
+      "name": "cmake-find-frameworks",
+      "namespace": "cmake-module",
+      "path": "products/generic-cmake-module-cmake-find-frameworks.json",
+      "purl": "pkg:generic/cmake-module/cmake-find-frameworks",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-03-27",
+      "ecosystems": [
+        "cpp"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "generic-cmake-module-find-gdal",
+      "latestReview": "2026-10-19",
+      "name": "find-gdal",
+      "namespace": "cmake-module",
+      "path": "products/generic-cmake-module-find-gdal.json",
+      "purl": "pkg:generic/cmake-module/find-gdal",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-08-13",
+      "ecosystems": [
+        "dart"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-dart",
+      "latestReview": "2026-10-21",
+      "name": "dart",
+      "path": "products/generic-dart.json",
+      "purl": "pkg:generic/dart",
+      "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2020-05-13",
+      "ecosystems": [
+        "deno"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-deno",
+      "latestReview": "2026-10-26",
+      "name": "deno",
+      "path": "products/generic-deno.json",
+      "purl": "pkg:generic/deno",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2018-10-01",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "end-of-support",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-dotnet",
+      "latestReview": "2026-10-19",
+      "name": "dotnet",
+      "path": "products/generic-dotnet.json",
+      "purl": "pkg:generic/dotnet",
+      "rules": 12,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-10-16",
+      "ecosystems": [
+        "elixir"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-elixir",
+      "latestReview": "2026-10-26",
+      "name": "elixir",
+      "path": "products/generic-elixir.json",
+      "purl": "pkg:generic/elixir",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-05-21",
+      "ecosystems": [
+        "elixir"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-erlang",
+      "latestReview": "2026-10-26",
+      "name": "erlang",
+      "path": "products/generic-erlang.json",
+      "purl": "pkg:generic/erlang",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-02-06",
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-golang",
+      "latestReview": "2026-10-17",
+      "name": "golang",
+      "path": "products/generic-golang.json",
+      "purl": "pkg:generic/golang",
+      "rules": 6,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-01-30",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-google-cloud-functions-runtime-nodejs14",
+      "latestReview": "2026-10-21",
+      "name": "nodejs14",
+      "namespace": "google-cloud-functions-runtime",
+      "path": "products/generic-google-cloud-functions-runtime-nodejs14.json",
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-02-01",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-google-cloud-sql-mysql",
+      "latestReview": "2026-10-26",
+      "name": "google-cloud-sql-mysql",
+      "path": "products/generic-google-cloud-sql-mysql.json",
+      "purl": "pkg:generic/google-cloud-sql-mysql",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-02-01",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-google-cloud-sql-postgresql",
+      "latestReview": "2026-10-26",
+      "name": "google-cloud-sql-postgresql",
+      "path": "products/generic-google-cloud-sql-postgresql.json",
+      "purl": "pkg:generic/google-cloud-sql-postgresql",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-04-27",
+      "ecosystems": [
+        "terraform"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life"
+      ],
+      "id": "generic-google-kubernetes-engine",
+      "latestReview": "2026-10-26",
+      "name": "google-kubernetes-engine",
+      "path": "products/generic-google-kubernetes-engine.json",
+      "purl": "pkg:generic/google-kubernetes-engine",
+      "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2020-11-13",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-helm-repository-incubator",
+      "latestReview": "2026-10-26",
+      "name": "incubator",
+      "namespace": "helm-repository",
+      "path": "products/generic-helm-repository-incubator.json",
+      "purl": "pkg:generic/helm-repository/incubator",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2020-11-13",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-helm-repository-stable",
+      "latestReview": "2026-10-26",
+      "name": "stable",
+      "namespace": "helm-repository",
+      "path": "products/generic-helm-repository-stable.json",
+      "purl": "pkg:generic/helm-repository/stable",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-09-09",
+      "ecosystems": [
+        "swift"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-ios",
+      "latestReview": "2026-10-20",
+      "name": "ios",
+      "path": "products/generic-ios.json",
+      "purl": "pkg:generic/ios",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-java",
+      "latestReview": "2026-10-17",
+      "name": "java",
+      "path": "products/generic-java.json",
+      "purl": "pkg:generic/java",
+      "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-admissionregistration-k8s-io-mutatingwebhookconfiguration",
+      "latestReview": "2026-10-20",
+      "name": "MutatingWebhookConfiguration",
+      "namespace": "kubernetes/admissionregistration.k8s.io",
+      "path": "products/generic-kubernetes-admissionregistration-k8s-io-mutatingwebhookconfiguration.json",
+      "purl": "pkg:generic/kubernetes/admissionregistration.k8s.io/MutatingWebhookConfiguration",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-admissionregistration-k8s-io-validatingwebhookconfiguration",
+      "latestReview": "2026-10-20",
+      "name": "ValidatingWebhookConfiguration",
+      "namespace": "kubernetes/admissionregistration.k8s.io",
+      "path": "products/generic-kubernetes-admissionregistration-k8s-io-validatingwebhookconfiguration.json",
+      "purl": "pkg:generic/kubernetes/admissionregistration.k8s.io/ValidatingWebhookConfiguration",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apiextensions-k8s-io-customresourcedefinition",
+      "latestReview": "2026-10-20",
+      "name": "CustomResourceDefinition",
+      "namespace": "kubernetes/apiextensions.k8s.io",
+      "path": "products/generic-kubernetes-apiextensions-k8s-io-customresourcedefinition.json",
+      "purl": "pkg:generic/kubernetes/apiextensions.k8s.io/CustomResourceDefinition",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apiregistration-k8s-io-apiservice",
+      "latestReview": "2026-10-20",
+      "name": "APIService",
+      "namespace": "kubernetes/apiregistration.k8s.io",
+      "path": "products/generic-kubernetes-apiregistration-k8s-io-apiservice.json",
+      "purl": "pkg:generic/kubernetes/apiregistration.k8s.io/APIService",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apps-daemonset",
+      "latestReview": "2026-10-20",
+      "name": "DaemonSet",
+      "namespace": "kubernetes/apps",
+      "path": "products/generic-kubernetes-apps-daemonset.json",
+      "purl": "pkg:generic/kubernetes/apps/DaemonSet",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apps-deployment",
+      "latestReview": "2026-10-20",
+      "name": "Deployment",
+      "namespace": "kubernetes/apps",
+      "path": "products/generic-kubernetes-apps-deployment.json",
+      "purl": "pkg:generic/kubernetes/apps/Deployment",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apps-replicaset",
+      "latestReview": "2026-10-20",
+      "name": "ReplicaSet",
+      "namespace": "kubernetes/apps",
+      "path": "products/generic-kubernetes-apps-replicaset.json",
+      "purl": "pkg:generic/kubernetes/apps/ReplicaSet",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-apps-statefulset",
+      "latestReview": "2026-10-20",
+      "name": "StatefulSet",
+      "namespace": "kubernetes/apps",
+      "path": "products/generic-kubernetes-apps-statefulset.json",
+      "purl": "pkg:generic/kubernetes/apps/StatefulSet",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-authentication-k8s-io-tokenreview",
+      "latestReview": "2026-10-20",
+      "name": "TokenReview",
+      "namespace": "kubernetes/authentication.k8s.io",
+      "path": "products/generic-kubernetes-authentication-k8s-io-tokenreview.json",
+      "purl": "pkg:generic/kubernetes/authentication.k8s.io/TokenReview",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-authorization-k8s-io-localsubjectaccessreview",
+      "latestReview": "2026-10-20",
+      "name": "LocalSubjectAccessReview",
+      "namespace": "kubernetes/authorization.k8s.io",
+      "path": "products/generic-kubernetes-authorization-k8s-io-localsubjectaccessreview.json",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/LocalSubjectAccessReview",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-authorization-k8s-io-selfsubjectaccessreview",
+      "latestReview": "2026-10-20",
+      "name": "SelfSubjectAccessReview",
+      "namespace": "kubernetes/authorization.k8s.io",
+      "path": "products/generic-kubernetes-authorization-k8s-io-selfsubjectaccessreview.json",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SelfSubjectAccessReview",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-authorization-k8s-io-selfsubjectrulesreview",
+      "latestReview": "2026-10-20",
+      "name": "SelfSubjectRulesReview",
+      "namespace": "kubernetes/authorization.k8s.io",
+      "path": "products/generic-kubernetes-authorization-k8s-io-selfsubjectrulesreview.json",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SelfSubjectRulesReview",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-authorization-k8s-io-subjectaccessreview",
+      "latestReview": "2026-10-20",
+      "name": "SubjectAccessReview",
+      "namespace": "kubernetes/authorization.k8s.io",
+      "path": "products/generic-kubernetes-authorization-k8s-io-subjectaccessreview.json",
+      "purl": "pkg:generic/kubernetes/authorization.k8s.io/SubjectAccessReview",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-autoscaling-horizontalpodautoscaler",
+      "latestReview": "2026-10-20",
+      "name": "HorizontalPodAutoscaler",
+      "namespace": "kubernetes/autoscaling",
+      "path": "products/generic-kubernetes-autoscaling-horizontalpodautoscaler.json",
+      "purl": "pkg:generic/kubernetes/autoscaling/HorizontalPodAutoscaler",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-batch-cronjob",
+      "latestReview": "2026-10-17",
+      "name": "CronJob",
+      "namespace": "kubernetes/batch",
+      "path": "products/generic-kubernetes-batch-cronjob.json",
+      "purl": "pkg:generic/kubernetes/batch/CronJob",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-certificates-k8s-io-certificatesigningrequest",
+      "latestReview": "2026-10-20",
+      "name": "CertificateSigningRequest",
+      "namespace": "kubernetes/certificates.k8s.io",
+      "path": "products/generic-kubernetes-certificates-k8s-io-certificatesigningrequest.json",
+      "purl": "pkg:generic/kubernetes/certificates.k8s.io/CertificateSigningRequest",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-coordination-k8s-io-lease",
+      "latestReview": "2026-10-20",
+      "name": "Lease",
+      "namespace": "kubernetes/coordination.k8s.io",
+      "path": "products/generic-kubernetes-coordination-k8s-io-lease.json",
+      "purl": "pkg:generic/kubernetes/coordination.k8s.io/Lease",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-discovery-k8s-io-endpointslice",
+      "latestReview": "2026-10-20",
+      "name": "EndpointSlice",
+      "namespace": "kubernetes/discovery.k8s.io",
+      "path": "products/generic-kubernetes-discovery-k8s-io-endpointslice.json",
+      "purl": "pkg:generic/kubernetes/discovery.k8s.io/EndpointSlice",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-events-k8s-io-event",
+      "latestReview": "2026-10-20",
+      "name": "Event",
+      "namespace": "kubernetes/events.k8s.io",
+      "path": "products/generic-kubernetes-events-k8s-io-event.json",
+      "purl": "pkg:generic/kubernetes/events.k8s.io/Event",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-daemonset",
+      "latestReview": "2026-10-20",
+      "name": "DaemonSet",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-daemonset.json",
+      "purl": "pkg:generic/kubernetes/extensions/DaemonSet",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-deployment",
+      "latestReview": "2026-10-20",
+      "name": "Deployment",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-deployment.json",
+      "purl": "pkg:generic/kubernetes/extensions/Deployment",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-ingress",
+      "latestReview": "2026-10-17",
+      "name": "Ingress",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-ingress.json",
+      "purl": "pkg:generic/kubernetes/extensions/Ingress",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-networkpolicy",
+      "latestReview": "2026-10-20",
+      "name": "NetworkPolicy",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-networkpolicy.json",
+      "purl": "pkg:generic/kubernetes/extensions/NetworkPolicy",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-podsecuritypolicy",
+      "latestReview": "2026-10-20",
+      "name": "PodSecurityPolicy",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-podsecuritypolicy.json",
+      "purl": "pkg:generic/kubernetes/extensions/PodSecurityPolicy",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-09-18",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-extensions-replicaset",
+      "latestReview": "2026-10-20",
+      "name": "ReplicaSet",
+      "namespace": "kubernetes/extensions",
+      "path": "products/generic-kubernetes-extensions-replicaset.json",
+      "purl": "pkg:generic/kubernetes/extensions/ReplicaSet",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-12-09",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-flowcontrol-apiserver-k8s-io-flowschema",
+      "latestReview": "2026-10-20",
+      "name": "FlowSchema",
+      "namespace": "kubernetes/flowcontrol.apiserver.k8s.io",
+      "path": "products/generic-kubernetes-flowcontrol-apiserver-k8s-io-flowschema.json",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema",
+      "rules": 3,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-12-09",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-flowcontrol-apiserver-k8s-io-prioritylevelconfiguration",
+      "latestReview": "2026-10-20",
+      "name": "PriorityLevelConfiguration",
+      "namespace": "kubernetes/flowcontrol.apiserver.k8s.io",
+      "path": "products/generic-kubernetes-flowcontrol-apiserver-k8s-io-prioritylevelconfiguration.json",
+      "purl": "pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/PriorityLevelConfiguration",
+      "rules": 3,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-networking-k8s-io-ingress",
+      "latestReview": "2026-10-17",
+      "name": "Ingress",
+      "namespace": "kubernetes/networking.k8s.io",
+      "path": "products/generic-kubernetes-networking-k8s-io-ingress.json",
+      "purl": "pkg:generic/kubernetes/networking.k8s.io/Ingress",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-networking-k8s-io-ingressclass",
+      "latestReview": "2026-10-20",
+      "name": "IngressClass",
+      "namespace": "kubernetes/networking.k8s.io",
+      "path": "products/generic-kubernetes-networking-k8s-io-ingressclass.json",
+      "purl": "pkg:generic/kubernetes/networking.k8s.io/IngressClass",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-node-k8s-io-runtimeclass",
+      "latestReview": "2026-10-20",
+      "name": "RuntimeClass",
+      "namespace": "kubernetes/node.k8s.io",
+      "path": "products/generic-kubernetes-node-k8s-io-runtimeclass.json",
+      "purl": "pkg:generic/kubernetes/node.k8s.io/RuntimeClass",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-policy-poddisruptionbudget",
+      "latestReview": "2026-10-20",
+      "name": "PodDisruptionBudget",
+      "namespace": "kubernetes/policy",
+      "path": "products/generic-kubernetes-policy-poddisruptionbudget.json",
+      "purl": "pkg:generic/kubernetes/policy/PodDisruptionBudget",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2022-08-23",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-policy-podsecuritypolicy",
+      "latestReview": "2026-10-17",
+      "name": "PodSecurityPolicy",
+      "namespace": "kubernetes/policy",
+      "path": "products/generic-kubernetes-policy-podsecuritypolicy.json",
+      "purl": "pkg:generic/kubernetes/policy/PodSecurityPolicy",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-rbac-authorization-k8s-io-clusterrole",
+      "latestReview": "2026-10-20",
+      "name": "ClusterRole",
+      "namespace": "kubernetes/rbac.authorization.k8s.io",
+      "path": "products/generic-kubernetes-rbac-authorization-k8s-io-clusterrole.json",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/ClusterRole",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-rbac-authorization-k8s-io-clusterrolebinding",
+      "latestReview": "2026-10-20",
+      "name": "ClusterRoleBinding",
+      "namespace": "kubernetes/rbac.authorization.k8s.io",
+      "path": "products/generic-kubernetes-rbac-authorization-k8s-io-clusterrolebinding.json",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/ClusterRoleBinding",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-rbac-authorization-k8s-io-role",
+      "latestReview": "2026-10-20",
+      "name": "Role",
+      "namespace": "kubernetes/rbac.authorization.k8s.io",
+      "path": "products/generic-kubernetes-rbac-authorization-k8s-io-role.json",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/Role",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-rbac-authorization-k8s-io-rolebinding",
+      "latestReview": "2026-10-20",
+      "name": "RoleBinding",
+      "namespace": "kubernetes/rbac.authorization.k8s.io",
+      "path": "products/generic-kubernetes-rbac-authorization-k8s-io-rolebinding.json",
+      "purl": "pkg:generic/kubernetes/rbac.authorization.k8s.io/RoleBinding",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-scheduling-k8s-io-priorityclass",
+      "latestReview": "2026-10-20",
+      "name": "PriorityClass",
+      "namespace": "kubernetes/scheduling.k8s.io",
+      "path": "products/generic-kubernetes-scheduling-k8s-io-priorityclass.json",
+      "purl": "pkg:generic/kubernetes/scheduling.k8s.io/PriorityClass",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-storage-k8s-io-csidriver",
+      "latestReview": "2026-10-20",
+      "name": "CSIDriver",
+      "namespace": "kubernetes/storage.k8s.io",
+      "path": "products/generic-kubernetes-storage-k8s-io-csidriver.json",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIDriver",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-storage-k8s-io-csinode",
+      "latestReview": "2026-10-20",
+      "name": "CSINode",
+      "namespace": "kubernetes/storage.k8s.io",
+      "path": "products/generic-kubernetes-storage-k8s-io-csinode.json",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSINode",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-04-11",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-storage-k8s-io-csistoragecapacity",
+      "latestReview": "2026-10-20",
+      "name": "CSIStorageCapacity",
+      "namespace": "kubernetes/storage.k8s.io",
+      "path": "products/generic-kubernetes-storage-k8s-io-csistoragecapacity.json",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-storage-k8s-io-storageclass",
+      "latestReview": "2026-10-20",
+      "name": "StorageClass",
+      "namespace": "kubernetes/storage.k8s.io",
+      "path": "products/generic-kubernetes-storage-k8s-io-storageclass.json",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/StorageClass",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2021-08-04",
+      "ecosystems": [
+        "kubernetes"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "generic-kubernetes-storage-k8s-io-volumeattachment",
+      "latestReview": "2026-10-20",
+      "name": "VolumeAttachment",
+      "namespace": "kubernetes/storage.k8s.io",
+      "path": "products/generic-kubernetes-storage-k8s-io-volumeattachment.json",
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/VolumeAttachment",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-10-31",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-mysql",
+      "latestReview": "2026-10-22",
+      "name": "mysql",
+      "path": "products/generic-mysql.json",
+      "purl": "pkg:generic/mysql",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-06-01",
+      "ecosystems": [
+        "nodejs"
+      ],
+      "events": [
+        "deprecated",
+        "end-of-life",
+        "removed",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-nodejs",
+      "latestReview": "2026-10-24",
+      "name": "nodejs",
+      "path": "products/generic-nodejs.json",
+      "purl": "pkg:generic/nodejs",
+      "rules": 80,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2019-01-10",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-php",
+      "latestReview": "2026-10-20",
+      "name": "php",
+      "path": "products/generic-php.json",
+      "purl": "pkg:generic/php",
+      "rules": 7,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-11-09",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "generic-postgresql",
+      "latestReview": "2026-10-24",
+      "name": "postgresql",
+      "path": "products/generic-postgresql.json",
+      "purl": "pkg:generic/postgresql",
+      "rules": 4,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2020-09-04",
+      "ecosystems": [
+        "shell"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-powershell",
+      "latestReview": "2026-10-22",
+      "name": "powershell",
+      "path": "products/generic-powershell.json",
+      "purl": "pkg:generic/powershell",
+      "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-10-31",
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated",
+        "end-of-life",
+        "removed"
+      ],
+      "id": "generic-python",
+      "latestReview": "2026-10-21",
+      "name": "python",
+      "path": "products/generic-python.json",
+      "purl": "pkg:generic/python",
+      "rules": 44,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2015-02-23",
+      "ecosystems": [
+        "ruby"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-ruby",
+      "latestReview": "2026-10-20",
+      "name": "ruby",
+      "path": "products/generic-ruby.json",
+      "purl": "pkg:generic/ruby",
+      "rules": 12,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-10-01",
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-rust",
+      "latestReview": "2026-10-17",
+      "name": "rust",
+      "path": "products/generic-rust.json",
+      "purl": "pkg:generic/rust",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2018-11-30",
+      "ecosystems": [
+        "scala"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-sbt",
+      "latestReview": "2026-10-27",
+      "name": "sbt",
+      "path": "products/generic-sbt.json",
+      "purl": "pkg:generic/sbt",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2016-01-01",
+      "ecosystems": [
+        "scala"
+      ],
+      "events": [
+        "end-of-support",
+        "end-of-life"
+      ],
+      "id": "generic-scala",
+      "latestReview": "2026-10-27",
+      "name": "scala",
+      "path": "products/generic-scala.json",
+      "purl": "pkg:generic/scala",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2025-05-14",
+      "ecosystems": [
+        "terraform"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-terraform",
+      "latestReview": "2026-10-21",
+      "name": "terraform",
+      "path": "products/generic-terraform.json",
+      "purl": "pkg:generic/terraform",
+      "rules": 5,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2024-04-29",
+      "ecosystems": [
+        "swift"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-xcode",
+      "latestReview": "2026-10-19",
+      "name": "xcode",
+      "path": "products/generic-xcode.json",
+      "purl": "pkg:generic/xcode",
+      "rules": 2,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-cache",
+      "latestReview": "2026-10-14",
+      "name": "cache",
+      "namespace": "actions",
+      "path": "products/github-actions-cache.json",
+      "purl": "pkg:github/actions/cache",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-checkout",
+      "latestReview": "2026-10-14",
+      "name": "checkout",
+      "namespace": "actions",
+      "path": "products/github-actions-checkout.json",
+      "purl": "pkg:github/actions/checkout",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-configure-pages",
+      "latestReview": "2026-10-16",
+      "name": "configure-pages",
+      "namespace": "actions",
+      "path": "products/github-actions-configure-pages.json",
+      "purl": "pkg:github/actions/configure-pages",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-create-github-app-token",
+      "latestReview": "2026-10-16",
+      "name": "create-github-app-token",
+      "namespace": "actions",
+      "path": "products/github-actions-create-github-app-token.json",
+      "purl": "pkg:github/actions/create-github-app-token",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-deploy-pages",
+      "latestReview": "2026-10-16",
+      "name": "deploy-pages",
+      "namespace": "actions",
+      "path": "products/github-actions-deploy-pages.json",
+      "purl": "pkg:github/actions/deploy-pages",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "github-actions-download-artifact",
+      "latestReview": "2026-10-14",
+      "name": "download-artifact",
+      "namespace": "actions",
+      "path": "products/github-actions-download-artifact.json",
+      "purl": "pkg:github/actions/download-artifact",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-first-interaction",
+      "latestReview": "2026-10-16",
+      "name": "first-interaction",
+      "namespace": "actions",
+      "path": "products/github-actions-first-interaction.json",
+      "purl": "pkg:github/actions/first-interaction",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-github-script",
+      "latestReview": "2026-10-16",
+      "name": "github-script",
+      "namespace": "actions",
+      "path": "products/github-actions-github-script.json",
+      "purl": "pkg:github/actions/github-script",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-labeler",
+      "latestReview": "2026-10-16",
+      "name": "labeler",
+      "namespace": "actions",
+      "path": "products/github-actions-labeler.json",
+      "purl": "pkg:github/actions/labeler",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-dotnet",
+      "latestReview": "2026-10-16",
+      "name": "setup-dotnet",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-dotnet.json",
+      "purl": "pkg:github/actions/setup-dotnet",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-go",
+      "latestReview": "2026-10-16",
+      "name": "setup-go",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-go.json",
+      "purl": "pkg:github/actions/setup-go",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-java",
+      "latestReview": "2026-10-16",
+      "name": "setup-java",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-java.json",
+      "purl": "pkg:github/actions/setup-java",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-node",
+      "latestReview": "2026-10-14",
+      "name": "setup-node",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-node.json",
+      "purl": "pkg:github/actions/setup-node",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-python",
+      "latestReview": "2026-10-16",
+      "name": "setup-python",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-python.json",
+      "purl": "pkg:github/actions/setup-python",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-stale",
+      "latestReview": "2026-10-16",
+      "name": "stale",
+      "namespace": "actions",
+      "path": "products/github-actions-stale.json",
+      "purl": "pkg:github/actions/stale",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "github-actions-upload-artifact",
+      "latestReview": "2026-10-14",
+      "name": "upload-artifact",
+      "namespace": "actions",
+      "path": "products/github-actions-upload-artifact.json",
+      "purl": "pkg:github/actions/upload-artifact",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-astral-sh-setup-uv",
+      "latestReview": "2026-10-16",
+      "name": "setup-uv",
+      "namespace": "astral-sh",
+      "path": "products/github-astral-sh-setup-uv.json",
+      "purl": "pkg:github/astral-sh/setup-uv",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-bake-action",
+      "latestReview": "2026-10-16",
+      "name": "bake-action",
+      "namespace": "docker",
+      "path": "products/github-docker-bake-action.json",
+      "purl": "pkg:github/docker/bake-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-build-push-action",
+      "latestReview": "2026-10-16",
+      "name": "build-push-action",
+      "namespace": "docker",
+      "path": "products/github-docker-build-push-action.json",
+      "purl": "pkg:github/docker/build-push-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-login-action",
+      "latestReview": "2026-10-16",
+      "name": "login-action",
+      "namespace": "docker",
+      "path": "products/github-docker-login-action.json",
+      "purl": "pkg:github/docker/login-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-metadata-action",
+      "latestReview": "2026-10-16",
+      "name": "metadata-action",
+      "namespace": "docker",
+      "path": "products/github-docker-metadata-action.json",
+      "purl": "pkg:github/docker/metadata-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-setup-buildx-action",
+      "latestReview": "2026-10-16",
+      "name": "setup-buildx-action",
+      "namespace": "docker",
+      "path": "products/github-docker-setup-buildx-action.json",
+      "purl": "pkg:github/docker/setup-buildx-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-setup-qemu-action",
+      "latestReview": "2026-10-16",
+      "name": "setup-qemu-action",
+      "namespace": "docker",
+      "path": "products/github-docker-setup-qemu-action.json",
+      "purl": "pkg:github/docker/setup-qemu-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-hashicorp-setup-terraform",
+      "latestReview": "2026-10-16",
+      "name": "setup-terraform",
+      "namespace": "hashicorp",
+      "path": "products/github-hashicorp-setup-terraform.json",
+      "purl": "pkg:github/hashicorp/setup-terraform",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-softprops-action-gh-release",
+      "latestReview": "2026-10-16",
+      "name": "action-gh-release",
+      "namespace": "softprops",
+      "path": "products/github-softprops-action-gh-release.json",
+      "purl": "pkg:github/softprops/action-gh-release",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-cloud-google-com-go-pubsub",
+      "latestReview": "2026-10-20",
+      "name": "pubsub",
+      "namespace": "cloud.google.com/go",
+      "path": "products/golang-cloud-google-com-go-pubsub.json",
+      "purl": "pkg:golang/cloud.google.com/go/pubsub",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-cncf-udpa-go",
+      "latestReview": "2026-10-20",
+      "name": "go",
+      "namespace": "github.com/cncf/udpa",
+      "path": "products/golang-github-com-cncf-udpa-go.json",
+      "purl": "pkg:golang/github.com/cncf/udpa/go",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-discord-lilliput",
+      "latestReview": "2026-10-20",
+      "name": "lilliput",
+      "namespace": "github.com/discord",
+      "path": "products/golang-github-com-discord-lilliput.json",
+      "purl": "pkg:golang/github.com/discord/lilliput",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-golang-protobuf",
+      "latestReview": "2026-10-20",
+      "name": "protobuf",
+      "namespace": "github.com/golang",
+      "path": "products/golang-github-com-golang-protobuf.json",
+      "purl": "pkg:golang/github.com/golang/protobuf",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-streadway-amqp",
+      "latestReview": "2026-10-20",
+      "name": "amqp",
+      "namespace": "github.com/streadway",
+      "path": "products/golang-github-com-streadway-amqp.json",
+      "purl": "pkg:golang/github.com/streadway/amqp",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-go-opentelemetry-io-otel-exporters-zipkin",
+      "latestReview": "2026-10-20",
+      "name": "zipkin",
+      "namespace": "go.opentelemetry.io/otel/exporters",
+      "path": "products/golang-go-opentelemetry-io-otel-exporters-zipkin.json",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "elixir"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "hex-fennec",
+      "latestReview": "2026-10-26",
+      "name": "fennec",
+      "path": "products/hex-fennec.json",
+      "purl": "pkg:hex/fennec",
+      "rules": 1,
+      "type": "hex"
+    },
+    {
+      "earliestDeadline": "2024-08-31",
+      "ecosystems": [
+        "android"
+      ],
+      "events": [
+        "deprecated",
+        "scheduled-end-of-life"
+      ],
+      "id": "maven-com-android-billingclient-billing",
+      "latestReview": "2026-10-19",
+      "name": "billing",
+      "namespace": "com.android.billingclient",
+      "path": "products/maven-com-android-billingclient-billing.json",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "rules": 5,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-mysql-mysql-connector-java",
+      "latestReview": "2026-10-17",
+      "name": "mysql-connector-java",
+      "namespace": "mysql",
+      "path": "products/maven-mysql-mysql-connector-java.json",
+      "purl": "pkg:maven/mysql/mysql-connector-java",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-org-hibernate-hibernate-entitymanager",
+      "latestReview": "2026-10-20",
+      "name": "hibernate-entitymanager",
+      "namespace": "org.hibernate",
+      "path": "products/maven-org-hibernate-hibernate-entitymanager.json",
+      "purl": "pkg:maven/org.hibernate/hibernate-entitymanager",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-org-slf4j-slf4j-log4j12",
+      "latestReview": "2026-10-17",
+      "name": "slf4j-log4j12",
+      "namespace": "org.slf4j",
+      "path": "products/maven-org-slf4j-slf4j-log4j12.json",
+      "purl": "pkg:maven/org.slf4j/slf4j-log4j12",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "maven-org-springframework-boot-spring-boot",
+      "latestReview": "2026-10-25",
+      "name": "spring-boot",
+      "namespace": "org.springframework.boot",
+      "path": "products/maven-org-springframework-boot-spring-boot.json",
+      "purl": "pkg:maven/org.springframework.boot/spring-boot",
+      "rules": 3,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-abab",
+      "latestReview": "2026-10-16",
+      "name": "abab",
+      "path": "products/npm-abab.json",
+      "purl": "pkg:npm/abab",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2026-11-28",
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-support",
+        "scheduled-end-of-life"
+      ],
+      "id": "npm-angular-core",
+      "latestReview": "2026-10-24",
+      "name": "core",
+      "namespace": "@angular",
+      "path": "products/npm-angular-core.json",
+      "purl": "pkg:npm/%40angular/core",
+      "rules": 5,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-are-we-there-yet",
+      "latestReview": "2026-10-16",
+      "name": "are-we-there-yet",
+      "path": "products/npm-are-we-there-yet.json",
+      "purl": "pkg:npm/are-we-there-yet",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-babel-eslint",
+      "latestReview": "2026-10-17",
+      "name": "babel-eslint",
+      "path": "products/npm-babel-eslint.json",
+      "purl": "pkg:npm/babel-eslint",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-babel-preset-es2015",
+      "latestReview": "2026-10-16",
+      "name": "babel-preset-es2015",
+      "path": "products/npm-babel-preset-es2015.json",
+      "purl": "pkg:npm/babel-preset-es2015",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-boom",
+      "latestReview": "2026-10-16",
+      "name": "boom",
+      "path": "products/npm-boom.json",
+      "purl": "pkg:npm/boom",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-cryptiles",
+      "latestReview": "2026-10-16",
+      "name": "cryptiles",
+      "path": "products/npm-cryptiles.json",
+      "purl": "pkg:npm/cryptiles",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-crypto-js",
+      "latestReview": "2026-10-19",
+      "name": "crypto-js",
+      "path": "products/npm-crypto-js.json",
+      "purl": "pkg:npm/crypto-js",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-domexception",
+      "latestReview": "2026-10-16",
+      "name": "domexception",
+      "path": "products/npm-domexception.json",
+      "purl": "pkg:npm/domexception",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-eslint-plugin-nuxt",
+      "latestReview": "2026-10-19",
+      "name": "eslint-plugin-nuxt",
+      "path": "products/npm-eslint-plugin-nuxt.json",
+      "purl": "pkg:npm/eslint-plugin-nuxt",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-figgy-pudding",
+      "latestReview": "2026-10-16",
+      "name": "figgy-pudding",
+      "path": "products/npm-figgy-pudding.json",
+      "purl": "pkg:npm/figgy-pudding",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-fstream",
+      "latestReview": "2026-10-16",
+      "name": "fstream",
+      "path": "products/npm-fstream.json",
+      "purl": "pkg:npm/fstream",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-gauge",
+      "latestReview": "2026-10-16",
+      "name": "gauge",
+      "path": "products/npm-gauge.json",
+      "purl": "pkg:npm/gauge",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-gulp-util",
+      "latestReview": "2026-10-16",
+      "name": "gulp-util",
+      "path": "products/npm-gulp-util.json",
+      "purl": "pkg:npm/gulp-util",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-hapi-joi",
+      "latestReview": "2026-10-16",
+      "name": "joi",
+      "namespace": "@hapi",
+      "path": "products/npm-hapi-joi.json",
+      "purl": "pkg:npm/%40hapi/joi",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-har-validator",
+      "latestReview": "2026-10-16",
+      "name": "har-validator",
+      "path": "products/npm-har-validator.json",
+      "purl": "pkg:npm/har-validator",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-humanwhocodes-config-array",
+      "latestReview": "2026-10-16",
+      "name": "config-array",
+      "namespace": "@humanwhocodes",
+      "path": "products/npm-humanwhocodes-config-array.json",
+      "purl": "pkg:npm/%40humanwhocodes/config-array",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-humanwhocodes-object-schema",
+      "latestReview": "2026-10-16",
+      "name": "object-schema",
+      "namespace": "@humanwhocodes",
+      "path": "products/npm-humanwhocodes-object-schema.json",
+      "purl": "pkg:npm/%40humanwhocodes/object-schema",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-i18next-parser",
+      "latestReview": "2026-10-19",
+      "name": "i18next-parser",
+      "path": "products/npm-i18next-parser.json",
+      "purl": "pkg:npm/i18next-parser",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-inflight",
+      "latestReview": "2026-10-16",
+      "name": "inflight",
+      "path": "products/npm-inflight.json",
+      "purl": "pkg:npm/inflight",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-istanbul",
+      "latestReview": "2026-10-16",
+      "name": "istanbul",
+      "path": "products/npm-istanbul.json",
+      "purl": "pkg:npm/istanbul",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-jade",
+      "latestReview": "2026-10-16",
+      "name": "jade",
+      "path": "products/npm-jade.json",
+      "purl": "pkg:npm/jade",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-karma-phantomjs-launcher",
+      "latestReview": "2026-10-16",
+      "name": "karma-phantomjs-launcher",
+      "path": "products/npm-karma-phantomjs-launcher.json",
+      "purl": "pkg:npm/karma-phantomjs-launcher",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-koa-router",
+      "latestReview": "2026-10-19",
+      "name": "koa-router",
+      "path": "products/npm-koa-router.json",
+      "purl": "pkg:npm/koa-router",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-left-pad",
+      "latestReview": "2026-10-14",
+      "name": "left-pad",
+      "path": "products/npm-left-pad.json",
+      "purl": "pkg:npm/left-pad",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-lodash-get",
+      "latestReview": "2026-10-16",
+      "name": "lodash.get",
+      "path": "products/npm-lodash-get.json",
+      "purl": "pkg:npm/lodash.get",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-lodash-isequal",
+      "latestReview": "2026-10-16",
+      "name": "lodash.isequal",
+      "path": "products/npm-lodash-isequal.json",
+      "purl": "pkg:npm/lodash.isequal",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-natives",
+      "latestReview": "2026-10-16",
+      "name": "natives",
+      "path": "products/npm-natives.json",
+      "purl": "pkg:npm/natives",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2023-10-26",
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "npm-next",
+      "latestReview": "2026-10-25",
+      "name": "next",
+      "path": "products/npm-next.json",
+      "purl": "pkg:npm/next",
+      "rules": 4,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-node-pre-gyp",
+      "latestReview": "2026-10-16",
+      "name": "node-pre-gyp",
+      "path": "products/npm-node-pre-gyp.json",
+      "purl": "pkg:npm/node-pre-gyp",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2024-07-24",
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-node-sass",
+      "latestReview": "2026-10-14",
+      "name": "node-sass",
+      "path": "products/npm-node-sass.json",
+      "purl": "pkg:npm/node-sass",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-nomnom",
+      "latestReview": "2026-10-16",
+      "name": "nomnom",
+      "path": "products/npm-nomnom.json",
+      "purl": "pkg:npm/nomnom",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-npmcli-move-file",
+      "latestReview": "2026-10-16",
+      "name": "move-file",
+      "namespace": "@npmcli",
+      "path": "products/npm-npmcli-move-file.json",
+      "purl": "pkg:npm/%40npmcli/move-file",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-npmlog",
+      "latestReview": "2026-10-16",
+      "name": "npmlog",
+      "path": "products/npm-npmlog.json",
+      "purl": "pkg:npm/npmlog",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-nuxt-types",
+      "latestReview": "2026-10-19",
+      "name": "types",
+      "namespace": "@nuxt",
+      "path": "products/npm-nuxt-types.json",
+      "purl": "pkg:npm/%40nuxt/types",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-nuxt-typescript-build",
+      "latestReview": "2026-10-19",
+      "name": "typescript-build",
+      "namespace": "@nuxt",
+      "path": "products/npm-nuxt-typescript-build.json",
+      "purl": "pkg:npm/%40nuxt/typescript-build",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-osenv",
+      "latestReview": "2026-10-16",
+      "name": "osenv",
+      "path": "products/npm-osenv.json",
+      "purl": "pkg:npm/osenv",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-popper-js",
+      "latestReview": "2026-10-16",
+      "name": "popper.js",
+      "path": "products/npm-popper-js.json",
+      "purl": "pkg:npm/popper.js",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-protractor",
+      "latestReview": "2026-10-16",
+      "name": "protractor",
+      "path": "products/npm-protractor.json",
+      "purl": "pkg:npm/protractor",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-q",
+      "latestReview": "2026-10-16",
+      "name": "q",
+      "path": "products/npm-q.json",
+      "purl": "pkg:npm/q",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-querystring",
+      "latestReview": "2026-10-16",
+      "name": "querystring",
+      "path": "products/npm-querystring.json",
+      "purl": "pkg:npm/querystring",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-react-beautiful-dnd",
+      "latestReview": "2026-10-19",
+      "name": "react-beautiful-dnd",
+      "path": "products/npm-react-beautiful-dnd.json",
+      "purl": "pkg:npm/react-beautiful-dnd",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "npm-react-native",
+      "latestReview": "2026-10-23",
+      "name": "react-native",
+      "path": "products/npm-react-native.json",
+      "purl": "pkg:npm/react-native",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-read-package-json",
+      "latestReview": "2026-10-16",
+      "name": "read-package-json",
+      "path": "products/npm-read-package-json.json",
+      "purl": "pkg:npm/read-package-json",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2020-02-11",
+      "ecosystems": [
+        "npm",
+        "osv"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-request",
+      "latestReview": "2026-10-27",
+      "name": "request",
+      "path": "products/npm-request.json",
+      "purl": "pkg:npm/request",
+      "rules": 2,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-request-promise",
+      "latestReview": "2026-10-16",
+      "name": "request-promise",
+      "path": "products/npm-request-promise.json",
+      "purl": "pkg:npm/request-promise",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-request-promise-native",
+      "latestReview": "2026-10-16",
+      "name": "request-promise-native",
+      "path": "products/npm-request-promise-native.json",
+      "purl": "pkg:npm/request-promise-native",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-resolve-url",
+      "latestReview": "2026-10-16",
+      "name": "resolve-url",
+      "path": "products/npm-resolve-url.json",
+      "purl": "pkg:npm/resolve-url",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-rollup-plugin-babel",
+      "latestReview": "2026-10-16",
+      "name": "rollup-plugin-babel",
+      "path": "products/npm-rollup-plugin-babel.json",
+      "purl": "pkg:npm/rollup-plugin-babel",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-rollup-plugin-terser",
+      "latestReview": "2026-10-19",
+      "name": "rollup-plugin-terser",
+      "path": "products/npm-rollup-plugin-terser.json",
+      "purl": "pkg:npm/rollup-plugin-terser",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-sntp",
+      "latestReview": "2026-10-16",
+      "name": "sntp",
+      "path": "products/npm-sntp.json",
+      "purl": "pkg:npm/sntp",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-socket-io-redis",
+      "latestReview": "2026-10-19",
+      "name": "socket.io-redis",
+      "path": "products/npm-socket-io-redis.json",
+      "purl": "pkg:npm/socket.io-redis",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-source-map-url",
+      "latestReview": "2026-10-16",
+      "name": "source-map-url",
+      "path": "products/npm-source-map-url.json",
+      "purl": "pkg:npm/source-map-url",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-sourcemap-codec",
+      "latestReview": "2026-10-16",
+      "name": "sourcemap-codec",
+      "path": "products/npm-sourcemap-codec.json",
+      "purl": "pkg:npm/sourcemap-codec",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-stable",
+      "latestReview": "2026-10-16",
+      "name": "stable",
+      "path": "products/npm-stable.json",
+      "purl": "pkg:npm/stable",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-tslint",
+      "latestReview": "2026-10-17",
+      "name": "tslint",
+      "path": "products/npm-tslint.json",
+      "purl": "pkg:npm/tslint",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-diff",
+      "latestReview": "2026-10-19",
+      "name": "diff",
+      "namespace": "@types",
+      "path": "products/npm-types-diff.json",
+      "purl": "pkg:npm/%40types/diff",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-dotenv",
+      "latestReview": "2026-10-19",
+      "name": "dotenv",
+      "namespace": "@types",
+      "path": "products/npm-types-dotenv.json",
+      "purl": "pkg:npm/%40types/dotenv",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-emoji-regex",
+      "latestReview": "2026-10-19",
+      "name": "emoji-regex",
+      "namespace": "@types",
+      "path": "products/npm-types-emoji-regex.json",
+      "purl": "pkg:npm/%40types/emoji-regex",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-form-data",
+      "latestReview": "2026-10-19",
+      "name": "form-data",
+      "namespace": "@types",
+      "path": "products/npm-types-form-data.json",
+      "purl": "pkg:npm/%40types/form-data",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-glob",
+      "latestReview": "2026-10-19",
+      "name": "glob",
+      "namespace": "@types",
+      "path": "products/npm-types-glob.json",
+      "purl": "pkg:npm/%40types/glob",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-koa-helmet",
+      "latestReview": "2026-10-19",
+      "name": "koa-helmet",
+      "namespace": "@types",
+      "path": "products/npm-types-koa-helmet.json",
+      "purl": "pkg:npm/%40types/koa-helmet",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-koa-useragent",
+      "latestReview": "2026-10-19",
+      "name": "koa-useragent",
+      "namespace": "@types",
+      "path": "products/npm-types-koa-useragent.json",
+      "purl": "pkg:npm/%40types/koa-useragent",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-pako",
+      "latestReview": "2026-10-19",
+      "name": "pako",
+      "namespace": "@types",
+      "path": "products/npm-types-pako.json",
+      "purl": "pkg:npm/%40types/pako",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-react-virtualized-auto-sizer",
+      "latestReview": "2026-10-19",
+      "name": "react-virtualized-auto-sizer",
+      "namespace": "@types",
+      "path": "products/npm-types-react-virtualized-auto-sizer.json",
+      "purl": "pkg:npm/%40types/react-virtualized-auto-sizer",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-react-window",
+      "latestReview": "2026-10-19",
+      "name": "react-window",
+      "namespace": "@types",
+      "path": "products/npm-types-react-window.json",
+      "purl": "pkg:npm/%40types/react-window",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-refractor",
+      "latestReview": "2026-10-19",
+      "name": "refractor",
+      "namespace": "@types",
+      "path": "products/npm-types-refractor.json",
+      "purl": "pkg:npm/%40types/refractor",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-sanitize-filename",
+      "latestReview": "2026-10-19",
+      "name": "sanitize-filename",
+      "namespace": "@types",
+      "path": "products/npm-types-sanitize-filename.json",
+      "purl": "pkg:npm/%40types/sanitize-filename",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-sequelize",
+      "latestReview": "2026-10-19",
+      "name": "sequelize",
+      "namespace": "@types",
+      "path": "products/npm-types-sequelize.json",
+      "purl": "pkg:npm/%40types/sequelize",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-types-socket-io-client",
+      "latestReview": "2026-10-19",
+      "name": "socket.io-client",
+      "namespace": "@types",
+      "path": "products/npm-types-socket-io-client.json",
+      "purl": "pkg:npm/%40types/socket.io-client",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-uglify-es",
+      "latestReview": "2026-10-17",
+      "name": "uglify-es",
+      "path": "products/npm-uglify-es.json",
+      "purl": "pkg:npm/uglify-es",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2023-12-31",
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "npm-vue",
+      "latestReview": "2026-10-21",
+      "name": "vue",
+      "path": "products/npm-vue.json",
+      "purl": "pkg:npm/vue",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-vue2-script-setup-transform",
+      "latestReview": "2026-10-19",
+      "name": "vue2-script-setup-transform",
+      "path": "products/npm-vue2-script-setup-transform.json",
+      "purl": "pkg:npm/vue2-script-setup-transform",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "ecosystems": [
+        "npm"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "npm-w3c-hr-time",
+      "latestReview": "2026-10-16",
+      "name": "w3c-hr-time",
+      "path": "products/npm-w3c-hr-time.json",
+      "purl": "pkg:npm/w3c-hr-time",
+      "rules": 1,
+      "type": "npm"
+    },
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-documentdb",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.DocumentDB",
+      "path": "products/nuget-microsoft-azure-documentdb.json",
+      "purl": "pkg:nuget/Microsoft.Azure.DocumentDB",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2026-09-30",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-servicebus",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.ServiceBus",
+      "path": "products/nuget-microsoft-azure-servicebus.json",
+      "purl": "pkg:nuget/Microsoft.Azure.ServiceBus",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-storage-blob",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.Storage.Blob",
+      "path": "products/nuget-microsoft-azure-storage-blob.json",
+      "purl": "pkg:nuget/Microsoft.Azure.Storage.Blob",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-windowsazure-storage",
+      "latestReview": "2026-10-17",
+      "name": "WindowsAzure.Storage",
+      "path": "products/nuget-windowsazure-storage.json",
+      "purl": "pkg:nuget/WindowsAzure.Storage",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-agentops-toolkit",
+      "latestReview": "2026-10-16",
+      "name": "agentops-toolkit",
+      "path": "products/pypi-agentops-toolkit.json",
+      "purl": "pkg:pypi/agentops-toolkit",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-aiohttp-valera-validator",
+      "latestReview": "2026-10-16",
+      "name": "aiohttp-valera-validator",
+      "path": "products/pypi-aiohttp-valera-validator.json",
+      "purl": "pkg:pypi/aiohttp-valera-validator",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-api-shield",
+      "latestReview": "2026-10-16",
+      "name": "api-shield",
+      "path": "products/pypi-api-shield.json",
+      "purl": "pkg:pypi/api-shield",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-apisec-code-bolt",
+      "latestReview": "2026-10-16",
+      "name": "apisec-code-bolt",
+      "path": "products/pypi-apisec-code-bolt.json",
+      "purl": "pkg:pypi/apisec-code-bolt",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-argparse",
+      "latestReview": "2026-10-20",
+      "name": "argparse",
+      "path": "products/pypi-argparse.json",
+      "purl": "pkg:pypi/argparse",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-asyncio-requests",
+      "latestReview": "2026-10-16",
+      "name": "asyncio-requests",
+      "path": "products/pypi-asyncio-requests.json",
+      "purl": "pkg:pypi/asyncio-requests",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-batchnotebook",
+      "latestReview": "2026-10-16",
+      "name": "batchnotebook",
+      "path": "products/pypi-batchnotebook.json",
+      "purl": "pkg:pypi/batchnotebook",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-cmip-ref",
+      "latestReview": "2026-10-16",
+      "name": "cmip-ref",
+      "path": "products/pypi-cmip-ref.json",
+      "purl": "pkg:pypi/cmip-ref",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-datacommons",
+      "latestReview": "2026-10-16",
+      "name": "datacommons",
+      "path": "products/pypi-datacommons.json",
+      "purl": "pkg:pypi/datacommons",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-distribute",
+      "latestReview": "2026-10-16",
+      "name": "distribute",
+      "path": "products/pypi-distribute.json",
+      "purl": "pkg:pypi/distribute",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "earliestDeadline": "2013-02-26",
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-django",
+      "latestReview": "2026-10-21",
+      "name": "django",
+      "path": "products/pypi-django.json",
+      "purl": "pkg:pypi/django",
+      "rules": 20,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-django-celery",
+      "latestReview": "2026-10-16",
+      "name": "django-celery",
+      "path": "products/pypi-django-celery.json",
+      "purl": "pkg:pypi/django-celery",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-django-nose",
+      "latestReview": "2026-10-14",
+      "name": "django-nose",
+      "path": "products/pypi-django-nose.json",
+      "purl": "pkg:pypi/django-nose",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-enum",
+      "latestReview": "2026-10-20",
+      "name": "enum",
+      "path": "products/pypi-enum.json",
+      "purl": "pkg:pypi/enum",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-ghops",
+      "latestReview": "2026-10-16",
+      "name": "ghops",
+      "path": "products/pypi-ghops.json",
+      "purl": "pkg:pypi/ghops",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-goobook",
+      "latestReview": "2026-10-16",
+      "name": "goobook",
+      "path": "products/pypi-goobook.json",
+      "purl": "pkg:pypi/goobook",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-google-cloud",
+      "latestReview": "2026-10-20",
+      "name": "google-cloud",
+      "path": "products/pypi-google-cloud.json",
+      "purl": "pkg:pypi/google-cloud",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-headroom-cli",
+      "latestReview": "2026-10-16",
+      "name": "headroom-cli",
+      "path": "products/pypi-headroom-cli.json",
+      "purl": "pkg:pypi/headroom-cli",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-imagej",
+      "latestReview": "2026-10-16",
+      "name": "imagej",
+      "path": "products/pypi-imagej.json",
+      "purl": "pkg:pypi/imagej",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-ipaddr",
+      "latestReview": "2026-10-16",
+      "name": "ipaddr",
+      "path": "products/pypi-ipaddr.json",
+      "purl": "pkg:pypi/ipaddr",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-llama-index-experimental",
+      "latestReview": "2026-10-16",
+      "name": "llama-index-experimental",
+      "path": "products/pypi-llama-index-experimental.json",
+      "purl": "pkg:pypi/llama-index-experimental",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-mondobrain",
+      "latestReview": "2026-10-16",
+      "name": "mondobrain",
+      "path": "products/pypi-mondobrain.json",
+      "purl": "pkg:pypi/mondobrain",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-multimodal-timesfm",
+      "latestReview": "2026-10-16",
+      "name": "multimodal-timesfm",
+      "path": "products/pypi-multimodal-timesfm.json",
+      "purl": "pkg:pypi/multimodal-timesfm",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-nose",
+      "latestReview": "2026-10-14",
+      "name": "nose",
+      "path": "products/pypi-nose.json",
+      "purl": "pkg:pypi/nose",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-opennms-api-wrapper",
+      "latestReview": "2026-10-16",
+      "name": "opennms-api-wrapper",
+      "path": "products/pypi-opennms-api-wrapper.json",
+      "purl": "pkg:pypi/opennms-api-wrapper",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pathlib",
+      "latestReview": "2026-10-20",
+      "name": "pathlib",
+      "path": "products/pypi-pathlib.json",
+      "purl": "pkg:pypi/pathlib",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-pep8",
+      "latestReview": "2026-10-16",
+      "name": "pep8",
+      "path": "products/pypi-pep8.json",
+      "purl": "pkg:pypi/pep8",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pil",
+      "latestReview": "2026-10-20",
+      "name": "pil",
+      "path": "products/pypi-pil.json",
+      "purl": "pkg:pypi/pil",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-poetry-version-plugin",
+      "latestReview": "2026-10-16",
+      "name": "poetry-version-plugin",
+      "path": "products/pypi-poetry-version-plugin.json",
+      "purl": "pkg:pypi/poetry-version-plugin",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "earliestDeadline": "2022-01-27",
+      "ecosystems": [
+        "osv",
+        "python"
+      ],
+      "events": [
+        "deprecated",
+        "end-of-life"
+      ],
+      "id": "pypi-pycrypto",
+      "latestReview": "2026-10-27",
+      "name": "pycrypto",
+      "path": "products/pypi-pycrypto.json",
+      "purl": "pkg:pypi/pycrypto",
+      "rules": 2,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pyinj",
+      "latestReview": "2026-10-16",
+      "name": "pyinj",
+      "path": "products/pypi-pyinj.json",
+      "purl": "pkg:pypi/pyinj",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-pytest-runner",
+      "latestReview": "2026-10-16",
+      "name": "pytest-runner",
+      "path": "products/pypi-pytest-runner.json",
+      "purl": "pkg:pypi/pytest-runner",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-saroku",
+      "latestReview": "2026-10-16",
+      "name": "saroku",
+      "path": "products/pypi-saroku.json",
+      "purl": "pkg:pypi/saroku",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-seofleet-cli",
+      "latestReview": "2026-10-16",
+      "name": "seofleet-cli",
+      "path": "products/pypi-seofleet-cli.json",
+      "purl": "pkg:pypi/seofleet-cli",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-sklearn",
+      "latestReview": "2026-10-16",
+      "name": "sklearn",
+      "path": "products/pypi-sklearn.json",
+      "purl": "pkg:pypi/sklearn",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-superlinked",
+      "latestReview": "2026-10-16",
+      "name": "superlinked",
+      "path": "products/pypi-superlinked.json",
+      "purl": "pkg:pypi/superlinked",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-superlinked-server",
+      "latestReview": "2026-10-16",
+      "name": "superlinked-server",
+      "path": "products/pypi-superlinked-server.json",
+      "purl": "pkg:pypi/superlinked-server",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-typing",
+      "latestReview": "2026-10-20",
+      "name": "typing",
+      "path": "products/pypi-typing.json",
+      "purl": "pkg:pypi/typing",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-vsdeband",
+      "latestReview": "2026-10-16",
+      "name": "vsdeband",
+      "path": "products/pypi-vsdeband.json",
+      "purl": "pkg:pypi/vsdeband",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-vsscale",
+      "latestReview": "2026-10-16",
+      "name": "vsscale",
+      "path": "products/pypi-vsscale.json",
+      "purl": "pkg:pypi/vsscale",
+      "rules": 1,
+      "type": "pypi"
+    }
+  ],
+  "recent": "recent.json",
+  "rules": 515,
+  "schemaVersion": "evergreen.api-index.v1"
+}

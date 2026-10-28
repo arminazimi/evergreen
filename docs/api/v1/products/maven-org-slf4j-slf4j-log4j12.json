@@ -1,0 +1,92 @@
+{
+  "ecosystems": [
+    "java"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "maven-org-slf4j-slf4j-log4j12",
+  "latestReview": "2026-10-17",
+  "name": "slf4j-log4j12",
+  "namespace": "org.slf4j",
+  "purl": "pkg:maven/org.slf4j/slf4j-log4j12",
+  "rules": [
+    {
+      "ecosystem": "java",
+      "event": "deprecated",
+      "id": "java.maven.org.slf4j.slf4j-log4j12.relocated",
+      "migration": {
+        "constraints": [
+          "Replace org.slf4j:slf4j-log4j12 with org.slf4j:slf4j-reload4j; the relocation in the artifact's POM names the new coordinates, so keep the version unless you intend to upgrade it.",
+          "Update every module and dependency-management block that names the old coordinates, and remove exclusions that mention them."
+        ],
+        "steps": [
+          {
+            "id": "change-coordinates",
+            "instructions": "Replace the reported `org.slf4j:slf4j-log4j12` dependency with `org.slf4j:slf4j-reload4j`.",
+            "targets": "declaration",
+            "title": "Change the dependency coordinates"
+          },
+          {
+            "id": "align-dependency-surfaces",
+            "instructions": "Update every other pom.xml, Gradle build file, version catalog, and BOM override that names the old coordinates.",
+            "targets": "all",
+            "title": "Align other declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Confirm the old coordinates are gone from the resolved dependency graph."
+          },
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the project with the new coordinates."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "java-2",
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/org.slf4j/slf4j-log4j12",
+      "replacement": "org.slf4j:slf4j-reload4j",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central",
+          "url": "https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom"
+        }
+      ],
+      "summary": "The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j.",
+      "title": "org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "java",
+          "module": "org.apache.log4j"
+        },
+        {
+          "kind": "import",
+          "language": "kotlin",
+          "module": "org.apache.log4j"
+        },
+        {
+          "kind": "import",
+          "language": "java",
+          "module": "org.slf4j.impl"
+        },
+        {
+          "kind": "import",
+          "language": "kotlin",
+          "module": "org.slf4j.impl"
+        }
+      ],
+      "vers": "vers:maven/>=2.0.13"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "maven"
+}

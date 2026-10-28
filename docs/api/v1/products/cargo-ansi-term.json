@@ -1,0 +1,64 @@
+{
+  "ecosystems": [
+    "rust"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "cargo-ansi-term",
+  "latestReview": "2026-10-17",
+  "name": "ansi_term",
+  "purl": "pkg:cargo/ansi_term",
+  "rules": [
+    {
+      "ecosystem": "rust",
+      "event": "deprecated",
+      "id": "rust.crate.ansi-term.unmaintained",
+      "migration": {
+        "constraints": [
+          "Keep the same colors and styles in terminal output."
+        ],
+        "steps": [
+          {
+            "id": "replace-ansi-term",
+            "instructions": "Replace ansi_term with a maintained styling crate (the advisory lists anstyle, nu-ansi-term, owo-colors, and console as unvetted options) and update `Style`, `Colour`, and `ANSIString` uses.",
+            "targets": "all",
+            "title": "Replace ansi_term"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cargo build --all-targets && cargo test",
+            "purpose": "Build and test after the styling change."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:cargo/ansi_term",
+      "replacement": "A maintained terminal-styling crate (the advisory lists unvetted alternatives such as anstyle, nu-ansi-term, owo-colors, and console)",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2021-0139",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2021-0139.html"
+        }
+      ],
+      "summary": "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.",
+      "title": "ansi_term is no longer maintained",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "ansi_term"
+        }
+      ],
+      "vers": "vers:cargo/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "cargo"
+}

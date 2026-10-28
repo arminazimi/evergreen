@@ -1,0 +1,74 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-multimodal-timesfm",
+  "latestReview": "2026-10-16",
+  "name": "multimodal-timesfm",
+  "purl": "pkg:pypi/multimodal-timesfm",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.multimodal-timesfm.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve model identifiers, checkpoints, preprocessing, forecast horizons, covariates, device selection, and output shapes."
+        ],
+        "steps": [
+          {
+            "id": "replace-multimodal-timesfm",
+            "instructions": "Replace the distribution and translate imports, model loading, and forecast calls to tsfmx.",
+            "targets": "all",
+            "title": "Replace multimodal-timesfm"
+          },
+          {
+            "id": "compare-forecasts",
+            "instructions": "Run pinned fixtures through both packages and compare shapes, missing-value handling, and forecast tolerances.",
+            "targets": "usages",
+            "title": "Compare forecast behavior"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run forecasting and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/multimodal-timesfm",
+      "replacement": "tsfmx",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "multimodal-timesfm rename notice",
+          "url": "https://pypi.org/project/multimodal-timesfm/"
+        }
+      ],
+      "summary": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
+      "title": "multimodal-timesfm is no longer maintained",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "multimodal_timesfm"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "multimodal-timesfm"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

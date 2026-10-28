@@ -1,0 +1,66 @@
+{
+  "ecosystems": [
+    "php"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "composer-doctrine-cache",
+  "latestReview": "2026-10-20",
+  "name": "cache",
+  "namespace": "doctrine",
+  "purl": "pkg:composer/doctrine/cache",
+  "rules": [
+    {
+      "ecosystem": "php",
+      "event": "deprecated",
+      "id": "php.package.doctrine.cache.abandoned",
+      "migration": {
+        "constraints": [
+          "Keep composer.json and composer.lock consistent after removing doctrine/cache, and check that no other package still requires it.",
+          "Preserve existing behavior while replacing the abandoned package; review its public API usage before choosing a replacement."
+        ],
+        "steps": [
+          {
+            "id": "replace-abandoned-package",
+            "instructions": "Remove doctrine/cache from composer.json and replace it with a maintained alternative that fits how the project uses it, then run `composer update`.",
+            "targets": "declaration",
+            "title": "Replace the abandoned package"
+          }
+        ],
+        "verification": [
+          {
+            "command": "composer validate && composer install",
+            "purpose": "Confirm the Composer project is valid and installs without the abandoned package."
+          },
+          {
+            "command": "composer validate && vendor/bin/phpunit",
+            "purpose": "Validate the Composer project and run the PHPUnit suite after the replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:composer/doctrine/cache",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "doctrine/cache on Packagist",
+          "url": "https://packagist.org/packages/doctrine/cache"
+        },
+        {
+          "title": "doctrine/cache Composer metadata",
+          "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+        }
+      ],
+      "summary": "Packagist marks doctrine/cache as abandoned and no longer maintained.",
+      "title": "doctrine/cache is abandoned",
+      "vers": "vers:composer/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "composer"
+}

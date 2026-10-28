@@ -109,6 +109,8 @@
     "report:monthly": "npm run build --silent && node dist/tools/monthly-report.js",
     "org:rollout": "npm run build --silent && node dist/tools/org-rollout.js",
     "build:data-bundle": "npm run build --silent && node dist/tools/build-data-bundle.js",
+    "build:data-api": "npm run build --silent && node dist/tools/build-data-api.js",
+    "check:data-api": "npm run build --silent && node dist/tools/build-data-api.js --check",
     "build:llms": "npm run build --silent && node dist/tools/build-llms-full.js",
     "build:coverage": "npm run build --silent && node dist/tools/coverage-matrix.js",
     "check:reference": "npm run build --silent && node dist/tools/build-reference-pages.js --check",

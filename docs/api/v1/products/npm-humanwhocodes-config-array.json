@@ -1,0 +1,78 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-humanwhocodes-config-array",
+  "latestReview": "2026-10-16",
+  "name": "config-array",
+  "namespace": "@humanwhocodes",
+  "purl": "pkg:npm/%40humanwhocodes/config-array",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.humanwhocodes-config-array.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve config matching, normalization, naming, ignore handling, cache behavior, and exported API semantics."
+        ],
+        "steps": [
+          {
+            "id": "replace-config-array",
+            "instructions": "Replace the dependency and imports with @eslint/config-array, then adapt renamed or changed exports using its maintained API.",
+            "targets": "all",
+            "title": "Move to the ESLint package"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run configuration selection and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40humanwhocodes/config-array",
+      "replacement": "@eslint/config-array",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@humanwhocodes/config-array package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+        },
+        {
+          "title": "@humanwhocodes/config-array registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+        }
+      ],
+      "summary": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
+      "title": "@humanwhocodes/config-array is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@humanwhocodes/config-array"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@humanwhocodes/config-array"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "@humanwhocodes/config-array"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

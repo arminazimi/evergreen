@@ -1,0 +1,68 @@
+{
+  "earliestDeadline": "2025-01-30",
+  "ecosystems": [
+    "serverless"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "generic-google-cloud-functions-runtime-nodejs14",
+  "latestReview": "2026-10-21",
+  "name": "nodejs14",
+  "namespace": "google-cloud-functions-runtime",
+  "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+  "rules": [
+    {
+      "deadline": "2025-01-30",
+      "ecosystem": "serverless",
+      "event": "end-of-life",
+      "id": "serverless.google-cloud-functions.nodejs14",
+      "migration": {
+        "constraints": [
+          "Keep Terraform google_cloudfunctions*_function runtime (and any matching deploy config) on one Google Cloud Functions runtime ID that Google still supports.",
+          "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-gcloud-functions-runtime",
+            "instructions": "Change the reported runtime from nodejs14 to a supported Google Cloud Functions Node.js runtime ID (see the replacement).",
+            "targets": "declaration",
+            "title": "Raise the Google Cloud Functions runtime"
+          },
+          {
+            "id": "align-gcloud-functions-runtime-surfaces",
+            "instructions": "Update every other Terraform google_cloudfunctions*_function runtime and CI deploy config that still pins nodejs14.",
+            "targets": "all",
+            "title": "Align other runtime surfaces"
+          }
+        ],
+        "verification": [
+          {
+            "command": "terraform validate",
+            "purpose": "Validate the updated Terraform google_cloudfunctions*_function declaration before deploy."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+      "replacement": "nodejs22 or nodejs24",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Cloud Run functions runtime support",
+          "url": "https://cloud.google.com/functions/docs/runtime-support"
+        }
+      ],
+      "summary": "The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+      "title": "Google Cloud Functions Node.js 14 runtime is end-of-life",
+      "vers": "vers:semver/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

@@ -1,0 +1,61 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-apisec-code-bolt",
+  "latestReview": "2026-10-16",
+  "name": "apisec-code-bolt",
+  "purl": "pkg:pypi/apisec-code-bolt",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.apisec-code-bolt.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve authentication, configuration, saved credentials, scan scope, manifest output, upload behavior, and CI exit codes."
+        ],
+        "steps": [
+          {
+            "id": "replace-apisec-code-bolt",
+            "instructions": "Replace the distribution with apisec-surface and verify the renamed command, while retaining compatible state and configuration documented by the maintainer.",
+            "targets": "all",
+            "title": "Replace apisec-code-bolt"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run APIsec CLI integration and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/apisec-code-bolt",
+      "replacement": "apisec-surface",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "apisec-surface rename notice",
+          "url": "https://pypi.org/project/apisec-surface/"
+        }
+      ],
+      "summary": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
+      "title": "apisec-code-bolt was renamed",
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "apisec-code-bolt"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

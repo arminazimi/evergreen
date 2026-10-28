@@ -1,0 +1,68 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "pypi-aiohttp-valera-validator",
+  "latestReview": "2026-10-16",
+  "name": "aiohttp-valera-validator",
+  "purl": "pkg:pypi/aiohttp-valera-validator",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.aiohttp-valera-validator.eol",
+      "migration": {
+        "constraints": [
+          "Preserve request parameter, query, body, and response validation; schema semantics; aiohttp middleware behavior; and error responses."
+        ],
+        "steps": [
+          {
+            "id": "replace-aiohttp-valera-validator",
+            "instructions": "Replace the distribution, update imports to aiohttp_d42_validator, and translate schemas and decorators to the renamed package.",
+            "targets": "all",
+            "title": "Move to aiohttp-d42-validator"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run valid and invalid request, schema, response, middleware, and project tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/aiohttp-valera-validator",
+      "replacement": "aiohttp-d42-validator",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "aiohttp-valera-validator rename notice",
+          "url": "https://pypi.org/project/aiohttp-valera-validator/"
+        }
+      ],
+      "summary": "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.",
+      "title": "aiohttp-valera-validator was renamed and is no longer maintained",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "aiohttp_valera_validator"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "aiohttp-valera-validator"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

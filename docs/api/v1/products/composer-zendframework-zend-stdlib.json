@@ -1,0 +1,91 @@
+{
+  "earliestDeadline": "2019-12-31",
+  "ecosystems": [
+    "php"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "composer-zendframework-zend-stdlib",
+  "latestReview": "2026-10-19",
+  "name": "zend-stdlib",
+  "namespace": "zendframework",
+  "purl": "pkg:composer/zendframework/zend-stdlib",
+  "rules": [
+    {
+      "deadline": "2019-12-31",
+      "ecosystem": "php",
+      "event": "deprecated",
+      "id": "php.package.zendframework.zend-stdlib.abandoned",
+      "migration": {
+        "constraints": [
+          "Preserve array and parameter helper behavior while moving from Zend\\Stdlib to Laminas\\Stdlib.",
+          "Keep composer.json, composer.lock, and any package that still requires zendframework/zend-stdlib consistent after the replacement."
+        ],
+        "steps": [
+          {
+            "id": "replace-zend-stdlib-dependency",
+            "instructions": "Remove zendframework/zend-stdlib from composer.json and require laminas/laminas-stdlib, then run `composer update`.",
+            "targets": "declaration",
+            "title": "Replace the dependency"
+          },
+          {
+            "id": "migrate-zend-stdlib-usages",
+            "instructions": "Replace reported Zend\\Stdlib use statements, ArrayUtils calls, and Parameters constructors with the Laminas\\Stdlib equivalents.",
+            "targets": "usages",
+            "title": "Migrate Zend\\Stdlib usages"
+          }
+        ],
+        "verification": [
+          {
+            "command": "composer validate && composer show laminas/laminas-stdlib",
+            "purpose": "Confirm the Composer project is valid and laminas/laminas-stdlib is installed."
+          },
+          {
+            "command": "composer validate && vendor/bin/phpunit",
+            "purpose": "Validate the Composer project and run the PHPUnit suite with the replacement package."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:composer/zendframework/zend-stdlib",
+      "replacement": "laminas/laminas-stdlib",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "zendframework/zend-stdlib on Packagist",
+          "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+        },
+        {
+          "title": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!",
+          "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html"
+        }
+      ],
+      "summary": "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead. The Laminas Project announced that Zend Framework packages were archived and marked abandoned on Packagist when the project moved to Laminas.",
+      "title": "zendframework/zend-stdlib is abandoned",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "php",
+          "module": "Zend\\Stdlib"
+        },
+        {
+          "kind": "call",
+          "language": "php",
+          "module": "Zend\\Stdlib",
+          "targets": [
+            "Zend\\Stdlib\\ArrayUtils::merge",
+            "new Zend\\Stdlib\\Parameters"
+          ]
+        }
+      ],
+      "vers": "vers:composer/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "composer"
+}

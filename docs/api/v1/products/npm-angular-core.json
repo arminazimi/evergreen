@@ -1,0 +1,408 @@
+{
+  "earliestDeadline": "2026-11-28",
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "end-of-support",
+    "scheduled-end-of-life"
+  ],
+  "id": "npm-angular-core",
+  "latestReview": "2026-10-24",
+  "name": "core",
+  "namespace": "@angular",
+  "purl": "pkg:npm/%40angular/core",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "end-of-support",
+      "id": "npm.package.angular.core.v18-and-older.end-of-support",
+      "migration": {
+        "constraints": [
+          "ng update accepts only a supported target major, and v19 is no longer supported, so no single ng update step from v18 or older reaches a supported major.",
+          "Use the Angular Update Guide to plan each step, and do not skip majors without it."
+        ],
+        "steps": [
+          {
+            "id": "plan-update-path",
+            "instructions": "Read the Angular Update Guide for this version and list each intermediate major that the guide requires, ending at v22 (Active) or v21 (LTS). Record the Node.js and TypeScript versions each step needs.",
+            "targets": "declaration",
+            "title": "Plan the update path"
+          },
+          {
+            "id": "update-step-by-step",
+            "instructions": "Run `ng update @angular/core@<next> @angular/cli@<next>` for each planned major, and apply that major's steps in the Angular Update Guide. Verify each step before the next.",
+            "targets": "all",
+            "title": "Update one major at a time"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40angular/core",
+      "replacement": "@angular/core@22",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "summary": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. Versions before v19 receive no fixes, including security fixes.",
+      "title": "@angular/core v18 and older are no longer supported",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "vers": "vers:npm/<19.0.0-0",
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "ecosystem": "npm",
+      "event": "end-of-support",
+      "id": "npm.package.angular.core.v19.end-of-support",
+      "migration": {
+        "constraints": [
+          "Update one major at a time. ng update accepts only a supported target major, and v20 is the only one-major target from v19.",
+          "v20 is LTS until 2026-11-28. After that date the one-major step from v19 is no longer supported by the release policy, so follow the Angular Update Guide for the path."
+        ],
+        "steps": [
+          {
+            "id": "update-to-v20",
+            "instructions": "Run `ng update @angular/core@20 @angular/cli@20` before 2026-11-28, then apply the v20 steps in the Angular Update Guide.",
+            "targets": "all",
+            "title": "Update to Angular v20"
+          },
+          {
+            "id": "update-to-v21",
+            "instructions": "After the v20 build and tests pass, run `ng update @angular/core@21 @angular/cli@21` and apply the v21 steps in the Angular Update Guide.",
+            "targets": "all",
+            "title": "Update to Angular v21"
+          },
+          {
+            "id": "update-to-v22",
+            "instructions": "After the v21 build and tests pass, run `ng update @angular/core@22 @angular/cli@22` and apply the v22 steps in the Angular Update Guide.",
+            "targets": "all",
+            "title": "Update to Angular v22"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40angular/core",
+      "replacement": "@angular/core@22",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "summary": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.",
+      "title": "@angular/core v19 is no longer supported",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "vers": "vers:npm/>=19.0.0-0|<20.0.0-0",
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "deadline": "2026-11-28",
+      "ecosystem": "npm",
+      "event": "scheduled-end-of-life",
+      "id": "npm.package.angular.core.v20.scheduled-end-of-life",
+      "migration": {
+        "constraints": [
+          "Update one major at a time. Each target major must be supported when you run ng update.",
+          "Keep @angular/core, @angular/cli, and every other @angular/* package on the same major."
+        ],
+        "steps": [
+          {
+            "id": "update-to-v21",
+            "instructions": "Run `ng update @angular/core@21 @angular/cli@21`, then apply the v21 steps in the Angular Update Guide, including the required TypeScript and Node.js versions.",
+            "targets": "all",
+            "title": "Update to Angular v21"
+          },
+          {
+            "id": "update-to-v22",
+            "instructions": "After the v21 build and tests pass, run `ng update @angular/core@22 @angular/cli@22` and apply the v22 steps in the Angular Update Guide.",
+            "targets": "all",
+            "title": "Update to Angular v22"
+          },
+          {
+            "id": "review-angular-imports",
+            "instructions": "Check each reported @angular/core import against the Angular Update Guide for removed, renamed, or changed APIs.",
+            "targets": "usages",
+            "title": "Review changed Angular APIs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40angular/core",
+      "replacement": "@angular/core@22",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "summary": "Angular's release schedule lists v20 as LTS with \"LTS ends 2026-11-28\". LTS receives only critical fixes and security patches until that date.",
+      "title": "@angular/core v20 reaches end of life on 2026-11-28",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "vers": "vers:npm/>=20.0.0-0|<21.0.0-0",
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "deadline": "2027-06-30",
+      "ecosystem": "npm",
+      "event": "scheduled-end-of-life",
+      "id": "npm.package.angular.core.v21.scheduled-end-of-life",
+      "migration": {
+        "constraints": [
+          "Update one major at a time. Each target major must be supported when you run ng update.",
+          "Keep @angular/core, @angular/cli, and every other @angular/* package on the same major."
+        ],
+        "steps": [
+          {
+            "id": "update-to-v22",
+            "instructions": "Run `ng update @angular/core@22 @angular/cli@22`, then apply the v22 steps in the Angular Update Guide, including the required TypeScript and Node.js versions.",
+            "targets": "all",
+            "title": "Update to Angular v22"
+          },
+          {
+            "id": "review-angular-imports",
+            "instructions": "Check each reported @angular/core import against the Angular Update Guide for removed, renamed, or changed APIs.",
+            "targets": "usages",
+            "title": "Review changed Angular APIs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40angular/core",
+      "replacement": "@angular/core@22",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "summary": "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
+      "title": "@angular/core v21 reaches end of life on 2027-06-30",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "vers": "vers:npm/>=21.0.0-0|<22.0.0-0",
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    },
+    {
+      "deadline": "2028-06-30",
+      "ecosystem": "npm",
+      "event": "scheduled-end-of-life",
+      "id": "npm.package.angular.core.v22.scheduled-end-of-life",
+      "migration": {
+        "constraints": [
+          "Update one major at a time. Each target major must be supported when you run ng update.",
+          "Keep @angular/core, @angular/cli, and every other @angular/* package on the same major."
+        ],
+        "steps": [
+          {
+            "id": "update-to-next-major",
+            "instructions": "When a newer major than v22 is published, run `ng update @angular/core@<major> @angular/cli@<major>` for it and apply its steps in the Angular Update Guide.",
+            "targets": "all",
+            "title": "Plan the update to the next Angular major"
+          },
+          {
+            "id": "review-angular-imports",
+            "instructions": "Check each reported @angular/core import against the Angular Update Guide for removed, renamed, or changed APIs.",
+            "targets": "usages",
+            "title": "Review changed Angular APIs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm ls @angular/core",
+            "purpose": "Confirm that @angular/core resolves to the target major."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the application on the target major."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the unit tests when the project defines them."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40angular/core",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "title": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "summary": "Angular's release schedule lists v22 with \"LTS ends 2028-06\", a month-precision date. Evergreen uses the last day of that month, 2028-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.",
+      "title": "@angular/core v22 reaches end of life on 2028-06-30",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@angular/core"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@angular/core"
+        }
+      ],
+      "vers": "vers:npm/>=22.0.0-0|<23.0.0-0",
+      "x-npm": {
+        "package": "@angular/core"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

@@ -1,0 +1,61 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-seofleet-cli",
+  "latestReview": "2026-10-16",
+  "name": "seofleet-cli",
+  "purl": "pkg:pypi/seofleet-cli",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.seofleet-cli.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve scan targets, configured checks, output formats, exit codes, and CI invocation."
+        ],
+        "steps": [
+          {
+            "id": "replace-seofleet-cli",
+            "instructions": "Replace the distribution and CLI invocation with llmscout-cli, then migrate configuration using the current project documentation.",
+            "targets": "all",
+            "title": "Replace seofleet-cli"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run CLI integration and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/seofleet-cli",
+      "replacement": "llmscout-cli",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "seofleet-cli deprecation notice",
+          "url": "https://pypi.org/project/seofleet-cli/"
+        }
+      ],
+      "summary": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
+      "title": "seofleet-cli is deprecated",
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "seofleet-cli"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

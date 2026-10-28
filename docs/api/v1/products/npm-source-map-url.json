@@ -1,0 +1,77 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-source-map-url",
+  "latestReview": "2026-10-16",
+  "name": "source-map-url",
+  "purl": "pkg:npm/source-map-url",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.source-map-url.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve JavaScript and CSS comment forms, inline and external map URLs, insertion position, removal behavior, and malformed-input handling."
+        ],
+        "steps": [
+          {
+            "id": "replace-source-map-url",
+            "instructions": "Replace source-map-url parsing and mutation calls with convert-source-map equivalents and explicit handling for any unsupported comment forms.",
+            "targets": "all",
+            "title": "Move to convert-source-map"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run inline, external, JavaScript, CSS, malformed, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/source-map-url",
+      "replacement": "convert-source-map",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "source-map-url maintainer deprecation notice",
+          "url": "https://github.com/lydell/source-map-url#deprecated"
+        },
+        {
+          "title": "source-map-url registry metadata",
+          "url": "https://registry.npmjs.org/source-map-url/latest"
+        }
+      ],
+      "summary": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
+      "title": "source-map-url is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "source-map-url"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "source-map-url"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "source-map-url"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

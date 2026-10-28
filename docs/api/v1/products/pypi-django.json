@@ -1,0 +1,1592 @@
+{
+  "earliestDeadline": "2013-02-26",
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "pypi-django",
+  "latestReview": "2026-10-21",
+  "name": "django",
+  "purl": "pkg:pypi/django",
+  "rules": [
+    {
+      "deadline": "2017-12-02",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.10.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.10 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 1.10 release notes (1.10.8)",
+          "url": "https://docs.djangoproject.com/en/1.10/releases/1.10.8/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.10 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 2, 2017.",
+      "title": "Django 1.10 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.10|<1.11.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2020-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.11.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.11 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 1.11 release notes (1.11.29)",
+          "url": "https://docs.djangoproject.com/en/1.11/releases/1.11.29/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.11 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2020.",
+      "title": "Django 1.11 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.11|<2.0.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2013-02-26",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.3.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.3 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.3 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was February 26, 2013.",
+      "title": "Django 1.3 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.3|<1.4.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2015-10-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.4.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.4 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.4 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was October 1, 2015.",
+      "title": "Django 1.4 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.4|<1.5.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2014-09-02",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.5.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.5 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.5 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was September 2, 2014.",
+      "title": "Django 1.5 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.5|<1.6.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2015-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.6.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.6 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.6 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2015.",
+      "title": "Django 1.6 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.6|<1.7.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2015-12-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.7.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.7 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.7 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 1, 2015.",
+      "title": "Django 1.7 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.7|<1.8.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2018-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.8.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.8 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 1.8 release notes (1.8.19)",
+          "url": "https://docs.djangoproject.com/en/1.8/releases/1.8.19/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.8 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2018.",
+      "title": "Django 1.8 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.8|<1.9.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2017-04-04",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-1.9.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 1.9 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 1.9 release notes (1.9.13)",
+          "url": "https://docs.djangoproject.com/en/1.9/releases/1.9.13/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 1.9 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 4, 2017.",
+      "title": "Django 1.9 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=1.9|<1.10.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2019-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-2.0.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 2.0 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 2.0 release notes (2.0.13)",
+          "url": "https://docs.djangoproject.com/en/2.0/releases/2.0.13/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 2.0 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2019.",
+      "title": "Django 2.0 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=2.0|<2.1.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2019-12-02",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-2.1.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 2.1 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 2.1 release notes (2.1.15)",
+          "url": "https://docs.djangoproject.com/en/2.1/releases/2.1.15/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 2.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 2, 2019.",
+      "title": "Django 2.1 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=2.1|<2.2.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2022-04-11",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-2.2.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 2.2 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 2.2 release notes (2.2.28)",
+          "url": "https://docs.djangoproject.com/en/2.2/releases/2.2.28/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 2.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 11, 2022.",
+      "title": "Django 2.2 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=2.2|<3.0.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2021-04-06",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-3.0.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 3.0 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 3.0 release notes (3.0.14)",
+          "url": "https://docs.djangoproject.com/en/3.0/releases/3.0.14/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 3.0 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 6, 2021.",
+      "title": "Django 3.0 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=3.0|<3.1.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2021-12-07",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-3.1.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 3.1 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 3.1 release notes (3.1.14)",
+          "url": "https://docs.djangoproject.com/en/3.1/releases/3.1.14/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 3.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 7, 2021.",
+      "title": "Django 3.1 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=3.1|<3.2.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2024-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-3.2.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 3.2 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 3.2 release notes (3.2.25)",
+          "url": "https://docs.djangoproject.com/en/3.2/releases/3.2.25/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 3.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2024.",
+      "title": "Django 3.2 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=3.2|<4.0.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2023-04-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-4.0.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 4.0 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 4.0 release notes (4.0.10)",
+          "url": "https://docs.djangoproject.com/en/4.0/releases/4.0.10/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 4.0 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2023.",
+      "title": "Django 4.0 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=4.0|<4.1.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2023-12-01",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-4.1.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 4.1 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 4.1 release notes (4.1.13)",
+          "url": "https://docs.djangoproject.com/en/4.1/releases/4.1.13/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 4.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 1, 2023.",
+      "title": "Django 4.1 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=4.1|<4.2.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2026-04-07",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-4.2.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 4.2 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 4.2 release notes (4.2.30)",
+          "url": "https://docs.djangoproject.com/en/4.2/releases/4.2.30/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 4.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 7, 2026.",
+      "title": "Django 4.2 LTS is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=4.2|<5.0.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2025-04-02",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-5.0.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 5.0 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 5.0 release notes (5.0.14)",
+          "url": "https://docs.djangoproject.com/en/5.0/releases/5.0.14/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 5.0 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 2, 2025.",
+      "title": "Django 5.0 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=5.0|<5.1.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    },
+    {
+      "deadline": "2025-12-03",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.django-5.1.eol",
+      "migration": {
+        "constraints": [
+          "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+          "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+          "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+        ],
+        "steps": [
+          {
+            "id": "raise-django-requirement",
+            "instructions": "Change the reported Django pin or requirement from 5.1 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+            "targets": "declaration",
+            "title": "Raise the Django requirement"
+          },
+          {
+            "id": "apply-release-notes",
+            "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+            "targets": "usages",
+            "title": "Apply the release notes"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py check",
+            "purpose": "Run Django's system checks against the upgraded project."
+          },
+          {
+            "command": "python -Wa manage.py test",
+            "purpose": "Run the project's test suite with deprecation warnings shown."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django",
+      "replacement": "Django 5.2 LTS or a newer supported release",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django 5.1 release notes (5.1.15)",
+          "url": "https://docs.djangoproject.com/en/5.1/releases/5.1.15/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "summary": "The Django project lists the 5.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 3, 2025.",
+      "title": "Django 5.1 is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django"
+        }
+      ],
+      "vers": "vers:pypi/>=5.1|<5.2.dev0",
+      "x-python": {
+        "kind": "package",
+        "package": "django"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

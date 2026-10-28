@@ -1,0 +1,68 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "pypi-mondobrain",
+  "latestReview": "2026-10-16",
+  "name": "mondobrain",
+  "purl": "pkg:pypi/mondobrain",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.mondobrain.eol",
+      "migration": {
+        "constraints": [
+          "Preserve data loading, analysis workflows, notebook integration, model behavior, and serialized artifacts relied on by users."
+        ],
+        "steps": [
+          {
+            "id": "replace-mondobrain",
+            "instructions": "Replace the distribution and translate mondobrain imports and workflows to datawhys equivalents.",
+            "targets": "all",
+            "title": "Move to datawhys"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run affected data workflow and project tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/mondobrain",
+      "replacement": "datawhys",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "mondobrain maintenance and replacement notice",
+          "url": "https://pypi.org/project/mondobrain/"
+        }
+      ],
+      "summary": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
+      "title": "mondobrain is no longer maintained",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "mondobrain"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "mondobrain"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

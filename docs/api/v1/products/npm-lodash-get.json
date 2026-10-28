@@ -1,0 +1,77 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-lodash-get",
+  "latestReview": "2026-10-16",
+  "name": "lodash.get",
+  "purl": "pkg:npm/lodash.get",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.lodash-get.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve path semantics, array-index access, default-value behavior, nullish handling, and minimum-runtime support."
+        ],
+        "steps": [
+          {
+            "id": "replace-lodash-get",
+            "instructions": "Rewrite each lodash.get call with optional chaining and nullish coalescing where a default value is required, then remove the dependency.",
+            "targets": "all",
+            "title": "Use optional chaining"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run nested access, default-value, nullish, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/lodash.get",
+      "replacement": "Optional chaining (?.)",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "lodash.get package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.get"
+        },
+        {
+          "title": "lodash.get registry metadata",
+          "url": "https://registry.npmjs.org/lodash.get/latest"
+        }
+      ],
+      "summary": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
+      "title": "lodash.get is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "lodash.get"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "lodash.get"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "lodash.get"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

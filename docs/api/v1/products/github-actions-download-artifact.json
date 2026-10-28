@@ -1,0 +1,74 @@
+{
+  "earliestDeadline": "2026-09-23",
+  "ecosystems": [
+    "github-actions"
+  ],
+  "events": [
+    "removed"
+  ],
+  "id": "github-actions-download-artifact",
+  "latestReview": "2026-10-14",
+  "name": "download-artifact",
+  "namespace": "actions",
+  "purl": "pkg:github/actions/download-artifact",
+  "rules": [
+    {
+      "deadline": "2026-09-23",
+      "ecosystem": "github-actions",
+      "event": "removed",
+      "id": "github-actions.download-artifact.retired",
+      "migration": {
+        "constraints": [
+          "Preserve artifact selection, download paths, merge behavior, and downstream file locations."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "instructions": "Change the uses reference to actions/download-artifact@v7 or a later supported major.",
+            "targets": "declaration",
+            "title": "Upgrade download-artifact"
+          },
+          {
+            "id": "review-artifact-layout",
+            "instructions": "Confirm artifact filters, paths, merge-multiple behavior, and downstream consumers against the target release.",
+            "targets": "declaration",
+            "title": "Review downloaded layout"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:github/actions/download-artifact",
+      "replacement": "actions/download-artifact@v7 or later",
+      "severity": "critical",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "Deprecation notice for artifact actions v3",
+          "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+        }
+      ],
+      "summary": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+      "title": "Retired actions/download-artifact release",
+      "vers": "vers:semver/<7.0.0",
+      "x-github-actions": {
+        "action": "actions/download-artifact",
+        "supportedFromMajor": 7
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "github"
+}

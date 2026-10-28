@@ -1,0 +1,65 @@
+{
+  "earliestDeadline": "2025-03-27",
+  "ecosystems": [
+    "cpp"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "generic-cmake-module-find-gdal",
+  "latestReview": "2026-10-19",
+  "name": "find-gdal",
+  "namespace": "cmake-module",
+  "purl": "pkg:generic/cmake-module/find-gdal",
+  "rules": [
+    {
+      "deadline": "2025-03-27",
+      "ecosystem": "cpp",
+      "event": "deprecated",
+      "id": "cpp.cmake.module.find-gdal.deprecated",
+      "migration": {
+        "constraints": [
+          "Confirm the GDAL install that the project uses ships a CONFIG package before dropping FindGDAL.",
+          "Target and variable names may differ between FindGDAL and the upstream CONFIG package; update link lines to match."
+        ],
+        "steps": [
+          {
+            "id": "switch-to-gdal-config",
+            "instructions": "Replace find_package(GDAL) / include(FindGDAL) with find_package(GDAL CONFIG) and link the imported targets the upstream package exports.",
+            "targets": "declaration",
+            "title": "Switch to find_package(GDAL CONFIG)"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cmake -S . -B build && cmake --build build",
+            "purpose": "Configure and build after the GDAL find_package change."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/cmake-module/find-gdal",
+      "replacement": "find_package(GDAL CONFIG) using GDAL's upstream CMake package",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "CMake 4.0 release notes (FindGDAL deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+        },
+        {
+          "title": "FindGDAL module documentation",
+          "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+        }
+      ],
+      "summary": "CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead. CMake 4.0.0 was published on 2025-03-27.",
+      "title": "The FindGDAL module is deprecated",
+      "vers": "vers:semver/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

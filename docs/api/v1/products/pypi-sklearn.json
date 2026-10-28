@@ -1,0 +1,78 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-sklearn",
+  "latestReview": "2026-10-16",
+  "name": "sklearn",
+  "purl": "pkg:pypi/sklearn",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.sklearn.deprecated",
+      "migration": {
+        "constraints": [
+          "Keep Python imports as sklearn; only the distribution name used by installers and dependency metadata changes."
+        ],
+        "steps": [
+          {
+            "id": "replace-sklearn-distribution",
+            "instructions": "Replace sklearn with scikit-learn in dependency declarations and installation commands without renaming sklearn imports.",
+            "targets": "declaration",
+            "title": "Replace the distribution name"
+          },
+          {
+            "id": "refresh-sklearn-environment",
+            "instructions": "Regenerate lock data and confirm the intended scikit-learn version resolves for every supported Python runtime.",
+            "targets": "all",
+            "title": "Refresh the environment"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Check the resolved scikit-learn environment."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run model, preprocessing, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/sklearn",
+      "replacement": "scikit-learn",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "sklearn deprecation notice",
+          "url": "https://pypi.org/project/sklearn/"
+        }
+      ],
+      "summary": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
+      "title": "sklearn is deprecated on PyPI",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "sklearn"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "sklearn"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

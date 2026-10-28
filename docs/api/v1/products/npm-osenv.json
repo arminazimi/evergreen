@@ -1,0 +1,76 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "npm-osenv",
+  "latestReview": "2026-10-16",
+  "name": "osenv",
+  "purl": "pkg:npm/osenv",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "end-of-life",
+      "id": "npm.package.osenv.eol",
+      "migration": {
+        "constraints": [
+          "Preserve platform-specific home, temp, editor, shell, path, and environment-variable fallback behavior actually used by the application."
+        ],
+        "steps": [
+          {
+            "id": "replace-osenv",
+            "instructions": "Replace each osenv helper with maintained runtime APIs and explicit environment-variable handling, then remove osenv.",
+            "targets": "all",
+            "title": "Replace operating-system environment helpers"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run environment resolution and cross-platform repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/osenv",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "osenv package deprecation notice",
+          "url": "https://www.npmjs.com/package/osenv"
+        },
+        {
+          "title": "osenv registry metadata",
+          "url": "https://registry.npmjs.org/osenv/latest"
+        }
+      ],
+      "summary": "npm states that the osenv package is no longer supported.",
+      "title": "osenv is no longer supported",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "osenv"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "osenv"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "osenv"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

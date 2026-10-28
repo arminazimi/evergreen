@@ -1,0 +1,77 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-types-sanitize-filename",
+  "latestReview": "2026-10-19",
+  "name": "sanitize-filename",
+  "namespace": "@types",
+  "purl": "pkg:npm/%40types/sanitize-filename",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.types.sanitize-filename.deprecated",
+      "migration": {
+        "constraints": [
+          "@types/sanitize-filename only declares types; sanitize-filename now ships its own declarations, so no conflicting ambient definition may remain."
+        ],
+        "steps": [
+          {
+            "id": "remove-types-package",
+            "instructions": "Remove @types/sanitize-filename from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+            "targets": "declaration",
+            "title": "Remove the stub types package"
+          },
+          {
+            "id": "use-bundled-types",
+            "instructions": "Keep sanitize-filename on a version that ships its own type definitions and import its types from sanitize-filename.",
+            "targets": "usages",
+            "title": "Use the bundled declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Type-check and build with sanitize-filename's own declarations."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40types/sanitize-filename",
+      "replacement": "sanitize-filename",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "@types/sanitize-filename on npm",
+          "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+        },
+        {
+          "title": "@types/sanitize-filename version metadata",
+          "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
+        }
+      ],
+      "summary": "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\"",
+      "title": "@types/sanitize-filename is deprecated",
+      "usage": [],
+      "vers": "vers:npm/1.6.3",
+      "x-npm": {
+        "package": "@types/sanitize-filename"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

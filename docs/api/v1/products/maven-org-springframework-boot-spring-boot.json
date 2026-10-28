@@ -1,0 +1,181 @@
+{
+  "ecosystems": [
+    "java"
+  ],
+  "events": [
+    "end-of-support"
+  ],
+  "id": "maven-org-springframework-boot-spring-boot",
+  "latestReview": "2026-10-25",
+  "name": "spring-boot",
+  "namespace": "org.springframework.boot",
+  "purl": "pkg:maven/org.springframework.boot/spring-boot",
+  "rules": [
+    {
+      "ecosystem": "java",
+      "event": "end-of-support",
+      "id": "java.maven.spring-boot.legacy-1x.end-of-support",
+      "migration": {
+        "constraints": [
+          "This finding describes open-source support, not whether a commercial support contract exists.",
+          "Do not jump directly across several major versions without reviewing each intervening migration guide and compatibility requirements."
+        ],
+        "steps": [
+          {
+            "id": "plan-spring-boot-upgrade",
+            "instructions": "Inventory Spring Boot, Spring Framework, Java, build-tool, and managed dependency versions. Read each Spring Boot migration guide between the current version and the selected 4.x target.",
+            "targets": "declaration",
+            "title": "Plan the major-version upgrade"
+          },
+          {
+            "id": "align-spring-boot-declarations",
+            "instructions": "Update the Spring Boot dependency, parent/BOM, plugin, and related build declarations consistently, then resolve and remove obsolete configuration using the migration guides.",
+            "targets": "all",
+            "title": "Align Spring Boot declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and run the project's tests after the staged upgrade."
+          },
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Review the resolved Spring dependency graph for mixed or obsolete versions."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-25",
+        "reviewedAt": "2026-10-25",
+        "reviewer": "Aaqibhafeezkhan"
+      },
+      "purl": "pkg:maven/org.springframework.boot/spring-boot",
+      "replacement": "Spring Boot 4.1.x",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Spring Boot support policy",
+          "url": "https://spring.io/projects/spring-boot#support"
+        }
+      ],
+      "summary": "Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major releases. Commercial support availability is separate from community OSS support.",
+      "title": "Spring Boot 1.x is out of open-source support",
+      "vers": "vers:maven/>=1.0.0|<2.0.0"
+    },
+    {
+      "ecosystem": "java",
+      "event": "end-of-support",
+      "id": "java.maven.spring-boot.legacy-2x.end-of-support",
+      "migration": {
+        "constraints": [
+          "Spring Boot 2.7's extended commercial support does not mean the 2.x line remains in community open-source support.",
+          "Spring Boot 3 requires Java 17 or later and includes the Jakarta EE namespace migration; complete the 2.x-to-3.x changes before moving to 4.x."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-to-spring-boot-3",
+            "instructions": "Follow the official Spring Boot 3 migration guide, move to Java 17 or later, and migrate Java EE javax APIs to their Jakarta equivalents where required.",
+            "targets": "declaration",
+            "title": "Upgrade to a supported 3.x baseline first"
+          },
+          {
+            "id": "upgrade-to-spring-boot-4",
+            "instructions": "Follow the Spring Boot 4 migration guide, align Spring Framework and managed dependencies, and remove configuration deprecated by the intermediate releases.",
+            "targets": "all",
+            "title": "Move to a supported 4.x release"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and run the project's tests after the upgrade."
+          },
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Check that the resolved dependency graph uses a consistent supported Spring Boot line."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-25",
+        "reviewedAt": "2026-10-25",
+        "reviewer": "Aaqibhafeezkhan"
+      },
+      "purl": "pkg:maven/org.springframework.boot/spring-boot",
+      "replacement": "Spring Boot 4.1.x",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Spring Boot support policy",
+          "url": "https://spring.io/projects/spring-boot#support"
+        }
+      ],
+      "summary": "Spring Boot 2.x no longer receives regular open-source releases. Spring Boot 2.7 had an extended commercial support period, which is distinct from community OSS support. Upgrade to a supported Spring Boot 4.x line and follow the 2.x-to-3.x and 3.x-to-4.x migration guidance.",
+      "title": "Spring Boot 2.x is out of open-source support",
+      "vers": "vers:maven/>=2.0.0|<3.0.0"
+    },
+    {
+      "ecosystem": "java",
+      "event": "end-of-support",
+      "id": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "migration": {
+        "constraints": [
+          "Spring Boot 4 requires Java 17 or later; verify the selected build tool and all third-party starters support the target line.",
+          "Read the Spring Boot 4 migration guide for removed APIs and dependency changes rather than treating this as a version-only bump."
+        ],
+        "steps": [
+          {
+            "id": "update-spring-boot-version",
+            "instructions": "Update the parent/BOM, direct Spring Boot dependencies, and Spring Boot build plugin to the same supported 4.x release.",
+            "targets": "declaration",
+            "title": "Update Spring Boot to a supported 4.x line"
+          },
+          {
+            "id": "migrate-spring-boot-configuration",
+            "instructions": "Resolve migration changes for Spring Framework, Jakarta APIs, auto-configuration, and third-party starters; remove obsolete settings and keep dependency management aligned.",
+            "targets": "all",
+            "title": "Apply the 4.x migration guide"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./mvnw -B verify || ./gradlew build",
+            "purpose": "Build and test the application against the selected Spring Boot 4.x release."
+          },
+          {
+            "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+            "purpose": "Confirm Spring Boot and Spring Framework dependencies resolve to a compatible 4.x stack."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-25",
+        "reviewedAt": "2026-10-25",
+        "reviewer": "Aaqibhafeezkhan"
+      },
+      "purl": "pkg:maven/org.springframework.boot/spring-boot",
+      "replacement": "Spring Boot 4.1.x",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Spring Boot 3.3.13 — end of open-source support",
+          "url": "https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/"
+        },
+        {
+          "title": "Spring Boot 3.4.13 — end of open-source support",
+          "url": "https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/"
+        },
+        {
+          "title": "Spring Boot 3.5.16 — last OSS release of the 3.5.x generation",
+          "url": "https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/"
+        }
+      ],
+      "summary": "Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.3.x and 3.4.x lines were explicitly marked as the end of OSS support, and 3.5.16 was announced as the last OSS release of the 3.5.x generation. Commercial support may be available separately. Upgrade to a supported 4.x line.",
+      "title": "Spring Boot 3.x is out of open-source support",
+      "vers": "vers:maven/>=3.0.0|<4.0.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "maven"
+}

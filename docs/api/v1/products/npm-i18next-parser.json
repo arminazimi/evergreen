@@ -1,0 +1,93 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-i18next-parser",
+  "latestReview": "2026-10-19",
+  "name": "i18next-parser",
+  "purl": "pkg:npm/i18next-parser",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.i18next-parser.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve the extracted keys, namespaces, default values, plural forms, and catalog layout the project already uses."
+        ],
+        "steps": [
+          {
+            "id": "replace-i18next-parser",
+            "instructions": "Replace i18next-parser with i18next-cli in devDependencies and update the extraction script that runs it.",
+            "targets": "all",
+            "title": "Replace the extraction tool"
+          },
+          {
+            "id": "compare-extracted-catalogs",
+            "instructions": "Run the new extractor and review the diff against the existing catalogs, keeping keys, ordering, and metadata stable.",
+            "targets": "usages",
+            "title": "Compare the extracted catalogs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the translations with the new extractor."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/i18next-parser",
+      "replacement": "i18next-cli",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "i18next-parser on npm",
+          "url": "https://www.npmjs.com/package/i18next-parser"
+        },
+        {
+          "title": "i18next-parser registry metadata",
+          "url": "https://registry.npmjs.org/i18next-parser/latest"
+        }
+      ],
+      "summary": "npm marks i18next-parser as deprecated: \"Project is deprecated, use i18next-cli instead\"",
+      "title": "i18next-parser is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "i18next-parser"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "i18next-parser"
+        },
+        {
+          "key": "i18next",
+          "kind": "config-key",
+          "language": "json",
+          "valueIncludes": "i18next-parser"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "i18next-parser"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

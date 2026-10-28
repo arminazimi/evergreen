@@ -1,0 +1,85 @@
+{
+  "earliestDeadline": "2023-04-11",
+  "ecosystems": [
+    "kubernetes"
+  ],
+  "events": [
+    "removed"
+  ],
+  "id": "generic-kubernetes-storage-k8s-io-csistoragecapacity",
+  "latestReview": "2026-10-20",
+  "name": "CSIStorageCapacity",
+  "namespace": "kubernetes/storage.k8s.io",
+  "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity",
+  "rules": [
+    {
+      "deadline": "2023-04-11",
+      "ecosystem": "kubernetes",
+      "event": "removed",
+      "id": "kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed",
+      "migration": {
+        "constraints": [
+          "Keep the resource's behavior unchanged: the same name, namespace, labels, and spec semantics.",
+          "The replacement (storage.k8s.io/v1 CSIStorageCapacity, available since v1.24) can differ in required fields or field names from the removed version; read the CSIStorageCapacity entry in the Kubernetes Deprecated API Migration Guide and convert the manifest accordingly."
+        ],
+        "steps": [
+          {
+            "id": "update-api-version",
+            "instructions": "Change the reported `apiVersion` to the replacement version (storage.k8s.io/v1 CSIStorageCapacity, available since v1.24).",
+            "targets": "declaration",
+            "title": "Change the CSIStorageCapacity apiVersion"
+          },
+          {
+            "id": "convert-fields",
+            "instructions": "Apply the field changes the migration guide lists for CSIStorageCapacity, then check the manifest still expresses the same intent.",
+            "targets": "declaration",
+            "title": "Convert fields the new version changed"
+          },
+          {
+            "id": "align-other-manifests",
+            "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old CSIStorageCapacity API version, so the repository agrees.",
+            "targets": "all",
+            "title": "Align other CSIStorageCapacity declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+          },
+          {
+            "command": "kubectl apply --dry-run=server -f <manifest-path>",
+            "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+          },
+          {
+            "command": "helm template <chart-path> | kubeconform -strict -",
+            "purpose": "For a Helm chart, render it and validate the output."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity",
+      "replacement": "storage.k8s.io/v1 CSIStorageCapacity, available since v1.24",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)",
+          "url": "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/"
+        }
+      ],
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11.",
+      "title": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served",
+      "vers": "vers:semver/1.0.0-beta.1"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

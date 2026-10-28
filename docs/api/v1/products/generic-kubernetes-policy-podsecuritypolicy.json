@@ -1,0 +1,76 @@
+{
+  "earliestDeadline": "2022-08-23",
+  "ecosystems": [
+    "kubernetes"
+  ],
+  "events": [
+    "removed"
+  ],
+  "id": "generic-kubernetes-policy-podsecuritypolicy",
+  "latestReview": "2026-10-17",
+  "name": "PodSecurityPolicy",
+  "namespace": "kubernetes/policy",
+  "purl": "pkg:generic/kubernetes/policy/PodSecurityPolicy",
+  "rules": [
+    {
+      "deadline": "2022-08-23",
+      "ecosystem": "kubernetes",
+      "event": "removed",
+      "id": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "migration": {
+        "constraints": [
+          "PodSecurityPolicy has no drop-in replacement: the admission controller was removed together with the API, so the policy must be re-expressed.",
+          "Decide the intended Pod Security Standard (privileged, baseline, or restricted) for each namespace the policy covered before changing anything.",
+          "Remove Roles and ClusterRoles that grant `use` on the PodSecurityPolicy once it is gone."
+        ],
+        "steps": [
+          {
+            "id": "choose-replacement",
+            "instructions": "Replace the PodSecurityPolicy with Pod Security Admission labels on the affected namespaces, or with a third-party admission webhook, as the Kubernetes migration guide describes.",
+            "targets": "declaration",
+            "title": "Choose a replacement policy"
+          },
+          {
+            "id": "remove-policy-rbac",
+            "instructions": "Delete the PodSecurityPolicy manifest and any Role or ClusterRole rule that grants `use` on it.",
+            "targets": "all",
+            "title": "Remove references to the policy"
+          }
+        ],
+        "verification": [
+          {
+            "command": "kubectl label --dry-run=server --overwrite ns --all pod-security.kubernetes.io/enforce=baseline",
+            "purpose": "Preview which existing pods would violate the chosen Pod Security Standard, without changing any namespace."
+          },
+          {
+            "command": "kubeconform -strict -summary <manifest-paths>",
+            "purpose": "Validate the remaining manifests against the target Kubernetes version."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/kubernetes/policy/PodSecurityPolicy",
+      "replacement": "Pod Security Admission or a 3rd party admission webhook",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "title": "Kubernetes v1.25: Combiner (release announcement, 2022-08-23)",
+          "url": "https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/"
+        }
+      ],
+      "summary": "The Kubernetes Deprecated API Migration Guide states that the policy/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.25, which was released on 2022-08-23.",
+      "title": "PodSecurityPolicy policy/v1beta1 is no longer served",
+      "vers": "vers:semver/1.0.0-beta.1"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

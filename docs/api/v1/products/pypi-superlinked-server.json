@@ -1,0 +1,68 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-superlinked-server",
+  "latestReview": "2026-10-16",
+  "name": "superlinked-server",
+  "purl": "pkg:pypi/superlinked-server",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.superlinked-server.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve model selection, indexing, query behavior, deployment settings, authentication, and response contracts."
+        ],
+        "steps": [
+          {
+            "id": "replace-superlinked-server",
+            "instructions": "Deploy SIE Server, replace the legacy package with sie-sdk, and translate server and client configuration to the current interfaces.",
+            "targets": "all",
+            "title": "Adopt SIE"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run inference, indexing, query, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/superlinked-server",
+      "replacement": "SIE Server and sie-sdk",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "superlinked-server deprecation notice",
+          "url": "https://pypi.org/project/superlinked-server/"
+        }
+      ],
+      "summary": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
+      "title": "superlinked-server is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "superlinked_server"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "superlinked-server"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

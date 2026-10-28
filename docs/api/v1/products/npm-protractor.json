@@ -1,0 +1,82 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-protractor",
+  "latestReview": "2026-10-16",
+  "name": "protractor",
+  "purl": "pkg:npm/protractor",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.protractor.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve end-to-end coverage, browser matrix, selectors, waits, authentication state, screenshots, retries, and CI artifacts."
+        ],
+        "steps": [
+          {
+            "id": "select-e2e-runner",
+            "instructions": "Choose a maintained runner that supports the browsers, environments, and test capabilities the suite requires.",
+            "targets": "all",
+            "title": "Select a maintained end-to-end runner"
+          },
+          {
+            "id": "migrate-protractor-suite",
+            "instructions": "Translate configuration, page objects, selectors, waits, assertions, and CI commands incrementally to the selected runner.",
+            "targets": "all",
+            "title": "Migrate the Protractor suite"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the migrated end-to-end suite and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/protractor",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "protractor package deprecation notice",
+          "url": "https://www.npmjs.com/package/protractor"
+        },
+        {
+          "title": "protractor registry metadata",
+          "url": "https://registry.npmjs.org/protractor/latest"
+        }
+      ],
+      "summary": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
+      "title": "Protractor is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "protractor"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "protractor"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "protractor"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

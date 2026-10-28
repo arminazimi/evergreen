@@ -1,0 +1,74 @@
+{
+  "earliestDeadline": "2026-09-23",
+  "ecosystems": [
+    "github-actions"
+  ],
+  "events": [
+    "removed"
+  ],
+  "id": "github-actions-upload-artifact",
+  "latestReview": "2026-10-14",
+  "name": "upload-artifact",
+  "namespace": "actions",
+  "purl": "pkg:github/actions/upload-artifact",
+  "rules": [
+    {
+      "deadline": "2026-09-23",
+      "ecosystem": "github-actions",
+      "event": "removed",
+      "id": "github-actions.upload-artifact.retired",
+      "migration": {
+        "constraints": [
+          "Preserve artifact names, selected paths, retention settings, and overwrite behavior."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "instructions": "Change the uses reference to actions/upload-artifact@v7 or a later supported major.",
+            "targets": "declaration",
+            "title": "Upgrade upload-artifact"
+          },
+          {
+            "id": "review-artifact-inputs",
+            "instructions": "Confirm artifact paths, names, retention-days, compression, and overwrite settings against the target release.",
+            "targets": "declaration",
+            "title": "Review upload inputs"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:github/actions/upload-artifact",
+      "replacement": "actions/upload-artifact@v7 or later",
+      "severity": "critical",
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "Deprecation notice for artifact actions v3",
+          "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+        }
+      ],
+      "summary": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+      "title": "Retired actions/upload-artifact release",
+      "vers": "vers:semver/<7.0.0",
+      "x-github-actions": {
+        "action": "actions/upload-artifact",
+        "supportedFromMajor": 7
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "github"
+}

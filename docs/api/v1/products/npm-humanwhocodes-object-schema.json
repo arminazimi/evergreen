@@ -1,0 +1,78 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-humanwhocodes-object-schema",
+  "latestReview": "2026-10-16",
+  "name": "object-schema",
+  "namespace": "@humanwhocodes",
+  "purl": "pkg:npm/%40humanwhocodes/object-schema",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.humanwhocodes-object-schema.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve validation, merge strategies, required keys, defaults, error behavior, and exported API semantics."
+        ],
+        "steps": [
+          {
+            "id": "replace-object-schema",
+            "instructions": "Replace the dependency and imports with @eslint/object-schema, then adapt renamed or changed exports using its maintained API.",
+            "targets": "all",
+            "title": "Move to the ESLint package"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run schema validation, merge, and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40humanwhocodes/object-schema",
+      "replacement": "@eslint/object-schema",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@humanwhocodes/object-schema package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+        },
+        {
+          "title": "@humanwhocodes/object-schema registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+        }
+      ],
+      "summary": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
+      "title": "@humanwhocodes/object-schema is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@humanwhocodes/object-schema"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@humanwhocodes/object-schema"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "@humanwhocodes/object-schema"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

@@ -1,0 +1,90 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-request-promise",
+  "latestReview": "2026-10-16",
+  "name": "request-promise",
+  "purl": "pkg:npm/request-promise",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.request-promise.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve request options, authentication, redirects, timeouts, retries, transforms, full-response mode, and rejection semantics."
+        ],
+        "steps": [
+          {
+            "id": "select-promise-http-client",
+            "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise behavior.",
+            "targets": "all",
+            "title": "Select the target HTTP client"
+          },
+          {
+            "id": "replace-request-promise",
+            "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise.",
+            "targets": "all",
+            "title": "Replace request-promise"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP behavior and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/request-promise",
+      "replacement": "Native fetch or a maintained promise-based HTTP client",
+      "requires": {
+        "node": "18.0.0"
+      },
+      "severity": "high",
+      "sources": [
+        {
+          "title": "request-promise package deprecation notice",
+          "url": "https://www.npmjs.com/package/request-promise"
+        },
+        {
+          "title": "request-promise registry metadata",
+          "url": "https://registry.npmjs.org/request-promise/latest"
+        },
+        {
+          "title": "Node.js 18 release announcement: global fetch",
+          "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
+        }
+      ],
+      "summary": "npm states that request-promise is deprecated because it extends the deprecated request package.",
+      "title": "request-promise is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "request-promise"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "request-promise"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "request-promise"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

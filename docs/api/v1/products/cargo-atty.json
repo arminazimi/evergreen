@@ -1,0 +1,73 @@
+{
+  "ecosystems": [
+    "rust"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "cargo-atty",
+  "latestReview": "2026-10-17",
+  "name": "atty",
+  "purl": "pkg:cargo/atty",
+  "rules": [
+    {
+      "ecosystem": "rust",
+      "event": "deprecated",
+      "id": "rust.crate.atty.unmaintained",
+      "migration": {
+        "constraints": [
+          "Preserve how colored or interactive output is chosen when stdout or stderr is not a terminal."
+        ],
+        "steps": [
+          {
+            "id": "replace-atty",
+            "instructions": "Replace `atty::is(Stream::Stdout)` with `std::io::stdout().is_terminal()` (stable since Rust 1.70, `use std::io::IsTerminal`), or use the is-terminal crate on older compilers, and remove the atty dependency.",
+            "targets": "all",
+            "title": "Use std::io::IsTerminal"
+          }
+        ],
+        "verification": [
+          {
+            "command": "cargo build --all-targets && cargo test",
+            "purpose": "Build and test after removing atty."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:cargo/atty",
+      "replacement": "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "RustSec advisory RUSTSEC-2024-0375",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2024-0375.html"
+        }
+      ],
+      "summary": "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.",
+      "title": "atty is no longer maintained",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "rust",
+          "module": "atty"
+        },
+        {
+          "kind": "call",
+          "language": "rust",
+          "module": "atty",
+          "targets": [
+            "is",
+            "isnt"
+          ]
+        }
+      ],
+      "vers": "vers:cargo/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "cargo"
+}

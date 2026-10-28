@@ -1,0 +1,68 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-vsscale",
+  "latestReview": "2026-10-16",
+  "name": "vsscale",
+  "purl": "pkg:pypi/vsscale",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.vsscale.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve scaling kernels, descaling behavior, clip formats, dimensions, chroma handling, and VapourSynth frame output."
+        ],
+        "steps": [
+          {
+            "id": "replace-vsscale",
+            "instructions": "Replace vsscale with vsjetpack and translate scaling and descaling imports and calls to the maintained APIs.",
+            "targets": "all",
+            "title": "Move to vsjetpack"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run VapourSynth scaling, format, dimension, and project tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/vsscale",
+      "replacement": "vsjetpack",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "vsscale deprecation notice",
+          "url": "https://pypi.org/project/vsscale/"
+        }
+      ],
+      "summary": "The maintainer states that vsscale is deprecated and directs users to vsjetpack.",
+      "title": "vsscale is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "vsscale"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "vsscale"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

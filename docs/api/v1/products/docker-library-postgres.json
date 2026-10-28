@@ -1,0 +1,126 @@
+{
+  "earliestDeadline": "2025-11-13",
+  "ecosystems": [
+    "container"
+  ],
+  "events": [
+    "end-of-life",
+    "scheduled-end-of-life"
+  ],
+  "id": "docker-library-postgres",
+  "latestReview": "2026-10-24",
+  "name": "postgres",
+  "namespace": "library",
+  "purl": "pkg:docker/library/postgres",
+  "rules": [
+    {
+      "deadline": "2025-11-13",
+      "ecosystem": "container",
+      "event": "end-of-life",
+      "id": "container.postgres.eol-13-and-older",
+      "migration": {
+        "constraints": [
+          "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+          "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Validate the Compose file after changing the image tag."
+          },
+          {
+            "command": "docker compose run --rm db postgres --version",
+            "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/postgres",
+      "replacement": "A postgres image on a supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "summary": "The PostgreSQL project no longer releases fixes for these major versions.",
+      "title": "PostgreSQL image major versions 13 and older are end-of-life",
+      "vers": "vers:semver/<14.0.0"
+    },
+    {
+      "deadline": "2026-11-12",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "id": "container.postgres.eol-14-and-older",
+      "migration": {
+        "constraints": [
+          "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+          "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Validate the Compose file after changing the image tag."
+          },
+          {
+            "command": "docker compose run --rm db postgres --version",
+            "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "endoflife-date",
+        "observedAt": "2026-10-24",
+        "reviewedAt": "2026-10-24",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/postgres",
+      "replacement": "A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "PostgreSQL release policy (vendor)",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "summary": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
+      "title": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
+      "vers": "vers:semver/>=14.0.0|<15.0.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "docker"
+}

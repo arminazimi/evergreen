@@ -1,0 +1,68 @@
+{
+  "earliestDeadline": "2024-10-14",
+  "ecosystems": [
+    "serverless"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "generic-aws-lambda-runtime-python3-8",
+  "latestReview": "2026-10-21",
+  "name": "python3.8",
+  "namespace": "aws-lambda-runtime",
+  "purl": "pkg:generic/aws-lambda-runtime/python3.8",
+  "rules": [
+    {
+      "deadline": "2024-10-14",
+      "ecosystem": "serverless",
+      "event": "end-of-life",
+      "id": "serverless.aws-lambda.python3.8",
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from python3.8 to a supported AWS Lambda Python identifier (see the replacement).",
+            "targets": "declaration",
+            "title": "Raise the AWS Lambda runtime"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins python3.8.",
+            "targets": "all",
+            "title": "Align other runtime surfaces"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/aws-lambda-runtime/python3.8",
+      "replacement": "python3.13 or python3.12",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "summary": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
+      "title": "AWS Lambda Python 3.8 runtime is end-of-life",
+      "vers": "vers:semver/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

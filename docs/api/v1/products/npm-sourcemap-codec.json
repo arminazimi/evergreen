@@ -1,0 +1,77 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-sourcemap-codec",
+  "latestReview": "2026-10-16",
+  "name": "sourcemap-codec",
+  "purl": "pkg:npm/sourcemap-codec",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.sourcemap-codec.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve decoded segment ordering, generated and original positions, names, empty lines, and encoded source-map output."
+        ],
+        "steps": [
+          {
+            "id": "replace-sourcemap-codec",
+            "instructions": "Replace the dependency and imports with @jridgewell/sourcemap-codec and adapt any changed exports.",
+            "targets": "all",
+            "title": "Move to the maintained codec"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run source-map round-trip and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/sourcemap-codec",
+      "replacement": "@jridgewell/sourcemap-codec",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "sourcemap-codec package deprecation notice",
+          "url": "https://www.npmjs.com/package/sourcemap-codec"
+        },
+        {
+          "title": "sourcemap-codec registry metadata",
+          "url": "https://registry.npmjs.org/sourcemap-codec/latest"
+        }
+      ],
+      "summary": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
+      "title": "sourcemap-codec is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "sourcemap-codec"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "sourcemap-codec"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "sourcemap-codec"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

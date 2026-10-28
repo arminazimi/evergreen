@@ -55,6 +55,16 @@
         "summary": { "$ref": "#/$defs/nonEmpty" },
         "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
         "replacement": { "$ref": "#/$defs/nonEmpty" },
+        "requires": {
+          "description": "Lowest runtime versions the replacement works on, such as {\"node\": \"18.0.0\"}.",
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "properties": {
+            "node": { "type": "string", "pattern": "^\\d+(?:\\.\\d+){0,2}$" },
+            "python": { "type": "string", "pattern": "^\\d+(?:\\.\\d+){0,2}$" }
+          }
+        },
         "deadline": { "$ref": "#/$defs/date" },
         "sources": {
           "type": "array",

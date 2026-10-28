@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-uglify-es",
+  "latestReview": "2026-10-17",
+  "name": "uglify-es",
+  "purl": "pkg:npm/uglify-es",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.uglify-es.deprecated",
+      "migration": {
+        "constraints": [
+          "Keep the same minification options, source maps, and output syntax level."
+        ],
+        "steps": [
+          {
+            "id": "replace-uglify-es",
+            "instructions": "Replace uglify-es with uglify-js 3.13 or later (or terser) in dependencies, build scripts, and bundler configuration.",
+            "targets": "all",
+            "title": "Replace uglify-es"
+          },
+          {
+            "id": "compare-output",
+            "instructions": "Build and compare bundle size, source maps, and behavior of the minified output.",
+            "targets": "usages",
+            "title": "Compare minified output"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build with the new minifier and compare the output."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-17",
+        "reviewedAt": "2026-10-17",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/uglify-es",
+      "replacement": "uglify-js (3.13 or later) or terser",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "uglify-es on npm",
+          "url": "https://www.npmjs.com/package/uglify-es"
+        },
+        {
+          "title": "uglify-es registry metadata",
+          "url": "https://registry.npmjs.org/uglify-es/latest"
+        }
+      ],
+      "summary": "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\"",
+      "title": "uglify-es is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "uglify-es"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "uglify-es"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "uglify-es"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

@@ -1,0 +1,74 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-datacommons",
+  "latestReview": "2026-10-16",
+  "name": "datacommons",
+  "purl": "pkg:pypi/datacommons",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.datacommons.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve API endpoints, authentication, statistical-variable identifiers, entity queries, response shapes, pagination, and retry behavior."
+        ],
+        "steps": [
+          {
+            "id": "replace-datacommons",
+            "instructions": "Replace datacommons with datacommons-client and translate client construction and API calls using the official migration guide.",
+            "targets": "all",
+            "title": "Replace the Data Commons client"
+          },
+          {
+            "id": "verify-datacommons-results",
+            "instructions": "Compare representative entity, observation, and graph query responses and error paths against expected fixtures.",
+            "targets": "usages",
+            "title": "Verify query results"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run Data Commons integration and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/datacommons",
+      "replacement": "datacommons-client",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "datacommons deprecation notice",
+          "url": "https://pypi.org/project/datacommons/"
+        }
+      ],
+      "summary": "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.",
+      "title": "datacommons is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "datacommons"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "datacommons"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-boom",
+  "latestReview": "2026-10-16",
+  "name": "boom",
+  "purl": "pkg:npm/boom",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.boom.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve HTTP status codes, payload shape, headers, and error classification."
+        ],
+        "steps": [
+          {
+            "id": "replace-boom",
+            "instructions": "Move the dependency and imports from boom to @hapi/boom and update changed API calls.",
+            "targets": "all",
+            "title": "Replace boom"
+          },
+          {
+            "id": "verify-http-errors",
+            "instructions": "Compare status codes and serialized error payloads for every affected error path.",
+            "targets": "usages",
+            "title": "Verify HTTP errors"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP error behavior and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/boom",
+      "replacement": "@hapi/boom",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "boom package deprecation notice",
+          "url": "https://www.npmjs.com/package/boom"
+        },
+        {
+          "title": "boom registry metadata",
+          "url": "https://registry.npmjs.org/boom/latest"
+        }
+      ],
+      "summary": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
+      "title": "boom is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "boom"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "boom"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "boom"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

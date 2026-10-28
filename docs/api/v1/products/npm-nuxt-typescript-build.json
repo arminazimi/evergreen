@@ -1,0 +1,88 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-nuxt-typescript-build",
+  "latestReview": "2026-10-19",
+  "name": "typescript-build",
+  "namespace": "@nuxt",
+  "purl": "pkg:npm/%40nuxt/typescript-build",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.nuxt.typescript-build.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve TypeScript compilation, type checking, and the build-module behavior the project depends on."
+        ],
+        "steps": [
+          {
+            "id": "plan-nuxt3-upgrade",
+            "instructions": "Follow the Nuxt 3 migration guidance for build modules and TypeScript configuration before removing the module.",
+            "targets": "all",
+            "title": "Plan the Nuxt 3 upgrade"
+          },
+          {
+            "id": "drop-typescript-build-module",
+            "instructions": "Remove @nuxt/typescript-build from buildModules and the project dependencies; Nuxt 3 compiles and type-checks TypeScript without a build module.",
+            "targets": "declaration",
+            "title": "Drop the TypeScript build module"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build the Nuxt 3 application with its built-in TypeScript support."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the application and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/%40nuxt/typescript-build",
+      "replacement": "Nuxt 3 (no TypeScript build module needed)",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "@nuxt/typescript-build on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+        },
+        {
+          "title": "@nuxt/typescript-build registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+        }
+      ],
+      "summary": "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "title": "@nuxt/typescript-build is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "@nuxt/typescript-build"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "@nuxt/typescript-build"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "@nuxt/typescript-build"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

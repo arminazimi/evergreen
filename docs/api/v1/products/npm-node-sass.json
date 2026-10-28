@@ -1,0 +1,108 @@
+{
+  "earliestDeadline": "2024-07-24",
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "npm-node-sass",
+  "latestReview": "2026-10-14",
+  "name": "node-sass",
+  "purl": "pkg:npm/node-sass",
+  "rules": [
+    {
+      "deadline": "2024-07-24",
+      "ecosystem": "npm",
+      "event": "end-of-life",
+      "id": "npm.package.node-sass.eol",
+      "migration": {
+        "constraints": [
+          "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+        ],
+        "steps": [
+          {
+            "id": "replace-sass-dependency",
+            "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.",
+            "targets": "declaration",
+            "title": "Replace Node Sass"
+          },
+          {
+            "id": "update-sass-calls",
+            "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.",
+            "targets": "usages",
+            "title": "Update compiler usages"
+          },
+          {
+            "id": "compare-css-output",
+            "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+            "targets": "all",
+            "title": "Compare compiled output"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run stylesheet and repository tests when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Compile the project and its stylesheets with Sass."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-13",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/node-sass",
+      "replacement": "sass",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "Node Sass is end-of-life",
+          "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+        }
+      ],
+      "summary": "Node Sass is no longer maintained and its repository has been archived.",
+      "title": "Node Sass is end-of-life",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "node-sass"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "module": "node-sass",
+          "targets": [
+            "render",
+            "renderSync"
+          ]
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "node-sass"
+        },
+        {
+          "kind": "call",
+          "language": "typescript",
+          "module": "node-sass",
+          "targets": [
+            "render",
+            "renderSync"
+          ]
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "node-sass"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

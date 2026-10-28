@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-rollup-plugin-terser",
+  "latestReview": "2026-10-19",
+  "name": "rollup-plugin-terser",
+  "purl": "pkg:npm/rollup-plugin-terser",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.rollup-plugin-terser.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve minification options, source maps, and the assets each Rollup build emits."
+        ],
+        "steps": [
+          {
+            "id": "replace-rollup-terser",
+            "instructions": "Replace rollup-plugin-terser with @rollup/plugin-terser in dependencies and the Rollup configuration, and keep the current terser options.",
+            "targets": "all",
+            "title": "Replace the Rollup Terser plugin"
+          },
+          {
+            "id": "verify-bundle-output",
+            "instructions": "Compare size, source maps, and runtime behavior of every minified output with the previous build.",
+            "targets": "usages",
+            "title": "Verify bundle output"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Build every Rollup output with the maintained Terser plugin."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/rollup-plugin-terser",
+      "replacement": "@rollup/plugin-terser",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "rollup-plugin-terser on npm",
+          "url": "https://www.npmjs.com/package/rollup-plugin-terser"
+        },
+        {
+          "title": "rollup-plugin-terser registry metadata",
+          "url": "https://registry.npmjs.org/rollup-plugin-terser/latest"
+        }
+      ],
+      "summary": "npm marks rollup-plugin-terser as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\"",
+      "title": "rollup-plugin-terser is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "rollup-plugin-terser"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "rollup-plugin-terser"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "rollup-plugin-terser"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

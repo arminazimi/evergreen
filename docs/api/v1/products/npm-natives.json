@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-natives",
+  "latestReview": "2026-10-16",
+  "name": "natives",
+  "purl": "pkg:npm/natives",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.natives.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve filesystem behavior, retry semantics, and compatibility with the Node.js versions supported by the project."
+        ],
+        "steps": [
+          {
+            "id": "replace-natives",
+            "instructions": "Replace the natives dependency and imports with graceful-fs 4.x, using its public filesystem API instead of Node.js internals.",
+            "targets": "all",
+            "title": "Replace natives"
+          },
+          {
+            "id": "verify-filesystem-behavior",
+            "instructions": "Exercise affected file operations, including concurrent access and error paths, on every supported Node.js version.",
+            "targets": "usages",
+            "title": "Verify filesystem behavior"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run filesystem behavior and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/natives",
+      "replacement": "graceful-fs 4.x",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "natives package deprecation notice",
+          "url": "https://www.npmjs.com/package/natives"
+        },
+        {
+          "title": "natives registry metadata",
+          "url": "https://registry.npmjs.org/natives/latest"
+        }
+      ],
+      "summary": "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.",
+      "title": "natives is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "natives"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "natives"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "natives"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

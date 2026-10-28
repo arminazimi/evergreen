@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-lodash-isequal",
+  "latestReview": "2026-10-16",
+  "name": "lodash.isequal",
+  "purl": "pkg:npm/lodash.isequal",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.lodash-isequal.deprecated",
+      "migration": {
+        "constraints": [
+          "Confirm compatibility for prototypes, boxed primitives, Maps, Sets, typed arrays, symbols, circular references, and cross-realm values."
+        ],
+        "steps": [
+          {
+            "id": "compare-deep-equality-semantics",
+            "instructions": "Identify value types used at each call site and confirm node:util.isDeepStrictEqual has acceptable semantics.",
+            "targets": "usages",
+            "title": "Compare equality semantics"
+          },
+          {
+            "id": "replace-lodash-isequal",
+            "instructions": "Replace lodash.isequal imports and calls with node:util.isDeepStrictEqual, then remove the dependency.",
+            "targets": "all",
+            "title": "Use Node deep strict equality"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run deep-equality edge cases and repository tests."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/lodash.isequal",
+      "replacement": "node:util.isDeepStrictEqual",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "lodash.isequal package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.isequal"
+        },
+        {
+          "title": "lodash.isequal registry metadata",
+          "url": "https://registry.npmjs.org/lodash.isequal/latest"
+        }
+      ],
+      "summary": "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.",
+      "title": "lodash.isequal is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "lodash.isequal"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "lodash.isequal"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "lodash.isequal"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

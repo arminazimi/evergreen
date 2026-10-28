@@ -1,0 +1,133 @@
+{
+  "earliestDeadline": "2022-01-27",
+  "ecosystems": [
+    "osv",
+    "python"
+  ],
+  "events": [
+    "deprecated",
+    "end-of-life"
+  ],
+  "id": "pypi-pycrypto",
+  "latestReview": "2026-10-27",
+  "name": "pycrypto",
+  "purl": "pkg:pypi/pycrypto",
+  "rules": [
+    {
+      "ecosystem": "osv",
+      "event": "deprecated",
+      "id": "osv.pypi.pycrypto",
+      "provenance": {
+        "importer": "osv",
+        "observedAt": "2026-10-27",
+        "reviewedAt": "2026-10-27",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/pycrypto",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "GHSA-6528-wvf6-f6qg",
+          "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg"
+        },
+        {
+          "title": "GHSA-cq27-v7xp-c356",
+          "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356"
+        },
+        {
+          "title": "PYSEC-2018-97",
+          "url": "https://osv.dev/vulnerability/PYSEC-2018-97"
+        }
+      ],
+      "summary": "OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycrypto with no fixed version in the affected ranges.",
+      "title": "pycrypto has unfixed OSV advisories",
+      "vers": "vers:pypi/*",
+      "x-osv": {
+        "ids": [
+          "GHSA-6528-wvf6-f6qg",
+          "GHSA-cq27-v7xp-c356",
+          "PYSEC-2018-97"
+        ],
+        "ruleId": "python.package.pycrypto.obsolete"
+      }
+    },
+    {
+      "deadline": "2022-01-27",
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.pycrypto.obsolete",
+      "migration": {
+        "constraints": [
+          "Treat this as a security-sensitive migration: preserve algorithms, modes, key sizes, padding, nonces or IVs, authentication tags, and serialized ciphertext formats.",
+          "Do not silently change cryptographic primitives or defaults without explicit compatibility and security review."
+        ],
+        "steps": [
+          {
+            "id": "choose-crypto-library",
+            "instructions": "Select pycryptodome for a closer Crypto namespace migration or cryptography for a higher-level maintained interface.",
+            "targets": "all",
+            "title": "Choose the maintained library"
+          },
+          {
+            "id": "replace-crypto-usages",
+            "instructions": "Update every reported import and operation, making keys, modes, padding, nonces, tags, and encoding explicit.",
+            "targets": "usages",
+            "title": "Migrate cryptographic usages"
+          },
+          {
+            "id": "replace-pycrypto-dependency",
+            "instructions": "Remove pycrypto, add the selected maintained package, and regenerate the environment lock data.",
+            "targets": "declaration",
+            "title": "Replace the dependency"
+          },
+          {
+            "id": "verify-test-vectors",
+            "instructions": "Confirm known plaintext/ciphertext vectors and backward compatibility with persisted encrypted data.",
+            "targets": "all",
+            "title": "Verify cryptographic test vectors"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pytest",
+            "purpose": "Run cryptographic vectors and repository tests."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Check installed dependency compatibility."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-14",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/pycrypto",
+      "replacement": "pycryptodome or cryptography",
+      "severity": "critical",
+      "sources": [
+        {
+          "title": "Archived PyCrypto repository warning",
+          "url": "https://github.com/pycrypto/pycrypto"
+        }
+      ],
+      "summary": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+      "title": "PyCrypto is obsolete and vulnerable",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "Crypto"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "pycrypto"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

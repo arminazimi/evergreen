@@ -1,0 +1,72 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "end-of-life"
+  ],
+  "id": "pypi-pil",
+  "latestReview": "2026-10-20",
+  "name": "pil",
+  "purl": "pkg:pypi/pil",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "end-of-life",
+      "id": "python.package.pil.archived",
+      "migration": {
+        "constraints": [
+          "Preserve behavior while removing pil; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+        ],
+        "steps": [
+          {
+            "id": "replace-pil",
+            "instructions": "Remove pil from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+            "targets": "all",
+            "title": "Replace pil"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python -m pip check",
+            "purpose": "Confirm the installed distributions have no broken requirements."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the test suite without the archived distribution."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/pil",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "PIL on PyPI",
+          "url": "https://pypi.org/project/pil/"
+        },
+        {
+          "title": "PIL project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/pil/"
+        },
+        {
+          "title": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "summary": "PyPI marks PIL as archived: the project does not expect to be updated in the future.",
+      "title": "PIL is archived on PyPI",
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "PIL"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

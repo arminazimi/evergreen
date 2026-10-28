@@ -1,0 +1,123 @@
+{
+  "earliestDeadline": "2025-04-30",
+  "ecosystems": [
+    "ci-images"
+  ],
+  "events": [
+    "removed",
+    "scheduled-end-of-life"
+  ],
+  "id": "generic-azure-pipelines-ubuntu-image",
+  "latestReview": "2026-10-21",
+  "name": "ubuntu-image",
+  "namespace": "azure-pipelines",
+  "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+  "rules": [
+    {
+      "deadline": "2025-04-30",
+      "ecosystem": "ci-images",
+      "event": "removed",
+      "id": "ci-images.azure-pipelines.ubuntu-20.04",
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. This removal does not apply to self-hosted Ubuntu 20.04 agents.",
+          "The Ubuntu 20.04 notice names ubuntu-22.04, ubuntu-24.04, or ubuntu-latest. ubuntu-22.04 is scheduled for removal on 2027-04-17, so prefer ubuntu-24.04 or ubuntu-latest when the workload allows it."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "instructions": "Change the reported pool.vmImage from ubuntu-20.04 to ubuntu-24.04 or ubuntu-latest (the notice also allows ubuntu-22.04; see the replacement).",
+            "targets": "declaration",
+            "title": "Retarget the hosted image"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-20.04. Leave self-hosted pool names unchanged.",
+            "targets": "all",
+            "title": "Align other Azure Pipelines pools"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-21",
+        "reviewedAt": "2026-10-21",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+      "replacement": "ubuntu-22.04, ubuntu-24.04, or ubuntu-latest",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Upcoming Updates for Azure Pipelines Agents Images",
+          "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/"
+        },
+        {
+          "accessedAt": "2026-10-21",
+          "title": "Microsoft-hosted agents for Azure Pipelines",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted"
+        }
+      ],
+      "summary": "The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure DevOps blog deprecation plan. The Microsoft-hosted agents page lists that image as retired.",
+      "title": "Azure Pipelines Ubuntu 20.04 hosted image is retired",
+      "vers": "vers:intdot/20.04"
+    },
+    {
+      "deadline": "2027-04-17",
+      "ecosystem": "ci-images",
+      "event": "scheduled-end-of-life",
+      "id": "ci-images.azure-pipelines.ubuntu-22.04",
+      "migration": {
+        "constraints": [
+          "Change only Microsoft-hosted pool.vmImage labels. The Ubuntu 22.04 schedule does not apply to self-hosted Ubuntu 22.04 agents.",
+          "Move off ubuntu-22.04 before the scheduled removal on 2027-04-17. The notice names ubuntu-latest, ubuntu-24.04, or ubuntu-26.04."
+        ],
+        "steps": [
+          {
+            "id": "retarget-vm-image",
+            "instructions": "Change the reported pool.vmImage from ubuntu-22.04 to ubuntu-latest, ubuntu-24.04, or ubuntu-26.04 (see the replacement).",
+            "targets": "declaration",
+            "title": "Retarget the hosted image"
+          },
+          {
+            "id": "align-vm-image-surfaces",
+            "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-22.04. Leave self-hosted pool names unchanged.",
+            "targets": "all",
+            "title": "Align other Azure Pipelines pools"
+          }
+        ],
+        "verification": [
+          {
+            "command": "gitlab-ci-lint || circleci config validate",
+            "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-18",
+        "reviewedAt": "2026-10-18",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+      "replacement": "ubuntu-latest, ubuntu-24.04, or ubuntu-26.04",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Microsoft-hosted image deprecation schedule",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+        }
+      ],
+      "summary": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
+      "title": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
+      "vers": "vers:intdot/22.04"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "generic"
+}

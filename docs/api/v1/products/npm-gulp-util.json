@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-gulp-util",
+  "latestReview": "2026-10-16",
+  "name": "gulp-util",
+  "purl": "pkg:npm/gulp-util",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.gulp-util.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve each used utility's logging, file, plugin-error, and stream behavior."
+        ],
+        "steps": [
+          {
+            "id": "inventory-gulp-util",
+            "instructions": "Map every imported gulp-util member to the purpose-specific replacement recommended by Gulp.",
+            "targets": "usages",
+            "title": "Inventory gulp-util APIs"
+          },
+          {
+            "id": "replace-gulp-util",
+            "instructions": "Replace gulp-util imports and dependency with only the maintained modules required by those usages.",
+            "targets": "all",
+            "title": "Install focused replacements"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Run the Gulp build and verify task output."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/gulp-util",
+      "replacement": "Maintained purpose-specific modules listed by Gulp",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "gulp-util package deprecation notice",
+          "url": "https://www.npmjs.com/package/gulp-util"
+        },
+        {
+          "title": "gulp-util registry metadata",
+          "url": "https://registry.npmjs.org/gulp-util/latest"
+        }
+      ],
+      "summary": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
+      "title": "gulp-util is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "gulp-util"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "gulp-util"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "gulp-util"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}

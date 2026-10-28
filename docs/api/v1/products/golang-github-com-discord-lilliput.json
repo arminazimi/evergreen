@@ -1,0 +1,72 @@
+{
+  "ecosystems": [
+    "go"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "golang-github-com-discord-lilliput",
+  "latestReview": "2026-10-20",
+  "name": "lilliput",
+  "namespace": "github.com/discord",
+  "purl": "pkg:golang/github.com/discord/lilliput",
+  "rules": [
+    {
+      "ecosystem": "go",
+      "event": "deprecated",
+      "id": "go.module.github.com.discord.lilliput.deprecated",
+      "migration": {
+        "constraints": [
+          "Keep go.mod and go.sum consistent: after the change no package should still require github.com/discord/lilliput, directly or through a replace directive.",
+          "github.com/discord/lilliput names no replacement module; pick a maintained alternative or accept the risk, and record the decision."
+        ],
+        "steps": [
+          {
+            "id": "replace-module-dependency",
+            "instructions": "Replace the github.com/discord/lilliput requirement with a maintained alternative that fits how the project uses it, then run `go mod tidy`.",
+            "targets": "declaration",
+            "title": "Replace the deprecated module"
+          },
+          {
+            "id": "migrate-module-usages",
+            "instructions": "Update imports and calls of github.com/discord/lilliput in the reported files to the chosen alternative.",
+            "targets": "usages",
+            "title": "Migrate imports and calls"
+          }
+        ],
+        "verification": [
+          {
+            "command": "go build ./... && go test ./...",
+            "purpose": "Build and test every package without the deprecated module."
+          },
+          {
+            "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+            "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-20",
+        "reviewedAt": "2026-10-20",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:golang/github.com/discord/lilliput",
+      "severity": "medium",
+      "sources": [
+        {
+          "title": "github.com/discord/lilliput v1.5.1 go.mod",
+          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+        },
+        {
+          "title": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "summary": "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes. See https://github.com/discord/lilliput/issues/303\"",
+      "title": "github.com/discord/lilliput is deprecated",
+      "vers": "vers:golang/*"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "golang"
+}

@@ -1,0 +1,289 @@
+{
+  "earliestDeadline": "2024-08-31",
+  "ecosystems": [
+    "android"
+  ],
+  "events": [
+    "deprecated",
+    "scheduled-end-of-life"
+  ],
+  "id": "maven-com-android-billingclient-billing",
+  "latestReview": "2026-10-19",
+  "name": "billing",
+  "namespace": "com.android.billingclient",
+  "purl": "pkg:maven/com.android.billingclient/billing",
+  "rules": [
+    {
+      "deadline": "2024-08-31",
+      "ecosystem": "android",
+      "event": "deprecated",
+      "id": "android.play-billing.version-5",
+      "migration": {
+        "constraints": [
+          "Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.",
+          "Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping."
+        ],
+        "steps": [
+          {
+            "id": "bump-play-billing",
+            "instructions": "Change the reported com.android.billingclient:billing version to Google Play Billing Library 8.x or 9.x (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).",
+            "targets": "declaration",
+            "title": "Raise the Play Billing Library dependency"
+          },
+          {
+            "id": "align-play-billing-surfaces",
+            "instructions": "Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.",
+            "targets": "all",
+            "title": "Align other Play Billing declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./gradlew assembleDebug",
+            "purpose": "Build a debug APK with the raised Play Billing Library major."
+          },
+          {
+            "command": "./gradlew dependencies",
+            "purpose": "Confirm the resolved Play Billing Library major matches the intended replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-19",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 5 with a new app and update deadline of August 31, 2024 and an extension deadline of November 1, 2024.",
+      "title": "Google Play Billing Library 5 is past its deprecation deadline",
+      "vers": "vers:maven/>=5.0.0|<6.0.0"
+    },
+    {
+      "deadline": "2025-08-31",
+      "ecosystem": "android",
+      "event": "deprecated",
+      "id": "android.play-billing.version-6",
+      "migration": {
+        "constraints": [
+          "Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.",
+          "Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping."
+        ],
+        "steps": [
+          {
+            "id": "bump-play-billing",
+            "instructions": "Change the reported com.android.billingclient:billing version to Google Play Billing Library 8.x or 9.x (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).",
+            "targets": "declaration",
+            "title": "Raise the Play Billing Library dependency"
+          },
+          {
+            "id": "align-play-billing-surfaces",
+            "instructions": "Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.",
+            "targets": "all",
+            "title": "Align other Play Billing declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./gradlew assembleDebug",
+            "purpose": "Build a debug APK with the raised Play Billing Library major."
+          },
+          {
+            "command": "./gradlew dependencies",
+            "purpose": "Confirm the resolved Play Billing Library major matches the intended replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-19",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 6 with a new app and update deadline of August 31, 2025 and an extension deadline of November 1, 2025.",
+      "title": "Google Play Billing Library 6 is past its deprecation deadline",
+      "vers": "vers:maven/>=6.0.0|<7.0.0"
+    },
+    {
+      "deadline": "2026-08-31",
+      "ecosystem": "android",
+      "event": "deprecated",
+      "id": "android.play-billing.version-7",
+      "migration": {
+        "constraints": [
+          "Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.",
+          "Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping."
+        ],
+        "steps": [
+          {
+            "id": "bump-play-billing",
+            "instructions": "Change the reported com.android.billingclient:billing version to Google Play Billing Library 8.x or 9.x (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).",
+            "targets": "declaration",
+            "title": "Raise the Play Billing Library dependency"
+          },
+          {
+            "id": "align-play-billing-surfaces",
+            "instructions": "Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.",
+            "targets": "all",
+            "title": "Align other Play Billing declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./gradlew assembleDebug",
+            "purpose": "Build a debug APK with the raised Play Billing Library major."
+          },
+          {
+            "command": "./gradlew dependencies",
+            "purpose": "Confirm the resolved Play Billing Library major matches the intended replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "replacement": "Google Play Billing Library 8.x or 9.x",
+      "severity": "high",
+      "sources": [
+        {
+          "accessedAt": "2026-10-19",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 7 with a new app and update deadline of August 31, 2026 and an extension deadline of November 1, 2026.",
+      "title": "Google Play Billing Library 7 is past its deprecation deadline",
+      "vers": "vers:maven/>=7.0.0|<8.0.0"
+    },
+    {
+      "deadline": "2027-08-31",
+      "ecosystem": "android",
+      "event": "scheduled-end-of-life",
+      "id": "android.play-billing.version-8",
+      "migration": {
+        "constraints": [
+          "Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.",
+          "Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping."
+        ],
+        "steps": [
+          {
+            "id": "bump-play-billing",
+            "instructions": "Change the reported com.android.billingclient:billing version to Google Play Billing Library 9.x or later (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).",
+            "targets": "declaration",
+            "title": "Raise the Play Billing Library dependency"
+          },
+          {
+            "id": "align-play-billing-surfaces",
+            "instructions": "Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.",
+            "targets": "all",
+            "title": "Align other Play Billing declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./gradlew assembleDebug",
+            "purpose": "Build a debug APK with the raised Play Billing Library major."
+          },
+          {
+            "command": "./gradlew dependencies",
+            "purpose": "Confirm the resolved Play Billing Library major matches the intended replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "replacement": "Google Play Billing Library 9.x or later",
+      "severity": "low",
+      "sources": [
+        {
+          "accessedAt": "2026-10-19",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 8 with a new app and update deadline of August 31, 2027 and an extension deadline of November 1, 2027.",
+      "title": "Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31",
+      "vers": "vers:maven/>=8.0.0|<9.0.0"
+    },
+    {
+      "deadline": "2028-08-31",
+      "ecosystem": "android",
+      "event": "scheduled-end-of-life",
+      "id": "android.play-billing.version-9",
+      "migration": {
+        "constraints": [
+          "Keep every module, version catalog entry, and BOM override on one Play Billing Library major that Google Play still accepts for new apps and updates.",
+          "Major upgrades of com.android.billingclient:billing can require BillingClient API changes; read the Play Billing Library migration guide for the jump from the reported major to the replacement before shipping."
+        ],
+        "steps": [
+          {
+            "id": "bump-play-billing",
+            "instructions": "Change the reported com.android.billingclient:billing version to a later supported Google Play Billing Library major from the deprecation timeline (see the replacement) in the build.gradle(.kts) dependency (or the version catalog key that supplies it).",
+            "targets": "declaration",
+            "title": "Raise the Play Billing Library dependency"
+          },
+          {
+            "id": "align-play-billing-surfaces",
+            "instructions": "Update every other Gradle module, libs.versions.toml entry, and dependency-management block that still pins the old major, and adjust BillingClient call sites the migration guide names for that jump.",
+            "targets": "all",
+            "title": "Align other Play Billing declarations"
+          }
+        ],
+        "verification": [
+          {
+            "command": "./gradlew assembleDebug",
+            "purpose": "Build a debug APK with the raised Play Billing Library major."
+          },
+          {
+            "command": "./gradlew dependencies",
+            "purpose": "Confirm the resolved Play Billing Library major matches the intended replacement."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-19",
+        "reviewedAt": "2026-10-19",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "replacement": "A later supported Google Play Billing Library major from the deprecation timeline",
+      "severity": "low",
+      "sources": [
+        {
+          "accessedAt": "2026-10-19",
+          "title": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "summary": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 9 with a new app and update deadline of August 31, 2028 and an extension deadline of November 1, 2028.",
+      "title": "Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31",
+      "vers": "vers:maven/>=9.0.0|<10.0.0"
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "maven"
+}

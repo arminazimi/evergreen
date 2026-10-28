@@ -1,0 +1,102 @@
+{
+  "ecosystems": [
+    "python"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "pypi-django-nose",
+  "latestReview": "2026-10-14",
+  "name": "django-nose",
+  "purl": "pkg:pypi/django-nose",
+  "rules": [
+    {
+      "ecosystem": "python",
+      "event": "deprecated",
+      "id": "python.package.django-nose.maintenance-only",
+      "migration": {
+        "constraints": [
+          "Preserve Django settings selection, database setup, fixture loading, test labels, and any django-nose plugin behavior."
+        ],
+        "steps": [
+          {
+            "id": "choose-django-runner",
+            "instructions": "Select pytest-django or Django's built-in test runner and document the chosen invocation.",
+            "targets": "all",
+            "title": "Choose the Django test runner"
+          },
+          {
+            "id": "migrate-django-nose-configuration",
+            "instructions": "Replace TEST_RUNNER, imports, plugins, and django-nose-specific options at every reported usage.",
+            "targets": "usages",
+            "title": "Migrate runner configuration"
+          },
+          {
+            "id": "replace-django-nose-dependency",
+            "instructions": "Remove django-nose and add only the target runner and plugins required by the suite.",
+            "targets": "declaration",
+            "title": "Replace the dependency"
+          }
+        ],
+        "verification": [
+          {
+            "command": "python manage.py test",
+            "purpose": "Run Django's configured test suite."
+          },
+          {
+            "command": "python -m pytest",
+            "purpose": "Run the suite through pytest-django when selected."
+          },
+          {
+            "command": "python -m pip check",
+            "purpose": "Check installed dependency compatibility."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-14",
+        "reviewedAt": "2026-10-14",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:pypi/django-nose",
+      "replacement": "pytest-django or Django unittest",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "django-nose project notice",
+          "url": "https://pypi.org/project/django-nose/"
+        }
+      ],
+      "summary": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
+      "title": "django-nose is maintenance-only",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "python",
+          "module": "django_nose"
+        },
+        {
+          "kind": "call",
+          "language": "python",
+          "module": "django_nose",
+          "targets": [
+            "NoseTestSuiteRunner"
+          ]
+        },
+        {
+          "key": "TEST_RUNNER",
+          "kind": "config-key",
+          "language": "python",
+          "valueIncludes": "django_nose"
+        }
+      ],
+      "vers": "vers:pypi/*",
+      "x-python": {
+        "kind": "package",
+        "package": "django-nose"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "pypi"
+}

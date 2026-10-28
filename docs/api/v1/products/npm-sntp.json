@@ -1,0 +1,83 @@
+{
+  "ecosystems": [
+    "npm"
+  ],
+  "events": [
+    "deprecated"
+  ],
+  "id": "npm-sntp",
+  "latestReview": "2026-10-16",
+  "name": "sntp",
+  "purl": "pkg:npm/sntp",
+  "rules": [
+    {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "id": "npm.package.sntp.deprecated",
+      "migration": {
+        "constraints": [
+          "Preserve server selection, timeout behavior, clock-offset calculations, error handling, and any security-sensitive time checks."
+        ],
+        "steps": [
+          {
+            "id": "replace-sntp",
+            "instructions": "Move the dependency and imports from sntp to @hapi/sntp and adapt changed APIs.",
+            "targets": "all",
+            "title": "Replace sntp"
+          },
+          {
+            "id": "verify-time-behavior",
+            "instructions": "Test successful queries, timeouts, invalid responses, and clock-offset handling with controlled fixtures.",
+            "targets": "usages",
+            "title": "Verify network-time behavior"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run time synchronization and repository tests when defined."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "npm-deprecated",
+        "observedAt": "2026-10-16",
+        "reviewedAt": "2026-10-16",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:npm/sntp",
+      "replacement": "@hapi/sntp",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "sntp package deprecation notice",
+          "url": "https://www.npmjs.com/package/sntp"
+        },
+        {
+          "title": "sntp registry metadata",
+          "url": "https://registry.npmjs.org/sntp/latest"
+        }
+      ],
+      "summary": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
+      "title": "sntp is deprecated",
+      "usage": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "module": "sntp"
+        },
+        {
+          "kind": "import",
+          "language": "typescript",
+          "module": "sntp"
+        }
+      ],
+      "vers": "vers:npm/*",
+      "x-npm": {
+        "package": "sntp"
+      }
+    }
+  ],
+  "schemaVersion": "evergreen.api-product.v1",
+  "type": "npm"
+}
