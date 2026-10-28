@@ -112,11 +112,16 @@ function lineRefusal(line: string | undefined, edit: ImageEdit): string | undefi
 /**
  * A line whose announced end of life is still ahead is supported today: the scan notes the date, and moving it early
  * is a choice, not a repair. The event decides, not the clock (decision 0010); the rule becomes fixable once it is
- * promoted to `end-of-life`.
+ * promoted to `end-of-life`. These are the registries the container detector reports Dockerfile images from.
  */
 async function scheduledRuleIds(): Promise<Set<string>> {
-  const registry = validateRegistryV2(await loadDataFile("registry/container.json"));
-  return new Set(registry.rules.filter((rule) => rule.event === "scheduled-end-of-life").map((rule) => rule.id));
+  const ids = new Set<string>();
+  for (const file of ["registry/container.json", "registry/dotnet.json"]) {
+    for (const rule of validateRegistryV2(await loadDataFile(file)).rules) {
+      if (rule.event === "scheduled-end-of-life") ids.add(rule.id);
+    }
+  }
+  return ids;
 }
 
 /**

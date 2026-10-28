@@ -71,6 +71,14 @@ test("a supported release line with a scheduled end of life is left alone", asyn
   assert.deepEqual(refusals, []);
 });
 
+test("a scheduled .NET image end of support is left alone", async () => {
+  const root = await repository({ Dockerfile: "FROM mcr.microsoft.com/dotnet/sdk:8.0\n" });
+  const refusals: string[] = [];
+  const patches = await dockerfileBaseImageFixer.plan(await scanRepository(root, detectors), (_, reason) => refusals.push(reason));
+  assert.deepEqual(patches, []);
+  assert.deepEqual(refusals, []);
+});
+
 test("a replacement that names more than one tag is refused", async () => {
   const root = await repository({ Dockerfile: "FROM node:20\n" });
   const scan = await scanRepository(root, detectors);
