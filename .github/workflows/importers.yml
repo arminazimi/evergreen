@@ -170,3 +170,69 @@ jobs:
           else
             gh pr create --head "$branch" --base "${{ github.event.repository.default_branch }}" --title "$title" --body-file body.md
           fi
+
+  candidates:
+    name: candidates (${{ matrix.importer }})
+    needs: draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        importer:
+          - ci-images-1
+          - container-official-images
+          - cpp-1
+          - dart-1
+          - database-1
+          - database-2
+          - dotnet-1
+          - dotnet-2
+          - endoflife-date
+          - github-actions-runtime
+          - go-1
+          - go-2
+          - java-1
+          - java-2
+          - kubernetes-1
+          - nodejs-schedule
+          - npm-deprecated
+          - osv
+          - php-1
+          - php-2
+          - pypi-status
+          - python-release-cycle
+          - ruby-1
+          - rust-1
+          - serverless-1
+          - serverless-2
+          - shell-1
+          - swift-1
+          - terraform-1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Fetch the drafts, if this importer found a difference
+        id: fetch
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        continue-on-error: true
+        with:
+          name: drafts-${{ matrix.importer }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        if: steps.fetch.outcome == 'success'
+        with:
+          node-version: 24
+          cache: npm
+      - if: steps.fetch.outcome == 'success'
+        run: npm ci
+      - if: steps.fetch.outcome == 'success'
+        run: npm run build --silent
+      - name: Open good first issues for unreviewed candidates
+        if: steps.fetch.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node dist/tools/importers/candidate-issues.js drafts.json --max-open 10
+
