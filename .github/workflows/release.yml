@@ -252,6 +252,8 @@ jobs:
 
           const id = "npm.package.request.deprecated:package.json:5";
 
+          // The smoke test above already fetched the package, so this measures quickstart scan startup,
+          // repository discovery, and rule evaluation on a warmed cache without network download variance.
           const startedAt = Date.now();
           const scan = jsonOf(run(["scan", ".", "--json"]), ["scan", ".", "--json"], 0);
           const durationMs = Date.now() - startedAt;

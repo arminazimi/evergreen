@@ -42,22 +42,22 @@ test("formatFirstRunSummary formats duration, budget, findings and status", () =
     platform: "linux",
     arch: "x64",
     nodeVersion: "v24.0.0",
-    runner: "GitHub Actions (Linux)",
-    command: ["npx", "--yes", "evergreen-deprecation@0.7.1", "scan", ".", "--json"],
+    runner: "Test Runner",
+    command: ["evergreen", "scan", ".", "--json"],
     cleanDirectory: true,
-    durationMs: 6540,
+    durationMs: 1000,
     budgetMs: 120_000,
     underBudget: true,
-    findingsCount: 2,
-    firstFindingRuleId: "npm.package.request.deprecated",
+    findingsCount: 1,
+    firstFindingRuleId: "test.rule.id",
     firstFindingLocation: "package.json:5",
     exitCode: 0,
   };
 
   const summary = formatFirstRunSummary(mockResult);
-  assert.match(summary, /Time to first useful finding: 6\.54s on linux/);
-  assert.match(summary, /2 findings; budget: 120s - PASSED/);
-  assert.match(summary, /first finding: npm\.package\.request\.deprecated/);
+  assert.match(summary, /Time to first useful finding: 1\.00s on linux/);
+  assert.match(summary, /1 finding; budget: 120s - PASSED/);
+  assert.match(summary, /first finding: test\.rule\.id/);
 });
 
 test("formatFirstRunMarkdown renders a markdown table with header and rows", () => {
@@ -68,14 +68,14 @@ test("formatFirstRunMarkdown renders a markdown table with header and rows", () 
       platform: "linux",
       arch: "x64",
       nodeVersion: "v24.0.0",
-      runner: "GitHub Actions (Linux)",
-      command: ["npx", "--yes", "evergreen-deprecation@0.7.1", "scan", ".", "--json"],
+      runner: "Test Runner 1",
+      command: ["evergreen", "scan", ".", "--json"],
       cleanDirectory: true,
-      durationMs: 6200,
+      durationMs: 1000,
       budgetMs: 120_000,
       underBudget: true,
-      findingsCount: 2,
-      firstFindingRuleId: "npm.package.request.deprecated",
+      findingsCount: 1,
+      firstFindingRuleId: "test.rule.id",
       firstFindingLocation: "package.json:5",
       exitCode: 0,
     },
@@ -85,24 +85,24 @@ test("formatFirstRunMarkdown renders a markdown table with header and rows", () 
       platform: "darwin",
       arch: "arm64",
       nodeVersion: "v24.0.0",
-      runner: "GitHub Actions (macOS)",
-      command: ["npx", "--yes", "evergreen-deprecation@0.7.1", "scan", ".", "--json"],
+      runner: "Test Runner 2",
+      command: ["evergreen", "scan", ".", "--json"],
       cleanDirectory: true,
-      durationMs: 8400,
+      durationMs: 2000,
       budgetMs: 120_000,
-      underBudget: true,
-      findingsCount: 2,
-      firstFindingRuleId: "npm.package.request.deprecated",
-      firstFindingLocation: "package.json:5",
-      exitCode: 0,
+      underBudget: false,
+      findingsCount: 0,
+      firstFindingRuleId: null,
+      firstFindingLocation: null,
+      exitCode: 1,
     },
   ];
 
   const markdown = formatFirstRunMarkdown(results);
   assert.match(markdown, /### Time to first useful finding/);
   assert.match(markdown, /\| Platform \| Runner \| First run duration \| Goal \| Findings \| First finding \| Result \|/);
-  assert.match(markdown, /\| linux \| GitHub Actions \(Linux\) \| 6\.20 s \| < 120 s \| 2 \| `npm\.package\.request\.deprecated` \| Pass \|/);
-  assert.match(markdown, /\| darwin \| GitHub Actions \(macOS\) \| 8\.40 s \| < 120 s \| 2 \| `npm\.package\.request\.deprecated` \| Pass \|/);
+  assert.match(markdown, /\| linux \| Test Runner 1 \| 1\.00 s \| < 120 s \| 1 \| `test\.rule\.id` \| Pass \|/);
+  assert.match(markdown, /\| darwin \| Test Runner 2 \| 2\.00 s \| < 120 s \| 0 \| none \| \*\*Fail\*\* \|/);
 });
 
 test("measureFirstRun executes local scan and verifies findings and duration within two-minute budget", async () => {

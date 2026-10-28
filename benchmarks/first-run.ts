@@ -203,7 +203,8 @@ export function formatFirstRunSummary(result: FirstRunBenchmarkResult): string {
   const budgetSec = (result.budgetMs / 1000).toFixed(0);
   const status = result.underBudget ? "PASSED" : "FAILED";
   const findingInfo = result.firstFindingRuleId ? ` (first finding: ${result.firstFindingRuleId})` : "";
-  return `Time to first useful finding: ${durationSec}s on ${result.platform} (${result.findingsCount} findings; budget: ${budgetSec}s - ${status})${findingInfo}`;
+  const findingsWord = result.findingsCount === 1 ? "finding" : "findings";
+  return `Time to first useful finding: ${durationSec}s on ${result.platform} (${result.findingsCount} ${findingsWord}; budget: ${budgetSec}s - ${status})${findingInfo}`;
 }
 
 /** Formats the benchmark result as a GitHub Flavored Markdown table. */

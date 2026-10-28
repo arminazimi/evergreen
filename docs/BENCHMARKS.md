@@ -31,21 +31,14 @@ The benchmark tracks Evergreen's adoption goal: a new user goes from `npx` to a 
 
 ### Methodology
 
-The benchmark measures wall-clock time from invoking `npx --yes evergreen-deprecation@<version> scan . --json` (or the equivalent local scan) in a clean directory containing a minimal project with known lifecycle issues (`tests/fixtures/smoke/package.json`). The measurement covers:
+The local benchmark (`benchmarks/first-run.ts`) measures wall-clock time from invoking the scan in a clean temporary directory containing a minimal project with known lifecycle issues (`tests/fixtures/smoke/package.json`). It tests:
 
-1. CLI download and invocation via `npx` in a clean environment.
-2. Ecosystem and manifest detection.
-3. Rule evaluation against bundled offline lifecycle data.
-4. Emission of the first useful finding (`npm.package.request.deprecated` at `package.json:5` and the Node.js end-of-life runtime).
+1. Project and manifest discovery.
+2. Rule evaluation against bundled offline lifecycle data.
+3. Emission of the first useful finding (`npm.package.request.deprecated` at `package.json:5` and the Node.js end-of-life runtime).
 
-### CI runner measurements per release
+On 2026-10-28, running `npm run benchmark:first-run` against the local build on macOS (Apple silicon, Node.js 26) completed the clean scan in 0.28 s, reporting 4 findings. Treat this duration as an observational local reference point.
 
-The release workflow's `quickstart` job runs the benchmark across clean GitHub Actions runners on every release (Linux, macOS, and Windows) after publishing to npm, recording the timing in the release summary:
+### Release workflow timing
 
-| Platform | Runner | First run duration | Goal | Findings | Result |
-|---|---|---|---|---|---|
-| Linux | Ubuntu 24.04 (GitHub Actions) | 6.20 s | < 120 s | 2 | Pass |
-| macOS | macOS 14 (GitHub Actions) | 8.40 s | < 120 s | 2 | Pass |
-| Windows | Windows Server 2022 (GitHub Actions) | 14.10 s | < 120 s | 2 | Pass |
-
-On all three platforms, the time to first useful finding stays well within the two-minute budget. The quickstart job asserts `durationMs <= 120000` and fails the release workflow if any runner exceeds the budget.
+In CI, the release workflow (`.github/workflows/release.yml`) uses its own inline timing in the `quickstart` job across clean Linux, macOS, and Windows runners after npm publish. The runner executes the package smoke script first (which warms the npm package cache) and then times `scan . --json` on the smoke fixture, isolating execution from npm registry latency. The job asserts that the scan finishes within the two-minute budget (`durationMs <= 120000`) and writes the measured duration to `$GITHUB_STEP_SUMMARY`. Actual per-release runner measurements appear in each release run's summary.
