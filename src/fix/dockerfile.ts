@@ -98,7 +98,7 @@ function sameImage(left: ImageReference, right: ImageReference): boolean {
   return left.registry === right.registry && left.repository === right.repository && left.tag === right.tag && left.digest === right.digest;
 }
 
-/** Why the line was left as it is, or undefined when it already carries the replacement tag. */
+/** Why the line was left as it is, or undefined when it still carries the image the finding names. */
 function lineRefusal(line: string | undefined, edit: ImageEdit): string | undefined {
   if (line === undefined) return "The finding names no line to rewrite.";
   const match = FROM_LINE.exec(line);
@@ -106,9 +106,7 @@ function lineRefusal(line: string | undefined, edit: ImageEdit): string | undefi
   const image = parseImageReference(match[2]!);
   if (!image) return "The line's image reference could not be parsed.";
   if (!sameImage(image, edit.current)) return "The line no longer holds the image the finding names.";
-  if (image.digest !== undefined) return "The image is pinned by digest; rewriting the tag would leave the digest pointing at the old image.";
-  if (image.tag === edit.target) return undefined;
-  return "The line did not match the replacement tag.";
+  return undefined;
 }
 
 /**
