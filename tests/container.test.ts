@@ -57,6 +57,7 @@ test("container passes detector conformance on every fixture", async () => {
         name: "container positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: await Promise.all([
+          expected(node, ".devcontainer/devcontainer.json", 5, "node:16"),
           expected(postgres, "api.Dockerfile", 1, "postgres:11.5-bullseye"),
           expected(postgres, "compose.yaml", 3, "postgres:11"),
           expected("container.redis.eol-6.0-and-older", "compose.yaml", 5, "redis:5-alpine"),
@@ -247,5 +248,101 @@ test("Microsoft .NET images with a variable, floating, unknown, or malformed tag
       [3, "mcr.microsoft.com/dotnet/sdk"],
       [4, "mcr.microsoft.com/dotnet/aspnet:6.0-custom-build"],
     ],
+  );
+});
+
+test("reads images in Compose override files and skips services built from local Dockerfiles", async () => {
+  const root = await repository({
+    "compose.yaml": [
+      "services:",
+      "  app:",
+      "    build: .",
+      "    image: node:16",
+      "  backend:",
+      "    build:",
+      "      context: ./backend",
+      "    image: python:3.8",
+      "  db:",
+      "    image: postgres:11",
+      "",
+    ].join("\n"),
+    "compose.override.yaml": [
+      "services:",
+      "  cache:",
+      "    image: redis:5-alpine",
+      "  local-service:",
+      "    build: ./service",
+      "    image: node:18",
+      "",
+    ].join("\n"),
+    "docker-compose.override.yml": [
+      "services:",
+      "  secondary-db:",
+      "    image: postgres:10",
+      "",
+    ].join("\n"),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((f) => [f.location.path, f.location.line, f.ruleId]),
+    [
+      ["compose.override.yaml", 3, "container.redis.eol-6.0-and-older"],
+      ["compose.yaml", 10, "container.postgres.eol-13-and-older"],
+      ["docker-compose.override.yml", 3, "container.postgres.eol-13-and-older"],
+    ],
+  );
+  assert.deepEqual(analysis.unclassified, []);
+});
+
+test("devcontainer.json image field is detected and matched against container rules", async () => {
+  const root = await repository({
+    ".devcontainer/devcontainer.json": JSON.stringify({ name: "Test", image: "node:16" }, null, 2),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["container.node.eol-21-and-older", ".devcontainer/devcontainer.json", 3]],
+  );
+});
+
+test("devcontainer.json with a current image produces no findings", async () => {
+  const root = await repository({
+    "devcontainer.json": JSON.stringify({ name: "Test", image: "node:24" }, null, 2),
+  });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(analysis.findings, []);
+});
+
+test("devcontainer.json with JSONC comments is parsed correctly", async () => {
+  const contents = [
+    "// top-level comment",
+    "{",
+    '  "name": "My Project", // trailing comment',
+    '  /* block comment */',
+    '  "image": "node:16"',
+    "}",
+    "",
+  ].join("\n");
+  const root = await repository({ ".devcontainer/devcontainer.json": contents });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["container.node.eol-21-and-older", 5]],
+  );
+});
+
+test("devcontainer.json with trailing commas is parsed correctly", async () => {
+  const contents = [
+    "{",
+    '  "name": "My Project",',
+    '  "image": "node:16",',
+    "}",
+    "",
+  ].join("\n");
+  const root = await repository({ ".devcontainer/devcontainer.json": contents });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [["container.node.eol-21-and-older", 3]],
   );
 });

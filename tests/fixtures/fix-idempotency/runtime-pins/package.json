@@ -1,0 +1,6 @@
+{
+  "name": "app",
+  "engines": {
+    "node": "22"
+  }
+}

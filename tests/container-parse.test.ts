@@ -108,6 +108,29 @@ test("compose ignores lookalike keys and reports interpolation as dynamic", asyn
   assert.deepEqual(parseCompose(await fixture("zero", "compose.yaml")), []);
 });
 
+test("compose skips services built from local Dockerfiles", () => {
+  const compose = [
+    "services:",
+    "  web:",
+    "    build: .",
+    "    image: node:16",
+    "  api:",
+    "    build:",
+    "      context: ./api",
+    "      dockerfile: Dockerfile",
+    "    image: node:18",
+    "  db:",
+    "    image: postgres:11",
+    "  worker:",
+    "    build: null",
+    "    image: redis:6",
+  ].join("\n");
+  assert.deepEqual(parseCompose(compose), [
+    { kind: "image", value: "postgres:11", line: 11 },
+    { kind: "image", value: "redis:6", line: 14 },
+  ]);
+});
+
 test("compose malformed input returns nothing and never throws", async () => {
   const malformed = await fixture("malformed", "compose.yaml");
   assert.doesNotThrow(() => parseCompose(malformed));

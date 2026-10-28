@@ -1,0 +1,11 @@
+plugins {
+    id("java")
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(20)
+    }
+}
+
+sourceCompatibility = JavaVersion.VERSION_22

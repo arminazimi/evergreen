@@ -7,7 +7,8 @@ The `container` detector reports base images whose release line has reached a ve
 | File | Declaration |
 | --- | --- |
 | `Dockerfile`, `Dockerfile.*`, `*.Dockerfile`, `Containerfile`, `Containerfile.*` | `FROM <image>[:<tag>][@<digest>]`, with `--platform` and `AS <stage>` accepted and line continuations joined |
-| `compose.yaml`, `compose.yml`, `docker-compose.yaml`, `docker-compose.yml`, `docker-compose.*.yml` | `services.<name>.image` |
+| `compose.yaml`, `compose.yml`, `compose.*.yaml`, `compose.*.yml`, `docker-compose.yaml`, `docker-compose.yml`, `docker-compose.*.yaml`, `docker-compose.*.yml` | `services.<name>.image` (services built from a local Dockerfile via `build:` are skipped) |
+| `devcontainer.json`, `.devcontainer/devcontainer.json` | `image` (top-level string; JSONC comments are accepted) |
 
 It walks the repository up to eight directories deep (at most 2,000 matching files) and does not follow symbolic links. It skips `.git`, `node_modules`, `vendor`, `dist`, `build`, `target`, `.venv`, `venv`, `fixtures`, `__fixtures__`, and `testdata`.
 
@@ -53,7 +54,7 @@ These are reported as [unclassified references](../DETECTORS.md#unclassified-ref
 - a floating tag that spans supported and unsupported versions: `mysql:8` can mean 8.0 or 8.4, so it is not flagged, while `mysql:8.0` is;
 - a tag with a suffix Evergreen does not recognize, such as `node:20-custom-build`.
 
-Nothing is reported for `scratch`, a `FROM` that names an earlier stage, comments, `RUN` strings, Compose keys other than `services.*.image` (`container_name`, `labels`, extension fields), YAML aliases, or invalid files.
+Nothing is reported for `scratch`, a `FROM` that names an earlier stage, comments, `RUN` strings, Compose services built from a local Dockerfile (`build:`), Compose keys other than `services.*.image` (`container_name`, `labels`, extension fields), YAML aliases, or invalid files.
 
 ## Known limits and false-positive boundaries
 

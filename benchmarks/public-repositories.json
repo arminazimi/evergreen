@@ -710,6 +710,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 17 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:2 at this commit: the envlist tests on py310 environments; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -816,6 +825,33 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 27 of pyproject.toml reads `requires-python = \">=3.10\"`, a Python floor of 3.10, a release line that ended on 2026-10-01."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:7 at this commit: the envlist includes py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 14,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:14 at this commit: the envlist includes py310 factored environments (pexpect, xdist, twisted24, twisted25, asynctest, numpy, pluggymain, pylib); Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 18,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:18 at this commit: the envlist includes py310-freeze; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -915,6 +951,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 21 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v5, a release below the supported major."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:6 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:6 at this commit: the envlist tests on py38 and py39; both lines are past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]
@@ -6920,6 +6974,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 17 of .github/workflows/pythonpackage.yml reads uses: actions/setup-python@v1, a release below the supported major."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:2 at this commit: the envlist tests on py38; that release line is past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -12774,6 +12837,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read templates/qbdi_frida_template/CMakeLists.txt:1 at this commit: `cmake_minimum_required(VERSION 3.2)`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.cfg",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.cfg:34 at this commit: python_requires = >= 3.8; the floor still admits release lines 3.8-3.9, all past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]
@@ -19798,6 +19870,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/test.yml:38 at this commit: `- uses: actions/cache@v3`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 34,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:34 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -19964,7 +20045,17 @@
       "commit": "231523057a2e110e92ac927e6e0a0b393a930b9d",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 64,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:64 at this commit: python_requires=\">=3.5\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "flopp/GpxTrackPoster",
@@ -21371,6 +21462,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/ci.yml:58 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:28 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -21379,7 +21479,17 @@
       "commit": "20af1136060ecb0a53f464b73e5cdac913a097c3",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 67,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:67 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "BasicProtein/AugmentCode-Free",
@@ -21430,6 +21540,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/build-release.yml:182 at this commit: `uses: softprops/action-gh-release@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 25,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:25 at this commit: python_requires=\">=3.7\" (with an inline comment); the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]
@@ -21547,6 +21666,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/nightly.yml:39 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 56,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:56 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -21618,6 +21746,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/code-quality.yml:19 at this commit: `uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 63,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:63 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -21626,7 +21763,17 @@
       "commit": "80a9ccb01647951cfac70f4554eb7741089f0263",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:36 at this commit: python_requires=\">=3.7\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "bndr/pipreqs",
@@ -21696,6 +21843,51 @@
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:28 at this commit: `requires-python = \">=3.9, <3.14\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:3 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:3 at this commit: the envlist also tests on py39; that line is past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": ".python-version",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:4 at this commit: `3.10`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:5 at this commit: `3.9`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:6 at this commit: `3.8`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -21758,6 +21950,33 @@
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:6 at this commit: `requires-python = \">=3.10,<4.0\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 28,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:28 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:2 at this commit: `3.8.2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:3 at this commit: `3.7.7`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -21811,6 +22030,60 @@
             "kind": "maintainer-review",
             "note": "Read .python-version:1 at this commit: `3.9.4`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:7 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:7 at this commit: the envlist also tests on py27, py36, py37, py38 and py39; those lines are past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:2 at this commit: `3.8.9`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:3 at this commit: `3.7.10`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:4 at this commit: `3.6.13`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:5 at this commit: `2.7.18`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -21854,6 +22127,42 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/python-publish.yml:15 at this commit: `uses: actions/setup-python@v5`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": ".python-version",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:3 at this commit: `3.10.7`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:4 at this commit: `3.9.13`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 5,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:5 at this commit: `3.8.13`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 6,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:6 at this commit: `3.7.13`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -21926,6 +22235,60 @@
             "kind": "maintainer-review",
             "note": "Read package.json:8 at this commit: `\"uglify-es\": \"3.3.10\"`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.cfg",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.cfg:35 at this commit: python_requires = >=3.8; the floor still admits release lines 3.8-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:7 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 7,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:7 at this commit: the envlist also tests on py38 and py39; those lines are past end of life (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:2 at this commit: `3.7.5`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:3 at this commit: `3.6.9`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 4,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:4 at this commit: `3.5.8`; the declaration matches the rule's affected range."
+          }
         }
       ]
     },
@@ -21996,6 +22359,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:36 at this commit: `name = \"django-channels-graphql-ws\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:2 at this commit: `3.9.16`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": ".python-version",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read .python-version:3 at this commit: `3.8.16`; the declaration matches the rule's affected range."
           }
         }
       ]
@@ -22143,7 +22524,17 @@
       "commit": "41116d1b66f2cf33eb8172158cf1a63bcc042bb1",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 23,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:23 at this commit: python_requires='>=3.0.*, <4'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "DanMcInerney/pymetasploit3",
@@ -22167,7 +22558,17 @@
       "commit": "7b9cd1c0d6d686e08cf2469cbe20ec6cbcdf5986",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:21 at this commit: python_requires='>=3.6'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "CodeForPhilly/chime",
@@ -22309,6 +22710,15 @@
             "kind": "maintainer-review",
             "note": "Read runtime.txt:1 at this commit: `python-3.7.6`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:45 at this commit: python_requires='>=3.7'; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -22429,6 +22839,24 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read pyproject.toml:36 at this commit: `requires-python = \">=3.7\"`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.10-and-older",
+          "path": "tox.ini",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:3 at this commit: the envlist tests on py310; Python 3.10 ended on 2026-10-01 (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 3,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:3 at this commit: the envlist also tests on py38 and py39; those lines are past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]
@@ -22884,6 +23312,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/release.yml:21 at this commit: `uses: actions/setup-python@v1`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 10,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:10 at this commit: python_requires=\">=3.6\" (line also passes setup_requires and pbr=True); the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -22892,14 +23329,34 @@
       "commit": "e776633ee80a690994f08908cddbd4714896a2c7",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 17,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:17 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "Hsury/BiliDrive",
       "commit": "a00799051d801b639910752b2347042e0e24d60e",
       "ecosystem": "python",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 50,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:50 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
+        }
+      ]
     },
     {
       "repository": "malinkang/weread2notion-pro",
@@ -22942,6 +23399,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/weread.yml:37 at this commit: `uses: actions/setup-python@v4`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:32 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -22967,6 +23433,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .github/workflows/black.yml:10 at this commit: `- uses: actions/setup-python@v2`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:32 at this commit: python_requires=\">=3.6\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]
@@ -23517,6 +23992,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of linux_dist/appimage/Dockerfile reads `FROM debian:bullseye-slim`, a Debian release line past its end-of-life."
           }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "setup.py",
+          "line": 35,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read setup.py:35 at this commit: python_requires=\">=3.5\"; the floor still admits release lines 3.7-3.9, all past end of life (https://devguide.python.org/versions/)."
+          }
         }
       ]
     },
@@ -23666,6 +24150,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read .tool-versions:2 at this commit: `java zulu-16.32.15`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "python.runtime.eol-3.9-and-older",
+          "path": "tox.ini",
+          "line": 2,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read tox.ini:2 at this commit: the envlist tests on py27; Python 2.7 is below the rule's affected range (<3.10) and is past end of life (https://devguide.python.org/versions/)."
           }
         }
       ]

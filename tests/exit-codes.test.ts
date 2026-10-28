@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { after, test } from "node:test";
@@ -112,4 +112,44 @@ test("policy failures exit 1 and keep stdout a single result document", async ()
   const document = JSON.parse(result.stdout) as { schemaVersion: string; status: string };
   assert.equal(document.schemaVersion, "evergreen.check.v1");
   assert.equal(document.status, "affected");
+});
+
+test("internal failures exit 5 with the code internal", async () => {
+  const root = await emptyRepository();
+  await writeFile(join(root, "Dockerfile"), "FROM node:14\n");
+  const scan = JSON.parse((await run(["scan", root, "--json"])).stdout) as { findings: Array<{ id: string }> };
+  const output = join(root, "report.md");
+  await mkdir(output);
+  const result = await run(["report-issue", scan.findings[0]!.id, root, "--output", output, "--json"]);
+  assert.equal(result.code, 5);
+  const { error } = errorDocument(result);
+  assert.equal(error.code, "internal");
+  assert.equal(error.exitCode, 5);
+  assert.match(result.stderr, /Evergreen failed unexpectedly/);
+  assert.match(result.stderr, /Re-run with --debug/);
+  assert.doesNotMatch(error.message, /at /, "the JSON message has no stack trace without --debug");
+});
+
+test("the exit-code table in docs/CAPABILITIES.md cannot drift from the code", async () => {
+  const documentation = await readFile(resolve("docs", "CAPABILITIES.md"), "utf8");
+  const documented = new Map<string, number>();
+  for (const match of documentation.matchAll(/\| `([a-z]+)` \| (\d+) \|/g)) {
+    const code = match[1]!;
+    const exitCode = Number(match[2]!);
+    assert.equal(documented.has(code), false, `the table lists ${code} twice`);
+    documented.set(code, exitCode);
+  }
+  assert.ok(documented.size > 0, "the table was not found");
+
+  const source = await readFile(resolve("dist/src/cli-main.js"), "utf8");
+  const codes = source.match(/EXIT_CODES = \{([^}]*)\}/);
+  assert.ok(codes, "EXIT_CODES was not found in the compiled CLI");
+  const implemented = new Map([...codes[1]!.matchAll(/([a-z]+): (\d+)/g)].map(([, code, exitCode]) => [code!, Number(exitCode!)]));
+
+  for (const [code, exitCode] of implemented) {
+    assert.equal(documented.get(code), exitCode, `${code} appeared in the code without its table row`);
+  }
+  for (const code of documented.keys()) {
+    assert.ok(implemented.has(code), `${code} appeared in the table without a class in the code`);
+  }
 });

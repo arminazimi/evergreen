@@ -6,7 +6,7 @@ import { dirname, join, resolve } from "node:path";
 import { getActiveData } from "./data-source.js";
 import { dataInfoFrom, staleDataWarning } from "./data-status.js";
 import { declaresInput } from "./detector-inputs.js";
-import { COVERAGE_WALK_LIMIT, type Confidence, type Finding, type ScanCoverage, type ScanResult, type UnclassifiedReference } from "./domain.js";
+import { COVERAGE_WALK_LIMIT, type Confidence, type Finding, type ScanCoverage, type ScanResult, type ScanSelection, type UnclassifiedReference } from "./domain.js";
 import { advisoryIdsByRuleId } from "./osv-advisories.js";
 import { relativePosix } from "./paths.js";
 import { computeFileHash, defaultScanCacheDirectory, ScanCache } from "./scan-cache.js";
@@ -220,6 +220,33 @@ export async function buildScanCoverage(
     filesRead: [...filesRead].sort((left, right) => left.localeCompare(right)),
     unsupportedFiles: [...new Set(unsupportedFiles)].sort((left, right) => left.localeCompare(right)),
     ...(truncated ? { truncated: true } : {}),
+  };
+}
+
+/**
+ * Whether `value` (an ecosystem id or a rule-id prefix like `npm.package.request`) matches a rule:
+ * it is the ecosystem itself, the full rule id, or a dotted prefix of it.
+ */
+export function scanSelectorMatches(value: string, detector: string, ruleId: string): boolean {
+  return value === detector || ruleId === value || ruleId.startsWith(`${value}.`);
+}
+
+/** Keeps only the findings and unclassified references the `--only`/`--exclude` selectors allow. */
+export function applyScanSelection(result: ScanResult, selection: ScanSelection): ScanResult {
+  const only = selection.only ?? [];
+  const exclude = selection.exclude ?? [];
+  const included = (ruleId: string, detector: string): boolean =>
+    (only.length === 0 || only.some((value) => scanSelectorMatches(value, detector, ruleId))) &&
+    (exclude.length === 0 || !exclude.some((value) => scanSelectorMatches(value, detector, ruleId)));
+  const findings = result.findings.filter((finding) => included(finding.ruleId, finding.detector));
+  const references = (result.unclassified?.references ?? []).filter((reference) =>
+    included(`${reference.detector}.${reference.component}`, reference.detector),
+  );
+  return {
+    ...result,
+    findings,
+    ...(result.unclassified ? { unclassified: { count: references.length, references } } : {}),
+    ...((only.length || exclude.length) ? { selection } : {}),
   };
 }
 

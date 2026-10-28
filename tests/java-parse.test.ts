@@ -11,6 +11,12 @@ import {
   MAXIMUM_LINE_LENGTH,
   parseGradle,
 } from "../src/detectors/java/parse-gradle.js";
+import {
+  MAXIMUM_DECLARATIONS as MAXIMUM_CATALOG_DECLARATIONS,
+  MAXIMUM_INPUT_BYTES as MAXIMUM_CATALOG_BYTES,
+  MAXIMUM_LINE_LENGTH as MAXIMUM_CATALOG_LINE_LENGTH,
+  parseCatalog,
+} from "../src/detectors/java/parse-catalog.js";
 import { MAXIMUM_INPUT_BYTES as MAXIMUM_WRAPPER_BYTES, MAXIMUM_VALUE_LENGTH, parseWrapper } from "../src/detectors/java/parse-wrapper.js";
 import {
   MAXIMUM_INPUT_BYTES as MAXIMUM_PIN_BYTES,
@@ -302,4 +308,104 @@ test("malformed pin files yield nothing and never throw", async () => {
 test("bounds pin file size and line length", () => {
   assert.deepEqual(parseJavaVersion(`# ${"x".repeat(MAXIMUM_PIN_BYTES)}\n17\n`), []);
   assert.deepEqual(parseJavaVersion(`${"1".repeat(MAXIMUM_PIN_LINE + 1)}\n17\n`), [pin("17", 17, 2)]);
+});
+
+// gradle/libs.versions.toml (Gradle version catalogs)
+
+test("reads library entries with version.ref and inline versions from a catalog fixture", async () => {
+  const contents = await readFile(resolve("tests/fixtures/java/positive/gradle-catalog/gradle/libs.versions.toml"), "utf8");
+  assert.deepEqual(parseCatalog(contents), [
+    { kind: "dependency", group: "org.springframework.boot", artifact: "spring-boot", version: "2.7.18", line: 5 },
+    { kind: "dependency", group: "org.hibernate", artifact: "hibernate-entitymanager", version: "6.0.0.Alpha7", line: 6 },
+  ]);
+});
+
+test("resolves version.ref to the version in the [versions] section", () => {
+  const source = [
+    "[versions]",
+    'guava = "33.0.0-jre"',
+    "",
+    "[libraries]",
+    'guava-lib = { group = "com.google.guava", name = "guava", version.ref = "guava" }',
+  ].join("\n");
+  assert.deepEqual(parseCatalog(source), [
+    { kind: "dependency", group: "com.google.guava", artifact: "guava", version: "33.0.0-jre", line: 5 },
+  ]);
+});
+
+test("reads inline versions and skips entries with unresolvable refs", () => {
+  const source = [
+    "[versions]",
+    'known = "1.0"',
+    "",
+    "[libraries]",
+    'has-inline = { group = "a.b", name = "c", version = "2.0" }',
+    'has-good-ref = { group = "a.b", name = "d", version.ref = "known" }',
+    'has-bad-ref = { group = "a.b", name = "e", version.ref = "missing" }',
+    'no-version = { group = "a.b", name = "f" }',
+  ].join("\n");
+  assert.deepEqual(parseCatalog(source), [
+    { kind: "dependency", group: "a.b", artifact: "c", version: "2.0", line: 5 },
+    { kind: "dependency", group: "a.b", artifact: "d", version: "1.0", line: 6 },
+  ]);
+});
+
+test("catalog: ignores comments, blank lines, and other sections", () => {
+  const source = [
+    "[versions]",
+    'v = "1.0"',
+    "",
+    "[bundles]",
+    "# ignored",
+    "",
+    "[plugins]",
+    'some-plugin = { id = "com.example", version.ref = "v" }',
+    "",
+    "[libraries]",
+    "# this is a comment",
+    'lib = { group = "g", name = "a", version.ref = "v" }',
+  ].join("\n");
+  assert.deepEqual(parseCatalog(source), [
+    { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 12 },
+  ]);
+});
+
+test("catalog: version ref lookup is case-insensitive on the alias", () => {
+  const source = [
+    "[versions]",
+    'myLib = "3.0"',
+    "",
+    "[libraries]",
+    'dep = { group = "x", name = "y", version.ref = "myLib" }',
+  ].join("\n");
+  assert.deepEqual(parseCatalog(source), [
+    { kind: "dependency", group: "x", artifact: "y", version: "3.0", line: 5 },
+  ]);
+});
+
+test("catalog parsing is deterministic and handles CRLF", () => {
+  const source = '[versions]\r\nv = "1.0"\r\n\r\n[libraries]\r\nlib = { group = "g", name = "a", version.ref = "v" }\r\n';
+  assert.deepEqual(parseCatalog(source), [
+    { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 5 },
+  ]);
+  assert.deepEqual(parseCatalog(source), parseCatalog(source));
+});
+
+test("catalog: malformed or empty input yields nothing and never throws", () => {
+  for (const junk of ["", "\0", "\r\n\r\n", "[libraries]", "[versions]\n[libraries]\n"]) {
+    assert.doesNotThrow(() => parseCatalog(junk));
+    assert.deepEqual(parseCatalog(junk), [], JSON.stringify(junk));
+  }
+});
+
+test("bounds catalog size, line length, and declaration count", () => {
+  assert.deepEqual(parseCatalog(`# ${"x".repeat(MAXIMUM_CATALOG_BYTES)}\n`), []);
+  // Overlong lines are skipped
+  const longLine = `${"x".repeat(MAXIMUM_CATALOG_LINE_LENGTH + 1)}\n[libraries]\nlib = { group = "g", name = "a", version = "1.0" }\n`;
+  assert.deepEqual(parseCatalog(longLine), [
+    { kind: "dependency", group: "g", artifact: "a", version: "1.0", line: 3 },
+  ]);
+  // Declaration cap
+  const manyLines = ["[libraries]", ...Array.from({ length: MAXIMUM_CATALOG_DECLARATIONS + 5 }, (_, i) => `lib${i} = { group = "g", name = "a${i}", version = "1.0" }`)].join("\n");
+  assert.equal(parseCatalog(manyLines).length, MAXIMUM_CATALOG_DECLARATIONS);
 });
