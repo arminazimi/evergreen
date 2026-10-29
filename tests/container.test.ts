@@ -110,6 +110,19 @@ test("Ubuntu and Debian codenames are resolved to release lines", async () => {
   assert.deepEqual(analysis.unclassified, []);
 });
 
+test("Ruby 3.3 is reported as scheduled end-of-life while later release lines are not", async () => {
+  const root = await repository({ Dockerfile: "FROM ruby:3.3.6-slim\nFROM ruby:3.2.8\nFROM ruby:3.4.1-slim\n" });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["container.ruby.eol-3.3-and-older", 1],
+      ["container.ruby.eol-3.2-and-older", 2],
+    ],
+  );
+  assert.deepEqual(analysis.unclassified, []);
+});
+
 test("dynamic, untagged, and floating references are reported as unclassified, never guessed", async () => {
   const analysis = await containerDetector.analyze({ root: resolve(fixtures, "negative") });
   assert.deepEqual(

@@ -45,6 +45,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
+- [Ruby image release line 3.3 reaches end-of-life on 2027-03-31](container.ruby.eol-3.3-and-older.html) — scheduled end of life, `container.ruby.eol-3.3-and-older`
 - [Traefik image release lines 3.6 and older are end-of-life](container.traefik.eol-3.6-and-older.html) — end of life, `container.traefik.eol-3.6-and-older`
 - [Ubuntu image release lines 20.04 and older are past standard support end-of-life](container.ubuntu.eol-20.04-and-older.html) — end of life, `container.ubuntu.eol-20.04-and-older`
 - [Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01](container.ubuntu.eol-22.04.html) — scheduled end of life, `container.ubuntu.eol-22.04`
