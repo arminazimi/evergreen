@@ -91,15 +91,19 @@ async function sourceFiles(root: string): Promise<SourceFile[]> {
       if (code && skippedReadCodes.has(code)) return;
       throw error;
     }
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
-      const path = resolve(directory, entry.name);
+    // Do not sort directory entries here: usages are sorted by path at the end of analyzeSourceUsage.
+    // Skipping localeCompare on huge non-source trees is the large-monorepo win.
+    for (const entry of entries) {
       if (entry.isDirectory()) {
-        if (!ignoredDirectories.has(entry.name)) await walk(path);
+        if (!ignoredDirectories.has(entry.name)) await walk(resolve(directory, entry.name));
         continue;
       }
       if (!entry.isFile()) continue;
-      const language = languageFor(path);
-      if (!language || (await stat(path)).size > maximumFileBytes) continue;
+      // Extension check on the basename avoids joining/statting every filler file in a monorepo.
+      const language = languageFor(entry.name);
+      if (!language) continue;
+      const path = resolve(directory, entry.name);
+      if ((await stat(path)).size > maximumFileBytes) continue;
       files.push({ absolutePath: path, path: relativePosix(root, path), language });
     }
   };

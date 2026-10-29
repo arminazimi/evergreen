@@ -117,7 +117,9 @@ async function listCoverageFiles(
       if (code && COVERAGE_SKIP_READ_CODES.has(code)) return;
       throw error;
     }
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+    // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
+    entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
+    for (const entry of entries) {
       if (visited >= walkLimit) {
         truncated = true;
         return;
@@ -147,7 +149,9 @@ async function listRepositoryFiles(root: string): Promise<string[]> {
       if (code && COVERAGE_SKIP_READ_CODES.has(code)) return;
       throw error;
     }
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+    // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
+    entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
+    for (const entry of entries) {
       const absolute = join(directory, entry.name);
       if (entry.isDirectory()) {
         if (!SCAN_SKIPPED_DIRECTORIES.has(entry.name)) await walk(absolute);

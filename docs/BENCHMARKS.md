@@ -68,3 +68,27 @@ node dist/benchmarks/perf-budget.js --simulate-slowdown-ms 3000 --check
 ```
 
 The unit tests cover the same path with a smaller simulated slowdown, so a gate that stopped tripping would fail `npm run check`.
+
+## Large-monorepo performance
+
+Run `npm run benchmark:monorepo` to time an in-process scan of a synthetic ~100k-file npm workspaces monorepo. The adoption goal is that a repository of that size finishes under 5 seconds mean wall time with caches disabled.
+
+### Methodology
+
+The benchmark (`benchmarks/monorepo.ts`) builds a temporary monorepo offline: a root `package.json` with `workspaces: ["packages/*"]`, about 100 workspace packages (several declare the deprecated `request` dependency and a TypeScript import that exercises source-usage), and enough empty filler files to reach at least 100,000 regular files. It runs one warm-up scan, then three measured scans via `scanRepository` with the built-in detectors and `noCache: true`, and reports mean wall-clock time, peak resident set size, file count, and findings count. A scan that reports no findings fails the gate. Pass `--path <dir>` to measure an existing local monorepo instead (still offline — no network), or `--files N` / `--packages N` to shrink the synthetic fixture for local iteration.
+
+### Budget and reference
+
+| Measurement | Budget | Reference (2026-10-29, macOS, Apple silicon, Node.js 22.23) |
+|---|---|---|
+| Mean wall time over the measured runs (≥100,000 files, `noCache: true`) | 5,000 ms | 716 ms |
+| Peak resident set size | observational | 132 MB |
+| Findings (synthetic fixture) | > 0 | 9 |
+
+The 5-second ceiling is the product goal from the roadmap; the reference run sits well under it on the development machine. Raise the ceiling in `MONOREPO_BUDGET` in `benchmarks/monorepo.ts` in the same commit that intentionally regresses large-repo scans, state the reason, and update this table. Unit tests cover the evaluator and a small synthetic fixture; they do not create 100k files.
+
+```bash
+npm run benchmark:monorepo -- --check
+npm run benchmark:monorepo -- --files 5000 --runs 1 --warmup 0
+npm run benchmark:monorepo -- --path /path/to/local/monorepo --json
+```

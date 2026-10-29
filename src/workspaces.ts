@@ -99,6 +99,42 @@ async function pythonPatterns(root: string): Promise<{ include: string[]; exclud
   }
 }
 
+/** Whether a single path segment glob (`*`, `?`, or literals) matches `actual`. */
+function segmentMatches(expected: string, actual: string): boolean {
+  if (expected === actual) return true;
+  if (!expected.includes("*") && !expected.includes("?")) return false;
+  const source = `^${expected.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^/]*").replace(/\?/g, "[^/]")}$`;
+  return new RegExp(source).test(actual);
+}
+
+/**
+ * Whether `pattern` could match any repository-relative path strictly deeper than `relative`.
+ * Flat patterns such as `packages/*` do not need to readdir thousands of files inside a matched package.
+ */
+function patternMayMatchDeeper(pattern: string, relative: string): boolean {
+  const relativeSegments = relative ? relative.split("/") : [];
+  const patternSegments = pattern.replace(/^\.\//, "").replace(/\/+$/, "").split("/");
+  const doubleStar = patternSegments.indexOf("**");
+  if (doubleStar === -1 && relativeSegments.length >= patternSegments.length) return false;
+
+  for (let index = 0; index < relativeSegments.length; index++) {
+    const actual = relativeSegments[index]!;
+    if (doubleStar !== -1 && index >= doubleStar) return true;
+    const expected = patternSegments[index];
+    if (expected === undefined) return false;
+    if (expected === "**") return true;
+    if (!segmentMatches(expected, actual)) return false;
+  }
+  // Still have pattern segments (or a trailing **) below this directory.
+  if (doubleStar !== -1) return true;
+  return relativeSegments.length < patternSegments.length;
+}
+
+/** Whether any include glob could still match a path deeper than `relative`. */
+function mayMatchDeeper(include: readonly string[], relative: string): boolean {
+  return include.some((pattern) => patternMayMatchDeeper(pattern, relative));
+}
+
 async function findDirectories(root: string, markers: readonly string[], include: readonly string[], exclude: readonly string[]): Promise<string[]> {
   const included = include.map(globToRegExp);
   const excluded = exclude.map(globToRegExp);
@@ -114,7 +150,9 @@ async function findDirectories(root: string, markers: readonly string[], include
     } catch {
       return;
     }
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+    // Binary name order is deterministic across locales and cheaper than localeCompare on large dirs.
+    entries.sort((left, right) => (left.name < right.name ? -1 : left.name > right.name ? 1 : 0));
+    for (const entry of entries) {
       if (!entry.isDirectory() || entry.isSymbolicLink() || SKIPPED_DIRECTORIES.has(entry.name) || entry.name.startsWith(".")) continue;
       visited += 1;
       const path = relative ? `${relative}/${entry.name}` : entry.name;
@@ -127,7 +165,7 @@ async function findDirectories(root: string, markers: readonly string[], include
           }
         }
       }
-      await walk(absolute, path, depth + 1);
+      if (mayMatchDeeper(include, path)) await walk(absolute, path, depth + 1);
     }
   }
 
