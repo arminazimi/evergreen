@@ -4,6 +4,105 @@ Every lifecycle claim Evergreen makes comes from a rule in `registry/`. A rule s
 
 The format is `evergreen.registry.v2`. Its JSON Schema is [`schemas/registry.v2.schema.json`](../schemas/registry.v2.schema.json), and the reasoning is in [Decision 0004](decisions/0004-registry-v2.md). All five bundled registries (`container`, `github-actions`, `nodejs`, `npm`, `python`) use it.
 
+## From a source to a merged pull request
+
+This walkthrough follows one real rule, `npm.package.request.deprecated` ([below](#a-complete-rule)), from the notice that justifies it to the pull request that adds it. The reference sections explain each field; this is the order to work in.
+
+### 1. Find the claim and its source
+
+Open the authoritative notice. For `request` it is the deprecation notice on the package's [npm page](https://www.npmjs.com/package/request). Write down:
+
+- the URL, and the day you read it;
+- the affected versions;
+- the event, in the source's words;
+- what the source says, and separately what a maintainer recommends instead;
+- any date the source gives.
+
+If the notice is vague about versions, the event, or a date, do not guess: say so in the issue. A rule without an authoritative source is not a rule; see [Evidence policy](#evidence-policy).
+
+### 2. Branch and scaffold
+
+```bash
+git switch -c rule/<name>-deprecated
+npm ci
+npm run build
+node dist/src/cli.js new-rule npm.package.<name>.deprecated
+```
+
+Run `new-rule` from a checkout of this repository. It reads `registry/` and refuses an id that is already defined, naming the file that owns it. Otherwise it appends a placeholder rule to `registry/<ecosystem>.json` and creates `tests/fixtures/<rule-id>/match/` and `clean/`, each with a placeholder source file and a README.
+
+The scaffold passes `rules lint` and `npm run check` as generated, because its generic `purl` matches nothing in a real scan. Green checks are necessary but not sufficient: every placeholder below must be replaced before review.
+
+### 3. Replace the placeholder with the claim
+
+Keep `id` and `ecosystem` as generated and work through the rest. The right column is what the submitted `npm.package.request.deprecated` rule uses:
+
+| Generated placeholder | The `request` rule |
+|---|---|
+| `purl: "pkg:generic/<rule-id>"` | `"pkg:npm/request"` |
+| `vers: "vers:semver/*"` | `"vers:npm/*"`, every version the notice covers |
+| `event: "deprecated"` | unchanged, because the notice says deprecated |
+| `title`, `summary`: "Replace this placeholder…" | the claim in one line and two sentences, with no advice |
+| `severity: "info"` | `"high"`, because the whole package is abandoned |
+| `replacement: "Replace with the replacement…"` | `"Native fetch or a maintained HTTP client"` |
+| `sources`: an `example.com` link | the npm page, with the title the page uses |
+| `provenance`: `reviewer: "unreviewed"`, today's dates | your handle, `observedAt` the day you read the source, `reviewedAt` the day you submit |
+| no `deadline` | `"2020-02-11"`, when the source gives one |
+| no `migration` | constraints, ordered steps, and a verification command |
+| `usage`: `module: "<rule-id>"` | `module: "request"` |
+| no `x-npm` | `package: "request"` |
+
+[A rule](#a-rule) describes every field. Keep `summary` factual and put advice in `replacement`; a `scheduled-end-of-life` rule needs the announced date as its `deadline` and `severity: "low"`.
+
+### 4. Write both fixtures
+
+Replace the generated source files with the smallest repository that shows the behavior:
+
+```js
+// tests/fixtures/npm.package.request.deprecated/match/index.js
+const request = require("request");
+
+request.get("https://example.com/health"); // reported
+```
+
+```js
+// tests/fixtures/npm.package.request.deprecated/clean/index.js
+const request = { get() {} }; // not reported: a local object, not the package
+
+request.get("https://example.com/health");
+```
+
+Both directories are scanned offline as untrusted repositories and nothing in them is executed. The `match` fixture must report the rule and `clean` must not; a lookalike that is reported is a bug in the rule or the analysis. Keep only the files the detector reads.
+
+### 5. Run the checks locally
+
+```bash
+node dist/src/cli.js rules lint
+node dist/src/cli.js rules test <rule-id>
+npm run build:reference
+npm run check
+```
+
+- `rules lint` checks every registry under `registry/` (or the files you pass) and prints each problem with its file, line, and a fix hint.
+- `rules test` scans both fixtures and prints the expected and actual observations. It needs both directories, so when you edit a rule that predates the fixture harness, add the two fixtures in the same pull request instead of skipping the check.
+- `build:reference` rewrites `docs/rules/<rule-id>.md` from the registry; CI fails when the committed pages drift.
+- `npm run check` is the same gate CI runs: build, full tests, plugin checks, and evals.
+
+If the analysis is wrong rather than the rule, fix the detector in the same pull request and say so.
+
+### 6. Open the pull request
+
+```bash
+git add registry/npm.json docs/rules/npm.package.request.deprecated.md tests/fixtures/npm.package.request.deprecated
+git commit -m "feat(npm): add the request deprecation rule"
+git push -u origin rule/request-deprecated
+gh pr create --title "feat(npm): add the request deprecation rule" --body "Closes #<issue>"
+```
+
+Fill the template: the evidence link goes under **Evidence**, the commands you ran under **Verification**. Rules and fixtures are reviewed data; [`/registry/` is owned by a maintainer](../.github/CODEOWNERS), who checks that the source says what the rule says, that versions and dates match it, and that the clean fixture is a fair lookalike. Keep one rule per pull request.
+
+After merge, the weekly [source check](../.github/workflows/sources.yml) watches the link. When the source changes, review the rule and update `reviewedAt`; see [Freshness and sources](#freshness-and-sources).
+
 ## A complete rule
 
 ```json

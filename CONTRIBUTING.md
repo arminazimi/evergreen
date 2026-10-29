@@ -67,21 +67,19 @@ Bypass it once with `git push --no-verify`; undo it with `git config --unset cor
 Lifecycle rules are the most valuable contribution and the easiest place to start. This walkthrough adds an npm package deprecation; other ecosystems follow the same shape.
 
 1. **Find the evidence.** Locate the authoritative source that states the deprecation, for example the package's npm deprecation notice, the maintainer's announcement, or the project's support policy. If you cannot find one, stop here; see the [evidence policy](#evidence-policy).
-2. **Branch.** `git switch -c rule/<package>-deprecated`
-3. **Add the rule** to [`registry/npm.json`](registry/npm.json). Copy an existing rule such as `npm.package.request.deprecated` and change:
-   - `id` — `npm.package.<name>.deprecated` (stable and unique)
-   - `purl` — `pkg:npm/<name>` (scoped names are `pkg:npm/%40scope/name`), and `x-npm.package` set to the package name
-   - `vers` — the affected versions, for example `vers:npm/*` for every version or `vers:semver/<5.0.0`
-   - `event` — `deprecated`, `end-of-support`, `end-of-life`, or `removed`, as the source words it
-   - `title`, `summary`, `severity`, `replacement`, `deadline` (only if the source gives a date)
-   - `sources` — the authoritative link from step 1
-   - `provenance` — `observedAt` (the day you read the source), `reviewedAt` (today), and `reviewer` (you)
-   - `migration` — constraints, ordered steps, and verification commands a person or agent can follow
-   - `usage` — the imports and calls that show where a repository depends on the package
+2. **Branch and scaffold.**
 
-   Every field is described in [Lifecycle rules](docs/RULES.md). `npm run check` validates the file and names the rule and field of any mistake.
-4. **Add a test** in [`tests/npm.test.ts`](tests/npm.test.ts): a small fixture `package.json` that declares the package (and, if useful, a source file that imports it), then assert that the scan reports your rule ID. Add a negative case if the package has lookalikes.
-5. **Check.** `npm run check` must pass.
+   ```bash
+   git switch -c rule/<package>-deprecated
+   npm ci
+   npm run build
+   node dist/src/cli.js new-rule npm.package.<name>.deprecated
+   ```
+
+   It appends a placeholder rule to [`registry/npm.json`](registry/npm.json) and creates both fixtures under `tests/fixtures/<rule-id>/`. For another ecosystem, pass `--ecosystem <slug>` with a registry that already exists.
+3. **Replace the placeholders** with the claim: `purl` (`pkg:npm/<name>`; scoped names are `pkg:npm/%40scope/name`, and `x-npm.package` is the plain package name), `vers`, `event`, `title`, `summary`, `severity`, `replacement`, `deadline` (only if the source gives a date), `sources`, `provenance` (`observedAt`, `reviewedAt`, `reviewer`), `migration`, and `usage`. The scaffold is valid before you edit it, so the checks below say nothing about whether the values are right. Field by field: [Lifecycle rules](docs/RULES.md#a-rule). The whole path, with one real rule: [From a source to a merged pull request](docs/RULES.md#from-a-source-to-a-merged-pull-request).
+4. **Write both fixtures.** `tests/fixtures/<rule-id>/match/` holds the smallest repository that must report the rule; `clean/` holds a lookalike that must not. Both are scanned as untrusted input and never executed. If the rule depends on detector behavior rather than usage matching, such as a manifest field or a lockfile form, add a case to [`tests/npm.test.ts`](tests/npm.test.ts) too.
+5. **Check.** Run `node dist/src/cli.js rules lint`, `node dist/src/cli.js rules test <rule-id>`, `npm run build:reference`, then `npm run check`. The last one is the gate CI uses.
 6. **Open a pull request** with `Closes #<issue>` (if there is one). The template asks for the commands you ran and the evidence link.
 
 ## Add a new detector
