@@ -17,10 +17,11 @@
   },
   "homepage": "https://arminazimi.github.io/evergreen/",
   "bugs": "https://github.com/arminazimi/evergreen/issues",
-  "license": "Apache-2.0",
+  "license": "CC-BY-4.0",
   "files": [
     "registry",
-    "schemas"
+    "schemas",
+    "ATTRIBUTION.md"
   ],
   "publishConfig": {
     "access": "public"

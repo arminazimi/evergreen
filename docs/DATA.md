@@ -91,6 +91,16 @@ Ignoring downloaded lifecycle data 2026.10.16: registry/npm.json does not match 
 
 Common causes are a damaged download (run `evergreen data update` again), a bundle that needs a newer Evergreen (upgrade), and an expired trust root (upgrade). Data that is merely old is not an error; it is flagged stale after 30 days, and `evergreen data update` is the remedy.
 
+## License and attribution
+
+The lifecycle dataset is licensed separately from the scanner. The data-only package `evergreen-data` — the registry JSON under `registry/` and the first-party schemas under `schemas/` — is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), which allows use and redistribution, including commercially, with attribution and an indication of changes. The package ships the license as `LICENSE` and the attribution notice as `ATTRIBUTION.md`. Everything else in this repository is [Apache-2.0](../LICENSE), and the rules bundled inside the installed scanner package remain part of that package.
+
+To reuse the dataset, credit it and link the license, for example:
+
+> Lifecycle data from Evergreen (`evergreen-data`), by Armin Azimi and Evergreen contributors, licensed under CC BY 4.0. https://github.com/arminazimi/evergreen
+
+Every rule carries its own `sources` (title and URL) and `reviewedAt`, so a consumer can trace a claim back to the page that states it. `registry/sources.lock.json` records every cited URL with the date it was checked; it is maintainer tooling and stays out of the published package. The upstream facts remain subject to the terms of the pages they come from; the license covers Evergreen's selection, arrangement, normalization, and original text. Product and project names are trademarks of their owners and do not imply endorsement.
+
 ## Publishing a bundle
 
 Maintainers push a `data-vYYYY.MM.DD` tag; see [Releasing](RELEASING.md#publishing-lifecycle-data). The workflow builds the bundle twice and requires identical bytes, signs it, verifies the signature, and attaches the bundle, the signature, and checksums to a GitHub release.

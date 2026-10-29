@@ -4,9 +4,10 @@
 //   node dist/tools/build-data-package.js [--root DIR] [--out DIR] [--pack DIR]
 //
 // The package carries registry JSON and first-party schemas only: no scanner code, no nested
-// package manifests, and nothing under schemas/vendor. Version and license come from the root
-// package.json so the data module stays aligned with the release that produced it. With --pack
-// the tool runs `npm pack --ignore-scripts` into that directory and prints the tarball name.
+// package manifests, and nothing under schemas/vendor. Its version comes from the root
+// package.json so the data module stays aligned with the release that produced it; its license
+// is the dataset license, which is not the source code's. With --pack the tool runs
+// `npm pack --ignore-scripts` into that directory and prints the tarball name.
 
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
@@ -17,6 +18,9 @@ import { pathToFileURL } from "node:url";
 export const DATA_PACKAGE_DIRECTORY = "packages/data";
 export const DATA_PACKAGE_NAME = "evergreen-data";
 
+/** Package-root documents that ship beside the data: the dataset license and its attribution notice. */
+export const DATA_PACKAGE_DOCUMENTS = ["LICENSE", "ATTRIBUTION.md"] as const;
+
 /** Paths that must never ship in the data-only tarball. */
 const EXCLUDED_REGISTRY = new Set(["sources.lock.json"]);
 
@@ -24,7 +28,6 @@ const CODE_EXTENSIONS = /\.(?:js|mjs|cjs|ts|tsx|jsx|mts|cts|wasm|node|so|dll|exe
 
 interface RootPackage {
   version: string;
-  license?: string;
   repository?: { type?: string; url?: string };
   homepage?: string;
   bugs?: string | { url?: string };
@@ -107,15 +110,15 @@ export function dataPackageManifest(root: RootPackage, template: DataPackageJson
     repository: { type: "git", url: repositoryUrl, directory: DATA_PACKAGE_DIRECTORY },
     homepage: root.homepage ?? template.homepage,
     bugs,
-    license: root.license ?? template.license,
-    files: ["registry", "schemas"],
+    license: template.license,
+    files: ["registry", "schemas", "ATTRIBUTION.md"],
     publishConfig: { access: "public" },
   };
 }
 
 /**
- * Assembles a data-only package directory: package.json plus registry JSON (without the source lock)
- * and first-party schemas (without schemas/vendor).
+ * Assembles a data-only package directory: package.json, the dataset license and attribution
+ * notice, registry JSON (without the source lock), and first-party schemas (without schemas/vendor).
  */
 export async function buildDataPackage(options: { root?: string; out?: string } = {}): Promise<BuiltDataPackage> {
   const root = resolve(options.root ?? ".");
@@ -139,10 +142,18 @@ export async function buildDataPackage(options: { root?: string; out?: string } 
   for (const name of schemaNames) {
     await cp(join(root, "schemas", name), join(directory, "schemas", name));
   }
+  for (const name of DATA_PACKAGE_DOCUMENTS) {
+    // Reading first names a missing licence document; the destination is the source when the
+    // package is assembled in place under packages/data.
+    const source = join(root, DATA_PACKAGE_DIRECTORY, name);
+    const contents = await readFile(source);
+    if (join(directory, name) !== source) await writeFile(join(directory, name), contents);
+  }
   await writeFile(join(directory, "package.json"), `${JSON.stringify(packageJson, null, 2)}\n`);
 
   const files = [
     "package.json",
+    ...DATA_PACKAGE_DOCUMENTS,
     ...registryNames.map((name) => `registry/${name}`),
     ...schemaNames.map((name) => `schemas/${name}`),
   ];
@@ -170,10 +181,12 @@ export async function listPackedFiles(directory: string): Promise<PackedFile[]> 
 
 /**
  * Problems that mean the tarball is not data-only: executable bits, code extensions, nested
- * package.json manifests, or anything outside registry/ and schemas/ (besides the root manifest).
+ * package.json manifests, anything outside registry/, schemas/, and the dataset's own license
+ * documents (besides the root manifest), or a missing license document.
  */
 export function tarballContentProblems(files: readonly PackedFile[]): string[] {
   const problems: string[] = [];
+  const documents = new Set<string>(DATA_PACKAGE_DOCUMENTS);
   const manifests = files.filter((file) => /(^|\/)package\.json$/.test(file.path));
   if (manifests.length !== 1 || manifests[0]?.path !== "package.json") {
     problems.push(
@@ -182,19 +195,22 @@ export function tarballContentProblems(files: readonly PackedFile[]): string[] {
         : `nested or misplaced manifests: ${manifests.map((file) => file.path).sort().join(", ")}`,
     );
   }
+  for (const name of DATA_PACKAGE_DOCUMENTS) {
+    if (!files.some((file) => file.path === name)) problems.push(`missing ${name}`);
+  }
 
   let registryCount = 0;
   let schemaCount = 0;
   for (const file of files) {
     const { path, mode } = file;
-    if (path !== "package.json" && !path.startsWith("registry/") && !path.startsWith("schemas/")) {
+    if (path !== "package.json" && !documents.has(path) && !path.startsWith("registry/") && !path.startsWith("schemas/")) {
       problems.push(`unexpected path: ${path}`);
     }
     if (path.startsWith("registry/")) registryCount += 1;
     if (path.startsWith("schemas/")) schemaCount += 1;
     if (path.includes("/vendor/") || path.startsWith("vendor/")) problems.push(`vendor path: ${path}`);
     if (CODE_EXTENSIONS.test(path)) problems.push(`executable code: ${path}`);
-    if (!path.endsWith(".json")) problems.push(`non-json: ${path}`);
+    if (!path.endsWith(".json") && !documents.has(path)) problems.push(`non-json: ${path}`);
     if ((mode & 0o111) !== 0) problems.push(`executable mode: ${path} (${mode.toString(8)})`);
   }
   if (registryCount === 0) problems.push("missing registry JSON");

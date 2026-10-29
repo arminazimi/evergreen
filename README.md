@@ -281,5 +281,8 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 ## License and brand
 
 Evergreen source code is licensed under the [Apache License 2.0](LICENSE). The
+lifecycle dataset in [`packages/data`](packages/data/) (published as `evergreen-data`)
+is licensed under [CC BY 4.0](packages/data/LICENSE); its attribution notice is in
+[`packages/data/ATTRIBUTION.md`](packages/data/ATTRIBUTION.md). The
 Evergreen name, logo, and files in [`brand/`](brand/) are proprietary brand assets
 and are covered by separate [brand asset terms](brand/LICENSE.md).
