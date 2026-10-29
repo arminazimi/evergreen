@@ -67,9 +67,25 @@ do not redesign the identity for an individual channel.
 
 - [x] Agent Skill metadata names Evergreen and preserves trigger clarity.
 - [x] Skill content states the local execution and evidence boundaries.
-- [ ] Reuse the approved name, descriptor, mark, and asset terms in every future
+- [x] Reuse the approved name, descriptor, mark, and asset terms in every future
       plugin manifest and directory listing.
 - [ ] Run host-specific discovery and context-cost evaluations before submission.
+
+### Listing versions (reviewed 2026-10-29 against release `0.7.1`)
+
+Record the version each public Skill or plugin surface shows after a release. The
+current npm package, Action tag, and generated plugin pins are `0.7.1`.
+
+- [x] [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
+      lists `arminazimi/evergreen@evergreen-deprecation`. The page has no package
+      version field; install resolves from the repository Skill on `main`, which
+      matches the Skill shipped in `0.7.1`.
+- [x] Claude repository marketplace
+      (`.claude-plugin/marketplace.json` and `plugins/claude/`) publishes plugin
+      version `0.7.1` and pins `evergreen-deprecation@0.7.1`.
+- [x] Codex repository marketplace (`plugins/codex/`) publishes plugin version
+      `0.7.1` and pins `evergreen-deprecation@0.7.1`. OpenAI's public plugin
+      directory still has no Evergreen entry (submission tracked separately).
 
 ## Releases
 
