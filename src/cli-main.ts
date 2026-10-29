@@ -25,7 +25,7 @@ import { hasPersonalConfig, initPersonal } from "./init-personal.js";
 import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary, siteSuggestion } from "./init.js";
 import type { InitStep } from "./init.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
-import { applySetup, planSetup } from "./setup.js";
+import { applySetup, installSetupSkills, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { ScanSelection, Severity } from "./domain.js";
@@ -348,7 +348,7 @@ function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): v
   }
 }
 
-/** `setup`: adds the Evergreen section to the instruction file of every detected agent host. */
+/** `setup`: adds the Evergreen section to the instruction file of every detected agent host, and offers the Skill. */
 async function setup(args: string[]): Promise<number> {
   const usage = "Usage: evergreen setup [path] [--yes] [--dry-run]";
   const flags = new Set(["--yes", "-y", "--dry-run"]);
@@ -369,7 +369,12 @@ async function setup(args: string[]): Promise<number> {
       process.stdout.write(`${verb === "leave unchanged" ? "Already current:" : `Would ${verb}`} ${entry.file} (${entry.hosts.join(", ")})\n`);
       if (entry.diff) process.stdout.write(`\n${entry.diff}\n\n`);
     }
-    if (plan.entries.every((entry) => entry.change === "unchanged")) {
+    if (plan.skills.length > 0) {
+      process.stdout.write("\nSkill install (supported hosts):\n");
+      for (const offer of plan.skills) process.stdout.write(`  ${offer.host}: ${offer.command}\n`);
+    }
+    const filesNeedWrite = plan.entries.some((entry) => entry.change !== "unchanged");
+    if (!filesNeedWrite && plan.skills.length === 0) {
       process.stdout.write("Nothing to change.\n");
       return 0;
     }
@@ -377,7 +382,7 @@ async function setup(args: string[]): Promise<number> {
       process.stdout.write("Dry run: nothing was written.\n");
       return 0;
     }
-    if (!yes) {
+    if (filesNeedWrite && !yes) {
       if (!process.stdin.isTTY) return fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
       const readline = await import("node:readline/promises");
       const prompt = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -388,8 +393,21 @@ async function setup(args: string[]): Promise<number> {
         return 0;
       }
     }
-    const written = await applySetup(root, plan);
-    process.stdout.write(`Updated ${written.join(", ")}.\n`);
+    if (filesNeedWrite) {
+      const written = await applySetup(root, plan);
+      process.stdout.write(`Updated ${written.join(", ")}.\n`);
+    } else {
+      process.stdout.write("Instruction files are already current.\n");
+    }
+    // Skill install uses the network; only with `--yes`, never in dry-run, never on interactive file confirm alone.
+    if (plan.skills.length > 0 && yes) {
+      const result = installSetupSkills(plan, { cwd: root });
+      if (result.installed.length > 0) process.stdout.write(`Installed the Skill for ${result.installed.join(", ")}.\n`);
+      for (const failure of result.failed) process.stderr.write(`Skill install failed for ${failure.host}: ${failure.detail}\n`);
+      if (result.failed.length > 0) return fail("internal", `Skill install failed for ${result.failed.map((item) => item.host).join(", ")}.`);
+    } else if (plan.skills.length > 0) {
+      process.stdout.write("Pass --yes to install the Skill, or run the command above.\n");
+    }
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return fail("parse", error.message);
