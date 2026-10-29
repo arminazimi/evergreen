@@ -36,8 +36,8 @@ const fixture = async (files: Record<string, string>) => {
 
 test("the pinned workflow uses full SHAs with version comments and the release version", () => {
   const text = pinnedCiWorkflow("high");
-  assert.match(text, new RegExp(`uses: actions/checkout@${CHECKOUT_ACTION_SHA} # ${CHECKOUT_ACTION_TAG}`));
-  assert.match(text, new RegExp(`uses: arminazimi/evergreen@${EVERGREEN_ACTION_SHA} # v${VERSION.replace(/\./g, "\\.")}`));
+  assert.ok(text.includes(`uses: actions/checkout@${CHECKOUT_ACTION_SHA} # ${CHECKOUT_ACTION_TAG}`));
+  assert.ok(text.includes(`uses: arminazimi/evergreen@${EVERGREEN_ACTION_SHA} # v${VERSION}`));
   assert.match(text, /fail-on-severity: high/);
   assert.match(text, /baseline: \.evergreen-baseline\.json/);
   assert.doesNotMatch(text, /uses: actions\/checkout@v\d/);
