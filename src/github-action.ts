@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 
@@ -9,7 +10,7 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { Finding, ScanResult, Severity, SourceLocation, SuppressionRef } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
-import { diffRefs } from "./diff.js";
+import { DiffError, diffRefs } from "./diff.js";
 import type { DiffResult } from "./diff.js";
 import { relativePosix } from "./paths.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
@@ -31,6 +32,76 @@ export interface PackageScanSummary {
   /** Repository-relative POSIX path of the package (`.` for the scan base itself). */
   path: string;
   findings: Finding[];
+}
+
+/** Which findings become workflow annotations: `changed` those on lines the pull request changed, `all` every finding, `none` no finding. */
+export type AnnotationScope = "changed" | "all" | "none";
+
+export interface LineRange {
+  start: number;
+  end: number;
+}
+
+/** The count of findings left out of the annotations, and a link to the report that lists them all. */
+export interface UnannotatedFindings {
+  count: number;
+  reportUrl?: string;
+}
+
+function unquotePath(header: string): string {
+  if (!header.startsWith('"') || !header.endsWith('"')) return header;
+  const named: Record<string, string> = { b: "\b", f: "\f", n: "\n", r: "\r", t: "\t", v: "\v", '"': '"', "\\": "\\" };
+  return header.slice(1, -1).replace(/\\([0-7]{1,3}|.)/g, (_, escape: string) =>
+    /^[0-7]+$/.test(escape) ? String.fromCharCode(parseInt(escape, 8)) : (named[escape] ?? escape),
+  );
+}
+
+/** Parses `git diff --unified=0` into the new-side line ranges it added or changed, keyed by repository-relative path. */
+export function parseChangedLines(diff: string): Map<string, LineRange[]> {
+  const changed = new Map<string, LineRange[]>();
+  let path: string | undefined;
+  for (const line of diff.split("\n")) {
+    if (line.startsWith("+++ ")) {
+      const header = unquotePath(line.slice(4).trim());
+      path = header === "/dev/null" ? undefined : header.replace(/^b\//, "");
+      continue;
+    }
+    if (path === undefined || !line.startsWith("@@ ")) continue;
+    const match = /^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/.exec(line);
+    if (!match) continue;
+    const start = Number(match[1]);
+    const count = match[2] === undefined ? 1 : Number(match[2]);
+    if (count > 0) changed.set(path, [...(changed.get(path) ?? []), { start, end: start + count - 1 }]);
+  }
+  return changed;
+}
+
+/** Splits findings into those on a line the range changed and the rest; a finding without a line is never on a changed line. */
+export function selectChangedAnnotations(findings: readonly Finding[], changed: ReadonlyMap<string, readonly LineRange[]>): { annotated: Finding[]; unannotated: Finding[] } {
+  const annotated: Finding[] = [];
+  const unannotated: Finding[] = [];
+  for (const finding of findings) {
+    const line = finding.location.line;
+    const ranges = changed.get(finding.location.path) ?? [];
+    if (line !== undefined && ranges.some((range) => line >= range.start && line <= range.end)) annotated.push(finding);
+    else unannotated.push(finding);
+  }
+  return { annotated, unannotated };
+}
+
+function changedLines(root: string, range: string): Map<string, LineRange[]> {
+  try {
+    const output = execFileSync("git", ["-c", "core.quotePath=false", "diff", "--unified=0", "--no-color", "--no-ext-diff", "--no-textconv", range], {
+      cwd: root,
+      encoding: "utf8",
+      maxBuffer: 1024 * 1024 * 1024,
+      windowsHide: true,
+    });
+    return parseChangedLines(output);
+  } catch (error) {
+    const stderr = (error as { stderr?: string | Buffer }).stderr?.toString().trim();
+    throw new DiffError(stderr || "git diff failed.");
+  }
 }
 
 export interface GitHubActionOptions {
@@ -60,6 +131,8 @@ export interface GitHubActionOptions {
   mode?: "scan" | "diff";
   /** The `<base>..<head>` refs compared when `mode` is `"diff"`; the pull request event's base and head SHAs. */
   diffRange?: string;
+  /** Which findings become annotations; defaults to `changed` in diff mode and `all` otherwise. */
+  annotations?: AnnotationScope;
 }
 
 export interface GitHubActionOutcome {
@@ -70,6 +143,8 @@ export interface GitHubActionOutcome {
   /** The same badge as an SVG in the Evergreen brand colors, written next to `badgePath`. */
   badgeSvgPath?: string;
   annotations: GitHubAnnotation[];
+  /** Findings left out of the annotations by `annotations: changed`; 0 for `all` and `none`. */
+  unannotated: number;
   /** The job should fail: the severity gate was met, or the `fail` expiry policy applies. */
   failed: boolean;
   /** A finding met the severity gate. */
@@ -255,6 +330,14 @@ async function scanOneRoot(
   return { result, expiredFailure };
 }
 
+function parseAnnotations(value: AnnotationScope | undefined, mode: "scan" | "diff"): AnnotationScope {
+  if (value === undefined) return mode === "diff" ? "changed" : "all";
+  if (value !== "all" && value !== "changed" && value !== "none") {
+    throw new Error(`Invalid annotations: ${value}. Use "changed", "all", or "none".`);
+  }
+  return value;
+}
+
 export async function runGitHubAction(options: GitHubActionOptions): Promise<GitHubActionOutcome> {
   const root = resolve(options.root);
   const gate = parseGate(options.failOnSeverity);
@@ -335,13 +418,24 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     await writeFile(badgePath, `${renderBadge(result, expiredFailure)}\n`, "utf8");
     await writeFile(badgeSvgPath, `${renderBadgeSvg(result, expiredFailure)}\n`, "utf8");
   }
+  const scope = parseAnnotations(options.annotations, options.mode === "diff" ? "diff" : "scan");
+  let annotatedFindings: readonly Finding[] = result.findings;
+  let unannotated = 0;
+  if (scope === "none") {
+    annotatedFindings = [];
+  } else if (scope === "changed" && options.mode === "diff" && options.diffRange) {
+    const selected = selectChangedAnnotations(result.findings, changedLines(root, options.diffRange));
+    annotatedFindings = selected.annotated;
+    unannotated = selected.unannotated.length;
+  }
   return {
     result,
     reportPath,
     ...(badgePath ? { badgePath } : {}),
     ...(badgeSvgPath ? { badgeSvgPath } : {}),
     ...(sarifPath ? { sarifPath } : {}),
-    annotations: result.findings.map(annotationFor),
+    annotations: annotatedFindings.map(annotationFor),
+    unannotated,
     failed: expiredFailure || gateFailed,
     gateFailed,
     gate,
@@ -412,6 +506,7 @@ function appendFindingTables(lines: string[], findings: readonly Finding[]): voi
  * evidence, the age of the lifecycle data, and (when `attribution` is on) one small line linking to Evergreen.
  * When `diff` is set the scan covered a pull request range: the header and a fixed-findings table say so.
  * When `packages` is set, one section is written per package after the overview.
+ * `unannotated` counts the findings that are not on a line the pull request changed, with a link to the full report.
  */
 export function renderSummary(
   findings: readonly Finding[],
@@ -422,6 +517,7 @@ export function renderSummary(
   suppressions?: SuppressionState,
   diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">,
   packages?: readonly PackageScanSummary[],
+  unannotated?: UnannotatedFindings,
 ): string {
   const status = failed ? `failed the **${gate}** severity gate` : "passed the severity gate";
   const counts = !diff
@@ -452,6 +548,11 @@ export function renderSummary(
       if (diff.fixed.length > SUMMARY_FINDINGS) lines.push("", `…and ${diff.fixed.length - SUMMARY_FINDINGS} more.`);
       lines.push("");
     }
+  }
+
+  if (unannotated && unannotated.count > 0) {
+    const report = unannotated.reportUrl ? `[JSON report](${unannotated.reportUrl})` : "JSON report";
+    lines.push(`Not annotated: **${unannotated.count}** finding${unannotated.count === 1 ? "" : "s"} not on lines this pull request changed; the ${report} lists every finding.`, "");
   }
 
   if (suppressions) {
@@ -487,6 +588,7 @@ export function renderComment(
   suppressions?: SuppressionState,
   diff?: Pick<DiffResult, "base" | "head" | "fixed" | "unchanged">,
   packages?: readonly PackageScanSummary[],
+  unannotated?: UnannotatedFindings,
 ): string {
-  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions, diff, packages)}`;
+  return `${PR_COMMENT_MARKER}\n${renderSummary(findings, failed, gate, data, attribution, suppressions, diff, packages, unannotated)}`;
 }

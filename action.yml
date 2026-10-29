@@ -49,6 +49,13 @@ inputs:
       summary. Outside pull request events, or when the event lacks those SHAs, it falls back to scan.
     required: false
     default: scan
+  annotations:
+    description: >-
+      Which findings become workflow annotations: changed annotates only findings on lines the pull request
+      added or changed (the default in diff mode), all annotates every finding (the default in scan mode), and
+      none emits no annotations. Findings left out stay counted in the summary and the JSON report.
+    required: false
+    default: ""
   report-name:
     description: Artifact name for the JSON report when upload-report is true.
     required: false
@@ -117,6 +124,7 @@ runs:
         INPUT_MIN-SUPPORT-DAYS: ${{ inputs.min-support-days }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_MODE: ${{ inputs.mode }}
+        INPUT_ANNOTATIONS: ${{ inputs.annotations }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
