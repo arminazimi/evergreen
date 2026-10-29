@@ -45,6 +45,60 @@ Matrix version: **2026-10-15 / v1**
 | Agent Skill | Other hosts supporting the open Agent Skills directory format | Experimental | The portable files can be copied or linked, but these hosts are not in the representative install gate. |
 | Host plugins | Codex or Claude packaged plugin | Experimental | Shared MCP and Skill prerequisites exist; stable host packages are not published yet. |
 
+## Deprecation policy
+
+Evergreen reports other projects' deprecations. Its own interfaces follow the policy below, so a script, an agent, or a plugin built on Evergreen keeps working long enough to move.
+
+### What the policy covers
+
+| Interface | Version identifier | Additive change | Breaking change |
+| --- | --- | --- | --- |
+| CLI commands, flags, and environment variables | None | A new command, flag, or variable. | The old form is deprecated for a full window, then removed. |
+| JSON output of `scan`, `check`, `explain`, `context`, `doctor`, and the other `--json` commands | `schemaVersion`, for example `evergreen.scan.v1` | A new optional field, added in a minor release. Consumers must ignore fields they do not know. | A new document version such as `evergreen.scan.v2`; `v1` keeps working for the window. |
+| JSON Schemas in [`schemas/`](../schemas) | File name, for example `scan.v1.schema.json` | A new optional property. | A new `*.v2.schema.json` file; the `v1` file stays for the window. |
+| MCP tools, resources, and prompts | Tool and resource URIs, input field names, and the same output `schemaVersion` | A new tool, prompt, optional input, or optional output field. | A new window, then a removal or a new output version. |
+| Detector SDK ([`src/sdk.ts`](../src/sdk.ts)) | `evergreen.detector.v1` | A new optional member or a new context field. | `evergreen.detector.v2`; the engine keeps loading `v1` detectors during the window. |
+| Registry format | `evergreen.registry.v2` | A new optional rule or registry field, accepted by the validator in the same release. | `evergreen.registry.v3`; `v2` registries are still read during the window. |
+| Data bundle | `evergreen.data-bundle.v1` | A new optional manifest field. | A new bundle version; the old one is still accepted during the window. |
+| GitHub Action and GitLab component inputs | Input names | A new input whose default preserves current behavior. | The old input or behavior is deprecated for a full window, then removed. |
+
+The contract is the machine-readable part: command names, exit codes, field names, types, and schema versions. Human-readable wording, help text, warning prose, and field order may change in any release. A new optional field may appear in a `v1` document in a minor release; a required field, a rename, a removal, or a type change requires a new version. Patch releases fix behavior but do not add fields.
+
+### Notice periods
+
+| Change | Minimum notice before removal |
+| --- | --- |
+| CLI flag, environment variable, Action or component input, MCP tool, prompt, resource, or input field | 90 days and one minor release, whichever ends later. |
+| A versioned format: JSON document, schema file, registry, bundle, or detector API | 12 months and two minor releases after its successor ships. |
+
+The window starts in the release that announces the deprecation, not in the release that removes it, and it is measured from that release's date. Extensions are allowed; shortening a window is not, except for a security or correctness problem (below).
+
+Evergreen is pre-1.0, so semantic versioning would permit a minor release to break an interface. This policy is deliberately stricter and applies before 1.0. Surfaces the matrix marks **Experimental** may change in any minor release with a CHANGELOG entry; **Beta** and **Supported** surfaces get the windows above. Runtime support is listed in the matrix; a runtime is dropped from it only after the runtime reaches its own end of life and with a deprecation note in the release before the drop.
+
+### Removal process
+
+1. **Open an issue** labeled `deprecation` that names the interface, the replacement, and the intended removal release.
+2. **Record it** in the table below with the release it was deprecated in and the earliest release or date it may be removed.
+3. **Announce it in a release**: a CHANGELOG entry, a note in the docs for the interface, and the replacement and migration step. Where the interface can warn at runtime, a CLI flag or environment variable prints one line to stderr; an MCP tool or input is marked deprecated in its description.
+4. **Keep it working** for the full window. Only fixes and security changes are made to a deprecated interface, and its behavior must not drift toward the replacement.
+5. **Remove it** in the first release after the window. The CHANGELOG entry says so, the docs stop describing it, and a versioned format's old file is retired together with runtime support for it. The issue is linked from the release notes.
+6. **If the replacement is not ready**, extend the window in the table and say why in the issue. A deprecation without a documented replacement is not opened.
+
+A security vulnerability, data corruption, or a contract that would make a lifecycle answer unsafe to act on may be fixed or removed in the next patch release. The release notes name the change, and a vulnerability is reported through [SECURITY.md](../SECURITY.md).
+
+### What is not a deprecation
+
+- **Lifecycle findings.** Rules and their evidence are data, not an interface. A data update can add, change, or remove a finding at any time; a [baseline](CAPABILITIES.md) or a pinned data version is how a project stabilizes its results. A new finding is not a breaking change.
+- **Detector coverage and maturity.** Moving a detector between `Experimental`, `Beta`, and `Supported`, or reading a new declaration form, changes what a scan reports. [Decision 0013](decisions/0013-detector-maturity.md) governs those changes.
+- **Bug fixes.** Correcting a wrong location, rule match, or message is not a deprecation, even when the corrected output differs from the old one.
+- **Internals.** Modules that are not exported from `src/index.ts` or named in a schema, the `tools/` maintainer scripts, test fixtures, and plugin packaging internals may change at any time.
+
+### Current deprecations
+
+| Interface | Deprecated in | May be removed after | Replacement |
+| --- | --- | --- | --- |
+| None | — | — | — |
+
 ## Ecosystem coverage
 
 <!-- coverage-matrix:start -->
