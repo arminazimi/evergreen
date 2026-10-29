@@ -1,0 +1,73 @@
+# OpenAPI description of the static lifecycle API generated under docs/api/v1/.
+# Served with the pages site at https://arminazimi.github.io/evergreen/api/openapi.yaml.
+# Response shapes come from schemas/api-product.v1.schema.json ($defs index, product, recent).
+
+openapi: 3.1.0
+info:
+  title: Evergreen static lifecycle API
+  description: |
+    Read-only JSON documents generated from `registry/*.json`. The pages site
+    serves `docs/`, so these paths are published under `/evergreen/api/`. Every
+    document validates against
+    [api-product.v1.schema.json](https://github.com/arminazimi/evergreen/blob/main/schemas/api-product.v1.schema.json).
+  version: "1.0.0"
+  license:
+    name: MIT
+    url: https://github.com/arminazimi/evergreen/blob/main/LICENSE
+
+servers:
+  - url: https://arminazimi.github.io/evergreen/api
+    description: GitHub Pages (docs/)
+
+paths:
+  /v1/index.json:
+    get:
+      operationId: getIndex
+      summary: Product index
+      description: |
+        Sorted list of every product identity in the registry, with a pointer to
+        each product document and to `recent.json`.
+      responses:
+        "200":
+          description: Index of products and aggregate counts.
+          content:
+            application/json:
+              schema:
+                $ref: "../../schemas/api-product.v1.schema.json#/$defs/index"
+
+  /v1/products/{id}.json:
+    get:
+      operationId: getProduct
+      summary: Product document
+      description: |
+        One product identity (PURL without version) and every registry rule that
+        applies to it.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: File-name-safe product id (for example `npm-request`).
+          schema:
+            type: string
+            pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      responses:
+        "200":
+          description: Product document with its lifecycle rules.
+          content:
+            application/json:
+              schema:
+                $ref: "../../schemas/api-product.v1.schema.json#/$defs/product"
+
+  /v1/recent.json:
+    get:
+      operationId: getRecent
+      summary: Recently reviewed rules
+      description: |
+        The rules with the newest review dates (at most 100), newest first.
+      responses:
+        "200":
+          description: Recent-changes feed.
+          content:
+            application/json:
+              schema:
+                $ref: "../../schemas/api-product.v1.schema.json#/$defs/recent"
