@@ -412,6 +412,106 @@ jobs:
           DIGEST: ${{ steps.image.outputs.digest }}
         run: cosign sign --yes "ghcr.io/${{ github.repository }}@$DIGEST"
 
+  homebrew:
+    # Keep arminazimi/homebrew-tap's formula on the same npm version this release just published.
+    # Needs repository secret HOMEBREW_TAP_DEPLOY_KEY (write deploy key on arminazimi/homebrew-tap).
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.repository == 'arminazimi/evergreen'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: homebrew-tap
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+      - name: Select release
+        id: release
+        shell: bash
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          git tag --points-at HEAD | grep -Fx "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$version" == *-* ]]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Pre-release $version leaves the Homebrew formula unchanged." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Require the tap deploy key
+        if: steps.release.outputs.skip != 'true'
+        env:
+          HOMEBREW_TAP_DEPLOY_KEY: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+        run: |
+          if [ -z "$HOMEBREW_TAP_DEPLOY_KEY" ]; then
+            echo "HOMEBREW_TAP_DEPLOY_KEY is not set. Add a write deploy key for arminazimi/homebrew-tap." >&2
+            exit 1
+          fi
+      - name: Wait for the registry to serve the new version
+        if: steps.release.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          for attempt in $(seq 1 40); do
+            if [ "$(npm view "evergreen-deprecation@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "evergreen-deprecation@$VERSION is not on npm yet." >&2
+          exit 1
+      - name: Hash the published tarball
+        id: tarball
+        if: steps.release.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          url="$(npm view "evergreen-deprecation@$VERSION" dist.tarball)"
+          curl -fsSL "$url" -o "$RUNNER_TEMP/evergreen.tgz"
+          echo "sha256=$(sha256sum "$RUNNER_TEMP/evergreen.tgz" | awk '{ print $1 }')" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        if: steps.release.outputs.skip != 'true'
+        with:
+          repository: arminazimi/homebrew-tap
+          path: homebrew-tap
+          ssh-key: ${{ secrets.HOMEBREW_TAP_DEPLOY_KEY }}
+      - name: Bump the formula
+        id: bump
+        if: steps.release.outputs.skip != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          SHA256: ${{ steps.tarball.outputs.sha256 }}
+        run: |
+          node .github/scripts/bump-homebrew-formula.mjs \
+            --version "$VERSION" \
+            --sha256 "$SHA256" \
+            --file homebrew-tap/Formula/evergreen.rb >> "$GITHUB_OUTPUT"
+      - name: Commit and push
+        if: steps.release.outputs.skip != 'true' && steps.bump.outputs.changed == 'true'
+        working-directory: homebrew-tap
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          PREVIOUS: ${{ steps.bump.outputs.previous }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/evergreen.rb
+          git commit -m "chore: bump evergreen formula to ${VERSION}"
+          git push origin HEAD:main
+          echo "Homebrew formula moved from ${PREVIOUS:-unknown} to ${VERSION}." | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Already current
+        if: steps.release.outputs.skip != 'true' && steps.bump.outputs.changed != 'true'
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+        run: echo "Homebrew formula already pins ${VERSION}." | tee -a "$GITHUB_STEP_SUMMARY"
+
   binary:
     # Standalone binaries: Node.js single executable applications that embed the packed package, so people who
     # only want to scan need no Node.js. Built by .github/scripts/build-sea.mjs, one per platform.
