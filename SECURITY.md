@@ -32,7 +32,7 @@ Existing workflows already declare top-level read permissions (or empty permissi
 
 | Check | Why it is not raised further |
 |---|---|
-| Branch-Protection | `main` requires the CI and self-scan status checks and conversation resolution. Required approving reviews stay at zero so agent and maintainer pull requests can merge after green checks; code-owner review is configured in `.github/CODEOWNERS` but not enforced as a hard gate. Admin-only Scorecard fields need a PAT the workflow does not store. |
+| Branch-Protection | `main` requires the `ci-ok` status check and conversation resolution. Required approving reviews stay at zero so agent and maintainer pull requests can merge after green checks; code-owner review is configured in `.github/CODEOWNERS` but not enforced as a hard gate. Admin-only Scorecard fields need a PAT the workflow does not store. |
 | Code-Review | Same as Branch-Protection: human review is expected for lifecycle evidence and public contracts via CODEOWNERS, but a required review count is not enforced on every merge. |
 | Pinned-Dependencies | GitHub Actions and Docker steps used in CI are SHA-pinned. The SLSA reusable workflow in `release.yml` stays on the upstream `v2.1.0` tag because that is how [`slsa-framework/slsa-github-generator`](https://github.com/slsa-framework/slsa-github-generator) documents calling it. |
 | Token-Permissions | Workflows use read-only (or empty) top-level permissions and grant write only on the jobs that need it. |

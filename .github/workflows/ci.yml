@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  merge_group:
 
 permissions:
   contents: read
@@ -146,3 +147,20 @@ jobs:
           cp "$RUNNER_TEMP/evergreen-badge/evergreen-badge.json" "$RUNNER_TEMP/evergreen-badge/evergreen-badge.svg" .
           git add coverage.json evergreen-badge.json evergreen-badge.svg
           git diff --cached --quiet || { git commit -qm "chore: update the badges"; git push origin badges; }
+
+  # The only required status check. Branch protection names this job, never the
+  # individual jobs, so the matrix can change without editing repository settings.
+  ci-ok:
+    name: ci-ok
+    if: always()
+    needs: [check, self-scan, perf-budget, coverage-badge]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fail when a needed job failed or was cancelled
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "::error::A job that ci-ok needs failed or was cancelled."
+          exit 1
+      - name: Pass when every needed job succeeded or was skipped
+        run: echo "Every needed job succeeded or was skipped."

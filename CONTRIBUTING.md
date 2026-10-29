@@ -92,6 +92,8 @@ npm run check
 
 CI also enforces test coverage floors (93% lines, 87% branches, 93% functions) with `npm run test:coverage`. New code should come with tests so the number stays up; raise the floors in `package.json` when coverage rises, never lower them to make a change pass.
 
+The pull request gate GitHub enforces is one status check, `ci-ok`. It runs after every other CI job and fails when any of them failed or was cancelled; a skipped job counts as passing. Only `ci-ok` is required by branch protection, so the jobs behind it can change without editing repository settings. Maintainers enable the merge queue in [MAINTAINERS.md](MAINTAINERS.md#branch-protection-and-the-merge-queue).
+
 ### Optional pre-push hook
 
 The repository ships an opt-in hook that runs Evergreen on this repository before you push. When the push changes a manifest, lockfile, workflow, or Dockerfile, it builds locally, scans, and blocks the push on any finding the baseline does not cover (the same gate as the `self-scan` CI job). Pushes that touch none of those files are not slowed down.
