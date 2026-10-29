@@ -6,6 +6,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
+import { badgeSnippet, isBadgeSnippetFormat, repositoryFromRemote } from "./badge.js";
 import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
 import { DEFAULT_WARN_DAYS, createBaseline, debtTrendLine, evaluateBaseline, expiredPolicies, expiredSuppressionsFail, readBaseline, readBaselines, writeBaseline } from "./baseline.js";
 import type { ExpiredPolicy } from "./baseline.js";
@@ -89,6 +90,7 @@ Usage:
   evergreen fix [path] [--dry-run] [--json]   # print patches for deterministic fixes; nothing is written
   evergreen fix [path] --branch               # apply the fixes on a local evergreen/fix branch and commit; never pushes
   evergreen baseline [path] [--output <file>]
+  evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
   evergreen check <purl> [--fail-on <severity|none>] [--json]
   evergreen guard [--fail-on <severity|none>] [--force] npm install <package>...   # check first; flags after npm go to npm
   evergreen usage [--file <path>] [--json]
@@ -547,6 +549,43 @@ async function watch(args: string[], json: boolean): Promise<number> {
   }
 }
 
+/** `badge`: prints README markup for the badge a repository publishes from its badge branch. */
+async function badge(args: string[]): Promise<number> {
+  const usageText = "Usage: evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]";
+  const operands: string[] = [];
+  let snippet: string | undefined;
+  let repository: string | undefined;
+  let branch = "evergreen-badge";
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    if (argument === "--snippet" || argument === "--repo" || argument === "--branch") {
+      const value = args[index + 1];
+      if (value === undefined) return fail("usage", usageText);
+      if (argument === "--snippet") snippet = value;
+      else if (argument === "--repo") repository = value;
+      else branch = value;
+      index += 1;
+      continue;
+    }
+    if (argument.startsWith("-")) return fail("usage", usageText);
+    operands.push(argument);
+  }
+  if (!snippet || !isBadgeSnippetFormat(snippet) || operands.length > 1) return fail("usage", usageText);
+  const path = operands[0] ?? ".";
+  let owner = repository;
+  if (!owner) {
+    const remote = spawnSync("git", ["-C", path, "remote", "get-url", "origin"], { encoding: "utf8" });
+    owner = remote.status === 0 ? repositoryFromRemote(remote.stdout) : undefined;
+  }
+  if (!owner) return fail("usage", `Could not read a GitHub repository from ${path}. Pass --repo <owner/name>.`);
+  try {
+    process.stdout.write(`${badgeSnippet(owner, snippet, branch)}\n`);
+    return 0;
+  } catch (error) {
+    return fail("usage", (error as Error).message);
+  }
+}
+
 async function main(rawArgs: string[]): Promise<number> {
   debugErrors = rawArgs.includes("--debug");
   const args = rawArgs.filter((argument) => argument !== "--debug");
@@ -563,7 +602,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "badge" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -580,6 +619,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "new-detector") return newDetector(args.slice(1));
   if (command === "new-rule") return newRule(args.slice(1));
   if (command === "rules") return rules(args.slice(1));
+  if (command === "badge") return badge(args.slice(1));
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));

@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { resolve } from "node:path";
 import { test } from "node:test";
+import { promisify } from "node:util";
 
-import { badgeState, badgeStyles, contrastRatio, readableTextColor, renderBadgeSvg } from "../src/badge.js";
+import { badgeSnippet, badgeState, badgeStyles, contrastRatio, readableTextColor, renderBadgeSvg, repositoryFromRemote } from "../src/badge.js";
 import { severityValues } from "../src/domain.js";
 import type { Finding, Severity } from "../src/domain.js";
 
@@ -56,4 +59,38 @@ test("for-the-badge is larger and uppercases the label and message", () => {
   assert.match(svg, />EVERGREEN<\/text>/);
   assert.match(svg, />1 HIGH<\/text>/);
   assert.match(svg, /aria-label="evergreen: 1 high"/, "the accessible name keeps the original wording");
+});
+
+test("prints README markup for every snippet format", () => {
+  const image = "https://raw.githubusercontent.com/arminazimi/evergreen/evergreen-badge/evergreen-badge.svg";
+  const target = "https://github.com/arminazimi/evergreen";
+  assert.equal(badgeSnippet("arminazimi/evergreen", "markdown"), `[![evergreen](${image})](${target})`);
+  assert.equal(badgeSnippet("arminazimi/evergreen", "html"), `<a href="${target}"><img alt="evergreen" src="${image}"></a>`);
+  assert.equal(badgeSnippet("arminazimi/evergreen", "rst"), `.. image:: ${image}\n   :target: ${target}\n   :alt: evergreen`);
+  assert.match(badgeSnippet("arminazimi/evergreen", "markdown", "badges/evergreen"), /\/badges\/evergreen\/evergreen-badge\.svg/);
+});
+
+test("escapes a hostile repository name instead of emitting it into the markup", () => {
+  const html = badgeSnippet('bad"name/rep<o', "html");
+  assert.ok(html.includes("bad%22name/rep%3Co"), html);
+  assert.equal(html.includes("<script"), false);
+  assert.equal(html.includes('<img alt="evergreen" src="https://raw.githubusercontent.com/bad"'), false);
+  assert.throws(() => badgeSnippet("owner/repo/extra", "markdown"), /expected owner\/name/);
+  assert.throws(() => badgeSnippet("owner/", "markdown"), /expected owner\/name/);
+});
+
+test("reads owner and name from a GitHub remote URL", () => {
+  assert.equal(repositoryFromRemote("https://github.com/arminazimi/evergreen.git"), "arminazimi/evergreen");
+  assert.equal(repositoryFromRemote("git@github.com:arminazimi/evergreen.git\n"), "arminazimi/evergreen");
+  assert.equal(repositoryFromRemote("ssh://git@github.com/arminazimi/evergreen"), "arminazimi/evergreen");
+  assert.equal(repositoryFromRemote("https://gitlab.com/arminazimi/evergreen.git"), undefined);
+  assert.equal(repositoryFromRemote("not a url"), undefined);
+});
+
+test("the CLI prints the snippet it was asked for", async () => {
+  const run = promisify(execFile);
+  const cli = resolve("dist/src/cli.js");
+  const { stdout } = await run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "markdown"]);
+  assert.equal(stdout.trim(), badgeSnippet("arminazimi/evergreen", "markdown"));
+  await assert.rejects(run(process.execPath, [cli, "badge", "--repo", "arminazimi/evergreen", "--snippet", "asciidoc"]), (error: { code?: number }) => error.code === 2);
 });
