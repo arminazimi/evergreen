@@ -51,3 +51,7 @@ Exporting Evergreen’s own registry as CLE snapshots is separate: `evergreen ex
 ## What not to put in CLE
 
 Do not invent lifecycle claims. CLE has no faithful representation for a soft deprecation that is not end of support, development, life, or distribution. Prefer an authoritative URL in `references` when one exists.
+
+## README contributors list
+
+The all-contributors badge and list were removed from the README while the project has fewer than ten contributors (#1658). When the repository reaches ten or more contributors, restore them (revert #1658, or re-apply what #1569 added): `.all-contributorsrc`, `tests/all-contributors.test.ts`, and the badge and Contributors section in `README.md`.
