@@ -1161,19 +1161,29 @@ Source: https://arminazimi.github.io/evergreen/GITLAB.html
 
 # GitLab
 
-Evergreen ships a GitLab CI/CD component, [`templates/evergreen.yml`](../templates/evergreen.yml). It adds one job that scans the checked-out repository, keeps the JSON report as a job artifact, and fails the pipeline at a severity gate. Its inputs mirror the [GitHub Action](GITHUB_ACTION.md): `path`, `baseline`, `baseline_warn_days`, `on_expired`, `min_support_days`, and `fail_on_severity` have the same meanings and defaults.
+Evergreen ships a GitLab CI/CD component, [`templates/evergreen.yml`](../templates/evergreen.yml). It is published in the [CI/CD Catalog](https://gitlab.com/explore/catalog/arminazimi/evergreen). It adds one job that scans the checked-out repository, keeps the JSON report as a job artifact, and fails the pipeline at a severity gate. Its inputs mirror the [GitHub Action](GITHUB_ACTION.md): `path`, `baseline`, `baseline_warn_days`, `on_expired`, `min_support_days`, and `fail_on_severity` have the same meanings and defaults.
 
 ## Add the job
+
+On GitLab.com, include the Catalog release. Pin the component to a plain semver Catalog version (no `v` prefix); the component's `version` input then defaults to the matching `evergreen-deprecation` npm package:
+
+```yaml
+include:
+  - component: $CI_SERVER_FQDN/arminazimi/evergreen/evergreen@0.7.1
+    inputs:
+      fail_on_severity: high
+```
+
+That include was verified from a clean public project: the job pulled `node:24-trixie-slim`, installed `evergreen-deprecation@0.7.1` with `npx`, wrote `evergreen-report.json` and `gl-code-quality-report.json`, and passed at the default `high` gate with no findings. Set `baseline` only when you already have a baseline file committed (path relative to `path`).
+
+On a self-managed instance, host a copy of the component and replace the project path:
 
 ```yaml
 include:
   - component: $CI_SERVER_FQDN/<group>/<project>/evergreen@<version>
     inputs:
-      baseline: .evergreen-baseline.json
       fail_on_severity: high
 ```
-
-`<group>/<project>` is the project that hosts the component on your GitLab instance. The `version` input pins the `evergreen-deprecation` npm package the job runs; it defaults to the version the component was released with.
 
 ## Permissions
 
