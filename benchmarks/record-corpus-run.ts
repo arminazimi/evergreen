@@ -69,7 +69,7 @@ try {
   await run(process.execPath, [resolve("dist/tools/coverage-matrix.js")]);
   await run(process.execPath, [resolve("dist/tools/build-llms-full.js")]);
   console.log(`Recorded the full run of ${date} at ${commit}: ${record.repositories} repositories, ${record.findings} findings, precision ${record.precision}, recall ${record.recall}.`);
-  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, docs/VALIDATION.md, and docs/llms-full.txt. Review the diff and commit it.");
+  console.log("Updated benchmarks/thresholds.json, docs/dashboard/data.json, docs/VALIDATION.md, docs/state-of-eol.md, and docs/llms-full.txt. Review the diff and commit it.");
 } finally {
   await rm(directory, { recursive: true, force: true });
 }

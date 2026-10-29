@@ -22,6 +22,7 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [Lifecycle rules](https://arminazimi.github.io/evergreen/RULES.html): the rule format, the evidence policy, and how to write a rule.
 - [Lifecycle data](https://arminazimi.github.io/evergreen/DATA.html): signed data updates, pinning, offline guarantees, and the trust model.
 - [Validation](https://arminazimi.github.io/evergreen/VALIDATION.html): the public corpus, precision thresholds, and measured results.
+- [State of EOL](https://arminazimi.github.io/evergreen/state-of-eol.html): corpus findings aggregated by product and release line.
 - [Privacy](https://arminazimi.github.io/evergreen/PRIVACY.html): what stays on your machine and the one command that uses the network.
 - [Threat model](https://arminazimi.github.io/evergreen/THREAT_MODEL.html): trust boundaries, STRIDE threats, mitigations, and residual risks for untrusted repositories, data bundles, the MCP server, and hooks.
 
