@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use Evergreen or its lifecycle dataset in a paper, post, or tool, cite it as below."
+title: "Evergreen: local-first deprecation intelligence and lifecycle rules"
+abstract: >-
+  Evergreen finds end-of-life and deprecated runtimes, packages, and GitHub Actions in a
+  repository, reports the exact file and line, and backs every finding with an authoritative
+  source, a replacement, and migration steps. This citation covers the Evergreen source code,
+  CLI, GitHub Action, MCP server, and Agent Skill together with the reviewed lifecycle rules
+  and end-of-life dates bundled in the registry.
+type: software
+authors:
+  - family-names: Azimi
+    given-names: Armin
+    website: "https://github.com/arminazimi"
+repository-code: "https://github.com/arminazimi/evergreen"
+url: "https://arminazimi.github.io/evergreen/"
+license: Apache-2.0
+version: 0.7.1
+date-released: "2026-10-27"
+keywords:
+  - end-of-life
+  - deprecation
+  - software lifecycle
+  - dependency management
+  - software composition analysis
