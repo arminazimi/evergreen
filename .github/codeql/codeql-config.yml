@@ -1,0 +1,8 @@
+# CodeQL scope for .github/workflows/codeql.yml.
+#
+# Skip generated output and test fixtures. The Action bundle is minified build
+# output (see AGENTS.md), and fixtures are untrusted sample repositories that
+# deliberately contain deprecated and insecure patterns.
+paths-ignore:
+  - dist/**
+  - tests/fixtures/**

@@ -200,7 +200,7 @@ The package metadata itself has nothing to fix: the repository, homepage, bug tr
 
 | Service | Score | Top reasons |
 | --- | --- | --- |
-| OpenSSF Scorecard | 3.1 (run of 2026-10-27, published from `main` at 5bc33d0 by [scorecard.yml](../.github/workflows/scorecard.yml)) | The five low checks are the actionable part; the accepted gaps (Branch-Protection, SAST) are documented in [SECURITY.md](SECURITY.md). |
+| OpenSSF Scorecard | 3.1 (run of 2026-10-27, published from `main` at 5bc33d0 by [scorecard.yml](../.github/workflows/scorecard.yml)) | The five low checks are the actionable part; the accepted gap (Branch-Protection) is documented in [SECURITY.md](SECURITY.md). |
 | deps.dev | no score | The project page for `github.com/arminazimi/evergreen` does not exist yet, so the UI shows no Scorecard or project metrics. The version record itself is complete: 0.7.1 resolves with no OSV advisories, license `Apache-2.0`, and SLSA provenance that verifies against the GitHub source. |
 | npms.io | not indexed | The package does not appear in the index, and there is no metadata defect on our side: the index has not analyzed the modules it holds since the end of 2022 (its entry for `zod` was last analyzed 2022-12-13), so packages published in October 2026 do not get scores. Treat npms.io as unavailable until its crawler resumes. |
 | Snyk Advisor | retired | Every Snyk Advisor URL now redirects to the `security.snyk.io` package page, which publishes no health score. That page reports no direct vulnerabilities in Snyk's database for any of the eleven published versions. |
@@ -214,7 +214,7 @@ The Scorecard checks that are lowest and what they would need:
 | Maintained | 0 | The repository is newer than 90 days at the time of the run; this lifts itself as the repository ages and no action is needed. |
 | Code-Review | 0 | Approving reviews are deliberately not a merge gate so agent pull requests can merge after green checks; a policy choice, not a defect. |
 | Dependency-Update-Tool | 0 | No Dependabot or Renovate configuration exists. Tracked in #1374. |
-| SAST | 0 | No separate CodeQL analysis runs today; accepted in [SECURITY.md](SECURITY.md). Tracked in #1377. |
+| SAST | 0 | [CodeQL](../.github/workflows/codeql.yml) analyzes every push to `main` and every pull request as of #1377; the score lifts on the next run. |
 | Signed-Releases | 2 | Only the npm attestations are signed; the last four GitHub release artifacts are not. Tracked in #1376. |
 
 Security-Policy, Token-Permissions, License, Packaging, and CI-Tests all score 10. Revisit this review on the same cadence as the Socket table: at each release. Scan findings never use these services, so none of this affects a scan; it is adoption and trust context only.
