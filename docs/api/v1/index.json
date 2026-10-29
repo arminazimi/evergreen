@@ -1,5 +1,5 @@
 {
-  "latestReview": "2026-10-29",
+  "latestReview": "2026-10-30",
   "products": [
     {
       "ecosystems": [
@@ -1905,11 +1905,11 @@
         "end-of-support"
       ],
       "id": "generic-terraform",
-      "latestReview": "2026-10-21",
+      "latestReview": "2026-10-30",
       "name": "terraform",
       "path": "products/generic-terraform.json",
       "purl": "pkg:generic/terraform",
-      "rules": 5,
+      "rules": 6,
       "type": "generic"
     },
     {
@@ -4354,7 +4354,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 516,
+  "rules": 517,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4384,7 +4384,7 @@
     {
       "path": "types/generic.json",
       "products": 84,
-      "rules": 290,
+      "rules": 291,
       "type": "generic"
     },
     {

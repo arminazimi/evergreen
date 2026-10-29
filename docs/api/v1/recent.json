@@ -1,6 +1,19 @@
 {
   "changes": [
     {
+      "deadline": "2026-10-21",
+      "ecosystem": "terraform",
+      "event": "end-of-support",
+      "observedAt": "2026-10-30",
+      "path": "products/generic-terraform.json",
+      "productId": "generic-terraform",
+      "purl": "pkg:generic/terraform",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "terraform.cli.end-of-support-1.15",
+      "severity": "medium",
+      "title": "Terraform CLI 1.15 is no longer a supported release line"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1251,18 +1264,6 @@
       "ruleId": "nodejs.symbol.module.register",
       "severity": "medium",
       "title": "Module.register is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.net.setsimultaneousaccepts",
-      "severity": "high",
-      "title": "Net._setSimultaneousAccepts has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
