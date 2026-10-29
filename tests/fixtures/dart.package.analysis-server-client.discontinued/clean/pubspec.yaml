@@ -1,0 +1,14 @@
+name: evergreen_dart_lookalike
+description: A Dart package whose dependencies only look like a discontinued one.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+
+dependencies:
+  analysis_server_client_extra: ^1.0.0
+  analysis_server_client:
+    git:
+      url: https://example.com/analysis_server_client.git
+      ref: main
