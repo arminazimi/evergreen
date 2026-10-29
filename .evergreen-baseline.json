@@ -1,5 +1,566 @@
 {
   "schemaVersion": "evergreen.baseline.v1",
-  "createdAt": "2026-10-24T20:22:48.137Z",
-  "findings": []
+  "createdAt": "2026-10-29T16:19:28.112Z",
+  "findings": [
+    {
+      "fingerprint": "29ca519a9a7077a2f885fdc53dc72bc557726532338b9443eb3150b926c0df7f",
+      "ruleId": "android.play-billing.version-5",
+      "path": "examples/gallery/android/build.gradle"
+    },
+    {
+      "fingerprint": "72adeeb4d0b56fae1582aad8bc242706c07b85835062d460642560027f8f0e36",
+      "ruleId": "android.play-billing.version-5",
+      "path": "examples/gallery/android/build.gradle.kts"
+    },
+    {
+      "fingerprint": "c7207f197bd4ddba35e7e902d36fc97e85a61d8b398401b8fe2a71f948e606ce",
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "examples/gallery/ci-images/azure-pipelines.yml"
+    },
+    {
+      "fingerprint": "b5a2d9e04ba7495d920f5ec0a6a3b43ecd4e30842a77c5e065c3c1c01d65fb4e",
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "examples/gallery/ci-images/azure-pipelines.yml"
+    },
+    {
+      "fingerprint": "ee4fb4ce7b24afa8afa8cdb3ded92ac9b25ac2a6d8dc318c4a8338485798f678",
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "cf6274544a2b5e1b4cbb739cf4782a6fc5aef28e08371da6b0cad4f328f0a871",
+      "ruleId": "container.alpine.eol-3.21",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "448fe17bff1a36e410c588c1f2acd20c4a84dbbeb6d81e558910845fc6223879",
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "751fd1113e4a3d10e6ba9a3bc663efc3384cfcb0fb1c688288a704261f4d292b",
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "ce5a9bf659e0b99e1b3e7a58feb4e849f687e7625bee63074ba3a1b64eaad331",
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "2a4135fb7215448202469eb9f540b8666efc3dc75ca72c4a09f36793a8aa5bb9",
+      "ruleId": "container.mysql.eol-8.0-and-older",
+      "path": "examples/gallery/database/compose.yaml"
+    },
+    {
+      "fingerprint": "3c97cccbfa9be8803a5e711670a3654e5cc7f6a9cf5c5c60bb61c23e4959f15e",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/gallery/container/.devcontainer/devcontainer.json"
+    },
+    {
+      "fingerprint": "f671140da1f604140c2e3f05d8ca1581f437ca6bd87a0dcf9f43daf2562af7ce",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/gallery/container/docker-compose.yml"
+    },
+    {
+      "fingerprint": "6c71147717aabad5bd64ab42d3ddba42906955fef107b8c59803a822150a3f6c",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/gallery/container/Dockerfile"
+    },
+    {
+      "fingerprint": "4f13a6546ce8591a09ca915fd0c3045bd286d06151cb180095b5a80049b25ce1",
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "examples/gallery/container/Dockerfile"
+    },
+    {
+      "fingerprint": "882f9feb4a2d4f635c218d0702ef017e7e0eced4ca59d60262f7920362b87bf3",
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "examples/gallery/container/api.Dockerfile"
+    },
+    {
+      "fingerprint": "3b618a5db790a423d144e02161f77cd9ca4e8a8c79f08a4b35625ba223d2281b",
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "examples/gallery/container/compose.yaml"
+    },
+    {
+      "fingerprint": "9ec6c1f376f657c766b55803ae698f58ede4ad6402764504287ff53a071cab15",
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "examples/gallery/database/compose.yaml"
+    },
+    {
+      "fingerprint": "b59a2164550429c0313d13653bb8599b31d79767d204035b1aeeb4d86112ba82",
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "examples/gallery/container/Dockerfile"
+    },
+    {
+      "fingerprint": "c1360b314ae2af036323eabf0be14d9300642c83378d5ec405b2d851b39391c5",
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "examples/gallery/container/compose.yaml"
+    },
+    {
+      "fingerprint": "62fd79214208a0477b53f4d221827294442954dfe109ae1eb7887c6733c55770",
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "examples/gallery/container/Containerfile"
+    },
+    {
+      "fingerprint": "0d45c86ace74f02e2833c2d7e62c973f7e0a65856c3f63531d4312136ca90e8e",
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "425a5ebd659f171921f156f4bc4dfa030d79d2b1cd8f900b8765925fcd71fa02",
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "9a5055a1b0abe6d9302e1efe95ee5d3086eeb6040fbf4f75b4e91894e7104d95",
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "examples/gallery/container/os-images.Dockerfile"
+    },
+    {
+      "fingerprint": "85d85a40bd5a29ebf9974d72c06d2f324fc66fc86c7e8d0043d545c664258e08",
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "examples/gallery/cpp/CMakeLists.txt"
+    },
+    {
+      "fingerprint": "ae7875fc0e6c7aa88dbb1cda055dd977cf177e4d7617fc22e00b9213386e1a29",
+      "ruleId": "dart.sdk.end-of-support-3.12",
+      "path": "examples/gallery/dart/pubspec.yaml"
+    },
+    {
+      "fingerprint": "216f8842bf1a4efa580394818c3eda0ab8c91fe212eb2ce645b814fa0280fde8",
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "examples/gallery/database/compose.yaml"
+    },
+    {
+      "fingerprint": "fc61ca3e1d34a57ab5b62eef5f22b8306410a5f11f7f174aa593953732ffdc09",
+      "ruleId": "database.postgresql.end-of-life-11",
+      "path": "examples/gallery/container/compose.yaml"
+    },
+    {
+      "fingerprint": "2669d87dca5f2e049386ab2d47dddc309ae0a24ddc16badfdcc93555803a4dd5",
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "examples/gallery/database/compose.yaml"
+    },
+    {
+      "fingerprint": "6df0c16572ec8444364a07160512a067e8e8539e79e9de80e53adc727396a1c7",
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "examples/gallery/database/main.tf"
+    },
+    {
+      "fingerprint": "e3399415bcd692ef3e4695fd25a8ddcb67a14e80ef75d25f9da71b0109da9287",
+      "ruleId": "deno.bun.runtime.eol-0.x",
+      "path": "examples/gallery/deno/bun-1/bunfig.toml"
+    },
+    {
+      "fingerprint": "b4c30ae333ef578351c7baedabbde52462cb6ff7402f7ee522c6f18677b0e658",
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": "examples/gallery/deno/bun-1/.bun-version"
+    },
+    {
+      "fingerprint": "c0ab4e22c085f2797aca32c447642c8060965411fb41f4d3666f57136b5b24ea",
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": "examples/gallery/deno/deno-1/deno.json"
+    },
+    {
+      "fingerprint": "064e2c15d526e741cfcedfdba82c63d362b868d8dcd74255c833730082edfc15",
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "examples/gallery/dotnet/app/App.csproj"
+    },
+    {
+      "fingerprint": "97639c614eb8cc1bbf024766927bdf770b07946a6bf2006c7e5766e7f3f692a0",
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "examples/gallery/dotnet/central/Directory.Packages.props"
+    },
+    {
+      "fingerprint": "429eae789ab1c292601abb4ac3d6ca1048ca0adcea3998b2af810c4195545111",
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "examples/gallery/dotnet/app/App.csproj"
+    },
+    {
+      "fingerprint": "e49b3dc5a77f5df2fd08e03f3157769a68dcf4b26979329c50254adf972fe655",
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "examples/gallery/dotnet/global.json"
+    },
+    {
+      "fingerprint": "9e484361c3183ff1f64a24047de14bbdef040db88ac5e20010e14ac4b6d6ec82",
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "examples/gallery/dotnet/lib/Win.vbproj"
+    },
+    {
+      "fingerprint": "aa190c66ded62d5ac6f7c9c7230041e7276c0596d7f6d8b7d50856fe4db83cab",
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/gallery/dotnet/central/Directory.Build.props"
+    },
+    {
+      "fingerprint": "25bb64ccbc2b20e9bcb6c52ac3fd8f92b30a11e6d92f51121d961a4c29c3b099",
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "examples/gallery/dotnet/lib/Lib.fsproj"
+    },
+    {
+      "fingerprint": "9dfde68d9e4a1327359dd4f5b256cb868cbe17a5b95c7a0d147a918bd0a7d205",
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "examples/gallery/dotnet/lib/Lib.fsproj"
+    },
+    {
+      "fingerprint": "7b582fa88e28386dc6ada26714003ef64002e64845b0aae58ae886c2be9a1c75",
+      "ruleId": "elixir.erlang.eol-25",
+      "path": "examples/gallery/elixir/.tool-versions"
+    },
+    {
+      "fingerprint": "6752ade50d7e500d09ec55b2ca3eae67836a5ef876e82f19804f89502d463dce",
+      "ruleId": "elixir.erlang.eol-25",
+      "path": "examples/gallery/elixir/.tool-versions"
+    },
+    {
+      "fingerprint": "4415a62756049fa0c8b84d1c683d8b76d881a46cf830c5330d8d4e42d9206fda",
+      "ruleId": "elixir.package.fennec.retired",
+      "path": "examples/gallery/elixir/mix.exs"
+    },
+    {
+      "fingerprint": "6d9892c41889ca1bcf72b8feb49bb3a411db5f916c1b5993328374e86c3a49c6",
+      "ruleId": "elixir.package.fennec.retired",
+      "path": "examples/gallery/elixir/mix.lock"
+    },
+    {
+      "fingerprint": "f8cc051e80e60c0a6dff5072545190ef8a06389f136f35f4de0612745fa26f2e",
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": "examples/gallery/elixir/.tool-versions"
+    },
+    {
+      "fingerprint": "fee00a796c727ea3510c094c20b0235b9ea0a1a4bca9bc95f329b93547f52ab4",
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": "examples/gallery/elixir/mix.exs"
+    },
+    {
+      "fingerprint": "a4d43396e28fb22b118703605a2f78e7f4175c132e051c28aa6bcbd5b9c56aa2",
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "examples/gallery/go/go.mod"
+    },
+    {
+      "fingerprint": "0cc036061c9ca5b7b24c4ffba3f8fe13a59a4e97f0fbad672982c086faba839e",
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "examples/gallery/go/go.work"
+    },
+    {
+      "fingerprint": "57e0f5542a4596e7497abd8259b0f22648025686d64e52c6aad15ca8dc540723",
+      "ruleId": "go.runtime.end-of-support-1.23",
+      "path": "examples/gallery/go/go.mod"
+    },
+    {
+      "fingerprint": "e5bc582c6beab91d28eb96dd92b9c9f45916b93dfa3511ef1f4ed10d44c23930",
+      "ruleId": "go.runtime.end-of-support-1.23",
+      "path": "examples/gallery/go/go.work"
+    },
+    {
+      "fingerprint": "731862e5c9c5fe615d34eb3d89ea49b458761d00c7135683043b7ca7a400bdec",
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "examples/gallery/java/maven/pom.xml"
+    },
+    {
+      "fingerprint": "731862e5c9c5fe615d34eb3d89ea49b458761d00c7135683043b7ca7a400bdec",
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "examples/gallery/java/maven/pom.xml"
+    },
+    {
+      "fingerprint": "192a5187669c63fb087555f11f7e65f3257853462f07225d815ffab0872ec975",
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "examples/gallery/java/pins/.java-version"
+    },
+    {
+      "fingerprint": "a286466405fb5b26670b8f06d124fc06dbd3ac5381ccccc234e1326d63992680",
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "examples/gallery/java/gradle-groovy/build.gradle"
+    },
+    {
+      "fingerprint": "b40f7a16e6d0bc756808155e8dc77becba58ad9def858294d6dad38104e6f427",
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "examples/gallery/java/gradle-groovy/build.gradle"
+    },
+    {
+      "fingerprint": "d45e1817d95c067fcc44ea68757101507b17d624499dd70d280ce617f796ca69",
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "examples/gallery/java/gradle-groovy/build.gradle"
+    },
+    {
+      "fingerprint": "98f6e92dc8af51ebd15c3f4cd0dbe97e451b91303b63824f477105589f124a1c",
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "examples/gallery/java/maven/pom.xml"
+    },
+    {
+      "fingerprint": "937db2ab41e9dce864c4496bea3a56fb119853564737fef18cdd01e8d72188be",
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "examples/gallery/java/pins/.sdkmanrc"
+    },
+    {
+      "fingerprint": "81ce2fed067af677100a13d9d54aa3b80dd4142f3af26ba1adef3d23a12e4ac0",
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "examples/gallery/java/gradle-kotlin/build.gradle.kts"
+    },
+    {
+      "fingerprint": "dc9e00e9af67b0ca3c6d92ddad08c71887f392277c30c8b6a8b8249818e44411",
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "examples/gallery/java/gradle-kotlin/build.gradle.kts"
+    },
+    {
+      "fingerprint": "4bd1cc20a5e99a72d38a6d001216972d4d62d9dc5c3e3fe1daca6eabd7777292",
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "examples/gallery/java/maven/pom.xml"
+    },
+    {
+      "fingerprint": "116be54c1f980dd9734701739d9f0ebadc27d4a5091c213904adfc69445aca5d",
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "examples/gallery/java/pins/.tool-versions"
+    },
+    {
+      "fingerprint": "fdc207f3588ebe80f1ae609ec00f98a3923059a6f053dc4894b2c6dc82d728d7",
+      "ruleId": "java.maven.org.hibernate.hibernate-entitymanager.relocated",
+      "path": "examples/gallery/java/gradle-catalog/gradle/libs.versions.toml"
+    },
+    {
+      "fingerprint": "25c17399f118a505146e754bcd06b243a553605fea4ffd43dee47446fd5ae151",
+      "ruleId": "java.maven.spring-boot.legacy-2x.end-of-support",
+      "path": "examples/gallery/java/gradle-catalog/gradle/libs.versions.toml"
+    },
+    {
+      "fingerprint": "ed366e100ab65586725a86e19da899633e0053f22e0f83c548cb622bafa5a66b",
+      "ruleId": "java.maven.spring-boot.legacy-2x.end-of-support",
+      "path": "examples/gallery/java/spring-boot/pom.xml"
+    },
+    {
+      "fingerprint": "83a642e372b14e3d0c28059b85b4e74fc8f2ab15f886e0d695932772851fb996",
+      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "path": "examples/gallery/java/spring-boot/pom.xml"
+    },
+    {
+      "fingerprint": "45deb629d0c45b269df27d35ec8f42136590476137617ef274711b13777b41c0",
+      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "path": "examples/gallery/java/spring-boot/pom.xml"
+    },
+    {
+      "fingerprint": "6c529ade0f0fa27bcb708c2a12323d7e4b2f01efc7bdbb15f59a49af7103847f",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/helm/mychart/templates/cronjob.yml"
+    },
+    {
+      "fingerprint": "3cced8c56a50daebbe2d5eb484ddd58d2b8f717f1bdc0688fbd9ec291c41ba5e",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/kustomize/kustomization.yaml"
+    },
+    {
+      "fingerprint": "fec6e59e8eec8026c9bb86823be8db39671dda2d21fb38f94982110dd1e8d168",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/dump.yaml"
+    },
+    {
+      "fingerprint": "22ebf7d69359c58ddb1a60a9b3088f272320b9e6ea62c90ff6a077c8205b7f5e",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/helm-rendered.yaml"
+    },
+    {
+      "fingerprint": "68db7d8765207807d7aa125f2ec83cac83bd7868c29339ec1d3d4ee05487d856",
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/web.yaml"
+    },
+    {
+      "fingerprint": "32a8f4ab7cb757479580de59e9134f391aab06178560afcac5785179871d0077",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/dump.yaml"
+    },
+    {
+      "fingerprint": "4a439971e20644085b1a3b90bcd5499000b989a3086f5f04da135ad9acadf123",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/helm-rendered.yaml"
+    },
+    {
+      "fingerprint": "862d75c570d58334a514d8f1dffca6a0a32cd36102c65c8621ec983061b0f622",
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/web.yaml"
+    },
+    {
+      "fingerprint": "e301aec6eaadf216e8ba68a13b678ecd3e3fb1a128f45599fc35612d7a6117bc",
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "examples/gallery/kubernetes/helm/mychart/Chart.yaml"
+    },
+    {
+      "fingerprint": "269126f105b234d58d32376ddfc725a0f2bf60ae7505d88ab78e619705162359",
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/helm/mychart/templates/ingress.yaml"
+    },
+    {
+      "fingerprint": "d00a93018f719592ea62874776a327b340c682259311c39d089c63d14eba0860",
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/kustomize/ingress.yaml"
+    },
+    {
+      "fingerprint": "08a26bd5821b85bc4d16521637b17c0ad692e6641cb229a71688a88b374b4667",
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/kustomize/kustomization.yaml"
+    },
+    {
+      "fingerprint": "3a61b143cfe12bccb575e16f6df5f722c6d998b556870956390ffc89a34a1012",
+      "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "path": "examples/gallery/kubernetes/manifests/psp.yml"
+    },
+    {
+      "fingerprint": "396e4d6f05aa27d2f4e52f94563016e21388e49897e8cd6e9d3062d168cd7e58",
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "examples/gallery/php/.php-version"
+    },
+    {
+      "fingerprint": "bdf9a97f1e5801fc33ca6d86b4c000eb0921c6865c63f0bc9e4093ced5132809",
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "examples/gallery/php/.tool-versions"
+    },
+    {
+      "fingerprint": "ece7e596eeb3e679a09bc60deb0bd57a3291ad92ad9b7bd9dbd9e6c3a3d693c6",
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "examples/gallery/php/composer.json"
+    },
+    {
+      "fingerprint": "b90a8f436498518867227ebe4c80c0e473740505d6a518fd7bbafe8a7189eb5d",
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "examples/gallery/php/composer.lock"
+    },
+    {
+      "fingerprint": "d153f01ac380b77922ae81a15a0f614eb6d7452c867112a8eba738849f50d218",
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/gallery/ruby/.ruby-version"
+    },
+    {
+      "fingerprint": "eab97ee1d0c74c2350810bb2bf3d824b26e18f86c547e1f316393a02b9a110bf",
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/gallery/ruby/.tool-versions"
+    },
+    {
+      "fingerprint": "e4980ea407c4c6b36b457c117260b03a04acf320a44cb23ec027dcd2b7ba0067",
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/gallery/ruby/Gemfile"
+    },
+    {
+      "fingerprint": "ae406b5055f8cfed7f0740e25f4cd2345bb2f8db37e08855a066f742e8d1f013",
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "examples/gallery/ruby/Gemfile.lock"
+    },
+    {
+      "fingerprint": "1f67ac6e0a42c7cdc9a1bd18bf2b9b33ca907692b80c3dfef88b726fb8b96799",
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "examples/gallery/rust/Cargo.toml"
+    },
+    {
+      "fingerprint": "f13c942a9417c9a225541f516b1e3005a5e70900d6f4f98bf3ae033e58b93c9c",
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "examples/gallery/rust/Cargo.toml"
+    },
+    {
+      "fingerprint": "abdff54ab5b9d5e050f5c94057373d2ae811160a4c25c53b48c9221ce6998bc1",
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "examples/gallery/rust/Cargo.toml"
+    },
+    {
+      "fingerprint": "d5d2fbfda1b687765d8d653480cde0c41c26baa99901796d9d871cfc755cd018",
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "examples/gallery/rust/workspace/Cargo.toml"
+    },
+    {
+      "fingerprint": "9d6a935bdfa24cd42393554c496c4e2bb436980102bd5b2ad455c54c076740eb",
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "examples/gallery/rust/Cargo.toml"
+    },
+    {
+      "fingerprint": "f28c26e256b098158663bb48c7438bc97a447b6369d8ce3a929358d735ace7c6",
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "examples/gallery/rust/legacy/rust-toolchain"
+    },
+    {
+      "fingerprint": "76c70fe657969aec9243705ad8c7bb663f9f824c8a85ff8018b50e49cb884609",
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "examples/gallery/rust/rust-toolchain.toml"
+    },
+    {
+      "fingerprint": "8597b5107b4d1a06d84f12c950edfbb8e5dd5d0faf9b922cd9627796d76dc619",
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "examples/gallery/scala/.scala-version"
+    },
+    {
+      "fingerprint": "5d5aefd7b99ee9f80b6148261116d8c9dab83884c4488613b3129ee213e33633",
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "examples/gallery/scala/build.sbt"
+    },
+    {
+      "fingerprint": "5679b622efa2614efe75d4ea81ba59c0f3c35fdd38b531b6e7d60b61a43fb7e2",
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "examples/gallery/scala/project/build.properties"
+    },
+    {
+      "fingerprint": "b7cc35a816f9163c7f293bad3e3365748edf6f221889ef1c92b1ed76e1f42f86",
+      "ruleId": "serverless.aws-lambda.dotnetcore3.1",
+      "path": "examples/gallery/serverless/template.yaml"
+    },
+    {
+      "fingerprint": "58cb6892a9af933eb266ca18f882e2dd1705426774558f5c06162fb24f9eade6",
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "examples/gallery/serverless/main.tf"
+    },
+    {
+      "fingerprint": "0b873e32b4f88f6cbe77c902329218f33411408519220062fa5e65d159d5ee8e",
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "examples/gallery/serverless/serverless.yml"
+    },
+    {
+      "fingerprint": "40ae540dc790fcf7d674daf7a883aaae0f1da541b862939b5823fb2c8c9e6614",
+      "ruleId": "serverless.aws-lambda.nodejs14.x",
+      "path": "examples/gallery/serverless/template.yaml"
+    },
+    {
+      "fingerprint": "2b969efb16f40c5bdbbd758cbfc06aa6287aad9c55cdc203f3a0a83c180a5ee7",
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "examples/gallery/serverless/serverless.yml"
+    },
+    {
+      "fingerprint": "39c0613d361b3af32aa5d919c2d776054e8ad3e66af5ebbd49665408c5b0e678",
+      "ruleId": "serverless.aws-lambda.python3.8",
+      "path": "examples/gallery/serverless/template.yaml"
+    },
+    {
+      "fingerprint": "1b18c98fe779e03c864d62ab28a443e1c6051558f6d4bf454b905c05b0652bd6",
+      "ruleId": "serverless.aws-lambda.ruby2.7",
+      "path": "examples/gallery/serverless/template.yml"
+    },
+    {
+      "fingerprint": "6444c89ca3d2d59da146198f1576c9e58e27c3ec3f59a6ec9940368a1675e86e",
+      "ruleId": "serverless.google-cloud-functions.nodejs14",
+      "path": "examples/gallery/serverless/main.tf"
+    },
+    {
+      "fingerprint": "32482fdc27f52fbb93802902bed0b05c3acc272e583e06214ea61b203f49b3d8",
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "examples/gallery/shell/modules/Deploy.psd1"
+    },
+    {
+      "fingerprint": "50110de7d2f6a1f69b9b25c9e5a1d820338dfdcd1f6d5701e53bdcd332146e83",
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "examples/gallery/shell/modules/Deploy.psm1"
+    },
+    {
+      "fingerprint": "878d697fbb6be0669542b9dc7b895a1e6d8dee18cd08ca47cb20c445bf60588c",
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": "examples/gallery/swift/.xcode-version"
+    },
+    {
+      "fingerprint": "108e30b2114cc54db1f8c5055538e91ea1a53f89c1d15e5d5d54358c88fd07e7",
+      "ruleId": "terraform.cli.end-of-support-1.14",
+      "path": "examples/gallery/terraform/.terraform-version"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-10-24T20:22:48.137Z",
+      "count": 0
+    },
+    {
+      "at": "2026-10-29T16:19:28.112Z",
+      "count": 110
+    }
+  ]
 }

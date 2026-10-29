@@ -70,6 +70,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.node == 24
         uses: ./
         with:
+          baseline: .evergreen-baseline.json
           fail-on-severity: high
           report-name: evergreen-report-${{ github.sha }}
           upload-sarif: ${{ github.event_name == 'push' }}
