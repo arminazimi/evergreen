@@ -35,6 +35,7 @@ import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
 import { renderStatusCard } from "./status-card.js";
+import { lookupProduct, renderLookupText } from "./lookup.js";
 import { scanDemo } from "./demo.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -83,6 +84,7 @@ Usage:
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
+  evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
@@ -576,6 +578,24 @@ async function statusCard(args: string[]): Promise<number> {
   }
 }
 
+/** `lookup`: resolves a product name and version against the bundled lifecycle rules. */
+async function lookup(args: string[]): Promise<number> {
+  const usageText = "Usage: evergreen lookup <product> [version] [--json]";
+  const operands = args.filter((argument) => argument !== "--json");
+  if (operands.length === 0 || operands.length > 3 || operands.some((argument) => argument.startsWith("-"))) return fail("usage", usageText);
+  const last = operands[operands.length - 1]!;
+  const dated = operands.length > 1 && /^v?\d/.test(last);
+  const version = dated ? last.replace(/^v/i, "") : undefined;
+  const name = (dated ? operands.slice(0, -1) : operands).join(" ");
+  try {
+    const result = await lookupProduct(name, version);
+    process.stdout.write(`${jsonErrors ? JSON.stringify(result, null, 2) : renderLookupText(result)}\n`);
+    return 0;
+  } catch (error) {
+    return fail("usage", (error as Error).message);
+  }
+}
+
 async function main(rawArgs: string[]): Promise<number> {
   debugErrors = rawArgs.includes("--debug");
   const args = rawArgs.filter((argument) => argument !== "--debug");
@@ -592,7 +612,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -613,6 +633,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
   if (command === "status-card") return statusCard(args.slice(1));
+  if (command === "lookup") return lookup(args.slice(1));
 
   const optionValue = (name: string): string | undefined => {
     const index = args.indexOf(name);
