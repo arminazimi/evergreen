@@ -72,6 +72,68 @@ test("the page makes no external requests", () => {
   assert.ok(!/src\s*=/i.test(html) && !/@import|url\(/i.test(html));
 });
 
+test("the summary row counts every severity, most severe first", () => {
+  const result = scan([
+    finding({ id: "critical-1", severity: "critical" }),
+    finding({ id: "high-1" }),
+    finding({ id: "high-2" }),
+    finding({ id: "low-1", severity: "low" }),
+  ]);
+  const html = renderHtml(result);
+  const summary = /<section class="summary">([\s\S]*?)<\/section>/.exec(html)?.[1];
+  assert.ok(summary, "the summary section is rendered");
+  for (const [severity, count] of [["critical", 1], ["high", 2], ["medium", 0], ["low", 1], ["info", 0]] as const) {
+    assert.ok(summary.includes(`<td class="${severity}">${count}</td>`), `${severity} counts ${count}`);
+  }
+  const headings = ["Critical", "High", "Medium", "Low", "Info"].map((label) => summary.indexOf(`>${label}</th>`));
+  assert.deepEqual(headings, [...headings].sort((left, right) => left - right), "severity columns run most severe first");
+});
+
+test("findings are grouped by severity and then by path without reordering the embedded JSON", () => {
+  const result = scan([
+    finding({ id: "low-b", severity: "low", location: { path: "src/b.ts", line: 1 } }),
+    finding({ id: "high-z", location: { path: "src/z.ts", line: 1 } }),
+    finding({ id: "high-a", location: { path: "src/a.ts", line: 9 } }),
+    finding({ id: "critical-a", severity: "critical", location: { path: "src/a.ts", line: 2 } }),
+  ]);
+  const html = renderHtml(result);
+  const order = ["critical-a", "high-a", "high-z", "low-b"].map((id) => html.indexOf(`id="${id}"`));
+  assert.ok(order.every((position) => position >= 0), "every finding is listed");
+  assert.deepEqual(order, [...order].sort((left, right) => left - right), "severity groups come first, then paths in order");
+  const high = html.slice(html.indexOf('<section class="severity high">'));
+  assert.ok(high.includes("<h2><span class=\"badge\">High</span>2 findings</h2>"), "each severity group is headed by its count");
+  assert.ok(high.indexOf("<h3><code>src/a.ts</code></h3>") < high.indexOf('id="high-a"'), "the path heading opens its group");
+  assert.ok(high.indexOf('id="high-a"') < high.indexOf("<h3><code>src/z.ts</code></h3>"), "paths are sorted");
+  assert.deepEqual(embedded(html), JSON.parse(renderJson(result)), "the page still reads back to the same JSON report");
+});
+
+test("only HTTPS evidence sources become links", () => {
+  const result = scan([
+    finding({
+      sources: [
+        { title: "Safe", url: "https://example.com/source" },
+        { title: "Plain", url: "http://example.com/source" },
+        { title: "Script", url: "javascript:alert(1)" },
+        { title: "Broken", url: "not a url" },
+      ],
+    }),
+  ]);
+  const html = renderHtml(result);
+  assert.ok(html.includes('href="https://example.com/source" rel="noopener noreferrer"'));
+  assert.ok(!html.includes('href="http://'), "http sources are not linked");
+  assert.ok(!html.includes('href="javascript:'), "javascript sources are not linked");
+  assert.ok(!html.includes('href="not'), "malformed sources are not linked");
+  assert.ok(html.includes("<code>http://example.com/source</code>") && html.includes("<code>javascript:alert(1)</code>"));
+});
+
+test("the page carries dark-mode and print styles without adding scripts", () => {
+  const html = renderHtml(scan([finding()]));
+  assert.ok(html.includes("@media (prefers-color-scheme:dark)"));
+  assert.ok(html.includes("@media print"));
+  assert.ok(html.includes("break-inside:avoid"));
+  assert.equal(html.match(/<script/g)?.length, 1, "the only script element is the inert data block");
+});
+
 test("the same scan renders the same bytes", () => {
   const result = scan([finding(), finding({ id: "b:1" })]);
   assert.equal(renderHtml(result), renderHtml(result));
