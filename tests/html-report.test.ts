@@ -6,7 +6,8 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 import { promisify } from "node:util";
 
-import type { Finding, ScanResult } from "../src/domain.js";
+import type { Finding, ScanResult, Severity } from "../src/domain.js";
+import type { Forecast, ForecastEvent } from "../src/forecast.js";
 import { renderHtml, renderJson } from "../src/reporters.js";
 
 const execute = promisify(execFile);
@@ -35,6 +36,31 @@ const scan = (findings: Finding[], diagnostics: string[] = []): ScanResult => ({
   findings,
   diagnostics,
 });
+
+const forecastEvent = (date: string, title: string, severity: Severity, findings = 0): ForecastEvent => ({
+  date,
+  ruleId: "rule.example",
+  ecosystem: "example",
+  title,
+  severity,
+  source: "https://example.com/source",
+  findings: Array.from({ length: findings }, (_, index) => ({ id: `a:${index}`, path: "src/a.ts", line: 3 })),
+});
+
+const forecastOf = (events: ForecastEvent[]): Forecast => {
+  const groups = new Map<string, ForecastEvent[]>();
+  for (const event of events) groups.set(event.date.slice(0, 7), [...(groups.get(event.date.slice(0, 7)) ?? []), event]);
+  return {
+    schemaVersion: "evergreen.forecast.v1",
+    root: "/machine/specific/root",
+    today: "2026-10-16",
+    until: "2027-10-16",
+    months: 12,
+    groups: [...groups].map(([month, items]) => ({ month, events: items })),
+    affecting: events.filter((event) => event.findings.length > 0).length,
+    total: events.length,
+  };
+};
 
 function embedded(html: string): unknown {
   const match = /<script type="application\/json" id="evergreen-report">([^]*?)<\/script>/.exec(html);
@@ -139,6 +165,49 @@ test("the same scan renders the same bytes", () => {
   assert.equal(renderHtml(result), renderHtml(result));
 });
 
+test("a forecast adds the Next 12 months section above the findings, with a text list below the chart", () => {
+  const result = scan([finding()]);
+  const forecast = forecastOf([
+    forecastEvent("2027-01-15", "Node.js 18 end of life", "high", 1),
+    forecastEvent("2027-06-01", "Python 3.8 end of life", "medium"),
+  ]);
+  const html = renderHtml(result, { forecast });
+  assert.ok(html.includes("<h2>Next 12 months</h2>"));
+  assert.match(html, /<svg [^>]*class="evergreen-forecast"/);
+  assert.ok(html.indexOf('<section class="forecast">') < html.indexOf("<article"), "the section is above the findings");
+  assert.ok(html.includes("Node.js 18 end of life") && html.includes("Python 3.8 end of life"));
+  assert.ok(html.includes("affects 1 finding") && html.includes("does not affect this repository"));
+  assert.ok(html.includes("<ul>") && html.includes("<code>2027-01-15</code>"));
+  assert.ok(html.includes('<li class="high"><code>2027-01-15</code> <span class="badge">High</span>'), "severity classes reuse the existing badge tokens");
+  assert.ok(html.includes("@media print{section.forecast{break-inside:avoid}}"), "the section stays whole when printed");
+});
+
+test("an empty forecast still renders the section and says so in text", () => {
+  const html = renderHtml(scan([finding()]), { forecast: forecastOf([]) });
+  assert.ok(html.includes("<h2>Next 12 months</h2>"));
+  assert.ok(html.includes("Nothing in this window reaches a dated end of life."));
+});
+
+test("without a forecast the page is byte-identical and has no forecast section", () => {
+  const result = scan([finding()]);
+  assert.equal(renderHtml(result, {}), renderHtml(result));
+  assert.equal(renderHtml(result, { forecast: undefined }), renderHtml(result));
+  assert.ok(!renderHtml(result).includes("Next 12 months"));
+});
+
+test("the forecast does not change the embedded JSON report", () => {
+  const result = scan([finding()]);
+  const html = renderHtml(result, { forecast: forecastOf([forecastEvent("2027-01-15", "Node.js 18 end of life", "high", 1)]) });
+  assert.deepEqual(embedded(html), JSON.parse(renderJson(result)));
+});
+
+test("forecast text is escaped like every other value", () => {
+  const html = renderHtml(scan([finding()]), { forecast: forecastOf([forecastEvent("2027-01-15", hostile, "high", 1)]) });
+  assert.ok(!html.includes("<script>alert"), "no raw script from a forecast value reaches the page");
+  assert.equal(html.match(/<\/script>/g)?.length, 1, "no forecast value can close the data block early");
+  assert.ok(html.includes("&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; &amp; &#39;q&#39;"));
+});
+
 test("scan --format html writes the report, and other commands reject it", async () => {
   const root = await mkdtemp(join(tmpdir(), "evergreen-html-"));
   try {
@@ -149,6 +218,9 @@ test("scan --format html writes the report, and other commands reject it", async
     const report = embedded(html) as ScanResult;
     assert.equal(report.findings[0]?.ruleId, "github-actions.checkout.node20");
     assert.deepEqual(report.findings, (JSON.parse(json) as ScanResult).findings);
+    assert.ok(html.includes("<h2>Next 12 months</h2>"), "scan --format html carries the forecast section");
+    assert.match(html, /<svg [^>]*class="evergreen-forecast"/);
+    assert.ok(!json.includes("Next 12 months"), "the JSON report is unchanged");
     await assert.rejects(execute(process.execPath, [cli, "check", "pkg:npm/request", "--format", "html"]), (error: { code: number }) => error.code === 2);
     await assert.rejects(execute(process.execPath, [cli, "explain", "x", root, "--format", "html"]), (error: { code: number; stderr: string }) => error.code === 2 && /--format html is only available for the scan command/.test(error.stderr));
   } finally {

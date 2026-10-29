@@ -3,6 +3,8 @@ import { createHash } from "node:crypto";
 import type { DependencyCheck } from "./check-dependency.js";
 import { COVERAGE_WALK_LIMIT, type DataInfo, type Finding, type ScanCoverage, type ScanResult, type Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import type { Forecast } from "./forecast.js";
+import { renderForecastSvg } from "./forecast-svg.js";
 import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
 import { VERSION } from "./version.js";
 
@@ -482,6 +484,11 @@ code{background:#161b22;color:#e6edf3}a{color:#58a6ff}}
 a{color:#000;text-decoration:none}a[href^="https://"]::after{content:" (" attr(href) ")";font-size:.85em}
 article,.summary{break-inside:avoid}h1,h2,h3,h4{break-after:avoid}}`;
 
+const HTML_FORECAST_STYLE = `
+section.forecast{margin:0 0 1.5rem}section.forecast svg{max-width:100%;height:auto}
+section.forecast ul{margin:.5rem 0 0;padding-left:1.25rem}section.forecast li{margin:0 0 .25rem}
+@media print{section.forecast{break-inside:avoid}}`;
+
 function htmlLocation(location: { path: string; line?: number }): string {
   return `${location.path}${location.line ? `:${location.line}` : ""}`;
 }
@@ -535,6 +542,26 @@ function htmlSummary(findings: readonly Finding[]): string {
   ].join("\n");
 }
 
+/** A timeline of the coming months, plus the same events as text for readers without SVG. */
+function htmlForecast(forecast: Forecast): string {
+  const events = forecast.groups.flatMap((group) => group.events);
+  const summary = `${forecast.total} event${forecast.total === 1 ? "" : "s"} from ${forecast.today} to ${forecast.until}, ${forecast.affecting} affecting this repository`;
+  const items = events.map((event) => {
+    const affects = event.findings.length === 0
+      ? "does not affect this repository"
+      : `affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
+    return `<li class="${escapeHtml(event.severity)}"><code>${escapeHtml(event.date)}</code> <span class="badge">${escapeHtml(severityLabel(event.severity))}</span> ${escapeHtml(event.title)} — ${escapeHtml(affects)} <code>${escapeHtml(event.ruleId)}</code></li>`;
+  });
+  return [
+    '<section class="forecast">',
+    `<h2>Next ${forecast.months} months</h2>`,
+    `<p class="meta">${escapeHtml(summary)}</p>`,
+    renderForecastSvg(forecast),
+    ...(items.length === 0 ? ["<p>Nothing in this window reaches a dated end of life.</p>"] : [`<ul>${items.join("")}</ul>`]),
+    "</section>",
+  ].join("\n");
+}
+
 /**
  * Findings grouped by severity, most severe first, and then by path, using the same deterministic order as the
  * machine-readable reporters. Only the page order changes: the embedded JSON stays exactly the JSON report.
@@ -558,13 +585,19 @@ function htmlGroups(findings: readonly Finding[]): string {
   return lines.join("\n");
 }
 
+export interface HtmlOptions {
+  /** When given, the page leads with a "Next N months" timeline above the findings. */
+  forecast?: Forecast | undefined;
+}
+
 /**
  * Renders a scan as one self-contained HTML file for sharing without a terminal or Code Scanning: inline styles, no
  * scripts, and no external requests (a CSP forbids them). Every value is escaped. The full JSON report is embedded as an
  * inert data block, so the page and `--format json` always describe the same scan. The visible page groups findings by
- * severity and path; the embedded JSON keeps the JSON report's own order.
+ * severity and path; the embedded JSON keeps the JSON report's own order. Without {@link HtmlOptions.forecast} the
+ * output is exactly what it was before the option existed.
  */
-export function renderHtml(result: ScanResult): string {
+export function renderHtml(result: ScanResult, options: HtmlOptions = {}): string {
   // "<" is escaped so no value can close the data block; JSON.parse reads the text back to the exact JSON report.
   const data = renderJson(result).replace(/</g, "\\u003c");
   const count = result.findings.length;
@@ -578,13 +611,14 @@ export function renderHtml(result: ScanResult): string {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">`,
     "<title>Evergreen report</title>",
-    `<style>${HTML_STYLE}</style>`,
+    `<style>${HTML_STYLE}${options.forecast ? HTML_FORECAST_STYLE : ""}</style>`,
     "</head>",
     "<body>",
     "<h1>Evergreen report</h1>",
     `<p class="meta">${meta.map(escapeHtml).join("<br>")}</p>`,
     `<p><strong>${count} finding${count === 1 ? "" : "s"}</strong></p>`,
     htmlSummary(result.findings),
+    ...(options.forecast ? [htmlForecast(options.forecast)] : []),
     ...(count === 0 ? ['<p class="meta">No lifecycle risks found.</p>'] : [htmlGroups(result.findings)]),
     ...notes,
     `<script type="application/json" id="evergreen-report">${data}</script>`,
