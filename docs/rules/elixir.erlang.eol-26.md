@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.erlang.eol-2
 
 Erlang/OTP supports the last three major releases with security updates. OTP 26 left that window when OTP 29 shipped on 2026-05-13, so the release no longer receives security updates from the Erlang/OTP project.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

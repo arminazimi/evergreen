@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-
 
 The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Removed |

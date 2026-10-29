@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.api-
 
 The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

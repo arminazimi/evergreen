@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.postgres.
 
 The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Scheduled end of life |

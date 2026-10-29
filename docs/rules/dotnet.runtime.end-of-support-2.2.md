@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-
 
 .NET Core 2.2 (Standard Term Support) reached the end of its support on 2019-12-23. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 2.2.x is reported too.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

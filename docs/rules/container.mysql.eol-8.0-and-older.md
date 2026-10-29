@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mysql.eol
 
 Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

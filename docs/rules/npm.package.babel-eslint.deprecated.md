@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.babel-e
 
 npm marks babel-eslint as deprecated: "babel-eslint is now @babel/eslint-parser. This package will no longer receive updates."
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

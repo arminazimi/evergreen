@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-be
 
 CMake 4.0 removed compatibility with policy versions older than 3.5. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.5 (optionally via ...&lt;policy_max&gt;) produces an error on CMake 4.0 and newer. CMake 4.0.0 was published on 2025-03-27.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Removed |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pyin
 
 PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

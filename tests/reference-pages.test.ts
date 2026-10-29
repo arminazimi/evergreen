@@ -92,6 +92,8 @@ test("a page states status, versions, dates, sources, freshness, migration, and 
   assert.match(page, /1\. \*\*Change it\.\*\* Do the change\./);
   assert.match(page, /- `make test`: Run the tests\./);
   assert.match(page, /No built-in detector reads `demo` declarations yet/);
+  assert.match(page, /\]\(\.\.\/lookup\.html\)/);
+  assert.match(page, /<form action="\.\.\/lookup\.html" method="get" role="search">/);
 });
 
 test("a range with a pipe does not break the table", () => {

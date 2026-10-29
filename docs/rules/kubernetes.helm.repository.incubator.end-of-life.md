@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.rep
 
 The Helm project retired the incubator chart repository with the same timeline as stable: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a read-only archive that receives no bug fixes or security patches. The Helm Chart Repository Deprecation Update states those dates and recommended actions.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

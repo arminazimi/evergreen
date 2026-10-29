@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-o
 
 GKE 1.32 reached the end of standard support on 2026-04-27 and is in extended support until 2027-02-11. GKE provides up to 24 months of support per minor version: about 14 months of standard support and the rest as extended support in the Extended channel.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

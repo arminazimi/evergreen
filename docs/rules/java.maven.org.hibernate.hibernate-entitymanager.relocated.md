@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibe
 
 The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocation to org.hibernate.orm:hibernate-entitymanager.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

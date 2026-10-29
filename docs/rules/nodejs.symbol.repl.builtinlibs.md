@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.
 
 Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0).
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

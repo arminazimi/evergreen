@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.de
 
 npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.enum
 
 PyPI marks enum as archived: the project does not expect to be updated in the future.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

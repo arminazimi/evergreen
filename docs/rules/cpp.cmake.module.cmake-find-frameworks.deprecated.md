@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cm
 
 CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

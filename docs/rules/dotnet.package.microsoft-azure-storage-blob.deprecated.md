@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.micr
 
 NuGet marks all 24 listed versions of Microsoft.Azure.Storage.Blob as deprecated (reason: Legacy). The publisher's message: "Please note, this package is obsolete as of 3/31/2023 and is no longer maintained or monitored. Microsoft encourages you to upgrade to the replacement package, Azure.Storage.Blobs, to continue receiving updates. Refer to the migration guide (https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/storage/Azure.Storage.Blobs/AzureStorageNetMigrationV12.md) for guidance on upgrading. Refer to our deprecation policy (https://aka.ms/azsdk/support-policies) for more details."
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

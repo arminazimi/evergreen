@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-sup
 
 The Oracle Java SE Support Roadmap lists Java 12 to 16 as non-LTS releases whose Premier Support ended between September 2019 and September 2021. It says a previous non-LTS release is superseded once a new feature release is made available. The Eclipse Temurin support page lists Java 16 as EOSL, with end of availability in September 2021.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.skle
 
 The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

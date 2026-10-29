@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.natives
 
 npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

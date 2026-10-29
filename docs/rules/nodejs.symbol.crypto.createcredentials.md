@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypt
 
 Node.js removed crypto.createCredentials (DEP0010: runtime deprecation since v0.11.13, end-of-life since v11.0.0).
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Removed |

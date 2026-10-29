@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.go.opente
 
 The latest go.opentelemetry.io/otel/exporters/zipkin module declares: "The zipkin exporter is deprecated and will be removed in early 2027. See the blog post "Deprecating Zipkin Exporter": https://opentelemetry.io/blog/2025/deprecating-zipkin-exporters/"
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

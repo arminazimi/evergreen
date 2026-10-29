@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.resolve
 
 The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

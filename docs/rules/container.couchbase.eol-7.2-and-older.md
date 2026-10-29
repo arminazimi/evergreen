@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.couchbase
 
 These Couchbase Server release lines are past their end-of-life date in the vendor's lifecycle schedule (7.2 reached end of life in July 2026; 7.6 is supported until March 2027).
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

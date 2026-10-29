@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.4
 
 The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28; the branch no longer receives security or bug fixes from the PHP project.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

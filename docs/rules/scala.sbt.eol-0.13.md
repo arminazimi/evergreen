@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.
 
 The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

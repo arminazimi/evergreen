@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-s
 
 The Go release policy supports a major release until two newer major releases exist. Go 1.22 support ended when Go 1.24 was released.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

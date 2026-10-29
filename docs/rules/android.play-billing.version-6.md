@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/android.play-billin
 
 The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 6 with a new app and update deadline of August 31, 2025 and an extension deadline of November 1, 2025.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

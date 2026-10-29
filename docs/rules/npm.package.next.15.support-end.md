@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.15
 
 Next.js 15 was released on 2024-10-21. The support policy keeps each major in Maintenance LTS for two years after release, so its window ended on 2026-10-21; the policy page still listed 15.x under Supported Versions on 2026-10-25. Next.js 16 is the Active LTS release.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

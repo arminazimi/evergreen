@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.0
 
 The PHP release branches list marks PHP 7.0 as end of life: active support ended on 2018-01-04 and security support ended on 2019-01-10.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

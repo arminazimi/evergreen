@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.cach
 
 This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

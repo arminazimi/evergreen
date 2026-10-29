@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.clickhous
 
 These ClickHouse release lines are listed as not supported with security updates in the vendor's security policy; 26.3 is the oldest line it still supports.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

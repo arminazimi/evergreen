@@ -128,6 +128,8 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     "",
     inline(rule.summary),
     "",
+    `[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>`,
+    "",
     "| | |",
     "| --- | --- |",
     `| Status | ${EVENT_LABELS[rule.event]} |`,

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-o
 
 GKE 1.31 reached the end of standard support on 2026-01-16 and the end of extended support on 2026-10-22. GKE no longer provides patches for this minor version.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

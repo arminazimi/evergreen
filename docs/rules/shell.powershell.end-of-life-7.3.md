@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.en
 
 Microsoft's PowerShell support lifecycle lists 7.3 (built on .NET 7.0) as retired: support ended on 2024-05-08, so it receives no further updates, including security updates. A script or manifest that requires 7.3 targets an unsupported release.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

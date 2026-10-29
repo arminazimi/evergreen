@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-b
 
 Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.3.x and 3.4.x lines were explicitly marked as the end of OSS support, and 3.5.16 was announced as the last OSS release of the 3.5.x generation. Commercial support may be available separately. Upgrade to a supported 4.x line.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

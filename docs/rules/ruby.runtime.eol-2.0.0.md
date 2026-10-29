@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.
 
 The Ruby maintenance branches page marks Ruby 2.0.0 as eol: normal maintenance ended on 2016-02-24 and the branch reached end-of-life on 2016-02-24.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.zendfra
 
 Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead. The Laminas Project announced that Zend Framework packages were archived and marked abandoned on Packagist when the project moved to Laminas.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

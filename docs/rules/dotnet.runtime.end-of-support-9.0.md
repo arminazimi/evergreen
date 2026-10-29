@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-
 
 .NET 9 (Standard Term Support) is scheduled to reach the end of its support on 2026-11-10, according to Microsoft's releases index. After that date Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 9.0.x is reported too.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Scheduled end of life |

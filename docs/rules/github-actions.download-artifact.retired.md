@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.down
 
 This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Removed |

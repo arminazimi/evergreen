@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-o
 
 Amazon EKS 1.31 reached the end of standard support on 2025-11-26 and is in extended support until 2026-11-26. Amazon EKS gives a minor version 14 months of standard support and then up to 12 months of extended support at an additional cost per cluster hour.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

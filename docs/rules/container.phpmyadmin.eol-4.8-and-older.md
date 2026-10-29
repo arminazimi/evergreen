@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.phpmyadmi
 
 These phpMyAdmin release lines are unsupported: the vendor's downloads page supports only the current stable line and the 4.9 LTS line, and says older releases are unsupported.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

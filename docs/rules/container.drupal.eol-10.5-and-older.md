@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.drupal.eo
 
 These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6 as the only supported minor of Drupal 10.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

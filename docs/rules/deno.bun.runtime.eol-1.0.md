@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eo
 
 Bun 1.0.x was superseded by Bun 1.1.0 and is end-of-life.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

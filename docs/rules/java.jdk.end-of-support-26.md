@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-sup
 
 The Oracle Java SE Support Roadmap lists Java 26 as a non-LTS release whose Premier Support ended in September 2026. It says a previous non-LTS release is superseded once a new feature release is made available. The Eclipse Temurin support page lists Java 26 as EOSL, with end of availability in September 2026.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

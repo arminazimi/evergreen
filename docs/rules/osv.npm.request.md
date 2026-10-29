@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/osv.npm.request.htm
 
 OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Deprecated |

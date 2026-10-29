@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/database.postgresql
 
 The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on November 21, 2024, so it receives no further bug or security fixes. A database image tag or managed engine_version on this line runs unsupported software.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

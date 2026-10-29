@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-b
 
 Spring Boot 2.x no longer receives regular open-source releases. Spring Boot 2.7 had an extended commercial support period, which is distinct from community OSS support. Upgrade to a supported Spring Boot 4.x line and follow the 2.x-to-3.x and 3.x-to-4.x migration guidance.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.setu
 
 This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners. Version 6.0.0 and 6.1.0 still declare node20; version 6.2.0 and later declare node24.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

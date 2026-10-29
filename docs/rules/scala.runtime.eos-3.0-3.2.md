@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.runtime.eos-3
 
 The Scala project's development guarantees page states that a non-LTS Scala 3 minor receives patches only until the next minor ships. Scala 3.0, 3.1, and 3.2 are frozen on their last patches; later fixes landed only in 3.3 LTS and newer lines.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

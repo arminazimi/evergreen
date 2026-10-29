@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.flowcont
 
 The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta2 API version of PriorityLevelConfiguration is no longer served as of v1.29, which was released on 2023-12-13.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Removed |

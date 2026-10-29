@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-b
 
 Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major releases. Commercial support availability is separate from community OSS support.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-0.
 
 Deno 0.x pre-release versions are obsolete and end-of-life following the release of Deno 1.0.0.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

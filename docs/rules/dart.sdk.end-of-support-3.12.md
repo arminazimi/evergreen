@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-sup
 
 The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.12 stopped being that release when Dart 3.13 shipped on 2026-08-12.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

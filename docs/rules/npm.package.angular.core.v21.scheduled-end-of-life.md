@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular
 
 Angular's release schedule lists v21 with "LTS ends 2027-06", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | Scheduled end of life |

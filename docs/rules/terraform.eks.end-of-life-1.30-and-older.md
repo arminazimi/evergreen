@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-o
 
 Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support. A cluster that reaches the end of extended support is auto-upgraded to the oldest version in extended support.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |

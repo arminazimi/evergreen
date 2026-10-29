@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.laravel
 
 Laravel's support policy states that security fixes for Laravel 10 ended on 2025-02-04; the release no longer receives security or bug fixes from the Laravel project.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of support |

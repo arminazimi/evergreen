@@ -8,6 +8,8 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-
 
 Elixir's security policy provides security patches only for the five most recent minor branches. Elixir 1.14 left that window when Elixir 1.19 shipped on 2025-10-16, so the branch no longer receives security patches from the Elixir project.
 
+[Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
+
 | | |
 | --- | --- |
 | Status | End of life |
