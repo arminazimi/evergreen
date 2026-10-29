@@ -42,7 +42,7 @@ You need Node.js 22 or newer, git, and a GitHub account. The details for each st
 
    Use a Conventional Commits subject (`feat:`, `fix:`, `docs:`, `test:`, `chore:`) and put `Closes #<issue-number>` in the pull request body. One issue per pull request.
 
-That is the whole loop. The sections below explain the labels, the optional pre-push hook, how to add a lifecycle rule, the evidence policy, and the review expectations.
+That is the whole loop. The sections below explain the labels, the optional pre-push hook, how to add a lifecycle rule, the evidence policy, and the [review expectations](#review-expectations).
 
 ## Find an issue
 
@@ -149,6 +149,14 @@ Evergreen's findings are only as trustworthy as their sources.
 - **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks, each starting from the generated skeleton (see [Add a new detector](#add-a-new-detector)).
 - **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list (see [docs/IMPORTERS.md](docs/IMPORTERS.md)).
 - **Docs and corpus improvements** are welcome without prior discussion.
+
+## Review expectations
+
+A first-time contributor's pull request gets a first review within **two working days**. This is the only review-time target Evergreen publishes.
+
+- **The clock starts** when you open the pull request for review, not when you push the branch. A draft starts its clock when you mark it ready for review. Working days are Monday to Friday, and the day you open it is day zero.
+- **A review** is a maintainer's first written response on the diff: a comment, a change request, or an approval. Labels, bots, and acknowledgements do not count.
+- **If the target is missed**, comment on the pull request to nudge us and tag `@arminazimi`. If there is still no review by the next working day, comment on the linked issue. A missed target is our problem, not yours; it does not mean the change is unwelcome.
 
 ## Development rules
 

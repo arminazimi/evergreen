@@ -6,6 +6,7 @@ import { join, resolve } from "node:path";
 import { test } from "node:test";
 
 import {
+  FIRST_REVIEW_TARGET_WORKING_DAYS,
   collectAdoptionMetrics,
   collectCorpusMetrics,
   collectContributorMetrics,
@@ -325,6 +326,11 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Docs page views \| 250 \| \+150 \|/);
   assert.match(report, /\[docs\/ADOPTION\.md\]\(docs\/ADOPTION\.md\)/);
   assert.match(report, /\[`metrics\/adoption\/2026-10-28\.json`\]\(metrics\/adoption\/2026-10-28\.json\)/);
+  assert.match(report, /^## Review responsiveness$/m);
+  assert.match(report, /\*\*2 working days\*\* of a first-time contributor opening a pull request/);
+  assert.match(report, /\[CONTRIBUTING\.md\]\(CONTRIBUTING\.md#review-expectations\)/);
+  assert.match(report, /\| First review of a first-time contributor's pull request \| not measured \| 2 working days \|/);
+  assert.match(report, /does not print a number it cannot reproduce/);
   assert.match(report, /^## Contributors$/m);
   assert.match(report, /- Alice Smith/);
   assert.match(report, /- Bob Jones/);
@@ -422,6 +428,13 @@ test("collectReportData returns well-formed data structure without hardcoded rep
   assert.ok(typeof data.contributors.isShallow === "boolean");
   assert.ok(typeof data.adoption === "object" && data.adoption !== null);
   assert.ok(Array.isArray(data.adoption.channels));
+});
+
+test("the review target in the report matches the one published in CONTRIBUTING.md", async () => {
+  const contributing = await readFile("CONTRIBUTING.md", "utf8");
+  assert.match(contributing, /^## Review expectations$/m);
+  assert.match(contributing, /first review within \*\*two working days\*\*/i);
+  assert.equal(FIRST_REVIEW_TARGET_WORKING_DAYS, 2);
 });
 
 test("CLI execution runs and exits successfully", async () => {

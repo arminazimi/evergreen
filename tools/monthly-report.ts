@@ -6,7 +6,9 @@
 //   node dist/tools/monthly-report.js --out docs/reports/monthly-2026-10.md
 //   node dist/tools/monthly-report.js --date 2026-10
 //
-// Reads local repository files and git log only; never uses the network.
+// Reads local repository files and git log only; never uses the network. Pull-request review
+// timestamps are in neither input, so the report publishes the first-review target from
+// CONTRIBUTING.md ("Review expectations") without a measured value.
 
 import { execFileSync } from "node:child_process";
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
@@ -19,6 +21,15 @@ import { getCapabilityManifest } from "../src/capabilities.js";
 import { REGISTRY_V2_SCHEMA_VERSION } from "../src/registry.js";
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 import { VERSION } from "../src/version.js";
+
+/**
+ * Published first-review target for a first-time contributor's pull request, in working days.
+ *
+ * The target is stated in CONTRIBUTING.md ("Review expectations") and repeated in every report so it
+ * stays visible. The report reads local files and git history, which do not record when a pull request
+ * was first reviewed, so it prints the target without a measured value instead of inventing one.
+ */
+export const FIRST_REVIEW_TARGET_WORKING_DAYS = 2;
 
 export interface RuleMetrics {
   total: number;
@@ -646,6 +657,18 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   } else {
     lines.push("Methodology and sources: [docs/ADOPTION.md](docs/ADOPTION.md)");
   }
+  lines.push("");
+
+  // Review responsiveness section
+  lines.push("## Review responsiveness");
+  lines.push("");
+  lines.push(`Evergreen's published target is a first review within **${FIRST_REVIEW_TARGET_WORKING_DAYS} working days** of a first-time contributor opening a pull request; the clock starts when the pull request is opened for review, or when a draft is marked ready for review. See [CONTRIBUTING.md](CONTRIBUTING.md#review-expectations).`);
+  lines.push("");
+  lines.push("| Metric | This report | Target |");
+  lines.push("| --- | --- | --- |");
+  lines.push(`| First review of a first-time contributor's pull request | not measured | ${FIRST_REVIEW_TARGET_WORKING_DAYS} working days |`);
+  lines.push("");
+  lines.push("*This report reads local files and git history, which do not record when a pull request was first reviewed. The target is published here every month so it stays visible; the report does not print a number it cannot reproduce.*");
   lines.push("");
 
   // Contributors section
