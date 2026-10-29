@@ -1,10 +1,11 @@
-// Generates one public reference page per lifecycle rule, an index, and a sitemap, from registry/*.json.
+// Generates one public reference page per lifecycle rule, an index, a lookup page, and a sitemap, from registry/*.json.
 //
 //   node dist/tools/build-reference-pages.js [--check]
 //
-// Output: docs/rules/<rule id>.md, docs/rules/index.md, and docs/sitemap.xml. With --check nothing is
-// written: the command exits 1 and names every file that differs from what the registry would produce, so
-// a page can never silently disagree with the data. It reads registry/*.json only and never uses the network.
+// Output: docs/lookup.html, docs/rules/<rule id>.md, docs/rules/index.md, and docs/sitemap.xml. With --check
+// nothing is written: the command exits 1 and names every file that differs from what the registry would
+// produce, so a page can never silently disagree with the data. It reads registry/*.json only and never uses
+// the network. The lookup page inlines its search index so it works offline and makes no requests.
 
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -17,6 +18,8 @@ import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 export const SITE_URL = "https://arminazimi.github.io/evergreen";
 const REPOSITORY_URL = "https://github.com/arminazimi/evergreen";
 const RULES_DIRECTORY = "docs/rules";
+export const LOOKUP_PAGE = "docs/lookup.html";
+export const lookupUrl = () => `${SITE_URL}/lookup.html`;
 
 const EVENT_LABELS: Record<RegistryV2Rule["event"], string> = {
   deprecated: "Deprecated",
@@ -175,6 +178,404 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
   return lines.join("\n");
 }
 
+/** One searchable rule for the public lookup page. Sources are linked from each result. */
+export interface LookupRuleEntry {
+  id: string;
+  title: string;
+  summary: string;
+  event: RegistryV2Rule["event"];
+  severity: RegistryV2Rule["severity"];
+  ecosystem: string;
+  purl: string;
+  vers: string;
+  deadline?: string;
+  replacement?: string;
+  sources: Array<{ title: string; url: string }>;
+}
+
+/** Compact rule records for the client-side lookup index, in rule-id order. */
+export function lookupEntries(registries: readonly RegistryV2[]): LookupRuleEntry[] {
+  const entries: LookupRuleEntry[] = [];
+  for (const registry of registries) {
+    for (const rule of registry.rules) {
+      entries.push({
+        id: rule.id,
+        title: rule.title,
+        summary: rule.summary,
+        event: rule.event,
+        severity: rule.severity,
+        ecosystem: rule.ecosystem,
+        purl: rule.purl,
+        vers: rule.vers,
+        ...(rule.deadline ? { deadline: rule.deadline } : {}),
+        ...(rule.replacement ? { replacement: rule.replacement } : {}),
+        sources: rule.sources.map((source) => ({ title: source.title, url: source.url })),
+      });
+    }
+  }
+  return entries.sort((left, right) => left.id.localeCompare(right.id));
+}
+
+/** Static lookup page: the rule index is inlined so the page works offline and makes no requests. */
+export function renderLookupPage(registries: readonly RegistryV2[]): string {
+  const entries = lookupEntries(registries);
+  const data = scriptJson(entries);
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lifecycle lookup — Evergreen</title>
+    <meta
+      name="description"
+      content="Type a package or runtime name to see its end-of-life, deprecated, or removed status from Evergreen's reviewed lifecycle rules."
+    />
+    <link rel="canonical" href="${lookupUrl()}" />
+    <style>
+${LOOKUP_STYLES}
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="masthead">
+      <p class="kicker"><a href="${SITE_URL}/">Evergreen</a> / Lookup</p>
+      <h1>Lifecycle lookup</h1>
+      <p class="lede">
+        Type a package or runtime name to find its reviewed lifecycle status.
+        Results link to each rule's reference page and its authoritative sources.
+        This page embeds ${entries.length} rules and makes no network requests after it loads.
+      </p>
+    </header>
+    <main id="main">
+      <form class="search" role="search" action="#" method="get">
+        <label class="search-label" for="query">Package or runtime</label>
+        <input
+          id="query"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="for example node, python, alpine, request"
+          aria-describedby="status"
+        />
+      </form>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search ${entries.length} lifecycle rules.</p>
+      <div id="results" class="results" aria-live="polite"></div>
+      <noscript>
+        <p class="status">
+          JavaScript is required to search on this page. You can browse every rule in the
+          <a href="rules/">lifecycle reference</a> instead.
+        </p>
+      </noscript>
+    </main>
+    <footer class="foot">
+      <p>
+        Generated from <a href="${REPOSITORY_URL}/tree/main/registry">registry/</a> by
+        <a href="${REPOSITORY_URL}/blob/main/tools/build-reference-pages.ts">tools/build-reference-pages.ts</a>.
+        Regenerate with <code>npm run build:reference</code>. The same facts are also available from the
+        <a href="api/v1/">lifecycle API</a> and the <a href="rules/">rule reference</a>.
+      </p>
+    </footer>
+    <script type="application/json" id="lookup-data">
+${data}
+    </script>
+    <script>
+${LOOKUP_SCRIPT}
+    </script>
+  </body>
+</html>
+`;
+}
+
+const LOOKUP_STYLES = `:root {
+  color-scheme: light dark;
+  --canvas: #f3ece8;
+  --surface: #ffffff;
+  --text: #0a0a0c;
+  --muted: #4a4548;
+  --link: #6f2136;
+  --accent: #8f3048;
+  --rule: #d4cbc4;
+  --focus: #8f3048;
+  --badge-surface: #8f3048;
+  --badge-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #121014;
+    --surface: #1c191e;
+    --text: #f3ece8;
+    --muted: #b8afb3;
+    --link: #f0a3b4;
+    --accent: #f0a3b4;
+    --rule: #3a3338;
+    --focus: #f0a3b4;
+    --badge-surface: #f0a3b4;
+    --badge-text: #2b0710;
+  }
+}
+
+* { box-sizing: border-box; }
+html { background: var(--canvas); }
+body {
+  margin: 0 auto;
+  max-width: 46rem;
+  padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 3rem;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.skip-link {
+  position: absolute;
+  left: -100rem;
+  top: 0;
+  padding: 0.6rem 1rem;
+  background: var(--surface);
+  color: var(--text);
+}
+.skip-link:focus { left: 1rem; z-index: 1; }
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+a:hover, a:focus-visible { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.masthead { margin-bottom: 1.75rem; }
+.kicker {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.kicker a { color: inherit; }
+h1 {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.lede { margin: 0; color: var(--muted); max-width: 40rem; }
+.search { margin: 0 0 0.85rem; }
+.search-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+#query {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.4rem;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.status { margin: 0 0 1.25rem; color: var(--muted); font-size: 0.95rem; }
+.results { display: grid; gap: 0.85rem; }
+.result {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.45rem;
+  background: var(--surface);
+}
+.result-title {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin: 0 0 0.55rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.25rem;
+  background: var(--badge-surface);
+  color: var(--badge-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.summary { margin: 0 0 0.65rem; }
+.sources { margin: 0; padding-left: 1.15rem; }
+.sources li { margin: 0.15rem 0; }
+.purl, .vers { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.84em; }
+.foot {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.foot code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}`;
+
+const LOOKUP_SCRIPT = `(function () {
+  var EVENT_LABELS = {
+    deprecated: "Deprecated",
+    "end-of-support": "End of support",
+    "end-of-life": "End of life",
+    removed: "Removed",
+    "scheduled-end-of-life": "Scheduled end of life"
+  };
+  var dataElement = document.getElementById("lookup-data");
+  var queryInput = document.getElementById("query");
+  var statusElement = document.getElementById("status");
+  var resultsElement = document.getElementById("results");
+  var form = document.querySelector("form.search");
+  if (!dataElement || !queryInput || !statusElement || !resultsElement || !form) return;
+
+  var rules = JSON.parse(dataElement.textContent || "[]");
+  var total = rules.length;
+
+  function normalize(value) {
+    return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  }
+
+  function haystack(rule) {
+    return normalize([
+      rule.id,
+      rule.title,
+      rule.summary,
+      rule.event,
+      rule.ecosystem,
+      rule.purl,
+      rule.vers,
+      rule.replacement || "",
+      rule.deadline || "",
+      rule.sources.map(function (source) { return source.title; }).join(" ")
+    ].join(" "));
+  }
+
+  rules.forEach(function (rule) {
+    rule._haystack = haystack(rule);
+  });
+
+  function matches(rule, tokens) {
+    return tokens.every(function (token) {
+      return rule._haystack.indexOf(token) !== -1;
+    });
+  }
+
+  function text(value) {
+    return document.createTextNode(value == null ? "" : String(value));
+  }
+
+  function el(tag, className) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    return node;
+  }
+
+  function renderResult(rule) {
+    var article = el("article", "result");
+    var title = el("h2", "result-title");
+    var link = el("a");
+    link.href = "rules/" + encodeURIComponent(rule.id).replace(/%2E/g, ".") + ".html";
+    link.appendChild(text(rule.title));
+    title.appendChild(link);
+    article.appendChild(title);
+
+    var meta = el("p", "meta");
+    var badge = el("span", "badge");
+    badge.appendChild(text(EVENT_LABELS[rule.event] || rule.event));
+    meta.appendChild(badge);
+    meta.appendChild(text(" · " + rule.severity + " · " + rule.ecosystem));
+    if (rule.deadline) meta.appendChild(text(" · " + rule.deadline));
+    article.appendChild(meta);
+
+    var purl = el("p", "meta");
+    var purlCode = el("code", "purl");
+    purlCode.appendChild(text(rule.purl));
+    purl.appendChild(purlCode);
+    purl.appendChild(text(" · "));
+    var versCode = el("code", "vers");
+    versCode.appendChild(text(rule.vers));
+    purl.appendChild(versCode);
+    article.appendChild(purl);
+
+    var summary = el("p", "summary");
+    summary.appendChild(text(rule.summary));
+    article.appendChild(summary);
+
+    if (rule.replacement) {
+      var replacement = el("p", "meta");
+      replacement.appendChild(text("Replacement: " + rule.replacement));
+      article.appendChild(replacement);
+    }
+
+    if (rule.sources && rule.sources.length) {
+      var sources = el("ul", "sources");
+      rule.sources.forEach(function (source) {
+        var item = el("li");
+        var sourceLink = el("a");
+        sourceLink.href = source.url;
+        sourceLink.rel = "noopener noreferrer";
+        sourceLink.appendChild(text(source.title));
+        item.appendChild(sourceLink);
+        sources.appendChild(item);
+      });
+      article.appendChild(sources);
+    }
+
+    return article;
+  }
+
+  function search(rawQuery) {
+    var query = normalize(rawQuery);
+    resultsElement.textContent = "";
+    if (!query) {
+      statusElement.textContent = "Type a name to search " + total + " lifecycle rules.";
+      return;
+    }
+    var tokens = query.split(/\\s+/).filter(Boolean);
+    var found = rules.filter(function (rule) { return matches(rule, tokens); });
+    if (found.length === 0) {
+      statusElement.textContent = "No rules match “" + rawQuery.trim() + "”.";
+      return;
+    }
+    statusElement.textContent = found.length === 1
+      ? "1 rule matches."
+      : found.length + " rules match.";
+    var limit = Math.min(found.length, 50);
+    for (var index = 0; index < limit; index += 1) {
+      resultsElement.appendChild(renderResult(found[index]));
+    }
+    if (found.length > limit) {
+      var more = el("p", "status");
+      more.appendChild(text("Showing the first " + limit + " of " + found.length + " matches. Narrow the query to see the rest."));
+      resultsElement.appendChild(more);
+    }
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    search(queryInput.value);
+  });
+  queryInput.addEventListener("input", function () {
+    search(queryInput.value);
+  });
+
+  var params = new URLSearchParams(window.location.search);
+  var initial = params.get("q");
+  if (initial) {
+    queryInput.value = initial;
+    search(initial);
+  }
+})();`;
+
 export function renderIndex(registries: readonly RegistryV2[]): string {
   const lines = [
     "---",
@@ -198,7 +599,11 @@ export function renderIndex(registries: readonly RegistryV2[]): string {
 }
 
 export function renderSitemap(registries: readonly RegistryV2[]): string {
-  const entries: Array<{ loc: string; lastmod?: string }> = [{ loc: `${SITE_URL}/` }, { loc: `${SITE_URL}/rules/` }];
+  const entries: Array<{ loc: string; lastmod?: string }> = [
+    { loc: `${SITE_URL}/` },
+    { loc: lookupUrl() },
+    { loc: `${SITE_URL}/rules/` },
+  ];
   for (const registry of registries) {
     for (const rule of registry.rules) entries.push({ loc: ruleUrl(rule.id), lastmod: rule.provenance.reviewedAt });
   }
@@ -224,6 +629,7 @@ export async function loadRegistries(directory = "registry"): Promise<RegistryV2
 
 export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
   const files: GeneratedFile[] = [
+    { path: LOOKUP_PAGE, contents: renderLookupPage(registries) },
     { path: `${RULES_DIRECTORY}/index.md`, contents: renderIndex(registries) },
     { path: "docs/sitemap.xml", contents: renderSitemap(registries) },
   ];
@@ -275,7 +681,7 @@ export async function main(argv: readonly string[] = process.argv.slice(2)): Pro
     return 1;
   }
   await write(files);
-  console.log(`Wrote ${files.length} files in docs/rules/ and docs/sitemap.xml.`);
+  console.log(`Wrote ${files.length} files in docs/lookup.html, docs/rules/, and docs/sitemap.xml.`);
   return 0;
 }
 

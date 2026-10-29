@@ -9,7 +9,22 @@ import { promisify } from "node:util";
 import { parse } from "yaml";
 
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
-import { SITE_URL, buildFiles, drift, loadRegistries, pageTitle, renderIndex, renderRulePage, renderSitemap, ruleUrl, write } from "../tools/build-reference-pages.js";
+import {
+  LOOKUP_PAGE,
+  SITE_URL,
+  buildFiles,
+  drift,
+  loadRegistries,
+  lookupEntries,
+  lookupUrl,
+  pageTitle,
+  renderIndex,
+  renderLookupPage,
+  renderRulePage,
+  renderSitemap,
+  ruleUrl,
+  write,
+} from "../tools/build-reference-pages.js";
 
 const temporaryRoots: string[] = [];
 
@@ -115,18 +130,67 @@ test("titles are unique, follow the search-friendly pattern, and every page name
   }
 });
 
-test("the sitemap lists the site, the index, and every rule once, with the review date", async () => {
+test("the sitemap lists the site, the lookup page, the index, and every rule once, with the review date", async () => {
   const registries = await loadRegistries();
   const sitemap = renderSitemap(registries);
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]!);
   assert.equal(new Set(locations).size, locations.length);
   assert.deepEqual(locations, [...locations].sort());
   assert.ok(locations.includes(`${SITE_URL}/`));
+  assert.ok(locations.includes(lookupUrl()));
   assert.ok(locations.includes(`${SITE_URL}/rules/`));
-  assert.equal(locations.length, registries.reduce((sum, item) => sum + item.rules.length, 0) + 2);
+  assert.equal(locations.length, registries.reduce((sum, item) => sum + item.rules.length, 0) + 3);
   assert.match(sitemap, /<url><loc>[^<]+<\/loc><lastmod>\d{4}-\d{2}-\d{2}<\/lastmod><\/url>/);
   assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
   assert.ok(sitemap.length < 50_000_000 && locations.length < 50_000);
+});
+
+test("the lookup page inlines every rule with sources and makes no requests", async () => {
+  const registries = await loadRegistries();
+  const page = renderLookupPage(registries);
+  const entries = lookupEntries(registries);
+  assert.ok(entries.length >= 100);
+  assert.match(page, /^<!doctype html>\n<html lang="en">/);
+  assert.match(page, /<link rel="canonical" href="https:\/\/arminazimi\.github\.io\/evergreen\/lookup\.html" \/>/);
+  assert.match(page, /<script type="application\/json" id="lookup-data">/);
+  assert.doesNotMatch(page, /\bfetch\s*\(|XMLHttpRequest|navigator\.sendBeacon/);
+  assert.match(page, /makes no network requests after it loads/);
+
+  const match = /<script type="application\/json" id="lookup-data">\n([\s\S]*?)\n\s*<\/script>/.exec(page);
+  assert.ok(match);
+  const embedded = JSON.parse(match[1]!) as Array<{ id: string; sources: Array<{ url: string }>; title: string }>;
+  assert.equal(embedded.length, entries.length);
+  assert.deepEqual(
+    embedded.map((entry) => entry.id),
+    entries.map((entry) => entry.id),
+  );
+  for (const entry of embedded) {
+    assert.ok(entry.sources.length >= 1, entry.id);
+    assert.ok(entry.sources.every((source) => /^https?:\/\//.test(source.url)), entry.id);
+  }
+  assert.match(page, /href = "rules\/" \+/);
+  assert.match(page, /sourceLink\.href = source\.url/);
+  assert.equal(buildFiles(registries).some((file) => file.path === LOOKUP_PAGE), true);
+});
+
+test("lookup data can never close the embedded JSON element", () => {
+  const page = renderLookupPage([
+    registry([
+      rule({
+        title: "A </script><script>alert(1)</script> title",
+        summary: "Bad </script><script>alert(2)</script> text",
+        sources: [{ title: "Doc </script>", url: "https://example.com/x" }],
+      }),
+    ]),
+  ]);
+  const block = page.slice(page.indexOf('<script type="application/json" id="lookup-data">'));
+  const end = block.indexOf("</script>");
+  assert.equal(block.indexOf("</"), end);
+  const embedded = JSON.parse(
+    /<script type="application\/json" id="lookup-data">\n([\s\S]*?)\n\s*<\/script>/.exec(page)![1]!,
+  ) as Array<{ title: string; summary: string }>;
+  assert.equal(embedded[0]!.title, "A </script><script>alert(1)</script> title");
+  assert.equal(embedded[0]!.summary, "Bad </script><script>alert(2)</script> text");
 });
 
 test("the site configuration gives the absolute URL the canonical links rely on", async () => {
@@ -151,11 +215,18 @@ test("drift names a changed page, a missing page, and a stale page", async () =>
 
   await writeFile(join(root, "docs/rules/demo.thing.eol-1.md"), "edited\n");
   const fewer = buildFiles([registry([rule()])]);
-  assert.deepEqual(await drift(fewer, root), ["differs: docs/rules/demo.thing.eol-1.md", "differs: docs/rules/index.md", "differs: docs/sitemap.xml", "stale: docs/rules/demo.other.eol-2.md"]);
+  assert.deepEqual(await drift(fewer, root), [
+    "differs: docs/lookup.html",
+    "differs: docs/rules/demo.thing.eol-1.md",
+    "differs: docs/rules/index.md",
+    "differs: docs/sitemap.xml",
+    "stale: docs/rules/demo.other.eol-2.md",
+  ]);
 
   await write(fewer, root);
   assert.deepEqual(await drift(fewer, root), []);
   assert.deepEqual(await drift(buildFiles([registry([rule(), rule({ id: "demo.new.eol-3" })])]), root), [
+    "differs: docs/lookup.html",
     "differs: docs/rules/index.md",
     "differs: docs/sitemap.xml",
     "missing: docs/rules/demo.new.eol-3.md",
