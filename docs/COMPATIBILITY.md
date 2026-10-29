@@ -45,6 +45,66 @@ Matrix version: **2026-10-15 / v1**
 | Agent Skill | Other hosts supporting the open Agent Skills directory format | Experimental | The portable files can be copied or linked, but these hosts are not in the representative install gate. |
 | Host plugins | Codex or Claude packaged plugin | Experimental | Shared MCP and Skill prerequisites exist; stable host packages are not published yet. |
 
+## v1 compatibility guarantees
+
+From **1.0.0**, the 1.x line is a SemVer compatibility promise: a consumer that pins `evergreen-deprecation@^1` (or a specific 1.x release) can rely on the contracts below without a surprise break in a minor or patch release. Removals and replacements still follow the [deprecation policy](#deprecation-policy); this section states what each contract guarantees and how long that guarantee lasts on the 1.x line.
+
+Scans stay offline and need no account. That property is part of the v1 promise and is not relaxed in a 1.x release.
+
+### Support windows on 1.x
+
+| Kind | Window on the 1.x line |
+| --- | --- |
+| A versioned document (`evergreen.*.vN`), its JSON Schema file, the detector SDK API version, the registry format, or the data-bundle format | Supported for the whole 1.x line. A successor (`vN+1`) may ship in a minor release; the older version keeps working at least through the [versioned-format notice period](#notice-periods) and is not removed before 2.0.0. |
+| CLI commands, flags, and environment variables marked stable in the docs | Supported for the whole 1.x line. A rename or removal needs the [unversioned notice period](#notice-periods) and lands no earlier than 2.0.0. |
+| MCP tools, resources, prompts, and their documented input fields | Same as CLI flags: whole 1.x line; removal only after notice, and not before 2.0.0. |
+| GitHub Action and GitLab component inputs whose default preserves current behavior | Same as CLI flags. |
+| Exit-code classes (`policy` 1, `usage` 2, `data` 3, `parse` 4, `internal` 5) | Stable for the whole 1.x line. New classes get new numbers; existing numbers are never renumbered. |
+| Surfaces the matrix marks **Supported** or **Beta** | Get the windows above. |
+| Surfaces the matrix marks **Experimental** | Usable, but may change in any minor release with a CHANGELOG entry; no multi-release window. |
+| Node.js and other runtimes listed in the matrix | Dropped from the matrix only after that runtime reaches its own end of life, and only with a deprecation note in the release before the drop. |
+
+A 1.x patch fixes behavior or security and does not add fields. A 1.x minor may add optional fields, commands, tools, or inputs. A required field, a rename, a type change, or a removal of a versioned format requires a new document version and the windows above — not a silent break inside 1.x.
+
+### Per-contract guarantees
+
+Each row is a published contract. The guarantee is the machine-readable shape: identifiers, field names, types, and exit codes. Help text, warning prose, and field order may change in any release. Consumers must ignore fields they do not know.
+
+| Contract | Identifier / schema | Guarantee on 1.x |
+| --- | --- | --- |
+| Scan result | `evergreen.scan.v1` · [`scan.v1.schema.json`](../schemas/scan.v1.schema.json) | Required fields and types stay; optional fields may appear in a minor. A breaking change ships as `evergreen.scan.v2` while `v1` remains accepted for the window. |
+| Dependency check | `evergreen.check.v1` · [`check.v1.schema.json`](../schemas/check.v1.schema.json) | Same additive rules. Status values already documented keep their meaning. |
+| Migration context | `evergreen.context.v1` · [`context.v1.schema.json`](../schemas/context.v1.schema.json) | Packet shape stays; new optional sections may appear. |
+| Deprecation list | `evergreen.deprecations.v1` · [`deprecations.v1.schema.json`](../schemas/deprecations.v1.schema.json) | Compact list shape stays for agents and planners. |
+| Verification | `evergreen.verification.v1` · [`verification.v1.schema.json`](../schemas/verification.v1.schema.json) | Re-scan result shape stays. |
+| Doctor | `evergreen.doctor.v1` · [`doctor.v1.schema.json`](../schemas/doctor.v1.schema.json) | Check and summary shape stays; new optional checks may appear. |
+| Capabilities manifest | `evergreen.capabilities.v1` · [`capabilities.v1.schema.json`](../schemas/capabilities.v1.schema.json) | Manifest shape stays; new optional capability or surface entries may appear. |
+| Baseline | `evergreen.baseline.v1` · [`baseline.v1.schema.json`](../schemas/baseline.v1.schema.json) | File format stays so CI baselines written under 1.x keep loading. |
+| Config | `evergreen.config.v1` · [`config.v1.schema.json`](../schemas/config.v1.schema.json) | Documented keys keep their meaning; new optional keys may appear. |
+| Rule document | `evergreen.rule.v1` · [`rule.v1.schema.json`](../schemas/rule.v1.schema.json) | Rule view shape stays for MCP resources and tooling. |
+| Fix plan | `evergreen.fix.v1` · [`fix.v1.schema.json`](../schemas/fix.v1.schema.json) | Plan shape stays. |
+| Data status | `evergreen.data-status.v1` · [`data-status.v1.schema.json`](../schemas/data-status.v1.schema.json) | Status shape stays. |
+| CLI errors | `evergreen.error.v1` | `error.code` classes and exit codes stay as in [Exit codes](CAPABILITIES.md#exit-codes-and-error-codes). |
+| Detector SDK | `evergreen.detector.v1` · [`src/sdk.ts`](../src/sdk.ts) | Detectors written to this API keep loading; a `v2` API may ship in parallel. |
+| Registry file | `evergreen.registry.v2` · [`registry.v2.schema.json`](../schemas/registry.v2.schema.json) | `v2` registries keep validating and loading; a `v3` may ship in parallel. |
+| Data bundle | `evergreen.data-bundle.v1` · [`data-bundle.v1.schema.json`](../schemas/data-bundle.v1.schema.json) | Bundle manifest shape stays; older bundles remain accepted for the window after a successor appears. |
+| MCP server | Tool names, resource URIs, and input fields in [MCP](MCP.md) | Listed tools and resources keep working; new tools or optional inputs may appear. Output documents use the rows above. |
+| GitHub Action / GitLab component | Input names in [GitHub Action](GITHUB_ACTION.md) and [GitLab](GITLAB.md) | Documented inputs keep their meaning; new inputs default to current behavior. |
+| SARIF export | SARIF 2.1.0 from `scan --format sarif` | Remains valid SARIF 2.1.0; field mapping changes that would break code scanning need notice as for versioned formats. |
+| Agent Skill | Portable skill layout and trigger description | Install and discovery paths for Supported hosts stay; host-specific packaging marked Experimental follows the experimental window. |
+
+### Outside the v1 promise
+
+These change without a contract break and are not covered by the windows above:
+
+- **Lifecycle findings and rules.** Bundled data can add, change, or remove a finding when evidence changes. Pin a data version or use a [baseline](CAPABILITIES.md) to stabilize CI.
+- **Detector maturity moves.** Promoting or demoting a detector between Experimental, Beta, and Supported follows [decision 0013](decisions/0013-detector-maturity.md).
+- **Bug fixes** that correct a wrong location, match, or message.
+- **Internals** not exported from `src/index.ts` or named in a schema, including maintainer scripts and test fixtures.
+- **Human-readable wording** in CLI help, finding prose, and documentation.
+
+Until 1.0.0 is tagged, Evergreen is still pre-1.0: the deprecation policy already applies, and this section is the contract that 1.0.0 will publish. Issue tracking for the release is in the [v1 epic](https://github.com/arminazimi/evergreen/issues/57).
+
 ## Deprecation policy
 
 Evergreen reports other projects' deprecations. Its own interfaces follow the policy below, so a script, an agent, or a plugin built on Evergreen keeps working long enough to move.
@@ -73,7 +133,7 @@ The contract is the machine-readable part: command names, exit codes, field name
 
 The window starts in the release that announces the deprecation, not in the release that removes it, and it is measured from that release's date. Extensions are allowed; shortening a window is not, except for a security or correctness problem (below).
 
-Evergreen is pre-1.0, so semantic versioning would permit a minor release to break an interface. This policy is deliberately stricter and applies before 1.0. Surfaces the matrix marks **Experimental** may change in any minor release with a CHANGELOG entry; **Beta** and **Supported** surfaces get the windows above. Runtime support is listed in the matrix; a runtime is dropped from it only after the runtime reaches its own end of life and with a deprecation note in the release before the drop.
+Before 1.0, semantic versioning would permit a minor release to break an interface; this policy is deliberately stricter and already applies. From 1.0.0, the [v1 compatibility guarantees](#v1-compatibility-guarantees) lock the same windows into the SemVer major line. Surfaces the matrix marks **Experimental** may change in any minor release with a CHANGELOG entry; **Beta** and **Supported** surfaces get the windows above. Runtime support is listed in the matrix; a runtime is dropped from it only after the runtime reaches its own end of life and with a deprecation note in the release before the drop.
 
 ### Removal process
 
