@@ -60,6 +60,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 ## dart
 
+- [analysis_server_client is discontinued on pub.dev](dart.package.analysis-server-client.discontinued.html) — deprecated, `dart.package.analysis-server-client.discontinued`
 - [Dart 3.10 no longer receives security updates](dart.sdk.end-of-support-3.10.html) — end of support, `dart.sdk.end-of-support-3.10`
 - [Dart 3.11 no longer receives security updates](dart.sdk.end-of-support-3.11.html) — end of support, `dart.sdk.end-of-support-3.11`
 - [Dart 3.12 no longer receives security updates](dart.sdk.end-of-support-3.12.html) — end of support, `dart.sdk.end-of-support-3.12`

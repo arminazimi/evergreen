@@ -135,6 +135,7 @@
   "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
   "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
   "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.5.removed.html",
+  "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
   "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.10.html",
   "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.11.html",
   "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.12.html",

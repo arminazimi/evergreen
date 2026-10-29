@@ -1,6 +1,18 @@
 {
   "changes": [
     {
+      "ecosystem": "dart",
+      "event": "deprecated",
+      "observedAt": "2026-10-21",
+      "path": "products/pub-analysis-server-client.json",
+      "productId": "pub-analysis-server-client",
+      "purl": "pkg:pub/analysis_server_client",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "dart.package.analysis-server-client.discontinued",
+      "severity": "medium",
+      "title": "analysis_server_client is discontinued on pub.dev"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1251,18 +1263,6 @@
       "ruleId": "nodejs.symbol.module.register",
       "severity": "medium",
       "title": "Module.register is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.net.setsimultaneousaccepts",
-      "severity": "high",
-      "title": "Net._setSimultaneousAccepts has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
