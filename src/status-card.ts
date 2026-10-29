@@ -77,7 +77,9 @@ const renderCompact = ({ repository, message, color, description, metrics }: Car
 
 /** Open Graph / Twitter card size; brand-token fonts and colors, no external references. */
 const renderSocial = ({ repository, message, color, description, metrics }: CardContent): string => {
-  const columns = [96, 440, 820];
+  // Stack metrics as rows so long Data / deadline values stay inside the panel (x 96…1104).
+  const metricTop = 340;
+  const rowHeight = 72;
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="status-title status-desc" font-family="${FONT_SANS}">`,
     `<title id="status-title">evergreen status for ${escape(repository)}</title>`,
@@ -89,10 +91,13 @@ const renderSocial = ({ repository, message, color, description, metrics }: Card
     `<text x="96" y="204" fill="${color}" font-size="28" font-weight="600">${escape(message)}</text>`,
     '<text x="96" y="256" fill="#9AC7B6" font-size="18" font-weight="500">evergreen</text>',
     '<line x1="96" y1="300" x2="1104" y2="300" stroke="#23423A"/>',
-    ...metrics.flatMap(([label, value], index) => [
-      `<text x="${columns[index]}" y="380" fill="#9AC7B6" font-size="18" font-weight="500">${escape(label)}</text>`,
-      `<text x="${columns[index]}" y="440" fill="#F3F6F4" font-size="28" font-weight="600">${escape(value)}</text>`,
-    ]),
+    ...metrics.flatMap(([label, value], index) => {
+      const y = metricTop + index * rowHeight;
+      return [
+        `<text x="96" y="${y}" fill="#9AC7B6" font-size="18" font-weight="500">${escape(label)}</text>`,
+        `<text x="96" y="${y + 36}" fill="#F3F6F4" font-size="28" font-weight="600">${escape(value)}</text>`,
+      ];
+    }),
     "</svg>",
   ].join("");
 };

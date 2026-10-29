@@ -85,3 +85,22 @@ test("social size is 1200x630 with brand fonts and no external references", () =
     renderStatusCard({ findings: [], data: data() } as Input, { size: "social" }),
   );
 });
+
+test("social metrics stay inside the inner panel with a long stale data line", () => {
+  const panelRight = 1104;
+  const output = renderStatusCard(
+    {
+      findings: [finding("high", "2026-12-01")],
+      data: data({ reviewedThrough: "2026-10-28", ageDays: 45, stale: true }),
+    } as Input,
+    { repository: "acme/widgets", size: "social" },
+  );
+  assert.match(output, /v2026\.10\.1 · reviewed 2026-10-28 · 45 days old · stale/);
+  for (const match of output.matchAll(/<text x="(\d+)"[^>]*font-size="(\d+)"[^>]*>([^<]*)<\/text>/g)) {
+    const x = Number(match[1]);
+    const fontSize = Number(match[2]);
+    const text = match[3]!.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+    const estimatedRight = x + text.length * fontSize * 0.6;
+    assert.ok(estimatedRight <= panelRight, `"${text}" ends at ~${estimatedRight}, past ${panelRight}`);
+  }
+});
