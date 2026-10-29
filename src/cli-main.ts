@@ -1,7 +1,7 @@
 
 import { badgeSnippet, isBadgeSnippetFormat, renderBadgeEndpoint, repositoryFromRemote } from "./badge.js";
 import { spawnSync } from "node:child_process";
-import { stat, writeFile } from "node:fs/promises";
+import { readFile, stat, writeFile } from "node:fs/promises";
 import http from "node:http";
 import process from "node:process";
 import { basename, resolve } from "node:path";
@@ -64,6 +64,7 @@ import {
   type ActionableMessage,
 } from "./errors.js";
 import { CycloneDxError, enrichCycloneDxFile } from "./sbom/cyclonedx.js";
+import { SpdxError, enrichSpdxFile } from "./sbom/spdx.js";
 import { addWatched, listWatched, removeWatched, renderWatchText, runWatch } from "./watch.js";
 import { applyIgnore, ConfigError, loadConfig } from "./config.js";
 
@@ -102,7 +103,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen export --format cle [--data-version <version>]   # CLE 1.0 snapshots, one JSON document per line and component; skipped rules reported on stderr
-  evergreen sbom enrich <bom.json> [--data-version <version>]   # print enriched CycloneDX JSON; leaves the input unchanged
+  evergreen sbom enrich <bom.json> [--data-version <version>]   # print enriched CycloneDX or SPDX 2.3 JSON; leaves the input unchanged
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
   evergreen watch list [--json]
@@ -782,11 +783,23 @@ async function main(rawArgs: string[]): Promise<number> {
       return fail("usage", "Usage: evergreen sbom enrich <bom.json> [--data-version <version>]");
     }
     try {
-      const bom = await enrichCycloneDxFile(operands[1]!);
+      const path = operands[1]!;
+      // SPDX and CycloneDX share this command; detect by spdxVersion when the file parses.
+      // Unreadable or invalid JSON falls through to the CycloneDX reader for stable errors.
+      let peek: unknown;
+      try {
+        peek = JSON.parse(await readFile(path, "utf8"));
+      } catch {
+        peek = undefined;
+      }
+      const bom = peek !== null && typeof peek === "object" && !Array.isArray(peek) &&
+        "spdxVersion" in (peek as object)
+        ? await enrichSpdxFile(path)
+        : await enrichCycloneDxFile(path);
       process.stdout.write(`${JSON.stringify(bom, null, 2)}\n`);
       return 0;
     } catch (error) {
-      if (error instanceof CycloneDxError) return fail("parse", error.message);
+      if (error instanceof CycloneDxError || error instanceof SpdxError) return fail("parse", error.message);
       throw error;
     }
   }
