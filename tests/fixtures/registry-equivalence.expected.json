@@ -665,6 +665,71 @@
    "detector": "npm"
   },
   {
+   "id": "npm.package.node-sass.deprecated:package.json:6",
+   "ruleId": "npm.package.node-sass.deprecated",
+   "title": "node-sass is deprecated",
+   "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. npm marks node-sass as deprecated: \"Node Sass is no longer supported. Please use `sass` or `sass-embedded` instead.\"",
+   "severity": "medium",
+   "confidence": "range",
+   "location": {
+    "path": "package.json",
+    "line": 6
+   },
+   "replacement": "sass or sass-embedded",
+   "migration": {
+    "constraints": [
+     "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+    ],
+    "steps": [
+     {
+      "id": "replace-node-sass-dependency",
+      "title": "Replace Node Sass",
+      "instructions": "Remove node-sass and add sass or sass-embedded in the same dependency section.",
+      "targets": "declaration"
+     },
+     {
+      "id": "update-sass-calls",
+      "title": "Update compiler usages",
+      "instructions": "Migrate render and renderSync imports and options to the sass or sass-embedded interface used by the project.",
+      "targets": "usages"
+     },
+     {
+      "id": "compare-css-output",
+      "title": "Compare compiled output",
+      "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run stylesheet and repository tests when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Compile the project and its stylesheets with Sass."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "node-sass on npm",
+     "url": "https://www.npmjs.com/package/node-sass"
+    },
+    {
+     "title": "node-sass registry metadata",
+     "url": "https://registry.npmjs.org/node-sass"
+    }
+   ],
+   "usages": [],
+   "impact": {
+    "usageCount": 0,
+    "affectedFiles": 0,
+    "level": "none"
+   },
+   "detector": "npm"
+  },
+  {
   "id": "npm.package.node-sass.eol:package.json:6",
   "ruleId": "npm.package.node-sass.eol",
   "title": "Node Sass is end-of-life",

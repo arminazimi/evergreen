@@ -8,6 +8,7 @@ import { NpmDetector } from "../src/detectors/npm.js";
 
 const enginesFixtures = resolve("tests/fixtures/nodejs/engines");
 const typesStubFixtures = resolve("tests/fixtures/npm/types-stubs");
+const nodeSassFixtures = resolve("tests/fixtures/npm.package.node-sass.deprecated");
 const stubTypeRule = /^npm\.package\.types\.[^.]+\.deprecated$/;
 
 const temporaryRoots: string[] = [];
@@ -53,15 +54,18 @@ test("reports EOL Node.js ranges and deprecated direct packages from package-loc
 
   const findings = await new NpmDetector().scan({ root });
 
-  assert.equal(findings.length, 3);
+  assert.equal(findings.length, 4);
   assert.match(findings[0]?.summary ?? "", /Node\.js 20/);
   assert.equal(findings[0]?.severity, "medium");
-  assert.match(findings[1]?.summary ?? "", /resolved: 2\.88\.2/);
-  assert.match(findings[2]?.summary ?? "", /resolved: 9\.0\.0/);
-  const requestFinding = findings.find((finding) => finding.ruleId.includes("request"));
-  const sassFinding = findings.find((finding) => finding.ruleId.includes("node-sass"));
+  const requestFinding = findings.find((finding) => finding.ruleId === "npm.package.request.deprecated");
+  const deprecatedSassFinding = findings.find((finding) => finding.ruleId === "npm.package.node-sass.deprecated");
+  const eolSassFinding = findings.find((finding) => finding.ruleId === "npm.package.node-sass.eol");
+  assert.match(requestFinding?.summary ?? "", /resolved: 2\.88\.2/);
+  assert.match(deprecatedSassFinding?.summary ?? "", /resolved: 9\.0\.0/);
+  assert.match(eolSassFinding?.summary ?? "", /resolved: 9\.0\.0/);
   assert.equal(requestFinding?.impact?.usageCount, 2);
-  assert.equal(sassFinding?.impact?.usageCount, 2);
+  assert.equal(deprecatedSassFinding?.impact?.usageCount, 2);
+  assert.equal(eolSassFinding?.impact?.usageCount, 2);
   assert.equal(requestFinding?.usages?.[1]?.location.path, "src/client.ts");
 });
 
@@ -137,6 +141,36 @@ test("types-stubs negative fixture produces no stub-type findings on lookalikes"
     findings.filter((finding) => stubTypeRule.test(finding.ruleId)),
     [],
   );
+});
+
+test("node-sass positive fixture reports the deprecated package and its usages", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(nodeSassFixtures, "match") });
+  const deprecated = findings.filter((finding) => finding.ruleId === "npm.package.node-sass.deprecated");
+
+  assert.equal(deprecated.length, 1);
+  assert.equal(deprecated[0]?.location.path, "package.json");
+  assert.match(deprecated[0]?.summary ?? "", /resolved: 9\.0\.0/);
+  assert.equal(deprecated[0]?.impact?.usageCount, 2);
+  assert.deepEqual(
+    deprecated[0]?.usages?.map((usage) => usage.location.path),
+    ["src/styles.js", "src/styles.js"],
+  );
+});
+
+test("node-sass clean fixture produces no deprecation finding on the replacement package", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(nodeSassFixtures, "clean") });
+  assert.deepEqual(
+    findings.filter((finding) => finding.ruleId === "npm.package.node-sass.deprecated"),
+    [],
+  );
+});
+
+test("the node-sass deprecation rule matches declared ranges outside the lockfile", async () => {
+  for (const [range, affected] of [["^9.0.0", true], ["^10.0.0", false]] as const) {
+    const root = await repository({ "package.json": JSON.stringify({ devDependencies: { "node-sass": range } }) });
+    const findings = await new NpmDetector().scan({ root });
+    assert.equal(findings.some((finding) => finding.ruleId === "npm.package.node-sass.deprecated"), affected, range);
+  }
 });
 
 test("version-specific npm rules match declared ranges when no lockfile is available", async () => {

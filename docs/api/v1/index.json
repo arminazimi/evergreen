@@ -3009,14 +3009,15 @@
         "npm"
       ],
       "events": [
+        "deprecated",
         "end-of-life"
       ],
       "id": "npm-node-sass",
-      "latestReview": "2026-10-14",
+      "latestReview": "2026-10-29",
       "name": "node-sass",
       "path": "products/npm-node-sass.json",
       "purl": "pkg:npm/node-sass",
-      "rules": 1,
+      "rules": 2,
       "type": "npm"
     },
     {
@@ -4354,7 +4355,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 516,
+  "rules": 517,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4414,7 +4415,7 @@
     {
       "path": "types/npm.json",
       "products": 74,
-      "rules": 82,
+      "rules": 83,
       "type": "npm"
     },
     {

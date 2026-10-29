@@ -394,6 +394,7 @@
   "https://arminazimi.github.io/evergreen/rules/npm.package.next.14.support-end.html",
   "https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html",
   "https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html",
+  "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.deprecated.html",
   "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
   "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
   "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html",
