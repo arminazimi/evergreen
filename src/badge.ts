@@ -37,6 +37,12 @@ export function badgeState(result: Pick<ScanResult, "findings" | "data">, expire
   return stale ? { message: "stale", color: colors.quiet } : { message: "clean", color: colors.clean };
 }
 
+/** Shields.io endpoint schema v1; contains aggregate counts only, after baseline comparison. */
+export function renderBadgeEndpoint(result: Pick<ScanResult, "findings" | "data">, expiredFailure = false): string {
+  const { message, color } = badgeState(result, expiredFailure);
+  return JSON.stringify({ schemaVersion: 1, label: "evergreen", message, color, labelColor: "#23423A" });
+}
+
 export type BadgeStyle = "flat" | "flat-square" | "for-the-badge";
 
 export const badgeStyles: readonly BadgeStyle[] = ["flat", "flat-square", "for-the-badge"];
@@ -88,6 +94,57 @@ export function contrastRatio(left: string, right: string): number {
 /** White or the badge's near-black, whichever reads better on the message color; both clear WCAG AA. */
 export function readableTextColor(background: string): string {
   return contrastRatio(background, WHITE) >= contrastRatio(background, DARK_TEXT) ? WHITE : DARK_TEXT;
+}
+
+export type BadgeSnippetFormat = "markdown" | "html" | "rst";
+
+export const badgeSnippetFormats: readonly BadgeSnippetFormat[] = ["markdown", "html", "rst"];
+
+export function isBadgeSnippetFormat(value: string): value is BadgeSnippetFormat {
+  return (badgeSnippetFormats as readonly string[]).includes(value);
+}
+
+/** `owner/name` from a GitHub remote URL; undefined for another host or a malformed URL. */
+export function repositoryFromRemote(url: string): string | undefined {
+  const match = /^(?:git@|ssh:\/\/git@|https?:\/\/(?:[^@/]+@)?)github\.com[:/]([^/]+)\/(.+?)(?:\.git)?$/i.exec(url.trim());
+  if (!match) return undefined;
+  const owner = match[1]!;
+  const name = match[2]!.replace(/\.git$/, "");
+  return name.length > 0 ? `${owner}/${name}` : undefined;
+}
+
+function repositoryParts(repository: string): [string, string] {
+  const parts = repository.split("/");
+  if (parts.length !== 2 || parts.some((part) => part.length === 0 || part === "." || part === "..")) {
+    throw new Error(`Invalid repository "${repository}"; expected owner/name`);
+  }
+  return [parts[0]!, parts[1]!];
+}
+
+const encodeSegment = (value: string): string =>
+  encodeURIComponent(value).replace(/[!'()*]/g, (character) => `%${character.charCodeAt(0).toString(16).toUpperCase()}`);
+
+function escapeHtmlAttribute(value: string): string {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+/**
+ * README markup for the badge a repository publishes from its `evergreen-badge` branch. The repository name is
+ * percent-encoded into the URL and HTML-escaped in the attribute, so a hostile name cannot break out of the markup.
+ */
+export function badgeSnippet(repository: string, format: BadgeSnippetFormat, branch = "evergreen-badge"): string {
+  const [owner, name] = repositoryParts(repository);
+  const branchPath = branch
+    .split("/")
+    .filter((part) => part.length > 0)
+    .map(encodeSegment)
+    .join("/");
+  if (branchPath.length === 0) throw new Error("The badge branch must not be empty");
+  const image = `https://raw.githubusercontent.com/${encodeSegment(owner)}/${encodeSegment(name)}/${branchPath}/evergreen-badge.svg`;
+  const target = `https://github.com/${encodeSegment(owner)}/${encodeSegment(name)}`;
+  if (format === "html") return `<a href="${escapeHtmlAttribute(target)}"><img alt="evergreen" src="${escapeHtmlAttribute(image)}"></a>`;
+  if (format === "rst") return `.. image:: ${image}\n   :target: ${target}\n   :alt: evergreen`;
+  return `[![evergreen](${image})](${target})`;
 }
 
 /** The Version Notches mark (brand/assets) in the badge's light-on-dark colors. */

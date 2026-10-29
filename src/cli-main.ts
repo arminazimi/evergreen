@@ -1,4 +1,5 @@
 
+import { badgeSnippet, isBadgeSnippetFormat, renderBadgeEndpoint, repositoryFromRemote } from "./badge.js";
 import { spawnSync } from "node:child_process";
 import { stat, writeFile } from "node:fs/promises";
 import http from "node:http";
@@ -85,6 +86,8 @@ Usage:
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
   evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
+  evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
+  evergreen badge [path] --shields   # print shields.io endpoint JSON for the current scan
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
@@ -581,6 +584,7 @@ async function statusCard(args: string[]): Promise<number> {
 /** `lookup`: resolves a product name and version against the bundled lifecycle rules. */
 async function lookup(args: string[]): Promise<number> {
   const usageText = "Usage: evergreen lookup <product> [version] [--json]";
+    "Usage: evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]\n       evergreen badge [path] --shields";
   const operands = args.filter((argument) => argument !== "--json");
   if (operands.length === 0 || operands.length > 3 || operands.some((argument) => argument.startsWith("-"))) return fail("usage", usageText);
   const last = operands[operands.length - 1]!;
@@ -590,6 +594,60 @@ async function lookup(args: string[]): Promise<number> {
   try {
     const result = await lookupProduct(name, version);
     process.stdout.write(`${jsonErrors ? JSON.stringify(result, null, 2) : renderLookupText(result)}\n`);
+    return 0;
+  } catch (error) {
+    return fail("usage", (error as Error).message);
+  }
+}
+
+/** `badge`: prints README markup for the badge a repository publishes from its badge branch. */
+async function badge(args: string[]): Promise<number> {
+  const usageText =
+    "Usage: evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]\n       evergreen badge [path] --shields";
+  const operands: string[] = [];
+  let snippet: string | undefined;
+  let repository: string | undefined;
+  let branch = "evergreen-badge";
+  let shields = false;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    if (argument === "--shields") {
+      shields = true;
+      continue;
+    }
+    if (argument === "--snippet" || argument === "--repo" || argument === "--branch") {
+      const value = args[index + 1];
+      if (value === undefined) return fail("usage", usageText);
+      if (argument === "--snippet") snippet = value;
+      else if (argument === "--repo") repository = value;
+      else branch = value;
+      index += 1;
+      continue;
+    }
+    if (argument.startsWith("-")) return fail("usage", usageText);
+    operands.push(argument);
+  }
+  if (operands.length > 1) return fail("usage", usageText);
+  const path = operands[0] ?? ".";
+  if (shields) {
+    if (snippet !== undefined || repository !== undefined || branch !== "evergreen-badge") return fail("usage", usageText);
+    const project = resolve(path);
+    try {
+      process.stdout.write(`${renderBadgeEndpoint(await scanRepository(project, builtInDetectors, {}))}\n`);
+      return 0;
+    } catch (error) {
+      return fail("parse", (error as Error).message);
+    }
+  }
+  if (!snippet || !isBadgeSnippetFormat(snippet)) return fail("usage", usageText);
+  let owner = repository;
+  if (!owner) {
+    const remote = spawnSync("git", ["-C", path, "remote", "get-url", "origin"], { encoding: "utf8" });
+    owner = remote.status === 0 ? repositoryFromRemote(remote.stdout) : undefined;
+  }
+  if (!owner) return fail("usage", `Could not read a GitHub repository from ${path}. Pass --repo <owner/name>.`);
+  try {
+    process.stdout.write(`${badgeSnippet(owner, snippet, branch)}\n`);
     return 0;
   } catch (error) {
     return fail("usage", (error as Error).message);
@@ -612,7 +670,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -633,6 +691,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
   if (command === "status-card") return statusCard(args.slice(1));
+  if (command === "badge") return badge(args.slice(1));
   if (command === "lookup") return lookup(args.slice(1));
 
   const optionValue = (name: string): string | undefined => {
