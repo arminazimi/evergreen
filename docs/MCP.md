@@ -34,6 +34,54 @@ An MCP host can launch the published command with configuration shaped like:
 
 The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
 
+## One-command install per host
+
+Each host below gets the local stdio server with one install command. Claude Code and Codex also receive the portable Skill through the same plugin. Cursor and VS Code need the Skill separately ([Agent Skill](AGENT_SKILLS.md#one-command-install-per-host)). Every command was run in a clean environment on 2026-10-29 (macOS, Node.js 22). No Evergreen account is required.
+
+Shared verify prompt after install: ask the agent to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with a replacement and sources instead of adding the package.
+
+### Claude Code
+
+```sh
+claude plugin install evergreen --marketplace arminazimi/evergreen
+```
+
+**Verify.** `claude plugin list` shows `evergreen@evergreen` enabled, and `claude plugin details evergreen` lists the `evergreen` MCP server. Start a new session and use the shared verify prompt.
+
+Details: [Claude plugin](CLAUDE_PLUGIN.md).
+
+### Codex
+
+```sh
+codex plugin marketplace add arminazimi/evergreen --ref main && codex plugin add evergreen@evergreen-codex
+```
+
+When the Evergreen repository marketplace is already configured (for example from a checkout that exposes `.agents/plugins/marketplace.json`), `codex plugin add evergreen@evergreen-codex` alone is enough.
+
+**Verify.** Restart the Codex session, run `codex plugin list --json`, and confirm `evergreen@evergreen-codex` is installed and enabled. Then use the shared verify prompt. Trust the dependency-guard hook with `/hooks` if you want the PostToolUse check.
+
+Details: [Codex plugin](CODEX_PLUGIN.md).
+
+### Cursor
+
+```sh
+cursor --add-mcp '{"name":"evergreen","type":"stdio","command":"npx","args":["--yes","--package","evergreen-deprecation","evergreen-mcp"]}'
+```
+
+**Verify.** Restart Cursor or reload the window. Under Settings → MCP, `evergreen` is listed and can be enabled. Then use the shared verify prompt. For the Skill, see [Agent Skill](AGENT_SKILLS.md#one-command-install-per-host).
+
+Project-scoped copy of the same server entry: [`examples/agents/cursor/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents/cursor).
+
+### VS Code
+
+```sh
+code --add-mcp '{"name":"evergreen","type":"stdio","command":"npx","args":["--yes","--package","evergreen-deprecation","evergreen-mcp"]}'
+```
+
+**Verify.** Command Palette → **MCP: List Servers** shows `evergreen`. In Copilot Chat Agent mode, use the shared verify prompt. For the Skill, see [Agent Skill](AGENT_SKILLS.md#one-command-install-per-host).
+
+Project-scoped copy of the same server entry: [`examples/agents/copilot/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents/copilot).
+
 ## What the server exposes
 
 Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities.
@@ -189,13 +237,13 @@ The server uses the lifecycle data bundled with the installed release, and docum
 
 ## Other agent hosts
 
-Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents) and [`integrations/cline/`](https://github.com/arminazimi/evergreen/tree/main/integrations/cline):
+Claude Code, Codex, Cursor, and VS Code have one-command installs above. Ready-to-copy setups for those hosts and others (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents) and [`integrations/cline/`](https://github.com/arminazimi/evergreen/tree/main/integrations/cline):
 
 | Host | MCP config | Instructions |
 | --- | --- | --- |
-| Cursor | `.cursor/mcp.json` | `.cursor/rules/evergreen.mdc` |
+| Cursor | `.cursor/mcp.json` (or `cursor --add-mcp` above) | `.cursor/rules/evergreen.mdc` |
 | Gemini CLI | `gemini-extension.json` or `.gemini/settings.json` | `GEMINI.md` |
-| GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
+| GitHub Copilot | `.vscode/mcp.json` (or `code --add-mcp` above) or repository settings (coding agent) | `.github/copilot-instructions.md` |
 | Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
 | Cline | `cline_mcp_settings.json` (user settings) | `.clinerules/evergreen.md` |
 | Windsurf | Cascade `mcp_config.json` (user config) | `.windsurf/rules/evergreen.md` |

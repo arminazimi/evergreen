@@ -39,6 +39,52 @@ The host also needs one Evergreen execution path:
 
 No account or API key is required.
 
+## One-command install per host
+
+Each host below gets the Skill with one install command. Claude Code and Codex also receive the local MCP server through the same plugin ([MCP](MCP.md#one-command-install-per-host)). Cursor and VS Code need the MCP server separately. Every command was run in a clean environment on 2026-10-29 (macOS, Node.js 22).
+
+Shared verify prompt after install: ask the agent to `Add the request package to this project`, and confirm it checks `pkg:npm/request` (via `check_dependency` or `npx evergreen-deprecation check`) and reports the deprecation with a replacement and sources instead of adding the package.
+
+### Claude Code
+
+```sh
+claude plugin install evergreen --marketplace arminazimi/evergreen
+```
+
+**Verify.** `claude plugin list` shows `evergreen@evergreen` enabled, and `claude plugin details evergreen` lists the `evergreen-deprecation` Skill. Start a new session and use the shared verify prompt.
+
+Portable skills-CLI alternative: `npx skills add arminazimi/evergreen --agent claude-code --skill evergreen-deprecation --yes`, then `npx skills list`.
+
+### Codex
+
+```sh
+codex plugin marketplace add arminazimi/evergreen --ref main && codex plugin add evergreen@evergreen-codex
+```
+
+When the Evergreen repository marketplace is already configured, `codex plugin add evergreen@evergreen-codex` alone is enough.
+
+**Verify.** Restart the Codex session, run `codex plugin list --json`, and confirm `evergreen@evergreen-codex` is installed. Then use the shared verify prompt.
+
+Portable skills-CLI alternative: `npx skills add arminazimi/evergreen --agent codex --skill evergreen-deprecation --yes`, then `npx skills list`.
+
+### Cursor
+
+```sh
+npx skills add arminazimi/evergreen --agent cursor --skill evergreen-deprecation --yes
+```
+
+**Verify.** `npx skills list` shows `evergreen-deprecation`. Restart Cursor, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
+
+### VS Code
+
+VS Code Copilot Chat picks up the Skill through the skills CLI's `github-copilot` target:
+
+```sh
+npx skills add arminazimi/evergreen --agent github-copilot --skill evergreen-deprecation --yes
+```
+
+**Verify.** `npx skills list` shows `evergreen-deprecation`. Reload the VS Code window, open Copilot Chat in Agent mode, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
+
 ## One Skill for every ecosystem
 
 Evergreen briefly shipped four per-ecosystem Skills (Node.js, Python, GitHub Actions, containers) and removed them in favor of this one. They were near-copies of this Skill that differed only by a rule-prefix filter, so every workflow change had to be made five times, they could trigger together on one request, and they covered four of the ecosystems Evergreen supports. The claim that narrower descriptions trigger more reliably was never measured: the trigger evaluation covers only this Skill. If a measurement shows a gain, split by ecosystem then.

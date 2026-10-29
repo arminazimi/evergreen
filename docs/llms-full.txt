@@ -117,6 +117,54 @@ An MCP host can launch the published command with configuration shaped like:
 
 The exact settings location depends on the host. Evergreen needs no environment variables or credentials.
 
+## One-command install per host
+
+Each host below gets the local stdio server with one install command. Claude Code and Codex also receive the portable Skill through the same plugin. Cursor and VS Code need the Skill separately ([Agent Skill](AGENT_SKILLS.md#one-command-install-per-host)). Every command was run in a clean environment on 2026-10-29 (macOS, Node.js 22). No Evergreen account is required.
+
+Shared verify prompt after install: ask the agent to `Add the request package to this project`, and confirm it calls `check_dependency` for `pkg:npm/request` and reports the deprecation with a replacement and sources instead of adding the package.
+
+### Claude Code
+
+```sh
+claude plugin install evergreen --marketplace arminazimi/evergreen
+```
+
+**Verify.** `claude plugin list` shows `evergreen@evergreen` enabled, and `claude plugin details evergreen` lists the `evergreen` MCP server. Start a new session and use the shared verify prompt.
+
+Details: [Claude plugin](CLAUDE_PLUGIN.md).
+
+### Codex
+
+```sh
+codex plugin marketplace add arminazimi/evergreen --ref main && codex plugin add evergreen@evergreen-codex
+```
+
+When the Evergreen repository marketplace is already configured (for example from a checkout that exposes `.agents/plugins/marketplace.json`), `codex plugin add evergreen@evergreen-codex` alone is enough.
+
+**Verify.** Restart the Codex session, run `codex plugin list --json`, and confirm `evergreen@evergreen-codex` is installed and enabled. Then use the shared verify prompt. Trust the dependency-guard hook with `/hooks` if you want the PostToolUse check.
+
+Details: [Codex plugin](CODEX_PLUGIN.md).
+
+### Cursor
+
+```sh
+cursor --add-mcp '{"name":"evergreen","type":"stdio","command":"npx","args":["--yes","--package","evergreen-deprecation","evergreen-mcp"]}'
+```
+
+**Verify.** Restart Cursor or reload the window. Under Settings → MCP, `evergreen` is listed and can be enabled. Then use the shared verify prompt. For the Skill, see [Agent Skill](AGENT_SKILLS.md#one-command-install-per-host).
+
+Project-scoped copy of the same server entry: [`examples/agents/cursor/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents/cursor).
+
+### VS Code
+
+```sh
+code --add-mcp '{"name":"evergreen","type":"stdio","command":"npx","args":["--yes","--package","evergreen-deprecation","evergreen-mcp"]}'
+```
+
+**Verify.** Command Palette → **MCP: List Servers** shows `evergreen`. In Copilot Chat Agent mode, use the shared verify prompt. For the Skill, see [Agent Skill](AGENT_SKILLS.md#one-command-install-per-host).
+
+Project-scoped copy of the same server entry: [`examples/agents/copilot/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents/copilot).
+
 ## What the server exposes
 
 Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities.
@@ -272,13 +320,13 @@ The server uses the lifecycle data bundled with the installed release, and docum
 
 ## Other agent hosts
 
-Ready-to-copy setups for the dependency guardrail (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents) and [`integrations/cline/`](https://github.com/arminazimi/evergreen/tree/main/integrations/cline):
+Claude Code, Codex, Cursor, and VS Code have one-command installs above. Ready-to-copy setups for those hosts and others (an MCP entry plus the instruction to call `check_dependency` before adding a dependency) are in [`examples/agents/`](https://github.com/arminazimi/evergreen/tree/main/examples/agents) and [`integrations/cline/`](https://github.com/arminazimi/evergreen/tree/main/integrations/cline):
 
 | Host | MCP config | Instructions |
 | --- | --- | --- |
-| Cursor | `.cursor/mcp.json` | `.cursor/rules/evergreen.mdc` |
+| Cursor | `.cursor/mcp.json` (or `cursor --add-mcp` above) | `.cursor/rules/evergreen.mdc` |
 | Gemini CLI | `gemini-extension.json` or `.gemini/settings.json` | `GEMINI.md` |
-| GitHub Copilot | `.vscode/mcp.json` (VS Code) or repository settings (coding agent) | `.github/copilot-instructions.md` |
+| GitHub Copilot | `.vscode/mcp.json` (or `code --add-mcp` above) or repository settings (coding agent) | `.github/copilot-instructions.md` |
 | Kilo Code | `kilo.jsonc` | `.kilo/rules/evergreen.md` |
 | Cline | `cline_mcp_settings.json` (user settings) | `.clinerules/evergreen.md` |
 | Windsurf | Cascade `mcp_config.json` (user config) | `.windsurf/rules/evergreen.md` |
@@ -2074,6 +2122,52 @@ The host also needs one Evergreen execution path:
 - the `evergreen` CLI available on `PATH`.
 
 No account or API key is required.
+
+## One-command install per host
+
+Each host below gets the Skill with one install command. Claude Code and Codex also receive the local MCP server through the same plugin ([MCP](MCP.md#one-command-install-per-host)). Cursor and VS Code need the MCP server separately. Every command was run in a clean environment on 2026-10-29 (macOS, Node.js 22).
+
+Shared verify prompt after install: ask the agent to `Add the request package to this project`, and confirm it checks `pkg:npm/request` (via `check_dependency` or `npx evergreen-deprecation check`) and reports the deprecation with a replacement and sources instead of adding the package.
+
+### Claude Code
+
+```sh
+claude plugin install evergreen --marketplace arminazimi/evergreen
+```
+
+**Verify.** `claude plugin list` shows `evergreen@evergreen` enabled, and `claude plugin details evergreen` lists the `evergreen-deprecation` Skill. Start a new session and use the shared verify prompt.
+
+Portable skills-CLI alternative: `npx skills add arminazimi/evergreen --agent claude-code --skill evergreen-deprecation --yes`, then `npx skills list`.
+
+### Codex
+
+```sh
+codex plugin marketplace add arminazimi/evergreen --ref main && codex plugin add evergreen@evergreen-codex
+```
+
+When the Evergreen repository marketplace is already configured, `codex plugin add evergreen@evergreen-codex` alone is enough.
+
+**Verify.** Restart the Codex session, run `codex plugin list --json`, and confirm `evergreen@evergreen-codex` is installed. Then use the shared verify prompt.
+
+Portable skills-CLI alternative: `npx skills add arminazimi/evergreen --agent codex --skill evergreen-deprecation --yes`, then `npx skills list`.
+
+### Cursor
+
+```sh
+npx skills add arminazimi/evergreen --agent cursor --skill evergreen-deprecation --yes
+```
+
+**Verify.** `npx skills list` shows `evergreen-deprecation`. Restart Cursor, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
+
+### VS Code
+
+VS Code Copilot Chat picks up the Skill through the skills CLI's `github-copilot` target:
+
+```sh
+npx skills add arminazimi/evergreen --agent github-copilot --skill evergreen-deprecation --yes
+```
+
+**Verify.** `npx skills list` shows `evergreen-deprecation`. Reload the VS Code window, open Copilot Chat in Agent mode, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
 
 ## One Skill for every ecosystem
 
