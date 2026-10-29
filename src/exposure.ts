@@ -1,8 +1,35 @@
 import { execFileSync } from "node:child_process";
 
-import type { Finding } from "./domain.js";
+import type { Finding, SourceLocation } from "./domain.js";
 
 const DAY_MS = 86_400_000;
+
+/** CycloneDX impact-analysis states Evergreen can assert from usage evidence. */
+export const vexAnalysisStates = ["exploitable", "not_affected", "in_triage"] as const;
+export type VexAnalysisState = (typeof vexAnalysisStates)[number];
+
+/** CycloneDX justifications Evergreen may attach when state is `not_affected`. */
+export const vexJustifications = ["code_not_reachable"] as const;
+export type VexJustification = (typeof vexJustifications)[number];
+
+/** One evidence location that supports an exposure result, with its role. */
+export interface ExposureLocation extends SourceLocation {
+  role: "declaration" | "usage";
+}
+
+/**
+ * Whether a finding is exposed in the product, from usage evidence alone. Maps directly onto a CycloneDX
+ * VEX analysis statement: usages present → exploitable; usage analysis ran and found none → not_affected;
+ * usage analysis did not run → in_triage.
+ */
+export interface ExposureResult {
+  state: VexAnalysisState;
+  justification?: VexJustification;
+  /** Declaration and usage locations, declaration first then usages sorted by path and line. */
+  locations: ExposureLocation[];
+  /** Human-readable assessment, including every evidence location. */
+  detail: string;
+}
 
 /** The story of a finding: when its declaration was introduced and how long it has been past end of life. */
 export interface ExposureTimeline {
@@ -18,6 +45,52 @@ export interface ExposureTimeline {
   daysExposed?: number;
   /** What could not be determined and why; empty when everything was known. */
   unknown: string[];
+}
+
+function formatLocation(location: SourceLocation): string {
+  return location.line === undefined ? location.path : `${location.path}:${location.line}`;
+}
+
+function compareLocations(left: SourceLocation, right: SourceLocation): number {
+  return left.path < right.path ? -1 : left.path > right.path ? 1 :
+    (left.line ?? -1) - (right.line ?? -1) || (left.column ?? -1) - (right.column ?? -1);
+}
+
+/**
+ * Maps a finding's usage evidence to a VEX analysis state. Never guesses: when usage analysis did not run,
+ * the state is `in_triage`. Reads no clock and no network.
+ */
+export function exposureFromUsage(
+  finding: Pick<Finding, "location" | "usages" | "impact" | "title">,
+): ExposureResult {
+  const declaration: ExposureLocation = { ...finding.location, role: "declaration" };
+  const usageLocations = (finding.usages ?? [])
+    .map((usage): ExposureLocation => ({ ...usage.location, role: "usage" }))
+    .sort(compareLocations);
+  const locations: ExposureLocation[] = [declaration, ...usageLocations];
+  const usageCount = finding.impact?.usageCount ?? finding.usages?.length;
+  const listed = locations.map((location) => `${location.role} ${formatLocation(location)}`).join("; ");
+
+  if (usageCount === undefined) {
+    return {
+      state: "in_triage",
+      locations,
+      detail: `${finding.title}: usage analysis did not run. Evidence: ${listed}.`,
+    };
+  }
+  if (usageCount > 0 || usageLocations.length > 0) {
+    return {
+      state: "exploitable",
+      locations,
+      detail: `${finding.title}: source usages show the component is reachable. Evidence: ${listed}.`,
+    };
+  }
+  return {
+    state: "not_affected",
+    justification: "code_not_reachable",
+    locations,
+    detail: `${finding.title}: usage analysis found no source usages. Evidence: ${listed}.`,
+  };
 }
 
 function git(root: string, args: string[]): string | undefined {

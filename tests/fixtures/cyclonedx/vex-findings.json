@@ -1,0 +1,57 @@
+[
+  {
+    "id": "npm.request@2.88.2",
+    "ruleId": "npm.request",
+    "detector": "npm",
+    "title": "request is deprecated",
+    "summary": "The request package is fully deprecated.",
+    "severity": "high",
+    "confidence": "exact",
+    "location": { "path": "package.json", "line": 12 },
+    "replacement": "undici",
+    "sources": [{ "title": "npm request", "url": "https://www.npmjs.com/package/request" }],
+    "advisoryIds": ["GHSA-p8p7-x288-28g6"],
+    "usages": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "symbol": "request",
+        "location": { "path": "src/client.js", "line": 3 },
+        "excerpt": "const request = require('request')"
+      },
+      {
+        "kind": "call",
+        "language": "javascript",
+        "symbol": "request",
+        "location": { "path": "src/client.js", "line": 10 },
+        "excerpt": "request(url, callback)"
+      }
+    ],
+    "impact": { "usageCount": 2, "affectedFiles": 1, "level": "medium" }
+  },
+  {
+    "id": "npm.left-pad@1.3.0",
+    "ruleId": "npm.left-pad",
+    "detector": "npm",
+    "title": "left-pad is unmaintained",
+    "summary": "left-pad is no longer maintained.",
+    "severity": "medium",
+    "confidence": "exact",
+    "location": { "path": "package.json", "line": 18 },
+    "sources": [{ "title": "npm left-pad", "url": "https://www.npmjs.com/package/left-pad" }],
+    "usages": [],
+    "impact": { "usageCount": 0, "affectedFiles": 0, "level": "none" }
+  },
+  {
+    "id": "nodejs.18",
+    "ruleId": "nodejs.18",
+    "detector": "nodejs",
+    "title": "Node.js 18 is end of life",
+    "summary": "Node.js 18 reached end of life.",
+    "severity": "high",
+    "confidence": "exact",
+    "location": { "path": "package.json", "line": 5 },
+    "deadline": "2025-04-30",
+    "sources": [{ "title": "Node.js releases", "url": "https://nodejs.org/en/about/previous-releases" }]
+  }
+]
