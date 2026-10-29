@@ -13,6 +13,9 @@
 [![npm](https://img.shields.io/npm/v/evergreen-deprecation.svg?logo=npm&logoColor=white&labelColor=0C1110&color=2F7D5B&style=flat)](https://www.npmjs.com/package/evergreen-deprecation)
 [![Evergreen](https://raw.githubusercontent.com/arminazimi/evergreen/badges/evergreen-badge.svg)](https://github.com/arminazimi/evergreen/actions/workflows/ci.yml)
 [![skills.sh](https://skills.sh/b/arminazimi/evergreen)](https://skills.sh/arminazimi/evergreen/evergreen-deprecation)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?labelColor=0C1110&style=flat)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Evergreen finds **end-of-life and deprecated** runtimes, packages, and GitHub Actions in your repository, shows the exact file and line, and backs every finding with an authoritative source, a replacement, and migration steps. It runs on your machine as a CLI, a local MCP server, a GitHub Action (with SARIF for code scanning), and an Agent Skill, so people and coding agents can find lifecycle risk before it breaks a build, and check a dependency before adding it. Scans are deterministic and offline, and need no account.
 
@@ -241,6 +244,39 @@ See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand
 ## Community
 
 Questions, ideas, and things you built with Evergreen belong in [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions): use **Q&A** to ask, **Ideas** to propose, and **Show and tell** to share. Use issues for bugs, lifecycle rule requests, and ecosystem requests.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/arminazimi"><img src="https://avatars.githubusercontent.com/u/33401832?v=4&size=100" width="100px" height="100px" alt="Armin Azimi"/><br /><sub><b>Armin Azimi</b></sub></a><br /><a href="https://github.com/arminazimi/evergreen/commits?author=arminazimi" title="Code">💻</a> <a href="#data-arminazimi" title="Data">🔣</a> <a href="#design-arminazimi" title="Design">🎨</a> <a href="https://github.com/arminazimi/evergreen/commits?author=arminazimi" title="Documentation">📖</a> <a href="#infra-arminazimi" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-arminazimi" title="Maintenance">🚧</a> <a href="#projectManagement-arminazimi" title="Project Management">📆</a> <a href="https://github.com/arminazimi/evergreen/pulls?q=is%3Apr+reviewed-by%3Aarminazimi" title="Reviewed Pull Requests">👀</a> <a href="#security-arminazimi" title="Security">🛡️</a> <a href="https://github.com/arminazimi/evergreen/commits?author=arminazimi" title="Tests">⚠️</a> <a href="#tool-arminazimi" title="Tools">🔧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Aaqibhafeezkhan"><img src="https://avatars.githubusercontent.com/u/292322256?v=4&size=100" width="100px" height="100px" alt="Aaqibhafeez Khan"/><br /><sub><b>Aaqibhafeez Khan</b></sub></a><br /><a href="https://github.com/arminazimi/evergreen/commits?author=Aaqibhafeezkhan" title="Code">💻</a> <a href="#data-Aaqibhafeezkhan" title="Data">🔣</a> <a href="https://github.com/arminazimi/evergreen/commits?author=Aaqibhafeezkhan" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/GreedyC"><img src="https://avatars.githubusercontent.com/u/62262441?v=4&size=100" width="100px" height="100px" alt="Hsn"/><br /><sub><b>Hsn</b></sub></a><br /><a href="https://github.com/arminazimi/evergreen/commits?author=GreedyC" title="Code">💻</a> <a href="https://github.com/arminazimi/evergreen/commits?author=GreedyC" title="Tests">⚠️</a></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td align="center" size="13px" colspan="7">
+        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg">
+          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
+        </img>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ## License and brand
 

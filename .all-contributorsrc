@@ -1,0 +1,47 @@
+{
+  "projectName": "evergreen",
+  "projectOwner": "arminazimi",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["README.md"],
+  "imageSize": 100,
+  "commit": false,
+  "contributorsPerLine": 7,
+  "linkToUsage": true,
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?labelColor=0C1110&style=flat)](#contributors-)",
+  "contributors": [
+    {
+      "login": "arminazimi",
+      "name": "Armin Azimi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33401832?v=4",
+      "profile": "https://github.com/arminazimi",
+      "contributions": [
+        "code",
+        "data",
+        "design",
+        "doc",
+        "infra",
+        "maintenance",
+        "projectManagement",
+        "review",
+        "security",
+        "test",
+        "tool"
+      ]
+    },
+    {
+      "login": "Aaqibhafeezkhan",
+      "name": "Aaqibhafeez Khan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/292322256?v=4",
+      "profile": "https://github.com/Aaqibhafeezkhan",
+      "contributions": ["code", "data", "test"]
+    },
+    {
+      "login": "GreedyC",
+      "name": "Hsn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62262441?v=4",
+      "profile": "https://github.com/GreedyC",
+      "contributions": ["code", "test"]
+    }
+  ]
+}
