@@ -114,7 +114,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Enforce the scan performance budget
-        run: npm run build --silent && node dist/benchmarks/perf-budget.js --check
+        run: exit 1
 
   coverage-badge:
     if: github.event_name == 'push'
