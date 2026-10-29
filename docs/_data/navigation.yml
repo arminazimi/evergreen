@@ -39,6 +39,8 @@ docs:
         url: /PLUGIN_EVALS.html
       - title: "GitHub Action"
         url: /GITHUB_ACTION.html
+      - title: "Organization rollout"
+        url: /ORG_ROLLOUT.html
       - title: "Detector SDK"
         url: /DETECTORS.html
       - title: "Architecture and trust boundaries"

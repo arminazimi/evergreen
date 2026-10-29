@@ -33,6 +33,7 @@ hosted service.
 - [Terms](TERMS.md)
 - [Cross-host plugin evaluation and security boundaries](PLUGIN_EVALS.md)
 - [GitHub Action](GITHUB_ACTION.md)
+- [Organization rollout](ORG_ROLLOUT.md)
 - [Detector SDK](DETECTORS.md)
 - [Architecture and trust boundaries](ARCHITECTURE.md)
 - [Roadmap](ROADMAP.md)

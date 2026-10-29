@@ -9,6 +9,7 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [90-second demo](https://arminazimi.github.io/evergreen/DEMO.html): scan, explain, build migration context, and verify on a small repository.
 - [Local MCP server](https://arminazimi.github.io/evergreen/MCP.html): the tools, resources, prompt, and output schemas an agent can use, including `check_dependency`.
 - [GitHub Action](https://arminazimi.github.io/evergreen/GITHUB_ACTION.html): run Evergreen in pull requests, gate on severity, upload SARIF to code scanning.
+- [Organization rollout](https://arminazimi.github.io/evergreen/ORG_ROLLOUT.html): scan every repository in an organization with one reusable workflow, accept findings with a baseline, and post a weekly digest.
 - [GitLab](https://arminazimi.github.io/evergreen/GITLAB.html): the CI/CD component, the permissions it needs, its network behavior, and self-managed constraints.
 - [Hooks](https://arminazimi.github.io/evergreen/HOOKS.html): a Git pre-push hook that scans before every push, a Claude Code PreToolUse hook that blocks deprecated package installs, a Cursor rule, and a Copilot instructions file that make the agent check a dependency with Evergreen before adding it.
 - [Capability manifest](https://arminazimi.github.io/evergreen/CAPABILITIES.html): how a tool or agent discovers what Evergreen can do, programmatically.
