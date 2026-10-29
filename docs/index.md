@@ -12,6 +12,7 @@ hosted service.
 ## Start here
 
 - [90-second demo](DEMO.md)
+- [Start contributing](CONTRIBUTE.md)
 - [v0.1 validation results](VALIDATION.md)
 - [Environment doctor and compatibility matrix](COMPATIBILITY.md)
 - [Capability manifest and auto-discovery contract](CAPABILITIES.md)
