@@ -40,6 +40,10 @@ jobs:
         env:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
         run: npm run check
+      - name: Enforce the Action cold-start budget
+        if: runner.os == 'Linux' && matrix.node == 24
+        # Build the bundle from the source under test: an ordinary pull request ships only the committed bundle.
+        run: npm run build:action --silent && node dist/benchmarks/action-cold-start.js --check
       - name: Check the reference pages against the registry
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-reference-pages.js --check
