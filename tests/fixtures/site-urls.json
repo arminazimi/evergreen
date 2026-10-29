@@ -125,6 +125,7 @@
   "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
   "https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html",
   "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
+  "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
   "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
   "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
   "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
