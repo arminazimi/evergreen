@@ -69,10 +69,27 @@ MCP tool schemas arrive from the same local server after connection, so they are
 
 These boundaries follow the official requirement that plugin permissions stay minimal and that annotations do not replace host authorization or confirmation controls in the [OpenAI plugin guidelines](https://developers.openai.com/plugins/plugin-guidelines).
 
+## Live-host MCP discovery
+
+The deterministic plugin eval and the MCP contract tests prove packaged schemas and shared executable behavior. They do not prove that a real MCP host finds the published tools and can call one after installing the released package. After each release, install the released server in one live host, confirm tool discovery, make one sample call, and publish the result in the table below.
+
+### Published results
+
+| Release | Date | Host | Discovery | Sample call |
+| --- | --- | --- | --- | --- |
+| 0.7.1 | 2026-10-29 | Cursor 3.27.22 (macOS) | Host listed six tools: `check_dependency`, `scan_repository`, `list_deprecations`, `explain_deprecation`, `create_migration_context`, `verify_migration` | `check_dependency` for `pkg:npm/request@2.88.2` returned `affected` / high, rule `npm.package.request.deprecated`, replacement "Native fetch or a maintained HTTP client", source [npm request](https://www.npmjs.com/package/request) |
+
+### How to repeat after a release
+
+1. Install the released MCP entry from [`examples/agents/cursor`](../examples/agents/cursor) (or another host setup under [`examples/agents/`](../examples/agents)), pinning `evergreen-deprecation@X.Y.Z`.
+2. Restart or reload the host and confirm it lists the six tools above for the `evergreen` server.
+3. Call `check_dependency` with `pkg:npm/request@2.88.2` (or ask the agent to add the `request` package and confirm it makes that call).
+4. Append a row to the table with the release version, date, host name and version, discovery result, and sample-call outcome.
+
 ## Release gate and limitations
 
 `npm run check` runs `eval:plugins` after build, tests, action-bundle verification, and package drift checks. A release fails if either host misses a corpus case, outputs differ, the workflow cannot complete, untrusted instructions affect results, permissions widen, or a context budget is exceeded.
 
-This deterministic gate evaluates the packaged host contracts and shared executable behavior; it does not claim that every future Codex or Claude model version will make identical autonomous routing choices. Live model observations may supplement this baseline, but they cannot replace or weaken the reproducible release gate. The eval also does not prove host sandbox configuration outside Evergreen's package.
+This deterministic gate evaluates the packaged host contracts and shared executable behavior; it does not claim that every future Codex or Claude model version will make identical autonomous routing choices. Live model observations and the [live-host MCP discovery](#live-host-mcp-discovery) check may supplement this baseline, but they cannot replace or weaken the reproducible release gate. The eval also does not prove host sandbox configuration outside Evergreen's package.
 
 A source-backed security review on 2026-10-15 found one low-severity local availability issue: the missing aggregate scanner budgets described above. It found no path for repository content to replace the workflow contract, inject built-in migration commands, execute suggested commands, open a network listener, or create host-specific executable behavior.
