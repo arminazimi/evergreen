@@ -1,0 +1,10 @@
+{
+  "ecosystem": "cpp",
+  "findings": [
+    {
+      "ruleId": "cpp.cmake.policy-below-3.5.removed",
+      "path": "CMakeLists.txt",
+      "severity": "high"
+    }
+  ]
+}

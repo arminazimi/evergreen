@@ -1,0 +1,30 @@
+{
+  "ecosystem": "database",
+  "findings": [
+    {
+      "ruleId": "container.mysql.eol-8.0-and-older",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "database.mysql.end-of-life-5.7",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-12",
+      "path": "main.tf",
+      "severity": "high"
+    }
+  ]
+}

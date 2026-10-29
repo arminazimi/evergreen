@@ -1,0 +1,15 @@
+{
+  "ecosystem": "ci-images",
+  "findings": [
+    {
+      "ruleId": "ci-images.azure-pipelines.ubuntu-20.04",
+      "path": "azure-pipelines.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "ci-images.azure-pipelines.windows-2019",
+      "path": "azure-pipelines.yml",
+      "severity": "high"
+    }
+  ]
+}

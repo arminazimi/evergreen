@@ -1,0 +1,70 @@
+{
+  "ecosystem": "kubernetes",
+  "findings": [
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "helm/mychart/templates/cronjob.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "kustomize/kustomization.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "manifests/dump.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "manifests/helm-rendered.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.batch.cronjob.v1beta1.removed",
+      "path": "manifests/web.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "manifests/dump.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "manifests/helm-rendered.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.extensions.ingress.v1beta1.removed",
+      "path": "manifests/web.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.helm.repository.stable.end-of-life",
+      "path": "helm/mychart/Chart.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "helm/mychart/templates/ingress.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.networking-k8s-io.ingress.v1beta1.removed",
+      "path": "kustomize/ingress.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.policy.poddisruptionbudget.v1beta1.removed",
+      "path": "kustomize/kustomization.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "kubernetes.policy.podsecuritypolicy.v1beta1.removed",
+      "path": "manifests/psp.yml",
+      "severity": "high"
+    }
+  ]
+}

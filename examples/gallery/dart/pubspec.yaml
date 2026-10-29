@@ -1,0 +1,3 @@
+name: gallery_dart
+environment:
+  sdk: 3.12.0

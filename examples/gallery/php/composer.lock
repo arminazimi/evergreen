@@ -1,0 +1,29 @@
+{
+  "packages": [
+    {
+      "name": "monolog/monolog",
+      "version": "2.9.1",
+      "abandoned": false
+    },
+    {
+      "name": "old/abandoned",
+      "version": "1.0.0",
+      "abandoned": "new/replacement"
+    },
+    {
+      "name": "symfony/http-foundation",
+      "version": "5.4.0"
+    }
+  ],
+  "packages-dev": [
+    {
+      "name": "phpunit/phpunit",
+      "version": "9.6.0"
+    }
+  ],
+  "platform": {
+    "php": "7.4.33"
+  },
+  "platform-dev": [],
+  "plugin-api-version": "2.3.0"
+}

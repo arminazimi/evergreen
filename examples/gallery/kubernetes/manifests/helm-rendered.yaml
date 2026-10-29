@@ -1,0 +1,42 @@
+---
+# Source: mychart/templates/ingress.yaml
+# Rendered as if the cluster lacked networking.k8s.io/v1 and v1beta1 Ingress
+# (the legacy branch of negative/helm/mychart/templates/ingress.yaml).
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mychart
+spec:
+  rules:
+    - host: example.test
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: mychart
+              servicePort: 80
+---
+# Source: mychart/templates/cronjob.yml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cleanup
+spec:
+  schedule: "0 3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: cleanup
+              image: example/cleanup:1.0.0
+---
+# Source: mychart/templates/configmap.yaml
+# A ConfigMap whose data embeds Go-template braces; rendered output is still a manifest.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mychart-config
+data:
+  note: "keep {{ .Values.label }} as text after helm template"

@@ -1,0 +1,7 @@
+// Dev container configuration for the project.
+{
+  "name": "My Project",
+  // Use an EOL Node.js image — triggers container.node.eol-21-and-older
+  "image": "node:16",
+  "remoteUser": "node"
+}

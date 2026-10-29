@@ -1,0 +1,45 @@
+{
+  "ecosystem": "dotnet",
+  "findings": [
+    {
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "app/App.csproj",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "path": "central/Directory.Packages.props",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "app/App.csproj",
+      "severity": "high"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-3.1",
+      "path": "global.json",
+      "severity": "high"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-5.0",
+      "path": "lib/Win.vbproj",
+      "severity": "high"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "central/Directory.Build.props",
+      "severity": "high"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-6.0",
+      "path": "lib/Lib.fsproj",
+      "severity": "high"
+    },
+    {
+      "ruleId": "dotnet.runtime.end-of-support-8.0",
+      "path": "lib/Lib.fsproj",
+      "severity": "low"
+    }
+  ]
+}

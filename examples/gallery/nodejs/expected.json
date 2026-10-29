@@ -1,0 +1,10 @@
+{
+  "ecosystem": "nodejs",
+  "findings": [
+    {
+      "ruleId": "nodejs.runtime.eol-20",
+      "path": ".nvmrc",
+      "severity": "high"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+service: orders
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 128
+functions:
+  api:
+    handler: handler.api
+    runtime: python3.8
+  worker:
+    handler: handler.worker

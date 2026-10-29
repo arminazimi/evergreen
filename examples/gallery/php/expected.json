@@ -1,0 +1,25 @@
+{
+  "ecosystem": "php",
+  "findings": [
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": ".php-version",
+      "severity": "high"
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": ".tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.json",
+      "severity": "high"
+    },
+    {
+      "ruleId": "php.runtime.eol-7.4",
+      "path": "composer.lock",
+      "severity": "high"
+    }
+  ]
+}

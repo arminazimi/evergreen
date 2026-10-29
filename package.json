@@ -66,6 +66,7 @@
     "schemas",
     "skills",
     "!examples/demo",
+    "!examples/gallery",
     "!registry/sources.lock.json",
     "!schemas/vendor",
     "!**/*.map",

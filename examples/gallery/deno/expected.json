@@ -1,0 +1,20 @@
+{
+  "ecosystem": "deno",
+  "findings": [
+    {
+      "ruleId": "deno.bun.runtime.eol-0.x",
+      "path": "bun-1/bunfig.toml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "deno.bun.runtime.eol-1.0",
+      "path": "bun-1/.bun-version",
+      "severity": "high"
+    },
+    {
+      "ruleId": "deno.runtime.eol-1.x",
+      "path": "deno-1/deno.json",
+      "severity": "high"
+    }
+  ]
+}

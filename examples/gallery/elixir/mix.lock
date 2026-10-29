@@ -1,0 +1,4 @@
+%{
+  "fennec": {:hex, :fennec, "0.3.0", "fc7065600ef9f2a09ce2126a0dc6009b2da38d624411fa5a9f42d13612e78b35", [:mix], [], "hexpm", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
+  "jason": {:hex, :jason, "1.4.4", "b922678c8c000696e09b9e8301b1692ac41f32a5237948cce748e10e6e407240", [:mix], [], "hexpm", "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+}

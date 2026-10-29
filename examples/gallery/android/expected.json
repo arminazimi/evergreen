@@ -1,0 +1,15 @@
+{
+  "ecosystem": "android",
+  "findings": [
+    {
+      "ruleId": "android.play-billing.version-5",
+      "path": "build.gradle",
+      "severity": "high"
+    },
+    {
+      "ruleId": "android.play-billing.version-5",
+      "path": "build.gradle.kts",
+      "severity": "high"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "ecosystem": "container",
+  "findings": [
+    {
+      "ruleId": "container.alpine.eol-3.20-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.alpine.eol-3.21",
+      "path": "os-images.Dockerfile",
+      "severity": "low"
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.debian.eol-11-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": ".devcontainer/devcontainer.json",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "docker-compose.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.node.eol-21-and-older",
+      "path": "Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "api.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.postgres.eol-13-and-older",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.python.eol-3.10-and-older",
+      "path": "Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "compose.yaml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.redis.eol-6.0-and-older",
+      "path": "Containerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.ubuntu.eol-20.04-and-older",
+      "path": "os-images.Dockerfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "container.ubuntu.eol-22.04",
+      "path": "os-images.Dockerfile",
+      "severity": "low"
+    },
+    {
+      "ruleId": "database.postgresql.end-of-life-11",
+      "path": "compose.yaml",
+      "severity": "high"
+    }
+  ]
+}

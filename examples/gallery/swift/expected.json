@@ -1,0 +1,10 @@
+{
+  "ecosystem": "swift",
+  "findings": [
+    {
+      "ruleId": "swift.xcode.app-store-15-through-25",
+      "path": ".xcode-version",
+      "severity": "high"
+    }
+  ]
+}

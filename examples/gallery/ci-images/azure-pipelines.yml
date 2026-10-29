@@ -1,0 +1,13 @@
+pool:
+  vmImage: ubuntu-20.04
+
+stages:
+  - stage: Test
+    pool:
+      vmImage: windows-2019
+    jobs:
+      - job: Build
+        pool:
+          vmImage: macOS-12
+        steps:
+          - script: echo build

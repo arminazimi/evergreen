@@ -1,0 +1,25 @@
+{
+  "ecosystem": "go",
+  "findings": [
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "go.mod",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.22",
+      "path": "go.work",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.23",
+      "path": "go.mod",
+      "severity": "high"
+    },
+    {
+      "ruleId": "go.runtime.end-of-support-1.23",
+      "path": "go.work",
+      "severity": "high"
+    }
+  ]
+}

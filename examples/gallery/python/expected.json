@@ -1,0 +1,10 @@
+{
+  "ecosystem": "python",
+  "findings": [
+    {
+      "ruleId": "python.runtime.eol-3.9-and-older",
+      "path": ".python-version",
+      "severity": "high"
+    }
+  ]
+}

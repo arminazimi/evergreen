@@ -1,0 +1,30 @@
+{
+  "ecosystem": "shell",
+  "findings": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "modules/Deploy.psd1",
+      "severity": "high"
+    },
+    {
+      "ruleId": "shell.powershell.end-of-life-7.0",
+      "path": "modules/Deploy.psm1",
+      "severity": "high"
+    }
+  ]
+}

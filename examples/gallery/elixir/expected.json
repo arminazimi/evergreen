@@ -1,0 +1,35 @@
+{
+  "ecosystem": "elixir",
+  "findings": [
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "elixir.erlang.eol-25",
+      "path": ".tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "elixir.package.fennec.retired",
+      "path": "mix.exs",
+      "severity": "high"
+    },
+    {
+      "ruleId": "elixir.package.fennec.retired",
+      "path": "mix.lock",
+      "severity": "high"
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": ".tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "elixir.runtime.eol-1.14",
+      "path": "mix.exs",
+      "severity": "high"
+    }
+  ]
+}

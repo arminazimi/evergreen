@@ -1,0 +1,6 @@
+[versions]
+springBoot = "2.7.18"
+
+[libraries]
+spring-boot = { group = "org.springframework.boot", name = "spring-boot", version.ref = "springBoot" }
+hibernate = { group = "org.hibernate", name = "hibernate-entitymanager", version = "6.0.0.Alpha7" }

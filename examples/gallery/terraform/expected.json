@@ -1,0 +1,10 @@
+{
+  "ecosystem": "terraform",
+  "findings": [
+    {
+      "ruleId": "terraform.cli.end-of-support-1.14",
+      "path": ".terraform-version",
+      "severity": "high"
+    }
+  ]
+}

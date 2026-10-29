@@ -1,0 +1,40 @@
+{
+  "ecosystem": "rust",
+  "findings": [
+    {
+      "ruleId": "rust.crate.ansi-term.unmaintained",
+      "path": "Cargo.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.crate.atty.unmaintained",
+      "path": "Cargo.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "Cargo.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.crate.failure.unmaintained",
+      "path": "workspace/Cargo.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "path": "Cargo.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "legacy/rust-toolchain",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "rust.toolchain.end-of-support-1.98-and-older",
+      "path": "rust-toolchain.toml",
+      "severity": "medium"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "ecosystem": "ruby",
+  "findings": [
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".ruby-version",
+      "severity": "high"
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": ".tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile",
+      "severity": "high"
+    },
+    {
+      "ruleId": "ruby.runtime.eol-3.2",
+      "path": "Gemfile.lock",
+      "severity": "high"
+    }
+  ]
+}

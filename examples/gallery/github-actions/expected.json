@@ -1,0 +1,10 @@
+{
+  "ecosystem": "github-actions",
+  "findings": [
+    {
+      "ruleId": "github-actions.checkout.node20",
+      "path": ".github/workflows/ci.yml",
+      "severity": "high"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "ecosystem": "npm",
+  "findings": [
+    {
+      "ruleId": "npm.package.request.deprecated",
+      "path": "package.json",
+      "severity": "high"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "ecosystem": "scala",
+  "findings": [
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": ".scala-version",
+      "severity": "high"
+    },
+    {
+      "ruleId": "scala.runtime.eol-2.11",
+      "path": "build.sbt",
+      "severity": "high"
+    },
+    {
+      "ruleId": "scala.sbt.eol-0.13",
+      "path": "project/build.properties",
+      "severity": "high"
+    }
+  ]
+}

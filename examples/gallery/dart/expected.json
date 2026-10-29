@@ -1,0 +1,10 @@
+{
+  "ecosystem": "dart",
+  "findings": [
+    {
+      "ruleId": "dart.sdk.end-of-support-3.12",
+      "path": "pubspec.yaml",
+      "severity": "high"
+    }
+  ]
+}

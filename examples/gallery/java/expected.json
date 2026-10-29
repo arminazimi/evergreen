@@ -1,0 +1,90 @@
+{
+  "ecosystem": "java",
+  "findings": [
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "maven/pom.xml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "maven/pom.xml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-12-16",
+      "path": "pins/.java-version",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "gradle-groovy/build.gradle",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "gradle-groovy/build.gradle",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "gradle-groovy/build.gradle",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "maven/pom.xml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-18-20",
+      "path": "pins/.sdkmanrc",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "gradle-kotlin/build.gradle.kts",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "gradle-kotlin/build.gradle.kts",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "maven/pom.xml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.jdk.end-of-support-22-24",
+      "path": "pins/.tool-versions",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.maven.org.hibernate.hibernate-entitymanager.relocated",
+      "path": "gradle-catalog/gradle/libs.versions.toml",
+      "severity": "medium"
+    },
+    {
+      "ruleId": "java.maven.spring-boot.legacy-2x.end-of-support",
+      "path": "gradle-catalog/gradle/libs.versions.toml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.maven.spring-boot.legacy-2x.end-of-support",
+      "path": "spring-boot/pom.xml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "path": "spring-boot/pom.xml",
+      "severity": "high"
+    },
+    {
+      "ruleId": "java.maven.spring-boot.legacy-3x.end-of-support",
+      "path": "spring-boot/pom.xml",
+      "severity": "high"
+    }
+  ]
+}
