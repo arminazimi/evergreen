@@ -5,7 +5,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo, Finding, SuppressionState } from "./domain.js";
-import { renderComment, renderFailure, renderSummary, runGitHubAction } from "./github-action.js";
+import { parsePathsInput, renderComment, renderFailure, renderSummary, resolveScanPaths, runGitHubAction } from "./github-action.js";
 import { upsertPullRequestComment } from "./pr-comment.js";
 import type { GitHubActionOutcome, GitHubAnnotation, SeverityGate } from "./github-action.js";
 import type { ExpiredPolicy } from "./baseline.js";
@@ -33,13 +33,13 @@ async function setOutput(name: string, value: string): Promise<void> {
   if (output) await appendFile(output, `${name}=${value}\n`, "utf8");
 }
 
-async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo, expiredFailure = false, suppressions?: SuppressionState, diff?: GitHubActionOutcome["diff"]): Promise<void> {
+async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo, expiredFailure = false, suppressions?: SuppressionState, diff?: GitHubActionOutcome["diff"], packages?: GitHubActionOutcome["packages"]): Promise<void> {
   const summary = process.env.GITHUB_STEP_SUMMARY;
   if (!summary) return;
   // On by default; `attribution: "false"` turns the line off.
   const attribution = process.env.INPUT_ATTRIBUTION !== "false";
   const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
-  await appendFile(summary, `${renderSummary(findings, failed, gate, data, attribution, suppressions, diff)}${note}`, "utf8");
+  await appendFile(summary, `${renderSummary(findings, failed, gate, data, attribution, suppressions, diff, packages)}${note}`, "utf8");
 }
 
 interface PullRequestEvent {
@@ -71,8 +71,8 @@ async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>)
       console.log("::notice title=Evergreen pull request comment skipped::pr-comment needs a pull_request event, a token, and GITHUB_REPOSITORY.");
       return;
     }
-    const { result, gateFailed, gate, expiredFailure, diff } = outcome;
-    const body = renderComment(result.findings, gateFailed, gate, result.data, process.env.INPUT_ATTRIBUTION !== "false", result.suppressions, diff);
+    const { result, gateFailed, gate, expiredFailure, diff, packages } = outcome;
+    const body = renderComment(result.findings, gateFailed, gate, result.data, process.env.INPUT_ATTRIBUTION !== "false", result.suppressions, diff, packages);
     const note = expiredFailure ? "\n> **Failed:** a baseline suppression has expired and `on-expired` is set to `fail`.\n" : "";
     const done = await upsertPullRequestComment({ apiUrl: process.env.GITHUB_API_URL ?? "https://api.github.com", repository, pullRequest, token }, `${body}${note}`);
     console.log(`Evergreen ${done} its pull request comment.`);
@@ -88,6 +88,13 @@ async function main(): Promise<void> {
     if (inputMode !== "scan" && inputMode !== "diff") throw new Error(`Invalid mode: ${inputMode}. Use "scan" or "diff".`);
     const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
     const root = process.env.INPUT_PATH || workspace;
+    const pathPatterns = parsePathsInput(process.env.INPUT_PATHS ?? "");
+    if (pathPatterns.length > 0 && inputMode === "diff") {
+      console.log("::notice title=Evergreen paths ignored in diff mode::mode: diff compares the whole pull request checkout; the paths input applies only to scan mode.");
+    }
+    const scanPaths = pathPatterns.length > 0 && inputMode !== "diff"
+      ? await resolveScanPaths(resolve(workspace, root), pathPatterns)
+      : undefined;
     const reportPath = resolve(
       process.env.RUNNER_TEMP ?? workspace,
       "evergreen-report.json",
@@ -101,8 +108,9 @@ async function main(): Promise<void> {
     const diff = inputMode === "diff" ? await resolveDiffMode(process.env.GITHUB_EVENT_PATH) : undefined;
     if (diff && process.env.INPUT_BASELINE) console.log(`::notice title=Evergreen baseline ignored in diff mode::mode: diff judges only what the pull request introduces, so the baseline ${process.env.INPUT_BASELINE} is not applied.`);
     const outcome = await runGitHubAction({
-      root,
+      root: scanPaths ? resolve(workspace, root) : root,
       reportPath,
+      ...(scanPaths ? { paths: scanPaths } : {}),
       ...(sarifPath ? { sarifPath } : {}),
       ...(badgePath ? { badgePath } : {}),
       ...(diff ? { mode: "diff" as const } : {}),
@@ -117,21 +125,23 @@ async function main(): Promise<void> {
     for (const annotation of outcome.annotations) console.log(annotationCommand(annotation));
     // A suppression about to expire is a warning on the run, not a finding.
     for (const diagnostic of outcome.result.diagnostics) {
-      if (diagnostic.startsWith("Baseline suppression expired")) console.log(`::warning title=Evergreen baseline suppression expired::${commandValue(diagnostic)}`);
-      if (diagnostic.startsWith("Baseline suppression expires")) console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
+      if (diagnostic.includes("Baseline suppression expired")) console.log(`::warning title=Evergreen baseline suppression expired::${commandValue(diagnostic)}`);
+      if (diagnostic.includes("Baseline suppression expires")) console.log(`::warning title=Evergreen baseline suppression expires soon::${commandValue(diagnostic)}`);
     }
     await setOutput("report-path", outcome.reportPath);
     if (outcome.sarifPath) await setOutput("sarif-path", outcome.sarifPath);
     if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
     if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
-    await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions, outcome.diff);
+    await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions, outcome.diff, outcome.packages);
     await postComment(outcome);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       diff
         ? `Evergreen found ${outcome.result.findings.length} introduced lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"} and ${outcome.diff?.fixed.length ?? 0} fixed lifecycle finding${(outcome.diff?.fixed.length ?? 0) === 1 ? "" : "s"} between ${diff.diffRange}.`
-        : `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
+        : scanPaths
+          ? `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"} across ${scanPaths.length} package${scanPaths.length === 1 ? "" : "s"}.`
+          : `Evergreen found ${outcome.result.findings.length} new lifecycle finding${outcome.result.findings.length === 1 ? "" : "s"}.`,
     );
     const failure = renderFailure(outcome);
     if (failure) {
