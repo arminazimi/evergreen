@@ -1,0 +1,64 @@
+{
+  "protocolVersion": "0.2.5",
+  "name": "Evergreen",
+  "description": "Local-first deprecation intelligence for software repositories. Finds end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, with authoritative sources and migration context. Runs on your machine as a stdio MCP server; scans never use the network.",
+  "version": "0.7.1",
+  "url": "https://arminazimi.github.io/evergreen/",
+  "documentationUrl": "https://arminazimi.github.io/evergreen/MCP.html",
+  "iconUrl": "https://arminazimi.github.io/evergreen/assets/brand/evergreen-mark-adaptive.svg",
+  "provider": {
+    "organization": "arminazimi",
+    "url": "https://github.com/arminazimi/evergreen"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["application/json", "text/plain"],
+  "skills": [
+    {
+      "id": "scan_repository",
+      "name": "Scan repository",
+      "description": "Run all built-in Evergreen detectors against a local repository and return the complete versioned scan result.",
+      "tags": ["deprecation", "end-of-life", "scan", "mcp"]
+    },
+    {
+      "id": "list_deprecations",
+      "name": "List deprecations",
+      "description": "Run a fresh local scan and return a compact, versioned list of lifecycle findings.",
+      "tags": ["deprecation", "end-of-life", "list", "mcp"]
+    },
+    {
+      "id": "explain_deprecation",
+      "name": "Explain deprecation",
+      "description": "Run a fresh local scan and return one complete evidence-backed finding by ID.",
+      "tags": ["deprecation", "evidence", "explain", "mcp"]
+    },
+    {
+      "id": "create_migration_context",
+      "name": "Create migration context",
+      "description": "Create a validated, rule-specific migration packet for one finding from a fresh local scan.",
+      "tags": ["migration", "context", "mcp"]
+    },
+    {
+      "id": "verify_migration",
+      "name": "Verify migration",
+      "description": "Re-scan locally and check whether a finding observed earlier in this MCP session is gone.",
+      "tags": ["migration", "verify", "mcp"]
+    },
+    {
+      "id": "check_dependency",
+      "name": "Check dependency",
+      "description": "Check one package against Evergreen's lifecycle rules before adding it. no-data means no rule exists, not that the package is safe.",
+      "tags": ["dependency", "check", "guardrail", "mcp"]
+    },
+    {
+      "id": "forecast_repository",
+      "name": "Forecast repository",
+      "description": "List dated end-of-life events in the next months that affect findings in this repository.",
+      "tags": ["forecast", "end-of-life", "mcp"]
+    }
+  ]
+}

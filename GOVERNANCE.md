@@ -28,7 +28,7 @@ There is no steering committee or formal vote. The current maintainer grants mai
 
 Most decisions are made in the issue or pull request where the work happens. Contributors argue for an approach with evidence, tests, and a working change; the maintainer decides when discussion does not settle it. There is no vote count and no requirement that every objection be withdrawn, only that it be answered.
 
-Every merge needs a green `npm run check` and resolved review conversations. CI also runs the rules check on changed registry files and the self-scan that fails on findings outside the baseline. The branch protection rule on `main` requires the CI and self-scan status checks; it does not require an approving review. Review is therefore a convention the project keeps, not a gate GitHub enforces: a change to the paths in `.github/CODEOWNERS`, to lifecycle evidence, or to a public contract waits for the code owner, and green CI is not a substitute for that review.
+Every merge needs a green `npm run check` and resolved review conversations. CI also runs the rules check on changed registry files and the self-scan that fails on findings outside the baseline. The branch protection rule on `main` requires one status check, `ci-ok`, which fails when any CI job failed or was cancelled and passes when a job was skipped; the merge queue runs it on `merge_group` before a pull request lands. The rule does not require an approving review. Review is therefore a convention the project keeps, not a gate GitHub enforces: a change to the paths in `.github/CODEOWNERS`, to lifecycle evidence, or to a public contract waits for the code owner, and green CI is not a substitute for that review.
 
 ### When a written decision is required
 

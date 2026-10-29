@@ -154,7 +154,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 516 rules and makes no network requests after it loads.
+        This page embeds 517 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -170,7 +170,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 516 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 517 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -1199,6 +1199,24 @@ h1 {
       {
         "title": "endoflife.date: MySQL",
         "url": "https://endoflife.date/mysql"
+      }
+    ]
+  },
+  {
+    "id": "database.postgresql.end-of-life-10",
+    "title": "PostgreSQL 10 is no longer a supported major version",
+    "summary": "The PostgreSQL Global Development Group lists 10 as unsupported: its final release was on 2022-11-10, so it receives no further bug or security fixes.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "database",
+    "purl": "pkg:generic/postgresql",
+    "vers": "vers:semver/>=10.0.0|\u003c11.0.0",
+    "deadline": "2022-11-10",
+    "replacement": "PostgreSQL 15 or later",
+    "sources": [
+      {
+        "title": "PostgreSQL versioning policy",
+        "url": "https://www.postgresql.org/support/versioning/"
       }
     ]
   },

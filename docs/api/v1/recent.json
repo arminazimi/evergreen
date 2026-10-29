@@ -1,6 +1,19 @@
 {
   "changes": [
     {
+      "deadline": "2022-11-10",
+      "ecosystem": "database",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-postgresql.json",
+      "productId": "generic-postgresql",
+      "purl": "pkg:generic/postgresql",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "database.postgresql.end-of-life-10",
+      "severity": "high",
+      "title": "PostgreSQL 10 is no longer a supported major version"
+    },
+    {
       "deadline": "2024-07-29",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1251,18 +1264,6 @@
       "ruleId": "nodejs.symbol.module.register",
       "severity": "medium",
       "title": "Module.register is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.net.setsimultaneousaccepts",
-      "severity": "high",
-      "title": "Net._setSimultaneousAccepts has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

@@ -1781,7 +1781,7 @@
       "type": "generic"
     },
     {
-      "earliestDeadline": "2023-11-09",
+      "earliestDeadline": "2022-11-10",
       "ecosystems": [
         "database"
       ],
@@ -1790,11 +1790,11 @@
         "scheduled-end-of-life"
       ],
       "id": "generic-postgresql",
-      "latestReview": "2026-10-24",
+      "latestReview": "2026-10-29",
       "name": "postgresql",
       "path": "products/generic-postgresql.json",
       "purl": "pkg:generic/postgresql",
-      "rules": 4,
+      "rules": 5,
       "type": "generic"
     },
     {
@@ -4370,7 +4370,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 516,
+  "rules": 517,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4400,7 +4400,7 @@
     {
       "path": "types/generic.json",
       "products": 85,
-      "rules": 290,
+      "rules": 291,
       "type": "generic"
     },
     {

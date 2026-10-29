@@ -1,0 +1,9 @@
+{
+  "packages": [
+    {
+      "name": "swiftmailer/swiftmailer",
+      "version": "6.2.7",
+      "abandoned": true
+    }
+  ]
+}

@@ -15,7 +15,8 @@
         "list_deprecations",
         "explain_deprecation",
         "create_migration_context",
-        "verify_migration"
+        "verify_migration",
+        "forecast_repository"
       ]
     }
   }

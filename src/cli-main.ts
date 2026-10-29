@@ -22,15 +22,16 @@ import { guardCommand, GuardUsageError } from "./guard.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import { hasPersonalConfig, initPersonal } from "./init-personal.js";
-import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary } from "./init.js";
+import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary, siteSuggestion } from "./init.js";
 import type { InitStep } from "./init.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
-import { applySetup, planSetup } from "./setup.js";
+import { applySetup, installSetupSkills, planSetup } from "./setup.js";
 import type { AgentFileName } from "./init-agents.js";
 import { builtInDetectors } from "./detectors/index.js";
 import type { ScanSelection, Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS, renderForecastText } from "./forecast.js";
+import { renderForecastTimeline } from "./forecast-timeline.js";
 import { applyOnBranch } from "./fix/git.js";
 import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
@@ -54,6 +55,7 @@ import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
 import { exportActiveCle } from "./export/cle.js";
+import { exportPortal, portalReportLink } from "./export/portal.js";
 import {
   invalidConfig,
   isOfflineDataUpdateFailure,
@@ -84,7 +86,7 @@ Usage:
   evergreen scan [path] --exclude <ecosystem|rule-prefix>   # drop matching findings; repeatable
   evergreen scan [path] --no-cache   # bypass the scan cache and re-scan all files fresh
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
-  evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
+  evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--timeline | --json]   # what reaches end of life next, by month
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
   evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
   evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
@@ -103,6 +105,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen export --format cle [--data-version <version>]   # CLE 1.0 snapshots, one JSON document per line and component; skipped rules reported on stderr
+  evergreen export --format portal [path...] [--data-version <version>] [--report-base-url <url>]   # developer-portal catalog: severity counts, next end-of-life date, and report link per scanned path
   evergreen sbom enrich <bom.json> [--data-version <version>]   # print enriched CycloneDX or SPDX 2.3 JSON; leaves the input unchanged
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
@@ -303,6 +306,7 @@ async function guidedInit(options: { root: string; gate: Severity; dryRun?: bool
   }
   const plan = await planInitSetup({ root: options.root, gate: options.gate, ...(options.file ? { file: options.file } : {}) });
   process.stdout.write(`Detected: ${plan.detectedCi.length > 0 ? plan.detectedCi.join(" and ") : "no CI"}; ${plan.detectedAgents.length > 0 ? plan.detectedAgents.join(", ") : "no agent hosts"}\n`);
+  if (plan.site) process.stdout.write(siteSuggestion(plan.site));
   if (options.dryRun) {
     printGuidedSteps(plan.steps, options.dryRun === true, options.gate);
     process.stdout.write("Dry run: nothing was written.\n");
@@ -346,7 +350,7 @@ function printGuidedSteps(steps: InitStep[], dryRun: boolean, gate: Severity): v
   }
 }
 
-/** `setup`: adds the Evergreen section to the instruction file of every detected agent host. */
+/** `setup`: adds the Evergreen section to the instruction file of every detected agent host, and offers the Skill. */
 async function setup(args: string[]): Promise<number> {
   const usage = "Usage: evergreen setup [path] [--yes] [--dry-run]";
   const flags = new Set(["--yes", "-y", "--dry-run"]);
@@ -367,7 +371,12 @@ async function setup(args: string[]): Promise<number> {
       process.stdout.write(`${verb === "leave unchanged" ? "Already current:" : `Would ${verb}`} ${entry.file} (${entry.hosts.join(", ")})\n`);
       if (entry.diff) process.stdout.write(`\n${entry.diff}\n\n`);
     }
-    if (plan.entries.every((entry) => entry.change === "unchanged")) {
+    if (plan.skills.length > 0) {
+      process.stdout.write("\nSkill install (supported hosts):\n");
+      for (const offer of plan.skills) process.stdout.write(`  ${offer.host}: ${offer.command}\n`);
+    }
+    const filesNeedWrite = plan.entries.some((entry) => entry.change !== "unchanged");
+    if (!filesNeedWrite && plan.skills.length === 0) {
       process.stdout.write("Nothing to change.\n");
       return 0;
     }
@@ -375,7 +384,7 @@ async function setup(args: string[]): Promise<number> {
       process.stdout.write("Dry run: nothing was written.\n");
       return 0;
     }
-    if (!yes) {
+    if (filesNeedWrite && !yes) {
       if (!process.stdin.isTTY) return fail("usage", "Confirmation needed: pass --yes to write these changes, or --dry-run to only print them.");
       const readline = await import("node:readline/promises");
       const prompt = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -386,8 +395,21 @@ async function setup(args: string[]): Promise<number> {
         return 0;
       }
     }
-    const written = await applySetup(root, plan);
-    process.stdout.write(`Updated ${written.join(", ")}.\n`);
+    if (filesNeedWrite) {
+      const written = await applySetup(root, plan);
+      process.stdout.write(`Updated ${written.join(", ")}.\n`);
+    } else {
+      process.stdout.write("Instruction files are already current.\n");
+    }
+    // Skill install uses the network; only with `--yes`, never in dry-run, never on interactive file confirm alone.
+    if (plan.skills.length > 0 && yes) {
+      const result = installSetupSkills(plan, { cwd: root });
+      if (result.installed.length > 0) process.stdout.write(`Installed the Skill for ${result.installed.join(", ")}.\n`);
+      for (const failure of result.failed) process.stderr.write(`Skill install failed for ${failure.host}: ${failure.detail}\n`);
+      if (result.failed.length > 0) return fail("internal", `Skill install failed for ${result.failed.map((item) => item.host).join(", ")}.`);
+    } else if (plan.skills.length > 0) {
+      process.stdout.write("Pass --yes to install the Skill, or run the command above.\n");
+    }
     return 0;
   } catch (error) {
     if (error instanceof AgentFileError) return fail("parse", error.message);
@@ -726,6 +748,7 @@ async function main(rawArgs: string[]): Promise<number> {
     "--ignore",
     "--only",
     "--exclude",
+    "--report-base-url",
   ]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
@@ -804,15 +827,37 @@ async function main(rawArgs: string[]): Promise<number> {
     }
   }
   if (command === "export") {
+    const reportBaseIndex = args.indexOf("--report-base-url");
+    const reportBaseUrl = reportBaseIndex === -1 ? undefined : args[reportBaseIndex + 1];
+    if (reportBaseIndex !== -1 && (reportBaseUrl === undefined || reportBaseUrl.startsWith("-"))) {
+      return fail("usage", "--report-base-url needs a URL, for example https://ci.example.com/artifacts/.");
+    }
     const operands = args.slice(1).filter((_, index) =>
       index + 1 !== formatIndex && index + 1 !== formatIndex + 1 &&
-      (dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1)));
-    if (format !== "cle" || operands.length > 0) {
-      return fail("usage", "Usage: evergreen export --format cle [--data-version <version>]");
+      (dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1)) &&
+      (reportBaseIndex === -1 || (index + 1 !== reportBaseIndex && index + 1 !== reportBaseIndex + 1)));
+    const exportUsage = "Usage: evergreen export --format cle|portal [path...] [--data-version <version>] [--report-base-url <url>]";
+    if (format !== "cle" && format !== "portal") {
+      return fail("usage", exportUsage);
     }
-    const result = await exportActiveCle();
-    for (const document of result.documents) process.stdout.write(`${JSON.stringify(document)}\n`);
-    if (result.skipped > 0) process.stderr.write(`Skipped ${result.skipped} rules: CLE requires a dated component lifecycle event; deprecation, removal, symbol rules, and undated rules cannot be faithfully represented.\n`);
+    if (format === "cle") {
+      if (operands.length > 0 || reportBaseIndex !== -1) return fail("usage", "Usage: evergreen export --format cle [--data-version <version>]");
+      const result = await exportActiveCle();
+      for (const document of result.documents) process.stdout.write(`${JSON.stringify(document)}\n`);
+      if (result.skipped > 0) process.stderr.write(`Skipped ${result.skipped} rules: CLE requires a dated component lifecycle event; deprecation, removal, symbol rules, and undated rules cannot be faithfully represented.\n`);
+      return 0;
+    }
+    if (operands.some((operand) => operand.startsWith("-"))) {
+      return fail("usage", exportUsage);
+    }
+    const paths = operands.length > 0 ? operands : ["."];
+    const multi = await scanProjects(paths, builtInDetectors, { noCache: args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1" });
+    const catalog = exportPortal(multi.projects.map((project) => ({
+      path: project.path,
+      findings: project.result.findings,
+      reportLink: portalReportLink(project.path, reportBaseUrl),
+    })));
+    process.stdout.write(`${JSON.stringify(catalog, null, 2)}\n`);
     return 0;
   }
   if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "junit" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html" && format !== "slack" && format !== "teams" && format !== "webhook") {
@@ -1014,12 +1059,20 @@ async function main(rawArgs: string[]): Promise<number> {
     return fail("usage", "--as-of (or --today) must be a date (YYYY-MM-DD).");
   }
   if (command === "forecast") {
+    const timeline = args.includes("--timeline");
+    if (timeline && json) return fail("usage", "Use either --timeline or --json, not both.");
     const monthsValue = optionValue("--months");
     const months = monthsValue === undefined ? DEFAULT_FORECAST_MONTHS : Number(monthsValue);
     if (!Number.isInteger(months) || months < 1 || months > MAX_FORECAST_MONTHS) {
       return fail("usage", `--months must be a whole number from 1 to ${MAX_FORECAST_MONTHS}.`);
     }
     const forecast = buildForecast(await scanRepository(pathArgument, builtInDetectors, { noCache }), await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10), months);
+    if (timeline) {
+      const width = Math.min(process.stdout.columns || 80, 100);
+      const color = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR;
+      process.stdout.write(`${renderForecastTimeline(forecast, { width, color })}\n`);
+      return 0;
+    }
     process.stdout.write(`${json ? JSON.stringify(forecast, null, 2) : renderForecastText(forecast)}\n`);
     return 0;
   }
@@ -1138,7 +1191,11 @@ async function main(rawArgs: string[]): Promise<number> {
     const groups = await groupScanByOwner(result);
     process.stdout.write(`${json ? JSON.stringify(groups, null, 2) : renderOwnerGroupsText(groups)}\n`);
   } else {
-    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "codequality" ? renderCodeQuality(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result) : format === "markdown" ? renderMarkdown(result) : format === "junit" ? renderJunit(result) : format === "slack" ? renderSlack(result) : format === "teams" ? renderTeams(result) : format === "webhook" ? renderWebhook(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
+    // Only the shareable HTML report carries a forecast; building it would otherwise slow every other format down.
+    const forecast = format === "html" && command === "scan"
+      ? buildForecast(result, await bundledRules(), asOfValue ?? new Date().toISOString().slice(0, 10))
+      : undefined;
+    const output = format === "sarif" ? renderSarif(result) : format === "rdjson" ? renderRdjson(result) : format === "codequality" ? renderCodeQuality(result) : format === "compact" ? renderCompact(result) : format === "html" ? renderHtml(result, { forecast }) : format === "markdown" ? renderMarkdown(result) : format === "junit" ? renderJunit(result) : format === "slack" ? renderSlack(result) : format === "teams" ? renderTeams(result) : format === "webhook" ? renderWebhook(result) : json ? renderJson(result) : renderText(result, { firstRun: command === "scan" && !(await hasPersonalConfig()) });
     process.stdout.write(`${output}\n`);
     if (args.includes("--write-status")) {
       const statusRoot = resolve(pathArgument);

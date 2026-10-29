@@ -10,6 +10,12 @@ Library maintainers who ship CLE lifecycle declarations for *their* packages: se
 |---|---|
 | [@arminazimi](https://github.com/arminazimi) | Maintainer (merge, release, accounts, security, Code of Conduct) |
 
+## Branch protection and the merge queue
+
+`main` requires one status check, `ci-ok`. The CI workflow reports it after every other job, and it passes when each needed job succeeded or was skipped; it fails when any of them failed or was cancelled. Keep the individual jobs, and the public-corpus run, out of the required list so the matrix can change without editing repository settings.
+
+The merge queue is part of the same rule and runs CI on `merge_group` before it lands a pull request. To turn both on for a repository: **Settings → Rules → the `main` rule → Require status checks to pass**, add `ci-ok`, then enable **Require merge queue** and pick the merge method and grouping. The `merge_group` trigger in `.github/workflows/ci.yml` is what gives the queued pull request its `ci-ok`; without it a queued pull request waits forever.
+
 ## Detector owners
 
 Each owner is the accountable reviewer for that ecosystem's detector under `src/detectors/`, its registry file, fixtures and conformance tests, public corpus entries, documentation page, and maturity level in `benchmarks/thresholds.json`. The owner does not have to write every change; they are the person expected to review evidence and answer questions about that ecosystem.

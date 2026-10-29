@@ -10,7 +10,7 @@ Where Evergreen is published, and where it is not. Install steps for working cha
 | --- | --- | --- |
 | npm | Published (`evergreen-deprecation@0.7.1`) | [npmjs.com/package/evergreen-deprecation](https://www.npmjs.com/package/evergreen-deprecation) |
 | Docker | Published (`ghcr.io/arminazimi/evergreen`) | [Package](https://github.com/arminazimi/evergreen/pkgs/container/evergreen) · [Install](INSTALL.md#run-the-quickstart-with-docker) |
-| Homebrew | Published (`arminazimi/tap/evergreen`; formula may lag the npm release) | [Tap](https://github.com/arminazimi/homebrew-tap) · `brew install arminazimi/tap/evergreen` |
+| Homebrew | Published (`arminazimi/tap/evergreen`; bumped from the release workflow) | [Tap](https://github.com/arminazimi/homebrew-tap) · `brew install arminazimi/tap/evergreen` |
 | MCP Registry | Listed (`io.github.arminazimi/evergreen`) | [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io/v0/servers?search=evergreen) · [MCP](MCP.md#where-the-server-is-listed) |
 | Skills | Listed (`arminazimi/evergreen@evergreen-deprecation`) | [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation) · [Agent Skill](AGENT_SKILLS.md) |
 | Claude | Available from the repository marketplace | [Claude plugin](CLAUDE_PLUGIN.md) · `claude plugin install evergreen --marketplace arminazimi/evergreen` |

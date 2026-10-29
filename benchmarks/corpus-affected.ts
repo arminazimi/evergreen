@@ -98,9 +98,10 @@ export const REGISTRY_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = 
 export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
   ...Object.fromEntries(
     Object.entries(DETECTOR_ECOSYSTEMS).filter(([name]) =>
-      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "php", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"].includes(name),
+      ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "npm", "php", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"].includes(name),
     ),
   ),
+  "github-actions": ["node-actions"],
 };
 
 /**

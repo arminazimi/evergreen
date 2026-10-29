@@ -139,6 +139,7 @@ test("no tool, resource, or prompt changes the repository tree", async () => {
       create_migration_context: { finding_id: findingId, repository_path: root },
       verify_migration: { finding_id: findingId, repository_path: root },
       check_dependency: { purl: "pkg:npm/request@2.88.2" },
+      forecast_repository: { repository_path: root, as_of: "2026-10-29" },
     } satisfies Record<(typeof MCP_TOOL_NAMES)[number], Record<string, unknown>>;
     assert.deepEqual(Object.keys(calls).sort(), [...MCP_TOOL_NAMES].sort(), "every tool must be exercised here");
 

@@ -110,12 +110,14 @@ does not provide a `with` entry.
 | Input | Default | Meaning |
 | --- | --- | --- |
 | `path` | `.` | Repository root or subdirectory to scan; `.` is the checked-out repository. |
-| `baseline` | empty | Baseline path relative to `path`. Empty reports every finding; a configured path that is missing fails the Action. |
+| `paths` | empty | Multi-line list of directories or globs (for example `packages/*`) relative to `path`. Each match is scanned in one run; findings go into one report and SARIF, with a job-summary section per package. Empty scans only `path`. |
+| `baseline` | empty | Baseline path relative to `path` (or to each matched package when `paths` is set). Empty reports every finding; a configured path that is missing fails the Action. |
 | `min-support-days` | empty | Warn (medium severity) on lines whose support ends within this many days; off when empty. |
 | `baseline-warn-days` | `14` | Warn when a baseline suppression expires within this many days (0 to 365). |
 | `on-expired` | `resurface` | What a baseline suppression does after its `expires` day: `resurface` (its finding is reported again) or `fail` (also fail the job). |
 | `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
 | `mode` | `scan` | `scan` scans the checked-out tree. `diff` compares the pull request base and head SHAs from the event payload and fails only on findings the pull request introduces. See [pull request diff mode](#pull-request-diff-mode). |
+| `annotations` | empty | Which findings become workflow annotations: `changed` annotates only findings on lines the pull request added or changed (the default in diff mode), `all` annotates every finding (the default in scan mode), `none` emits no annotations. Findings left out stay counted in the summary and the JSON report. |
 | `report-name` | `evergreen-report` | Artifact name for the JSON report when `upload-report` is `true`. |
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
@@ -133,6 +135,22 @@ does not provide a `with` entry.
 | `sarif-path` | When `upload-sarif` is `true` | Absolute runner path to the generated SARIF file; otherwise empty. |
 
 The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
+
+### Monorepo paths
+
+Monorepos should not need one job per package. Set `paths` to a multi-line list of directories or globs under `path`. Evergreen scans each match, writes one combined JSON report and SARIF, and adds one job-summary section per package. `fail-on-severity` is evaluated across all packages together.
+
+```yaml
+- uses: actions/checkout@v7
+- uses: arminazimi/evergreen@v0
+  with:
+    paths: |
+      packages/*
+      apps/web
+    fail-on-severity: high
+```
+
+Literals must exist and be directories. A glob that matches nothing fails the Action. `*` and `?` stay inside one path segment; `**` crosses segments. Diff mode ignores `paths` and compares the whole pull request checkout instead.
 
 High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
 
@@ -168,6 +186,8 @@ steps:
 ```
 
 The base and head come from the `pull_request` event payload (`pull_request.base.sha` and `pull_request.head.sha`); the comparison stays offline — both refs are unpacked with `git archive` and scanned locally. Outside a `pull_request` event, or when the payload lacks those SHAs, the Action logs a notice and runs a regular scan instead. The baseline input does not apply in diff mode: it describes accepted findings in the whole repository, not in one pull request, and the Action says so with a notice. Because the gate judges only introduced findings, a pull request that adds a deprecated package fails and one that only edits documentation passes.
+
+Annotations on untouched files are noise, so diff mode annotates only findings on lines the pull request added or changed and counts the others in one summary line with a link to the full report. The gate, the severity counts, the badge, the comment, and the JSON report still cover every introduced finding. Set `annotations: all` to annotate every introduced finding, or `annotations: none` to emit no annotations at all. Scan mode defaults to `all`; an explicit `annotations: changed` there falls back to `all` with a notice because there is no pull request range.
 
 ## End-of-life reminder issue
 

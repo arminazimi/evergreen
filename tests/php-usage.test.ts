@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { PhpDetector } from "../src/detectors/php/index.js";
@@ -227,6 +227,39 @@ test("dynamic require, include, new $class, and $class::method are unclassified,
       [8, at(lines[7]!, "$class"), "$class::method("],
     ],
   );
+});
+
+test("the usage-dynamic fixture leaves dynamic require, include, and dynamic calls unclassified and attributes only the literal forms", async () => {
+  const result = await scanRepository(resolve("tests/fixtures/php/usage-dynamic"), [new PhpDetector()]);
+  const findings = result.findings.filter((item) => item.ruleId === "php.package.swiftmailer.swiftmailer.abandoned");
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line]),
+    [
+      ["composer.json", 3],
+      ["composer.lock", 5],
+    ],
+  );
+  for (const finding of findings) {
+    assert.deepEqual(
+      finding.usages?.map((usage) => [usage.kind, usage.location.path, usage.location.line]),
+      [
+        ["import", "src/literal.php", 3],
+        ["import", "src/literal.php", 5],
+        ["call", "src/literal.php", 7],
+        ["call", "src/literal.php", 8],
+      ],
+    );
+  }
+  const unclassified = [...(result.unclassified?.references ?? [])]
+    .sort((left, right) => (left.location.line ?? 0) - (right.location.line ?? 0))
+    .map((reference) => [reference.location.path, reference.location.line, reference.reference]);
+  assert.deepEqual(unclassified, [
+    ["src/dynamic.php", 4, "require $path;"],
+    ["src/dynamic.php", 6, "include $this->file();"],
+    ["src/dynamic.php", 9, "new $class"],
+    ["src/dynamic.php", 10, "$class::newInstance("],
+    ["src/dynamic.php", 13, "require $directory . '/Swift_Mailer.php';"],
+  ]);
 });
 
 test("php matchers are valid, and an abandoned package finding lists source files in the scan and the migration packet", async () => {

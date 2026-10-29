@@ -3,6 +3,8 @@ import { createHash } from "node:crypto";
 import type { DependencyCheck } from "./check-dependency.js";
 import { COVERAGE_WALK_LIMIT, type DataInfo, type Finding, type ScanCoverage, type ScanResult, type Severity } from "./domain.js";
 import { severityValues } from "./domain.js";
+import type { Forecast } from "./forecast.js";
+import { renderForecastSvg } from "./forecast-svg.js";
 import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
 import { VERSION } from "./version.js";
 
@@ -455,22 +457,51 @@ export function escapeHtml(value: string | number): string {
   return String(value).replace(/[&<>"']/g, (char) => HTML_ESCAPES[char]!);
 }
 
-const HTML_STYLE = `body{font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:56rem;padding:1.5rem;color:#1b1f24;background:#fff}
-h1{margin:0 0 .25rem}.meta{color:#57606a;margin:0 0 1.5rem}
-article{border:1px solid #d0d7de;border-left-width:6px;border-radius:6px;padding:.75rem 1rem;margin:0 0 1rem}
-article h2{font-size:1.05rem;margin:0 0 .25rem}.critical,.high{border-left-color:#cf222e}.medium{border-left-color:#bf8700}.low,.info{border-left-color:#0969da}
-.badge{font-size:.75rem;font-weight:600;text-transform:uppercase;margin-right:.5rem}dl{margin:.5rem 0 0}dt{font-weight:600}dd{margin:0 0 .25rem}
+const HTML_STYLE = `:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{font:15px/1.5 system-ui,sans-serif;margin:0 auto;max-width:56rem;padding:1.5rem;color:#1b1f24;background:#fff}
+h1{margin:0 0 .25rem;font-size:1.75rem}h2{font-size:1.15rem;margin:1.5rem 0 .5rem}
+h3{font-size:1rem;font-weight:600;margin:.25rem 0 .5rem}h4{font-size:1rem;margin:0 0 .25rem}
+.meta{color:#57606a;margin:0 0 1rem}
+.summary table{width:100%;border-collapse:collapse;margin:0 0 1rem}
+.summary th,.summary td{padding:.4rem .5rem;text-align:center;border:1px solid #d0d7de;font-variant-numeric:tabular-nums}
+.summary th{font-size:.75rem;text-transform:uppercase;letter-spacing:.03em;color:#57606a}
+.summary td{font-size:1.35rem;font-weight:600}
+.summary td.critical,.summary td.high{color:#cf222e}.summary td.medium{color:#bf8700}.summary td.low,.summary td.info{color:#0969da}
+article{border:1px solid #d0d7de;border-left-width:6px;border-radius:6px;padding:.75rem 1rem;margin:0 0 .75rem}
+article.critical,article.high{border-left-color:#cf222e}article.medium{border-left-color:#bf8700}article.low,article.info{border-left-color:#0969da}
+.badge{display:inline-block;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-right:.5rem;padding:0 .4rem;border-radius:3px}
+.critical .badge,.high .badge{background:#ffebe9;color:#cf222e}.medium .badge{background:#fff8c5;color:#9a6700}.low .badge,.info .badge{background:#ddf4ff;color:#0969da}
+dl{margin:.5rem 0 0}dt{font-weight:600}dd{margin:0 0 .25rem}
 code{font-family:ui-monospace,monospace;background:#f6f8fa;padding:0 .25rem;border-radius:3px}
-@media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117}.meta{color:#8b949e}article{border-color:#30363d}code{background:#161b22}}`;
+@media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117}.meta,.summary th{color:#8b949e}
+.summary th,.summary td,article{border-color:#30363d}
+.summary td.critical,.summary td.high{color:#ff7b72}.summary td.medium{color:#d29922}.summary td.low,.summary td.info{color:#58a6ff}
+article.critical,article.high{border-left-color:#ff7b72}article.medium{border-left-color:#d29922}article.low,article.info{border-left-color:#58a6ff}
+.critical .badge,.high .badge{background:#67060c;color:#ff7b72}.medium .badge{background:#3b2300;color:#d29922}.low .badge,.info .badge{background:#0c2d6b;color:#79c0ff}
+code{background:#161b22;color:#e6edf3}a{color:#58a6ff}}
+@media print{body{max-width:none;padding:0;color:#000;background:#fff;font-size:12px}
+a{color:#000;text-decoration:none}a[href^="https://"]::after{content:" (" attr(href) ")";font-size:.85em}
+article,.summary{break-inside:avoid}h1,h2,h3,h4{break-after:avoid}}`;
+
+const HTML_FORECAST_STYLE = `
+section.forecast{margin:0 0 1.5rem}section.forecast svg{max-width:100%;height:auto}
+section.forecast ul{margin:.5rem 0 0;padding-left:1.25rem}section.forecast li{margin:0 0 .25rem}
+@media print{section.forecast{break-inside:avoid}}`;
 
 function htmlLocation(location: { path: string; line?: number }): string {
   return `${location.path}${location.line ? `:${location.line}` : ""}`;
 }
 
-/** An evidence link is clickable only for http(s) URLs; any other value is shown as plain text. */
+function severityLabel(severity: Severity): string {
+  return severity.charAt(0).toUpperCase() + severity.slice(1);
+}
+
+/** An evidence link is clickable only for HTTPS URLs; any other value is shown as plain text. */
 function htmlSource(source: { title: string; url: string }): string {
   const title = escapeHtml(source.title);
-  return /^https?:\/\//i.test(source.url) ? `<a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${title}</a> <code>${escapeHtml(source.url)}</code>` : `${title} <code>${escapeHtml(source.url)}</code>`;
+  const url = `<code>${escapeHtml(source.url)}</code>`;
+  return /^https:\/\//i.test(source.url) ? `<a href="${escapeHtml(source.url)}" rel="noopener noreferrer">${title}</a> ${url}` : `${title} ${url}`;
 }
 
 function htmlFinding(finding: Finding): string {
@@ -489,19 +520,84 @@ function htmlFinding(finding: Finding): string {
   for (const source of finding.sources) rows.push(["Source", htmlSource(source)]);
   return [
     `<article class="${escapeHtml(finding.severity)}" id="${escapeHtml(finding.id)}">`,
-    `<h2><span class="badge">${escapeHtml(finding.severity)}</span>${escapeHtml(finding.title)}</h2>`,
+    `<h4><span class="badge">${escapeHtml(severityLabel(finding.severity))}</span>${escapeHtml(finding.title)}</h4>`,
     `<p>${escapeHtml(finding.summary)}</p>`,
     `<dl>${rows.map(([name, value]) => `<dt>${name}</dt><dd>${value}</dd>`).join("")}</dl>`,
     "</article>",
   ].join("\n");
 }
 
+/** One row of counts per severity, most severe first, so the shape of the scan is readable before any detail. */
+function htmlSummary(findings: readonly Finding[]): string {
+  const severities = severityValues.slice().reverse();
+  const count = (severity: Severity) => findings.filter((finding) => finding.severity === severity).length;
+  return [
+    '<section class="summary">',
+    "<h2>Summary</h2>",
+    "<table>",
+    `<thead><tr>${severities.map((severity) => `<th scope="col">${severityLabel(severity)}</th>`).join("")}</tr></thead>`,
+    `<tbody><tr>${severities.map((severity) => `<td class="${severity}">${count(severity)}</td>`).join("")}</tr></tbody>`,
+    "</table>",
+    "</section>",
+  ].join("\n");
+}
+
+/** A timeline of the coming months, plus the same events as text for readers without SVG. */
+function htmlForecast(forecast: Forecast): string {
+  const events = forecast.groups.flatMap((group) => group.events);
+  const summary = `${forecast.total} event${forecast.total === 1 ? "" : "s"} from ${forecast.today} to ${forecast.until}, ${forecast.affecting} affecting this repository`;
+  const items = events.map((event) => {
+    const affects = event.findings.length === 0
+      ? "does not affect this repository"
+      : `affects ${event.findings.length} finding${event.findings.length === 1 ? "" : "s"}`;
+    return `<li class="${escapeHtml(event.severity)}"><code>${escapeHtml(event.date)}</code> <span class="badge">${escapeHtml(severityLabel(event.severity))}</span> ${escapeHtml(event.title)} — ${escapeHtml(affects)} <code>${escapeHtml(event.ruleId)}</code></li>`;
+  });
+  return [
+    '<section class="forecast">',
+    `<h2>Next ${forecast.months} months</h2>`,
+    `<p class="meta">${escapeHtml(summary)}</p>`,
+    renderForecastSvg(forecast),
+    ...(items.length === 0 ? ["<p>Nothing in this window reaches a dated end of life.</p>"] : [`<ul>${items.join("")}</ul>`]),
+    "</section>",
+  ].join("\n");
+}
+
+/**
+ * Findings grouped by severity, most severe first, and then by path, using the same deterministic order as the
+ * machine-readable reporters. Only the page order changes: the embedded JSON stays exactly the JSON report.
+ */
+function htmlGroups(findings: readonly Finding[]): string {
+  const ordered = [...findings].sort(findingOrder);
+  const lines: string[] = [];
+  for (const severity of severityValues.slice().reverse()) {
+    const inSeverity = ordered.filter((finding) => finding.severity === severity);
+    if (inSeverity.length === 0) continue;
+    lines.push(`<section class="severity ${severity}">`);
+    lines.push(`<h2><span class="badge">${severityLabel(severity)}</span>${inSeverity.length} finding${inSeverity.length === 1 ? "" : "s"}</h2>`);
+    for (const path of new Set(inSeverity.map((finding) => finding.location.path))) {
+      lines.push('<section class="path">');
+      lines.push(`<h3><code>${escapeHtml(path)}</code></h3>`);
+      lines.push(...inSeverity.filter((finding) => finding.location.path === path).map(htmlFinding));
+      lines.push("</section>");
+    }
+    lines.push("</section>");
+  }
+  return lines.join("\n");
+}
+
+export interface HtmlOptions {
+  /** When given, the page leads with a "Next N months" timeline above the findings. */
+  forecast?: Forecast | undefined;
+}
+
 /**
  * Renders a scan as one self-contained HTML file for sharing without a terminal or Code Scanning: inline styles, no
  * scripts, and no external requests (a CSP forbids them). Every value is escaped. The full JSON report is embedded as an
- * inert data block, so the page and `--format json` always describe the same scan. Findings keep the JSON order.
+ * inert data block, so the page and `--format json` always describe the same scan. The visible page groups findings by
+ * severity and path; the embedded JSON keeps the JSON report's own order. Without {@link HtmlOptions.forecast} the
+ * output is exactly what it was before the option existed.
  */
-export function renderHtml(result: ScanResult): string {
+export function renderHtml(result: ScanResult, options: HtmlOptions = {}): string {
   // "<" is escaped so no value can close the data block; JSON.parse reads the text back to the exact JSON report.
   const data = renderJson(result).replace(/</g, "\\u003c");
   const count = result.findings.length;
@@ -515,13 +611,15 @@ export function renderHtml(result: ScanResult): string {
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">`,
     "<title>Evergreen report</title>",
-    `<style>${HTML_STYLE}</style>`,
+    `<style>${HTML_STYLE}${options.forecast ? HTML_FORECAST_STYLE : ""}</style>`,
     "</head>",
     "<body>",
     "<h1>Evergreen report</h1>",
     `<p class="meta">${meta.map(escapeHtml).join("<br>")}</p>`,
     `<p><strong>${count} finding${count === 1 ? "" : "s"}</strong></p>`,
-    ...result.findings.map(htmlFinding),
+    htmlSummary(result.findings),
+    ...(options.forecast ? [htmlForecast(options.forecast)] : []),
+    ...(count === 0 ? ['<p class="meta">No lifecycle risks found.</p>'] : [htmlGroups(result.findings)]),
     ...notes,
     `<script type="application/json" id="evergreen-report">${data}</script>`,
     "</body>",

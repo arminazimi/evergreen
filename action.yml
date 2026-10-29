@@ -11,6 +11,13 @@ inputs:
     description: Repository root or subdirectory to scan. Defaults to the checked-out repository.
     required: false
     default: .
+  paths:
+    description: >-
+      Multi-line list of directories (or globs such as packages/*) to scan in one run, relative to
+      path. Each match is scanned separately; findings are combined into one report and SARIF, with
+      a job-summary section per package. Leave empty to scan only path.
+    required: false
+    default: ""
   baseline:
     description: Optional baseline path relative to path. Leave empty to report every finding.
     required: false
@@ -42,6 +49,13 @@ inputs:
       summary. Outside pull request events, or when the event lacks those SHAs, it falls back to scan.
     required: false
     default: scan
+  annotations:
+    description: >-
+      Which findings become workflow annotations: changed annotates only findings on lines the pull request
+      added or changed (the default in diff mode), all annotates every finding (the default in scan mode), and
+      none emits no annotations. Findings left out stay counted in the summary and the JSON report.
+    required: false
+    default: ""
   report-name:
     description: Artifact name for the JSON report when upload-report is true.
     required: false
@@ -103,12 +117,14 @@ runs:
       run: node "$GITHUB_ACTION_PATH/dist/action/index.js"
       env:
         INPUT_PATH: ${{ inputs.path }}
+        INPUT_PATHS: ${{ inputs.paths }}
         INPUT_BASELINE: ${{ inputs.baseline }}
         INPUT_BASELINE-WARN-DAYS: ${{ inputs.baseline-warn-days }}
         INPUT_ON-EXPIRED: ${{ inputs.on-expired }}
         INPUT_MIN-SUPPORT-DAYS: ${{ inputs.min-support-days }}
         INPUT_FAIL-ON-SEVERITY: ${{ inputs.fail-on-severity }}
         INPUT_MODE: ${{ inputs.mode }}
+        INPUT_ANNOTATIONS: ${{ inputs.annotations }}
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}

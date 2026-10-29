@@ -75,6 +75,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Cloud SQL for PostgreSQL 9.6 through 12 are in extended support](database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html) — end of support, `database.google-cloud-sql-postgresql.extended-support-9.6-to-12`
 - [MySQL 5.7 is end-of-life](database.mysql.end-of-life-5.7.html) — end of life, `database.mysql.end-of-life-5.7`
 - [MySQL 8.0 is end-of-life](database.mysql.end-of-life-8.0.html) — end of life, `database.mysql.end-of-life-8.0`
+- [PostgreSQL 10 is no longer a supported major version](database.postgresql.end-of-life-10.html) — end of life, `database.postgresql.end-of-life-10`
 - [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html) — end of life, `database.postgresql.end-of-life-11`
 - [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html) — end of life, `database.postgresql.end-of-life-12`
 - [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html) — end of life, `database.postgresql.end-of-life-13`

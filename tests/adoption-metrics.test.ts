@@ -9,6 +9,8 @@ import {
   countRepeatRepositories,
   distinctRepositories,
   distinctRepositoryNames,
+  formatChange,
+  formatSkillsInstallsReport,
   goatCounterSource,
   parseContributorMetrics,
   parseDownloads,
@@ -17,10 +19,37 @@ import {
   parseScorecard,
   parseSkillsInstalls,
   previousMonth,
+  readPreviousSnapshot,
   SCHEMA_VERSION,
   SERVICE_REPORTS,
+  SKILLS_SH_SOURCE,
 } from "../tools/adoption-metrics.js";
 import type { Fetcher, Metric, Snapshot } from "../tools/adoption-metrics.js";
+
+/** Trimmed skills.sh repository page: total installs plus the per-Skill table. */
+const SAVED_SKILLS_SH_PAGE = `<!DOCTYPE html><html><body><main>
+<h1>arminazimi/evergreen</h1>
+<span>1<!-- --> <!-- -->skill</span>
+<span>6<!-- --> total installs</span>
+<div class="hidden lg:grid"><div>Skill</div><div>Installs</div></div>
+<a href="/arminazimi/evergreen/evergreen-deprecation">
+  <div><h3 class="font-semibold text-foreground truncate">evergreen-deprecation</h3></div>
+  <div class="lg:col-span-3 text-right"><span class="font-mono text-sm text-foreground">6</span></div>
+</a>
+</main></body></html>`;
+
+/** Multi-Skill skills.sh page used to check per-Skill parsing. */
+const SAVED_SKILLS_SH_MULTI_PAGE = `<!DOCTYPE html><html><body><main>
+<span>4<!-- --> total installs</span>
+<a href="/coalesce-labs/evergreen-skills/evergreen-context">
+  <div><h3 class="font-semibold text-foreground truncate">evergreen-context</h3></div>
+  <div><span class="font-mono text-sm text-foreground">2</span></div>
+</a>
+<a href="/coalesce-labs/evergreen-skills/evergreen-bookmarks">
+  <div><h3 class="font-semibold text-foreground truncate">evergreen-bookmarks</h3></div>
+  <div><span class="font-mono text-sm text-foreground">2</span></div>
+</a>
+</main></body></html>`;
 
 test("counts distinct repositories and leaves out the project's own", () => {
   const item = (name: string) => ({ repository: { full_name: name } });
@@ -57,10 +86,89 @@ test("finds the MCP Registry entry by repository", () => {
   assert.equal(parseMcpRegistry(503, "").status, "unavailable");
 });
 
-test("reads the skills.sh install count from the page's structured data", () => {
+test("reads total and per-Skill installs from a saved skills.sh repository page", () => {
+  const metric = parseSkillsInstalls(200, SAVED_SKILLS_SH_PAGE);
+  assert.deepEqual(metric, {
+    status: "ok",
+    value: 6,
+    skills: [{ name: "evergreen-deprecation", installs: 6 }],
+    source: SKILLS_SH_SOURCE,
+  });
+});
+
+test("reads per-Skill installs when a repository publishes more than one Skill", () => {
+  const metric = parseSkillsInstalls(200, SAVED_SKILLS_SH_MULTI_PAGE, "https://www.skills.sh/coalesce-labs/evergreen-skills");
+  assert.equal(metric.status, "ok");
+  assert.equal((metric as { value: number }).value, 4);
+  assert.deepEqual((metric as { skills: Array<{ name: string; installs: number }> }).skills, [
+    { name: "evergreen-bookmarks", installs: 2 },
+    { name: "evergreen-context", installs: 2 },
+  ]);
+});
+
+test("falls back to schema.org userInteractionCount on a single-Skill page", () => {
   assert.equal((parseSkillsInstalls(200, '..."userInteractionCount":4}...') as { value: number }).value, 4);
   assert.equal(parseSkillsInstalls(200, "<html></html>").status, "unavailable");
   assert.equal(parseSkillsInstalls(404, "").status, "unavailable");
+});
+
+test("formats signed week-over-week change without treating a missing previous as zero", () => {
+  assert.equal(formatChange(10, 7), "+3");
+  assert.equal(formatChange(7, 10), "-3");
+  assert.equal(formatChange(5, 5), "0");
+  assert.equal(formatChange(5, null), "—");
+  assert.equal(formatChange("unavailable", 3), "unavailable");
+});
+
+test("skills.sh report shows total and per-Skill week-over-week change", () => {
+  const current: Snapshot = {
+    schemaVersion: SCHEMA_VERSION,
+    date: "2026-10-28",
+    metrics: {
+      skillsShInstalls: {
+        status: "ok",
+        value: 6,
+        skills: [{ name: "evergreen-deprecation", installs: 6 }],
+        source: SKILLS_SH_SOURCE,
+      },
+    },
+  };
+  const previous: Snapshot = {
+    schemaVersion: SCHEMA_VERSION,
+    date: "2026-10-16",
+    metrics: {
+      skillsShInstalls: {
+        status: "ok",
+        value: 4,
+        skills: [{ name: "evergreen-deprecation", installs: 4 }],
+        source: SKILLS_SH_SOURCE,
+      },
+    },
+  };
+  const report = formatSkillsInstallsReport(current, previous);
+  assert.match(report, /\| Total \| 6 \| \+2 \|/);
+  assert.match(report, /\| evergreen-deprecation \| 6 \| \+2 \|/);
+  assert.match(report, /Change vs last week/);
+  assert.match(report, new RegExp(SKILLS_SH_SOURCE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+
+  const firstWeek = formatSkillsInstallsReport(current, null);
+  assert.match(firstWeek, /\| Total \| 6 \| — \|/);
+  assert.match(firstWeek, /\| evergreen-deprecation \| 6 \| — \|/);
+});
+
+test("readPreviousSnapshot returns the newest snapshot older than the given date", async () => {
+  const tmp = await mkdtemp(resolve(tmpdir(), "evergreen-skills-prev-"));
+  try {
+    const older: Snapshot = { schemaVersion: SCHEMA_VERSION, date: "2026-10-16", metrics: {} };
+    const newer: Snapshot = { schemaVersion: SCHEMA_VERSION, date: "2026-10-21", metrics: {} };
+    await writeFile(resolve(tmp, "2026-10-16.json"), JSON.stringify(older));
+    await writeFile(resolve(tmp, "2026-10-21.json"), JSON.stringify(newer));
+    const previous = await readPreviousSnapshot("2026-10-28", tmp);
+    assert.equal(previous?.date, "2026-10-21");
+    assert.equal(await readPreviousSnapshot("2026-10-16", tmp), null);
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
+  }
 });
 
 test("builds the GoatCounter counter URL for the 30 days ending on the snapshot date", () => {
@@ -147,7 +255,7 @@ test("reports contributor metrics as unavailable on HTTP error or invalid respon
 test("one failing source is recorded and does not stop the others", async () => {
   const fetcher: Fetcher = async (url) => {
     if (url.includes("npmjs.org")) throw new Error("network down");
-    if (url.includes("skills.sh")) return { status: 200, text: '"userInteractionCount": 7' };
+    if (url.includes("skills.sh")) return { status: 200, text: SAVED_SKILLS_SH_PAGE };
     if (url.includes("registry.modelcontextprotocol.io")) return { status: 200, text: '{"servers":[]}' };
     if (url.includes("api.github.com/repos/")) return { status: 200, text: '{"stargazers_count": 3, "forks_count": 1}' };
     if (url.includes("securityscorecards.dev")) return { status: 200, text: '{"score": 3.1}' };
@@ -171,7 +279,11 @@ test("one failing source is recorded and does not stop the others", async () => 
   assert.deepEqual([snapshot.metrics.npmWeeklyDownloads!.status, (snapshot.metrics.npmWeeklyDownloads as { reason: string }).reason], ["unavailable", "network down"]);
   assert.equal((snapshot.metrics.githubActionRepositories as { value: number }).value, 2);
   assert.equal((snapshot.metrics.repeatActionRepositories as { value: number }).value, 0);
-  assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 7);
+  assert.equal((snapshot.metrics.skillsShInstalls as { value: number }).value, 6);
+  assert.deepEqual((snapshot.metrics.skillsShInstalls as { skills: Array<{ name: string; installs: number }> }).skills, [
+    { name: "evergreen-deprecation", installs: 6 },
+  ]);
+  assert.equal(snapshot.metrics.skillsShInstalls!.source, SKILLS_SH_SOURCE);
   assert.equal((snapshot.metrics.githubStars as { value: number }).value, 3);
   assert.equal((snapshot.metrics.scorecardScore as { value: number }).value, 3.1);
   assert.equal((snapshot.metrics.externalContributors as { value: number }).value, 2);

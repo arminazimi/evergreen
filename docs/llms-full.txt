@@ -197,8 +197,15 @@ Each tool has an `outputSchema` (the published JSON Schema in [`schemas/`](https
 | `create_migration_context` | `finding_id`, `repository_path?` | `evergreen.context.v1` (`context.v1.schema.json`) | Validated, rule-specific migration packet. |
 | `verify_migration` | `finding_id`, `repository_path?` | `evergreen.verification.v1` (`verification.v1.schema.json`) | Re-scan and check a finding observed earlier in the session. |
 | `check_dependency` | `purl`, `version?` | `evergreen.check.v1` (`check.v1.schema.json`) | Check one package before adding it; reads no repository. |
+| `forecast_repository` | `repository_path?`, `months?`, `as_of?` | `evergreen.forecast.v1` (`forecast.v1.schema.json`) | What reaches a dated end of life in the next months, grouped by month, with the repository's findings each event affects. |
 
 `repository_path` defaults to the server's current working directory. Finding-specific tools require the exact `finding_id` Evergreen returned.
+
+### Planning ahead with the forecast
+
+`forecast_repository` answers "what ends of life are coming, and which of them hit this repository?" It runs a fresh local scan, then lists the lifecycle events that carry an authoritative date inside a window. Each event carries its rule, source, severity, and the findings in this repository that it will affect, grouped by calendar month with the earliest first.
+
+The window starts at `as_of` (a `YYYY-MM-DD` date; today in UTC when omitted) and defaults to `months` 12, from 1 to 36. Passing `as_of` makes the result deterministic. The output is the same `evergreen.forecast.v1` document that `evergreen forecast --json` prints. Only dated events are listed, so a package with no authoritative deadline does not appear; nothing is estimated.
 
 ### Resources
 
@@ -256,7 +263,7 @@ You can see all of it in the MCP Inspector:
 npx @modelcontextprotocol/inspector npx --yes --package evergreen-deprecation evergreen-mcp
 ```
 
-The Tools tab lists the six tools with their output schemas, Resources lists the rules (and findings after a scan) and the two templates, and Prompts lists `migrate-finding`.
+The Tools tab lists the seven tools with their output schemas, Resources lists the rules (and findings after a scan) and the two templates, and Prompts lists `migrate-finding`.
 
 ## Checking a dependency before adding it
 
@@ -374,7 +381,7 @@ Verification is deliberately conservative. Evergreen remembers the original find
 - No hosted Evergreen service, telemetry, account, or API key is involved.
 - Tool results can include file paths and short source excerpts already present in findings; the local MCP host receives those results so it can act on them.
 
-The versioned JSON contracts live in `schemas/scan.v1.schema.json`, `schemas/deprecations.v1.schema.json`, `schemas/context.v1.schema.json`, and `schemas/verification.v1.schema.json`.
+The versioned JSON contracts live in `schemas/scan.v1.schema.json`, `schemas/deprecations.v1.schema.json`, `schemas/forecast.v1.schema.json`, `schemas/context.v1.schema.json`, and `schemas/verification.v1.schema.json`.
 
 ---
 
@@ -491,12 +498,14 @@ does not provide a `with` entry.
 | Input | Default | Meaning |
 | --- | --- | --- |
 | `path` | `.` | Repository root or subdirectory to scan; `.` is the checked-out repository. |
-| `baseline` | empty | Baseline path relative to `path`. Empty reports every finding; a configured path that is missing fails the Action. |
+| `paths` | empty | Multi-line list of directories or globs (for example `packages/*`) relative to `path`. Each match is scanned in one run; findings go into one report and SARIF, with a job-summary section per package. Empty scans only `path`. |
+| `baseline` | empty | Baseline path relative to `path` (or to each matched package when `paths` is set). Empty reports every finding; a configured path that is missing fails the Action. |
 | `min-support-days` | empty | Warn (medium severity) on lines whose support ends within this many days; off when empty. |
 | `baseline-warn-days` | `14` | Warn when a baseline suppression expires within this many days (0 to 365). |
 | `on-expired` | `resurface` | What a baseline suppression does after its `expires` day: `resurface` (its finding is reported again) or `fail` (also fail the job). |
 | `fail-on-severity` | `high` | Lowest failing level: `none`, `info`, `low`, `medium`, `high`, or `critical`. |
 | `mode` | `scan` | `scan` scans the checked-out tree. `diff` compares the pull request base and head SHAs from the event payload and fails only on findings the pull request introduces. See [pull request diff mode](#pull-request-diff-mode). |
+| `annotations` | empty | Which findings become workflow annotations: `changed` annotates only findings on lines the pull request added or changed (the default in diff mode), `all` annotates every finding (the default in scan mode), `none` emits no annotations. Findings left out stay counted in the summary and the JSON report. |
 | `report-name` | `evergreen-report` | Artifact name for the JSON report when `upload-report` is `true`. |
 | `upload-report` | `true` | Upload the JSON report as an Actions artifact. `false` keeps the generated report only on the runner. |
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
@@ -514,6 +523,22 @@ does not provide a `with` entry.
 | `sarif-path` | When `upload-sarif` is `true` | Absolute runner path to the generated SARIF file; otherwise empty. |
 
 The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
+
+### Monorepo paths
+
+Monorepos should not need one job per package. Set `paths` to a multi-line list of directories or globs under `path`. Evergreen scans each match, writes one combined JSON report and SARIF, and adds one job-summary section per package. `fail-on-severity` is evaluated across all packages together.
+
+```yaml
+- uses: actions/checkout@v7
+- uses: arminazimi/evergreen@v0
+  with:
+    paths: |
+      packages/*
+      apps/web
+    fail-on-severity: high
+```
+
+Literals must exist and be directories. A glob that matches nothing fails the Action. `*` and `?` stay inside one path segment; `**` crosses segments. Diff mode ignores `paths` and compares the whole pull request checkout instead.
 
 High and critical findings become error annotations, medium findings become warnings, and low or informational findings become notices. The gate is evaluated independently from annotation level.
 
@@ -549,6 +574,8 @@ steps:
 ```
 
 The base and head come from the `pull_request` event payload (`pull_request.base.sha` and `pull_request.head.sha`); the comparison stays offline — both refs are unpacked with `git archive` and scanned locally. Outside a `pull_request` event, or when the payload lacks those SHAs, the Action logs a notice and runs a regular scan instead. The baseline input does not apply in diff mode: it describes accepted findings in the whole repository, not in one pull request, and the Action says so with a notice. Because the gate judges only introduced findings, a pull request that adds a deprecated package fails and one that only edits documentation passes.
+
+Annotations on untouched files are noise, so diff mode annotates only findings on lines the pull request added or changed and counts the others in one summary line with a link to the full report. The gate, the severity counts, the badge, the comment, and the JSON report still cover every introduced finding. Set `annotations: all` to annotate every introduced finding, or `annotations: none` to emit no annotations at all. Scan mode defaults to `all`; an explicit `annotations: changed` there falls back to `all` with a notice because there is no pull request range.
 
 ## End-of-life reminder issue
 
@@ -1161,19 +1188,29 @@ Source: https://arminazimi.github.io/evergreen/GITLAB.html
 
 # GitLab
 
-Evergreen ships a GitLab CI/CD component, [`templates/evergreen.yml`](../templates/evergreen.yml). It adds one job that scans the checked-out repository, keeps the JSON report as a job artifact, and fails the pipeline at a severity gate. Its inputs mirror the [GitHub Action](GITHUB_ACTION.md): `path`, `baseline`, `baseline_warn_days`, `on_expired`, `min_support_days`, and `fail_on_severity` have the same meanings and defaults.
+Evergreen ships a GitLab CI/CD component, [`templates/evergreen.yml`](../templates/evergreen.yml). It is published in the [CI/CD Catalog](https://gitlab.com/explore/catalog/arminazimi/evergreen). It adds one job that scans the checked-out repository, keeps the JSON report as a job artifact, and fails the pipeline at a severity gate. Its inputs mirror the [GitHub Action](GITHUB_ACTION.md): `path`, `baseline`, `baseline_warn_days`, `on_expired`, `min_support_days`, and `fail_on_severity` have the same meanings and defaults.
 
 ## Add the job
+
+On GitLab.com, include the Catalog release. Pin the component to a plain semver Catalog version (no `v` prefix); the component's `version` input then defaults to the matching `evergreen-deprecation` npm package:
+
+```yaml
+include:
+  - component: $CI_SERVER_FQDN/arminazimi/evergreen/evergreen@0.7.1
+    inputs:
+      fail_on_severity: high
+```
+
+That include was verified from a clean public project: the job pulled `node:24-trixie-slim`, installed `evergreen-deprecation@0.7.1` with `npx`, wrote `evergreen-report.json` and `gl-code-quality-report.json`, and passed at the default `high` gate with no findings. Set `baseline` only when you already have a baseline file committed (path relative to `path`).
+
+On a self-managed instance, host a copy of the component and replace the project path:
 
 ```yaml
 include:
   - component: $CI_SERVER_FQDN/<group>/<project>/evergreen@<version>
     inputs:
-      baseline: .evergreen-baseline.json
       fail_on_severity: high
 ```
-
-`<group>/<project>` is the project that hosts the component on your GitLab instance. The `version` input pins the `evergreen-deprecation` npm package the job runs; it defaults to the version the component was released with.
 
 ## Permissions
 
@@ -4685,8 +4722,9 @@ Trusted publishing needs the package to name its publisher. On npmjs.com, open t
    ```
 8. **Create the GitHub release** for the tag, with the changelog section as the body. If the [standalone binaries](#standalone-binaries) have already been attached, the release exists: edit its body instead of creating it.
 9. **Move the major tag** only if the project publishes one (for example `v1`), as a force-updated lightweight tag pointing at the new release. Do not move it for a pre-1.0 version. The `Release notes` workflow does this by itself after a successful `Publish to npm` run, for stable tags from `v1.0.0` on: the decision is in `.github/scripts/major-tag.mjs` (unit-tested), the tag only moves forward, and a pre-release or `0.x` tag changes nothing. To see what it would do for a tag without pushing anything, run the `Release notes` workflow by hand with `release_tag` set (a manual run is always a dry run).
-10. **Package the plugins.** For Codex, `npm run package:codex-plugin` writes `artifacts/evergreen-codex-plugin-<version>.zip`; follow [Codex submission](CODEX_SUBMISSION.md) to submit it. The Claude plugin is served from the repository marketplace, so the merged change in step 4 is its release; see [Claude plugin](CLAUDE_PLUGIN.md).
-11. **Announce** only after the npm package, tag, and release are live.
+10. **Homebrew.** The same `Release notes` workflow bumps [`arminazimi/homebrew-tap`](https://github.com/arminazimi/homebrew-tap) after a successful publish: it waits for the npm tarball, pins its URL and SHA-256 in `Formula/evergreen.rb` (via `.github/scripts/bump-homebrew-formula.mjs`), and pushes to the tap's `main`. Pre-release tags leave the formula alone. This needs the repository secret `HOMEBREW_TAP_DEPLOY_KEY` — the private half of a **write** deploy key on `arminazimi/homebrew-tap`. Without the secret the Homebrew job fails; npm and the other channels are already published and are not rolled back. To recover, set the secret and re-run the failed job, or edit the formula by hand as the tap README describes.
+11. **Package the plugins.** For Codex, `npm run package:codex-plugin` writes `artifacts/evergreen-codex-plugin-<version>.zip`; follow [Codex submission](CODEX_SUBMISSION.md) to submit it. The Claude plugin is served from the repository marketplace, so the merged change in step 4 is its release; see [Claude plugin](CLAUDE_PLUGIN.md).
+12. **Announce** only after the npm package, tag, and release are live.
 
 ## Standalone binaries
 

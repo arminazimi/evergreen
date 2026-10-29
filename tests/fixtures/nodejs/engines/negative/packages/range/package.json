@@ -1,0 +1,7 @@
+{
+  "name": "engines-range-only",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  }
+}

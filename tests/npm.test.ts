@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { NpmDetector } from "../src/detectors/npm.js";
+
+const enginesFixtures = resolve("tests/fixtures/nodejs/engines");
+const typesStubFixtures = resolve("tests/fixtures/npm/types-stubs");
+const stubTypeRule = /^npm\.package\.types\.[^.]+\.deprecated$/;
 
 const temporaryRoots: string[] = [];
 
@@ -118,6 +122,22 @@ test("stub-type deprecations exclude older typed releases and respect resolved v
   }
 });
 
+test("types-stubs positive fixture reports the deprecated @types/glob stub", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(typesStubFixtures, "positive") });
+  const stubFindings = findings.filter((finding) => stubTypeRule.test(finding.ruleId));
+
+  assert.equal(stubFindings.length, 1);
+  assert.equal(stubFindings[0]?.ruleId, "npm.package.types.glob.deprecated");
+  assert.equal(stubFindings[0]?.location.path, "package.json");
+});
+
+test("types-stubs negative fixture produces no stub-type findings on lookalikes", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(typesStubFixtures, "negative") });
+  assert.deepEqual(
+    findings.filter((finding) => stubTypeRule.test(finding.ruleId)),
+    [],
+  );
+});
 
 test("version-specific npm rules match declared ranges when no lockfile is available", async () => {
   for (const [range, affected] of [["^8.1.0", false], ["^9.0.0", true], ["*", true], ["workspace:*", false]] as const) {
@@ -224,4 +244,18 @@ test("a scheduled Node.js line is reported only for a declaration that stays on 
 test("a scheduled Node.js line does not make a range report the ended lines it allows", async () => {
   const root = await repository({ "package.json": JSON.stringify({ engines: { node: ">=22" } }) });
   assert.deepEqual(await new NpmDetector().scan({ root }), []);
+});
+
+test("engines.node fixtures: concrete EOL pin is reported; lookalikes are not", async () => {
+  const positive = await new NpmDetector().scan({ root: resolve(enginesFixtures, "positive") });
+  assert.deepEqual(
+    positive.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["nodejs.runtime.eol-18", "package.json", 5]],
+  );
+
+  const negative = await new NpmDetector().scan({ root: resolve(enginesFixtures, "negative") });
+  assert.deepEqual(
+    negative.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")),
+    [],
+  );
 });
