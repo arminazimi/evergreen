@@ -4,7 +4,8 @@ import { appendFile, readFile } from "node:fs/promises";
 import process from "node:process";
 import { resolve } from "node:path";
 
-import type { DataInfo, Finding, SuppressionState } from "./domain.js";
+import { publishFixPullRequest } from "./action-fix-pr.js";
+import type { DataInfo, Finding, ScanResult, SuppressionState } from "./domain.js";
 import { parsePathsInput, renderComment, renderFailure, renderSummary, resolveScanPaths, runGitHubAction } from "./github-action.js";
 import { upsertPullRequestComment } from "./pr-comment.js";
 import type { GitHubActionOutcome, GitHubAnnotation, SeverityGate, UnannotatedFindings } from "./github-action.js";
@@ -90,6 +91,44 @@ async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>,
   }
 }
 
+/** The default branch a fix pull request targets: the event payload's repository default, else the checked-out ref. */
+async function resolveBaseBranch(eventPath?: string): Promise<string> {
+  const event = eventPath ? (JSON.parse(await readFile(eventPath, "utf8")) as { repository?: { default_branch?: string } }) : {};
+  return event.repository?.default_branch || process.env.GITHUB_REF_NAME || "main";
+}
+
+/** Opens, updates, or closes the one fix pull request. A failure warns; it never changes the scan outcome. */
+async function publishFixes(result: ScanResult): Promise<void> {
+  if (process.env["INPUT_FIX-PR"] !== "true") return;
+  const eventName = process.env.GITHUB_EVENT_NAME;
+  if (eventName !== "schedule" && eventName !== "workflow_dispatch") {
+    console.log(`::notice title=Evergreen fix pull request skipped::fix-pr runs on schedule and workflow_dispatch events; this run is ${eventName ?? "not a GitHub Actions event"}.`);
+    return;
+  }
+  const token = process.env["INPUT_GITHUB-TOKEN"];
+  const repository = process.env.GITHUB_REPOSITORY;
+  if (!token || !repository) {
+    console.log("::notice title=Evergreen fix pull request skipped::fix-pr needs a token and GITHUB_REPOSITORY.");
+    return;
+  }
+  try {
+    const done = await publishFixPullRequest(result, {
+      root: result.root,
+      repository,
+      token,
+      apiUrl: process.env.GITHUB_API_URL ?? "https://api.github.com",
+      baseBranch: await resolveBaseBranch(process.env.GITHUB_EVENT_PATH),
+      attribution: process.env.INPUT_ATTRIBUTION !== "false",
+    });
+    if (done.status === "nothing") console.log("Evergreen found no deterministic fixes; it opened no pull request and had none to close.");
+    else if (done.status === "closed") console.log(`Evergreen closed fix pull request #${done.number}: nothing is left to fix.`);
+    else console.log(`Evergreen ${done.status} fix pull request #${done.number} with ${done.fixes} deterministic fix${done.fixes === 1 ? "" : "es"}${done.url ? `: ${done.url}` : "."}`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`::warning title=Evergreen could not publish the fix pull request::${commandValue(message)}`);
+  }
+}
+
 async function main(): Promise<void> {
   try {
     const inputMode = process.env.INPUT_MODE || "scan";
@@ -153,6 +192,7 @@ async function main(): Promise<void> {
       : undefined;
     await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions, outcome.diff, outcome.packages, unannotated);
     await postComment(outcome, unannotated);
+    await publishFixes(outcome.result);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       diff
