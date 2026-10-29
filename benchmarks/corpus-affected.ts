@@ -101,6 +101,7 @@ export const FIXTURE_ECOSYSTEMS: Readonly<Record<string, readonly string[]>> = {
       ["android", "ci-images", "container", "cpp", "dart", "database", "deno", "dotnet", "elixir", "go", "java", "kubernetes", "php", "ruby", "rust", "scala", "serverless", "shell", "swift", "terraform"].includes(name),
     ),
   ),
+  "github-actions": ["node-actions"],
 };
 
 /**

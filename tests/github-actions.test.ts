@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { GitHubActionsDetector } from "../src/detectors/github-actions.js";
@@ -360,6 +360,32 @@ test("a node-version that names a matrix key is judged per entry at the entry's 
     analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")).map((finding) => [finding.ruleId, finding.location.line]),
     [["nodejs.runtime.legacy", 9], ["nodejs.runtime.eol-20", 11]],
   );
+});
+
+// Issue #1689: the committed fixture locks the held-out `strategy.matrix` shape for newcomers.
+const matrixNodeFixtures = resolve("tests/fixtures/github-actions/matrix-node");
+
+test("the matrix-node fixture reports each end-of-life matrix entry at its own line", async () => {
+  const analysis = await new GitHubActionsDetector().analyze({ root: resolve(matrixNodeFixtures, "positive") });
+  assert.deepEqual(
+    analysis.findings
+      .filter((finding) => finding.ruleId.startsWith("nodejs.runtime."))
+      .map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [
+      ["nodejs.runtime.legacy", ".github/workflows/matrix-node.yml", 9],
+      ["nodejs.runtime.eol-20", ".github/workflows/matrix-node.yml", 11],
+      ["nodejs.runtime.legacy", ".github/workflows/matrix-node.yml", 20],
+    ],
+  );
+  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("github-actions.")), []);
+});
+
+test("the matrix-node negative fixture reports no matrix findings for its lookalikes", async () => {
+  const analysis = await new GitHubActionsDetector().analyze({ root: resolve(matrixNodeFixtures, "negative") });
+  assert.deepEqual(analysis.findings.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")), []);
+  assert.deepEqual(analysis.findings, []);
+  assert.ok(analysis.unclassified.some((item) => item.reference === "node-version: latest"));
+  assert.ok(analysis.unclassified.some((item) => item.reference === "node-version: ${{ matrix.node }}"));
 });
 
 test("a scheduled Node.js line is a low-severity note on a pinned node-version, and not a range", async () => {
