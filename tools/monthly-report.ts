@@ -70,6 +70,8 @@ export interface ContributorMetrics {
 export interface AdoptionChannel {
   label: string;
   value: number | "unavailable";
+  /** The channel's value in the newest snapshot of the previous month; null when that is unavailable. */
+  previous: number | null;
   note?: string | undefined;
 }
 
@@ -399,12 +401,23 @@ export async function collectAdoptionMetrics(options: CollectAdoptionOptions = {
   const repeatNote =
     repeatRaw !== "unavailable" && typeof repeatRaw === "number" ? `${repeatRaw} recurring` : undefined;
 
+  const channel = (label: string, key: string, note?: string): AdoptionChannel => {
+    const previousValue = metricValue(previous, key);
+    return {
+      label,
+      value: metricValue(current, key),
+      previous: typeof previousValue === "number" ? previousValue : null,
+      ...(note ? { note } : {}),
+    };
+  };
+
   const channels: AdoptionChannel[] = [
-    { label: "GitHub Action repositories", value: metricValue(current, "githubActionRepositories"), note: repeatNote },
-    { label: "Pre-commit hook repositories", value: metricValue(current, "preCommitRepositories") },
-    { label: "GitLab component repositories", value: metricValue(current, "gitlabComponentRepositories") },
-    { label: "npm weekly downloads", value: metricValue(current, "npmWeeklyDownloads") },
-    { label: "skills.sh installs", value: metricValue(current, "skillsShInstalls") },
+    channel("GitHub Action repositories", "githubActionRepositories", repeatNote),
+    channel("Pre-commit hook repositories", "preCommitRepositories"),
+    channel("GitLab component repositories", "gitlabComponentRepositories"),
+    channel("npm weekly downloads", "npmWeeklyDownloads"),
+    channel("skills.sh installs", "skillsShInstalls"),
+    channel("Docs page views", "docsPageViews"),
   ];
 
   return {
@@ -453,6 +466,15 @@ export async function collectReportData(options: CollectReportOptions = {}): Pro
 /** Formats integer numbers with standard comma separators. */
 function formatNumber(value: number): string {
   return value.toLocaleString("en-US");
+}
+
+/** Signed change against the previous month, never treating a missing value as zero. */
+function formatChange(value: number | "unavailable", previous: number | null): string {
+  if (value === "unavailable") return "unavailable";
+  if (previous === null) return "—";
+  const diff = value - previous;
+  if (diff === 0) return "0";
+  return `${diff > 0 ? "+" : "-"}${formatNumber(Math.abs(diff))}`;
 }
 
 /** Generates the Markdown monthly progress report. */
@@ -605,8 +627,10 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push("");
   lines.push("### Channel breakdown");
   lines.push("");
-  lines.push("| Channel | Count |");
-  lines.push("| --- | --- |");
+  lines.push("The change compares the newest snapshot of this month with the newest snapshot of the previous month.");
+  lines.push("");
+  lines.push("| Channel | Count | Change vs last month |");
+  lines.push("| --- | --- | --- |");
   for (const channel of data.adoption.channels) {
     const countCell =
       channel.value === "unavailable"
@@ -614,7 +638,7 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
         : channel.note
           ? `${formatNumber(channel.value)} (${channel.note})`
           : formatNumber(channel.value);
-    lines.push(`| ${channel.label} | ${countCell} |`);
+    lines.push(`| ${channel.label} | ${countCell} | ${formatChange(channel.value, channel.previous)} |`);
   }
   lines.push("");
   if (data.adoption.snapshotDate) {

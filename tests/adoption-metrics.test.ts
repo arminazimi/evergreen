@@ -9,8 +9,10 @@ import {
   countRepeatRepositories,
   distinctRepositories,
   distinctRepositoryNames,
+  goatCounterSource,
   parseContributorMetrics,
   parseDownloads,
+  parseGoatCounter,
   parseMcpRegistry,
   parseScorecard,
   parseSkillsInstalls,
@@ -59,6 +61,33 @@ test("reads the skills.sh install count from the page's structured data", () => 
   assert.equal((parseSkillsInstalls(200, '..."userInteractionCount":4}...') as { value: number }).value, 4);
   assert.equal(parseSkillsInstalls(200, "<html></html>").status, "unavailable");
   assert.equal(parseSkillsInstalls(404, "").status, "unavailable");
+});
+
+test("builds the GoatCounter counter URL for the 30 days ending on the snapshot date", () => {
+  assert.equal(
+    goatCounterSource("evergreen", "2026-10-28"),
+    "https://evergreen.goatcounter.com/counter/TOTAL.json?start=2026-09-29&end=2026-10-28",
+  );
+  assert.equal(
+    goatCounterSource("evergreen", "2026-01-05"),
+    "https://evergreen.goatcounter.com/counter/TOTAL.json?start=2025-12-07&end=2026-01-05",
+  );
+});
+
+test("reads docs pageviews from the public GoatCounter counter", () => {
+  const source = goatCounterSource("evergreen", "2026-10-28");
+  assert.deepEqual(parseGoatCounter(200, '{"count":"1,234","count_unique":"1,234"}', source), {
+    status: "ok",
+    value: 1234,
+    source,
+  });
+  assert.equal((parseGoatCounter(200, '{"count":"0"}', source) as { value: number }).value, 0);
+  assert.equal((parseGoatCounter(200, '{"count":"1 234"}', source) as { value: number }).value, 1234);
+  assert.equal(parseGoatCounter(403, "", source).status, "unavailable");
+  assert.equal(parseGoatCounter(500, "", source).status, "unavailable");
+  assert.equal(parseGoatCounter(200, '{"count":"1.2k"}', source).status, "unavailable");
+  assert.equal(parseGoatCounter(200, "{}", source).status, "unavailable");
+  assert.equal(parseGoatCounter(200, "not json", source).status, "unavailable");
 });
 
 test("reads the Scorecard score and reports a missing score as unavailable", () => {
@@ -148,6 +177,39 @@ test("one failing source is recorded and does not stop the others", async () => 
   assert.equal((snapshot.metrics.externalContributors as { value: number }).value, 2);
   assert.equal((snapshot.metrics.firstTimeContributors as { value: number }).value, 2);
   assert.deepEqual(snapshot.serviceReports, SERVICE_REPORTS);
+});
+
+test("records docs pageviews from GoatCounter when a site is configured", async () => {
+  const requested: string[] = [];
+  const fetcher: Fetcher = async (url) => {
+    requested.push(url);
+    if (url.includes("goatcounter.com/counter/TOTAL.json")) return { status: 200, text: '{"count":"1,234"}' };
+    return { status: 404, text: "" };
+  };
+  const snapshot = await collect("2026-10-28", fetcher, undefined, undefined, "evergreen");
+  const metric = snapshot.metrics.docsPageViews as { status: string; value: number; source: string; detail: string };
+  assert.equal(metric.status, "ok");
+  assert.equal(metric.value, 1234);
+  assert.equal(metric.source, "https://evergreen.goatcounter.com/counter/TOTAL.json?start=2026-09-29&end=2026-10-28");
+  assert.equal(metric.detail, "pageviews in the 30 days ending on the snapshot date");
+  assert.deepEqual(requested.filter((url) => url.includes("goatcounter")), [metric.source]);
+});
+
+test("docs traffic is unavailable, never zero, when GoatCounter is not configured", async () => {
+  const snapshot = await collect("2026-10-28", async () => ({ status: 500, text: "" }), undefined, undefined, "");
+  const metric = snapshot.metrics.docsPageViews as { status: string; reason: string };
+  assert.equal(metric.status, "unavailable");
+  assert.match(metric.reason, /EVERGREEN_GOATCOUNTER_SITE/);
+
+  const invalid = await collect(
+    "2026-10-28",
+    async () => ({ status: 200, text: '{"count":"9"}' }),
+    undefined,
+    undefined,
+    "evil.example/site",
+  );
+  assert.equal(invalid.metrics.docsPageViews!.status, "unavailable");
+  assert.match((invalid.metrics.docsPageViews as { reason: string }).reason, /not a valid GoatCounter site code/);
 });
 
 test("without a token the code-search metrics are unavailable, never zero", async () => {

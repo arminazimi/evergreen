@@ -40,11 +40,30 @@ Each snapshot records the distinct public repositories whose `.github/workflows`
 | `npmWeeklyDownloads` | npm's public download API, last week, package `evergreen-deprecation` |
 | `mcpRegistryListed` | Whether the official MCP Registry has an entry whose repository is `arminazimi/evergreen` |
 | `skillsShInstalls` | The install count published on the skills.sh page of the Evergreen skill |
+| `docsPageViews` | Pageviews of the documentation site in the 30 days ending on the snapshot date, from its public GoatCounter visitor counter |
 | `githubStars`, `githubForks` | The GitHub repository |
 | `scorecardScore` | OpenSSF Scorecard API, overall score (0–10) for `github.com/arminazimi/evergreen` |
 | `externalContributors`, `firstTimeContributors` | External (non-owner, non-bot) contributors with merged pull requests, and first-time contributors whose earliest merged pull request was merged in the snapshot's calendar month, from merged PRs in the GitHub search API (max 1,000 results) |
 
 npm downloads include CI installs and mirrors, so they overstate unique users; the skills.sh figure only counts installs through that registry. Snapshots also link to each external service's latest report under `serviceReports` (`openSsfScorecard`, `socket`, `depsDev`, `npmsIo`, `snykAdvisor`, `starHistory`).
+
+### Docs traffic
+
+GitHub Pages exposes no traffic data, so visits to the documentation site are counted by [GoatCounter](https://www.goatcounter.com/), which sets no cookies, stores no personal data, and publishes the count at a public URL. One-time setup:
+
+1. Create a site at goatcounter.com and note its code; `<site>` below stands for that code.
+2. Enable **Allow using the visitor counter** in the site's settings. Without it the counter returns HTTP 403.
+3. Add the analytics entry to `docs/_config.yml`:
+
+   ```yaml
+   slipway:
+     analytics:
+       goatcounter: https://<site>.goatcounter.com/count
+   ```
+
+4. Set `EVERGREEN_GOATCOUNTER_SITE=<site>` when taking a snapshot.
+
+The snapshot reads `https://<site>.goatcounter.com/counter/TOTAL.json` with `start` and `end` dates covering the 30 days ending on the snapshot date, the same public endpoint anyone can open. It records pageviews, not unique visitors. GoatCounter caches its counter response for up to four hours, so a snapshot taken during a spike can lag; visits from people who block the script or disable JavaScript are not counted, and bots are excluded by GoatCounter's own filtering. Without `EVERGREEN_GOATCOUNTER_SITE` the metric is `unavailable` with that reason, never zero.
 
 ## Taking a snapshot
 
@@ -54,13 +73,15 @@ A maintainer runs the tool, about once a week:
 npm run metrics:adoption
 ```
 
-It needs the network and a GitHub token in `GITHUB_TOKEN` or `GH_TOKEN` (code search is not available anonymously) and writes `metrics/adoption/<date>.json`. Commit the file. The tool is never part of a scan, of `npm run check`, or of pull-request CI.
+It needs the network and a GitHub token in `GITHUB_TOKEN` or `GH_TOKEN` (code search is not available anonymously) and writes `metrics/adoption/<date>.json`. Set `EVERGREEN_GOATCOUNTER_SITE` to the documentation site's GoatCounter code to include docs traffic. Commit the file. The tool is never part of a scan, of `npm run check`, or of pull-request CI.
 
 Each metric is either `ok` with a `value` and its `source`, or `unavailable` with a `reason`; one failing source never stops the others. A `detail` of `lower bound` means GitHub returned fewer matching files than it reported (code search returns at most 1,000 results) or rate-limited the run, so the true number is at least the one shown. An unpublished package is `unavailable` rather than zero.
 
 ## Reading the trend
 
 Compare snapshots of the same metric over time. A change in code-search coverage on GitHub's side can move a number without any change in adoption, so look for movement across several weeks, and never mix an `unavailable` week into a trend as if it were zero.
+
+The monthly report's channel table compares the newest snapshot of the month with the newest snapshot of the previous month and shows the difference for each channel; a dash means one side is unavailable, which is never treated as zero.
 
 The first snapshot is `metrics/adoption/2026-10-16.json`. At that date the package was not yet published on npm, and no public repository outside the project used the Action.
 

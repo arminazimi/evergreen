@@ -282,11 +282,12 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
       githubStars: 10,
       previousStars: 8,
       channels: [
-        { label: "GitHub Action repositories", value: 5, note: "2 recurring" },
-        { label: "Pre-commit hook repositories", value: 1 },
-        { label: "GitLab component repositories", value: 0 },
-        { label: "npm weekly downloads", value: 500 },
-        { label: "skills.sh installs", value: 20 },
+        { label: "GitHub Action repositories", value: 5, previous: 4, note: "2 recurring" },
+        { label: "Pre-commit hook repositories", value: 1, previous: 1 },
+        { label: "GitLab component repositories", value: 0, previous: 2 },
+        { label: "npm weekly downloads", value: 500, previous: 380 },
+        { label: "skills.sh installs", value: 20, previous: null },
+        { label: "Docs page views", value: 250, previous: 100 },
       ],
     },
   };
@@ -314,8 +315,14 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /### North-star trend/);
   assert.match(report, /\*\*GitHub stars:\*\* 10 \(\+2 vs previous month\)/);
   assert.match(report, /### Channel breakdown/);
-  assert.match(report, /\| GitHub Action repositories \| 5 \(2 recurring\) \|/);
-  assert.match(report, /\| npm weekly downloads \| 500 \|/);
+  assert.match(report, /The change compares the newest snapshot of this month with the newest snapshot of the previous month\./);
+  assert.match(report, /\| Channel \| Count \| Change vs last month \|/);
+  assert.match(report, /\| GitHub Action repositories \| 5 \(2 recurring\) \| \+1 \|/);
+  assert.match(report, /\| Pre-commit hook repositories \| 1 \| 0 \|/);
+  assert.match(report, /\| GitLab component repositories \| 0 \| -2 \|/);
+  assert.match(report, /\| npm weekly downloads \| 500 \| \+120 \|/);
+  assert.match(report, /\| skills.sh installs \| 20 \| — \|/);
+  assert.match(report, /\| Docs page views \| 250 \| \+150 \|/);
   assert.match(report, /\[docs\/ADOPTION\.md\]\(docs\/ADOPTION\.md\)/);
   assert.match(report, /\[`metrics\/adoption\/2026-10-28\.json`\]\(metrics\/adoption\/2026-10-28\.json\)/);
   assert.match(report, /^## Contributors$/m);
@@ -340,6 +347,10 @@ test("collectAdoptionMetrics reads current and previous month snapshots", async 
       date: "2026-09-20",
       metrics: {
         githubStars: { status: "ok", value: 15, source: "https://api.github.com/repos/test" },
+        githubActionRepositories: { status: "ok", value: 3, source: "https://github.com/search" },
+        npmWeeklyDownloads: { status: "ok", value: 100, source: "npm" },
+        skillsShInstalls: { status: "ok", value: 5, source: "skills" },
+        docsPageViews: { status: "ok", value: 50, source: "https://test.goatcounter.com/counter/TOTAL.json" },
       },
     };
     const currSnapshot = {
@@ -353,6 +364,7 @@ test("collectAdoptionMetrics reads current and previous month snapshots", async 
         gitlabComponentRepositories: { status: "unavailable", reason: "none", source: "gitlab" },
         npmWeeklyDownloads: { status: "ok", value: 120, source: "npm" },
         skillsShInstalls: { status: "ok", value: 10, source: "skills" },
+        docsPageViews: { status: "ok", value: 80, source: "https://test.goatcounter.com/counter/TOTAL.json" },
       },
     };
     await writeFile(join(tempDir, "2026-09-20.json"), JSON.stringify(prevSnapshot));
@@ -365,10 +377,18 @@ test("collectAdoptionMetrics reads current and previous month snapshots", async 
 
     const actionChannel = metrics.channels.find((c) => c.label === "GitHub Action repositories");
     assert.equal(actionChannel?.value, 4);
+    assert.equal(actionChannel?.previous, 3);
     assert.equal(actionChannel?.note, "2 recurring");
 
     const gitlabChannel = metrics.channels.find((c) => c.label === "GitLab component repositories");
     assert.equal(gitlabChannel?.value, "unavailable");
+    assert.equal(gitlabChannel?.previous, null);
+
+    const docsChannel = metrics.channels.find((c) => c.label === "Docs page views");
+    assert.equal(docsChannel?.value, 80);
+    assert.equal(docsChannel?.previous, 50);
+    assert.equal(metrics.channels.find((c) => c.label === "npm weekly downloads")?.previous, 100);
+    assert.equal(metrics.channels.find((c) => c.label === "skills.sh installs")?.previous, 5);
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }

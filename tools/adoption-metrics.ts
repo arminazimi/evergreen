@@ -4,8 +4,10 @@
 //   node dist/tools/adoption-metrics.js --out file.json [--date YYYY-MM-DD]
 //
 // It needs the network. A GitHub token (GITHUB_TOKEN or GH_TOKEN) is required for GitHub code search;
-// without one those metrics are recorded as unavailable. Nothing is collected from users: Evergreen has no
-// telemetry, and every number below can be reproduced by anyone from the public sources named in the file.
+// without one those metrics are recorded as unavailable. Docs traffic comes from the public GoatCounter
+// counter of the documentation site; set EVERGREEN_GOATCOUNTER_SITE to its site code. Nothing is collected
+// from users: Evergreen has no telemetry, and every number below can be reproduced by anyone from the
+// public sources named in the file.
 
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
@@ -88,6 +90,36 @@ export function parseSkillsInstalls(status: number, text: string): Metric {
   return match
     ? { status: "ok", value: Number(match[1]), source }
     : { status: "unavailable", reason: "The page does not publish an install count.", source };
+}
+
+/** The public visitor-counter URL for a site's pageviews over the 30 days ending on the date. */
+export function goatCounterSource(site: string, date: string): string {
+  const start = new Date(Date.parse(`${date}T00:00:00Z`) - 29 * 86_400_000).toISOString().slice(0, 10);
+  return `https://${site}.goatcounter.com/counter/TOTAL.json?start=${start}&end=${date}`;
+}
+
+/**
+ * Reads the pageview count from GoatCounter's public counter. The site must have
+ * "allow using the visitor counter" enabled, and the count is a formatted string with thousands separators.
+ */
+export function parseGoatCounter(status: number, text: string, source: string): Metric {
+  if (status === 403) {
+    return { status: "unavailable", reason: "The GoatCounter site has not enabled its public visitor counter.", source };
+  }
+  if (status !== 200) return { status: "unavailable", reason: `GoatCounter returned HTTP ${status}.`, source };
+  try {
+    const count = (JSON.parse(text) as { count?: unknown }).count;
+    if (typeof count === "number" && Number.isSafeInteger(count) && count >= 0) {
+      return { status: "ok", value: count, source };
+    }
+    if (typeof count === "string") {
+      const digits = count.replace(/[,\s.'\u00a0\u202f]/g, "");
+      if (/^\d+$/.test(digits)) return { status: "ok", value: Number(digits), source };
+    }
+    return { status: "unavailable", reason: "The response had no pageview count.", source };
+  } catch (error) {
+    return { status: "unavailable", reason: error instanceof Error ? error.message : String(error), source };
+  }
 }
 
 export function parseScorecard(status: number, text: string): Metric {
@@ -312,6 +344,7 @@ export async function collect(
   fetcher: Fetcher = defaultFetch,
   token: string | undefined = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN,
   snapshotDir: string = resolve("metrics/adoption"),
+  goatcounterSite: string | undefined = process.env.EVERGREEN_GOATCOUNTER_SITE,
 ): Promise<Snapshot> {
   const guarded = async (run: () => Promise<Metric>, source: string): Promise<Metric> => {
     try {
@@ -360,6 +393,26 @@ export async function collect(
     npmWeeklyDownloads: await guarded(async () => { const r = await get(`https://api.npmjs.org/downloads/point/last-week/${PACKAGE}`); return parseDownloads(r.status, r.text); }, "npm"),
     mcpRegistryListed: await guarded(async () => { const r = await get(`https://registry.modelcontextprotocol.io/v0/servers?search=${PACKAGE}`); return parseMcpRegistry(r.status, r.text); }, "MCP Registry"),
     skillsShInstalls: await guarded(async () => { const r = await get(`https://www.skills.sh/${REPOSITORY}/${PACKAGE}`); return parseSkillsInstalls(r.status, r.text); }, "skills.sh"),
+    docsPageViews: await guarded(async () => {
+      if (!goatcounterSite) {
+        return {
+          status: "unavailable",
+          reason: "Set EVERGREEN_GOATCOUNTER_SITE to the documentation site's GoatCounter code.",
+          source: "https://goatcounter.com/help/visitor-counter",
+        };
+      }
+      if (!/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(goatcounterSite)) {
+        return {
+          status: "unavailable",
+          reason: "EVERGREEN_GOATCOUNTER_SITE is not a valid GoatCounter site code.",
+          source: "https://goatcounter.com/help/visitor-counter",
+        };
+      }
+      const source = goatCounterSource(goatcounterSite, date);
+      const response = await get(source);
+      const metric = parseGoatCounter(response.status, response.text, source);
+      return metric.status === "ok" ? { ...metric, detail: "pageviews in the 30 days ending on the snapshot date" } : metric;
+    }, "GoatCounter"),
     githubStars: await guarded(() => repositoryStat("stargazers_count", fetcher, token), "GitHub"),
     githubForks: await guarded(() => repositoryStat("forks_count", fetcher, token), "GitHub"),
     scorecardScore: await guarded(async () => { const r = await get(`https://api.securityscorecards.dev/projects/github.com/${REPOSITORY}`); return parseScorecard(r.status, r.text); }, "OpenSSF Scorecard"),
