@@ -568,6 +568,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-7",
+      "latestReview": "2026-10-29",
+      "name": "python3.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2024-10-14",
       "ecosystems": [
         "serverless"
@@ -4354,7 +4371,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 516,
+  "rules": 517,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4383,8 +4400,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 84,
-      "rules": 290,
+      "products": 85,
+      "rules": 291,
       "type": "generic"
     },
     {

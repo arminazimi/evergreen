@@ -1,0 +1,7 @@
+Resources:
+  Api:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.api
+      Runtime: python3.14
+      Timeout: 30

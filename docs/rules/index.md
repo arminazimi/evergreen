@@ -558,6 +558,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 - [AWS Lambda .NET Core 3.1 runtime is end-of-life](serverless.aws-lambda.dotnetcore3.1.html) — end of life, `serverless.aws-lambda.dotnetcore3.1`
 - [AWS Lambda Node.js 14 runtime is end-of-life](serverless.aws-lambda.nodejs14.x.html) — end of life, `serverless.aws-lambda.nodejs14.x`
+- [AWS Lambda Python 3.7 runtime is end-of-life](serverless.aws-lambda.python3.7.html) — end of life, `serverless.aws-lambda.python3.7`
 - [AWS Lambda Python 3.8 runtime is end-of-life](serverless.aws-lambda.python3.8.html) — end of life, `serverless.aws-lambda.python3.8`
 - [AWS Lambda Ruby 2.7 runtime is end-of-life](serverless.aws-lambda.ruby2.7.html) — end of life, `serverless.aws-lambda.ruby2.7`
 - [Google Cloud Functions Node.js 14 runtime is end-of-life](serverless.google-cloud-functions.nodejs14.html) — end of life, `serverless.google-cloud-functions.nodejs14`

@@ -582,6 +582,7 @@
   "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
   "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnetcore3.1.html",
   "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs14.x.html",
+  "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.7.html",
   "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
   "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html",
   "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs14.html",
