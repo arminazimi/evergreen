@@ -1,5 +1,5 @@
 {
-  "earliestDeadline": "2023-11-09",
+  "earliestDeadline": "2022-11-10",
   "ecosystems": [
     "database"
   ],
@@ -8,10 +8,80 @@
     "scheduled-end-of-life"
   ],
   "id": "generic-postgresql",
-  "latestReview": "2026-10-24",
+  "latestReview": "2026-10-29",
   "name": "postgresql",
   "purl": "pkg:generic/postgresql",
   "rules": [
+    {
+      "deadline": "2022-11-10",
+      "ecosystem": "database",
+      "event": "end-of-life",
+      "id": "database.postgresql.end-of-life-10",
+      "migration": {
+        "constraints": [
+          "A PostgreSQL data directory written by one major version cannot be started by another. Changing the image tag of a service that has a volume will fail or, worse, start with an empty database.",
+          "Upgrade with pg_upgrade or a dump and restore (pg_dumpall, then psql), and move to a supported major in one planned change instead of one major at a time unless the tool you use requires it.",
+          "For managed databases, engine_version changes do not apply major upgrades unless allow_major_version_upgrade is set; plan the maintenance window before applying."
+        ],
+        "steps": [
+          {
+            "id": "back-up-data",
+            "instructions": "Take a verified backup or snapshot of every PostgreSQL instance in the reported files before changing any version. A major version change is not reversible by changing the version back.",
+            "targets": "all",
+            "title": "Back up the data first"
+          },
+          {
+            "id": "upgrade-data",
+            "instructions": "Run the upgrade with pg_upgrade or restore a dump into a new instance on the target major version. On a managed database, upgrade through a snapshot restore or a reviewed engine_version change with allow_major_version_upgrade.",
+            "targets": "declaration",
+            "title": "Upgrade the database cluster"
+          },
+          {
+            "id": "raise-declared-version",
+            "instructions": "Change the image tag in Compose files, or engine_version in Terraform, to the release in the replacement. Do this in every file and environment that runs this database, not only the reported line.",
+            "targets": "all",
+            "title": "Raise the declared version"
+          },
+          {
+            "id": "align-clients",
+            "instructions": "Update drivers, ORMs, CI service containers, and local setup documentation that assume the old PostgreSQL version.",
+            "targets": "all",
+            "title": "Check clients and tooling"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker compose config",
+            "purpose": "Confirm the Compose file is valid and shows the intended PostgreSQL image tag after the change."
+          },
+          {
+            "command": "terraform validate",
+            "purpose": "Check that the Terraform configuration is valid with the new engine_version."
+          },
+          {
+            "command": "terraform plan",
+            "purpose": "Review the plan and confirm the engine_version change is the only database change, and that it is intended."
+          }
+        ]
+      },
+      "provenance": {
+        "observedAt": "2026-10-29",
+        "reviewedAt": "2026-10-29",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:generic/postgresql",
+      "replacement": "PostgreSQL 15 or later",
+      "severity": "high",
+      "sources": [
+        {
+          "title": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "summary": "The PostgreSQL Global Development Group lists 10 as unsupported: its final release was on 2022-11-10, so it receives no further bug or security fixes.",
+      "title": "PostgreSQL 10 is no longer a supported major version",
+      "vers": "vers:semver/>=10.0.0|<11.0.0"
+    },
     {
       "deadline": "2023-11-09",
       "ecosystem": "database",

@@ -291,3 +291,15 @@ test("a scheduled PostgreSQL line is reported at low severity, for the tag that 
   const findings = (await databaseDetector.scan({ root })).filter((finding) => finding.ruleId === rule.id);
   assert.deepEqual(findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]), [[3, "low", "2026-11-12"], [5, "low", "2026-11-12"]]);
 });
+
+test("the PostgreSQL 10 rule flags that line in Compose and Terraform and not a later one", async () => {
+  const ruleId = "database.postgresql.end-of-life-10";
+  const fixtures = resolve("tests/fixtures/database.postgresql.end-of-life-10");
+  const match = await databaseDetector.scan({ root: resolve(fixtures, "match") });
+  assert.deepEqual(
+    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
+    [["compose.yaml", 3], ["main.tf", 3]],
+  );
+  const clean = await databaseDetector.scan({ root: resolve(fixtures, "clean") });
+  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+});

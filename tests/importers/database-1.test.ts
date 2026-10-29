@@ -51,7 +51,8 @@ test("emits drafts that diff against the existing database registry without remo
   const registry = JSON.parse(await readFile("registry/database.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(postgresqlVersioningImporter, { replay: recording }), registry);
   assert.deepEqual(diff.removed, []);
-  assert.ok(diff.added.some((rule) => rule.id === "database.postgresql.end-of-life-10"));
+  assert.ok(registry.rules.some((rule) => rule.id === "database.postgresql.end-of-life-10"));
+  assert.ok(diff.unchanged.includes("database.postgresql.end-of-life-10"));
 });
 
 test("a supported major is never drafted, and neither is an unsupported one that ends in the future", async () => {
