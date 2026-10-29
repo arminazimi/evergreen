@@ -511,7 +511,8 @@ does not provide a `with` entry.
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
 | `pr-comment` | `false` | Set to `true` to post one summary comment on pull requests (counts and the top findings). Re-runs update the same comment. Needs `pull-requests: write`. |
-| `github-token` | `${{ github.token }}` | Token used to post the comment when `pr-comment` is `true`. |
+| `suggest-fixes` | `false` | In diff mode, post one review whose `suggestion` blocks apply the deterministic fixes for findings on lines the pull request changed. Re-runs update the same review. Needs `pull-requests: write`; pull requests from forks are skipped. |
+| `github-token` | `${{ github.token }}` | Token used to post the comment or the fix suggestions when `pr-comment` or `suggest-fixes` is `true`. |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
@@ -577,6 +578,26 @@ The base and head come from the `pull_request` event payload (`pull_request.base
 
 Annotations on untouched files are noise, so diff mode annotates only findings on lines the pull request added or changed and counts the others in one summary line with a link to the full report. The gate, the severity counts, the badge, the comment, and the JSON report still cover every introduced finding. Set `annotations: all` to annotate every introduced finding, or `annotations: none` to emit no annotations at all. Scan mode defaults to `all`; an explicit `annotations: changed` there falls back to `all` with a notice because there is no pull request range.
 
+### Suggested fixes
+
+Set `suggest-fixes: true` with `mode: diff` to let a reviewer accept a fix with one click instead of reading migration notes. For findings on lines the pull request added or changed that `evergreen fix` can repair deterministically, the Action posts one review whose comments each contain a `suggestion` block, so GitHub's **Apply suggestion** rewrites the line. Findings without a deterministic fix get no suggestion; the scan, the gate, and the report are unchanged.
+
+```yaml
+permissions:
+  contents: read
+  pull-requests: write
+steps:
+  - uses: actions/checkout@v7
+    with:
+      fetch-depth: 0   # diff mode archives the base and head SHAs from git objects
+  - uses: arminazimi/evergreen@v0
+    with:
+      mode: diff
+      suggest-fixes: "true"
+```
+
+A re-run updates the review it left instead of adding another: the review body and the comments on the same file and lines are rewritten, and comments whose suggestion no longer applies are deleted. A suggestion at a new line arrives as one more review, because GitHub does not allow adding comments to a submitted review. Pull requests from forks get a read-only token, so the Action logs a notice and posts nothing. The scan itself stays offline; only posting the review calls the GitHub API.
+
 ## End-of-life reminder issue
 
 [`examples/lifecycle-watch.yml`](https://github.com/arminazimi/evergreen/blob/main/examples/lifecycle-watch.yml) is a copyable starter that reminds a team before a deadline without anyone running a scan. Copy it to `.github/workflows/lifecycle-watch.yml`. Every Monday (and on demand) it scans with `min-support-days`, then opens one issue listing each line whose support ends within `WINDOW_DAYS` (default 90). The next run updates that same issue instead of opening another, and closes it when nothing is near its deadline.
@@ -585,7 +606,7 @@ The scan stays offline; only the final step calls the GitHub API. The job needs 
 
 ## Permissions and privacy
 
-Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`; it then posts one comment on the pull request, found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
+Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true` or `suggest-fixes: true`; it then posts one comment on the pull request or one review of suggestions, each found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
 
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 

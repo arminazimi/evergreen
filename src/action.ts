@@ -5,8 +5,8 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo, Finding, SuppressionState } from "./domain.js";
-import { parsePathsInput, renderComment, renderFailure, renderSummary, resolveScanPaths, runGitHubAction } from "./github-action.js";
-import { upsertPullRequestComment } from "./pr-comment.js";
+import { parsePathsInput, renderComment, renderFailure, renderSummary, renderSuggestionReview, resolveScanPaths, runGitHubAction, suggestionComment } from "./github-action.js";
+import { upsertFixSuggestionsReview, upsertPullRequestComment } from "./pr-comment.js";
 import type { GitHubActionOutcome, GitHubAnnotation, SeverityGate, UnannotatedFindings } from "./github-action.js";
 import type { ExpiredPolicy } from "./baseline.js";
 
@@ -50,13 +50,25 @@ function reportUrl(): string | undefined {
   return server && repository && runId ? `${server}/${repository}/actions/runs/${runId}` : undefined;
 }
 
+interface RepositoryRef {
+  full_name?: string;
+  fork?: boolean;
+}
+
 interface PullRequestEvent {
-  pull_request?: { base?: { sha?: string }; head?: { sha?: string } };
+  pull_request?: {
+    number?: number;
+    base?: { sha?: string; repo?: RepositoryRef };
+    head?: { sha?: string; repo?: RepositoryRef };
+  };
+}
+
+async function readEvent(eventPath?: string): Promise<PullRequestEvent> {
+  return eventPath ? (JSON.parse(await readFile(eventPath, "utf8")) as PullRequestEvent) : {};
 }
 
 /** Reads the event payload's pull request base and head. Falls back to a scan when they are absent. */
-async function resolveDiffMode(eventPath?: string): Promise<{ mode?: "diff"; diffRange?: string } | undefined> {
-  const event = eventPath ? (JSON.parse(await readFile(eventPath, "utf8")) as PullRequestEvent) : {};
+function resolveDiffMode(event: PullRequestEvent): { mode?: "diff"; diffRange?: string } | undefined {
   const base = event.pull_request?.base?.sha;
   const head = event.pull_request?.head?.sha;
   if (!base || !head) {
@@ -66,12 +78,17 @@ async function resolveDiffMode(eventPath?: string): Promise<{ mode?: "diff"; dif
   return { mode: "diff", diffRange: `${base}..${head}` };
 }
 
+/** A pull request from a fork runs with a read-only token, so no review can be written. */
+function isForkPullRequest(event: PullRequestEvent): boolean {
+  const head = event.pull_request?.head?.repo;
+  const base = event.pull_request?.base?.repo;
+  return head?.fork === true || (head?.full_name !== undefined && base?.full_name !== undefined && head.full_name !== base.full_name);
+}
+
 /** Posts or updates the one summary comment. A comment that cannot be posted (a fork's read-only token) warns; it never fails the scan. */
-async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>, unannotated?: UnannotatedFindings): Promise<void> {
+async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>, event: PullRequestEvent, unannotated?: UnannotatedFindings): Promise<void> {
   if (process.env["INPUT_PR-COMMENT"] !== "true") return;
   try {
-    const eventPath = process.env.GITHUB_EVENT_PATH;
-    const event = eventPath ? (JSON.parse(await readFile(eventPath, "utf8")) as { pull_request?: { number?: number } }) : {};
     const pullRequest = event.pull_request?.number;
     const token = process.env["INPUT_GITHUB-TOKEN"];
     const repository = process.env.GITHUB_REPOSITORY;
@@ -87,6 +104,35 @@ async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>,
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.log(`::warning title=Evergreen could not post the pull request comment::${commandValue(message)}`);
+  }
+}
+
+/** Posts or updates the one review of deterministic fix suggestions. A failure warns; it never fails the scan. */
+async function postFixSuggestions(outcome: Awaited<ReturnType<typeof runGitHubAction>>, event: PullRequestEvent): Promise<void> {
+  if (process.env["INPUT_SUGGEST-FIXES"] !== "true" || outcome.suggestions.length === 0) return;
+  // A fork's token is read-only and the runner already said so; there is nothing to post.
+  if (isForkPullRequest(event)) return;
+  try {
+    const pullRequest = event.pull_request?.number;
+    const token = process.env["INPUT_GITHUB-TOKEN"];
+    const repository = process.env.GITHUB_REPOSITORY;
+    if (!pullRequest || !token || !repository) {
+      console.log("::notice title=Evergreen fix suggestions skipped::suggest-fixes needs a pull_request event, a token, and GITHUB_REPOSITORY.");
+      return;
+    }
+    const headSha = event.pull_request?.head?.sha;
+    const done = await upsertFixSuggestionsReview(
+      { apiUrl: process.env.GITHUB_API_URL ?? "https://api.github.com", repository, pullRequest, token },
+      {
+        body: renderSuggestionReview(outcome.suggestions.length),
+        ...(headSha === undefined ? {} : { commitId: headSha }),
+        comments: outcome.suggestions.map(suggestionComment),
+      },
+    );
+    console.log(`Evergreen ${done} its fix suggestions review.`);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.log(`::warning title=Evergreen could not post the fix suggestions review::${commandValue(message)}`);
   }
 }
 
@@ -117,7 +163,12 @@ async function main(): Promise<void> {
     const badgePath = process.env["INPUT_UPLOAD-BADGE"] === "true"
       ? resolve(process.env.RUNNER_TEMP ?? workspace, "evergreen-badge.json")
       : undefined;
-    const diff = inputMode === "diff" ? await resolveDiffMode(process.env.GITHUB_EVENT_PATH) : undefined;
+    const event = await readEvent(process.env.GITHUB_EVENT_PATH);
+    const diff = inputMode === "diff" ? resolveDiffMode(event) : undefined;
+    const suggestFixes = process.env["INPUT_SUGGEST-FIXES"] === "true";
+    const fork = isForkPullRequest(event);
+    if (suggestFixes && !diff) console.log("::notice title=Evergreen suggest-fixes skipped::suggest-fixes needs mode: diff and a pull_request event, because suggestions apply only to lines the pull request changed.");
+    if (suggestFixes && diff && fork) console.log("::notice title=Evergreen suggest-fixes skipped::Pull requests from forks get a read-only token, so Evergreen cannot post a review with fix suggestions.");
     if (diff && process.env.INPUT_BASELINE) console.log(`::notice title=Evergreen baseline ignored in diff mode::mode: diff judges only what the pull request introduces, so the baseline ${process.env.INPUT_BASELINE} is not applied.`);
     if (inputAnnotations === "changed" && !diff) console.log("::notice title=Evergreen annotations: changed needs diff mode::annotations: changed annotates only lines a pull request changed, and this run has no pull request range; annotating every finding.");
     const outcome = await runGitHubAction({
@@ -133,6 +184,7 @@ async function main(): Promise<void> {
       ...(process.env["INPUT_ON-EXPIRED"] ? { onExpired: process.env["INPUT_ON-EXPIRED"] as ExpiredPolicy } : {}),
       ...(process.env["INPUT_MIN-SUPPORT-DAYS"] ? { minSupportDays: Number(process.env["INPUT_MIN-SUPPORT-DAYS"]) } : {}),
       ...(inputAnnotations ? { annotations: inputAnnotations } : {}),
+      ...(suggestFixes && diff && !fork ? { suggestFixes: true } : {}),
       failOnSeverity: (process.env["INPUT_FAIL-ON-SEVERITY"] || "high") as SeverityGate,
     });
 
@@ -152,7 +204,8 @@ async function main(): Promise<void> {
       ? { count: outcome.unannotated, ...(reportLink ? { reportUrl: reportLink } : {}) }
       : undefined;
     await writeSummary(outcome.result.findings, outcome.gateFailed, outcome.gate, outcome.result.data, outcome.expiredFailure, outcome.result.suppressions, outcome.diff, outcome.packages, unannotated);
-    await postComment(outcome, unannotated);
+    await postComment(outcome, event, unannotated);
+    await postFixSuggestions(outcome, event);
     if (outcome.result.data?.stale) console.log(`::warning title=Evergreen lifecycle data is stale::The data is ${outcome.result.data.ageDays} days old, so findings may miss recent changes.`);
     console.log(
       diff

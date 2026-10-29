@@ -80,8 +80,15 @@ inputs:
       pull-requests: write permission on the job; leave it off for pull requests from forks, whose token is read-only.
     required: false
     default: "false"
+  suggest-fixes:
+    description: >-
+      Post one pull request review whose suggestion blocks apply the deterministic fixes for findings on
+      lines the pull request added or changed. Needs mode: diff and the pull-requests: write permission;
+      pull requests from forks are skipped because their token is read-only.
+    required: false
+    default: "false"
   github-token:
-    description: Token used to post the pull request comment when pr-comment is true.
+    description: Token used to post the pull request comment or the fix suggestions when pr-comment or suggest-fixes is true.
     required: false
     default: ${{ github.token }}
   attribution:
@@ -128,6 +135,7 @@ runs:
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
+        INPUT_SUGGEST-FIXES: ${{ inputs.suggest-fixes }}
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
