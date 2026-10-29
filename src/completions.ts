@@ -14,7 +14,7 @@ const severities = "info low medium high critical none";
 export const COMMANDS: CommandSpec[] = [
   { name: "scan", flags: ["--demo", "--json", "--format", "--baseline", "--baseline-warn-days", "--on-expired", "--today", "--write-status", "--interactive", "--fail-on", "--all", "--by-owner", "--data-version", "--only", "--exclude"], example: "evergreen scan . --fail-on high" },
   { name: "baseline", flags: ["--output", "--data-version"], example: "evergreen baseline . --output evergreen-baseline.json" },
-  { name: "forecast", flags: ["--months", "--as-of", "--today", "--json", "--data-version"], example: "evergreen forecast . --months 6" },
+  { name: "forecast", flags: ["--months", "--as-of", "--today", "--timeline", "--json", "--data-version"], example: "evergreen forecast . --months 6" },
   { name: "status-card", flags: ["--name"], example: "evergreen status-card . --name acme/widgets" },
   { name: "lookup", flags: ["--json"], example: "evergreen lookup node 18" },
   { name: "badge", flags: ["--snippet", "--repo", "--branch", "--shields"], example: "evergreen badge . --snippet markdown" },
