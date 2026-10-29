@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { after, test } from "node:test";
 
 import { NpmDetector } from "../src/detectors/npm.js";
 
+const enginesFixtures = resolve("tests/fixtures/nodejs/engines");
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -224,4 +225,18 @@ test("a scheduled Node.js line is reported only for a declaration that stays on 
 test("a scheduled Node.js line does not make a range report the ended lines it allows", async () => {
   const root = await repository({ "package.json": JSON.stringify({ engines: { node: ">=22" } }) });
   assert.deepEqual(await new NpmDetector().scan({ root }), []);
+});
+
+test("engines.node fixtures: concrete EOL pin is reported; lookalikes are not", async () => {
+  const positive = await new NpmDetector().scan({ root: resolve(enginesFixtures, "positive") });
+  assert.deepEqual(
+    positive.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]),
+    [["nodejs.runtime.eol-18", "package.json", 5]],
+  );
+
+  const negative = await new NpmDetector().scan({ root: resolve(enginesFixtures, "negative") });
+  assert.deepEqual(
+    negative.filter((finding) => finding.ruleId.startsWith("nodejs.runtime.")),
+    [],
+  );
 });

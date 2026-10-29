@@ -1,0 +1,11 @@
+{
+  "name": "engines-lookalikes",
+  "private": true,
+  "description": "README text that mentions Node.js 18 is not an engines pin.",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "note": "echo formerly required Node.js 18"
+  }
+}
