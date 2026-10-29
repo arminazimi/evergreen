@@ -1,0 +1,85 @@
+name: Lifecycle rule proposal
+description: Propose a new reviewed rule for a deprecation, end-of-life date, or removal, with the evidence to back it.
+title: "rule: "
+labels: ["type: rule", "area: data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A rule is merged only with an authoritative, versioned source. Maintainer release notes, an official support or end-of-life policy, a registry deprecation flag, or platform documentation all qualify; popularity and the existence of a newer version do not. Read the [evidence policy](https://github.com/arminazimi/evergreen/blob/main/CONTRIBUTING.md#evidence-policy) and [Lifecycle rules](https://github.com/arminazimi/evergreen/blob/main/docs/RULES.md) before filing.
+  - type: input
+    id: product
+    attributes:
+      label: Product
+      description: The package, runtime, action, API, or platform the rule is about.
+      placeholder: "request"
+    validations:
+      required: true
+  - type: input
+    id: ecosystem
+    attributes:
+      label: Ecosystem and identifier
+      description: The ecosystem and its Package URL, registry id, or file the detector reads.
+      placeholder: "npm, pkg:npm/request"
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Affected version range
+      description: The versions the source covers, in vers syntax or plain semver.
+      placeholder: "vers:npm/* or <2.88.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: event
+    attributes:
+      label: Lifecycle event
+      options:
+        - Deprecated
+        - End of support
+        - End of distribution
+        - End of life
+        - Removed
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Effective date
+      description: The date from the source (YYYY-MM-DD). Required when the source publishes one; write "not published" otherwise.
+      placeholder: "2026-10-29"
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Authoritative source URL
+      description: The maintainer or platform page that states the event, with the version or date visible on that page.
+      placeholder: "https://..."
+    validations:
+      required: true
+  - type: textarea
+    id: replacement
+    attributes:
+      label: Replacement and migration
+      description: What users should move to, the ordered steps, and a command that verifies the migration.
+    validations:
+      required: true
+  - type: textarea
+    id: usage
+    attributes:
+      label: How a repository declares it
+      description: The manifest, lockfile, workflow, or source snippet the rule should match, and how a user can tell they are affected.
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: The source is authoritative and shows the affected versions and date.
+          required: true
+        - label: The claim does not rely on popularity, download counts, or a newer version existing.
+          required: true

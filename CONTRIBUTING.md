@@ -107,7 +107,7 @@ Evergreen's findings are only as trustworthy as their sources.
 ## Other contributions
 
 - **Bugs:** use the bug report form with a minimal fixture, the command, and the actual and expected output.
-- **Rule requests without code:** use the lifecycle rule request form; an authoritative source URL is required.
+- **Rule requests without code:** use the [lifecycle rule proposal form](https://github.com/arminazimi/evergreen/issues/new?template=rule-proposal.yml); a product, version range, date, and authoritative source URL are required.
 - **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks, each starting from the generated skeleton (see [Add a new detector](#add-a-new-detector)).
 - **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list (see [docs/IMPORTERS.md](docs/IMPORTERS.md)).
 - **Docs and corpus improvements** are welcome without prior discussion.
