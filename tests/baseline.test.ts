@@ -6,7 +6,7 @@ import { test } from "node:test";
 
 import { Ajv2020 } from "ajv/dist/2020.js";
 
-import { applyBaseline, createBaseline, findingFingerprint, mergeBaselines, readBaseline, readBaselines, suppressionIssues } from "../src/baseline.js";
+import { applyBaseline, createBaseline, findingFingerprint, mergeBaselines, readBaseline, readBaselines, suppressionIssues, writeBaseline } from "../src/baseline.js";
 import type { Finding, ScanResult } from "../src/domain.js";
 
 const finding: Finding = {
@@ -196,6 +196,33 @@ test("the schema accepts the baseline Evergreen 0.1.0 wrote", async () => {
   const validate = await baselineValidator();
   const old = JSON.parse(await readFile(resolve("tests/fixtures/baselines/v0.1.0.json"), "utf8"));
   assert.ok(validate(old), JSON.stringify(validate.errors));
+});
+
+test("the schema accepts what createBaseline and writeBaseline actually write, with and without history", async () => {
+  const validate = await baselineValidator();
+  const directory = await mkdtemp(join(tmpdir(), "evergreen-baseline-schema-"));
+  try {
+    const plainPath = join(directory, "plain.json");
+    await writeBaseline(plainPath, createBaseline(result));
+    const plain = JSON.parse(await readFile(plainPath, "utf8"));
+    assert.equal("history" in plain, false, "a first baseline has no history");
+    assert.ok(validate(plain), JSON.stringify(validate.errors));
+
+    const carryingPath = join(directory, "carrying.json");
+    await writeBaseline(carryingPath, createBaseline(result, {}, { schemaVersion: "evergreen.baseline.v1", createdAt: "2026-10-01T00:00:00.000Z", findings: [] }));
+    const carrying = JSON.parse(await readFile(carryingPath, "utf8")) as { history: Array<{ at: string; count: number }> };
+    assert.equal(carrying.history.length, 2, "the earlier baseline seeds the first entry");
+    assert.ok(validate(carrying), JSON.stringify(validate.errors));
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test("the schema rejects a malformed history entry", async () => {
+  const validate = await baselineValidator();
+  for (const bad of [{ count: 1 }, { at: "2026-10-17T00:00:00.000Z" }, { at: "2026-10-17T00:00:00.000Z", count: -1 }, { at: "2026-10-17T00:00:00.000Z", count: 1.5 }, { at: "2026-10-17T00:00:00.000Z", count: 1, extra: true }]) {
+    assert.equal(validate({ ...file([]), history: [bad] }), false, JSON.stringify(bad));
+  }
 });
 
 test("the CLI scans with a 0.1.0 baseline and reports only what the baseline does not cover", async () => {
