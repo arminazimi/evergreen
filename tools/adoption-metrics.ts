@@ -28,8 +28,18 @@ export const SERVICE_REPORTS: Record<string, string> = {
   starHistory: `https://star-history.com/#${REPOSITORY}&Date`,
 };
 
+export type SkillInstall = { name: string; installs: number };
+
 export type Metric =
-  | { status: "ok"; value: number | boolean; detail?: string; source: string; repositories?: string[] }
+  | {
+      status: "ok";
+      value: number | boolean;
+      detail?: string;
+      source: string;
+      repositories?: string[];
+      /** Per-Skill install counts from the skills.sh repository page, when present. */
+      skills?: SkillInstall[];
+    }
   | { status: "unavailable"; reason: string; source: string };
 
 export interface Snapshot {
@@ -83,13 +93,138 @@ export function parseMcpRegistry(status: number, text: string): Metric {
     : { status: "ok", value: false, source };
 }
 
-export function parseSkillsInstalls(status: number, text: string): Metric {
-  const source = `https://www.skills.sh/${REPOSITORY}/${PACKAGE}`;
+/** Source URL for the skills.sh repository page (total + per-Skill installs). */
+export const SKILLS_SH_SOURCE = `https://www.skills.sh/${REPOSITORY}`;
+
+/**
+ * Reads total and per-Skill install counts from a skills.sh HTML page.
+ * Prefers the repository page (`N total installs` plus the Skill/Installs table).
+ * Falls back to schema.org `userInteractionCount` on a single-Skill page.
+ */
+export function parseSkillsInstalls(status: number, text: string, source: string = SKILLS_SH_SOURCE): Metric {
   if (status !== 200) return { status: "unavailable", reason: `skills.sh returned HTTP ${status}.`, source };
-  const match = /"userInteractionCount":\s*(\d+)/.exec(text);
-  return match
-    ? { status: "ok", value: Number(match[1]), source }
-    : { status: "unavailable", reason: "The page does not publish an install count.", source };
+
+  const skills: SkillInstall[] = [];
+  const rowPattern =
+    /<h3[^>]*\btruncate\b[^>]*>([^<]+)<\/h3>[\s\S]*?<span[^>]*\bfont-mono\b[^>]*>(\d+)<\/span>/gi;
+  for (const match of text.matchAll(rowPattern)) {
+    const name = match[1]?.trim();
+    const installs = Number(match[2]);
+    if (name && Number.isSafeInteger(installs) && installs >= 0) {
+      skills.push({ name, installs });
+    }
+  }
+  skills.sort((a, b) => a.name.localeCompare(b.name));
+
+  const totalMatch = /(\d+)\s*(?:<!--\s*-->\s*)?total installs/i.exec(text);
+  if (totalMatch) {
+    const value = Number(totalMatch[1]);
+    if (Number.isSafeInteger(value) && value >= 0) {
+      return skills.length > 0 ? { status: "ok", value, skills, source } : { status: "ok", value, source };
+    }
+  }
+
+  const interaction = /"userInteractionCount":\s*(\d+)/.exec(text);
+  if (interaction) {
+    const value = Number(interaction[1]);
+    return skills.length > 0 ? { status: "ok", value, skills, source } : { status: "ok", value, source };
+  }
+
+  if (skills.length > 0) {
+    const value = skills.reduce((sum, skill) => sum + skill.installs, 0);
+    return { status: "ok", value, skills, source };
+  }
+
+  return { status: "unavailable", reason: "The page does not publish an install count.", source };
+}
+
+/** Signed change against a previous value; a missing previous is never treated as zero. */
+export function formatChange(value: number | "unavailable", previous: number | null): string {
+  if (value === "unavailable") return "unavailable";
+  if (previous === null) return "—";
+  const diff = value - previous;
+  if (diff === 0) return "0";
+  return `${diff > 0 ? "+" : "-"}${Math.abs(diff).toLocaleString("en-US")}`;
+}
+
+/**
+ * Newest snapshot with a date strictly before `date`, or null when none exist.
+ * Weekly runs compare against this previous file (week-over-week when collected weekly).
+ */
+export async function readPreviousSnapshot(
+  date: string,
+  dir: string = resolve("metrics/adoption"),
+): Promise<Snapshot | null> {
+  let entries: string[] = [];
+  try {
+    entries = await readdir(dir);
+  } catch {
+    return null;
+  }
+  const previous = entries
+    .filter((name) => /^\d{4}-\d{2}-\d{2}\.json$/.test(name) && name.slice(0, 10) < date)
+    .sort()
+    .reverse();
+  if (previous.length === 0) return null;
+  try {
+    return JSON.parse(await readFile(resolve(dir, previous[0]!), "utf8")) as Snapshot;
+  } catch {
+    return null;
+  }
+}
+
+function metricNumber(metric: Metric | undefined): number | "unavailable" {
+  if (!metric || metric.status !== "ok" || typeof metric.value !== "number") return "unavailable";
+  return metric.value;
+}
+
+function skillInstallMap(metric: Metric | undefined): Map<string, number> {
+  const map = new Map<string, number>();
+  if (!metric || metric.status !== "ok" || !Array.isArray(metric.skills)) return map;
+  for (const skill of metric.skills) {
+    if (typeof skill?.name === "string" && typeof skill.installs === "number") {
+      map.set(skill.name, skill.installs);
+    }
+  }
+  return map;
+}
+
+/**
+ * Markdown table of skills.sh totals and per-Skill installs with week-over-week change.
+ * Matches the channel table style used in the monthly adoption report.
+ */
+export function formatSkillsInstallsReport(current: Snapshot, previous: Snapshot | null): string {
+  const currentMetric = current.metrics.skillsShInstalls;
+  const previousMetric = previous?.metrics.skillsShInstalls;
+  const currentTotal = metricNumber(currentMetric);
+  const previousTotal = metricNumber(previousMetric);
+  const previousTotalNumber = typeof previousTotal === "number" ? previousTotal : null;
+
+  const lines = [
+    "### skills.sh installs",
+    "",
+    "The change compares this snapshot with the previous weekly snapshot.",
+    "",
+    "| Skill | Installs | Change vs last week |",
+    "| --- | --- | --- |",
+    `| Total | ${currentTotal === "unavailable" ? "unavailable" : currentTotal.toLocaleString("en-US")} | ${formatChange(currentTotal, previousTotalNumber)} |`,
+  ];
+
+  const currentSkills = skillInstallMap(currentMetric);
+  const previousSkills = skillInstallMap(previousMetric);
+  const names = new Set([...currentSkills.keys(), ...previousSkills.keys()]);
+  for (const name of [...names].sort()) {
+    const value = currentSkills.has(name) ? currentSkills.get(name)! : "unavailable";
+    const prev = previousSkills.has(name) ? previousSkills.get(name)! : null;
+    const countCell = value === "unavailable" ? "unavailable" : value.toLocaleString("en-US");
+    lines.push(`| ${name} | ${countCell} | ${formatChange(value, prev)} |`);
+  }
+
+  if (currentMetric?.source) {
+    lines.push("");
+    lines.push(`Source: ${currentMetric.source}`);
+  }
+  return `${lines.join("\n")}\n`;
 }
 
 /** The public visitor-counter URL for a site's pageviews over the 30 days ending on the date. */
@@ -392,7 +527,10 @@ export async function collect(
     gitlabComponentRepositories: await guarded(() => searchRepositories(`"${REPOSITORY}" filename:.gitlab-ci.yml`, fetcher, token), "GitHub code search"),
     npmWeeklyDownloads: await guarded(async () => { const r = await get(`https://api.npmjs.org/downloads/point/last-week/${PACKAGE}`); return parseDownloads(r.status, r.text); }, "npm"),
     mcpRegistryListed: await guarded(async () => { const r = await get(`https://registry.modelcontextprotocol.io/v0/servers?search=${PACKAGE}`); return parseMcpRegistry(r.status, r.text); }, "MCP Registry"),
-    skillsShInstalls: await guarded(async () => { const r = await get(`https://www.skills.sh/${REPOSITORY}/${PACKAGE}`); return parseSkillsInstalls(r.status, r.text); }, "skills.sh"),
+    skillsShInstalls: await guarded(async () => {
+      const r = await get(SKILLS_SH_SOURCE);
+      return parseSkillsInstalls(r.status, r.text, SKILLS_SH_SOURCE);
+    }, "skills.sh"),
     docsPageViews: await guarded(async () => {
       if (!goatcounterSite) {
         return {
@@ -431,10 +569,13 @@ async function main(): Promise<void> {
   const date = option("--date") ?? new Date().toISOString().slice(0, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) throw new Error("--date must be YYYY-MM-DD.");
   const out = resolve(option("--out") ?? `metrics/adoption/${date}.json`);
-  const snapshot = await collect(date);
-  await mkdir(dirname(out), { recursive: true });
+  const snapshotDir = dirname(out);
+  const snapshot = await collect(date, defaultFetch, process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN, snapshotDir);
+  await mkdir(snapshotDir, { recursive: true });
   await writeFile(out, `${JSON.stringify(snapshot, null, 2)}\n`);
   process.stdout.write(`Wrote ${out}\n`);
+  const previous = await readPreviousSnapshot(date, snapshotDir);
+  process.stdout.write(formatSkillsInstallsReport(snapshot, previous));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
