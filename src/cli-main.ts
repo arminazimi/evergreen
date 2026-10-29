@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { stat, writeFile } from "node:fs/promises";
 import http from "node:http";
 import process from "node:process";
-import { resolve } from "node:path";
+import { basename, resolve } from "node:path";
 
 import { applyAsOf } from "./as-of.js";
 import { applyMinSupport, parseMinSupportDays } from "./min-support.js";
@@ -34,6 +34,7 @@ import { applyOnBranch } from "./fix/git.js";
 import { planFixReport, planFixes, renderPatches } from "./fix/index.js";
 import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
+import { renderStatusCard } from "./status-card.js";
 import { scanDemo } from "./demo.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -81,6 +82,7 @@ Usage:
   evergreen scan [path] --no-cache   # bypass the scan cache and re-scan all files fresh
   evergreen scan <path> <path>... [--all <dir>] [--json]   # several projects, per-project and combined counts
   evergreen forecast [path] [--months <n>] [--as-of <YYYY-MM-DD>] [--json]   # what reaches end of life next, by month
+  evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
   evergreen scan [path] --by-owner [--json]   # group findings by CODEOWNERS owner; files with no owner are listed as unowned
   evergreen rollup <report.json>... [--owners <file>] [--json | --html]   # merge saved scan reports by product and owner; reads files only
@@ -547,6 +549,33 @@ async function watch(args: string[], json: boolean): Promise<number> {
   }
 }
 
+/** `status-card`: prints a static SVG summary of one repository's scan. */
+async function statusCard(args: string[]): Promise<number> {
+  const usageText = "Usage: evergreen status-card [path] [--name <label>]";
+  const operands: string[] = [];
+  let name: string | undefined;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    if (argument === "--name") {
+      name = args[index + 1];
+      if (name === undefined) return fail("usage", usageText);
+      index += 1;
+      continue;
+    }
+    if (argument.startsWith("-")) return fail("usage", usageText);
+    operands.push(argument);
+  }
+  if (operands.length > 1) return fail("usage", usageText);
+  const project = resolve(operands[0] ?? ".");
+  try {
+    const result = await scanRepository(project, builtInDetectors, {});
+    process.stdout.write(`${renderStatusCard(result, { repository: name ?? basename(project) })}\n`);
+    return 0;
+  } catch (error) {
+    return fail("parse", (error as Error).message);
+  }
+}
+
 async function main(rawArgs: string[]): Promise<number> {
   debugErrors = rawArgs.includes("--debug");
   const args = rawArgs.filter((argument) => argument !== "--debug");
@@ -563,7 +592,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -583,6 +612,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "init") return init(args.slice(1));
   if (command === "setup") return setup(args.slice(1));
   if (command === "usage") return usage(args.slice(1));
+  if (command === "status-card") return statusCard(args.slice(1));
 
   const optionValue = (name: string): string | undefined => {
     const index = args.indexOf(name);
