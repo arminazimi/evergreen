@@ -5,6 +5,7 @@ Evergreen's work is split into small issues, each sized for one pull request. Yo
 ## Pick an issue
 
 - [Open `good first issue` issues](https://github.com/arminazimi/evergreen/issues?q=is%3Aopen+label%3A%22good+first+issue%22) — isolated changes with fixtures. Start here.
+- [Open fixture edge-case issues](https://github.com/arminazimi/evergreen/issues?q=is%3Aopen+label%3A%22type%3A+fixture%22+label%3A%22good+first+issue%22) — lock a triaged false-positive boundary into `tests/fixtures/` (see [the fixtures README](../tests/fixtures/README.md)).
 - [All open issues](https://github.com/arminazimi/evergreen/issues) — filter by label, area, or size.
 - [Project board](https://github.com/users/arminazimi/projects/3) — the current phase and what is in progress.
 - [Roadmap](ROADMAP.md) — phases, epics, and what each one delivers.
