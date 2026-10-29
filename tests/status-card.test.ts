@@ -67,3 +67,21 @@ test("the CLI renders a card for the scanned path", async () => {
   assert.match(stdout, /evergreen status for acme\/widgets/);
   await assert.rejects(run(process.execPath, [cli, "status-card", "--bogus"]), (error: { code?: number }) => error.code === 2);
 });
+
+test("social size is 1200x630 with brand fonts and no external references", () => {
+  const output = renderStatusCard(
+    { findings: [finding("high", "2026-12-01")], data: data({ ageDays: 1 }) } as Input,
+    { repository: "acme/widgets", size: "social" },
+  );
+  assert.match(output, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg" width="1200" height="630" viewBox="0 0 1200 630"/);
+  assert.match(output, /font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif"/);
+  assert.match(output, /<title id="status-title">evergreen status for acme\/widgets<\/title>/);
+  assert.match(output, />1 high</);
+  assert.match(output, />2026-12-01</);
+  assert.equal([...output.matchAll(/https?:\/\//g)].length, 1); // xmlns only
+  assert.doesNotMatch(output, /@import|url\(|xlink:href|\shref="/i);
+  assert.equal(
+    renderStatusCard({ findings: [], data: data() } as Input, { size: "social" }),
+    renderStatusCard({ findings: [], data: data() } as Input, { size: "social" }),
+  );
+});
