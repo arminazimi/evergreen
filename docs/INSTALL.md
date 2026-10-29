@@ -42,3 +42,7 @@ Because the scan runs inside the image exactly as the npm package runs it, the J
 ## Standalone binaries and other hosts
 
 Each release also attaches standalone binaries that need no Node.js; see [Releasing](RELEASING.md#standalone-binaries). For pull requests, use the [GitHub Action](GITHUB_ACTION.md).
+
+## Coding agents
+
+To give Claude Code, Codex, Cursor, Copilot, Gemini CLI, Kilo Code, Windsurf, Cline, or Aider the dependency guardrail (setup, verify, and opt-out per host), see [Evergreen for your agent](AGENTS_SETUP.md).
