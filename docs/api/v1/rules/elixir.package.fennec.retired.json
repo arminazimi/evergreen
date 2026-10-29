@@ -1,0 +1,61 @@
+{
+  "productId": "hex-fennec",
+  "productPath": "products/hex-fennec.json",
+  "rule": {
+    "ecosystem": "elixir",
+    "event": "deprecated",
+    "id": "elixir.package.fennec.retired",
+    "migration": {
+      "constraints": [
+        "Preserve STUN/TURN configuration and call sites while moving from fennec to mongooseice.",
+        "Keep mix.exs and mix.lock consistent after the replacement."
+      ],
+      "steps": [
+        {
+          "id": "replace-fennec-dependency",
+          "instructions": "Remove {:fennec, …} from mix.exs deps and add {:mongooseice, …} at a maintained version, then run mix deps.get.",
+          "targets": "declaration",
+          "title": "Replace the dependency"
+        },
+        {
+          "id": "migrate-fennec-usages",
+          "instructions": "Update application and module references from Fennec to MongooseICE as the mongooseice package documents.",
+          "targets": "usages",
+          "title": "Migrate fennec usages"
+        }
+      ],
+      "verification": [
+        {
+          "command": "mix deps.get && mix deps | grep mongooseice",
+          "purpose": "Confirm mongooseice is resolved into the Mix dependency tree."
+        },
+        {
+          "command": "mix test",
+          "purpose": "Run the Mix test suite with the replacement package."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:hex/fennec",
+    "replacement": "mongooseice",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "fennec on Hex",
+        "url": "https://hex.pm/packages/fennec"
+      },
+      {
+        "title": "mongooseice on Hex",
+        "url": "https://hex.pm/packages/mongooseice"
+      }
+    ],
+    "summary": "Hex marks every published fennec release as retired with reason renamed, and the retirement message says the package was renamed to mongooseice.",
+    "title": "fennec is retired on Hex",
+    "vers": "vers:semver/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

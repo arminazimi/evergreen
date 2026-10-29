@@ -5,7 +5,7 @@ import { test } from "node:test";
 
 import { parse } from "yaml";
 
-import { API_DIRECTORY, PRODUCTS_DIRECTORY, buildFiles, loadRegistries } from "../tools/build-data-api.js";
+import { API_DIRECTORY, PRODUCTS_DIRECTORY, RULES_DIRECTORY, TYPES_DIRECTORY, buildFiles, loadRegistries } from "../tools/build-data-api.js";
 
 const OPENAPI_PATH = "docs/api/openapi.yaml";
 const SCHEMA_REF_PREFIX =
@@ -48,6 +48,12 @@ function openApiPathFor(filePath: string): string | undefined {
   if (filePath.startsWith(prefix) && filePath.endsWith(".json")) {
     return `/v1/products/{id}.json`;
   }
+  if (filePath.startsWith(`${TYPES_DIRECTORY}/`) && filePath.endsWith(".json")) {
+    return "/v1/types/{type}.json";
+  }
+  if (filePath.startsWith(`${RULES_DIRECTORY}/`) && filePath.endsWith(".json")) {
+    return "/v1/rules/{id}.json";
+  }
   return undefined;
 }
 
@@ -55,6 +61,8 @@ function schemaRefFor(openApiPath: string): string {
   if (openApiPath === "/v1/index.json") return `${SCHEMA_REF_PREFIX}index`;
   if (openApiPath === "/v1/products/{id}.json") return `${SCHEMA_REF_PREFIX}product`;
   if (openApiPath === "/v1/recent.json") return `${SCHEMA_REF_PREFIX}recent`;
+  if (openApiPath === "/v1/types/{type}.json") return `${SCHEMA_REF_PREFIX}type`;
+  if (openApiPath === "/v1/rules/{id}.json") return `${SCHEMA_REF_PREFIX}ruleDocument`;
   throw new Error(`no schema mapping for ${openApiPath}`);
 }
 
@@ -70,7 +78,7 @@ test("OpenAPI describes the static API and links each path to its JSON Schema", 
   const doc = await loadOpenApi();
   assert.match(String(doc.openapi ?? ""), /^3\./);
 
-  const expectedPaths = ["/v1/index.json", "/v1/products/{id}.json", "/v1/recent.json"];
+  const expectedPaths = ["/v1/index.json", "/v1/products/{id}.json", "/v1/recent.json", "/v1/rules/{id}.json", "/v1/types/{type}.json"];
   assert.deepEqual(Object.keys(doc.paths ?? {}).sort(), expectedPaths);
 
   for (const path of expectedPaths) {
@@ -104,6 +112,12 @@ test("every generated file path is covered by the OpenAPI description", async ()
     ...(await readdir(resolve(PRODUCTS_DIRECTORY)))
       .filter((name) => name.endsWith(".json"))
       .map((name) => join(PRODUCTS_DIRECTORY, name).replaceAll("\\", "/")),
+    ...(await readdir(resolve(TYPES_DIRECTORY)))
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => join(TYPES_DIRECTORY, name).replaceAll("\\", "/")),
+    ...(await readdir(resolve(RULES_DIRECTORY)))
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => join(RULES_DIRECTORY, name).replaceAll("\\", "/")),
   ].sort();
   for (const path of onDisk) {
     const openApiPath = openApiPathFor(path);

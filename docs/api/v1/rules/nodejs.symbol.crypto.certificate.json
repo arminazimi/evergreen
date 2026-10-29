@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.crypto.certificate",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of new crypto.Certificate() with the static methods of crypto.Certificate.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "the static methods of crypto.Certificate",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0146",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates new crypto.Certificate() (DEP0146: documentation-only since v14.9.0).",
+    "title": "New crypto.Certificate() is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "shape": "construct",
+        "symbol": "Certificate"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "shape": "construct",
+        "symbol": "Certificate"
+      }
+    ],
+    "vers": "vers:semver/>=14.9.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

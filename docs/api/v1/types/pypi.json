@@ -1,0 +1,611 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-agentops-toolkit",
+      "latestReview": "2026-10-16",
+      "name": "agentops-toolkit",
+      "path": "products/pypi-agentops-toolkit.json",
+      "purl": "pkg:pypi/agentops-toolkit",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-aiohttp-valera-validator",
+      "latestReview": "2026-10-16",
+      "name": "aiohttp-valera-validator",
+      "path": "products/pypi-aiohttp-valera-validator.json",
+      "purl": "pkg:pypi/aiohttp-valera-validator",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-api-shield",
+      "latestReview": "2026-10-16",
+      "name": "api-shield",
+      "path": "products/pypi-api-shield.json",
+      "purl": "pkg:pypi/api-shield",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-apisec-code-bolt",
+      "latestReview": "2026-10-16",
+      "name": "apisec-code-bolt",
+      "path": "products/pypi-apisec-code-bolt.json",
+      "purl": "pkg:pypi/apisec-code-bolt",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-argparse",
+      "latestReview": "2026-10-20",
+      "name": "argparse",
+      "path": "products/pypi-argparse.json",
+      "purl": "pkg:pypi/argparse",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-asyncio-requests",
+      "latestReview": "2026-10-16",
+      "name": "asyncio-requests",
+      "path": "products/pypi-asyncio-requests.json",
+      "purl": "pkg:pypi/asyncio-requests",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-batchnotebook",
+      "latestReview": "2026-10-16",
+      "name": "batchnotebook",
+      "path": "products/pypi-batchnotebook.json",
+      "purl": "pkg:pypi/batchnotebook",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-cmip-ref",
+      "latestReview": "2026-10-16",
+      "name": "cmip-ref",
+      "path": "products/pypi-cmip-ref.json",
+      "purl": "pkg:pypi/cmip-ref",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-datacommons",
+      "latestReview": "2026-10-16",
+      "name": "datacommons",
+      "path": "products/pypi-datacommons.json",
+      "purl": "pkg:pypi/datacommons",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-distribute",
+      "latestReview": "2026-10-16",
+      "name": "distribute",
+      "path": "products/pypi-distribute.json",
+      "purl": "pkg:pypi/distribute",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "earliestDeadline": "2013-02-26",
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-django",
+      "latestReview": "2026-10-21",
+      "name": "django",
+      "path": "products/pypi-django.json",
+      "purl": "pkg:pypi/django",
+      "rules": 20,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-django-celery",
+      "latestReview": "2026-10-16",
+      "name": "django-celery",
+      "path": "products/pypi-django-celery.json",
+      "purl": "pkg:pypi/django-celery",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-django-nose",
+      "latestReview": "2026-10-14",
+      "name": "django-nose",
+      "path": "products/pypi-django-nose.json",
+      "purl": "pkg:pypi/django-nose",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-enum",
+      "latestReview": "2026-10-20",
+      "name": "enum",
+      "path": "products/pypi-enum.json",
+      "purl": "pkg:pypi/enum",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-ghops",
+      "latestReview": "2026-10-16",
+      "name": "ghops",
+      "path": "products/pypi-ghops.json",
+      "purl": "pkg:pypi/ghops",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-goobook",
+      "latestReview": "2026-10-16",
+      "name": "goobook",
+      "path": "products/pypi-goobook.json",
+      "purl": "pkg:pypi/goobook",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-google-cloud",
+      "latestReview": "2026-10-20",
+      "name": "google-cloud",
+      "path": "products/pypi-google-cloud.json",
+      "purl": "pkg:pypi/google-cloud",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-headroom-cli",
+      "latestReview": "2026-10-16",
+      "name": "headroom-cli",
+      "path": "products/pypi-headroom-cli.json",
+      "purl": "pkg:pypi/headroom-cli",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-imagej",
+      "latestReview": "2026-10-16",
+      "name": "imagej",
+      "path": "products/pypi-imagej.json",
+      "purl": "pkg:pypi/imagej",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-ipaddr",
+      "latestReview": "2026-10-16",
+      "name": "ipaddr",
+      "path": "products/pypi-ipaddr.json",
+      "purl": "pkg:pypi/ipaddr",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-llama-index-experimental",
+      "latestReview": "2026-10-16",
+      "name": "llama-index-experimental",
+      "path": "products/pypi-llama-index-experimental.json",
+      "purl": "pkg:pypi/llama-index-experimental",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-mondobrain",
+      "latestReview": "2026-10-16",
+      "name": "mondobrain",
+      "path": "products/pypi-mondobrain.json",
+      "purl": "pkg:pypi/mondobrain",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-multimodal-timesfm",
+      "latestReview": "2026-10-16",
+      "name": "multimodal-timesfm",
+      "path": "products/pypi-multimodal-timesfm.json",
+      "purl": "pkg:pypi/multimodal-timesfm",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-nose",
+      "latestReview": "2026-10-14",
+      "name": "nose",
+      "path": "products/pypi-nose.json",
+      "purl": "pkg:pypi/nose",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-opennms-api-wrapper",
+      "latestReview": "2026-10-16",
+      "name": "opennms-api-wrapper",
+      "path": "products/pypi-opennms-api-wrapper.json",
+      "purl": "pkg:pypi/opennms-api-wrapper",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pathlib",
+      "latestReview": "2026-10-20",
+      "name": "pathlib",
+      "path": "products/pypi-pathlib.json",
+      "purl": "pkg:pypi/pathlib",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-pep8",
+      "latestReview": "2026-10-16",
+      "name": "pep8",
+      "path": "products/pypi-pep8.json",
+      "purl": "pkg:pypi/pep8",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pil",
+      "latestReview": "2026-10-20",
+      "name": "pil",
+      "path": "products/pypi-pil.json",
+      "purl": "pkg:pypi/pil",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-poetry-version-plugin",
+      "latestReview": "2026-10-16",
+      "name": "poetry-version-plugin",
+      "path": "products/pypi-poetry-version-plugin.json",
+      "purl": "pkg:pypi/poetry-version-plugin",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "earliestDeadline": "2022-01-27",
+      "ecosystems": [
+        "osv",
+        "python"
+      ],
+      "events": [
+        "deprecated",
+        "end-of-life"
+      ],
+      "id": "pypi-pycrypto",
+      "latestReview": "2026-10-27",
+      "name": "pycrypto",
+      "path": "products/pypi-pycrypto.json",
+      "purl": "pkg:pypi/pycrypto",
+      "rules": 2,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-pyinj",
+      "latestReview": "2026-10-16",
+      "name": "pyinj",
+      "path": "products/pypi-pyinj.json",
+      "purl": "pkg:pypi/pyinj",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-pytest-runner",
+      "latestReview": "2026-10-16",
+      "name": "pytest-runner",
+      "path": "products/pypi-pytest-runner.json",
+      "purl": "pkg:pypi/pytest-runner",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-saroku",
+      "latestReview": "2026-10-16",
+      "name": "saroku",
+      "path": "products/pypi-saroku.json",
+      "purl": "pkg:pypi/saroku",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-seofleet-cli",
+      "latestReview": "2026-10-16",
+      "name": "seofleet-cli",
+      "path": "products/pypi-seofleet-cli.json",
+      "purl": "pkg:pypi/seofleet-cli",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-sklearn",
+      "latestReview": "2026-10-16",
+      "name": "sklearn",
+      "path": "products/pypi-sklearn.json",
+      "purl": "pkg:pypi/sklearn",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-superlinked",
+      "latestReview": "2026-10-16",
+      "name": "superlinked",
+      "path": "products/pypi-superlinked.json",
+      "purl": "pkg:pypi/superlinked",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-superlinked-server",
+      "latestReview": "2026-10-16",
+      "name": "superlinked-server",
+      "path": "products/pypi-superlinked-server.json",
+      "purl": "pkg:pypi/superlinked-server",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "pypi-typing",
+      "latestReview": "2026-10-20",
+      "name": "typing",
+      "path": "products/pypi-typing.json",
+      "purl": "pkg:pypi/typing",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-vsdeband",
+      "latestReview": "2026-10-16",
+      "name": "vsdeband",
+      "path": "products/pypi-vsdeband.json",
+      "purl": "pkg:pypi/vsdeband",
+      "rules": 1,
+      "type": "pypi"
+    },
+    {
+      "ecosystems": [
+        "python"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pypi-vsscale",
+      "latestReview": "2026-10-16",
+      "name": "vsscale",
+      "path": "products/pypi-vsscale.json",
+      "purl": "pkg:pypi/vsscale",
+      "rules": 1,
+      "type": "pypi"
+    }
+  ],
+  "rules": 60,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "pypi"
+}

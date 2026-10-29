@@ -1,0 +1,61 @@
+{
+  "productId": "pypi-enum",
+  "productPath": "products/pypi-enum.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "end-of-life",
+    "id": "python.package.enum.archived",
+    "migration": {
+      "constraints": [
+        "Preserve behavior while removing enum; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+      ],
+      "steps": [
+        {
+          "id": "replace-enum",
+          "instructions": "Remove enum from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+          "targets": "all",
+          "title": "Replace enum"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pip check",
+          "purpose": "Confirm the installed distributions have no broken requirements."
+        },
+        {
+          "command": "python -m pytest",
+          "purpose": "Run the test suite without the archived distribution."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/enum",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "enum on PyPI",
+        "url": "https://pypi.org/project/enum/"
+      },
+      {
+        "title": "enum project status (PyPI Simple API)",
+        "url": "https://pypi.org/simple/enum/"
+      },
+      {
+        "title": "Project status markers (PEP 792)",
+        "url": "https://packaging.python.org/specifications/project-status-markers/"
+      }
+    ],
+    "summary": "PyPI marks enum as archived: the project does not expect to be updated in the future.",
+    "title": "enum is archived on PyPI",
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "enum"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

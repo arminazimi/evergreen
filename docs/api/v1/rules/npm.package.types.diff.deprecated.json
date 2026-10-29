@@ -1,0 +1,65 @@
+{
+  "productId": "npm-types-diff",
+  "productPath": "products/npm-types-diff.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.types.diff.deprecated",
+    "migration": {
+      "constraints": [
+        "@types/diff only declares types; diff now ships its own declarations, so no conflicting ambient definition may remain."
+      ],
+      "steps": [
+        {
+          "id": "remove-types-package",
+          "instructions": "Remove @types/diff from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+          "targets": "declaration",
+          "title": "Remove the stub types package"
+        },
+        {
+          "id": "use-bundled-types",
+          "instructions": "Keep diff on a version that ships its own type definitions and import its types from diff.",
+          "targets": "usages",
+          "title": "Use the bundled declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build with diff's own declarations."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40types/diff",
+    "replacement": "diff",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "@types/diff on npm",
+        "url": "https://www.npmjs.com/package/@types/diff"
+      },
+      {
+        "title": "@types/diff version metadata",
+        "url": "https://registry.npmjs.org/@types%2fdiff"
+      }
+    ],
+    "summary": "npm marks @types/diff as deprecated: \"This is a stub types definition. diff provides its own type definitions, so you do not need this installed.\"",
+    "title": "@types/diff is deprecated",
+    "usage": [],
+    "vers": "vers:npm/8.0.0",
+    "x-npm": {
+      "package": "@types/diff"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

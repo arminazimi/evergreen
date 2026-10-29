@@ -1,0 +1,65 @@
+{
+  "productId": "npm-are-we-there-yet",
+  "productPath": "products/npm-are-we-there-yet.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "end-of-life",
+    "id": "npm.package.are-we-there-yet.eol",
+    "migration": {
+      "constraints": [
+        "Preserve weighted completion, nested tracker groups, stream progress, event timing, and completion semantics."
+      ],
+      "steps": [
+        {
+          "id": "replace-are-we-there-yet",
+          "instructions": "Select a maintained progress tracker or implement the required aggregation locally, migrate tracker construction and updates, then remove the package.",
+          "targets": "all",
+          "title": "Replace progress tracking"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run nested progress, completion, event, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/are-we-there-yet",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "are-we-there-yet package deprecation notice",
+        "url": "https://www.npmjs.com/package/are-we-there-yet"
+      },
+      {
+        "title": "are-we-there-yet registry metadata",
+        "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+      }
+    ],
+    "summary": "npm states that the are-we-there-yet package is no longer supported.",
+    "title": "are-we-there-yet is no longer supported",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "are-we-there-yet"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "are-we-there-yet"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "are-we-there-yet"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

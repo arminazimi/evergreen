@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.tls.securepair",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of tls.SecurePair with tls.TLSSocket.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "tls.TLSSocket",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0043",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed tls.SecurePair (DEP0043: documentation-only since v6.0.0, runtime deprecation since v8.0.0, end-of-life since v24.0.0).",
+    "title": "Tls.SecurePair has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "tls",
+        "shape": "construct",
+        "symbol": "SecurePair"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "tls",
+        "shape": "construct",
+        "symbol": "SecurePair"
+      }
+    ],
+    "vers": "vers:semver/>=24.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,82 @@
+{
+  "productId": "npm-crypto-js",
+  "productPath": "products/npm-crypto-js.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.crypto-js.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve the algorithms, modes, padding, key derivation, and output encodings each call site relies on, so data encrypted before the change still decrypts afterwards."
+      ],
+      "steps": [
+        {
+          "id": "audit-crypto-js-usages",
+          "instructions": "List each hash, cipher, KDF, HMAC, and encoding call with its algorithm, mode, padding, IV, and key size.",
+          "targets": "usages",
+          "title": "Audit every cryptographic call"
+        },
+        {
+          "id": "reimplement-with-maintained-crypto",
+          "instructions": "Replace each call with the Web Crypto API or a maintained library that supports the same algorithms and parameters.",
+          "targets": "usages",
+          "title": "Reimplement with a maintained implementation"
+        },
+        {
+          "id": "remove-crypto-js",
+          "instructions": "Remove crypto-js from dependencies and the lockfile once no call sites remain.",
+          "targets": "declaration",
+          "title": "Remove crypto-js"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Round-trip existing ciphertext and compare known-answer vectors in the repository tests."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build every affected entry point."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/crypto-js",
+    "replacement": "Web Crypto API (globalThis.crypto.subtle) or a maintained cryptography library",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "crypto-js on npm",
+        "url": "https://www.npmjs.com/package/crypto-js"
+      },
+      {
+        "title": "crypto-js registry metadata",
+        "url": "https://registry.npmjs.org/crypto-js/latest"
+      }
+    ],
+    "summary": "npm marks crypto-js as deprecated: \"Active development of CryptoJS has been discontinued. This library is no longer maintained.\"",
+    "title": "crypto-js is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "crypto-js"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "crypto-js"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "crypto-js"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

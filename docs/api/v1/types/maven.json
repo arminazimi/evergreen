@@ -1,0 +1,89 @@
+{
+  "products": [
+    {
+      "earliestDeadline": "2024-08-31",
+      "ecosystems": [
+        "android"
+      ],
+      "events": [
+        "deprecated",
+        "scheduled-end-of-life"
+      ],
+      "id": "maven-com-android-billingclient-billing",
+      "latestReview": "2026-10-19",
+      "name": "billing",
+      "namespace": "com.android.billingclient",
+      "path": "products/maven-com-android-billingclient-billing.json",
+      "purl": "pkg:maven/com.android.billingclient/billing",
+      "rules": 5,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-mysql-mysql-connector-java",
+      "latestReview": "2026-10-17",
+      "name": "mysql-connector-java",
+      "namespace": "mysql",
+      "path": "products/maven-mysql-mysql-connector-java.json",
+      "purl": "pkg:maven/mysql/mysql-connector-java",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-org-hibernate-hibernate-entitymanager",
+      "latestReview": "2026-10-20",
+      "name": "hibernate-entitymanager",
+      "namespace": "org.hibernate",
+      "path": "products/maven-org-hibernate-hibernate-entitymanager.json",
+      "purl": "pkg:maven/org.hibernate/hibernate-entitymanager",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "maven-org-slf4j-slf4j-log4j12",
+      "latestReview": "2026-10-17",
+      "name": "slf4j-log4j12",
+      "namespace": "org.slf4j",
+      "path": "products/maven-org-slf4j-slf4j-log4j12.json",
+      "purl": "pkg:maven/org.slf4j/slf4j-log4j12",
+      "rules": 1,
+      "type": "maven"
+    },
+    {
+      "ecosystems": [
+        "java"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "maven-org-springframework-boot-spring-boot",
+      "latestReview": "2026-10-25",
+      "name": "spring-boot",
+      "namespace": "org.springframework.boot",
+      "path": "products/maven-org-springframework-boot-spring-boot.json",
+      "purl": "pkg:maven/org.springframework.boot/spring-boot",
+      "rules": 3,
+      "type": "maven"
+    }
+  ],
+  "rules": 11,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "maven"
+}

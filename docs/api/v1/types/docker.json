@@ -1,0 +1,331 @@
+{
+  "products": [
+    {
+      "earliestDeadline": "2026-04-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-alpine",
+      "latestReview": "2026-10-26",
+      "name": "alpine",
+      "namespace": "library",
+      "path": "products/docker-library-alpine.json",
+      "purl": "pkg:docker/library/alpine",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2020-07-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-caddy",
+      "latestReview": "2026-10-20",
+      "name": "caddy",
+      "namespace": "library",
+      "path": "products/docker-library-caddy.json",
+      "purl": "pkg:docker/library/caddy",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-clickhouse",
+      "latestReview": "2026-10-20",
+      "name": "clickhouse",
+      "namespace": "library",
+      "path": "products/docker-library-clickhouse.json",
+      "purl": "pkg:docker/library/clickhouse",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-couchbase",
+      "latestReview": "2026-10-20",
+      "name": "couchbase",
+      "namespace": "library",
+      "path": "products/docker-library-couchbase.json",
+      "purl": "pkg:docker/library/couchbase",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-couchdb",
+      "latestReview": "2026-10-20",
+      "name": "couchdb",
+      "namespace": "library",
+      "path": "products/docker-library-couchdb.json",
+      "purl": "pkg:docker/library/couchdb",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-debian",
+      "latestReview": "2026-10-26",
+      "name": "debian",
+      "namespace": "library",
+      "path": "products/docker-library-debian.json",
+      "purl": "pkg:docker/library/debian",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-drupal",
+      "latestReview": "2026-10-20",
+      "name": "drupal",
+      "namespace": "library",
+      "path": "products/docker-library-drupal.json",
+      "purl": "pkg:docker/library/drupal",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-19",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-golang",
+      "latestReview": "2026-10-20",
+      "name": "golang",
+      "namespace": "library",
+      "path": "products/docker-library-golang.json",
+      "purl": "pkg:docker/library/golang",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-07-06",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-mariadb",
+      "latestReview": "2026-10-20",
+      "name": "mariadb",
+      "namespace": "library",
+      "path": "products/docker-library-mariadb.json",
+      "purl": "pkg:docker/library/mariadb",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-21",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-mysql",
+      "latestReview": "2026-10-16",
+      "name": "mysql",
+      "namespace": "library",
+      "path": "products/docker-library-mysql.json",
+      "purl": "pkg:docker/library/mysql",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-30",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-node",
+      "latestReview": "2026-10-24",
+      "name": "node",
+      "namespace": "library",
+      "path": "products/docker-library-node.json",
+      "purl": "pkg:docker/library/node",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-phpmyadmin",
+      "latestReview": "2026-10-20",
+      "name": "phpmyadmin",
+      "namespace": "library",
+      "path": "products/docker-library-phpmyadmin.json",
+      "purl": "pkg:docker/library/phpmyadmin",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2025-11-13",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-postgres",
+      "latestReview": "2026-10-24",
+      "name": "postgres",
+      "namespace": "library",
+      "path": "products/docker-library-postgres.json",
+      "purl": "pkg:docker/library/postgres",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-10-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-python",
+      "latestReview": "2026-10-16",
+      "name": "python",
+      "namespace": "library",
+      "path": "products/docker-library-python.json",
+      "purl": "pkg:docker/library/python",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2022-05-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-redis",
+      "latestReview": "2026-10-20",
+      "name": "redis",
+      "namespace": "library",
+      "path": "products/docker-library-redis.json",
+      "purl": "pkg:docker/library/redis",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-04-01",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-ruby",
+      "latestReview": "2026-10-16",
+      "name": "ruby",
+      "namespace": "library",
+      "path": "products/docker-library-ruby.json",
+      "purl": "pkg:docker/library/ruby",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2026-08-16",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-traefik",
+      "latestReview": "2026-10-20",
+      "name": "traefik",
+      "namespace": "library",
+      "path": "products/docker-library-traefik.json",
+      "purl": "pkg:docker/library/traefik",
+      "rules": 1,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2025-05-31",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "docker-library-ubuntu",
+      "latestReview": "2026-10-26",
+      "name": "ubuntu",
+      "namespace": "library",
+      "path": "products/docker-library-ubuntu.json",
+      "purl": "pkg:docker/library/ubuntu",
+      "rules": 2,
+      "type": "docker"
+    },
+    {
+      "earliestDeadline": "2024-01-19",
+      "ecosystems": [
+        "container"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "docker-library-zookeeper",
+      "latestReview": "2026-10-20",
+      "name": "zookeeper",
+      "namespace": "library",
+      "path": "products/docker-library-zookeeper.json",
+      "purl": "pkg:docker/library/zookeeper",
+      "rules": 1,
+      "type": "docker"
+    }
+  ],
+  "rules": 23,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "docker"
+}

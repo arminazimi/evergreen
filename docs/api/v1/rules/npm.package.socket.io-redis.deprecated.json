@@ -1,0 +1,88 @@
+{
+  "productId": "npm-socket-io-redis",
+  "productPath": "products/npm-socket-io-redis.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.socket.io-redis.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve adapter behavior: pub/sub and request/response channels, key prefixes, and multi-node session routing."
+      ],
+      "steps": [
+        {
+          "id": "replace-socket-io-redis",
+          "instructions": "Replace socket.io-redis with @socket.io/redis-adapter and follow the published migration guide for the adapter options.",
+          "targets": "all",
+          "title": "Replace the adapter package"
+        },
+        {
+          "id": "verify-multi-node-connections",
+          "instructions": "Connect clients through more than one server instance and confirm broadcasts, rooms, and acknowledgements still work.",
+          "targets": "usages",
+          "title": "Verify multi-node behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the realtime and repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/socket.io-redis",
+    "replacement": "@socket.io/redis-adapter",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "socket.io-redis on npm",
+        "url": "https://www.npmjs.com/package/socket.io-redis"
+      },
+      {
+        "title": "socket.io-redis version metadata",
+        "url": "https://registry.npmjs.org/socket.io-redis"
+      }
+    ],
+    "summary": "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here: https://socket.io/docs/v4/redis-adapter/#migrating-from-socketio-redis\"",
+    "title": "socket.io-redis is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "socket.io-redis"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "socket.io-redis"
+      },
+      {
+        "kind": "call",
+        "language": "javascript",
+        "module": "socket.io-redis",
+        "targets": [
+          "default"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "typescript",
+        "module": "socket.io-redis",
+        "targets": [
+          "default"
+        ]
+      }
+    ],
+    "vers": "vers:npm/6.0.0|6.0.1|6.1.0|6.1.1",
+    "x-npm": {
+      "package": "socket.io-redis"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

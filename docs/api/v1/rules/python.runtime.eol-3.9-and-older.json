@@ -1,0 +1,70 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "deadline": "2025-10-31",
+    "ecosystem": "python",
+    "event": "end-of-life",
+    "id": "python.runtime.eol-3.9-and-older",
+    "migration": {
+      "constraints": [
+        "Keep project metadata, local version files, CI matrices, containers, and deployment runtimes on a mutually supported Python version.",
+        "Confirm binary wheels and framework dependencies support the selected Python release."
+      ],
+      "steps": [
+        {
+          "id": "update-python-declaration",
+          "instructions": "Raise the reported requires-python range or pinned runtime to a supported Python release.",
+          "targets": "declaration",
+          "title": "Update the Python requirement"
+        },
+        {
+          "id": "align-python-runtimes",
+          "instructions": "Update matching version files, CI matrices, container images, and deployment configuration.",
+          "targets": "all",
+          "title": "Align runtime surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python --version",
+          "purpose": "Confirm the active Python runtime is supported."
+        },
+        {
+          "command": "python -m pytest",
+          "purpose": "Run the Python test suite on the target runtime."
+        },
+        {
+          "command": "python -m pip check",
+          "purpose": "Check installed dependency compatibility."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-14",
+      "reviewedAt": "2026-10-14",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "A supported Python release",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Status of Python versions",
+        "url": "https://devguide.python.org/versions/"
+      },
+      {
+        "title": "PEP 596 — Python 3.9 release schedule",
+        "url": "https://peps.python.org/pep-0596/"
+      }
+    ],
+    "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+    "title": "Python 3.9 and older are end-of-life",
+    "vers": "vers:pypi/<3.10",
+    "x-python": {
+      "kind": "runtime",
+      "maximumVersion": "3.9"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,59 @@
+{
+  "productId": "docker-library-caddy",
+  "productPath": "products/docker-library-caddy.json",
+  "rule": {
+    "deadline": "2020-07-01",
+    "ecosystem": "container",
+    "event": "end-of-life",
+    "id": "container.caddy.eol-1-and-older",
+    "migration": {
+      "constraints": [
+        "Keep the base image, Compose image, CI service containers, and deployment manifests that use caddy on one supported Caddy release line.",
+        "Confirm the application and its data or configuration work on the target Caddy release; read the vendor's upgrade notes before moving across several release lines."
+      ],
+      "steps": [
+        {
+          "id": "update-image-declaration",
+          "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+          "targets": "declaration",
+          "title": "Update the base image"
+        },
+        {
+          "id": "align-image-surfaces",
+          "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+          "targets": "all",
+          "title": "Align other image references"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker build .",
+          "purpose": "Build the image on the new base."
+        },
+        {
+          "command": "docker run --rm IMAGE sh -c 'echo ok'",
+          "purpose": "Confirm the container starts on the new base."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "endoflife-date",
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:docker/library/caddy",
+    "replacement": "A caddy image on a supported release line",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Caddy release policy (vendor)",
+        "url": "https://github.com/caddyserver/caddy/security"
+      }
+    ],
+    "summary": "These Caddy release lines no longer receive fixes from the vendor.",
+    "title": "Caddy image release lines 1 and older are end-of-life",
+    "vers": "vers:semver/<2.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

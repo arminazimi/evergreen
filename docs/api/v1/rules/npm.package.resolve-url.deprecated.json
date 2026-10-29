@@ -1,0 +1,66 @@
+{
+  "productId": "npm-resolve-url",
+  "productPath": "products/npm-resolve-url.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.resolve-url.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve base URL selection, sequential resolution, protocol-relative URLs, absolute URLs, encoding, and browser compatibility."
+      ],
+      "steps": [
+        {
+          "id": "replace-resolve-url",
+          "instructions": "Replace resolve-url calls with URL construction, applying each base explicitly and returning the same string form expected by callers.",
+          "targets": "all",
+          "title": "Use the URL API"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run relative, absolute, protocol-relative, encoded, multi-base, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/resolve-url",
+    "replacement": "URL",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "resolve-url maintainer deprecation notice",
+        "url": "https://github.com/lydell/resolve-url#deprecated"
+      },
+      {
+        "title": "resolve-url registry metadata",
+        "url": "https://registry.npmjs.org/resolve-url/latest"
+      }
+    ],
+    "summary": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
+    "title": "resolve-url is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "resolve-url"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "resolve-url"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "resolve-url"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

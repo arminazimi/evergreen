@@ -1,0 +1,60 @@
+{
+  "productId": "pypi-distribute",
+  "productPath": "products/pypi-distribute.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.distribute.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve build backend behavior, package metadata, entry points, and supported installer environments."
+      ],
+      "steps": [
+        {
+          "id": "replace-distribute",
+          "instructions": "Replace distribute requirements and bootstrap scripts with setuptools and remove distribute-specific installation logic.",
+          "targets": "all",
+          "title": "Replace Distribute"
+        },
+        {
+          "id": "verify-package-build",
+          "instructions": "Build source and wheel distributions in a clean environment and inspect their metadata and entry points.",
+          "targets": "all",
+          "title": "Verify package builds"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pip check",
+          "purpose": "Check the packaging environment after replacement."
+        },
+        {
+          "command": "python -m pytest",
+          "purpose": "Run packaging and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/distribute",
+    "replacement": "setuptools",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Distribute deprecation notice",
+        "url": "https://pypi.org/project/distribute/"
+      }
+    ],
+    "summary": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
+    "title": "distribute is deprecated",
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "distribute"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,59 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.datetime.utcfromtimestamp",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace datetime.utcfromtimestamp(ts) with datetime.fromtimestamp(ts, datetime.UTC); check comparisons with naive datetimes.",
+          "targets": "usages",
+          "title": "Use an aware datetime"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "datetime.fromtimestamp(timestamp, datetime.UTC)",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "What's New in Python 3.12",
+        "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      },
+      {
+        "title": "datetime documentation",
+        "url": "https://docs.python.org/3/library/datetime.html"
+      }
+    ],
+    "summary": "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC.",
+    "title": "datetime.utcfromtimestamp is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "datetime",
+        "shape": "call",
+        "symbol": "datetime.utcfromtimestamp"
+      }
+    ],
+    "vers": "vers:pypi/>=3.12"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

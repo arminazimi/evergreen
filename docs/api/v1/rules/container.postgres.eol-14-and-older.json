@@ -1,0 +1,59 @@
+{
+  "productId": "docker-library-postgres",
+  "productPath": "products/docker-library-postgres.json",
+  "rule": {
+    "deadline": "2026-11-12",
+    "ecosystem": "container",
+    "event": "scheduled-end-of-life",
+    "id": "container.postgres.eol-14-and-older",
+    "migration": {
+      "constraints": [
+        "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+        "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+      ],
+      "steps": [
+        {
+          "id": "update-image-declaration",
+          "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+          "targets": "declaration",
+          "title": "Update the base image"
+        },
+        {
+          "id": "align-image-surfaces",
+          "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+          "targets": "all",
+          "title": "Align other image references"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker compose config",
+          "purpose": "Validate the Compose file after changing the image tag."
+        },
+        {
+          "command": "docker compose run --rm db postgres --version",
+          "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "endoflife-date",
+      "observedAt": "2026-10-24",
+      "reviewedAt": "2026-10-24",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:docker/library/postgres",
+    "replacement": "A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "PostgreSQL release policy (vendor)",
+        "url": "https://www.postgresql.org/support/versioning/"
+      }
+    ],
+    "summary": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
+    "title": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
+    "vers": "vers:semver/>=14.0.0|<15.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

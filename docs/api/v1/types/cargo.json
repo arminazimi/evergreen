@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-ansi-term",
+      "latestReview": "2026-10-17",
+      "name": "ansi_term",
+      "path": "products/cargo-ansi-term.json",
+      "purl": "pkg:cargo/ansi_term",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-atty",
+      "latestReview": "2026-10-17",
+      "name": "atty",
+      "path": "products/cargo-atty.json",
+      "purl": "pkg:cargo/atty",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-failure",
+      "latestReview": "2026-10-17",
+      "name": "failure",
+      "path": "products/cargo-failure.json",
+      "purl": "pkg:cargo/failure",
+      "rules": 1,
+      "type": "cargo"
+    },
+    {
+      "ecosystems": [
+        "rust"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "cargo-tempdir",
+      "latestReview": "2026-10-17",
+      "name": "tempdir",
+      "path": "products/cargo-tempdir.json",
+      "purl": "pkg:cargo/tempdir",
+      "rules": 1,
+      "type": "cargo"
+    }
+  ],
+  "rules": 4,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "cargo"
+}

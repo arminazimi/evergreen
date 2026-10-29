@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-superlinked",
+  "productPath": "products/pypi-superlinked.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.superlinked.deprecated",
+    "migration": {
+      "constraints": [
+        "SIE is not a drop-in replacement; preserve schemas, indexing, storage, vector search, query weighting, model behavior, and deployment requirements explicitly."
+      ],
+      "steps": [
+        {
+          "id": "replace-superlinked",
+          "instructions": "Map legacy framework responsibilities to SIE Server and sie-sdk, redesign incompatible application layers, migrate data and queries, then remove superlinked only after parity is proven.",
+          "targets": "all",
+          "title": "Redesign on SIE where appropriate"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run indexing, retrieval, ranking, storage, deployment, and project tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/superlinked",
+    "replacement": "SIE and sie-sdk",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "superlinked legacy framework notice",
+        "url": "https://pypi.org/project/superlinked/"
+      }
+    ],
+    "summary": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
+    "title": "superlinked is deprecated for new projects",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "superlinked"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "superlinked"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

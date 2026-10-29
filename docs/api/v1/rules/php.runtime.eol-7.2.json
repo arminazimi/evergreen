@@ -1,0 +1,66 @@
+{
+  "productId": "generic-php",
+  "productPath": "products/generic-php.json",
+  "rule": {
+    "deadline": "2020-11-30",
+    "ecosystem": "php",
+    "event": "end-of-life",
+    "id": "php.runtime.eol-7.2",
+    "migration": {
+      "constraints": [
+        "Keep .php-version, .tool-versions, composer.json require.php and config.platform.php, composer.lock platform.php, CI matrices, and container images on one supported PHP release line.",
+        "Confirm Composer packages and extensions build on the target PHP and reinstall dependencies after changing the runtime."
+      ],
+      "steps": [
+        {
+          "id": "update-php-declaration",
+          "instructions": "Change the reported declaration from PHP 7.2 to a supported release (see the replacement), using the project's existing version manager.",
+          "targets": "declaration",
+          "title": "Raise the PHP version"
+        },
+        {
+          "id": "align-php-surfaces",
+          "instructions": "Update CI setup-php versions, Dockerfile `php:` images, composer.json require.php and config.platform.php, and composer.lock platform.php so they agree.",
+          "targets": "all",
+          "title": "Align other PHP version surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "php --version",
+          "purpose": "Confirm the active runtime is the intended release."
+        },
+        {
+          "command": "composer validate && composer install",
+          "purpose": "Validate and reinstall dependencies on the new PHP."
+        },
+        {
+          "command": "composer validate && vendor/bin/phpunit",
+          "purpose": "Validate the Composer project and run the PHPUnit suite on the new PHP."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/php",
+    "replacement": "PHP 8.4 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "PHP release branches",
+        "url": "https://www.php.net/releases/branches.php"
+      },
+      {
+        "title": "PHP supported versions",
+        "url": "https://www.php.net/supported-versions.php"
+      }
+    ],
+    "summary": "The PHP release branches list marks PHP 7.2 as end of life: active support ended on 2019-11-30 and security support ended on 2020-11-30.",
+    "title": "PHP 7.2 is end-of-life",
+    "vers": "vers:semver/>=7.2.0|<7.3.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

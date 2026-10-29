@@ -1,0 +1,62 @@
+{
+  "productId": "generic-java",
+  "productPath": "products/generic-java.json",
+  "rule": {
+    "ecosystem": "java",
+    "event": "end-of-support",
+    "id": "java.jdk.end-of-support-18-20",
+    "migration": {
+      "constraints": [
+        "Keep the JDK in the build files, the version pin files, CI, and container images on one supported release; a long-term-support release avoids repeating this migration every six months.",
+        "Check that the Gradle or Maven version in the project can run on the target JDK (the Gradle compatibility matrix lists the supported Java versions).",
+        "A compile level (`maven.compiler.release`, `sourceCompatibility`) is not the JDK that runs the code: lower it only if the code must still run on an older runtime."
+      ],
+      "steps": [
+        {
+          "id": "update-jdk-declaration",
+          "instructions": "Change the reported version to a long-term-support release (see the replacement) in the build file or the version pin file.",
+          "targets": "declaration",
+          "title": "Move the reported declaration to a supported JDK"
+        },
+        {
+          "id": "align-jdk-surfaces",
+          "instructions": "Update every other pom.xml, Gradle toolchain, `.java-version`, `.sdkmanrc`, `.tool-versions`, CI JDK setup, and container base image that names the old release, so the repository agrees.",
+          "targets": "all",
+          "title": "Align the other JDK declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "./mvnw -B verify || ./gradlew build",
+          "purpose": "Build and test the project on the new JDK with the wrapper the project uses."
+        },
+        {
+          "command": "java -version",
+          "purpose": "Confirm the JDK on the path (or the one the toolchain selects) is the intended release."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-17",
+      "reviewedAt": "2026-10-17",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/java",
+    "replacement": "Java 25 (LTS) or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Oracle Java SE Support Roadmap",
+        "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+      },
+      {
+        "title": "Eclipse Temurin support",
+        "url": "https://adoptium.net/support/"
+      }
+    ],
+    "summary": "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023. It says a previous non-LTS release is superseded once a new feature release is made available. The Eclipse Temurin support page lists Java 18, 19, and 20 as EOSL, with end of availability in September 2022, March 2023, and September 2023.",
+    "title": "Java 18 to 20 are no longer supported",
+    "vers": "vers:semver/>=18.0.0|<21.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

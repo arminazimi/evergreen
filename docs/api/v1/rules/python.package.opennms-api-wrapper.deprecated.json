@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-opennms-api-wrapper",
+  "productPath": "products/pypi-opennms-api-wrapper.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.opennms-api-wrapper.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve server URLs, authentication, timeout and TLS settings, resource queries, pagination, and response models."
+      ],
+      "steps": [
+        {
+          "id": "replace-opennms-api-wrapper",
+          "instructions": "Replace the distribution and migrate opennms_api_wrapper imports to the opennms module provided by python-opennms.",
+          "targets": "all",
+          "title": "Replace the OpenNMS client"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run OpenNMS client and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/opennms-api-wrapper",
+    "replacement": "python-opennms",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "opennms-api-wrapper rename notice",
+        "url": "https://pypi.org/project/opennms-api-wrapper/"
+      }
+    ],
+    "summary": "The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.",
+    "title": "opennms-api-wrapper was renamed",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "opennms_api_wrapper"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "opennms-api-wrapper"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,69 @@
+{
+  "productId": "generic-dotnet",
+  "productPath": "products/generic-dotnet.json",
+  "rule": {
+    "deadline": "2020-03-03",
+    "ecosystem": "dotnet",
+    "event": "end-of-support",
+    "id": "dotnet.runtime.end-of-support-3.0",
+    "migration": {
+      "constraints": [
+        "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+        "Read the breaking-changes list of each release between the old and new line before raising the target."
+      ],
+      "steps": [
+        {
+          "id": "raise-target-framework",
+          "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 3.0 line to a supported one, for example net10.0.",
+          "targets": "declaration",
+          "title": "Raise the target framework"
+        },
+        {
+          "id": "raise-sdk-pin",
+          "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+          "targets": "all",
+          "title": "Raise the SDK pin"
+        },
+        {
+          "id": "align-ci-and-images",
+          "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+          "targets": "all",
+          "title": "Align CI and container images"
+        }
+      ],
+      "verification": [
+        {
+          "command": "dotnet --list-sdks && dotnet --list-runtimes",
+          "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+        },
+        {
+          "command": "dotnet build && dotnet test",
+          "purpose": "Build and test every project on the new target."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "dotnet-1",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/dotnet",
+    "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+    "severity": "high",
+    "sources": [
+      {
+        "title": ".NET and .NET Core official support policy",
+        "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      },
+      {
+        "title": ".NET releases index (channel, support phase, end-of-life date)",
+        "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+      }
+    ],
+    "summary": ".NET Core 3.0 (Standard Term Support) reached the end of its support on 2020-03-03. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 3.0.x is reported too.",
+    "title": ".NET Core 3.0 is no longer supported",
+    "vers": "vers:semver/>=3.0.0|<3.1.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

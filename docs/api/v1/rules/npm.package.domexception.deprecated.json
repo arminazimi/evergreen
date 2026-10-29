@@ -1,0 +1,66 @@
+{
+  "productId": "npm-domexception",
+  "productPath": "products/npm-domexception.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.domexception.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve exception names, messages, codes where consumed, instanceof checks, serialization, and minimum-runtime support."
+      ],
+      "steps": [
+        {
+          "id": "replace-domexception",
+          "instructions": "Replace domexception imports and constructors with the global DOMException implementation, then remove the dependency.",
+          "targets": "all",
+          "title": "Use native DOMException"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run exception behavior and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/domexception",
+    "replacement": "Native DOMException",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "domexception package deprecation notice",
+        "url": "https://www.npmjs.com/package/domexception"
+      },
+      {
+        "title": "domexception registry metadata",
+        "url": "https://registry.npmjs.org/domexception/latest"
+      }
+    ],
+    "summary": "npm directs users of domexception to the platform-native DOMException implementation.",
+    "title": "domexception is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "domexception"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "domexception"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "domexception"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

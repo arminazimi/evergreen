@@ -1,0 +1,61 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.vm.runindebugcontext",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of vm.runInDebugContext with code that no longer depends on it.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0069",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed vm.runInDebugContext (DEP0069: documentation-only since v8.0.0, runtime deprecation since v9.0.0, end-of-life since v10.0.0).",
+    "title": "Vm.runInDebugContext has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "vm",
+        "shape": "call",
+        "symbol": "runInDebugContext"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "vm",
+        "shape": "call",
+        "symbol": "runInDebugContext"
+      }
+    ],
+    "vers": "vers:semver/>=10.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

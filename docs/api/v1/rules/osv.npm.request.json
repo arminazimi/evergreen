@@ -1,0 +1,33 @@
+{
+  "productId": "npm-request",
+  "productPath": "products/npm-request.json",
+  "rule": {
+    "ecosystem": "osv",
+    "event": "deprecated",
+    "id": "osv.npm.request",
+    "provenance": {
+      "importer": "osv",
+      "observedAt": "2026-10-27",
+      "reviewedAt": "2026-10-27",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/request",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "GHSA-p8p7-x288-28g6",
+        "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+      }
+    ],
+    "summary": "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.",
+    "title": "request has unfixed OSV advisories",
+    "vers": "vers:npm/*",
+    "x-osv": {
+      "ids": [
+        "GHSA-p8p7-x288-28g6"
+      ],
+      "ruleId": "npm.package.request.deprecated"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

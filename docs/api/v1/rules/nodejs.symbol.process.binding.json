@@ -1,0 +1,60 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.process.binding",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Identify which internal binding is requested and move to its public module, for example util.types.",
+          "targets": "usages",
+          "title": "Replace process.binding"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "The public API that replaces the binding in use; the entry names no single replacement",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0111 process.binding",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js documents process.binding() as for internal use only and deprecates it (DEP0111, documentation-only since v10.9.0); it is unavailable when the permission model is enabled.",
+    "title": "process.binding is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "call",
+        "symbol": "process.binding"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "call",
+        "symbol": "process.binding"
+      }
+    ],
+    "vers": "vers:semver/>=10.9.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

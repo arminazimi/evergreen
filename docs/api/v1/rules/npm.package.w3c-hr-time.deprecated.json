@@ -1,0 +1,66 @@
+{
+  "productId": "npm-w3c-hr-time",
+  "productPath": "products/npm-w3c-hr-time.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.w3c-hr-time.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve monotonic timing, time-origin assumptions, units, precision expectations, and minimum-runtime support."
+      ],
+      "steps": [
+        {
+          "id": "replace-w3c-hr-time",
+          "instructions": "Replace w3c-hr-time imports and clock reads with native performance.now() and performance.timeOrigin, then remove the dependency.",
+          "targets": "all",
+          "title": "Use native high-resolution time"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run timing behavior and repository tests without relying on exact wall-clock values."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/w3c-hr-time",
+    "replacement": "Native performance.now() and performance.timeOrigin",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "w3c-hr-time package deprecation notice",
+        "url": "https://www.npmjs.com/package/w3c-hr-time"
+      },
+      {
+        "title": "w3c-hr-time registry metadata",
+        "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+      }
+    ],
+    "summary": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
+    "title": "w3c-hr-time is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "w3c-hr-time"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "w3c-hr-time"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "w3c-hr-time"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

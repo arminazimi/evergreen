@@ -1,0 +1,63 @@
+{
+  "productId": "pypi-pep8",
+  "productPath": "products/pypi-pep8.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.pep8.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve selected checks, ignore lists, file exclusions, maximum line length, and CI failure behavior."
+      ],
+      "steps": [
+        {
+          "id": "replace-pep8",
+          "instructions": "Replace the dependency, commands, imports, and configuration section name with pycodestyle equivalents.",
+          "targets": "all",
+          "title": "Replace pep8 with pycodestyle"
+        },
+        {
+          "id": "compare-style-results",
+          "instructions": "Run both configurations on the same source tree and review any changed diagnostics before removing pep8.",
+          "targets": "all",
+          "title": "Compare style results"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pycodestyle .",
+          "purpose": "Run the replacement style checker with project configuration."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/pep8",
+    "replacement": "pycodestyle",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "pycodestyle rename notice",
+        "url": "https://pypi.org/project/pycodestyle/"
+      }
+    ],
+    "summary": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
+    "title": "pep8 was renamed to pycodestyle",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "pep8"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "pep8"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

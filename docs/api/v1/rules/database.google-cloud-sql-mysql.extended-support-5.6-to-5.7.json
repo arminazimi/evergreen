@@ -1,0 +1,90 @@
+{
+  "productId": "generic-google-cloud-sql-mysql",
+  "productPath": "products/generic-google-cloud-sql-mysql.json",
+  "rule": {
+    "deadline": "2025-02-01",
+    "ecosystem": "database",
+    "event": "end-of-support",
+    "id": "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7",
+    "migration": {
+      "constraints": [
+        "Cloud SQL moves an instance to extended support when the MySQL community reaches end of life. Extended support is time-boxed to three years and is charged.",
+        "Changing database_version can upgrade the instance in place or recreate it, depending on the target. Read the plan before applying and take a backup first.",
+        "A major version upgrade cannot be reversed by changing database_version back; restore the backup instead."
+      ],
+      "steps": [
+        {
+          "id": "back-up-data",
+          "instructions": "Take an on-demand backup of every Cloud SQL for MySQL instance reported, before changing its major version.",
+          "targets": "all",
+          "title": "Back up the instance"
+        },
+        {
+          "id": "upgrade-instance",
+          "instructions": "Upgrade the instance to MySQL 8.0 or later with Cloud SQL's in-place major version upgrade, or restore the backup into a new instance on the replacement major and move the application connection string.",
+          "targets": "declaration",
+          "title": "Upgrade the instance"
+        },
+        {
+          "id": "raise-declared-version",
+          "instructions": "Change database_version in every google_sql_database_instance and google_sql_source_representation_instance block that runs this database, using the MYSQL_ prefix for the replacement major.",
+          "targets": "all",
+          "title": "Raise the declared version"
+        },
+        {
+          "id": "align-clients",
+          "instructions": "Update MySQL drivers, ORMs, and users that rely on mysql_native_password; MySQL 8.4 uses caching_sha2_password by default.",
+          "targets": "all",
+          "title": "Check clients and authentication"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform validate",
+          "purpose": "Check that the Terraform configuration is valid with the new database_version."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the database_version change is intended and is the only instance change."
+        },
+        {
+          "command": "gcloud sql instances list --format=\"table(name,databaseVersion)\"",
+          "purpose": "Confirm each reported instance now reports a supported MySQL database version."
+        },
+        {
+          "command": "docker compose config",
+          "purpose": "Confirm any local Compose service that mirrors this database is valid and uses a MySQL image tag that matches the replacement."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/google-cloud-sql-mysql",
+    "replacement": "MySQL 8.0 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-26",
+        "title": "Cloud SQL for MySQL database versions and version policies",
+        "url": "https://cloud.google.com/sql/docs/mysql/db-versions"
+      },
+      {
+        "accessedAt": "2026-10-26",
+        "title": "MySQL supported platforms and lifecycle",
+        "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+      },
+      {
+        "accessedAt": "2026-10-26",
+        "title": "endoflife.date: MySQL",
+        "url": "https://endoflife.date/mysql"
+      }
+    ],
+    "summary": "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01. Oracle no longer supports those release series, and Cloud SQL charges for extended support.",
+    "title": "Cloud SQL for MySQL 5.6 and 5.7 are in extended support",
+    "vers": "vers:semver/>=5.6.0|<5.8.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,76 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.crypto.createcipher",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Derive the key with crypto.scrypt and a random salt, generate a random IV, and call createCipheriv or createDecipheriv; existing ciphertext needs a decryption-then-reencrypt migration.",
+          "targets": "usages",
+          "title": "Switch to the iv variants"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "crypto.createCipheriv() and crypto.createDecipheriv(), with keys from crypto.scrypt() or crypto.pbkdf2() and random salts",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0106 crypto.createCipher",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed crypto.createCipher() and crypto.createDecipher() because they use a weak key derivation (MD5, no salt) and static IVs (DEP0106, end-of-life since v22.0.0).",
+    "title": "crypto.createCipher and createDecipher have been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "createCipher"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "createCipher"
+      },
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "createDecipher"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "createDecipher"
+      }
+    ],
+    "vers": "vers:semver/>=22.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

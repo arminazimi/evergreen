@@ -1,0 +1,72 @@
+{
+  "productId": "npm-rollup-plugin-babel",
+  "productPath": "products/npm-rollup-plugin-babel.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.rollup-plugin-babel.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve Babel presets and plugins, file inclusion, helper strategy, output targets, source maps, and Rollup output behavior."
+      ],
+      "steps": [
+        {
+          "id": "replace-rollup-babel",
+          "instructions": "Replace rollup-plugin-babel with @rollup/plugin-babel and update Rollup imports and plugin options.",
+          "targets": "all",
+          "title": "Replace the Rollup Babel plugin"
+        },
+        {
+          "id": "verify-bundle-output",
+          "instructions": "Compare emitted syntax, helpers, source maps, and bundle behavior for every configured output.",
+          "targets": "usages",
+          "title": "Verify bundle output"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Build every Rollup output with the maintained Babel plugin."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/rollup-plugin-babel",
+    "replacement": "@rollup/plugin-babel",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "rollup-plugin-babel package deprecation notice",
+        "url": "https://www.npmjs.com/package/rollup-plugin-babel"
+      },
+      {
+        "title": "rollup-plugin-babel version metadata",
+        "url": "https://registry.npmjs.org/rollup-plugin-babel"
+      }
+    ],
+    "summary": "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel.",
+    "title": "rollup-plugin-babel is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "rollup-plugin-babel"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "rollup-plugin-babel"
+      }
+    ],
+    "vers": "vers:npm/1.0.0|2.0.0|2.0.1|2.1.0|2.2.0|2.3.0|2.3.1|2.3.2|2.3.3|2.3.4|2.3.5|2.3.6|2.3.7|2.3.8|2.3.9|2.4.0|2.5.0|2.5.1|2.6.0|2.6.1|2.7.0|2.7.1|3.0.0|3.0.1|3.0.2|3.0.3|3.0.4|3.0.5|3.0.6|3.0.7|4.0.0|4.0.1|4.0.2|4.0.3|4.1.0|4.2.0|4.3.0|4.3.1|4.3.2|4.3.3|4.4.0",
+    "x-npm": {
+      "package": "rollup-plugin-babel"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

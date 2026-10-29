@@ -1,0 +1,65 @@
+{
+  "productId": "npm-types-emoji-regex",
+  "productPath": "products/npm-types-emoji-regex.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.types.emoji-regex.deprecated",
+    "migration": {
+      "constraints": [
+        "@types/emoji-regex only declares types; emoji-regex now ships its own declarations, so no conflicting ambient definition may remain."
+      ],
+      "steps": [
+        {
+          "id": "remove-types-package",
+          "instructions": "Remove @types/emoji-regex from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+          "targets": "declaration",
+          "title": "Remove the stub types package"
+        },
+        {
+          "id": "use-bundled-types",
+          "instructions": "Keep emoji-regex on a version that ships its own type definitions and import its types from emoji-regex.",
+          "targets": "usages",
+          "title": "Use the bundled declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build with emoji-regex's own declarations."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40types/emoji-regex",
+    "replacement": "emoji-regex",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "@types/emoji-regex on npm",
+        "url": "https://www.npmjs.com/package/@types/emoji-regex"
+      },
+      {
+        "title": "@types/emoji-regex version metadata",
+        "url": "https://registry.npmjs.org/@types%2femoji-regex"
+      }
+    ],
+    "summary": "npm marks @types/emoji-regex as deprecated: \"This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.\"",
+    "title": "@types/emoji-regex is deprecated",
+    "usage": [],
+    "vers": "vers:npm/9.2.0|9.2.1|9.2.2",
+    "x-npm": {
+      "package": "@types/emoji-regex"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

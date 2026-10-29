@@ -1,0 +1,71 @@
+{
+  "productId": "npm-nomnom",
+  "productPath": "products/npm-nomnom.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.nomnom.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve command names, option aliases, defaults, validation, help output, exit codes, and parsed argument shapes."
+      ],
+      "steps": [
+        {
+          "id": "select-cli-parser",
+          "instructions": "Choose a maintained parser that supports the commands and option semantics used by the project.",
+          "targets": "all",
+          "title": "Select a maintained CLI parser"
+        },
+        {
+          "id": "replace-nomnom",
+          "instructions": "Translate command and option declarations to the selected parser, update imports, and remove nomnom.",
+          "targets": "all",
+          "title": "Replace nomnom"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run CLI parsing, help, error-path, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/nomnom",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "nomnom package deprecation notice",
+        "url": "https://www.npmjs.com/package/nomnom"
+      },
+      {
+        "title": "nomnom registry metadata",
+        "url": "https://registry.npmjs.org/nomnom/latest"
+      }
+    ],
+    "summary": "npm states that nomnom is no longer supported.",
+    "title": "nomnom is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "nomnom"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "nomnom"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "nomnom"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

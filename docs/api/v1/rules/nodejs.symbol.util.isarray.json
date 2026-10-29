@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.util.isarray",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported util.isArray(x) with Array.isArray(x).",
+          "targets": "usages",
+          "title": "Replace util.isArray"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "Array.isArray()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0044 util.isArray",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates util.isArray() (DEP0044): documentation-only since v4.0.0, runtime warning since v22.0.0.",
+    "title": "util.isArray is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "isArray"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "isArray"
+      }
+    ],
+    "vers": "vers:semver/>=4.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

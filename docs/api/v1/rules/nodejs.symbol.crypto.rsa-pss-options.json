@@ -1,0 +1,120 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.crypto.rsa-pss-options",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of the hash and mgf1Hash options of RSA-PSS key generation with the hashAlgorithm and mgf1HashAlgorithm options.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "the hashAlgorithm and mgf1HashAlgorithm options",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0154",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed the hash and mgf1Hash options of RSA-PSS key generation (DEP0154: documentation-only since v16.10.0, runtime deprecation since v20.0.0, end-of-life since v25.0.0).",
+    "title": "The hash and mgf1Hash options of RSA-PSS key generation have been removed",
+    "usage": [
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "option": "hash",
+        "shape": "option",
+        "symbol": "generateKeyPair"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "option": "mgf1Hash",
+        "shape": "option",
+        "symbol": "generateKeyPair"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "option": "hash",
+        "shape": "option",
+        "symbol": "generateKeyPairSync"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "option": "mgf1Hash",
+        "shape": "option",
+        "symbol": "generateKeyPairSync"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "option": "hash",
+        "shape": "option",
+        "symbol": "generateKeyPair"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "option": "mgf1Hash",
+        "shape": "option",
+        "symbol": "generateKeyPair"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "option": "hash",
+        "shape": "option",
+        "symbol": "generateKeyPairSync"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "option": "mgf1Hash",
+        "shape": "option",
+        "symbol": "generateKeyPairSync"
+      }
+    ],
+    "vers": "vers:semver/>=25.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

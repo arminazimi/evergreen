@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.util.log",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of util.log with a third-party logging library, or console.log(new Date().toLocaleString(), message).",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "a third-party logging library, or console.log(new Date().toLocaleString(), message)",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0059",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed util.log (DEP0059: documentation-only since v6.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+    "title": "Util.log has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "log"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "log"
+      }
+    ],
+    "vers": "vers:semver/>=23.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

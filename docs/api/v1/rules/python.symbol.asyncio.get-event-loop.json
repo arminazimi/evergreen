@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.asyncio.get-event-loop",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Use asyncio.run(main()) at the entry point and asyncio.get_running_loop() inside coroutines.",
+          "targets": "usages",
+          "title": "Stop creating loops implicitly"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "asyncio.run() at entry points, or asyncio.get_running_loop() inside coroutines",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "What's New in Python 3.12",
+        "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      }
+    ],
+    "summary": "In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one.",
+    "title": "asyncio.get_event_loop warns when it has to create a loop",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "asyncio",
+        "shape": "call",
+        "symbol": "get_event_loop"
+      }
+    ],
+    "vers": "vers:pypi/>=3.12"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

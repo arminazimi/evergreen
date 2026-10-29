@@ -1,0 +1,61 @@
+{
+  "productId": "github-astral-sh-setup-uv",
+  "productPath": "products/github-astral-sh-setup-uv.json",
+  "rule": {
+    "deadline": "2026-09-23",
+    "ecosystem": "github-actions",
+    "event": "end-of-support",
+    "id": "github-actions.setup-uv.node20",
+    "migration": {
+      "constraints": [
+        "Preserve the uv version, Python version, and cache inputs; v7 is a breaking release, so read its notes before upgrading self-hosted runners."
+      ],
+      "steps": [
+        {
+          "id": "upgrade-action-ref",
+          "instructions": "Change the uses reference to astral-sh/setup-uv@v7 or a later supported major.",
+          "targets": "declaration",
+          "title": "Upgrade setup-uv"
+        },
+        {
+          "id": "review-action-inputs",
+          "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+          "targets": "declaration",
+          "title": "Review setup-uv inputs"
+        }
+      ],
+      "verification": [
+        {
+          "command": "git diff --check",
+          "purpose": "Validate the edited workflow diff."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "claude-agent"
+    },
+    "purl": "pkg:github/astral-sh/setup-uv",
+    "replacement": "astral-sh/setup-uv@v7 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node 20 is no longer available in GitHub Actions",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+      },
+      {
+        "title": "astral-sh/setup-uv v7.0.0 release notes",
+        "url": "https://github.com/astral-sh/setup-uv/releases/tag/v7.0.0"
+      }
+    ],
+    "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+    "title": "Unsupported astral-sh/setup-uv runtime",
+    "vers": "vers:semver/<7.0.0",
+    "x-github-actions": {
+      "action": "astral-sh/setup-uv",
+      "supportedFromMajor": 7
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

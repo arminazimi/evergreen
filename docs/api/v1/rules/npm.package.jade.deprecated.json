@@ -1,0 +1,72 @@
+{
+  "productId": "npm-jade",
+  "productPath": "products/npm-jade.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.jade.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve template rendering, locals, includes, inheritance, whitespace, and generated HTML."
+      ],
+      "steps": [
+        {
+          "id": "replace-jade",
+          "instructions": "Replace the jade dependency, imports, file extensions, and build integrations with pug equivalents.",
+          "targets": "all",
+          "title": "Replace Jade with Pug"
+        },
+        {
+          "id": "compare-rendered-html",
+          "instructions": "Render representative templates and review generated HTML and escaping behavior for differences.",
+          "targets": "usages",
+          "title": "Compare rendered output"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run template rendering and repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/jade",
+    "replacement": "pug",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "jade package deprecation notice",
+        "url": "https://www.npmjs.com/package/jade"
+      },
+      {
+        "title": "jade registry metadata",
+        "url": "https://registry.npmjs.org/jade/latest"
+      }
+    ],
+    "summary": "npm states that Jade was renamed to Pug and directs users to the pug package.",
+    "title": "jade is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "jade"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "jade"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "jade"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

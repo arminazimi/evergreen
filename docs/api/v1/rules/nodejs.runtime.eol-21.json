@@ -1,0 +1,66 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "deadline": "2024-06-01",
+    "ecosystem": "nodejs",
+    "event": "end-of-life",
+    "id": "nodejs.runtime.eol-21",
+    "migration": {
+      "constraints": [
+        "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+        "Confirm native modules and production dependencies support the target Node.js major."
+      ],
+      "steps": [
+        {
+          "id": "update-runtime-declaration",
+          "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+          "targets": "declaration",
+          "title": "Update the Node.js declaration"
+        },
+        {
+          "id": "align-runtime-surfaces",
+          "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+          "targets": "all",
+          "title": "Align runtime surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "node --version",
+          "purpose": "Confirm the active Node.js runtime is supported."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository test suite on the target runtime when defined."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Verify the project builds on the target runtime."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "nodejs-schedule",
+      "observedAt": "2026-10-17",
+      "reviewedAt": "2026-10-17",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "Node.js 22 LTS or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js Release Working Group schedule",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+      }
+    ],
+    "summary": "Node.js 21 no longer receives security or bug fixes.",
+    "title": "Node.js 21 is end-of-life",
+    "vers": "vers:semver/>=21.0.0|<22.0.0",
+    "x-nodejs": {
+      "major": 21
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

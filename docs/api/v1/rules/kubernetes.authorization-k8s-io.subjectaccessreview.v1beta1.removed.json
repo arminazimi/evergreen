@@ -1,0 +1,72 @@
+{
+  "productId": "generic-kubernetes-authorization-k8s-io-subjectaccessreview",
+  "productPath": "products/generic-kubernetes-authorization-k8s-io-subjectaccessreview.json",
+  "rule": {
+    "deadline": "2021-08-04",
+    "ecosystem": "kubernetes",
+    "event": "removed",
+    "id": "kubernetes.authorization-k8s-io.subjectaccessreview.v1beta1.removed",
+    "migration": {
+      "constraints": [
+        "Keep the resource's behavior unchanged: the same name, namespace, labels, and spec semantics.",
+        "The replacement (authorization.k8s.io/v1 SubjectAccessReview, available since v1.6) can differ in required fields or field names from the removed version; read the SubjectAccessReview entry in the Kubernetes Deprecated API Migration Guide and convert the manifest accordingly."
+      ],
+      "steps": [
+        {
+          "id": "update-api-version",
+          "instructions": "Change the reported `apiVersion` to the replacement version (authorization.k8s.io/v1 SubjectAccessReview, available since v1.6).",
+          "targets": "declaration",
+          "title": "Change the SubjectAccessReview apiVersion"
+        },
+        {
+          "id": "convert-fields",
+          "instructions": "Apply the field changes the migration guide lists for SubjectAccessReview, then check the manifest still expresses the same intent.",
+          "targets": "declaration",
+          "title": "Convert fields the new version changed"
+        },
+        {
+          "id": "align-other-manifests",
+          "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old SubjectAccessReview API version, so the repository agrees.",
+          "targets": "all",
+          "title": "Align other SubjectAccessReview declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "kubeconform -strict -summary <manifest-paths>",
+          "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+        },
+        {
+          "command": "kubectl apply --dry-run=server -f <manifest-path>",
+          "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+        },
+        {
+          "command": "helm template <chart-path> | kubeconform -strict -",
+          "purpose": "For a Helm chart, render it and validate the output."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/kubernetes/authorization.k8s.io/SubjectAccessReview",
+    "replacement": "authorization.k8s.io/v1 SubjectAccessReview, available since v1.6",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Kubernetes Deprecated API Migration Guide",
+        "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      },
+      {
+        "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+        "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+      }
+    ],
+    "summary": "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of SubjectAccessReview is no longer served as of v1.22, which was released on 2021-08-04.",
+    "title": "SubjectAccessReview authorization.k8s.io/v1beta1 is no longer served",
+    "vers": "vers:semver/1.0.0-beta.1"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

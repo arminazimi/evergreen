@@ -1,0 +1,47 @@
+{
+  "productId": "generic-bun",
+  "productPath": "products/generic-bun.json",
+  "rule": {
+    "deadline": "2023-09-08",
+    "ecosystem": "deno",
+    "event": "end-of-life",
+    "id": "deno.bun.runtime.eol-0.x",
+    "migration": {
+      "constraints": [
+        "Upgrade to Bun 1.1 or later."
+      ],
+      "steps": [
+        {
+          "id": "upgrade-bun-runtime",
+          "instructions": "Update the Bun version pin in bunfig.toml, .bun-version, or deno.json to Bun 1.1 or later.",
+          "targets": "declaration",
+          "title": "Upgrade Bun runtime"
+        }
+      ],
+      "verification": [
+        {
+          "command": "bun --version",
+          "purpose": "Confirm active Bun runtime version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/bun",
+    "replacement": "Bun 1.1 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Bun 1.0.0 Release",
+        "url": "https://github.com/oven-sh/bun/releases/tag/bun-v1.0.0"
+      }
+    ],
+    "summary": "Bun 0.x pre-release versions are obsolete and end-of-life following the Bun 1.0.0 release.",
+    "title": "Bun 0.x pre-release is end-of-life",
+    "vers": "vers:semver/>=0.1.0|<1.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

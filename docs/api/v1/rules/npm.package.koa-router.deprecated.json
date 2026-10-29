@@ -1,0 +1,88 @@
+{
+  "productId": "npm-koa-router",
+  "productPath": "products/npm-koa-router.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.koa-router.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve route paths, parameter names, middleware order, allowed methods, and error handling."
+      ],
+      "steps": [
+        {
+          "id": "replace-koa-router",
+          "instructions": "Move the dependency and imports from koa-router to @koa/router and keep the current constructor and middleware usage.",
+          "targets": "all",
+          "title": "Replace koa-router"
+        },
+        {
+          "id": "verify-routes",
+          "instructions": "Exercise every route, parameter pattern, and allowed method to confirm dispatch and error handling are unchanged.",
+          "targets": "usages",
+          "title": "Verify routing behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the routing and repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/koa-router",
+    "replacement": "@koa/router",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "koa-router on npm",
+        "url": "https://www.npmjs.com/package/koa-router"
+      },
+      {
+        "title": "koa-router registry metadata",
+        "url": "https://registry.npmjs.org/koa-router/latest"
+      }
+    ],
+    "summary": "npm marks koa-router as deprecated: \"Please use @koa/router instead, starting from v9!\"",
+    "title": "koa-router is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "koa-router"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "koa-router"
+      },
+      {
+        "kind": "call",
+        "language": "javascript",
+        "module": "koa-router",
+        "targets": [
+          "default"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "typescript",
+        "module": "koa-router",
+        "targets": [
+          "default"
+        ]
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "koa-router"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

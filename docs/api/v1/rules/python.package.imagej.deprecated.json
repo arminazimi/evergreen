@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-imagej",
+  "productPath": "products/pypi-imagej.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.imagej.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve ImageJ initialization, JVM options, endpoints, datasets, conversions, and headless behavior."
+      ],
+      "steps": [
+        {
+          "id": "replace-imagej",
+          "instructions": "Replace the distribution and verify imports and initialization against the current pyimagej API.",
+          "targets": "all",
+          "title": "Replace imagej with pyimagej"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run ImageJ integration and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/imagej",
+    "replacement": "pyimagej",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "imagej rename notice",
+        "url": "https://pypi.org/project/imagej/"
+      }
+    ],
+    "summary": "The maintainers state that the imagej Python package was renamed to pyimagej.",
+    "title": "imagej was renamed to pyimagej",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "imagej"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "imagej"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

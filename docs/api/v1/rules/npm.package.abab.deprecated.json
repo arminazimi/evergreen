@@ -1,0 +1,66 @@
+{
+  "productId": "npm-abab",
+  "productPath": "products/npm-abab.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.abab.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve accepted input, binary-string output, thrown errors, Unicode handling, and support for the project's minimum runtime."
+      ],
+      "steps": [
+        {
+          "id": "replace-abab",
+          "instructions": "Replace abab imports and calls with the runtime's native atob and btoa functions, then remove the dependency.",
+          "targets": "all",
+          "title": "Use platform Base64 functions"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run Base64 edge-case and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/abab",
+    "replacement": "Native atob() and btoa()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "abab package deprecation notice",
+        "url": "https://www.npmjs.com/package/abab"
+      },
+      {
+        "title": "abab registry metadata",
+        "url": "https://registry.npmjs.org/abab/latest"
+      }
+    ],
+    "summary": "npm directs users of abab to the platform-native atob and btoa functions.",
+    "title": "abab is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "abab"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "abab"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "abab"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

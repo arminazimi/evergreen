@@ -1,0 +1,63 @@
+{
+  "productId": "pypi-vsdeband",
+  "productPath": "products/pypi-vsdeband.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.vsdeband.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output."
+      ],
+      "steps": [
+        {
+          "id": "replace-vsdeband",
+          "instructions": "Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.",
+          "targets": "all",
+          "title": "Replace vsdeband"
+        },
+        {
+          "id": "compare-video-output",
+          "instructions": "Render representative clips and compare frame properties and visual output around gradients and motion.",
+          "targets": "usages",
+          "title": "Compare rendered output"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run video-processing and repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/vsdeband",
+    "replacement": "vsjetpack",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "vsdeband deprecation notice",
+        "url": "https://pypi.org/project/vsdeband/"
+      }
+    ],
+    "summary": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
+    "title": "vsdeband is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "vsdeband"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "vsdeband"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

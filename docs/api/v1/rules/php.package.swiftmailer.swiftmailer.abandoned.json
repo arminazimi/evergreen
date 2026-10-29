@@ -1,0 +1,92 @@
+{
+  "productId": "composer-swiftmailer-swiftmailer",
+  "productPath": "products/composer-swiftmailer-swiftmailer.json",
+  "rule": {
+    "deadline": "2021-11-30",
+    "ecosystem": "php",
+    "event": "deprecated",
+    "id": "php.package.swiftmailer.swiftmailer.abandoned",
+    "migration": {
+      "constraints": [
+        "Preserve message construction, transport configuration, and delivery behavior while moving from Swiftmailer to Symfony Mailer.",
+        "Keep composer.json, composer.lock, and any package that still requires swiftmailer/swiftmailer consistent after the replacement."
+      ],
+      "steps": [
+        {
+          "id": "replace-swiftmailer-dependency",
+          "instructions": "Remove swiftmailer/swiftmailer from composer.json and require symfony/mailer (and any transport packages the project needs), then run `composer update`.",
+          "targets": "declaration",
+          "title": "Replace the dependency"
+        },
+        {
+          "id": "migrate-swiftmailer-usages",
+          "instructions": "Replace reported Swift_Mailer and Swift_Message requires, use statements, constructors, and newInstance calls with the Symfony Mailer Email and Mailer APIs.",
+          "targets": "usages",
+          "title": "Migrate Swiftmailer usages"
+        }
+      ],
+      "verification": [
+        {
+          "command": "composer validate && composer show symfony/mailer",
+          "purpose": "Confirm the Composer project is valid and symfony/mailer is installed."
+        },
+        {
+          "command": "composer validate && vendor/bin/phpunit",
+          "purpose": "Validate the Composer project and run the PHPUnit suite with the replacement mailer."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:composer/swiftmailer/swiftmailer",
+    "replacement": "symfony/mailer",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "swiftmailer/swiftmailer on Packagist",
+        "url": "https://packagist.org/packages/swiftmailer/swiftmailer"
+      },
+      {
+        "title": "The end of Swiftmailer (Symfony Blog)",
+        "url": "https://symfony.com/blog/the-end-of-swiftmailer"
+      }
+    ],
+    "summary": "Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, and the author suggests using symfony/mailer instead. The Symfony project set Swiftmailer's end of maintenance for the end of November 2021.",
+    "title": "swiftmailer/swiftmailer is abandoned",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "php",
+        "module": "Swift_Mailer"
+      },
+      {
+        "kind": "import",
+        "language": "php",
+        "module": "Swift_Message"
+      },
+      {
+        "kind": "call",
+        "language": "php",
+        "module": "Swift_Mailer",
+        "targets": [
+          "new Swift_Mailer",
+          "Swift_Mailer::newInstance"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "php",
+        "module": "Swift_Message",
+        "targets": [
+          "new Swift_Message",
+          "Swift_Message::newInstance"
+        ]
+      }
+    ],
+    "vers": "vers:composer/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

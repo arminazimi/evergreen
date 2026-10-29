@@ -1,0 +1,73 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "removed",
+    "id": "python.symbol.unittest.make-suite",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Call unittest.defaultTestLoader.loadTestsFromTestCase(cls), loadTestsFromModule(module) or getTestCaseNames(cls).",
+          "targets": "usages",
+          "title": "Use TestLoader"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "The matching TestLoader methods: loadTestsFromTestCase(), loadTestsFromModule(), getTestCaseNames()",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "What's New in Python 3.13",
+        "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      },
+      {
+        "title": "What's New in Python 3.11",
+        "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      }
+    ],
+    "summary": "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.",
+    "title": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "unittest",
+        "shape": "call",
+        "symbol": "makeSuite"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "unittest",
+        "shape": "call",
+        "symbol": "findTestCases"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "unittest",
+        "shape": "call",
+        "symbol": "getTestCaseNames"
+      }
+    ],
+    "vers": "vers:pypi/>=3.13"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

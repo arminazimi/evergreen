@@ -1,0 +1,54 @@
+{
+  "productId": "generic-azure-pipelines-ubuntu-image",
+  "productPath": "products/generic-azure-pipelines-ubuntu-image.json",
+  "rule": {
+    "deadline": "2027-04-17",
+    "ecosystem": "ci-images",
+    "event": "scheduled-end-of-life",
+    "id": "ci-images.azure-pipelines.ubuntu-22.04",
+    "migration": {
+      "constraints": [
+        "Change only Microsoft-hosted pool.vmImage labels. The Ubuntu 22.04 schedule does not apply to self-hosted Ubuntu 22.04 agents.",
+        "Move off ubuntu-22.04 before the scheduled removal on 2027-04-17. The notice names ubuntu-latest, ubuntu-24.04, or ubuntu-26.04."
+      ],
+      "steps": [
+        {
+          "id": "retarget-vm-image",
+          "instructions": "Change the reported pool.vmImage from ubuntu-22.04 to ubuntu-latest, ubuntu-24.04, or ubuntu-26.04 (see the replacement).",
+          "targets": "declaration",
+          "title": "Retarget the hosted image"
+        },
+        {
+          "id": "align-vm-image-surfaces",
+          "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-22.04. Leave self-hosted pool names unchanged.",
+          "targets": "all",
+          "title": "Align other Azure Pipelines pools"
+        }
+      ],
+      "verification": [
+        {
+          "command": "gitlab-ci-lint || circleci config validate",
+          "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-18",
+      "reviewedAt": "2026-10-18",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+    "replacement": "ubuntu-latest, ubuntu-24.04, or ubuntu-26.04",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Microsoft-hosted image deprecation schedule",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+      }
+    ],
+    "summary": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
+    "title": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
+    "vers": "vers:intdot/22.04"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

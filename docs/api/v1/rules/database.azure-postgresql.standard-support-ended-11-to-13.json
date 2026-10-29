@@ -1,0 +1,85 @@
+{
+  "productId": "generic-azure-database-postgresql",
+  "productPath": "products/generic-azure-database-postgresql.json",
+  "rule": {
+    "deadline": "2026-07-31",
+    "ecosystem": "database",
+    "event": "end-of-support",
+    "id": "database.azure-postgresql.standard-support-ended-11-to-13",
+    "migration": {
+      "constraints": [
+        "The version argument on azurerm_postgresql_flexible_server and azurerm_postgresql_server names the major version; changing it alone does not move an existing server or its data.",
+        "Azure applies a major version upgrade through its managed upgrade operation. Take a backup or point-in-time restore point first, and do not treat changing version back as a rollback.",
+        "Azure Extended Support keeps the server running after the standard support end date, but it is time-boxed and does not replace moving to a supported major."
+      ],
+      "steps": [
+        {
+          "id": "back-up-data",
+          "instructions": "Take a verified backup or point-in-time restore point of every Azure Database for PostgreSQL server reported, before changing its major version.",
+          "targets": "all",
+          "title": "Back up the server"
+        },
+        {
+          "id": "upgrade-server",
+          "instructions": "Upgrade the server to PostgreSQL 14 or later with Azure's major version upgrade, or restore the backup into a new flexible server on the replacement major and move the application connection string to it.",
+          "targets": "declaration",
+          "title": "Upgrade the server to a supported major"
+        },
+        {
+          "id": "raise-declared-version",
+          "instructions": "Change version in every azurerm_postgresql_flexible_server and azurerm_postgresql_server block that runs this database, not only the reported line.",
+          "targets": "all",
+          "title": "Raise the declared version"
+        },
+        {
+          "id": "align-clients",
+          "instructions": "Update PostgreSQL drivers, ORMs, extensions, and Azure networking or identity settings that assume the old major version.",
+          "targets": "all",
+          "title": "Check clients and extensions"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform validate",
+          "purpose": "Check that the Terraform configuration is valid with the new version argument."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the version change is intended and is the only server change."
+        },
+        {
+          "command": "az postgres flexible-server list --query \"[].{name:name, version:version}\"",
+          "purpose": "Confirm each reported flexible server now reports a supported PostgreSQL major version."
+        },
+        {
+          "command": "docker compose config",
+          "purpose": "Confirm any local Compose service that mirrors this database is valid and uses a PostgreSQL image tag that matches the replacement."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-database-postgresql",
+    "replacement": "PostgreSQL 14 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-26",
+        "title": "Azure Database for PostgreSQL version policy",
+        "url": "https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy"
+      },
+      {
+        "accessedAt": "2026-10-26",
+        "title": "PostgreSQL versioning policy",
+        "url": "https://www.postgresql.org/support/versioning/"
+      }
+    ],
+    "summary": "The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standard support end date for PostgreSQL 11, 12, and 13. After that date Azure offers only time-boxed Extended Support, and it does not allow new servers on those major versions.",
+    "title": "Azure Database for PostgreSQL 11, 12, and 13 are past standard support",
+    "vers": "vers:semver/>=11.0.0|<14.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

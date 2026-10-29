@@ -1,0 +1,72 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.buffer.constructor",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Use Buffer.from for existing data, Buffer.alloc for zero-filled memory, and Buffer.allocUnsafe only when the content is overwritten immediately.",
+          "targets": "usages",
+          "title": "Replace the Buffer constructor"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0005 Buffer() constructor",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates calling Buffer() or new Buffer() in application code (DEP0005): documentation-only since v6.0.0, runtime warning since v10.0.0.",
+    "title": "The Buffer() constructor is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "construct",
+        "symbol": "Buffer"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "construct",
+        "symbol": "Buffer"
+      },
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "call",
+        "symbol": "Buffer"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "call",
+        "symbol": "Buffer"
+      }
+    ],
+    "vers": "vers:semver/>=10.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

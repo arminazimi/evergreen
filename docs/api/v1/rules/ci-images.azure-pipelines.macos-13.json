@@ -1,0 +1,60 @@
+{
+  "productId": "generic-azure-pipelines-macos-image",
+  "productPath": "products/generic-azure-pipelines-macos-image.json",
+  "rule": {
+    "deadline": "2025-12-04",
+    "ecosystem": "ci-images",
+    "event": "removed",
+    "id": "ci-images.azure-pipelines.macos-13",
+    "migration": {
+      "constraints": [
+        "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.",
+        "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it."
+      ],
+      "steps": [
+        {
+          "id": "retarget-vm-image",
+          "instructions": "Change the reported pool.vmImage from macos-13 to macos-15 or macos-latest (the notice also allows macos-14; see the replacement).",
+          "targets": "declaration",
+          "title": "Retarget the hosted image"
+        },
+        {
+          "id": "align-vm-image-surfaces",
+          "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-13. Leave self-hosted pool names unchanged.",
+          "targets": "all",
+          "title": "Align other Azure Pipelines pools"
+        }
+      ],
+      "verification": [
+        {
+          "command": "gitlab-ci-lint || circleci config validate",
+          "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-pipelines/macos-image",
+    "replacement": "macos-14, macos-15, or macos-latest",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-21",
+        "title": "Microsoft-hosted agents for Azure Pipelines",
+        "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted"
+      },
+      {
+        "accessedAt": "2026-10-21",
+        "title": "Upcoming Updates for Azure Pipelines Agents Images",
+        "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/"
+      }
+    ],
+    "summary": "The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hosted agents page states that date, and the Azure DevOps blog lists the same full retiral date.",
+    "title": "Azure Pipelines macOS 13 Ventura hosted image is retired",
+    "vers": "vers:intdot/13"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

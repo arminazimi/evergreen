@@ -1,0 +1,60 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.process.assert",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of process.assert with the assert module.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "the assert module",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0100",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed process.assert (DEP0100: documentation-only since v0.3.7, runtime deprecation since v10.0.0, end-of-life since v23.0.0).",
+    "title": "Process.assert has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "call",
+        "symbol": "process.assert"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "call",
+        "symbol": "process.assert"
+      }
+    ],
+    "vers": "vers:semver/>=23.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

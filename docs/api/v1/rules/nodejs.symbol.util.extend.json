@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.util.extend",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported util._extend(target, source) with Object.assign(target, source).",
+          "targets": "usages",
+          "title": "Replace util._extend"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "Object.assign(target, source)",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0060 util._extend",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates util._extend() (DEP0060): documentation-only since v6.0.0, runtime warning since v22.0.0.",
+    "title": "util._extend is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "_extend"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "_extend"
+      }
+    ],
+    "vers": "vers:semver/>=6.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

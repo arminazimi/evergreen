@@ -1,0 +1,55 @@
+{
+  "productId": "generic-aws-lambda-runtime-ruby2-7",
+  "productPath": "products/generic-aws-lambda-runtime-ruby2-7.json",
+  "rule": {
+    "deadline": "2023-12-07",
+    "ecosystem": "serverless",
+    "event": "end-of-life",
+    "id": "serverless.aws-lambda.ruby2.7",
+    "migration": {
+      "constraints": [
+        "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+        "Raising the managed runtime can require Ruby language and gem changes; confirm handlers run on the replacement before deploying."
+      ],
+      "steps": [
+        {
+          "id": "raise-lambda-runtime",
+          "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from ruby2.7 to a supported AWS Lambda Ruby identifier (see the replacement).",
+          "targets": "declaration",
+          "title": "Raise the AWS Lambda runtime"
+        },
+        {
+          "id": "align-lambda-runtime-surfaces",
+          "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins ruby2.7.",
+          "targets": "all",
+          "title": "Align other runtime surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "sam validate || serverless print || terraform validate",
+          "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/aws-lambda-runtime/ruby2.7",
+    "replacement": "ruby3.4 or ruby3.3",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-21",
+        "title": "AWS Lambda runtimes",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      }
+    ],
+    "summary": "The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with deprecation date 2023-12-07. AWS no longer applies security or other updates to that managed runtime.",
+    "title": "AWS Lambda Ruby 2.7 runtime is end-of-life",
+    "vers": "vers:semver/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

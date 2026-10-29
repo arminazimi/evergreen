@@ -1,0 +1,87 @@
+{
+  "productId": "npm-left-pad",
+  "productPath": "products/npm-left-pad.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.left-pad.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve target width, fill-string behavior, string coercion, and handling of values already wider than the requested length."
+      ],
+      "steps": [
+        {
+          "id": "replace-padding-calls",
+          "instructions": "Convert each reported call to String(value).padStart(length, fill) while preserving existing coercion and defaults.",
+          "targets": "usages",
+          "title": "Replace left-pad calls"
+        },
+        {
+          "id": "remove-left-pad",
+          "instructions": "Delete left-pad from package metadata and refresh the lockfile.",
+          "targets": "declaration",
+          "title": "Remove the dependency"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run padding edge cases and repository tests when defined."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Verify the project builds without left-pad."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-13",
+      "reviewedAt": "2026-10-14",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/left-pad",
+    "replacement": "String.prototype.padStart()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "left-pad package deprecation notice",
+        "url": "https://www.npmjs.com/package/left-pad"
+      }
+    ],
+    "summary": "The package author recommends the built-in String.prototype.padStart method.",
+    "title": "left-pad is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "left-pad"
+      },
+      {
+        "kind": "call",
+        "language": "javascript",
+        "module": "left-pad",
+        "targets": [
+          "default"
+        ]
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "left-pad"
+      },
+      {
+        "kind": "call",
+        "language": "typescript",
+        "module": "left-pad",
+        "targets": [
+          "default"
+        ]
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "left-pad"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

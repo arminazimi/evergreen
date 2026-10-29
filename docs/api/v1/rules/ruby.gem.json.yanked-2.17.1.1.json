@@ -1,0 +1,76 @@
+{
+  "productId": "gem-json",
+  "productPath": "products/gem-json.json",
+  "rule": {
+    "ecosystem": "ruby",
+    "event": "removed",
+    "id": "ruby.gem.json.yanked-2.17.1.1",
+    "migration": {
+      "constraints": [
+        "Keep the Gemfile requirement, Gemfile.lock resolved version, and gemspec constraint on a published json release.",
+        "Regenerate the lockfile after changing the requirement; do not keep a yanked version in the resolution."
+      ],
+      "steps": [
+        {
+          "id": "replace-json-version",
+          "instructions": "Change the Gemfile or gemspec constraint to a published json release and run `bundle update json` so Gemfile.lock resolves a version that is not yanked.",
+          "targets": "declaration",
+          "title": "Move off the yanked version"
+        },
+        {
+          "id": "align-json-surfaces",
+          "instructions": "Check every Gemfile.lock in the repository and the gemspec constraint so none resolves the yanked version.",
+          "targets": "all",
+          "title": "Align the lockfile and gemspec"
+        }
+      ],
+      "verification": [
+        {
+          "command": "bundle exec ruby -e 'require \"json\"; puts JSON::VERSION'",
+          "purpose": "Confirm the resolved json version."
+        },
+        {
+          "command": "bundle exec rake test",
+          "purpose": "Run the test suite with the replacement version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-18",
+      "reviewedAt": "2026-10-18",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:gem/json",
+    "replacement": "A published json release that is not yanked",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "RubyGems: json 2.17.1.1 is yanked",
+        "url": "https://rubygems.org/gems/json/versions/2.17.1.1"
+      }
+    ],
+    "summary": "RubyGems lists json 2.17.1.1 as yanked: the version is not available for download or for other gems that depended on it. The version page also flags two known security vulnerabilities.",
+    "title": "json 2.17.1.1 is yanked",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "ruby",
+        "module": "json"
+      },
+      {
+        "kind": "call",
+        "language": "ruby",
+        "module": "json",
+        "targets": [
+          "JSON.parse",
+          "JSON.generate",
+          "JSON.load",
+          "JSON.dump",
+          "JSON.pretty_generate"
+        ]
+      }
+    ],
+    "vers": "vers:gem/2.17.1.1"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

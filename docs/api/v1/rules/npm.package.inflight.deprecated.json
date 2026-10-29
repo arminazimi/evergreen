@@ -1,0 +1,72 @@
+{
+  "productId": "npm-inflight",
+  "productPath": "products/npm-inflight.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.inflight.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve request coalescing, callback delivery, cache-key identity, and cleanup on success and failure."
+      ],
+      "steps": [
+        {
+          "id": "replace-inflight",
+          "instructions": "Implement keyed coalescing with lru-cache or another maintained primitive and remove inflight.",
+          "targets": "all",
+          "title": "Replace inflight"
+        },
+        {
+          "id": "verify-coalescing",
+          "instructions": "Test duplicate concurrent requests, failures, retries, and cleanup after completion.",
+          "targets": "usages",
+          "title": "Verify concurrent behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run concurrency, memory-lifecycle, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/inflight",
+    "replacement": "lru-cache",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "inflight package deprecation notice",
+        "url": "https://www.npmjs.com/package/inflight"
+      },
+      {
+        "title": "inflight registry metadata",
+        "url": "https://registry.npmjs.org/inflight/latest"
+      }
+    ],
+    "summary": "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing.",
+    "title": "inflight is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "inflight"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "inflight"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "inflight"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

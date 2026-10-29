@@ -1,0 +1,79 @@
+{
+  "productId": "generic-mysql",
+  "productPath": "products/generic-mysql.json",
+  "rule": {
+    "deadline": "2026-04-30",
+    "ecosystem": "database",
+    "event": "end-of-life",
+    "id": "database.mysql.end-of-life-8.0",
+    "migration": {
+      "constraints": [
+        "MySQL does not support skipping major release lines on upgrade. MySQL 5.7 must move to 8.0 before 8.4; 8.0 can move to 8.4 in place.",
+        "A MySQL data directory is upgraded by the new server on first start and cannot be started by the old version again, so a backup is the only way back.",
+        "For managed databases, engine_version changes do not apply major upgrades unless allow_major_version_upgrade is set; plan the maintenance window before applying."
+      ],
+      "steps": [
+        {
+          "id": "back-up-data",
+          "instructions": "Take a verified backup or snapshot of every MySQL instance in the reported files before changing any version. A major version change is not reversible by changing the version back.",
+          "targets": "all",
+          "title": "Back up the data first"
+        },
+        {
+          "id": "upgrade-data",
+          "instructions": "Run mysqlcheck or the MySQL Shell upgrade checker against the old server, fix what it reports, then start the target version on the same data directory, or restore a logical dump into a new instance. On a managed database, upgrade through a snapshot restore or a reviewed engine_version change with allow_major_version_upgrade.",
+          "targets": "declaration",
+          "title": "Upgrade the database server"
+        },
+        {
+          "id": "raise-declared-version",
+          "instructions": "Change the image tag in Compose files, or engine_version in Terraform, to the release in the replacement. Do this in every file and environment that runs this database, not only the reported line.",
+          "targets": "all",
+          "title": "Raise the declared version"
+        },
+        {
+          "id": "align-clients",
+          "instructions": "Update drivers, ORMs, CI service containers, and local setup documentation that assume the old MySQL version.",
+          "targets": "all",
+          "title": "Check clients and tooling"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker compose config",
+          "purpose": "Confirm the Compose file is valid and shows the intended MySQL image tag after the change."
+        },
+        {
+          "command": "terraform validate",
+          "purpose": "Check that the Terraform configuration is valid with the new engine_version."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the engine_version change is the only database change, and that it is intended."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-22",
+      "reviewedAt": "2026-10-22",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/mysql",
+    "replacement": "MySQL 8.4 LTS or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "MySQL supported platforms and lifecycle",
+        "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+      },
+      {
+        "title": "endoflife.date: MySQL",
+        "url": "https://endoflife.date/mysql"
+      }
+    ],
+    "summary": "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle. The mysql.com lifecycle page could not be read when this rule was reviewed (it refuses automated requests), so the date is taken from the endoflife.date record for MySQL.",
+    "title": "MySQL 8.0 is end-of-life",
+    "vers": "vers:semver/>=8.0.0|<8.1.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

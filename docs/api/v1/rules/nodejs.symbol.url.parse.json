@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.url.parse",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Parse with new URL(input, base) and read its properties instead of the legacy url object; review inputs that are not absolute URLs.",
+          "targets": "usages",
+          "title": "Replace url.parse"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "The WHATWG URL API, new URL()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0169 url.parse",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates url.parse() because its behavior is not standardized and error-prone with security implications (DEP0169): documentation-only since v19.0.0 and v18.13.0, application runtime warning since v24.0.0.",
+    "title": "url.parse is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "url",
+        "shape": "call",
+        "symbol": "parse"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "url",
+        "shape": "call",
+        "symbol": "parse"
+      }
+    ],
+    "vers": "vers:semver/>=18.13.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,50 @@
+{
+  "productId": "pypi-poetry-version-plugin",
+  "productPath": "products/pypi-poetry-version-plugin.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.poetry-version-plugin.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve the version source, tag format, source-tree state, built metadata, editable installs, and release automation."
+      ],
+      "steps": [
+        {
+          "id": "replace-poetry-version-plugin",
+          "instructions": "Choose a maintained versioning workflow, migrate Poetry configuration and release jobs, and remove poetry-version-plugin.",
+          "targets": "all",
+          "title": "Replace dynamic versioning"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m build",
+          "purpose": "Build distributions and inspect their resolved versions."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/poetry-version-plugin",
+    "replacement": "uv, PDM, Hatch, or poetry-dynamic-versioning",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "poetry-version-plugin deprecation notice",
+        "url": "https://pypi.org/project/poetry-version-plugin/"
+      }
+    ],
+    "summary": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
+    "title": "poetry-version-plugin is deprecated",
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "poetry-version-plugin"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

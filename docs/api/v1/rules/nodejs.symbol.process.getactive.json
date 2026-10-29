@@ -1,0 +1,72 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.process.getactive",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of process._getActiveRequests and process._getActiveHandles with process.getActiveResourcesInfo().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "process.getActiveResourcesInfo()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0161",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates process._getActiveRequests and process._getActiveHandles (DEP0161: documentation-only since v17.6.0).",
+    "title": "Process._getActiveRequests and process._getActiveHandles are deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "call",
+        "symbol": "process._getActiveRequests"
+      },
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "call",
+        "symbol": "process._getActiveHandles"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "call",
+        "symbol": "process._getActiveRequests"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "call",
+        "symbol": "process._getActiveHandles"
+      }
+    ],
+    "vers": "vers:semver/>=17.6.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

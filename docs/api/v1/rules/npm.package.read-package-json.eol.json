@@ -1,0 +1,66 @@
+{
+  "productId": "npm-read-package-json",
+  "productPath": "products/npm-read-package-json.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "end-of-life",
+    "id": "npm.package.read-package-json.eol",
+    "migration": {
+      "constraints": [
+        "Preserve package normalization, extra metadata loading, error handling, file paths, warnings, and callback or promise timing relied on by callers."
+      ],
+      "steps": [
+        {
+          "id": "replace-read-package-json",
+          "instructions": "Replace the dependency and reads with @npmcli/package-json, adapting its promise-based API and normalized result shape.",
+          "targets": "all",
+          "title": "Move to @npmcli/package-json"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run valid, malformed, missing, and normalized package metadata tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/read-package-json",
+    "replacement": "@npmcli/package-json",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "read-package-json package deprecation notice",
+        "url": "https://www.npmjs.com/package/read-package-json"
+      },
+      {
+        "title": "read-package-json registry metadata",
+        "url": "https://registry.npmjs.org/read-package-json/latest"
+      }
+    ],
+    "summary": "npm states that read-package-json is no longer supported and recommends @npmcli/package-json.",
+    "title": "read-package-json is no longer supported",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "read-package-json"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "read-package-json"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "read-package-json"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,72 @@
+{
+  "productId": "npm-hapi-joi",
+  "productPath": "products/npm-hapi-joi.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.hapi.joi.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve validation schemas, preferences, extensions, and error handling."
+      ],
+      "steps": [
+        {
+          "id": "replace-hapi-joi",
+          "instructions": "Move the dependency and imports from @hapi/joi to joi, then adapt any API differences for the installed target version.",
+          "targets": "all",
+          "title": "Replace @hapi/joi"
+        },
+        {
+          "id": "verify-joi-schemas",
+          "instructions": "Exercise successful and failing validation paths and compare their values and errors.",
+          "targets": "usages",
+          "title": "Verify validation behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run schema validation and repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40hapi/joi",
+    "replacement": "joi",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "@hapi/joi package deprecation notice",
+        "url": "https://www.npmjs.com/package/@hapi/joi"
+      },
+      {
+        "title": "@hapi/joi registry metadata",
+        "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+      }
+    ],
+    "summary": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
+    "title": "@hapi/joi is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "@hapi/joi"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "@hapi/joi"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "@hapi/joi"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

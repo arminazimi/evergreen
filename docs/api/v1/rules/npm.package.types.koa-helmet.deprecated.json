@@ -1,0 +1,65 @@
+{
+  "productId": "npm-types-koa-helmet",
+  "productPath": "products/npm-types-koa-helmet.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.types.koa-helmet.deprecated",
+    "migration": {
+      "constraints": [
+        "@types/koa-helmet only declares types; koa-helmet now ships its own declarations, so no conflicting ambient definition may remain."
+      ],
+      "steps": [
+        {
+          "id": "remove-types-package",
+          "instructions": "Remove @types/koa-helmet from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+          "targets": "declaration",
+          "title": "Remove the stub types package"
+        },
+        {
+          "id": "use-bundled-types",
+          "instructions": "Keep koa-helmet on a version that ships its own type definitions and import its types from koa-helmet.",
+          "targets": "usages",
+          "title": "Use the bundled declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build with koa-helmet's own declarations."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40types/koa-helmet",
+    "replacement": "koa-helmet",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "@types/koa-helmet on npm",
+        "url": "https://www.npmjs.com/package/@types/koa-helmet"
+      },
+      {
+        "title": "@types/koa-helmet version metadata",
+        "url": "https://registry.npmjs.org/@types%2fkoa-helmet"
+      }
+    ],
+    "summary": "npm marks @types/koa-helmet as deprecated: \"This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.\"",
+    "title": "@types/koa-helmet is deprecated",
+    "usage": [],
+    "vers": "vers:npm/6.1.0",
+    "x-npm": {
+      "package": "@types/koa-helmet"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

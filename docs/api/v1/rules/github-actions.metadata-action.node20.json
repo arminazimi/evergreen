@@ -1,0 +1,61 @@
+{
+  "productId": "github-docker-metadata-action",
+  "productPath": "products/github-docker-metadata-action.json",
+  "rule": {
+    "deadline": "2026-09-23",
+    "ecosystem": "github-actions",
+    "event": "end-of-support",
+    "id": "github-actions.metadata-action.node20",
+    "migration": {
+      "constraints": [
+        "Preserve the images, tags, and labels configuration so published image names do not change; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+      ],
+      "steps": [
+        {
+          "id": "upgrade-action-ref",
+          "instructions": "Change the uses reference to docker/metadata-action@v6 or a later supported major.",
+          "targets": "declaration",
+          "title": "Upgrade metadata-action"
+        },
+        {
+          "id": "review-action-inputs",
+          "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+          "targets": "declaration",
+          "title": "Review metadata-action inputs"
+        }
+      ],
+      "verification": [
+        {
+          "command": "git diff --check",
+          "purpose": "Validate the edited workflow diff."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "claude-agent"
+    },
+    "purl": "pkg:github/docker/metadata-action",
+    "replacement": "docker/metadata-action@v6 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node 20 is no longer available in GitHub Actions",
+        "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+      },
+      {
+        "title": "docker/metadata-action v6.0.0 release notes",
+        "url": "https://github.com/docker/metadata-action/releases/tag/v6.0.0"
+      }
+    ],
+    "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+    "title": "Unsupported docker/metadata-action runtime",
+    "vers": "vers:semver/<6.0.0",
+    "x-github-actions": {
+      "action": "docker/metadata-action",
+      "supportedFromMajor": 6
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

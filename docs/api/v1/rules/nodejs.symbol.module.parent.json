@@ -1,0 +1,60 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.module.parent",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of module.parent with require.main === module, or require.cache with module.children.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "require.main === module, or require.cache with module.children",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0144",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates module.parent (DEP0144: documentation-only since v14.6.0).",
+    "title": "Module.parent is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "reference",
+        "symbol": "module.parent"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "reference",
+        "symbol": "module.parent"
+      }
+    ],
+    "vers": "vers:semver/>=14.6.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

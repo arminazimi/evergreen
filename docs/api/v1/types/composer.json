@@ -1,0 +1,106 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-doctrine-cache",
+      "latestReview": "2026-10-20",
+      "name": "cache",
+      "namespace": "doctrine",
+      "path": "products/composer-doctrine-cache.json",
+      "purl": "pkg:composer/doctrine/cache",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-fzaninotto-faker",
+      "latestReview": "2026-10-20",
+      "name": "faker",
+      "namespace": "fzaninotto",
+      "path": "products/composer-fzaninotto-faker.json",
+      "purl": "pkg:composer/fzaninotto/faker",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2025-02-04",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "composer-laravel-framework",
+      "latestReview": "2026-10-23",
+      "name": "framework",
+      "namespace": "laravel",
+      "path": "products/composer-laravel-framework.json",
+      "purl": "pkg:composer/laravel/framework",
+      "rules": 2,
+      "type": "composer"
+    },
+    {
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-sensiolabs-security-checker",
+      "latestReview": "2026-10-20",
+      "name": "security-checker",
+      "namespace": "sensiolabs",
+      "path": "products/composer-sensiolabs-security-checker.json",
+      "purl": "pkg:composer/sensiolabs/security-checker",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2021-11-30",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-swiftmailer-swiftmailer",
+      "latestReview": "2026-10-19",
+      "name": "swiftmailer",
+      "namespace": "swiftmailer",
+      "path": "products/composer-swiftmailer-swiftmailer.json",
+      "purl": "pkg:composer/swiftmailer/swiftmailer",
+      "rules": 1,
+      "type": "composer"
+    },
+    {
+      "earliestDeadline": "2019-12-31",
+      "ecosystems": [
+        "php"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "composer-zendframework-zend-stdlib",
+      "latestReview": "2026-10-19",
+      "name": "zend-stdlib",
+      "namespace": "zendframework",
+      "path": "products/composer-zendframework-zend-stdlib.json",
+      "purl": "pkg:composer/zendframework/zend-stdlib",
+      "rules": 1,
+      "type": "composer"
+    }
+  ],
+  "rules": 7,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "composer"
+}

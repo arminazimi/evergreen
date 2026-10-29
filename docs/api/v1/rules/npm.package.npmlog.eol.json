@@ -1,0 +1,65 @@
+{
+  "productId": "npm-npmlog",
+  "productPath": "products/npm-npmlog.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "end-of-life",
+    "id": "npm.package.npmlog.eol",
+    "migration": {
+      "constraints": [
+        "Preserve log levels, prefixes, headings, progress integration, stream routing, formatting, and quiet-mode behavior."
+      ],
+      "steps": [
+        {
+          "id": "replace-npmlog",
+          "instructions": "Select a maintained logger that covers the used behavior, translate configuration and calls, then remove npmlog.",
+          "targets": "all",
+          "title": "Replace npmlog"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run logging output, level filtering, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/npmlog",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "npmlog package deprecation notice",
+        "url": "https://www.npmjs.com/package/npmlog"
+      },
+      {
+        "title": "npmlog registry metadata",
+        "url": "https://registry.npmjs.org/npmlog/latest"
+      }
+    ],
+    "summary": "npm states that the npmlog package is no longer supported.",
+    "title": "npmlog is no longer supported",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "npmlog"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "npmlog"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "npmlog"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

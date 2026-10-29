@@ -1,0 +1,90 @@
+{
+  "productId": "generic-azure-database-mysql",
+  "productPath": "products/generic-azure-database-mysql.json",
+  "rule": {
+    "deadline": "2026-09-30",
+    "ecosystem": "database",
+    "event": "end-of-support",
+    "id": "database.azure-mysql.standard-support-ended-5.7",
+    "migration": {
+      "constraints": [
+        "The version argument on azurerm_mysql_flexible_server and azurerm_mysql_server names the major version; changing it alone does not upgrade an existing server or its data.",
+        "Upgrade through Azure's managed operation or restore into a new server on the replacement version. A failed upgrade is not reversed by changing version back.",
+        "Azure Extended Support keeps MySQL 5.7 running after the standard support end date, but it is time-boxed and may be charged."
+      ],
+      "steps": [
+        {
+          "id": "back-up-data",
+          "instructions": "Take a verified backup or point-in-time restore point of every Azure Database for MySQL server reported, before changing its version.",
+          "targets": "all",
+          "title": "Back up the server"
+        },
+        {
+          "id": "upgrade-server",
+          "instructions": "Upgrade the server to MySQL 8.0 or later through Azure's managed upgrade, or restore the backup into a new flexible server on the replacement version and move the application connection string.",
+          "targets": "declaration",
+          "title": "Upgrade the server to a supported version"
+        },
+        {
+          "id": "raise-declared-version",
+          "instructions": "Change version in every azurerm_mysql_flexible_server and azurerm_mysql_server block that runs this database, not only the reported line.",
+          "targets": "all",
+          "title": "Raise the declared version"
+        },
+        {
+          "id": "align-clients",
+          "instructions": "Update MySQL drivers, ORMs, and users that rely on mysql_native_password; MySQL 8.4 uses caching_sha2_password by default.",
+          "targets": "all",
+          "title": "Check clients and authentication"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform validate",
+          "purpose": "Check that the Terraform configuration is valid with the new version argument."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the version change is intended and is the only server change."
+        },
+        {
+          "command": "az mysql flexible-server list --query \"[].{name:name, version:version}\"",
+          "purpose": "Confirm each reported flexible server now reports a supported MySQL version."
+        },
+        {
+          "command": "docker compose config",
+          "purpose": "Confirm any local Compose service that mirrors this database is valid and uses a MySQL image tag that matches the replacement."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-database-mysql",
+    "replacement": "MySQL 8.0 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-26",
+        "title": "Azure Database for MySQL version support policy",
+        "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions"
+      },
+      {
+        "accessedAt": "2026-10-26",
+        "title": "MySQL supported platforms and lifecycle",
+        "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+      },
+      {
+        "accessedAt": "2026-10-26",
+        "title": "endoflife.date: MySQL",
+        "url": "https://endoflife.date/mysql"
+      }
+    ],
+    "summary": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7. Azure moves the server to paid Extended Support on 2026-10-01; the MySQL community retired 5.7 on 2023-10-31.",
+    "title": "Azure Database for MySQL 5.7 is past standard support",
+    "vers": "vers:semver/>=5.7.0|<5.8.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

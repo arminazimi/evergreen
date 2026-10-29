@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.locale.getdefaultlocale",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Use locale.getlocale() for the current locale and locale.getpreferredencoding(False) for the encoding.",
+          "targets": "usages",
+          "title": "Use the locale API"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "locale.setlocale(), locale.getpreferredencoding(False), or locale.getlocale()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "What's New in Python 3.11",
+        "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      }
+    ],
+    "summary": "Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15.",
+    "title": "locale.getdefaultlocale is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "locale",
+        "shape": "call",
+        "symbol": "getdefaultlocale"
+      }
+    ],
+    "vers": "vers:pypi/>=3.11"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

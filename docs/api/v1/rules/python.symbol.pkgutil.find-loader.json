@@ -1,0 +1,66 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.pkgutil.find-loader",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace the call with importlib.util.find_spec(name) and read spec.loader if the loader is needed.",
+          "targets": "usages",
+          "title": "Use find_spec"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "importlib.util.find_spec()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "What's New in Python 3.12",
+        "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      },
+      {
+        "title": "Python deprecations: pending removal in 3.14",
+        "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+      }
+    ],
+    "summary": "Python 3.12 deprecates pkgutil.find_loader() and pkgutil.get_loader(), to be removed in Python 3.14.",
+    "title": "pkgutil.find_loader and get_loader are deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "pkgutil",
+        "shape": "call",
+        "symbol": "find_loader"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "pkgutil",
+        "shape": "call",
+        "symbol": "get_loader"
+      }
+    ],
+    "vers": "vers:pypi/>=3.12"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

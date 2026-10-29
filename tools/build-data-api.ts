@@ -2,12 +2,13 @@
 //
 //   node dist/tools/build-data-api.js [--check] [--root DIR]
 //
-// Output: index.json, products/<id>.json (one per PURL identity), and recent.json (the rules with the
-// newest review dates). Every document is validated against schemas/api-product.v1.schema.json before it is
-// written. Paths and object keys are sorted and nothing reads a clock, so the same registry files always
-// produce the same bytes. With --check nothing is written: the command exits 1 and names every file that
-// differs from what the registry would produce. The pages site serves docs/, so the output is published at
-// https://arminazimi.github.io/evergreen/api/v1/.
+// Output: index.json, products/<id>.json (one per PURL identity), recent.json (the rules with the
+// newest review dates), types/<type>.json (the products of one PURL type), and rules/<id>.json (one
+// document per registry rule). Every document is validated against schemas/api-product.v1.schema.json
+// before it is written. Paths and object keys are sorted and nothing reads a clock, so the same registry
+// files always produce the same bytes. With --check nothing is written: the command exits 1 and names
+// every file that differs from what the registry would produce. The pages site serves docs/, so the output
+// is published at https://arminazimi.github.io/evergreen/api/v1/.
 
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -22,9 +23,13 @@ import type { LifecycleEvent, RegistryV2, RegistryV2Rule } from "../src/registry
 
 export const API_DIRECTORY = "docs/api/v1";
 export const PRODUCTS_DIRECTORY = `${API_DIRECTORY}/products`;
+export const TYPES_DIRECTORY = `${API_DIRECTORY}/types`;
+export const RULES_DIRECTORY = `${API_DIRECTORY}/rules`;
 export const INDEX_SCHEMA_VERSION = "evergreen.api-index.v1" as const;
 export const PRODUCT_SCHEMA_VERSION = "evergreen.api-product.v1" as const;
 export const RECENT_SCHEMA_VERSION = "evergreen.api-recent.v1" as const;
+export const TYPE_SCHEMA_VERSION = "evergreen.api-type.v1" as const;
+export const RULE_SCHEMA_VERSION = "evergreen.api-rule.v1" as const;
 /** The recent-changes file carries the rules with the newest review dates, at most this many. */
 export const RECENT_LIMIT = 100;
 
@@ -53,9 +58,17 @@ export interface ApiIndexEntry {
   path: string;
 }
 
+export interface ApiTypeIndexEntry {
+  type: string;
+  products: number;
+  rules: number;
+  path: string;
+}
+
 export interface ApiIndex {
   schemaVersion: typeof INDEX_SCHEMA_VERSION;
   products: ApiIndexEntry[];
+  types: ApiTypeIndexEntry[];
   recent: string;
   rules: number;
   latestReview: string;
@@ -94,7 +107,21 @@ export interface ApiRecent {
   changes: ApiChange[];
 }
 
-export type ApiDocument = ApiIndex | ApiProduct | ApiRecent;
+export interface ApiType {
+  schemaVersion: typeof TYPE_SCHEMA_VERSION;
+  type: string;
+  products: ApiIndexEntry[];
+  rules: number;
+}
+
+export interface ApiRule {
+  schemaVersion: typeof RULE_SCHEMA_VERSION;
+  productId: string;
+  productPath: string;
+  rule: RegistryV2Rule;
+}
+
+export type ApiDocument = ApiIndex | ApiProduct | ApiRecent | ApiType | ApiRule;
 
 const compare = (left: string, right: string): number => (left < right ? -1 : left > right ? 1 : 0);
 
@@ -173,6 +200,7 @@ export function buildDocuments(registries: readonly RegistryV2[]): ApiDocumentFi
   const documents: ApiDocumentFile[] = [];
   const indexEntries: ApiIndexEntry[] = [];
   const changes: ApiChange[] = [];
+  const typeGroups = new Map<string, { products: ApiIndexEntry[]; rules: number }>();
 
   for (const product of [...groups.values()].sort((left, right) => compare(left.id, right.id))) {
     const rules = [...product.rules].sort((left, right) => compare(left.id, right.id));
@@ -198,7 +226,7 @@ export function buildDocuments(registries: readonly RegistryV2[]): ApiDocumentFi
         rules,
       },
     });
-    indexEntries.push({
+    const indexEntry: ApiIndexEntry = {
       id: product.id,
       purl: product.purl,
       type: product.parsed.type,
@@ -210,8 +238,22 @@ export function buildDocuments(registries: readonly RegistryV2[]): ApiDocumentFi
       latestReview,
       rules: rules.length,
       path,
-    });
+    };
+    indexEntries.push(indexEntry);
+    const typeGroup = typeGroups.get(indexEntry.type) ?? { products: [], rules: 0 };
+    typeGroup.products.push(indexEntry);
+    typeGroup.rules += rules.length;
+    typeGroups.set(indexEntry.type, typeGroup);
     for (const rule of rules) {
+      documents.push({
+        path: `${RULES_DIRECTORY}/${rule.id}.json`,
+        document: {
+          schemaVersion: RULE_SCHEMA_VERSION,
+          productId: product.id,
+          productPath: path,
+          rule,
+        },
+      });
       changes.push({
         ruleId: rule.id,
         productId: product.id,
@@ -228,12 +270,28 @@ export function buildDocuments(registries: readonly RegistryV2[]): ApiDocumentFi
     }
   }
 
+  const typeEntries: ApiTypeIndexEntry[] = [];
+  for (const [type, group] of [...typeGroups].sort(([left], [right]) => compare(left, right))) {
+    const path = `types/${type}.json`;
+    typeEntries.push({ type, products: group.products.length, rules: group.rules, path });
+    documents.push({
+      path: `${TYPES_DIRECTORY}/${type}.json`,
+      document: {
+        schemaVersion: TYPE_SCHEMA_VERSION,
+        type,
+        products: group.products,
+        rules: group.rules,
+      },
+    });
+  }
+
   const latestReview = latest(changes.map((change) => change.reviewedAt));
   documents.push({
     path: `${API_DIRECTORY}/index.json`,
     document: {
       schemaVersion: INDEX_SCHEMA_VERSION,
       products: indexEntries,
+      types: typeEntries,
       recent: "recent.json",
       rules: ruleIds.size,
       latestReview,
@@ -288,7 +346,7 @@ export async function drift(files: readonly GeneratedFile[], root = "."): Promis
     else if (actual !== file.contents) problems.push(`differs: ${file.path}`);
   }
   const expected = new Set(files.map((file) => file.path));
-  for (const directory of [API_DIRECTORY, PRODUCTS_DIRECTORY]) {
+  for (const directory of [API_DIRECTORY, PRODUCTS_DIRECTORY, TYPES_DIRECTORY, RULES_DIRECTORY]) {
     for (const name of await jsonFilesIn(resolve(root, directory))) {
       const path = `${directory}/${name}`;
       if (!expected.has(path)) problems.push(`stale: ${path}`);
@@ -299,7 +357,7 @@ export async function drift(files: readonly GeneratedFile[], root = "."): Promis
 
 export async function write(files: readonly GeneratedFile[], root = "."): Promise<void> {
   const expected = new Set(files.map((file) => file.path));
-  for (const directory of [API_DIRECTORY, PRODUCTS_DIRECTORY]) {
+  for (const directory of [API_DIRECTORY, PRODUCTS_DIRECTORY, TYPES_DIRECTORY, RULES_DIRECTORY]) {
     await mkdir(resolve(root, directory), { recursive: true });
     for (const name of await jsonFilesIn(resolve(root, directory))) {
       if (!expected.has(`${directory}/${name}`)) await rm(resolve(root, directory, name));

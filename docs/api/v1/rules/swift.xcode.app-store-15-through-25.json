@@ -1,0 +1,61 @@
+{
+  "productId": "generic-xcode",
+  "productPath": "products/generic-xcode.json",
+  "rule": {
+    "deadline": "2026-04-28",
+    "ecosystem": "swift",
+    "event": "end-of-support",
+    "id": "swift.xcode.app-store-15-through-25",
+    "migration": {
+      "constraints": [
+        "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts."
+      ],
+      "steps": [
+        {
+          "id": "raise-xcode-pin",
+          "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the 15–25 line to Xcode 26 or later.",
+          "targets": "declaration",
+          "title": "Raise the Xcode pin"
+        },
+        {
+          "id": "align-xcode-surfaces",
+          "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
+          "targets": "all",
+          "title": "Align other Xcode surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "xcodebuild -version",
+          "purpose": "Confirm the active Xcode is the intended release."
+        },
+        {
+          "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
+          "purpose": "Build with the new Xcode before uploading to App Store Connect."
+        },
+        {
+          "command": "swift build && swift test",
+          "purpose": "Build and test the Swift package on the toolchain that matches the new Xcode."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/xcode",
+    "replacement": "Xcode 26 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
+        "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+      }
+    ],
+    "summary": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+    "title": "Xcode 15 through 25 are not accepted for App Store uploads",
+    "vers": "vers:semver/>=15.0.0|<26.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "removed",
+    "id": "python.symbol.webbrowser.macosx",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of webbrowser.MacOSX with webbrowser.MacOSXOSAScript.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "webbrowser.MacOSXOSAScript",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "What's New in Python 3.13",
+        "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      }
+    ],
+    "summary": "Python 3.13 removed webbrowser.MacOSX, so using it raises an error.",
+    "title": "Webbrowser.MacOSX has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "webbrowser",
+        "shape": "reference",
+        "symbol": "MacOSX"
+      }
+    ],
+    "vers": "vers:pypi/>=3.13"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

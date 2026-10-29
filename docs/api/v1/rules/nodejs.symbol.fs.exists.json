@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.fs.exists",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported fs.exists call with fs.access or fs.stat and handle the error instead of the boolean.",
+          "targets": "usages",
+          "title": "Replace fs.exists"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "fs.stat() or fs.access()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0034 fs.exists",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js documents fs.exists(path, callback) as deprecated (DEP0034, documentation-only since v1.0.0).",
+    "title": "fs.exists is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "fs",
+        "shape": "call",
+        "symbol": "exists"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "fs",
+        "shape": "call",
+        "symbol": "exists"
+      }
+    ],
+    "vers": "vers:semver/>=1.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

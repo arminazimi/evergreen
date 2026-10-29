@@ -1,0 +1,77 @@
+{
+  "productId": "generic-google-kubernetes-engine",
+  "productPath": "products/generic-google-kubernetes-engine.json",
+  "rule": {
+    "deadline": "2026-10-22",
+    "ecosystem": "terraform",
+    "event": "end-of-life",
+    "id": "terraform.gke.end-of-life-1.31",
+    "migration": {
+      "constraints": [
+        "GKE upgrades one minor version at a time and may auto-upgrade a cluster whose version reaches end of support.",
+        "Only a cluster in the Extended channel keeps receiving security patches past the end of standard support.",
+        "Node pools and the control plane must be on compatible versions, so raise both in the same change."
+      ],
+      "steps": [
+        {
+          "id": "raise-min-master-version",
+          "instructions": "Set min_master_version to the release in the replacement, or remove it so the cluster follows its release channel.",
+          "targets": "declaration",
+          "title": "Raise the control-plane version"
+        },
+        {
+          "id": "raise-node-pools",
+          "instructions": "Raise google_container_node_pool version, or let the release channel manage it, so nodes match the control plane.",
+          "targets": "all",
+          "title": "Raise the node pools"
+        },
+        {
+          "id": "review-removed-apis",
+          "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+          "targets": "all",
+          "title": "Remove APIs the new version deleted"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform init -backend=false && terraform validate",
+          "purpose": "Initialize without touching remote state and check that the configuration is valid."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the control-plane and node-pool changes are the intended ones."
+        },
+        {
+          "command": "gcloud container clusters describe <cluster> --zone <zone> --format='value(currentMasterVersion)'",
+          "purpose": "Confirm the control plane reports the new version."
+        },
+        {
+          "command": "kubectl version",
+          "purpose": "Confirm kubectl and the API server agree on the version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/google-kubernetes-engine",
+    "replacement": "GKE 1.35 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "GKE versioning and support",
+        "url": "https://cloud.google.com/kubernetes-engine/versioning"
+      },
+      {
+        "title": "GKE release schedule",
+        "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+      }
+    ],
+    "summary": "GKE 1.31 reached the end of standard support on 2026-01-16 and the end of extended support on 2026-10-22. GKE no longer provides patches for this minor version.",
+    "title": "GKE 1.31 is past end of extended support",
+    "vers": "vers:semver/>=1.31.0|<1.32.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

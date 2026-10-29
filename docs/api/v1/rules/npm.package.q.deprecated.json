@@ -1,0 +1,72 @@
+{
+  "productId": "npm-q",
+  "productPath": "products/npm-q.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.q.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions."
+      ],
+      "steps": [
+        {
+          "id": "audit-q-extensions",
+          "instructions": "Identify Q-only APIs and semantic assumptions before translating promise chains.",
+          "targets": "usages",
+          "title": "Audit Q-specific behavior"
+        },
+        {
+          "id": "replace-q",
+          "instructions": "Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.",
+          "targets": "all",
+          "title": "Use native promises"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run asynchronous success, rejection, ordering, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/q",
+    "replacement": "Native Promise",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "q package deprecation notice",
+        "url": "https://www.npmjs.com/package/q"
+      },
+      {
+        "title": "q registry metadata",
+        "url": "https://registry.npmjs.org/q/latest"
+      }
+    ],
+    "summary": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
+    "title": "q is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "q"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "q"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "q"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

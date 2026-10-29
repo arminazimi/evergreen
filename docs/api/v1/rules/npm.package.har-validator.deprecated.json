@@ -1,0 +1,71 @@
+{
+  "productId": "npm-har-validator",
+  "productPath": "products/npm-har-validator.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.har-validator.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve the accepted HAR specification version, validation strictness, and error reporting."
+      ],
+      "steps": [
+        {
+          "id": "select-har-validator",
+          "instructions": "Choose a maintained validator that supports the project's HAR version and required validation semantics.",
+          "targets": "all",
+          "title": "Select a maintained HAR validator"
+        },
+        {
+          "id": "replace-har-validation",
+          "instructions": "Translate har-validator calls and handle the replacement's result and error format explicitly.",
+          "targets": "usages",
+          "title": "Replace validation calls"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run valid and invalid HAR fixtures and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/har-validator",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "har-validator package deprecation notice",
+        "url": "https://www.npmjs.com/package/har-validator"
+      },
+      {
+        "title": "har-validator registry metadata",
+        "url": "https://registry.npmjs.org/har-validator/latest"
+      }
+    ],
+    "summary": "npm states that har-validator is no longer supported.",
+    "title": "har-validator is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "har-validator"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "har-validator"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "har-validator"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

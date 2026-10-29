@@ -1,0 +1,65 @@
+{
+  "productId": "npm-gauge",
+  "productPath": "products/npm-gauge.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "end-of-life",
+    "id": "npm.package.gauge.eol",
+    "migration": {
+      "constraints": [
+        "Preserve terminal detection, redraw behavior, themes, templates, progress values, status sections, and non-TTY output."
+      ],
+      "steps": [
+        {
+          "id": "replace-gauge",
+          "instructions": "Select a maintained terminal progress implementation, migrate rendering and update calls, then remove gauge.",
+          "targets": "all",
+          "title": "Replace the terminal gauge"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run TTY, non-TTY, redraw, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/gauge",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "gauge package deprecation notice",
+        "url": "https://www.npmjs.com/package/gauge"
+      },
+      {
+        "title": "gauge registry metadata",
+        "url": "https://registry.npmjs.org/gauge/latest"
+      }
+    ],
+    "summary": "npm states that the gauge package is no longer supported.",
+    "title": "gauge is no longer supported",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "gauge"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "gauge"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "gauge"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

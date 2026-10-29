@@ -1,0 +1,56 @@
+{
+  "productId": "pypi-pytest-runner",
+  "productPath": "products/pypi-pytest-runner.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.pytest-runner.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve test dependencies, pytest options, environment variables, supported Python versions, and CI exit behavior."
+      ],
+      "steps": [
+        {
+          "id": "remove-pytest-runner",
+          "instructions": "Remove pytest-runner from setup requirements and move test dependencies out of tests_require.",
+          "targets": "declaration",
+          "title": "Remove pytest-runner"
+        },
+        {
+          "id": "add-test-bootstrap",
+          "instructions": "Configure tox, nox, or the existing environment manager to install test dependencies and invoke pytest directly.",
+          "targets": "all",
+          "title": "Add an explicit test runner"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run the test suite without setup.py test or pytest-runner."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/pytest-runner",
+    "replacement": "tox, nox, or direct pytest invocation",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "pytest-runner deprecation notice",
+        "url": "https://pypi.org/project/pytest-runner/"
+      }
+    ],
+    "summary": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
+    "title": "pytest-runner is deprecated",
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "pytest-runner"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

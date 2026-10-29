@@ -1,0 +1,66 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.vm.script.producecacheddata",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of the produceCachedData option of vm.Script with script.createCachedData().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "script.createCachedData()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0110",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates the produceCachedData option of vm.Script (DEP0110: documentation-only since v10.6.0).",
+    "title": "The produceCachedData option of vm.Script is deprecated",
+    "usage": [
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "vm",
+        "option": "produceCachedData",
+        "shape": "option",
+        "symbol": "Script"
+      },
+      {
+        "argument": 1,
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "vm",
+        "option": "produceCachedData",
+        "shape": "option",
+        "symbol": "Script"
+      }
+    ],
+    "vers": "vers:semver/>=10.6.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

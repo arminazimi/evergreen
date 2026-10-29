@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-saroku",
+  "productPath": "products/pypi-saroku.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.saroku.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve command behavior, configuration, output formats, and any persisted state."
+      ],
+      "steps": [
+        {
+          "id": "replace-saroku",
+          "instructions": "Replace the distribution and translate saroku imports and commands to trikesh equivalents.",
+          "targets": "all",
+          "title": "Replace saroku"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run affected command and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/saroku",
+    "replacement": "trikesh",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "saroku rename notice",
+        "url": "https://pypi.org/project/saroku/"
+      }
+    ],
+    "summary": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
+    "title": "saroku was renamed to trikesh",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "saroku"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "saroku"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -13,6 +13,8 @@ import {
   API_DIRECTORY,
   PRODUCTS_DIRECTORY,
   RECENT_LIMIT,
+  RULES_DIRECTORY,
+  TYPES_DIRECTORY,
   buildDocuments,
   buildFiles,
   drift,
@@ -21,7 +23,7 @@ import {
   renderDocument,
   validateDocuments,
 } from "../tools/build-data-api.js";
-import type { ApiDocumentFile, ApiIndex, ApiProduct, ApiRecent } from "../tools/build-data-api.js";
+import type { ApiDocumentFile, ApiIndex, ApiProduct, ApiRecent, ApiRule, ApiType } from "../tools/build-data-api.js";
 
 const execute = promisify(execFile);
 const temporaryRoots: string[] = [];
@@ -64,7 +66,7 @@ async function apiValidator() {
   return ajv.compile(apiSchema);
 }
 
-test("emits an index, one document per product PURL, and a recent-changes file", () => {
+test("emits an index, one document per product PURL, one per PURL type, one per rule, and a recent-changes file", () => {
   const documents = buildDocuments([
     registry("npm", [
       rule("npm.b.old", {
@@ -85,6 +87,11 @@ test("emits an index, one document per product PURL, and a recent-changes file",
     `${API_DIRECTORY}/products/npm-a.json`,
     `${API_DIRECTORY}/products/npm-b.json`,
     `${API_DIRECTORY}/recent.json`,
+    `${API_DIRECTORY}/rules/npm.a.one.json`,
+    `${API_DIRECTORY}/rules/npm.b.new.json`,
+    `${API_DIRECTORY}/rules/npm.b.old.json`,
+    `${API_DIRECTORY}/rules/osv.b.json`,
+    `${API_DIRECTORY}/types/npm.json`,
   ]);
 
   const index = documentAt(documents, `${API_DIRECTORY}/index.json`).document as ApiIndex;
@@ -94,6 +101,7 @@ test("emits an index, one document per product PURL, and a recent-changes file",
   assert.equal(index.latestReview, "2026-10-09");
   assert.deepEqual(index.products.map((entry) => entry.id), ["npm-a", "npm-b"]);
   assert.deepEqual(index.products.map((entry) => entry.path), ["products/npm-a.json", "products/npm-b.json"]);
+  assert.deepEqual(index.types, [{ type: "npm", products: 2, rules: 4, path: "types/npm.json" }]);
 
   const product = documentAt(documents, `${PRODUCTS_DIRECTORY}/npm-b.json`).document as ApiProduct;
   assert.equal(product.schemaVersion, "evergreen.api-product.v1");
@@ -101,6 +109,19 @@ test("emits an index, one document per product PURL, and a recent-changes file",
   assert.deepEqual(product.ecosystems, ["npm", "osv"], "rules from several ecosystems share one product");
   assert.deepEqual(product.rules.map((entry) => entry.id), ["npm.b.new", "npm.b.old", "osv.b"]);
   assert.equal(product.latestReview, "2026-10-09");
+
+  const type = documentAt(documents, `${TYPES_DIRECTORY}/npm.json`).document as ApiType;
+  assert.equal(type.schemaVersion, "evergreen.api-type.v1");
+  assert.equal(type.type, "npm");
+  assert.equal(type.rules, 4);
+  assert.deepEqual(type.products.map((entry) => entry.id), ["npm-a", "npm-b"]);
+
+  const ruleDocument = documentAt(documents, `${RULES_DIRECTORY}/npm.b.new.json`).document as ApiRule;
+  assert.equal(ruleDocument.schemaVersion, "evergreen.api-rule.v1");
+  assert.equal(ruleDocument.productId, "npm-b");
+  assert.equal(ruleDocument.productPath, "products/npm-b.json");
+  assert.equal(ruleDocument.rule.id, "npm.b.new");
+  assert.equal(ruleDocument.rule.purl, "pkg:npm/b");
 
   const recent = documentAt(documents, `${API_DIRECTORY}/recent.json`).document as ApiRecent;
   assert.equal(recent.schemaVersion, "evergreen.api-recent.v1");
@@ -194,10 +215,17 @@ test("the committed API files match the registry and cover every product", async
 
   const index = JSON.parse(await readFile(resolve(API_DIRECTORY, "index.json"), "utf8")) as ApiIndex;
   const products = files.filter((file) => file.path.startsWith(`${PRODUCTS_DIRECTORY}/`));
-  assert.equal(files.length, products.length + 2);
+  const types = files.filter((file) => file.path.startsWith(`${TYPES_DIRECTORY}/`));
+  const rules = files.filter((file) => file.path.startsWith(`${RULES_DIRECTORY}/`));
+  assert.equal(files.length, products.length + types.length + rules.length + 2);
   assert.equal(products.length, index.products.length);
+  assert.equal(types.length, index.types.length);
+  assert.equal(rules.length, index.rules);
   assert.equal(index.rules, registries.reduce((total, item) => total + item.rules.length, 0));
   for (const entry of index.products) {
+    assert.ok(files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`), `missing ${entry.path}`);
+  }
+  for (const entry of index.types) {
     assert.ok(files.some((file) => file.path === `${API_DIRECTORY}/${entry.path}`), `missing ${entry.path}`);
   }
 });

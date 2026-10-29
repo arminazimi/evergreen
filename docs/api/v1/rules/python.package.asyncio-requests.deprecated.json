@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-asyncio-requests",
+  "productPath": "products/pypi-asyncio-requests.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.asyncio-requests.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling."
+      ],
+      "steps": [
+        {
+          "id": "replace-asyncio-requests",
+          "instructions": "Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.",
+          "targets": "all",
+          "title": "Replace asyncio-requests"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run protocol, TLS, response, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/asyncio-requests",
+    "replacement": "asyncio-gateway",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "asyncio-gateway migration notice",
+        "url": "https://pypi.org/project/asyncio-gateway/"
+      }
+    ],
+    "summary": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+    "title": "asyncio-requests is retired",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "asyncio_requests"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "asyncio-requests"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

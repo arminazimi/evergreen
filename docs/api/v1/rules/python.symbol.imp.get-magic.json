@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "removed",
+    "id": "python.symbol.imp.get-magic",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of imp.get_magic with importlib.util.MAGIC_NUMBER.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "importlib.util.MAGIC_NUMBER",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "What's New in Python 3.12",
+        "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      }
+    ],
+    "summary": "Python 3.12 removed imp.get_magic, so using it raises an error.",
+    "title": "Imp.get_magic has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "imp",
+        "shape": "call",
+        "symbol": "get_magic"
+      }
+    ],
+    "vers": "vers:pypi/>=3.12"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,39 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "ruby"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "gem-json",
+      "latestReview": "2026-10-18",
+      "name": "json",
+      "path": "products/gem-json.json",
+      "purl": "pkg:gem/json",
+      "rules": 1,
+      "type": "gem"
+    },
+    {
+      "earliestDeadline": "2026-08-09",
+      "ecosystems": [
+        "ruby"
+      ],
+      "events": [
+        "end-of-life",
+        "scheduled-end-of-life"
+      ],
+      "id": "gem-rails",
+      "latestReview": "2026-10-23",
+      "name": "rails",
+      "path": "products/gem-rails.json",
+      "purl": "pkg:gem/rails",
+      "rules": 2,
+      "type": "gem"
+    }
+  ],
+  "rules": 3,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "gem"
+}

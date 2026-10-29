@@ -1,0 +1,65 @@
+{
+  "productId": "generic-scala",
+  "productPath": "products/generic-scala.json",
+  "rule": {
+    "ecosystem": "scala",
+    "event": "end-of-support",
+    "id": "scala.runtime.eos-3.0-3.2",
+    "migration": {
+      "constraints": [
+        "Keep .scala-version, build.sbt scalaVersion, CI matrices, and container images on one supported Scala 3 LTS or Next line.",
+        "Confirm dependencies publish for the target Scala 3 line and re-resolve with sbt after changing the runtime."
+      ],
+      "steps": [
+        {
+          "id": "update-scala-declaration",
+          "instructions": "Change the reported declaration from Scala 3.0–3.2 to a supported release (see the replacement).",
+          "targets": "declaration",
+          "title": "Raise the Scala version"
+        },
+        {
+          "id": "align-scala-surfaces",
+          "instructions": "Update .scala-version, build.sbt scalaVersion, CI matrices, and Dockerfile Scala images so they agree.",
+          "targets": "all",
+          "title": "Align other Scala version surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "scala -version",
+          "purpose": "Confirm the active Scala runtime is the intended release."
+        },
+        {
+          "command": "sbt -Dsbt.supershell=false compile",
+          "purpose": "Compile the project on the new Scala."
+        },
+        {
+          "command": "sbt -Dsbt.supershell=false test",
+          "purpose": "Run the sbt test suite on the new Scala."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-27",
+      "reviewedAt": "2026-10-27",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/scala",
+    "replacement": "Scala 3.3 LTS or a current Scala Next / LTS line",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Scala development guarantees — Scala 3 LTS",
+        "url": "https://scala-lang.org/development/"
+      },
+      {
+        "title": "Scala 3.9 LTS released",
+        "url": "https://scala-lang.org/news/3.9/"
+      }
+    ],
+    "summary": "The Scala project's development guarantees page states that a non-LTS Scala 3 minor receives patches only until the next minor ships. Scala 3.0, 3.1, and 3.2 are frozen on their last patches; later fixes landed only in 3.3 LTS and newer lines.",
+    "title": "Scala 3.0–3.2 no longer receive patches",
+    "vers": "vers:semver/>=3.0.0|<3.3.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

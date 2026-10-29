@@ -1,0 +1,58 @@
+{
+  "productId": "docker-library-ubuntu",
+  "productPath": "products/docker-library-ubuntu.json",
+  "rule": {
+    "deadline": "2027-06-01",
+    "ecosystem": "container",
+    "event": "scheduled-end-of-life",
+    "id": "container.ubuntu.eol-22.04",
+    "migration": {
+      "constraints": [
+        "Keep the base image and deployment manifests that use ubuntu on one supported Ubuntu release line.",
+        "Confirm the application and its dependencies work on the target Ubuntu release."
+      ],
+      "steps": [
+        {
+          "id": "update-image-declaration",
+          "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+          "targets": "declaration",
+          "title": "Update the base image"
+        },
+        {
+          "id": "align-image-surfaces",
+          "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+          "targets": "all",
+          "title": "Align other image references"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker build .",
+          "purpose": "Build the image on the new base."
+        },
+        {
+          "command": "docker run --rm IMAGE sh -c 'echo ok'",
+          "purpose": "Confirm the container starts on the new base."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:docker/library/ubuntu",
+    "replacement": "An ubuntu image on a later supported release line",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Ubuntu release cycle",
+        "url": "https://ubuntu.com/about/release-cycle"
+      }
+    ],
+    "summary": "Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01.",
+    "title": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01",
+    "vers": "vers:semver/>=22.0.0|<22.10.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

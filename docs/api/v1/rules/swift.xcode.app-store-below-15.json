@@ -1,0 +1,62 @@
+{
+  "productId": "generic-xcode",
+  "productPath": "products/generic-xcode.json",
+  "rule": {
+    "deadline": "2024-04-29",
+    "ecosystem": "swift",
+    "event": "end-of-support",
+    "id": "swift.xcode.app-store-below-15",
+    "migration": {
+      "constraints": [
+        "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts.",
+        "Later App Store SDK minimums also require newer Xcode lines; plan to land on the current minimum (see the replacement)."
+      ],
+      "steps": [
+        {
+          "id": "raise-xcode-pin",
+          "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the rejected line to a release App Store Connect accepts (see the replacement).",
+          "targets": "declaration",
+          "title": "Raise the Xcode pin"
+        },
+        {
+          "id": "align-xcode-surfaces",
+          "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
+          "targets": "all",
+          "title": "Align other Xcode surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "xcodebuild -version",
+          "purpose": "Confirm the active Xcode is the intended release."
+        },
+        {
+          "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
+          "purpose": "Build with the new Xcode before uploading to App Store Connect."
+        },
+        {
+          "command": "swift build && swift test",
+          "purpose": "Build and test the Swift package on the toolchain that matches the new Xcode."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/xcode",
+    "replacement": "Xcode 26 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Xcode 15 — App Store upcoming requirements",
+        "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
+      }
+    ],
+    "summary": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
+    "title": "Xcode older than 15 is not accepted for App Store uploads",
+    "vers": "vers:semver/<15.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,61 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.assert.calltracker",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of assert.CallTracker with code that no longer depends on it.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0173",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed assert.CallTracker (DEP0173: runtime deprecation since v20.1.0, end-of-life since v25.0.0).",
+    "title": "Assert.CallTracker has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "assert",
+        "shape": "construct",
+        "symbol": "CallTracker"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "assert",
+        "shape": "construct",
+        "symbol": "CallTracker"
+      }
+    ],
+    "vers": "vers:semver/>=25.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,76 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.crypto.hmac",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of the crypto.Hmac constructor with crypto.createHmac().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "crypto.createHmac()",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0181",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates the crypto.Hmac constructor (DEP0181: documentation-only since v20.13.0, runtime deprecation since v22.0.0).",
+    "title": "The crypto.Hmac constructor is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "shape": "construct",
+        "symbol": "Hmac"
+      },
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "Hmac"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "shape": "construct",
+        "symbol": "Hmac"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "crypto",
+        "shape": "call",
+        "symbol": "Hmac"
+      }
+    ],
+    "vers": "vers:semver/>=22.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

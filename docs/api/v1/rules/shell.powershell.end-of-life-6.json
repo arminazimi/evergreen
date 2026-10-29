@@ -1,0 +1,71 @@
+{
+  "productId": "generic-powershell",
+  "productPath": "products/generic-powershell.json",
+  "rule": {
+    "deadline": "2020-09-04",
+    "ecosystem": "shell",
+    "event": "end-of-life",
+    "id": "shell.powershell.end-of-life-6",
+    "migration": {
+      "constraints": [
+        "Raising a minimum version in `#Requires -Version` or `PowerShellVersion` stops the script or module from loading on any host that still runs PowerShell 6.x. Confirm every runner, container, and developer machine that executes it can run the target first.",
+        "Scripts written for Windows PowerShell 5.1 often rely on Windows-only modules and cmdlets. Test them on PowerShell 7 before dropping 5.1 support, and keep a separate minimum for modules that must still load on Windows PowerShell.",
+        "Update the declaration to a supported release from the replacement. Evergreen suggests these changes and never runs them."
+      ],
+      "steps": [
+        {
+          "id": "inventory-hosts",
+          "instructions": "List the CI jobs, container images, scheduled tasks, and developer setups that execute the reported file, and note which of them still provide PowerShell 6.x.",
+          "targets": "all",
+          "title": "Find where the script runs"
+        },
+        {
+          "id": "install-target",
+          "instructions": "Install a supported PowerShell 7 release (the replacement) on those hosts, or change the pinned mcr.microsoft.com/powershell image tag in the workflow to a supported tag.",
+          "targets": "all",
+          "title": "Install the target PowerShell"
+        },
+        {
+          "id": "raise-declared-version",
+          "instructions": "Change `#Requires -Version` or `PowerShellVersion` on the reported line to the minimum release the code truly needs, and no lower than a supported release. Do this in every script, module manifest, and workflow image that states the old version.",
+          "targets": "declaration",
+          "title": "Raise the declared version"
+        },
+        {
+          "id": "run-tests",
+          "instructions": "Run the script, its Pester tests, and any module import on the target release, and fix breaking changes in cmdlet behavior or removed APIs.",
+          "targets": "all",
+          "title": "Run the scripts and tests on the new release"
+        }
+      ],
+      "verification": [
+        {
+          "command": "pwsh -NoProfile -Command \"$PSVersionTable\"",
+          "purpose": "Show the PowerShell version and edition that will run the script, and confirm it is a supported release."
+        },
+        {
+          "command": "pwsh -NoProfile -Command \"Get-Module -ListAvailable | Select-Object Name, Version, PowerShellVersion\"",
+          "purpose": "List installed modules and the PowerShell versions they require, to confirm none still demands the old release."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-22",
+      "reviewedAt": "2026-10-22",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/powershell",
+    "replacement": "PowerShell 7.6 (LTS) or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "PowerShell support lifecycle",
+        "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+      }
+    ],
+    "summary": "Microsoft's PowerShell support lifecycle lists every PowerShell 6 release (6.0, 6.1, and 6.2) as retired; the last, 6.2, reached end of support on 2020-09-04. A script or manifest that requires a 6.x version targets an unsupported release.",
+    "title": "PowerShell 6.x is no longer supported",
+    "vers": "vers:semver/>=6.0.0|<7.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

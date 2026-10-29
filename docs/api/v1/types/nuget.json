@@ -1,0 +1,71 @@
+{
+  "products": [
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-documentdb",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.DocumentDB",
+      "path": "products/nuget-microsoft-azure-documentdb.json",
+      "purl": "pkg:nuget/Microsoft.Azure.DocumentDB",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2026-09-30",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-servicebus",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.ServiceBus",
+      "path": "products/nuget-microsoft-azure-servicebus.json",
+      "purl": "pkg:nuget/Microsoft.Azure.ServiceBus",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-microsoft-azure-storage-blob",
+      "latestReview": "2026-10-19",
+      "name": "Microsoft.Azure.Storage.Blob",
+      "path": "products/nuget-microsoft-azure-storage-blob.json",
+      "purl": "pkg:nuget/Microsoft.Azure.Storage.Blob",
+      "rules": 1,
+      "type": "nuget"
+    },
+    {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "dotnet"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "nuget-windowsazure-storage",
+      "latestReview": "2026-10-17",
+      "name": "WindowsAzure.Storage",
+      "path": "products/nuget-windowsazure-storage.json",
+      "purl": "pkg:nuget/WindowsAzure.Storage",
+      "rules": 1,
+      "type": "nuget"
+    }
+  ],
+  "rules": 4,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "nuget"
+}

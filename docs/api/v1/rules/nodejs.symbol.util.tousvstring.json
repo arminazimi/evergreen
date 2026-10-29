@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.util.tousvstring",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of util.toUSVString with String.prototype.toWellFormed.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "String.prototype.toWellFormed",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0175",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates util.toUSVString (DEP0175: documentation-only since v20.8.0).",
+    "title": "Util.toUSVString is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "toUSVString"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "toUSVString"
+      }
+    ],
+    "vers": "vers:semver/>=20.8.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

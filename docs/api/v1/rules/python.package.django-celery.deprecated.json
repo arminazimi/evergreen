@@ -1,0 +1,63 @@
+{
+  "productId": "pypi-django-celery",
+  "productPath": "products/pypi-django-celery.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.django-celery.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve task discovery, broker and result settings, periodic schedules, worker startup, retries, and Django application initialization."
+      ],
+      "steps": [
+        {
+          "id": "adopt-celery-django",
+          "instructions": "Configure the Celery application using the current Django integration and translate djcelery settings and setup calls.",
+          "targets": "all",
+          "title": "Adopt Celery's Django integration"
+        },
+        {
+          "id": "remove-django-celery",
+          "instructions": "Remove django-celery and djcelery from dependencies, installed applications, imports, commands, and migrations after data needs are resolved.",
+          "targets": "all",
+          "title": "Remove django-celery"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run task, scheduling, result-backend, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/django-celery",
+    "replacement": "Celery's built-in Django integration",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "django-celery retirement notice",
+        "url": "https://pypi.org/project/django-celery/"
+      }
+    ],
+    "summary": "The project states that django-celery is no longer required because Celery supports Django directly.",
+    "title": "django-celery is no longer required",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "djcelery"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "django-celery"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

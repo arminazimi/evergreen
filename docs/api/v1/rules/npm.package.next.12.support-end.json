@@ -1,0 +1,93 @@
+{
+  "productId": "npm-next",
+  "productPath": "products/npm-next.json",
+  "rule": {
+    "deadline": "2023-10-26",
+    "ecosystem": "npm",
+    "event": "end-of-support",
+    "id": "npm.package.next.12.support-end",
+    "migration": {
+      "constraints": [
+        "Preserve the routes, rendering modes, data fetching, and public behavior of the application; change only what each official upgrade guide requires.",
+        "Upgrade one major at a time (13, 14, 15, then 16) and verify each step before the next."
+      ],
+      "steps": [
+        {
+          "id": "set-next-version",
+          "instructions": "Set the next dependency to the Active LTS release (16.x) in the package.json that declares it, then align react and react-dom with the versions the guides require. The 15 guide requires React 19.",
+          "targets": "declaration",
+          "title": "Move next to a supported major"
+        },
+        {
+          "id": "apply-upgrade-guides",
+          "instructions": "Work through the official upgrade guides for 13, 14, 15 and 16, one major at a time, and resolve each breaking change they list before starting the next. Check the Node.js minimum each guide states.",
+          "targets": "all",
+          "title": "Apply the upgrade guides in order"
+        },
+        {
+          "id": "run-upgrade-codemods",
+          "instructions": "Run the codemods the guides name (for example the upgrade codemod from @next/codemod) or make the same changes by hand, and review every change before committing.",
+          "targets": "all",
+          "title": "Run the official codemods"
+        },
+        {
+          "id": "replace-retired-apis",
+          "instructions": "Replace the imports, components, and configuration options that the guides rename or remove, such as the target option removed in Next.js 13 and next lint removed in Next.js 16.",
+          "targets": "usages",
+          "title": "Replace renamed or removed APIs"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Build the application with the upgraded Next.js."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        },
+        {
+          "command": "npm run lint --if-present",
+          "purpose": "Lint with the ESLint CLI; the next lint command is removed in Next.js 16."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/next",
+    "replacement": "Next.js 16 (Active LTS)",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Next.js support policy",
+        "url": "https://nextjs.org/support-policy"
+      },
+      {
+        "title": "Next.js upgrade guide: version 13",
+        "url": "https://nextjs.org/docs/pages/building-your-application/upgrading/version-13"
+      },
+      {
+        "title": "Next.js upgrade guide: version 14",
+        "url": "https://nextjs.org/docs/app/building-your-application/upgrading/version-14"
+      },
+      {
+        "title": "Next.js upgrade guide: version 15",
+        "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+      },
+      {
+        "title": "Next.js upgrade guide: version 16",
+        "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+      }
+    ],
+    "summary": "Next.js 12 was released on 2021-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2023-10-26.",
+    "title": "Next.js 12 is out of support",
+    "vers": "vers:npm/>=12.0.0|<13.0.0",
+    "x-npm": {
+      "package": "next"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

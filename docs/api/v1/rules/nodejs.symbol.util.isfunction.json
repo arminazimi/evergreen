@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.util.isfunction",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of util.isFunction with typeof arg === 'function'.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "typeof arg === 'function'",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0049",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed util.isFunction (DEP0049: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+    "title": "Util.isFunction has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "isFunction"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "util",
+        "shape": "call",
+        "symbol": "isFunction"
+      }
+    ],
+    "vers": "vers:semver/>=23.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

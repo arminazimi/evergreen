@@ -1,0 +1,70 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "end-of-life",
+    "id": "nodejs.runtime.legacy",
+    "migration": {
+      "constraints": [
+        "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+        "Expect dependency and language compatibility changes when crossing multiple Node.js majors."
+      ],
+      "steps": [
+        {
+          "id": "update-runtime-declaration",
+          "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+          "targets": "declaration",
+          "title": "Update the Node.js declaration"
+        },
+        {
+          "id": "upgrade-in-supported-stages",
+          "instructions": "Resolve dependency and runtime incompatibilities in supported-major increments before adopting the final target.",
+          "targets": "all",
+          "title": "Upgrade across supported majors"
+        },
+        {
+          "id": "align-runtime-surfaces",
+          "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+          "targets": "all",
+          "title": "Align runtime surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "node --version",
+          "purpose": "Confirm the active Node.js runtime is supported."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository test suite on the target runtime when defined."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Verify the project builds on the target runtime."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-13",
+      "reviewedAt": "2026-10-14",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "Node.js 22 LTS or later",
+    "severity": "critical",
+    "sources": [
+      {
+        "title": "Node.js end-of-life releases",
+        "url": "https://nodejs.org/en/about/eol"
+      }
+    ],
+    "summary": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
+    "title": "Legacy Node.js runtime is end-of-life",
+    "vers": "vers:semver/<18.0.0",
+    "x-nodejs": {
+      "maximumMajor": 17
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

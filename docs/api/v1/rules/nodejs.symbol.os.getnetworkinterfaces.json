@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.os.getnetworkinterfaces",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of os.getNetworkInterfaces with os.networkInterfaces().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "os.networkInterfaces()",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0023",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6.0, end-of-life since v12.0.0).",
+    "title": "Os.getNetworkInterfaces has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "os",
+        "shape": "call",
+        "symbol": "getNetworkInterfaces"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "os",
+        "shape": "call",
+        "symbol": "getNetworkInterfaces"
+      }
+    ],
+    "vers": "vers:semver/>=12.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

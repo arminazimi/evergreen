@@ -1,0 +1,65 @@
+{
+  "productId": "npm-types-socket-io-client",
+  "productPath": "products/npm-types-socket-io-client.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.types.socket.io-client.deprecated",
+    "migration": {
+      "constraints": [
+        "@types/socket.io-client only declares types; socket.io-client now ships its own declarations, so no conflicting ambient definition may remain."
+      ],
+      "steps": [
+        {
+          "id": "remove-types-package",
+          "instructions": "Remove @types/socket.io-client from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+          "targets": "declaration",
+          "title": "Remove the stub types package"
+        },
+        {
+          "id": "use-bundled-types",
+          "instructions": "Keep socket.io-client on a version that ships its own type definitions and import its types from socket.io-client.",
+          "targets": "usages",
+          "title": "Use the bundled declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build with socket.io-client's own declarations."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40types/socket.io-client",
+    "replacement": "socket.io-client",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "@types/socket.io-client on npm",
+        "url": "https://www.npmjs.com/package/@types/socket.io-client"
+      },
+      {
+        "title": "@types/socket.io-client version metadata",
+        "url": "https://registry.npmjs.org/@types%2fsocket.io-client"
+      }
+    ],
+    "summary": "npm marks @types/socket.io-client as deprecated: \"This is a stub types definition. socket.io-client provides its own type definitions, so you do not need this installed.\"",
+    "title": "@types/socket.io-client is deprecated",
+    "usage": [],
+    "vers": "vers:npm/3.0.0",
+    "x-npm": {
+      "package": "@types/socket.io-client"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

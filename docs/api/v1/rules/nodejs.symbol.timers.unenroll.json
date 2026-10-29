@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.timers.unenroll",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of timers.unenroll with clearTimeout() or clearInterval().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "clearTimeout() or clearInterval()",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0096",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed timers.unenroll (DEP0096: runtime deprecation since v10.0.0, end-of-life since v24.0.0).",
+    "title": "Timers.unenroll has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "timers",
+        "shape": "call",
+        "symbol": "unenroll"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "timers",
+        "shape": "call",
+        "symbol": "unenroll"
+      }
+    ],
+    "vers": "vers:semver/>=24.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

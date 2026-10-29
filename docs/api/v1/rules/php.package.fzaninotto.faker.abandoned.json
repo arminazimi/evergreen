@@ -1,0 +1,54 @@
+{
+  "productId": "composer-fzaninotto-faker",
+  "productPath": "products/composer-fzaninotto-faker.json",
+  "rule": {
+    "ecosystem": "php",
+    "event": "deprecated",
+    "id": "php.package.fzaninotto.faker.abandoned",
+    "migration": {
+      "constraints": [
+        "Keep composer.json and composer.lock consistent after removing fzaninotto/faker, and check that no other package still requires it.",
+        "Preserve existing behavior while replacing the abandoned package; review its public API usage before choosing a replacement."
+      ],
+      "steps": [
+        {
+          "id": "replace-abandoned-package",
+          "instructions": "Remove fzaninotto/faker from composer.json and replace it with a maintained alternative that fits how the project uses it, then run `composer update`.",
+          "targets": "declaration",
+          "title": "Replace the abandoned package"
+        }
+      ],
+      "verification": [
+        {
+          "command": "composer validate && composer install",
+          "purpose": "Confirm the Composer project is valid and installs without the abandoned package."
+        },
+        {
+          "command": "composer validate && vendor/bin/phpunit",
+          "purpose": "Validate the Composer project and run the PHPUnit suite after the replacement."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:composer/fzaninotto/faker",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "fzaninotto/faker on Packagist",
+        "url": "https://packagist.org/packages/fzaninotto/faker"
+      },
+      {
+        "title": "fzaninotto/faker Composer metadata",
+        "url": "https://repo.packagist.org/p2/fzaninotto/faker.json"
+      }
+    ],
+    "summary": "Packagist marks fzaninotto/faker as abandoned and no longer maintained.",
+    "title": "fzaninotto/faker is abandoned",
+    "vers": "vers:composer/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

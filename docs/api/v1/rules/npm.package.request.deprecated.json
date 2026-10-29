@@ -1,0 +1,106 @@
+{
+  "productId": "npm-request",
+  "productPath": "products/npm-request.json",
+  "rule": {
+    "deadline": "2020-02-11",
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.request.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."
+      ],
+      "steps": [
+        {
+          "id": "choose-http-client",
+          "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.",
+          "targets": "all",
+          "title": "Choose the target HTTP client"
+        },
+        {
+          "id": "replace-request-calls",
+          "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.",
+          "targets": "usages",
+          "title": "Rewrite request usages"
+        },
+        {
+          "id": "replace-request-dependency",
+          "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.",
+          "targets": "declaration",
+          "title": "Replace the dependency"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run HTTP behavior and repository tests when defined."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Verify imports, types, and the build remain valid."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-13",
+      "reviewedAt": "2026-10-14",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/request",
+    "replacement": "Native fetch or a maintained HTTP client",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "request package deprecation notice",
+        "url": "https://www.npmjs.com/package/request"
+      }
+    ],
+    "summary": "The package is fully deprecated and no new changes are expected.",
+    "title": "request is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "request"
+      },
+      {
+        "kind": "call",
+        "language": "javascript",
+        "module": "request",
+        "targets": [
+          "default",
+          "get",
+          "post",
+          "put",
+          "delete",
+          "head",
+          "patch"
+        ]
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "request"
+      },
+      {
+        "kind": "call",
+        "language": "typescript",
+        "module": "request",
+        "targets": [
+          "default",
+          "get",
+          "post",
+          "put",
+          "delete",
+          "head",
+          "patch"
+        ]
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "request"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

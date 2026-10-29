@@ -1,0 +1,100 @@
+{
+  "productId": "nuget-windowsazure-storage",
+  "productPath": "products/nuget-windowsazure-storage.json",
+  "rule": {
+    "deadline": "2023-03-31",
+    "ecosystem": "dotnet",
+    "event": "deprecated",
+    "id": "dotnet.package.windowsazure-storage.deprecated",
+    "migration": {
+      "constraints": [
+        "Keep the data format and the blob, queue, and table names the same; only the client library changes."
+      ],
+      "steps": [
+        {
+          "id": "replace-windowsazure-storage",
+          "instructions": "Replace WindowsAzure.Storage with the package for each service in use (Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables) and update CloudStorageAccount and CloudBlobClient code to the new client types.",
+          "targets": "all",
+          "title": "Move to the Azure.Storage.* packages"
+        }
+      ],
+      "verification": [
+        {
+          "command": "dotnet build && dotnet test",
+          "purpose": "Build and test after the client library change."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-17",
+      "reviewedAt": "2026-10-17",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:nuget/WindowsAzure.Storage",
+    "replacement": "Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables, with Azure.Storage.Common",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
+        "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+      },
+      {
+        "title": "NuGet package deprecation",
+        "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+      },
+      {
+        "title": "Azure SDK support policies",
+        "url": "https://azure.github.io/azure-sdk/policies_support.html"
+      }
+    ],
+    "summary": "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored. The deprecation names Azure.Storage.Common as the replacement.",
+    "title": "WindowsAzure.Storage is deprecated on NuGet",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "csharp",
+        "module": "Microsoft.WindowsAzure.Storage"
+      },
+      {
+        "kind": "call",
+        "language": "csharp",
+        "module": "Microsoft.WindowsAzure.Storage",
+        "targets": [
+          "CloudStorageAccount.Parse",
+          "CloudStorageAccount.TryParse",
+          "CloudStorageAccount"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "csharp",
+        "module": "Microsoft.WindowsAzure.Storage.Blob",
+        "targets": [
+          "CloudBlobClient",
+          "CloudBlobContainer",
+          "CloudBlockBlob"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "csharp",
+        "module": "Microsoft.WindowsAzure.Storage.Queue",
+        "targets": [
+          "CloudQueueClient",
+          "CloudQueue"
+        ]
+      },
+      {
+        "kind": "call",
+        "language": "csharp",
+        "module": "Microsoft.WindowsAzure.Storage.Table",
+        "targets": [
+          "CloudTableClient",
+          "CloudTable"
+        ]
+      }
+    ],
+    "vers": "vers:nuget/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

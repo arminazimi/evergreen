@@ -1,0 +1,73 @@
+{
+  "productId": "generic-amazon-eks",
+  "productPath": "products/generic-amazon-eks.json",
+  "rule": {
+    "deadline": "2025-11-26",
+    "ecosystem": "terraform",
+    "event": "end-of-support",
+    "id": "terraform.eks.end-of-support-1.31",
+    "migration": {
+      "constraints": [
+        "A control plane and its node groups are upgraded separately: raise the control plane before the node groups and the add-ons that pin a Kubernetes version.",
+        "Amazon EKS upgrades one minor version at a time, so cross each intervening minor version and read its upgrade notes.",
+        "A version past end of extended support is auto-upgraded, and a version in extended support is billed at the extended-support rate."
+      ],
+      "steps": [
+        {
+          "id": "raise-cluster-version",
+          "instructions": "Set cluster_version to the release in the replacement, then run terraform plan and apply the control-plane upgrade.",
+          "targets": "declaration",
+          "title": "Raise the cluster version"
+        },
+        {
+          "id": "raise-node-groups",
+          "instructions": "Raise each aws_eks_node_group version and each managed add-on that pins a Kubernetes version so they match the new control plane.",
+          "targets": "all",
+          "title": "Raise the node groups and add-ons"
+        },
+        {
+          "id": "review-removed-apis",
+          "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+          "targets": "all",
+          "title": "Remove APIs the new version deleted"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform init -backend=false && terraform validate",
+          "purpose": "Initialize without touching remote state and check that the configuration is valid."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the control-plane and node-group changes are the intended ones."
+        },
+        {
+          "command": "aws eks describe-cluster --name <cluster> --query 'cluster.version'",
+          "purpose": "Confirm the control plane reports the new version."
+        },
+        {
+          "command": "kubectl version",
+          "purpose": "Confirm kubectl and the API server agree on the version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/amazon-eks",
+    "replacement": "Amazon EKS 1.35 or later",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+        "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      }
+    ],
+    "summary": "Amazon EKS 1.31 reached the end of standard support on 2025-11-26 and is in extended support until 2026-11-26. Amazon EKS gives a minor version 14 months of standard support and then up to 12 months of extended support at an additional cost per cluster hour.",
+    "title": "Amazon EKS 1.31 is past end of standard support",
+    "vers": "vers:semver/>=1.31.0|<1.32.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

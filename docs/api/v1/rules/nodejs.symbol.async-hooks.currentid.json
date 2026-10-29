@@ -1,0 +1,62 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "removed",
+    "id": "nodejs.symbol.async-hooks.currentid",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of async_hooks.currentId with async_hooks.executionAsyncId().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "replacement": "async_hooks.executionAsyncId()",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0070",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js removed async_hooks.currentId (DEP0070: runtime deprecation since v8.2.0, end-of-life since v9.0.0).",
+    "title": "Async_hooks.currentId has been removed",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "async_hooks",
+        "shape": "call",
+        "symbol": "currentId"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "async_hooks",
+        "shape": "call",
+        "symbol": "currentId"
+      }
+    ],
+    "vers": "vers:semver/>=9.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

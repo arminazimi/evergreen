@@ -1,0 +1,72 @@
+{
+  "productId": "npm-tslint",
+  "productPath": "products/npm-tslint.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.tslint.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve the enforced rule set and any custom rules; map each TSLint rule to its typescript-eslint or ESLint equivalent."
+      ],
+      "steps": [
+        {
+          "id": "replace-tslint",
+          "instructions": "Replace tslint with eslint and typescript-eslint in dependencies and scripts, and port the rules from tslint.json to the ESLint configuration.",
+          "targets": "all",
+          "title": "Replace TSLint with ESLint"
+        },
+        {
+          "id": "port-custom-rules",
+          "instructions": "Convert `tslint:disable` comments and any custom TSLint rules to their ESLint equivalents.",
+          "targets": "usages",
+          "title": "Port custom rules and disables"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run lint --if-present",
+          "purpose": "Run the new linter on the project and compare the findings."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-17",
+      "reviewedAt": "2026-10-17",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/tslint",
+    "replacement": "ESLint with typescript-eslint",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "tslint on npm",
+        "url": "https://www.npmjs.com/package/tslint"
+      },
+      {
+        "title": "tslint version metadata",
+        "url": "https://registry.npmjs.org/tslint"
+      }
+    ],
+    "summary": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
+    "title": "tslint is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "tslint"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "tslint"
+      }
+    ],
+    "vers": "vers:npm/6.0.0|6.1.0|6.1.1|6.1.2|6.1.3",
+    "x-npm": {
+      "package": "tslint"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

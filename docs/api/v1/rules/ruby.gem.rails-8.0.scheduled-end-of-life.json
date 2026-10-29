@@ -1,0 +1,72 @@
+{
+  "productId": "gem-rails",
+  "productPath": "products/gem-rails.json",
+  "rule": {
+    "deadline": "2026-11-07",
+    "ecosystem": "ruby",
+    "event": "scheduled-end-of-life",
+    "id": "ruby.gem.rails-8.0.scheduled-end-of-life",
+    "migration": {
+      "constraints": [
+        "Preserve application behavior and public interfaces while applying the official Rails 8.1 upgrade section.",
+        "Keep the Gemfile requirement and every Gemfile.lock on the same Rails 8.1 release series."
+      ],
+      "steps": [
+        {
+          "id": "update-rails-declaration",
+          "instructions": "Set Rails to the latest 8.1 patch in the Gemfile and run `bundle update rails` to refresh every Gemfile.lock.",
+          "targets": "declaration",
+          "title": "Upgrade Rails to 8.1"
+        },
+        {
+          "id": "apply-rails-upgrade-guide",
+          "instructions": "Follow the official 8.0-to-8.1 section and resolve each listed behavior change before enabling the Rails 8.1 framework defaults.",
+          "targets": "all",
+          "title": "Apply the Rails 8.1 upgrade section"
+        },
+        {
+          "id": "update-framework-defaults",
+          "instructions": "Run `bin/rails app:update`, review every generated change, enable the new framework defaults gradually, and update `config.load_defaults` only after the application is ready.",
+          "targets": "all",
+          "title": "Review the Rails 8.1 defaults"
+        }
+      ],
+      "verification": [
+        {
+          "command": "bundle check",
+          "purpose": "Confirm the updated Rails dependency set is installed and consistent."
+        },
+        {
+          "command": "bin/rails test",
+          "purpose": "Run the Rails test suite after the upgrade."
+        },
+        {
+          "command": "bin/rails runner 'puts Rails.version'",
+          "purpose": "Confirm the application boots on Rails 8.1."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-23",
+      "reviewedAt": "2026-10-23",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:gem/rails",
+    "replacement": "Rails 8.1.x",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Ruby on Rails maintenance policy",
+        "url": "https://rubyonrails.org/maintenance"
+      },
+      {
+        "title": "Upgrading Ruby on Rails",
+        "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+      }
+    ],
+    "summary": "The Rails maintenance policy says Rails 8.0.x receives security fixes until 2026-11-07. Rails 8.1.x is the newer supported release series.",
+    "title": "Rails 8.0 security support is scheduled to end",
+    "vers": "vers:gem/>=8.0.0|<8.1.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

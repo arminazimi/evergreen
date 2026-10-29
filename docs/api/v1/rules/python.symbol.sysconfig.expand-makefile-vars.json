@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.sysconfig.expand-makefile-vars",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of sysconfig.expand_makefile_vars with the vars argument of sysconfig.get_paths().",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "the vars argument of sysconfig.get_paths()",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Python deprecations: pending removal in 3.16",
+        "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+      }
+    ],
+    "summary": "Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16.",
+    "title": "Sysconfig.expand_makefile_vars is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "sysconfig",
+        "shape": "call",
+        "symbol": "expand_makefile_vars"
+      }
+    ],
+    "vers": "vers:pypi/>=3.14"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

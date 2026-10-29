@@ -1,0 +1,59 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.process.tickcallback",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of process._tickCallback with code that no longer depends on it.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0134",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates process._tickCallback (DEP0134: documentation-only since v12.12.0).",
+    "title": "Process._tickCallback is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "shape": "reference",
+        "symbol": "process._tickCallback"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "shape": "reference",
+        "symbol": "process._tickCallback"
+      }
+    ],
+    "vers": "vers:semver/>=12.12.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

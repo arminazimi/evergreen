@@ -1,0 +1,72 @@
+{
+  "productId": "generic-kubernetes-apps-statefulset",
+  "productPath": "products/generic-kubernetes-apps-statefulset.json",
+  "rule": {
+    "deadline": "2019-09-18",
+    "ecosystem": "kubernetes",
+    "event": "removed",
+    "id": "kubernetes.apps.statefulset.v1beta2.removed",
+    "migration": {
+      "constraints": [
+        "Keep the resource's behavior unchanged: the same name, namespace, labels, and spec semantics.",
+        "The replacement (apps/v1 StatefulSet, available since v1.9) can differ in required fields or field names from the removed version; read the StatefulSet entry in the Kubernetes Deprecated API Migration Guide and convert the manifest accordingly."
+      ],
+      "steps": [
+        {
+          "id": "update-api-version",
+          "instructions": "Change the reported `apiVersion` to the replacement version (apps/v1 StatefulSet, available since v1.9).",
+          "targets": "declaration",
+          "title": "Change the StatefulSet apiVersion"
+        },
+        {
+          "id": "convert-fields",
+          "instructions": "Apply the field changes the migration guide lists for StatefulSet, then check the manifest still expresses the same intent.",
+          "targets": "declaration",
+          "title": "Convert fields the new version changed"
+        },
+        {
+          "id": "align-other-manifests",
+          "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old StatefulSet API version, so the repository agrees.",
+          "targets": "all",
+          "title": "Align other StatefulSet declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "kubeconform -strict -summary <manifest-paths>",
+          "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+        },
+        {
+          "command": "kubectl apply --dry-run=server -f <manifest-path>",
+          "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+        },
+        {
+          "command": "helm template <chart-path> | kubeconform -strict -",
+          "purpose": "For a Helm chart, render it and validate the output."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-20",
+      "reviewedAt": "2026-10-20",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/kubernetes/apps/StatefulSet",
+    "replacement": "apps/v1 StatefulSet, available since v1.9",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Kubernetes Deprecated API Migration Guide",
+        "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      },
+      {
+        "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+        "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+      }
+    ],
+    "summary": "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of StatefulSet is no longer served as of v1.16, which was released on 2019-09-18.",
+    "title": "StatefulSet apps/v1beta2 is no longer served",
+    "vers": "vers:semver/1.0.0-beta.2"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

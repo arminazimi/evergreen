@@ -1,0 +1,47 @@
+{
+  "productId": "generic-deno",
+  "productPath": "products/generic-deno.json",
+  "rule": {
+    "deadline": "2020-05-13",
+    "ecosystem": "deno",
+    "event": "end-of-life",
+    "id": "deno.runtime.eol-0.x",
+    "migration": {
+      "constraints": [
+        "Upgrade to Deno 2.0 or later."
+      ],
+      "steps": [
+        {
+          "id": "upgrade-deno-runtime",
+          "instructions": "Update the Deno version pin in deno.json, deno.jsonc, or environment setup to Deno 2.0 or later.",
+          "targets": "declaration",
+          "title": "Upgrade Deno runtime"
+        }
+      ],
+      "verification": [
+        {
+          "command": "deno --version",
+          "purpose": "Confirm active Deno runtime version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/deno",
+    "replacement": "Deno 2.0 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Deno 1.0.0 Release",
+        "url": "https://github.com/denoland/deno/releases/tag/v1.0.0"
+      }
+    ],
+    "summary": "Deno 0.x pre-release versions are obsolete and end-of-life following the release of Deno 1.0.0.",
+    "title": "Deno 0.x pre-release is end-of-life",
+    "vers": "vers:semver/>=0.1.0|<1.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

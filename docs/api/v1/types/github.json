@@ -1,0 +1,432 @@
+{
+  "products": [
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-cache",
+      "latestReview": "2026-10-14",
+      "name": "cache",
+      "namespace": "actions",
+      "path": "products/github-actions-cache.json",
+      "purl": "pkg:github/actions/cache",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-checkout",
+      "latestReview": "2026-10-14",
+      "name": "checkout",
+      "namespace": "actions",
+      "path": "products/github-actions-checkout.json",
+      "purl": "pkg:github/actions/checkout",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-configure-pages",
+      "latestReview": "2026-10-16",
+      "name": "configure-pages",
+      "namespace": "actions",
+      "path": "products/github-actions-configure-pages.json",
+      "purl": "pkg:github/actions/configure-pages",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-create-github-app-token",
+      "latestReview": "2026-10-16",
+      "name": "create-github-app-token",
+      "namespace": "actions",
+      "path": "products/github-actions-create-github-app-token.json",
+      "purl": "pkg:github/actions/create-github-app-token",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-deploy-pages",
+      "latestReview": "2026-10-16",
+      "name": "deploy-pages",
+      "namespace": "actions",
+      "path": "products/github-actions-deploy-pages.json",
+      "purl": "pkg:github/actions/deploy-pages",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "github-actions-download-artifact",
+      "latestReview": "2026-10-14",
+      "name": "download-artifact",
+      "namespace": "actions",
+      "path": "products/github-actions-download-artifact.json",
+      "purl": "pkg:github/actions/download-artifact",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-first-interaction",
+      "latestReview": "2026-10-16",
+      "name": "first-interaction",
+      "namespace": "actions",
+      "path": "products/github-actions-first-interaction.json",
+      "purl": "pkg:github/actions/first-interaction",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-github-script",
+      "latestReview": "2026-10-16",
+      "name": "github-script",
+      "namespace": "actions",
+      "path": "products/github-actions-github-script.json",
+      "purl": "pkg:github/actions/github-script",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-labeler",
+      "latestReview": "2026-10-16",
+      "name": "labeler",
+      "namespace": "actions",
+      "path": "products/github-actions-labeler.json",
+      "purl": "pkg:github/actions/labeler",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-dotnet",
+      "latestReview": "2026-10-16",
+      "name": "setup-dotnet",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-dotnet.json",
+      "purl": "pkg:github/actions/setup-dotnet",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-go",
+      "latestReview": "2026-10-16",
+      "name": "setup-go",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-go.json",
+      "purl": "pkg:github/actions/setup-go",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-java",
+      "latestReview": "2026-10-16",
+      "name": "setup-java",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-java.json",
+      "purl": "pkg:github/actions/setup-java",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-node",
+      "latestReview": "2026-10-14",
+      "name": "setup-node",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-node.json",
+      "purl": "pkg:github/actions/setup-node",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-setup-python",
+      "latestReview": "2026-10-16",
+      "name": "setup-python",
+      "namespace": "actions",
+      "path": "products/github-actions-setup-python.json",
+      "purl": "pkg:github/actions/setup-python",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-actions-stale",
+      "latestReview": "2026-10-16",
+      "name": "stale",
+      "namespace": "actions",
+      "path": "products/github-actions-stale.json",
+      "purl": "pkg:github/actions/stale",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "removed"
+      ],
+      "id": "github-actions-upload-artifact",
+      "latestReview": "2026-10-14",
+      "name": "upload-artifact",
+      "namespace": "actions",
+      "path": "products/github-actions-upload-artifact.json",
+      "purl": "pkg:github/actions/upload-artifact",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-astral-sh-setup-uv",
+      "latestReview": "2026-10-16",
+      "name": "setup-uv",
+      "namespace": "astral-sh",
+      "path": "products/github-astral-sh-setup-uv.json",
+      "purl": "pkg:github/astral-sh/setup-uv",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-bake-action",
+      "latestReview": "2026-10-16",
+      "name": "bake-action",
+      "namespace": "docker",
+      "path": "products/github-docker-bake-action.json",
+      "purl": "pkg:github/docker/bake-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-build-push-action",
+      "latestReview": "2026-10-16",
+      "name": "build-push-action",
+      "namespace": "docker",
+      "path": "products/github-docker-build-push-action.json",
+      "purl": "pkg:github/docker/build-push-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-login-action",
+      "latestReview": "2026-10-16",
+      "name": "login-action",
+      "namespace": "docker",
+      "path": "products/github-docker-login-action.json",
+      "purl": "pkg:github/docker/login-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-metadata-action",
+      "latestReview": "2026-10-16",
+      "name": "metadata-action",
+      "namespace": "docker",
+      "path": "products/github-docker-metadata-action.json",
+      "purl": "pkg:github/docker/metadata-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-setup-buildx-action",
+      "latestReview": "2026-10-16",
+      "name": "setup-buildx-action",
+      "namespace": "docker",
+      "path": "products/github-docker-setup-buildx-action.json",
+      "purl": "pkg:github/docker/setup-buildx-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-docker-setup-qemu-action",
+      "latestReview": "2026-10-16",
+      "name": "setup-qemu-action",
+      "namespace": "docker",
+      "path": "products/github-docker-setup-qemu-action.json",
+      "purl": "pkg:github/docker/setup-qemu-action",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-hashicorp-setup-terraform",
+      "latestReview": "2026-10-16",
+      "name": "setup-terraform",
+      "namespace": "hashicorp",
+      "path": "products/github-hashicorp-setup-terraform.json",
+      "purl": "pkg:github/hashicorp/setup-terraform",
+      "rules": 1,
+      "type": "github"
+    },
+    {
+      "earliestDeadline": "2026-09-23",
+      "ecosystems": [
+        "github-actions"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "github-softprops-action-gh-release",
+      "latestReview": "2026-10-16",
+      "name": "action-gh-release",
+      "namespace": "softprops",
+      "path": "products/github-softprops-action-gh-release.json",
+      "purl": "pkg:github/softprops/action-gh-release",
+      "rules": 1,
+      "type": "github"
+    }
+  ],
+  "rules": 25,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "github"
+}

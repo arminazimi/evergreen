@@ -1,0 +1,72 @@
+{
+  "productId": "npm-querystring",
+  "productPath": "products/npm-querystring.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.querystring.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve percent encoding, repeated keys, empty values, ordering, array handling, and input coercion expected by callers."
+      ],
+      "steps": [
+        {
+          "id": "replace-querystring",
+          "instructions": "Translate parse and stringify usages to URLSearchParams and remove the querystring dependency.",
+          "targets": "all",
+          "title": "Replace querystring"
+        },
+        {
+          "id": "verify-query-round-trips",
+          "instructions": "Compare representative and malformed inputs, including repeated keys and non-ASCII values, before and after migration.",
+          "targets": "usages",
+          "title": "Verify query-string behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run query parsing, serialization, and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/querystring",
+    "replacement": "URLSearchParams",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "querystring package deprecation notice",
+        "url": "https://www.npmjs.com/package/querystring"
+      },
+      {
+        "title": "querystring registry metadata",
+        "url": "https://registry.npmjs.org/querystring/latest"
+      }
+    ],
+    "summary": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
+    "title": "querystring is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "querystring"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "querystring"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "querystring"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

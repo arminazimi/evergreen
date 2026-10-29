@@ -1,0 +1,66 @@
+{
+  "productId": "generic-elixir",
+  "productPath": "products/generic-elixir.json",
+  "rule": {
+    "deadline": "2026-06-03",
+    "ecosystem": "elixir",
+    "event": "end-of-life",
+    "id": "elixir.runtime.eol-1.15",
+    "migration": {
+      "constraints": [
+        "Keep .tool-versions, mix.exs elixir:, CI setup-beam versions, and container images on one supported Elixir release line that the chosen Erlang/OTP also supports.",
+        "Confirm Hex dependencies compile on the target Elixir and re-resolve with mix deps.get after changing the runtime."
+      ],
+      "steps": [
+        {
+          "id": "update-elixir-declaration",
+          "instructions": "Change the reported declaration from Elixir 1.15 to a supported release (see the replacement), using the project's existing version manager.",
+          "targets": "declaration",
+          "title": "Raise the Elixir version"
+        },
+        {
+          "id": "align-elixir-surfaces",
+          "instructions": "Update mix.exs elixir:, .tool-versions, CI setup-beam versions, and Dockerfile elixir images so they agree.",
+          "targets": "all",
+          "title": "Align other Elixir version surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "elixir --version",
+          "purpose": "Confirm the active Elixir runtime is the intended release."
+        },
+        {
+          "command": "mix deps.get && mix compile",
+          "purpose": "Re-resolve dependencies and compile on the new Elixir."
+        },
+        {
+          "command": "mix test",
+          "purpose": "Run the Mix test suite on the new Elixir."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/elixir",
+    "replacement": "Elixir 1.16 or later",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Elixir security policy",
+        "url": "https://github.com/elixir-lang/elixir/security/policy"
+      },
+      {
+        "title": "Elixir v1.20.0 release",
+        "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.20.0"
+      }
+    ],
+    "summary": "Elixir's security policy provides security patches only for the five most recent minor branches. Elixir 1.15 left that window when Elixir 1.20 shipped on 2026-06-03, so the branch no longer receives security patches from the Elixir project.",
+    "title": "Elixir 1.15 no longer receives security updates",
+    "vers": "vers:semver/>=1.15.0|<1.16.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

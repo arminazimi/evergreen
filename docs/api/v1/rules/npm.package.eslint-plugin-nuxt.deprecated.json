@@ -1,0 +1,78 @@
+{
+  "productId": "npm-eslint-plugin-nuxt",
+  "productPath": "products/npm-eslint-plugin-nuxt.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.eslint-plugin-nuxt.deprecated",
+    "migration": {
+      "constraints": [
+        "Keep the Nuxt-specific lint rules and options the project currently enables."
+      ],
+      "steps": [
+        {
+          "id": "replace-eslint-plugin-nuxt",
+          "instructions": "Replace eslint-plugin-nuxt with @nuxt/eslint-plugin in devDependencies and in the ESLint configuration.",
+          "targets": "all",
+          "title": "Replace the plugin package"
+        },
+        {
+          "id": "port-nuxt-lint-rules",
+          "instructions": "Move the enabled Nuxt rules and their options into the configuration shape the new plugin expects.",
+          "targets": "usages",
+          "title": "Port the enabled rules"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run lint --if-present",
+          "purpose": "Run the linter with the new plugin and compare the findings."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/eslint-plugin-nuxt",
+    "replacement": "@nuxt/eslint-plugin",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "eslint-plugin-nuxt on npm",
+        "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+      },
+      {
+        "title": "eslint-plugin-nuxt registry metadata",
+        "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+      }
+    ],
+    "summary": "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\"",
+    "title": "eslint-plugin-nuxt is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "eslint-plugin-nuxt"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "eslint-plugin-nuxt"
+      },
+      {
+        "key": "extends",
+        "kind": "config-key",
+        "language": "json",
+        "valueIncludes": "nuxt"
+      }
+    ],
+    "vers": "vers:npm/*",
+    "x-npm": {
+      "package": "eslint-plugin-nuxt"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

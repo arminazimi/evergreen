@@ -1,0 +1,65 @@
+{
+  "productId": "npm-types-react-window",
+  "productPath": "products/npm-types-react-window.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "deprecated",
+    "id": "npm.package.types.react-window.deprecated",
+    "migration": {
+      "constraints": [
+        "@types/react-window only declares types; react-window now ships its own declarations, so no conflicting ambient definition may remain."
+      ],
+      "steps": [
+        {
+          "id": "remove-types-package",
+          "instructions": "Remove @types/react-window from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+          "targets": "declaration",
+          "title": "Remove the stub types package"
+        },
+        {
+          "id": "use-bundled-types",
+          "instructions": "Keep react-window on a version that ships its own type definitions and import its types from react-window.",
+          "targets": "usages",
+          "title": "Use the bundled declarations"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Type-check and build with react-window's own declarations."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "npm-deprecated",
+      "observedAt": "2026-10-19",
+      "reviewedAt": "2026-10-19",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40types/react-window",
+    "replacement": "react-window",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "@types/react-window on npm",
+        "url": "https://www.npmjs.com/package/@types/react-window"
+      },
+      {
+        "title": "@types/react-window version metadata",
+        "url": "https://registry.npmjs.org/@types%2freact-window"
+      }
+    ],
+    "summary": "npm marks @types/react-window as deprecated: \"This is a stub types definition. react-window provides its own type definitions, so you do not need this installed.\"",
+    "title": "@types/react-window is deprecated",
+    "usage": [],
+    "vers": "vers:npm/2.0.0",
+    "x-npm": {
+      "package": "@types/react-window"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

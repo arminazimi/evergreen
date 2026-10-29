@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "elixir"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "hex-fennec",
+      "latestReview": "2026-10-26",
+      "name": "fennec",
+      "path": "products/hex-fennec.json",
+      "purl": "pkg:hex/fennec",
+      "rules": 1,
+      "type": "hex"
+    }
+  ],
+  "rules": 1,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "hex"
+}

@@ -1,0 +1,86 @@
+{
+  "productId": "npm-angular-core",
+  "productPath": "products/npm-angular-core.json",
+  "rule": {
+    "ecosystem": "npm",
+    "event": "end-of-support",
+    "id": "npm.package.angular.core.v19.end-of-support",
+    "migration": {
+      "constraints": [
+        "Update one major at a time. ng update accepts only a supported target major, and v20 is the only one-major target from v19.",
+        "v20 is LTS until 2026-11-28. After that date the one-major step from v19 is no longer supported by the release policy, so follow the Angular Update Guide for the path."
+      ],
+      "steps": [
+        {
+          "id": "update-to-v20",
+          "instructions": "Run `ng update @angular/core@20 @angular/cli@20` before 2026-11-28, then apply the v20 steps in the Angular Update Guide.",
+          "targets": "all",
+          "title": "Update to Angular v20"
+        },
+        {
+          "id": "update-to-v21",
+          "instructions": "After the v20 build and tests pass, run `ng update @angular/core@21 @angular/cli@21` and apply the v21 steps in the Angular Update Guide.",
+          "targets": "all",
+          "title": "Update to Angular v21"
+        },
+        {
+          "id": "update-to-v22",
+          "instructions": "After the v21 build and tests pass, run `ng update @angular/core@22 @angular/cli@22` and apply the v22 steps in the Angular Update Guide.",
+          "targets": "all",
+          "title": "Update to Angular v22"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm ls @angular/core",
+          "purpose": "Confirm that @angular/core resolves to the target major."
+        },
+        {
+          "command": "npm run build --if-present",
+          "purpose": "Build the application on the target major."
+        },
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the unit tests when the project defines them."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:npm/%40angular/core",
+    "replacement": "@angular/core@22",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "Angular release and support schedule",
+        "url": "https://angular.dev/reference/releases"
+      },
+      {
+        "title": "Angular Update Guide",
+        "url": "https://angular.dev/update-guide"
+      }
+    ],
+    "summary": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.",
+    "title": "@angular/core v19 is no longer supported",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "javascript",
+        "module": "@angular/core"
+      },
+      {
+        "kind": "import",
+        "language": "typescript",
+        "module": "@angular/core"
+      }
+    ],
+    "vers": "vers:npm/>=19.0.0-0|<20.0.0-0",
+    "x-npm": {
+      "package": "@angular/core"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

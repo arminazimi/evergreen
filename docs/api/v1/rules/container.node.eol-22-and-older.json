@@ -1,0 +1,63 @@
+{
+  "productId": "docker-library-node",
+  "productPath": "products/docker-library-node.json",
+  "rule": {
+    "deadline": "2027-04-30",
+    "ecosystem": "container",
+    "event": "scheduled-end-of-life",
+    "id": "container.node.eol-22-and-older",
+    "migration": {
+      "constraints": [
+        "Keep the Dockerfile base image, Compose image, CI service containers, and the engines field in package.json on one supported Node.js release line.",
+        "Confirm native modules and production dependencies support the target Node.js major."
+      ],
+      "steps": [
+        {
+          "id": "update-image-declaration",
+          "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+          "targets": "declaration",
+          "title": "Update the base image"
+        },
+        {
+          "id": "align-image-surfaces",
+          "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+          "targets": "all",
+          "title": "Align other image references"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker build .",
+          "purpose": "Build the image on the new base."
+        },
+        {
+          "command": "docker run --rm IMAGE node --version",
+          "purpose": "Confirm the container runs the intended Node.js version."
+        }
+      ]
+    },
+    "provenance": {
+      "importer": "container-official-images",
+      "observedAt": "2026-10-24",
+      "reviewedAt": "2026-10-24",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:docker/library/node",
+    "replacement": "A node image on a later supported release line, such as node:24",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Node.js end-of-life releases",
+        "url": "https://nodejs.org/en/about/eol"
+      },
+      {
+        "title": "Node.js Release Working Group schedule",
+        "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+      }
+    ],
+    "summary": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.",
+    "title": "Node.js image release line 22 reaches end-of-life on 2027-04-30",
+    "vers": "vers:semver/>=22.0.0|<23.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

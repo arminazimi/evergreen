@@ -1,6 +1,6 @@
 # OpenAPI description of the static lifecycle API generated under docs/api/v1/.
 # Served with the pages site at https://arminazimi.github.io/evergreen/api/openapi.yaml.
-# Response shapes come from schemas/api-product.v1.schema.json ($defs index, product, recent).
+# Response shapes come from schemas/api-product.v1.schema.json ($defs index, product, recent, type, ruleDocument).
 
 openapi: 3.1.0
 info:
@@ -26,7 +26,7 @@ paths:
       summary: Product index
       description: |
         Sorted list of every product identity in the registry, with a pointer to
-        each product document and to `recent.json`.
+        each product document, the PURL types, and `recent.json`.
       responses:
         "200":
           description: Index of products and aggregate counts.
@@ -57,6 +57,52 @@ paths:
             application/json:
               schema:
                 $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/product"
+
+  /v1/rules/{id}.json:
+    get:
+      operationId: getRule
+      summary: Rule document
+      description: |
+        One registry rule, keyed by its rule id (for example
+        `npm.package.request.deprecated`), with a pointer to its product document.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Registry rule id.
+          schema:
+            type: string
+            pattern: "^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+      responses:
+        "200":
+          description: Rule document with its product link.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/ruleDocument"
+
+  /v1/types/{type}.json:
+    get:
+      operationId: getType
+      summary: PURL type document
+      description: |
+        One PURL type (`npm`, `pypi`, …) and every product of that type, with a
+        pointer to each product document.
+      parameters:
+        - name: type
+          in: path
+          required: true
+          description: PURL type (for example `npm`).
+          schema:
+            type: string
+            pattern: "^[a-z][a-z0-9.+-]*$"
+      responses:
+        "200":
+          description: Products of one PURL type.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/type"
 
   /v1/recent.json:
     get:

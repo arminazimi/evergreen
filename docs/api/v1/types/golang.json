@@ -1,0 +1,103 @@
+{
+  "products": [
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-cloud-google-com-go-pubsub",
+      "latestReview": "2026-10-20",
+      "name": "pubsub",
+      "namespace": "cloud.google.com/go",
+      "path": "products/golang-cloud-google-com-go-pubsub.json",
+      "purl": "pkg:golang/cloud.google.com/go/pubsub",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-cncf-udpa-go",
+      "latestReview": "2026-10-20",
+      "name": "go",
+      "namespace": "github.com/cncf/udpa",
+      "path": "products/golang-github-com-cncf-udpa-go.json",
+      "purl": "pkg:golang/github.com/cncf/udpa/go",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-discord-lilliput",
+      "latestReview": "2026-10-20",
+      "name": "lilliput",
+      "namespace": "github.com/discord",
+      "path": "products/golang-github-com-discord-lilliput.json",
+      "purl": "pkg:golang/github.com/discord/lilliput",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-golang-protobuf",
+      "latestReview": "2026-10-20",
+      "name": "protobuf",
+      "namespace": "github.com/golang",
+      "path": "products/golang-github-com-golang-protobuf.json",
+      "purl": "pkg:golang/github.com/golang/protobuf",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-github-com-streadway-amqp",
+      "latestReview": "2026-10-20",
+      "name": "amqp",
+      "namespace": "github.com/streadway",
+      "path": "products/golang-github-com-streadway-amqp.json",
+      "purl": "pkg:golang/github.com/streadway/amqp",
+      "rules": 1,
+      "type": "golang"
+    },
+    {
+      "ecosystems": [
+        "go"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "golang-go-opentelemetry-io-otel-exporters-zipkin",
+      "latestReview": "2026-10-20",
+      "name": "zipkin",
+      "namespace": "go.opentelemetry.io/otel/exporters",
+      "path": "products/golang-go-opentelemetry-io-otel-exporters-zipkin.json",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/zipkin",
+      "rules": 1,
+      "type": "golang"
+    }
+  ],
+  "rules": 6,
+  "schemaVersion": "evergreen.api-type.v1",
+  "type": "golang"
+}

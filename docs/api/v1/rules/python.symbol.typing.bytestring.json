@@ -1,0 +1,55 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.typing.bytestring",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of typing.ByteString with collections.abc.Buffer, or an explicit union.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "collections.abc.Buffer, or an explicit union",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Python deprecations: pending removal in 3.17",
+        "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+      }
+    ],
+    "summary": "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.",
+    "title": "Typing.ByteString is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "typing",
+        "shape": "reference",
+        "symbol": "ByteString"
+      }
+    ],
+    "vers": "vers:pypi/>=3.9"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

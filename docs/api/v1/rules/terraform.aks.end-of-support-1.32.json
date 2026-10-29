@@ -1,0 +1,73 @@
+{
+  "productId": "generic-azure-kubernetes-service",
+  "productPath": "products/generic-azure-kubernetes-service.json",
+  "rule": {
+    "deadline": "2026-03-31",
+    "ecosystem": "terraform",
+    "event": "end-of-support",
+    "id": "terraform.aks.end-of-support-1.32",
+    "migration": {
+      "constraints": [
+        "AKS upgrades one minor version at a time and upgrades the control plane before the agent pools.",
+        "Long-term support is opt-in per cluster; without it, a version stops receiving patches at the end of its 12-month support window.",
+        "An agent pool cannot run a newer version than its control plane, so raise the control plane and the pools together."
+      ],
+      "steps": [
+        {
+          "id": "raise-kubernetes-version",
+          "instructions": "Set kubernetes_version to the release in the replacement, then run terraform plan and apply the control-plane upgrade.",
+          "targets": "declaration",
+          "title": "Raise the cluster version"
+        },
+        {
+          "id": "raise-node-pools",
+          "instructions": "Raise each azurerm_kubernetes_cluster_node_pool orchestrator_version so the agent pools match the new control plane.",
+          "targets": "all",
+          "title": "Raise the agent pools"
+        },
+        {
+          "id": "review-removed-apis",
+          "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+          "targets": "all",
+          "title": "Remove APIs the new version deleted"
+        }
+      ],
+      "verification": [
+        {
+          "command": "terraform init -backend=false && terraform validate",
+          "purpose": "Initialize without touching remote state and check that the configuration is valid."
+        },
+        {
+          "command": "terraform plan",
+          "purpose": "Review the plan and confirm the control-plane and agent-pool changes are the intended ones."
+        },
+        {
+          "command": "az aks show --resource-group <group> --name <cluster> --query kubernetesVersion",
+          "purpose": "Confirm the control plane reports the new version."
+        },
+        {
+          "command": "kubectl version",
+          "purpose": "Confirm kubectl and the API server agree on the version."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-26",
+      "reviewedAt": "2026-10-26",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/azure-kubernetes-service",
+    "replacement": "Azure Kubernetes Service 1.35 or later",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+        "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      }
+    ],
+    "summary": "AKS 1.32 reached the end of its 12-month support window on 2026-03-31. Long-term support, which must be enabled for a cluster, ends on 2027-03-31.",
+    "title": "AKS 1.32 is past its 12-month support window",
+    "vers": "vers:semver/>=1.32.0|<1.33.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

@@ -1,0 +1,58 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.http.server.cgihttprequesthandler",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of http.server.CGIHTTPRequestHandler with code that no longer depends on it.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "What's New in Python 3.13",
+        "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      },
+      {
+        "title": "Python deprecations: pending removal in 3.15",
+        "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+      }
+    ],
+    "summary": "Python 3.13 deprecates http.server.CGIHTTPRequestHandler, to be removed in Python 3.15.",
+    "title": "Http.server.CGIHTTPRequestHandler is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "http.server",
+        "shape": "reference",
+        "symbol": "CGIHTTPRequestHandler"
+      }
+    ],
+    "vers": "vers:pypi/>=3.13"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

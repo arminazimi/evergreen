@@ -1,0 +1,58 @@
+{
+  "productId": "docker-library-mysql",
+  "productPath": "products/docker-library-mysql.json",
+  "rule": {
+    "deadline": "2026-04-21",
+    "ecosystem": "container",
+    "event": "end-of-life",
+    "id": "container.mysql.eol-8.0-and-older",
+    "migration": {
+      "constraints": [
+        "A new MySQL release line can need a data directory upgrade; read the upgrade notes and take a backup before starting the new image on existing data.",
+        "Check SQL modes, authentication plugins, and client libraries against the target release."
+      ],
+      "steps": [
+        {
+          "id": "update-image-declaration",
+          "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+          "targets": "declaration",
+          "title": "Update the base image"
+        },
+        {
+          "id": "align-image-surfaces",
+          "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+          "targets": "all",
+          "title": "Align other image references"
+        }
+      ],
+      "verification": [
+        {
+          "command": "docker compose config",
+          "purpose": "Validate the Compose file after changing the image tag."
+        },
+        {
+          "command": "docker compose run --rm db mysqld --version",
+          "purpose": "Confirm the database container runs the intended release (service name may differ)."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:docker/library/mysql",
+    "replacement": "A mysql image on a supported release such as the 8.4 LTS line",
+    "severity": "high",
+    "sources": [
+      {
+        "title": "MySQL end-of-life notice",
+        "url": "https://www.mysql.com/support/eol-notice.html"
+      }
+    ],
+    "summary": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
+    "title": "MySQL image release lines 8.0 and older are past end-of-life",
+    "vers": "vers:semver/<8.1.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

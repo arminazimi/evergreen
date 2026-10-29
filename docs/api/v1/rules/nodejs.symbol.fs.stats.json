@@ -1,0 +1,75 @@
+{
+  "productId": "generic-nodejs",
+  "productPath": "products/generic-nodejs.json",
+  "rule": {
+    "ecosystem": "nodejs",
+    "event": "deprecated",
+    "id": "nodejs.symbol.fs.stats",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each reported use of the fs.Stats constructor with code that no longer depends on it.",
+          "targets": "usages",
+          "title": "Replace the usage"
+        }
+      ],
+      "verification": [
+        {
+          "command": "npm run test --if-present",
+          "purpose": "Run the repository tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/nodejs",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "Node.js deprecations: DEP0180",
+        "url": "https://nodejs.org/api/deprecations.html"
+      }
+    ],
+    "summary": "Node.js deprecates the fs.Stats constructor (DEP0180: documentation-only since v20.13.0, runtime deprecation since v22.0.0).",
+    "title": "The fs.Stats constructor is deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "fs",
+        "shape": "construct",
+        "symbol": "Stats"
+      },
+      {
+        "kind": "symbol",
+        "language": "javascript",
+        "module": "fs",
+        "shape": "call",
+        "symbol": "Stats"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "fs",
+        "shape": "construct",
+        "symbol": "Stats"
+      },
+      {
+        "kind": "symbol",
+        "language": "typescript",
+        "module": "fs",
+        "shape": "call",
+        "symbol": "Stats"
+      }
+    ],
+    "vers": "vers:semver/>=22.0.0"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

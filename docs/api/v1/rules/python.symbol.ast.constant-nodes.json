@@ -1,0 +1,83 @@
+{
+  "productId": "generic-python",
+  "productPath": "products/generic-python.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.symbol.ast.constant-nodes",
+    "migration": {
+      "constraints": [
+        "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+      ],
+      "steps": [
+        {
+          "id": "replace-symbol",
+          "instructions": "Replace each class with ast.Constant and read .value instead of .n, .s or .value of the old node.",
+          "targets": "usages",
+          "title": "Use ast.Constant"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -W error::DeprecationWarning -m pytest",
+          "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-21",
+      "reviewedAt": "2026-10-21",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/python",
+    "replacement": "ast.Constant",
+    "severity": "low",
+    "sources": [
+      {
+        "title": "Python deprecations: pending removal in 3.14",
+        "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+      }
+    ],
+    "summary": "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.",
+    "title": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated",
+    "usage": [
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "ast",
+        "shape": "reference",
+        "symbol": "Num"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "ast",
+        "shape": "reference",
+        "symbol": "Str"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "ast",
+        "shape": "reference",
+        "symbol": "Bytes"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "ast",
+        "shape": "reference",
+        "symbol": "NameConstant"
+      },
+      {
+        "kind": "symbol",
+        "language": "python",
+        "module": "ast",
+        "shape": "reference",
+        "symbol": "Ellipsis"
+      }
+    ],
+    "vers": "vers:pypi/>=3.8"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

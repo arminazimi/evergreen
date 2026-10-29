@@ -1,0 +1,57 @@
+{
+  "productId": "pypi-batchnotebook",
+  "productPath": "products/pypi-batchnotebook.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.batchnotebook.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve notebook input and output paths, cell execution order, timeouts, errors, kernel selection, and rendered report artifacts."
+      ],
+      "steps": [
+        {
+          "id": "replace-batchnotebook",
+          "instructions": "Move notebook execution to runipy as recommended by the maintainer, or to the maintained notebook execution facility selected by the project, then remove BatchNotebook.",
+          "targets": "all",
+          "title": "Replace BatchNotebook"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run notebook execution, timeout, failure, output, and project tests when defined."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/batchnotebook",
+    "replacement": "runipy",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "BatchNotebook deprecation notice",
+        "url": "https://pypi.org/project/BatchNotebook/"
+      }
+    ],
+    "summary": "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.",
+    "title": "BatchNotebook is deprecated",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "batchnotebook"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "batchnotebook"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

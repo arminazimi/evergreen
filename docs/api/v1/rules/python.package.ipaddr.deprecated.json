@@ -1,0 +1,63 @@
+{
+  "productId": "pypi-ipaddr",
+  "productPath": "products/pypi-ipaddr.json",
+  "rule": {
+    "ecosystem": "python",
+    "event": "deprecated",
+    "id": "python.package.ipaddr.deprecated",
+    "migration": {
+      "constraints": [
+        "Preserve IPv4 and IPv6 parsing, strictness, network boundaries, address ordering, exception behavior, and text formatting."
+      ],
+      "steps": [
+        {
+          "id": "replace-ipaddr",
+          "instructions": "Replace the dependency and translate IPAddress, IPNetwork, and related usages to the standard-library ipaddress API.",
+          "targets": "all",
+          "title": "Replace ipaddr"
+        },
+        {
+          "id": "verify-address-edge-cases",
+          "instructions": "Test IPv4, IPv6, malformed input, host bits, networks, containment, and serialization used by the application.",
+          "targets": "usages",
+          "title": "Verify address behavior"
+        }
+      ],
+      "verification": [
+        {
+          "command": "python -m pytest",
+          "purpose": "Run networking edge cases and repository tests."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-16",
+      "reviewedAt": "2026-10-16",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:pypi/ipaddr",
+    "replacement": "ipaddress",
+    "severity": "medium",
+    "sources": [
+      {
+        "title": "ipaddr supersession notice",
+        "url": "https://pypi.org/project/ipaddr/"
+      }
+    ],
+    "summary": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
+    "title": "ipaddr is superseded",
+    "usage": [
+      {
+        "kind": "import",
+        "language": "python",
+        "module": "ipaddr"
+      }
+    ],
+    "vers": "vers:pypi/*",
+    "x-python": {
+      "kind": "package",
+      "package": "ipaddr"
+    }
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}
