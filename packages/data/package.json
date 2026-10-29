@@ -1,0 +1,28 @@
+{
+  "name": "evergreen-data",
+  "version": "0.7.1",
+  "description": "Evergreen lifecycle registry JSON and schemas only — no scanner, CLI, or executable code.",
+  "keywords": [
+    "deprecation",
+    "end-of-life",
+    "eol",
+    "lifecycle",
+    "registry",
+    "evergreen"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arminazimi/evergreen.git",
+    "directory": "packages/data"
+  },
+  "homepage": "https://arminazimi.github.io/evergreen/",
+  "bugs": "https://github.com/arminazimi/evergreen/issues",
+  "license": "Apache-2.0",
+  "files": [
+    "registry",
+    "schemas"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
