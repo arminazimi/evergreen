@@ -57,6 +57,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-13.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-14.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-1.0.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>

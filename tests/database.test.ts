@@ -83,6 +83,7 @@ test("database passes detector conformance on every fixture", async () => {
   const rules = await committedRules();
   const postgres = rules.find((item) => item.id === "database.postgresql.end-of-life-12")!;
   const mysql = rules.find((item) => item.id === "database.mysql.end-of-life-5.7")!;
+  const redis = rules.find((item) => item.id === "database.redis.end-of-life-7.0")!;
   const azurePostgres = rules.find((item) => item.id === "database.azure-postgresql.standard-support-ended-11-to-13")!;
   const googleMysql = rules.find((item) => item.id === "database.google-cloud-sql-mysql.extended-support-5.6-to-5.7")!;
   await runDetectorConformance({
@@ -94,6 +95,7 @@ test("database passes detector conformance on every fixture", async () => {
         expectedFindings: [
           expected(postgres, "compose.yaml", 3, `compose.yaml runs postgres:12. ${postgres.summary}`),
           expected(mysql, "compose.yaml", 7, `compose.yaml runs mysql:5.7. ${mysql.summary}`),
+          expected(redis, "compose.yaml", 11, `compose.yaml runs redis:7.0. ${redis.summary}`),
         ],
       },
       {
@@ -280,6 +282,15 @@ test("a migration packet for a Compose finding names the file, steps, and verifi
     ["back-up-data", "upgrade-data", "raise-declared-version", "align-clients"],
   );
   assert.ok(packet.verification.some((check) => check.command === "docker compose config"));
+});
+
+test("a Redis 7.0 tag is reported, while 7.4 and a tag with no minor version are not", async () => {
+  const rule = (await committedRules()).find((item) => item.id === "database.redis.end-of-life-7.0")!;
+  const root = await repository({
+    "compose.yaml": "services:\n  a:\n    image: redis:7.0\n  b:\n    image: redis:7.0.15-alpine\n  c:\n    image: redis:7.4\n  d:\n    image: redis:7\n",
+  });
+  const findings = (await databaseDetector.scan({ root })).filter((finding) => finding.ruleId === rule.id);
+  assert.deepEqual(findings.map((finding) => [finding.location.line, finding.severity, finding.deadline]), [[3, "high", "2024-07-29"], [5, "high", "2024-07-29"]]);
 });
 
 test("a scheduled PostgreSQL line is reported at low severity, for the tag that names it and not for a newer one", async () => {

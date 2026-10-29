@@ -24,10 +24,12 @@ test("parses database image tags from compose with exact lines", async () => {
   assert.deepEqual(parseDatabaseCompose(await fixture("positive/compose.yaml")), [
     { product: "postgres", value: "12", line: 3 },
     { product: "mysql", value: "5.7", line: 7 },
+    { product: "redis", value: "7.0", line: 11 },
   ]);
   assert.deepEqual(parseDatabaseCompose(await fixture("zero/compose.yaml")), [
     { product: "postgres", value: "17", line: 3 },
     { product: "mysql", value: "8.4", line: 7 },
+    { product: "redis", value: "7.4", line: 11 },
   ]);
 });
 
