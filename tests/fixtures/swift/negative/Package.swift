@@ -8,7 +8,10 @@ let banner = "Built with swift-tools-version:5.9"
 
 let package = Package(
     name: "Negative",
-    platforms: [.macOS(.v13)],
+    platforms: [.iOS(.v12)],
+    products: [
+        .library(name: "Negative", targets: ["Negative"]),
+    ],
     dependencies: [
         .package(path: "../LocalKit"),
         .package(url: "https://github.com/example/library", from: Version(libraryVersion)!),

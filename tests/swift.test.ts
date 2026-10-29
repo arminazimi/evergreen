@@ -248,6 +248,18 @@ test("the detector is registered and Swift is beta in the capability manifest", 
   });
 });
 
+test("library Package.swift platforms: [.iOS(.v12)] never yields App Store deployment-target findings", async () => {
+  const findings = await swiftDetector.scan({ root: resolve(fixtures, "negative") });
+  assert.deepEqual(
+    findings.filter(
+      (finding) =>
+        finding.ruleId.includes("app-store") ||
+        /app store|deployment.?target|IPHONEOS_DEPLOYMENT_TARGET/i.test(`${finding.ruleId} ${finding.summary} ${finding.title}`),
+    ),
+    [],
+  );
+});
+
 test("reports an app target's iOS deployment target below 13 from project.pbxproj, and never a library's", async () => {
   const appProject = [
     "// !$*UTF8*$!",
