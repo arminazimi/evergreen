@@ -81,9 +81,16 @@ inputs:
     required: false
     default: "false"
   github-token:
-    description: Token used to post the pull request comment when pr-comment is true.
+    description: Token used to post the pull request comment or update the tracking issue when either is enabled.
     required: false
     default: ${{ github.token }}
+  tracking-issue:
+    description: >-
+      Keep one issue up to date on schedule and workflow_dispatch runs. It lists findings by
+      end-of-life date, says what changed since the last run, and closes when nothing is left.
+      Needs the issues: write permission on the job.
+    required: false
+    default: "false"
   attribution:
     description: >-
       Add one line to the job summary that says the scan was done by Evergreen and links to it.
@@ -128,6 +135,7 @@ runs:
         INPUT_UPLOAD-SARIF: ${{ inputs.upload-sarif }}
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
+        INPUT_TRACKING-ISSUE: ${{ inputs.tracking-issue }}
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
