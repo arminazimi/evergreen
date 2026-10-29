@@ -390,6 +390,27 @@ export async function checkListings(input: {
   };
 }
 
+/** Escapes a cell so `|` and `\` cannot break a Markdown table row. */
+export function escapeMarkdownTableCell(value: string): string {
+  return value.replaceAll("\\", "\\\\").replaceAll("|", "\\|");
+}
+
+/**
+ * True when `candidate` is the same listing location as `listingUrl`: same host and path.
+ * Uses the URL parser so a lookalike host (for example modelcontextprotocolXio) does not match.
+ */
+export function sameListingLocation(candidate: string, listingUrl: string): boolean {
+  let left: URL;
+  let right: URL;
+  try {
+    left = new URL(candidate);
+    right = new URL(listingUrl);
+  } catch {
+    return false;
+  }
+  return left.hostname === right.hostname && left.pathname === right.pathname;
+}
+
 export function renderSummary(report: CheckReport): string {
   const counts = {
     current: report.results.filter((r) => r.status === "current").length,
@@ -413,7 +434,7 @@ export function renderSummary(report: CheckReport): string {
   ];
   for (const result of report.results) {
     const observed = result.observedVersion ?? "—";
-    const detail = (result.detail ?? "").replace(/\|/g, "\\|");
+    const detail = escapeMarkdownTableCell(result.detail ?? "");
     lines.push(`| [${result.name}](${result.url}) | ${result.status} | ${observed} | ${detail} |`);
   }
   lines.push("");

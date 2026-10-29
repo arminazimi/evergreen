@@ -11,6 +11,7 @@ import {
   checkListing,
   checkListings,
   ensureStaleIssue,
+  escapeMarkdownTableCell,
   extractDockerServerYaml,
   extractHtmlSemver,
   extractOfficialRegistryLatest,
@@ -20,6 +21,7 @@ import {
   readExpectedVersion,
   renderStaleIssueBody,
   renderSummary,
+  sameListingLocation,
   type IssueClient,
   type Listing,
   type TextFetcher,
@@ -209,9 +211,32 @@ test("parseArguments and main write a report without touching the network", asyn
 test("docs/MCP_LISTINGS.md names every catalog directory", async () => {
   const doc = await readFile(resolve("docs/MCP_LISTINGS.md"), "utf8");
   for (const entry of LISTINGS) {
-    assert.match(doc, new RegExp(entry.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    assert.match(doc, new RegExp(entry.url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.ok(doc.includes(entry.name), `docs/MCP_LISTINGS.md must name ${entry.name}`);
+    assert.ok(doc.includes(entry.url), `docs/MCP_LISTINGS.md must include ${entry.url}`);
   }
+});
+
+test("sameListingLocation compares host and path without regex host matching", () => {
+  const official = "https://registry.modelcontextprotocol.io/v0/servers?search=evergreen";
+  assert.equal(sameListingLocation(official, official), true);
+  assert.equal(
+    sameListingLocation("https://registry.modelcontextprotocol.io/v0/servers?search=other", official),
+    true,
+  );
+  assert.equal(
+    sameListingLocation("https://registry.modelcontextprotocolXio/v0/servers?search=evergreen", official),
+    false,
+  );
+  assert.equal(sameListingLocation("https://hub.docker.com/mcp", "https://hub.docker.com/mcp"), true);
+  assert.equal(sameListingLocation("https://hub.dockerXcom/mcp", "https://hub.docker.com/mcp"), false);
+  assert.equal(sameListingLocation("https://www.pulsemcp.com/", "https://www.pulsemcp.com"), true);
+  assert.equal(sameListingLocation("not a url", official), false);
+});
+
+test("escapeMarkdownTableCell escapes backslash before pipe", () => {
+  assert.equal(escapeMarkdownTableCell("a|b"), "a\\|b");
+  assert.equal(escapeMarkdownTableCell("a\\b"), "a\\\\b");
+  assert.equal(escapeMarkdownTableCell("a\\|b"), "a\\\\\\|b");
 });
 
 test("main returns 1 when a listing is stale", async () => {
