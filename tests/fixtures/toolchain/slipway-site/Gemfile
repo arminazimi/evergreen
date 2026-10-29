@@ -1,0 +1,5 @@
+source "https://rubygems.org"
+
+# The GitHub Pages environment: the Jekyll and plugins GitHub runs for the site.
+gem "github-pages", "~> 232"
+gem "jekyll-feed", "~> 0.17.0"

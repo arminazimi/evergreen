@@ -1,0 +1,6 @@
+title: Slipway-shaped site
+description: A small Jekyll site of the kind Slipway ships, built for Evergreen's toolchain tests.
+url: https://example.com
+theme: minima
+plugins:
+  - jekyll-feed
