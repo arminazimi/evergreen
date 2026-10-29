@@ -8,7 +8,8 @@ import { parse } from "yaml";
 import { API_DIRECTORY, PRODUCTS_DIRECTORY, buildFiles, loadRegistries } from "../tools/build-data-api.js";
 
 const OPENAPI_PATH = "docs/api/openapi.yaml";
-const SCHEMA_REF_PREFIX = "../../schemas/api-product.v1.schema.json#/$defs/";
+const SCHEMA_REF_PREFIX =
+  "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/";
 
 interface OpenApiDocument {
   openapi?: string;
@@ -24,6 +25,19 @@ interface PathItem {
       }
     >;
   };
+}
+
+/** Collects every `$ref` string anywhere in the parsed OpenAPI document. */
+function collectRefs(value: unknown, refs: string[] = []): string[] {
+  if (Array.isArray(value)) {
+    for (const item of value) collectRefs(item, refs);
+  } else if (typeof value === "object" && value !== null) {
+    for (const [key, item] of Object.entries(value as Record<string, unknown>)) {
+      if (key === "$ref" && typeof item === "string") refs.push(item);
+      else collectRefs(item, refs);
+    }
+  }
+  return refs;
 }
 
 /** Maps a repository-relative generated file to the OpenAPI path that describes it. */
@@ -62,6 +76,10 @@ test("OpenAPI describes the static API and links each path to its JSON Schema", 
   for (const path of expectedPaths) {
     const ref = responseSchemaRef(doc, path);
     assert.equal(ref, schemaRefFor(path), `${path} must $ref its JSON Schema $def`);
+  }
+
+  for (const ref of collectRefs(doc)) {
+    assert.ok(!ref.startsWith("."), `$ref must be absolute (got ${ref})`);
   }
 });
 

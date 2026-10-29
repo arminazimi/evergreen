@@ -9,7 +9,7 @@ info:
     Read-only JSON documents generated from `registry/*.json`. The pages site
     serves `docs/`, so these paths are published under `/evergreen/api/`. Every
     document validates against
-    [api-product.v1.schema.json](https://github.com/arminazimi/evergreen/blob/main/schemas/api-product.v1.schema.json).
+    [api-product.v1.schema.json](https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json).
   version: "1.0.0"
   license:
     name: MIT
@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../../schemas/api-product.v1.schema.json#/$defs/index"
+                $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/index"
 
   /v1/products/{id}.json:
     get:
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../../schemas/api-product.v1.schema.json#/$defs/product"
+                $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/product"
 
   /v1/recent.json:
     get:
@@ -70,4 +70,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "../../schemas/api-product.v1.schema.json#/$defs/recent"
+                $ref: "https://raw.githubusercontent.com/arminazimi/evergreen/main/schemas/api-product.v1.schema.json#/$defs/recent"
