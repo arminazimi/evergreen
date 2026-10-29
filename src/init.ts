@@ -7,6 +7,7 @@ import { updateAgentFile } from "./init-agents.js";
 import type { AgentFileName } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import type { InitHooksResult } from "./init-hooks.js";
+import { findPackageFile, readBoundedFile } from "./package-files.js";
 import { planSetup } from "./setup.js";
 import type { SetupEntry } from "./setup.js";
 import { VERSION } from "./version.js";
@@ -14,6 +15,11 @@ import { VERSION } from "./version.js";
 export const CI_WORKFLOW_FILE = ".github/workflows/evergreen.yml";
 
 const GITLAB_INCLUDE_SNIPPET = "include:\n  - component: $CI_SERVER_FQDN/<group>/<project>/evergreen@<version>";
+
+const SITE_STARTER_DIRECTORY = "examples/starters/slipway";
+
+/** A `gem` line that declares the Slipway theme; a commented-out line never matches because the pattern anchors on `gem`. */
+const SLIPWAY_THEME_GEM = /^\s*gem\s+["']slipway(?:-theme)?["']/m;
 
 /** The GitHub Actions workflow `init` generates for a detected GitHub Actions repository. */
 export function ciWorkflow(gate: Severity): string {
@@ -59,6 +65,16 @@ export interface InitStep {
   hosts: string[];
 }
 
+/** A site stack `init` recognizes, and the starter files this package ships for it. */
+export interface SiteStarterSuggestion {
+  /** "Slipway" when the Gemfile names the Slipway theme; "Jekyll" for every other Jekyll site. */
+  stack: "Jekyll" | "Slipway";
+  /** The starter directory inside this package: `examples/starters/slipway/`. */
+  directory: string;
+  /** The exact command that copies the starter into the repository root. */
+  command: string;
+}
+
 export interface InitSetupPlan {
   /** The absolute repository root the plan was built for. */
   root: string;
@@ -66,6 +82,8 @@ export interface InitSetupPlan {
   detectedCi: string[];
   /** Agent host labels detected (Claude Code, Codex, …); empty when none. */
   detectedAgents: string[];
+  /** The Jekyll or Slipway site detected; undefined for every other repository. */
+  site?: SiteStarterSuggestion;
   steps: InitStep[];
 }
 
@@ -116,9 +134,32 @@ async function fallbackAgentEntry(root: string, file?: AgentFileName): Promise<S
 }
 
 /**
+ * Detects a Jekyll site by `_config.yml` plus a `Gemfile`, and Slipway when the Gemfile declares the Slipway theme.
+ * The files are read as text and never executed, and nothing is copied: the plan carries the command for the starter
+ * files this package ships. Returns undefined for every other repository.
+ */
+async function planSiteStarter(root: string): Promise<SiteStarterSuggestion | undefined> {
+  if (!(await exists(resolve(root, "_config.yml")))) return undefined;
+  const gemfile = await readBoundedFile(resolve(root, "Gemfile")).catch(() => undefined);
+  if (gemfile === undefined) return undefined;
+  const directory = dirname(await findPackageFile(`${SITE_STARTER_DIRECTORY}/README.md`, import.meta.url));
+  return {
+    stack: gemfile.contents !== undefined && SLIPWAY_THEME_GEM.test(gemfile.contents) ? "Slipway" : "Jekyll",
+    directory,
+    command: `cp -R ${JSON.stringify(directory)}/. ${JSON.stringify(root)}`,
+  };
+}
+
+/** The lines `init` prints for a detected site stack: the stack, the exact copy command, and that nothing was copied. */
+export function siteSuggestion(site: SiteStarterSuggestion): string {
+  return `Detected a ${site.stack} site. Evergreen ships a starter for it; copy it with:\n\n  ${site.command}\n\nNothing was copied.\n`;
+}
+
+/**
  * Works out what `evergreen init` would offer and change in a repository, without writing anything: the CI provider it
  * detects (GitHub Actions gets a workflow, GitLab CI/CD gets the component include to add by hand), the Git pre-push
  * hook, and the Evergreen section for the agent hosts it detects (defaulting to AGENTS.md when none are found).
+ * A Jekyll or Slipway site also gets the command that copies the starter files, which `init` never runs itself.
  * A damaged Evergreen marker in any agent file fails the plan, like `setup` does.
  */
 export async function planInitSetup(input: InitSetupInput): Promise<InitSetupPlan> {
@@ -154,7 +195,8 @@ export async function planInitSetup(input: InitSetupInput): Promise<InitSetupPla
   const entries = agents.entries.length > 0 ? agents.entries : [await fallbackAgentEntry(root, input.file)];
   for (const entry of entries) steps.push(toAgentStep(entry));
 
-  return { root, detectedCi: [...detectedCi], detectedAgents: agents.detected, steps };
+  const site = await planSiteStarter(root);
+  return { root, detectedCi: [...detectedCi], detectedAgents: agents.detected, steps, ...(site ? { site } : {}) };
 }
 
 /** One-line summary of what a plan writes, used for the confirmation prompt. */

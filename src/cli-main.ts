@@ -22,7 +22,7 @@ import { guardCommand, GuardUsageError } from "./guard.js";
 import { initAgents } from "./init-agents.js";
 import { initHooks } from "./init-hooks.js";
 import { hasPersonalConfig, initPersonal } from "./init-personal.js";
-import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary } from "./init.js";
+import { planInitSetup, applyInitSetup, hasWritables, initAgent, planSummary, siteSuggestion } from "./init.js";
 import type { InitStep } from "./init.js";
 import { renderUsageText, summarizeUsage, usageLogPath } from "./usage-log.js";
 import { applySetup, planSetup } from "./setup.js";
@@ -303,6 +303,7 @@ async function guidedInit(options: { root: string; gate: Severity; dryRun?: bool
   }
   const plan = await planInitSetup({ root: options.root, gate: options.gate, ...(options.file ? { file: options.file } : {}) });
   process.stdout.write(`Detected: ${plan.detectedCi.length > 0 ? plan.detectedCi.join(" and ") : "no CI"}; ${plan.detectedAgents.length > 0 ? plan.detectedAgents.join(", ") : "no agent hosts"}\n`);
+  if (plan.site) process.stdout.write(siteSuggestion(plan.site));
   if (options.dryRun) {
     printGuidedSteps(plan.steps, options.dryRun === true, options.gate);
     process.stdout.write("Dry run: nothing was written.\n");
