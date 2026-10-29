@@ -14,10 +14,12 @@ Include the affected version, impact, reproduction, and any suggested mitigation
 
 Evergreen treats scanned repository contents as untrusted data. Core scans run locally, registry entries are data rather than executable plugins, and the MCP server uses local stdio. Migration verification commands are suggestions and are never executed by Evergreen automatically. Review commands and code changes under the normal authorization policy of your environment.
 
-The published package can read the filesystem, read environment variables, spawn child processes (including local `git` and, for `guard`, a package manager), and make outbound HTTP requests. Scans and the local MCP server use none of the network path. The commands that do use each capability — and only those — are listed in the [command and surface access](docs/PRIVACY.md#command-and-surface-access) table. In short:
+Lifecycle evidence travels through a signed [data channel](docs/DATA.md): each release ships rules in the package; between releases you can fetch newer rules only by running `evergreen data update` yourself. Bundles are Sigstore-signed, verified offline against a trusted root that ships in the package, and refused (with a fallback to the bundled rules) when verification fails. You can pin an exact bundle for reproducible CI. There is no Evergreen-operated backend and no account. The [threat model](docs/THREAT_MODEL.md) records what each surface trusts; the [command and surface access](docs/PRIVACY.md#command-and-surface-access) table lists every capability.
 
-- **Network:** `evergreen data update` (signed public releases you opt into) and, in the GitHub Action only, an optional pull-request comment via the GitHub API when `pr-comment` is enabled.
-- **Child processes:** local `git` / `tar` for `diff` and `fix --branch`, hook/path helpers for `init`, optional editor spawn for interactive scan, fixed version probes for `doctor --system`, and the package manager `guard` runs after a passing check.
+The published package can read the filesystem, read environment variables, spawn child processes (including local `git` and, for `guard`, a package manager), and make outbound HTTP requests. Scans and the local MCP server use none of the network path. In short:
+
+- **Network:** `evergreen data update` (signed public releases you opt into) and, in the GitHub Action only, an optional pull-request comment via the GitHub API when `pr-comment` is enabled. The GitLab CI/CD component never calls an API. Package install (`npm` / `npx`) is outside the scan path.
+- **Child processes:** local `git` / `tar` for `diff` and `fix --branch`, optional local `git remote get-url` for `badge --snippet` when `--repo` is omitted, hook/path helpers for `init`, optional editor spawn for interactive scan, fixed version probes for `doctor --system`, and the package manager `guard` runs after a passing check.
 - **Filesystem and env:** reading the authorized repository is the product; writes and env reads are limited to the rows in that table (baselines, status files, caches, agent instruction files, proxies, and data-pin variables).
 
 ## OpenSSF Scorecard
