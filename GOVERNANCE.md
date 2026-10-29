@@ -14,7 +14,7 @@ It does not repeat the contribution workflow ([CONTRIBUTING.md](CONTRIBUTING.md)
 
 A coding agent has no separate standing: the account that opens the pull request is responsible for it, and the agent follows the same issue lanes, briefs, and gates as a person.
 
-There is no steering committee or formal vote. The current maintainer grants maintainer access and records it in [`.github/CODEOWNERS`](.github/CODEOWNERS). Detector owners are added by a pull request that names them in `MAINTAINERS.md` and `.github/CODEOWNERS`; `MAINTAINERS.md` and the per-ecosystem entries arrive with [#266](https://github.com/arminazimi/evergreen/issues/266). Until then, the maintainer is the default owner of every detector.
+There is no steering committee or formal vote. The current maintainer grants maintainer access and records it in [`.github/CODEOWNERS`](.github/CODEOWNERS). Detector owners are named in [`MAINTAINERS.md`](MAINTAINERS.md) and the matching per-ecosystem lines in [`.github/CODEOWNERS`](.github/CODEOWNERS). Until another contributor adopts an ecosystem, the maintainer is the owner of every detector.
 
 ### Maintainer responsibilities
 
@@ -77,7 +77,7 @@ A rule's `provenance.reviewer` and `provenance.reviewedAt` record who last check
 1. Anyone can report an unowned detector or rule by opening an issue with `area: detector`, the ecosystem's `eco: <name>` label, and `help wanted`, or by commenting on an existing ownership issue.
 2. If the named owner has not responded to review or ownership requests for 30 days, the maintainer treats the detector as unowned and becomes its interim owner. The 30-day window is the same one [Decision 0013](docs/decisions/0013-detector-maturity.md) uses for a quality demotion.
 3. The maintainer keeps an adoption issue open and reviews changes in the meantime, so the detector keeps shipping and its evidence does not go unreviewed.
-4. An adopter takes ownership through a pull request that adds them to `MAINTAINERS.md` and `.github/CODEOWNERS` (once #266 has added those per-ecosystem entries) and reviews the detector page, fixtures, and maturity record. Until then, the maintainer remains the fallback owner.
+4. An adopter takes ownership through a pull request that adds them to [`MAINTAINERS.md`](MAINTAINERS.md) and the matching lines in [`.github/CODEOWNERS`](.github/CODEOWNERS) and reviews the detector page, fixtures, and maturity record. Until an adopter lands, the maintainer remains the fallback owner.
 
 ### What does not change when ownership is lost
 

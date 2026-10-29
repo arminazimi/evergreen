@@ -243,7 +243,7 @@ See [the roadmap](docs/ROADMAP.md), [architecture](docs/ARCHITECTURE.md), [brand
 
 ## Community
 
-Questions, ideas, and things you built with Evergreen belong in [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions): use **Q&A** to ask, **Ideas** to propose, and **Show and tell** to share. Use issues for bugs, lifecycle rule requests, and ecosystem requests. How decisions are made, who reviews what, and what happens when a detector loses its owner is in [GOVERNANCE.md](GOVERNANCE.md).
+Questions, ideas, and things you built with Evergreen belong in [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions): use **Q&A** to ask, **Ideas** to propose, and **Show and tell** to share. Use issues for bugs, lifecycle rule requests, and ecosystem requests. How decisions are made, who reviews what, and what happens when a detector loses its owner is in [GOVERNANCE.md](GOVERNANCE.md). Who owns each detector is in [MAINTAINERS.md](MAINTAINERS.md).
 
 ## Contributors
 

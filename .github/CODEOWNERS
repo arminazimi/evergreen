@@ -1,10 +1,98 @@
 # Maintainer review is required where correctness matters most.
 # Lifecycle evidence, public contracts, and CI/release automation.
+# Per-ecosystem detector owners are listed in /MAINTAINERS.md.
 
-/registry/                @arminazimi
 /schemas/                 @arminazimi
 /src/sdk.ts               @arminazimi
 /src/domain.ts            @arminazimi
 /.github/workflows/       @arminazimi
 /.github/CODEOWNERS       @arminazimi
+/MAINTAINERS.md           @arminazimi
 /action.yml               @arminazimi
+
+# Shared registry data (not a single ecosystem).
+/registry/osv.json                @arminazimi
+/registry/sources.lock.json       @arminazimi
+
+# Detector owners — one accountable reviewer per ecosystem.
+# Last matching pattern wins; keep ecosystem pairs adjacent.
+
+/src/detectors/android/           @arminazimi
+/registry/android.json            @arminazimi
+
+/src/detectors/ci-images/         @arminazimi
+/registry/ci-images.json          @arminazimi
+
+/src/detectors/container/         @arminazimi
+/registry/container.json          @arminazimi
+
+/src/detectors/cpp/               @arminazimi
+/registry/cpp.json                @arminazimi
+
+/src/detectors/dart/              @arminazimi
+/registry/dart.json               @arminazimi
+
+/src/detectors/database/          @arminazimi
+/registry/database.json           @arminazimi
+
+/src/detectors/deno/              @arminazimi
+/registry/deno.json               @arminazimi
+
+/src/detectors/dotnet/            @arminazimi
+/registry/dotnet.json             @arminazimi
+
+/src/detectors/elixir/            @arminazimi
+/registry/elixir.json             @arminazimi
+
+/src/detectors/github-actions.ts         @arminazimi
+/src/detectors/github-actions-node.ts    @arminazimi
+/src/detectors/github-actions-dotnet.ts  @arminazimi
+/registry/github-actions.json            @arminazimi
+/registry/github-actions-shas.json       @arminazimi
+
+/src/detectors/go/                @arminazimi
+/registry/go.json                 @arminazimi
+
+/src/detectors/java/              @arminazimi
+/registry/java.json               @arminazimi
+
+/src/detectors/kubernetes/        @arminazimi
+/registry/kubernetes.json         @arminazimi
+
+# Node.js runtime rules share the npm detector implementation.
+/src/detectors/npm.ts             @arminazimi
+/registry/nodejs.json             @arminazimi
+/registry/npm.json                @arminazimi
+
+/src/detectors/php/               @arminazimi
+/registry/php.json                @arminazimi
+
+/src/detectors/python.ts          @arminazimi
+/registry/python.json             @arminazimi
+
+/src/detectors/ruby/              @arminazimi
+/registry/ruby.json               @arminazimi
+
+/src/detectors/rust/              @arminazimi
+/registry/rust.json               @arminazimi
+
+/src/detectors/scala/             @arminazimi
+/registry/scala.json              @arminazimi
+
+/src/detectors/serverless/        @arminazimi
+/registry/serverless.json         @arminazimi
+
+/src/detectors/shell/             @arminazimi
+/registry/shell.json              @arminazimi
+
+/src/detectors/swift/             @arminazimi
+/registry/swift.json              @arminazimi
+
+/src/detectors/terraform/         @arminazimi
+/registry/terraform.json          @arminazimi
+
+# CLE ingest reads packaged cle.json; no ecosystem registry file.
+/src/cle-ingest.ts                @arminazimi
+
+# Catch-all for other registry paths (new ecosystems land here until listed above).
+/registry/                        @arminazimi
