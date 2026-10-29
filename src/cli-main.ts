@@ -55,6 +55,7 @@ import { STATUS_FILE_NAME, writeStatusFile } from "./status-file.js";
 import { browseFindings, canBrowse } from "./tui.js";
 import { VERSION } from "./version.js";
 import { exportActiveCle } from "./export/cle.js";
+import { exportPortal, portalReportLink } from "./export/portal.js";
 import {
   invalidConfig,
   isOfflineDataUpdateFailure,
@@ -104,6 +105,7 @@ Usage:
   evergreen mcp
   evergreen data status [--json]
   evergreen export --format cle [--data-version <version>]   # CLE 1.0 snapshots, one JSON document per line and component; skipped rules reported on stderr
+  evergreen export --format portal [path...] [--data-version <version>] [--report-base-url <url>]   # developer-portal catalog: severity counts, next end-of-life date, and report link per scanned path
   evergreen sbom enrich <bom.json> [--data-version <version>]   # print enriched CycloneDX or SPDX 2.3 JSON; leaves the input unchanged
   evergreen watch add|remove <path>   # register a project for the digest
   evergreen watch [run] [--weekly] [--json]   # re-scan registered projects, print only what changed
@@ -746,6 +748,7 @@ async function main(rawArgs: string[]): Promise<number> {
     "--ignore",
     "--only",
     "--exclude",
+    "--report-base-url",
   ]);
   const positional: string[] = [];
   for (let index = 1; index < args.length; index += 1) {
@@ -824,15 +827,37 @@ async function main(rawArgs: string[]): Promise<number> {
     }
   }
   if (command === "export") {
+    const reportBaseIndex = args.indexOf("--report-base-url");
+    const reportBaseUrl = reportBaseIndex === -1 ? undefined : args[reportBaseIndex + 1];
+    if (reportBaseIndex !== -1 && (reportBaseUrl === undefined || reportBaseUrl.startsWith("-"))) {
+      return fail("usage", "--report-base-url needs a URL, for example https://ci.example.com/artifacts/.");
+    }
     const operands = args.slice(1).filter((_, index) =>
       index + 1 !== formatIndex && index + 1 !== formatIndex + 1 &&
-      (dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1)));
-    if (format !== "cle" || operands.length > 0) {
-      return fail("usage", "Usage: evergreen export --format cle [--data-version <version>]");
+      (dataVersionIndex === -1 || (index + 1 !== dataVersionIndex && index + 1 !== dataVersionIndex + 1)) &&
+      (reportBaseIndex === -1 || (index + 1 !== reportBaseIndex && index + 1 !== reportBaseIndex + 1)));
+    const exportUsage = "Usage: evergreen export --format cle|portal [path...] [--data-version <version>] [--report-base-url <url>]";
+    if (format !== "cle" && format !== "portal") {
+      return fail("usage", exportUsage);
     }
-    const result = await exportActiveCle();
-    for (const document of result.documents) process.stdout.write(`${JSON.stringify(document)}\n`);
-    if (result.skipped > 0) process.stderr.write(`Skipped ${result.skipped} rules: CLE requires a dated component lifecycle event; deprecation, removal, symbol rules, and undated rules cannot be faithfully represented.\n`);
+    if (format === "cle") {
+      if (operands.length > 0 || reportBaseIndex !== -1) return fail("usage", "Usage: evergreen export --format cle [--data-version <version>]");
+      const result = await exportActiveCle();
+      for (const document of result.documents) process.stdout.write(`${JSON.stringify(document)}\n`);
+      if (result.skipped > 0) process.stderr.write(`Skipped ${result.skipped} rules: CLE requires a dated component lifecycle event; deprecation, removal, symbol rules, and undated rules cannot be faithfully represented.\n`);
+      return 0;
+    }
+    if (operands.some((operand) => operand.startsWith("-"))) {
+      return fail("usage", exportUsage);
+    }
+    const paths = operands.length > 0 ? operands : ["."];
+    const multi = await scanProjects(paths, builtInDetectors, { noCache: args.includes("--no-cache") || process.env.EVERGREEN_NO_CACHE === "1" });
+    const catalog = exportPortal(multi.projects.map((project) => ({
+      path: project.path,
+      findings: project.result.findings,
+      reportLink: portalReportLink(project.path, reportBaseUrl),
+    })));
+    process.stdout.write(`${JSON.stringify(catalog, null, 2)}\n`);
     return 0;
   }
   if (formatIndex !== -1 && format !== "text" && format !== "json" && format !== "markdown" && format !== "junit" && format !== "sarif" && format !== "rdjson" && format !== "codequality" && format !== "compact" && format !== "html" && format !== "slack" && format !== "teams" && format !== "webhook") {

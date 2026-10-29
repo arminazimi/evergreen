@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/portal.v1.schema.json",
+  "title": "Evergreen developer-portal catalog v1",
+  "description": "Per-scanned-path summary for developer portals: finding counts by severity, the next end-of-life date, and a report link. Produced by `evergreen export --format portal`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "services"],
+  "properties": {
+    "schemaVersion": { "const": "evergreen.portal.v1" },
+    "services": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/service" }
+    }
+  },
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "severityCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["info", "low", "medium", "high", "critical"],
+      "properties": {
+        "info": { "type": "integer", "minimum": 0 },
+        "low": { "type": "integer", "minimum": 0 },
+        "medium": { "type": "integer", "minimum": 0 },
+        "high": { "type": "integer", "minimum": 0 },
+        "critical": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "severities", "reportLink"],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/nonEmpty",
+          "description": "Repository or service path that was scanned."
+        },
+        "severities": { "$ref": "#/$defs/severityCounts" },
+        "nextEndOfLife": {
+          "$ref": "#/$defs/date",
+          "description": "Earliest finding deadline among findings for this path, when any finding has one."
+        },
+        "reportLink": {
+          "$ref": "#/$defs/nonEmpty",
+          "description": "URI or relative artifact name for the detailed Evergreen report for this path."
+        }
+      }
+    }
+  }
+}
