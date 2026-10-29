@@ -56,6 +56,8 @@ The level in parentheses is the detector's maturity; the full list with each lev
 
 ## Quickstart
 
+The [five-step quickstart](docs/QUICKSTART.md) has copy-paste commands and expected output for each step.
+
 Requirements: Node.js 22 or newer.
 
 ```bash

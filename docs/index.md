@@ -11,6 +11,7 @@ hosted service.
 
 ## Start here
 
+- [Five-step quickstart](QUICKSTART.md)
 - [90-second demo](DEMO.md)
 - [v0.1 validation results](VALIDATION.md)
 - [Environment doctor and compatibility matrix](COMPATIBILITY.md)
