@@ -1,0 +1,9 @@
+{
+  "name": "@seaworthy/action",
+  "version": "0.1.0",
+  "description": "Runs Seaworthy in a GitHub Actions workflow.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@seaworthy/mcp",
+  "version": "0.1.0",
+  "description": "Exposes Seaworthy's checks to coding agents over MCP.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "node-sass": "9.0.0"
+  }
+}

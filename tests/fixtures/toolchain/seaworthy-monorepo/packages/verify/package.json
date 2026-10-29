@@ -1,0 +1,12 @@
+{
+  "name": "@seaworthy/verify",
+  "version": "0.1.0",
+  "description": "Checks a built static site and returns a versioned report.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "request": "2.88.2"
+  }
+}

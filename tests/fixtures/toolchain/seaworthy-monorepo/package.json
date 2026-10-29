@@ -1,0 +1,15 @@
+{
+  "name": "seaworthy-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Seaworthy-shaped workspace: a verifier, a GitHub Action, and an MCP server.",
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -b packages/verify packages/action packages/mcp",
+    "test": "npm run build && node --test \"packages/*/dist/**/*.test.js\""
+  }
+}
