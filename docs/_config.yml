@@ -7,6 +7,8 @@ plugins:
   - jekyll-remote-theme
   - jekyll-seo-tag
   - jekyll-optional-front-matter
+include:
+  - .well-known
 defaults:
   - scope:
       path: ""

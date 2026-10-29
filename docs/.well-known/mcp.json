@@ -1,0 +1,71 @@
+{
+  "name": "io.github.arminazimi/evergreen",
+  "title": "Evergreen",
+  "description": "Evidence-backed deprecation and end-of-life checks for dependencies, runtimes, and Actions.",
+  "version": "0.7.1",
+  "websiteUrl": "https://arminazimi.github.io/evergreen/",
+  "documentationUrl": "https://arminazimi.github.io/evergreen/MCP.html",
+  "repository": {
+    "url": "https://github.com/arminazimi/evergreen",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "evergreen-deprecation",
+      "version": "0.7.1",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ]
+    }
+  ],
+  "transport": {
+    "type": "stdio"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true
+  },
+  "tools": [
+    {
+      "name": "scan_repository",
+      "description": "Run all built-in Evergreen detectors against a local repository and return the complete versioned scan result."
+    },
+    {
+      "name": "list_deprecations",
+      "description": "Run a fresh local scan and return a compact, versioned list of lifecycle findings."
+    },
+    {
+      "name": "explain_deprecation",
+      "description": "Run a fresh local scan and return one complete evidence-backed finding by ID."
+    },
+    {
+      "name": "create_migration_context",
+      "description": "Create a validated, rule-specific migration packet for one finding from a fresh local scan."
+    },
+    {
+      "name": "verify_migration",
+      "description": "Re-scan locally and check whether a finding observed earlier in this MCP session is gone. Suggested project commands are returned but never executed."
+    },
+    {
+      "name": "check_dependency",
+      "description": "Check one package, and optionally one version, against Evergreen's lifecycle rules before adding it. Pass a Package URL such as pkg:npm/request@2.88.2. no-data means Evergreen has no rule for the package, not that it is safe."
+    },
+    {
+      "name": "forecast_repository",
+      "description": "Run a fresh local scan and list what reaches a dated end of life in the next months, grouped by month. Only events that carry an authoritative date are listed."
+    }
+  ],
+  "authentication": {
+    "required": false
+  }
+}
