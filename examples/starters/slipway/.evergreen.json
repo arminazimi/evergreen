@@ -1,0 +1,6 @@
+{
+  "$schema": "https://github.com/arminazimi/evergreen/schemas/config.v1.schema.json",
+  "schemaVersion": "evergreen.config.v1",
+  "failOn": "high",
+  "ignore": ["_site/", ".jekyll-cache/", ".bundle/", "vendor/"]
+}
