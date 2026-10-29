@@ -4,6 +4,46 @@ Thanks for helping make software lifecycle changes easier to discover and migrat
 
 Coding agents, and people working with them, should also read [AGENTS.md](AGENTS.md). Questions and ideas go to [GitHub Discussions](https://github.com/arminazimi/evergreen/discussions).
 
+## Five-minute path to your first pull request
+
+You need Node.js 22 or newer, git, and a GitHub account. The details for each step are in the sections below.
+
+1. **Fork and clone.**
+
+   ```bash
+   git clone https://github.com/<your-account>/evergreen.git
+   cd evergreen
+   ```
+
+2. **Install and confirm the baseline.**
+
+   ```bash
+   npm ci
+   npm run check
+   ```
+
+   The check must pass before you change anything. If it fails on a clean clone, open a bug report.
+
+3. **Pick a `good first issue` and comment to claim it.** Browse [the open good first issues](https://github.com/arminazimi/evergreen/issues?q=is%3Aopen+label%3A%22good+first+issue%22), choose one whose **Depends on** issues are closed, and say you are taking it.
+
+4. **Branch, then make the change named in the issue brief.** Follow the brief's files and steps, and add or update a test when behavior changes.
+
+   ```bash
+   git switch -c <type>/<issue-number>-<short-name>
+   ```
+
+5. **Run the gate, commit, and open a pull request.**
+
+   ```bash
+   npm run check
+   git commit -am "docs: describe the change"
+   git push -u origin HEAD
+   ```
+
+   Use a Conventional Commits subject (`feat:`, `fix:`, `docs:`, `test:`, `chore:`) and put `Closes #<issue-number>` in the pull request body. One issue per pull request.
+
+That is the whole loop. The sections below explain the labels, the optional pre-push hook, how to add a lifecycle rule, the evidence policy, and the review expectations.
+
 ## Find an issue
 
 Every roadmap issue belongs to a phase milestone and is small enough for one pull request. Two labels tell you whether it fits you:
