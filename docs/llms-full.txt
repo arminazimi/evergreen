@@ -514,7 +514,8 @@ does not provide a `with` entry.
 | `suggest-fixes` | `false` | In diff mode, post one review whose `suggestion` blocks apply the deterministic fixes for findings on lines the pull request changed. Re-runs update the same review. Needs `pull-requests: write`; pull requests from forks are skipped. |
 | `commands` | `false` | Set to `true` to answer `/evergreen explain` and `/evergreen ignore` comments when the workflow runs on `issue_comment`. Replies only to owners, members, and collaborators. Needs `pull-requests: write`. |
 | `fix-pr` | `false` | Set to `true` to open or update one pull request on `evergreen/fixes` with every deterministic fix, and close it when nothing is left to fix. Runs only on `schedule` and `workflow_dispatch` events. Needs `contents: write` and `pull-requests: write`. See [scheduled fix pull request](#scheduled-fix-pull-request). |
-| `github-token` | `${{ github.token }}` | Token used to post the comment, command reply, or fix suggestions when `pr-comment`, `commands`, or `suggest-fixes` is `true`, and to open, update, or close the fix pull request when `fix-pr` is `true`. |
+| `tracking-issue` | `false` | Set to `true` in a scheduled workflow to keep one issue listing findings by end-of-life date. Re-runs update the same issue; it closes when nothing is left and reopens when findings return. Needs `issues: write`. |
+| `github-token` | `${{ github.token }}` | Token used to post the comment, command reply, or fix suggestions when `pr-comment`, `commands`, or `suggest-fixes` is `true`, to open, update, or close the fix pull request when `fix-pr` is `true`, and to update the tracking issue when `tracking-issue` is `true`. |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
@@ -603,6 +604,37 @@ Nothing is pushed. The reviewer adds the entry to the file named by the `baselin
 
 Comment text is untrusted input. Evergreen reads the first line that starts with `/evergreen`, parses it, and never evaluates it; file paths and ids from the comment are rendered as code, never as links. A reply is written only when the comment's `author_association` is `OWNER`, `MEMBER`, or `COLLABORATOR`; a command from anyone else, or a comment on an issue rather than a pull request, is skipped and logged as a notice. The finding comes from a local scan of the checked-out pull request head, so the scan stays offline and runs no repository code. Each reply carries a hidden marker and is updated on a re-run instead of being posted twice.
 
+## Lifecycle tracking issue
+
+Set `tracking-issue: true` to keep one issue that lists what ends soon, without gating a build. On `schedule` and `workflow_dispatch` runs the Action finds the issue by a hidden marker, updates it, or creates it. Findings are sorted by end-of-life date with a link to the exact file and line, and a "Changed since the last run" table names what appeared and what is gone. When a scan finds nothing, the issue closes with an explanatory body; the next run that finds a lifecycle risk reopens it.
+
+```yaml
+name: Evergreen lifecycle tracking
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays 07:00 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: evergreen-tracking-issue
+  cancel-in-progress: false
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: arminazimi/evergreen@v0.7.1
+        with:
+          tracking-issue: "true"
+          fail-on-severity: none # the issue is the signal; do not fail the schedule
+```
+
+The marker is a hidden HTML comment, so the issue body stays readable and a re-run recognizes its own issue. The previous run's findings live in another hidden marker; that snapshot is how the next run says what changed. Do not edit or delete the markers: without them the next run creates a new issue. The scan stays offline; only updating the issue calls the GitHub API, and the job needs `issues: write`. Pull request tokens are read-only, so the input acts only on `schedule` and `workflow_dispatch` runs.
+
+The Action looks for its issue among the 1,000 most recently updated issues. On a repository with more issue activity than that while the tracking issue is closed, it can fall outside the window and a second issue is created; delete one and the next run updates the other. GitHub caps issue bodies at 65,536 characters, so the findings table is shortened when needed while the hidden snapshot keeps tracking every finding; if even the shortened body would exceed the cap, the Action logs a warning and leaves the issue unchanged.
+
 ## Pull request diff mode
 
 `finding-count` and the severity gate cover every finding in the checkout. On a busy repository that backlog grows, so reviewers cannot see which findings a pull request actually introduced. `mode: diff` fixes that: the Action scans the pull request base and head refs with the same engine as `evergreen diff`, and the gate, annotations, badge, comment, and summary count only what the pull request introduced. Findings the pull request fixes are listed in a "Fixed by this pull request" table in the summary and the pull request comment.
@@ -684,7 +716,7 @@ Every run force-pushes `evergreen/fixes`, and the pull request is found by its h
 
 ## Permissions and privacy
 
-Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`, `commands: true`, or `suggest-fixes: true`; it then writes one pull request comment, command reply, or review of suggestions, each found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands. With `fix-pr: true` it also needs `contents: write` (to push `evergreen/fixes`) and `pull-requests: write` (to open, update, or close the fix pull request).
+Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`, `commands: true`, or `suggest-fixes: true`; it then writes one pull request comment, command reply, or review of suggestions, each found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands. `tracking-issue: true` needs `issues: write`; it updates one issue, also found by a hidden marker, and touches nothing else. With `fix-pr: true` it also needs `contents: write` (to push `evergreen/fixes`) and `pull-requests: write` (to open, update, or close the fix pull request).
 
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 
