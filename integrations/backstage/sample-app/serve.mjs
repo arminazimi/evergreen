@@ -240,7 +240,8 @@ const server = createServer(async (req, res) => {
     res.writeHead(404).end("Not found");
   } catch (error) {
     res.writeHead(500, { "content-type": "text/plain; charset=utf-8" });
-    res.end(error instanceof Error ? error.message : String(error));
+    console.error(error);
+    res.end("Internal server error");
   }
 });
 

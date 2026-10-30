@@ -95,7 +95,10 @@ export function highestSeverity(service: PortalService): Severity | "none" {
 }
 
 function normalizePath(path: string): string {
-  return path.trim().replace(/\/+$/, "");
+  const trimmed = path.trim();
+  let end = trimmed.length;
+  while (end > 0 && trimmed[end - 1] === "/") end -= 1;
+  return trimmed.slice(0, end);
 }
 
 function basename(path: string): string {

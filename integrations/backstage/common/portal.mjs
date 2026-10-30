@@ -109,7 +109,10 @@ export function highestSeverity(service) {
  * @param {string} path
  */
 function normalizePath(path) {
-  return path.trim().replace(/\/+$/, "");
+  const trimmed = path.trim();
+  let end = trimmed.length;
+  while (end > 0 && trimmed[end - 1] === "/") end -= 1;
+  return trimmed.slice(0, end);
 }
 
 /**
