@@ -40,6 +40,7 @@ async function repositoryWithFinding(): Promise<{ root: string; remote: string }
   git(root, ["init", "-q", "-b", "main"]);
   git(root, ["config", "user.email", "evergreen@example.com"]);
   git(root, ["config", "user.name", "Evergreen test"]);
+  git(root, ["config", "core.autocrlf", "false"]);
   git(root, ["add", "."]);
   git(root, ["commit", "-q", "-m", "init"]);
 
