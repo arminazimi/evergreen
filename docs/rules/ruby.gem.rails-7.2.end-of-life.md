@@ -2,6 +2,7 @@
 title: "Rails 7.2 is end-of-life — dates, impact, migration"
 description: "The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails end-of-support announcement set its security support deadline to 2026-08-09."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html"
+json_twin: "/rules/ruby.gem.rails-7.2.end-of-life.json"
 ---
 
 # Rails 7.2 is end-of-life

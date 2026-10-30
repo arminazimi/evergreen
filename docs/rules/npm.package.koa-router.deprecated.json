@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.koa-router.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/koa-router",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "koa-router is deprecated",
+  "summary": "npm marks koa-router as deprecated: \"Please use @koa/router instead, starting from v9!\"",
+  "replacement": "@koa/router",
+  "sources": [
+    {
+      "title": "koa-router on npm",
+      "url": "https://www.npmjs.com/package/koa-router"
+    },
+    {
+      "title": "koa-router registry metadata",
+      "url": "https://registry.npmjs.org/koa-router/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve route paths, parameter names, middleware order, allowed methods, and error handling."
+    ],
+    "steps": [
+      {
+        "id": "replace-koa-router",
+        "title": "Replace koa-router",
+        "instructions": "Move the dependency and imports from koa-router to @koa/router and keep the current constructor and middleware usage.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-routes",
+        "title": "Verify routing behavior",
+        "instructions": "Exercise every route, parameter pattern, and allowed method to confirm dispatch and error handling are unchanged.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the routing and repository tests when defined."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed — dates, impact, migration"
 description: "Python 3.13 removed the cafile, capath and cadefault parameters of urllib.request.urlopen, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html"
+json_twin: "/rules/python.symbol.urllib.request.urlopen-cafile.json"
 ---
 
 # The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed

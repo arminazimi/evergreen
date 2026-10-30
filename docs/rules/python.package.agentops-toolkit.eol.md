@@ -2,6 +2,7 @@
 title: "agentops-toolkit was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.agentops-toolkit.eol.html"
+json_twin: "/rules/python.package.agentops-toolkit.eol.json"
 ---
 
 # agentops-toolkit was renamed and is no longer maintained

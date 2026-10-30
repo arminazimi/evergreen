@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.django-1.7.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/django",
+  "affectedVersions": "vers:pypi/>=1.7|<1.8.dev0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Django 1.7 is end-of-life",
+  "summary": "The Django project lists the 1.7 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 1, 2015.",
+  "replacement": "Django 5.2 LTS or a newer supported release",
+  "deadline": "2015-12-01",
+  "sources": [
+    {
+      "title": "Django supported versions",
+      "url": "https://www.djangoproject.com/download/#supported-versions",
+      "accessedAt": "2026-10-21"
+    },
+    {
+      "title": "Django upgrade guide",
+      "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/",
+      "accessedAt": "2026-10-21"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve models, migrations, settings, URL configuration, templates, and deployment configuration while changing the Django release series.",
+      "Upgrade one feature release at a time, using the latest patch release of each series, as the Django upgrade guide recommends.",
+      "Confirm the target Django series supports the Python release in use and that third-party packages support both Django and Python."
+    ],
+    "steps": [
+      {
+        "id": "raise-django-requirement",
+        "title": "Raise the Django requirement",
+        "instructions": "Change the reported Django pin or requirement from 1.7 to the next release series on the upgrade path, ending at a supported series such as 5.2 LTS, then regenerate lock files.",
+        "targets": "declaration"
+      },
+      {
+        "id": "apply-release-notes",
+        "title": "Apply the release notes",
+        "instructions": "For each series crossed, read its release notes for backwards-incompatible changes and deprecations, resolve deprecation warnings, and update code that uses removed APIs.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python manage.py check",
+        "purpose": "Run Django's system checks against the upgraded project."
+      },
+      {
+        "command": "python -Wa manage.py test",
+        "purpose": "Run the project's test suite with deprecation warnings shown."
+      },
+      {
+        "command": "python -m pip check",
+        "purpose": "Confirm the installed distributions have no broken requirements."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "Crypto.DEFAULT_ENCODING has been removed — dates, impact, migration"
 description: "Node.js removed crypto.DEFAULT_ENCODING (DEP0091: runtime deprecation since v10.0.0, end-of-life since v20.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.default-encoding.html"
+json_twin: "/rules/nodejs.symbol.crypto.default-encoding.json"
 ---
 
 # Crypto.DEFAULT_ENCODING has been removed

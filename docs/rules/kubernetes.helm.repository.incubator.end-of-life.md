@@ -2,6 +2,7 @@
 title: "Helm incubator chart repository is end of life — dates, impact, migration"
 description: "The Helm project retired the incubator chart repository with the same timeline as stable: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html"
+json_twin: "/rules/kubernetes.helm.repository.incubator.end-of-life.json"
 ---
 
 # Helm incubator chart repository is end of life

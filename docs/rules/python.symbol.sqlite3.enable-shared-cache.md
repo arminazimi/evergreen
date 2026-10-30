@@ -2,6 +2,7 @@
 title: "Sqlite3.enable_shared_cache has been removed — dates, impact, migration"
 description: "Python 3.12 removed sqlite3.enable_shared_cache, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.sqlite3.enable-shared-cache.html"
+json_twin: "/rules/python.symbol.sqlite3.enable-shared-cache.json"
 ---
 
 # Sqlite3.enable_shared_cache has been removed

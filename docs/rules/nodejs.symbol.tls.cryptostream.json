@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.tls.cryptostream",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=10.0.0",
+  "event": "removed",
+  "severity": "high",
+  "title": "Tls.CryptoStream has been removed",
+  "summary": "Node.js removed tls.CryptoStream (DEP0042: documentation-only since v0.11.3, end-of-life since v10.0.0).",
+  "replacement": "tls.TLSSocket",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0042",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of tls.CryptoStream with tls.TLSSocket.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

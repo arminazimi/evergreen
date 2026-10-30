@@ -2,6 +2,7 @@
 title: "Unsupported actions/stale runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.stale.node20.html"
+json_twin: "/rules/github-actions.stale.node20.json"
 ---
 
 # Unsupported actions/stale runtime

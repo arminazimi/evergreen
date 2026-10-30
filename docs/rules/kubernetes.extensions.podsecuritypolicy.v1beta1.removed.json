@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "kubernetes.extensions.podsecuritypolicy.v1beta1.removed",
+  "ecosystem": "kubernetes",
+  "purl": "pkg:generic/kubernetes/extensions/PodSecurityPolicy",
+  "affectedVersions": "vers:semver/1.0.0-beta.1",
+  "event": "removed",
+  "severity": "high",
+  "title": "PodSecurityPolicy extensions/v1beta1 is no longer served",
+  "summary": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.16, which was released on 2019-09-18.",
+  "replacement": "policy/v1beta1 PodSecurityPolicy, available since v1.10",
+  "deadline": "2019-09-18",
+  "sources": [
+    {
+      "title": "Kubernetes Deprecated API Migration Guide",
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    },
+    {
+      "title": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+      "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the resource's behavior unchanged: the same name, namespace, labels, and spec semantics.",
+      "The replacement (policy/v1beta1 PodSecurityPolicy, available since v1.10) can differ in required fields or field names from the removed version; read the PodSecurityPolicy entry in the Kubernetes Deprecated API Migration Guide and convert the manifest accordingly."
+    ],
+    "steps": [
+      {
+        "id": "update-api-version",
+        "title": "Change the PodSecurityPolicy apiVersion",
+        "instructions": "Change the reported `apiVersion` to the replacement version (policy/v1beta1 PodSecurityPolicy, available since v1.10).",
+        "targets": "declaration"
+      },
+      {
+        "id": "convert-fields",
+        "title": "Convert fields the new version changed",
+        "instructions": "Apply the field changes the migration guide lists for PodSecurityPolicy, then check the manifest still expresses the same intent.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-other-manifests",
+        "title": "Align other PodSecurityPolicy declarations",
+        "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old PodSecurityPolicy API version, so the repository agrees.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "kubeconform -strict -summary <manifest-paths>",
+        "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+      },
+      {
+        "command": "kubectl apply --dry-run=server -f <manifest-path>",
+        "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+      },
+      {
+        "command": "helm template <chart-path> | kubeconform -strict -",
+        "purpose": "For a Helm chart, render it and validate the output."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.ast.constant-nodes",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.8",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated",
+  "summary": "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.",
+  "replacement": "ast.Constant",
+  "sources": [
+    {
+      "title": "Python deprecations: pending removal in 3.14",
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Use ast.Constant",
+        "instructions": "Replace each class with ast.Constant and read .value instead of .n, .s or .value of the old node.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

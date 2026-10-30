@@ -1,11 +1,13 @@
-// Generates one public reference page per lifecycle rule, an index, a lookup page, and a sitemap, from registry/*.json.
+// Generates one public reference page and a JSON twin per lifecycle rule, an index, a lookup page, and a
+// sitemap, from registry/*.json.
 //
 //   node dist/tools/build-reference-pages.js [--check]
 //
-// Output: docs/lookup.html, docs/rules/<rule id>.md, docs/rules/index.md, and docs/sitemap.xml. With --check
-// nothing is written: the command exits 1 and names every file that differs from what the registry would
-// produce, so a page can never silently disagree with the data. It reads registry/*.json only and never uses
-// the network. The lookup page inlines its search index so it works offline and makes no requests.
+// Output: docs/lookup.html, docs/rules/<rule id>.md, docs/rules/<rule id>.json, docs/rules/index.md, and
+// docs/sitemap.xml. With --check nothing is written: the command exits 1 and names every file that differs
+// from what the registry would produce, so a page can never silently disagree with the data. It reads
+// registry/*.json only and never uses the network. The lookup page inlines its search index so it works
+// offline and makes no requests.
 
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -14,6 +16,7 @@ import { pathToFileURL } from "node:url";
 import { getCapabilityManifest } from "../src/capabilities.js";
 import { DEFAULT_MAX_REVIEW_AGE_DAYS, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
+import { toRuleDocument } from "../src/rule-resources.js";
 
 export const SITE_URL = "https://arminazimi.github.io/evergreen";
 const REPOSITORY_URL = "https://github.com/arminazimi/evergreen";
@@ -41,7 +44,15 @@ export interface GeneratedFile {
 }
 
 export const ruleUrl = (id: string) => `${SITE_URL}/rules/${id}.html`;
+/** The machine-readable twin of a rule page, published beside it. */
+export const ruleDataUrl = (id: string) => `${SITE_URL}/rules/${id}.json`;
+const ruleDataPath = (id: string) => `/rules/${id}.json`;
 const dataUrl = (ecosystem: string) => `${REPOSITORY_URL}/blob/main/registry/${ecosystem}.json`;
+
+/** A rule as an `evergreen.rule.v1` document: the same facts the page renders, for agents that read JSON. */
+export function renderRuleData(rule: RegistryV2Rule): string {
+  return `${JSON.stringify(toRuleDocument(rule), null, 2)}\n`;
+}
 
 function addDays(date: string, days: number): string {
   const result = new Date(`${date}T00:00:00Z`);
@@ -122,6 +133,7 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     `title: ${yaml(pageTitle(rule))}`,
     `description: ${yaml(description(rule))}`,
     `canonical_url: ${yaml(ruleUrl(rule.id))}`,
+    `json_twin: ${yaml(ruleDataPath(rule.id))}`,
     "---",
     "",
     `# ${inline(rule.title)}`,
@@ -642,6 +654,7 @@ export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
       if (seen.has(rule.id)) throw new Error(`Rule id "${rule.id}" appears in more than one registry.`);
       seen.add(rule.id);
       files.push({ path: `${RULES_DIRECTORY}/${rule.id}.md`, contents: renderRulePage(rule, days) });
+      files.push({ path: `${RULES_DIRECTORY}/${rule.id}.json`, contents: renderRuleData(rule) });
     }
   }
   return files.sort((left, right) => left.path.localeCompare(right.path));
@@ -658,7 +671,7 @@ export async function drift(files: readonly GeneratedFile[], root = "."): Promis
   const expected = new Set(files.map((file) => file.path));
   for (const name of await readdir(resolve(root, RULES_DIRECTORY)).catch(() => [] as string[])) {
     const path = `${RULES_DIRECTORY}/${name}`;
-    if (name.endsWith(".md") && !expected.has(path)) problems.push(`stale: ${path}`);
+    if ((name.endsWith(".md") || name.endsWith(".json")) && !expected.has(path)) problems.push(`stale: ${path}`);
   }
   return problems.sort();
 }
@@ -667,7 +680,7 @@ export async function write(files: readonly GeneratedFile[], root = "."): Promis
   const expected = new Set(files.map((file) => file.path));
   await mkdir(resolve(root, RULES_DIRECTORY), { recursive: true });
   for (const name of await readdir(resolve(root, RULES_DIRECTORY))) {
-    if (name.endsWith(".md") && !expected.has(`${RULES_DIRECTORY}/${name}`)) await rm(resolve(root, RULES_DIRECTORY, name));
+    if ((name.endsWith(".md") || name.endsWith(".json")) && !expected.has(`${RULES_DIRECTORY}/${name}`)) await rm(resolve(root, RULES_DIRECTORY, name));
   }
   for (const file of files) await writeFile(resolve(root, file.path), file.contents);
 }

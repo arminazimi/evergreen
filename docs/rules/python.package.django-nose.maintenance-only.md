@@ -2,6 +2,7 @@
 title: "django-nose is maintenance-only — dates, impact, migration"
 description: "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html"
+json_twin: "/rules/python.package.django-nose.maintenance-only.json"
 ---
 
 # django-nose is maintenance-only

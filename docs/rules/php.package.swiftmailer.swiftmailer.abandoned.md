@@ -2,6 +2,7 @@
 title: "swiftmailer/swiftmailer is abandoned — dates, impact, migration"
 description: "Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, and the author suggests using symfony/mailer instead."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.swiftmailer.swiftmailer.abandoned.html"
+json_twin: "/rules/php.package.swiftmailer.swiftmailer.abandoned.json"
 ---
 
 # swiftmailer/swiftmailer is abandoned

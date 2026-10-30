@@ -2,6 +2,7 @@
 title: "GKE 1.30 is past end of extended support — dates, impact, migration"
 description: "GKE 1.30 reached the end of standard support on 2025-09-30 and the end of extended support on 2026-07-30. GKE no longer provides patches for this minor version."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-life-1.30.html"
+json_twin: "/rules/terraform.gke.end-of-life-1.30.json"
 ---
 
 # GKE 1.30 is past end of extended support

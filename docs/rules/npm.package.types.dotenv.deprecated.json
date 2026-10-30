@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.dotenv.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/dotenv",
+  "affectedVersions": "vers:npm/8.2.0|8.2.1|8.2.2|8.2.3",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/dotenv is deprecated",
+  "summary": "npm marks @types/dotenv as deprecated: \"This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "dotenv",
+  "sources": [
+    {
+      "title": "@types/dotenv on npm",
+      "url": "https://www.npmjs.com/package/@types/dotenv"
+    },
+    {
+      "title": "@types/dotenv version metadata",
+      "url": "https://registry.npmjs.org/@types%2fdotenv"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/dotenv only declares types; dotenv now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/dotenv from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep dotenv on a version that ships its own type definitions and import its types from dotenv.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with dotenv's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

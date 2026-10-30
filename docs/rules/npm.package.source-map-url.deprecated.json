@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.source-map-url.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/source-map-url",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "source-map-url is deprecated",
+  "summary": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
+  "replacement": "convert-source-map",
+  "sources": [
+    {
+      "title": "source-map-url maintainer deprecation notice",
+      "url": "https://github.com/lydell/source-map-url#deprecated"
+    },
+    {
+      "title": "source-map-url registry metadata",
+      "url": "https://registry.npmjs.org/source-map-url/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve JavaScript and CSS comment forms, inline and external map URLs, insertion position, removal behavior, and malformed-input handling."
+    ],
+    "steps": [
+      {
+        "id": "replace-source-map-url",
+        "title": "Move to convert-source-map",
+        "instructions": "Replace source-map-url parsing and mutation calls with convert-source-map equivalents and explicit handling for any unsupported comment forms.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run inline, external, JavaScript, CSS, malformed, and repository tests."
+      }
+    ]
+  }
+}

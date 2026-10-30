@@ -2,6 +2,7 @@
 title: "Ruby 2.0.0 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 2.0.0 as eol: normal maintenance ended on 2016-02-24 and the branch reached end-of-life on 2016-02-24."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.0.0.html"
+json_twin: "/rules/ruby.runtime.eol-2.0.0.json"
 ---
 
 # Ruby 2.0.0 is end-of-life

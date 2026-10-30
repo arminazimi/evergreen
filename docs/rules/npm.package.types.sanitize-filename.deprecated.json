@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.sanitize-filename.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/sanitize-filename",
+  "affectedVersions": "vers:npm/1.6.3",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/sanitize-filename is deprecated",
+  "summary": "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "sanitize-filename",
+  "sources": [
+    {
+      "title": "@types/sanitize-filename on npm",
+      "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+    },
+    {
+      "title": "@types/sanitize-filename version metadata",
+      "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/sanitize-filename only declares types; sanitize-filename now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/sanitize-filename from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep sanitize-filename on a version that ships its own type definitions and import its types from sanitize-filename.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with sanitize-filename's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

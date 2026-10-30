@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "java.maven.spring-boot.legacy-1x.end-of-support",
+  "ecosystem": "java",
+  "purl": "pkg:maven/org.springframework.boot/spring-boot",
+  "affectedVersions": "vers:maven/>=1.0.0|<2.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Spring Boot 1.x is out of open-source support",
+  "summary": "Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major releases. Commercial support availability is separate from community OSS support.",
+  "replacement": "Spring Boot 4.1.x",
+  "sources": [
+    {
+      "title": "Spring Boot support policy",
+      "url": "https://spring.io/projects/spring-boot#support"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-25",
+    "reviewedAt": "2026-10-25",
+    "reviewer": "Aaqibhafeezkhan"
+  },
+  "migration": {
+    "constraints": [
+      "This finding describes open-source support, not whether a commercial support contract exists.",
+      "Do not jump directly across several major versions without reviewing each intervening migration guide and compatibility requirements."
+    ],
+    "steps": [
+      {
+        "id": "plan-spring-boot-upgrade",
+        "title": "Plan the major-version upgrade",
+        "instructions": "Inventory Spring Boot, Spring Framework, Java, build-tool, and managed dependency versions. Read each Spring Boot migration guide between the current version and the selected 4.x target.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-spring-boot-declarations",
+        "title": "Align Spring Boot declarations",
+        "instructions": "Update the Spring Boot dependency, parent/BOM, plugin, and related build declarations consistently, then resolve and remove obsolete configuration using the migration guides.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "./mvnw -B verify || ./gradlew build",
+        "purpose": "Build and run the project's tests after the staged upgrade."
+      },
+      {
+        "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+        "purpose": "Review the resolved Spring dependency graph for mixed or obsolete versions."
+      }
+    ]
+  }
+}

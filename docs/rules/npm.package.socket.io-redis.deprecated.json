@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.socket.io-redis.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/socket.io-redis",
+  "affectedVersions": "vers:npm/6.0.0|6.0.1|6.1.0|6.1.1",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "socket.io-redis is deprecated",
+  "summary": "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here: https://socket.io/docs/v4/redis-adapter/#migrating-from-socketio-redis\"",
+  "replacement": "@socket.io/redis-adapter",
+  "sources": [
+    {
+      "title": "socket.io-redis on npm",
+      "url": "https://www.npmjs.com/package/socket.io-redis"
+    },
+    {
+      "title": "socket.io-redis version metadata",
+      "url": "https://registry.npmjs.org/socket.io-redis"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve adapter behavior: pub/sub and request/response channels, key prefixes, and multi-node session routing."
+    ],
+    "steps": [
+      {
+        "id": "replace-socket-io-redis",
+        "title": "Replace the adapter package",
+        "instructions": "Replace socket.io-redis with @socket.io/redis-adapter and follow the published migration guide for the adapter options.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-multi-node-connections",
+        "title": "Verify multi-node behavior",
+        "instructions": "Connect clients through more than one server instance and confirm broadcasts, rooms, and acknowledgements still work.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the realtime and repository tests when defined."
+      }
+    ]
+  }
+}

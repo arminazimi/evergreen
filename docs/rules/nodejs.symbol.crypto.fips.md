@@ -2,6 +2,7 @@
 title: "Crypto.fips is deprecated — dates, impact, migration"
 description: "Node.js deprecates crypto.fips (DEP0093: documentation-only since v10.0.0, runtime deprecation since v23.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.fips.html"
+json_twin: "/rules/nodejs.symbol.crypto.fips.json"
 ---
 
 # Crypto.fips is deprecated

@@ -2,6 +2,7 @@
 title: "@types/sequelize is deprecated — dates, impact, migration"
 description: "npm marks @types/sequelize as deprecated: \"This is a stub types definition. sequelize provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.sequelize.deprecated.html"
+json_twin: "/rules/npm.package.types.sequelize.deprecated.json"
 ---
 
 # @types/sequelize is deprecated

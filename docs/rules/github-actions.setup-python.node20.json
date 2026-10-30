@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.setup-python.node20",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/actions/setup-python",
+  "affectedVersions": "vers:semver/<6.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Unsupported actions/setup-python runtime",
+  "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "replacement": "actions/setup-python@v6 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "actions/setup-python v6.0.0 release notes",
+      "url": "https://github.com/actions/setup-python/releases/tag/v6.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "claude-agent"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the requested Python version, caching, and architecture inputs when upgrading."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade setup-python",
+        "instructions": "Change the uses reference to actions/setup-python@v6 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-action-inputs",
+        "title": "Review setup-python inputs",
+        "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

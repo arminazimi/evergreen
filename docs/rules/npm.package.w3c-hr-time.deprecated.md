@@ -2,6 +2,7 @@
 title: "w3c-hr-time is deprecated — dates, impact, migration"
 description: "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html"
+json_twin: "/rules/npm.package.w3c-hr-time.deprecated.json"
 ---
 
 # w3c-hr-time is deprecated

@@ -2,6 +2,7 @@
 title: "util.isArray is deprecated — dates, impact, migration"
 description: "Node.js deprecates util.isArray() (DEP0044): documentation-only since v4.0.0, runtime warning since v22.0.0."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isarray.html"
+json_twin: "/rules/nodejs.symbol.util.isarray.json"
 ---
 
 # util.isArray is deprecated

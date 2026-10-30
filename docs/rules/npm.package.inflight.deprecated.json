@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.inflight.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/inflight",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "inflight is deprecated",
+  "summary": "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing.",
+  "replacement": "lru-cache",
+  "sources": [
+    {
+      "title": "inflight package deprecation notice",
+      "url": "https://www.npmjs.com/package/inflight"
+    },
+    {
+      "title": "inflight registry metadata",
+      "url": "https://registry.npmjs.org/inflight/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve request coalescing, callback delivery, cache-key identity, and cleanup on success and failure."
+    ],
+    "steps": [
+      {
+        "id": "replace-inflight",
+        "title": "Replace inflight",
+        "instructions": "Implement keyed coalescing with lru-cache or another maintained primitive and remove inflight.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-coalescing",
+        "title": "Verify concurrent behavior",
+        "instructions": "Test duplicate concurrent requests, failures, retries, and cleanup after completion.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run concurrency, memory-lifecycle, and repository tests."
+      }
+    ]
+  }
+}

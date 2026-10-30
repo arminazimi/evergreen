@@ -2,6 +2,7 @@
 title: "Util.isFunction has been removed — dates, impact, migration"
 description: "Node.js removed util.isFunction (DEP0049: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isfunction.html"
+json_twin: "/rules/nodejs.symbol.util.isfunction.json"
 ---
 
 # Util.isFunction has been removed

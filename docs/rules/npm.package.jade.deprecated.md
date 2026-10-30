@@ -2,6 +2,7 @@
 title: "jade is deprecated — dates, impact, migration"
 description: "npm states that Jade was renamed to Pug and directs users to the pug package."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.jade.deprecated.html"
+json_twin: "/rules/npm.package.jade.deprecated.json"
 ---
 
 # jade is deprecated

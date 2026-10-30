@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.are-we-there-yet.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/are-we-there-yet",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "are-we-there-yet is no longer supported",
+  "summary": "npm states that the are-we-there-yet package is no longer supported.",
+  "sources": [
+    {
+      "title": "are-we-there-yet package deprecation notice",
+      "url": "https://www.npmjs.com/package/are-we-there-yet"
+    },
+    {
+      "title": "are-we-there-yet registry metadata",
+      "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve weighted completion, nested tracker groups, stream progress, event timing, and completion semantics."
+    ],
+    "steps": [
+      {
+        "id": "replace-are-we-there-yet",
+        "title": "Replace progress tracking",
+        "instructions": "Select a maintained progress tracker or implement the required aggregation locally, migrate tracker construction and updates, then remove the package.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run nested progress, completion, event, and repository tests."
+      }
+    ]
+  }
+}

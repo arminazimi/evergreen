@@ -2,6 +2,7 @@
 title: "vue2-script-setup-transform is deprecated — dates, impact, migration"
 description: "npm marks vue2-script-setup-transform as deprecated: \"renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html"
+json_twin: "/rules/npm.package.vue2-script-setup-transform.deprecated.json"
 ---
 
 # vue2-script-setup-transform is deprecated

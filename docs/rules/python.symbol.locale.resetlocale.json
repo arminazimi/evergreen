@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.locale.resetlocale",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.13",
+  "event": "removed",
+  "severity": "high",
+  "title": "Locale.resetlocale has been removed",
+  "summary": "Python 3.13 removed locale.resetlocale, so using it raises an error.",
+  "replacement": "locale.setlocale(locale.LC_ALL, \"\")",
+  "sources": [
+    {
+      "title": "What's New in Python 3.13",
+      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of locale.resetlocale with locale.setlocale(locale.LC_ALL, \"\").",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

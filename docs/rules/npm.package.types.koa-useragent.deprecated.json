@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.koa-useragent.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/koa-useragent",
+  "affectedVersions": "vers:npm/2.1.2",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/koa-useragent is deprecated",
+  "summary": "npm marks @types/koa-useragent as deprecated: \"This is a stub types definition. koa-useragent provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "koa-useragent",
+  "sources": [
+    {
+      "title": "@types/koa-useragent on npm",
+      "url": "https://www.npmjs.com/package/@types/koa-useragent"
+    },
+    {
+      "title": "@types/koa-useragent version metadata",
+      "url": "https://registry.npmjs.org/@types%2fkoa-useragent"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/koa-useragent only declares types; koa-useragent now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/koa-useragent from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep koa-useragent on a version that ships its own type definitions and import its types from koa-useragent.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with koa-useragent's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

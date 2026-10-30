@@ -2,6 +2,7 @@
 title: "@angular/core v20 reaches end of life on 2026-11-28 — dates, impact, migration"
 description: "Angular's release schedule lists v20 as LTS with \"LTS ends 2026-11-28\". LTS receives only critical fixes and security patches until that date."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html"
+json_twin: "/rules/npm.package.angular.core.v20.scheduled-end-of-life.json"
 ---
 
 # @angular/core v20 reaches end of life on 2026-11-28

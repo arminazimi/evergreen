@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "container.postgres.eol-14-and-older",
+  "ecosystem": "container",
+  "purl": "pkg:docker/library/postgres",
+  "affectedVersions": "vers:semver/>=14.0.0|<15.0.0",
+  "event": "scheduled-end-of-life",
+  "severity": "low",
+  "title": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
+  "summary": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
+  "replacement": "A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade)",
+  "deadline": "2026-11-12",
+  "sources": [
+    {
+      "title": "PostgreSQL release policy (vendor)",
+      "url": "https://www.postgresql.org/support/versioning/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-24",
+    "reviewedAt": "2026-10-24",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "A major PostgreSQL upgrade does not reuse the old data directory: the data must be dumped and restored, or migrated with pg_upgrade, before the new image can start on it.",
+      "Check extensions, client libraries, and any init scripts against the target major version, and take a backup first."
+    ],
+    "steps": [
+      {
+        "id": "update-image-declaration",
+        "title": "Update the base image",
+        "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-image-surfaces",
+        "title": "Align other image references",
+        "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker compose config",
+        "purpose": "Validate the Compose file after changing the image tag."
+      },
+      {
+        "command": "docker compose run --rm db postgres --version",
+        "purpose": "Confirm the database container runs the intended major version (service name may differ)."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "Deno 0.x pre-release is end-of-life — dates, impact, migration"
 description: "Deno 0.x pre-release versions are obsolete and end-of-life following the release of Deno 1.0.0."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-0.x.html"
+json_twin: "/rules/deno.runtime.eol-0.x.json"
 ---
 
 # Deno 0.x pre-release is end-of-life

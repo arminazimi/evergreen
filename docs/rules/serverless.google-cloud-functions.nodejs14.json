@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "serverless.google-cloud-functions.nodejs14",
+  "ecosystem": "serverless",
+  "purl": "pkg:generic/google-cloud-functions-runtime/nodejs14",
+  "affectedVersions": "vers:semver/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Google Cloud Functions Node.js 14 runtime is end-of-life",
+  "summary": "The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.",
+  "replacement": "nodejs22 or nodejs24",
+  "deadline": "2025-01-30",
+  "sources": [
+    {
+      "title": "Cloud Run functions runtime support",
+      "url": "https://cloud.google.com/functions/docs/runtime-support",
+      "accessedAt": "2026-10-21"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep Terraform google_cloudfunctions*_function runtime (and any matching deploy config) on one Google Cloud Functions runtime ID that Google still supports.",
+      "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers run on the replacement before deploying."
+    ],
+    "steps": [
+      {
+        "id": "raise-gcloud-functions-runtime",
+        "title": "Raise the Google Cloud Functions runtime",
+        "instructions": "Change the reported runtime from nodejs14 to a supported Google Cloud Functions Node.js runtime ID (see the replacement).",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-gcloud-functions-runtime-surfaces",
+        "title": "Align other runtime surfaces",
+        "instructions": "Update every other Terraform google_cloudfunctions*_function runtime and CI deploy config that still pins nodejs14.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "terraform validate",
+        "purpose": "Validate the updated Terraform google_cloudfunctions*_function declaration before deploy."
+      }
+    ]
+  }
+}

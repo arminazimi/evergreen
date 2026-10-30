@@ -2,6 +2,7 @@
 title: "seofleet-cli is deprecated — dates, impact, migration"
 description: "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html"
+json_twin: "/rules/python.package.seofleet-cli.deprecated.json"
 ---
 
 # seofleet-cli is deprecated

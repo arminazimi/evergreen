@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.querystring.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/querystring",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "querystring is deprecated",
+  "summary": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
+  "replacement": "URLSearchParams",
+  "sources": [
+    {
+      "title": "querystring package deprecation notice",
+      "url": "https://www.npmjs.com/package/querystring"
+    },
+    {
+      "title": "querystring registry metadata",
+      "url": "https://registry.npmjs.org/querystring/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve percent encoding, repeated keys, empty values, ordering, array handling, and input coercion expected by callers."
+    ],
+    "steps": [
+      {
+        "id": "replace-querystring",
+        "title": "Replace querystring",
+        "instructions": "Translate parse and stringify usages to URLSearchParams and remove the querystring dependency.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-query-round-trips",
+        "title": "Verify query-string behavior",
+        "instructions": "Compare representative and malformed inputs, including repeated keys and non-ASCII values, before and after migration.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run query parsing, serialization, and repository tests."
+      }
+    ]
+  }
+}

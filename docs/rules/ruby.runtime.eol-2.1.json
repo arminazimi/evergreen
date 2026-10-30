@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "ruby.runtime.eol-2.1",
+  "ecosystem": "ruby",
+  "purl": "pkg:generic/ruby",
+  "affectedVersions": "vers:gem/>=2.1.0|<2.2.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Ruby 2.1 is end-of-life",
+  "summary": "The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31.",
+  "replacement": "Ruby 3.4 or later",
+  "deadline": "2017-03-31",
+  "sources": [
+    {
+      "title": "Ruby maintenance branches",
+      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep .ruby-version, .tool-versions, the Gemfile ruby directive, Gemfile.lock RUBY VERSION, gemspec required_ruby_version, CI matrices, and container images on one supported Ruby branch.",
+      "Confirm gems with native extensions build on the target Ruby and reinstall bundled gems."
+    ],
+    "steps": [
+      {
+        "id": "update-ruby-declaration",
+        "title": "Raise the Ruby version",
+        "instructions": "Change the reported declaration from Ruby 2.1 to a supported release (see the replacement), using the project's existing version manager.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-ruby-surfaces",
+        "title": "Align other Ruby version surfaces",
+        "instructions": "Update CI setup-ruby versions, Dockerfile `ruby:` images, the Gemfile ruby directive, Gemfile.lock, and gemspec required_ruby_version so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "ruby --version",
+        "purpose": "Confirm the active runtime is the intended release."
+      },
+      {
+        "command": "bundle install",
+        "purpose": "Re-resolve and install gems on the new Ruby."
+      },
+      {
+        "command": "bundle exec rake test",
+        "purpose": "Run the test suite on the new Ruby."
+      }
+    ]
+  }
+}

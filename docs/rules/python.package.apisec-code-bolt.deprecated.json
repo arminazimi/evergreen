@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.apisec-code-bolt.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/apisec-code-bolt",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "apisec-code-bolt was renamed",
+  "summary": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
+  "replacement": "apisec-surface",
+  "sources": [
+    {
+      "title": "apisec-surface rename notice",
+      "url": "https://pypi.org/project/apisec-surface/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve authentication, configuration, saved credentials, scan scope, manifest output, upload behavior, and CI exit codes."
+    ],
+    "steps": [
+      {
+        "id": "replace-apisec-code-bolt",
+        "title": "Replace apisec-code-bolt",
+        "instructions": "Replace the distribution with apisec-surface and verify the renamed command, while retaining compatible state and configuration documented by the maintainer.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run APIsec CLI integration and repository tests when defined."
+      }
+    ]
+  }
+}

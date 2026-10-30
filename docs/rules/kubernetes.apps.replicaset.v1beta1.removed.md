@@ -2,6 +2,7 @@
 title: "ReplicaSet apps/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta1 API version of ReplicaSet is no longer served as of v1.16, which was released on 2019-09-18."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.apps.replicaset.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.apps.replicaset.v1beta1.removed.json"
 ---
 
 # ReplicaSet apps/v1beta1 is no longer served

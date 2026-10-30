@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.ghops.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/ghops",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "ghops is deprecated and no longer maintained",
+  "summary": "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex.",
+  "replacement": "repoindex",
+  "sources": [
+    {
+      "title": "ghops deprecation notice",
+      "url": "https://pypi.org/project/ghops/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve repository discovery, grouping, metadata, configuration, command output, and any persisted collection state."
+    ],
+    "steps": [
+      {
+        "id": "replace-ghops",
+        "title": "Move to repoindex",
+        "instructions": "Replace ghops with repoindex, translate configuration and commands, and migrate any persisted repository collection data.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run repository discovery, metadata, command, and project tests when defined."
+      }
+    ]
+  }
+}

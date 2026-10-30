@@ -2,6 +2,7 @@
 title: "Ssl.match_hostname has been removed — dates, impact, migration"
 description: "Python 3.12 removed ssl.match_hostname, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ssl.match-hostname.html"
+json_twin: "/rules/python.symbol.ssl.match-hostname.json"
 ---
 
 # Ssl.match_hostname has been removed

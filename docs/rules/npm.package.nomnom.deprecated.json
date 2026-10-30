@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.nomnom.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/nomnom",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "nomnom is deprecated",
+  "summary": "npm states that nomnom is no longer supported.",
+  "sources": [
+    {
+      "title": "nomnom package deprecation notice",
+      "url": "https://www.npmjs.com/package/nomnom"
+    },
+    {
+      "title": "nomnom registry metadata",
+      "url": "https://registry.npmjs.org/nomnom/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve command names, option aliases, defaults, validation, help output, exit codes, and parsed argument shapes."
+    ],
+    "steps": [
+      {
+        "id": "select-cli-parser",
+        "title": "Select a maintained CLI parser",
+        "instructions": "Choose a maintained parser that supports the commands and option semantics used by the project.",
+        "targets": "all"
+      },
+      {
+        "id": "replace-nomnom",
+        "title": "Replace nomnom",
+        "instructions": "Translate command and option declarations to the selected parser, update imports, and remove nomnom.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run CLI parsing, help, error-path, and repository tests."
+      }
+    ]
+  }
+}

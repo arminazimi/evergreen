@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.npmlog.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/npmlog",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "npmlog is no longer supported",
+  "summary": "npm states that the npmlog package is no longer supported.",
+  "sources": [
+    {
+      "title": "npmlog package deprecation notice",
+      "url": "https://www.npmjs.com/package/npmlog"
+    },
+    {
+      "title": "npmlog registry metadata",
+      "url": "https://registry.npmjs.org/npmlog/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve log levels, prefixes, headings, progress integration, stream routing, formatting, and quiet-mode behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-npmlog",
+        "title": "Replace npmlog",
+        "instructions": "Select a maintained logger that covers the used behavior, translate configuration and calls, then remove npmlog.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run logging output, level filtering, and repository tests."
+      }
+    ]
+  }
+}

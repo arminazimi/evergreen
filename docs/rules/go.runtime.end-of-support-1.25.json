@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "go.runtime.end-of-support-1.25",
+  "ecosystem": "go",
+  "purl": "pkg:generic/golang",
+  "affectedVersions": "vers:golang/>=1.25.0|<1.26.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Go 1.25 is no longer supported",
+  "summary": "The Go release policy supports a major release until two newer major releases exist. Go 1.25 support ended when Go 1.27 was released.",
+  "replacement": "Go 1.26 or later",
+  "deadline": "2026-08-19",
+  "sources": [
+    {
+      "title": "Go release history and support policy",
+      "url": "https://go.dev/doc/devel/release"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep go.mod, go.work, CI matrices, and container images on one supported Go release.",
+      "Check that every dependency's own go directive is compatible with the target toolchain."
+    ],
+    "steps": [
+      {
+        "id": "update-go-declaration",
+        "title": "Raise the Go version",
+        "instructions": "Raise the reported `go` or `toolchain` line from Go 1.25 to a supported release (see the replacement), for example with `go get go@<version> toolchain@<version>`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-go-surfaces",
+        "title": "Align other Go version surfaces",
+        "instructions": "Update CI setup-go versions, Dockerfile `golang:` images, and other go.mod or go.work files in the repository so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "go version",
+        "purpose": "Confirm the active toolchain is the intended release."
+      },
+      {
+        "command": "go build ./... && go test ./...",
+        "purpose": "Build and test every package on the new release."
+      },
+      {
+        "command": "go vet ./...",
+        "purpose": "Catch problems the newer release reports."
+      }
+    ]
+  }
+}

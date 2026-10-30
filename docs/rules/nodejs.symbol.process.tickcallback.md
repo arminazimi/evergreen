@@ -2,6 +2,7 @@
 title: "Process._tickCallback is deprecated — dates, impact, migration"
 description: "Node.js deprecates process._tickCallback (DEP0134: documentation-only since v12.12.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.tickcallback.html"
+json_twin: "/rules/nodejs.symbol.process.tickcallback.json"
 ---
 
 # Process._tickCallback is deprecated

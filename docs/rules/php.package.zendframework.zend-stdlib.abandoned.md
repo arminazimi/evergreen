@@ -2,6 +2,7 @@
 title: "zendframework/zend-stdlib is abandoned — dates, impact, migration"
 description: "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html"
+json_twin: "/rules/php.package.zendframework.zend-stdlib.abandoned.json"
 ---
 
 # zendframework/zend-stdlib is abandoned

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.tls.parsecertstring",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=18.0.0",
+  "event": "removed",
+  "severity": "high",
+  "title": "Tls.parseCertString has been removed",
+  "summary": "Node.js removed tls.parseCertString (DEP0076: documentation-only since v8.6.0, runtime deprecation since v9.0.0, end-of-life since v18.0.0).",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0076",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of tls.parseCertString with code that no longer depends on it.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "@humanwhocodes/config-array is deprecated — dates, impact, migration"
 description: "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html"
+json_twin: "/rules/npm.package.humanwhocodes-config-array.deprecated.json"
 ---
 
 # @humanwhocodes/config-array is deprecated

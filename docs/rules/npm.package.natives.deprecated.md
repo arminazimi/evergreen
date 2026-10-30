@@ -2,6 +2,7 @@
 title: "natives is deprecated — dates, impact, migration"
 description: "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html"
+json_twin: "/rules/npm.package.natives.deprecated.json"
 ---
 
 # natives is deprecated

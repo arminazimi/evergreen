@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.eslint-plugin-nuxt.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/eslint-plugin-nuxt",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "eslint-plugin-nuxt is deprecated",
+  "summary": "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\"",
+  "replacement": "@nuxt/eslint-plugin",
+  "sources": [
+    {
+      "title": "eslint-plugin-nuxt on npm",
+      "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+    },
+    {
+      "title": "eslint-plugin-nuxt registry metadata",
+      "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the Nuxt-specific lint rules and options the project currently enables."
+    ],
+    "steps": [
+      {
+        "id": "replace-eslint-plugin-nuxt",
+        "title": "Replace the plugin package",
+        "instructions": "Replace eslint-plugin-nuxt with @nuxt/eslint-plugin in devDependencies and in the ESLint configuration.",
+        "targets": "all"
+      },
+      {
+        "id": "port-nuxt-lint-rules",
+        "title": "Port the enabled rules",
+        "instructions": "Move the enabled Nuxt rules and their options into the configuration shape the new plugin expects.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run lint --if-present",
+        "purpose": "Run the linter with the new plugin and compare the findings."
+      }
+    ]
+  }
+}

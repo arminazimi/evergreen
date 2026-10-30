@@ -2,6 +2,7 @@
 title: "failure is no longer maintained — dates, impact, migration"
 description: "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html"
+json_twin: "/rules/rust.crate.failure.unmaintained.json"
 ---
 
 # failure is no longer maintained

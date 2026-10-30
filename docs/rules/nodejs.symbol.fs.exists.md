@@ -2,6 +2,7 @@
 title: "fs.exists is deprecated — dates, impact, migration"
 description: "Node.js documents fs.exists(path, callback) as deprecated (DEP0034, documentation-only since v1.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.exists.html"
+json_twin: "/rules/nodejs.symbol.fs.exists.json"
 ---
 
 # fs.exists is deprecated

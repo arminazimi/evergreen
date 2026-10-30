@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.first-interaction.node20",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/actions/first-interaction",
+  "affectedVersions": "vers:semver/<3.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Unsupported actions/first-interaction runtime",
+  "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "replacement": "actions/first-interaction@v3 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "actions/first-interaction v3.0.0 release notes",
+      "url": "https://github.com/actions/first-interaction/releases/tag/v3.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "claude-agent"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the welcome messages and the token inputs when upgrading; v3 renamed some inputs, so compare them with the release notes."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade first-interaction",
+        "instructions": "Change the uses reference to actions/first-interaction@v3 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-action-inputs",
+        "title": "Review first-interaction inputs",
+        "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "ci-images.azure-pipelines.ubuntu-22.04",
+  "ecosystem": "ci-images",
+  "purl": "pkg:generic/azure-pipelines/ubuntu-image",
+  "affectedVersions": "vers:intdot/22.04",
+  "event": "scheduled-end-of-life",
+  "severity": "low",
+  "title": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
+  "summary": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
+  "replacement": "ubuntu-latest, ubuntu-24.04, or ubuntu-26.04",
+  "deadline": "2027-04-17",
+  "sources": [
+    {
+      "title": "Microsoft-hosted image deprecation schedule",
+      "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-18",
+    "reviewedAt": "2026-10-18",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Change only Microsoft-hosted pool.vmImage labels. The Ubuntu 22.04 schedule does not apply to self-hosted Ubuntu 22.04 agents.",
+      "Move off ubuntu-22.04 before the scheduled removal on 2027-04-17. The notice names ubuntu-latest, ubuntu-24.04, or ubuntu-26.04."
+    ],
+    "steps": [
+      {
+        "id": "retarget-vm-image",
+        "title": "Retarget the hosted image",
+        "instructions": "Change the reported pool.vmImage from ubuntu-22.04 to ubuntu-latest, ubuntu-24.04, or ubuntu-26.04 (see the replacement).",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-vm-image-surfaces",
+        "title": "Align other Azure Pipelines pools",
+        "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins ubuntu-22.04. Leave self-hosted pool names unchanged.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "gitlab-ci-lint || circleci config validate",
+        "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+      }
+    ]
+  }
+}

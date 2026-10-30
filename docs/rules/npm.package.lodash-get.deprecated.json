@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.lodash-get.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/lodash.get",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "lodash.get is deprecated",
+  "summary": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
+  "replacement": "Optional chaining (?.)",
+  "sources": [
+    {
+      "title": "lodash.get package deprecation notice",
+      "url": "https://www.npmjs.com/package/lodash.get"
+    },
+    {
+      "title": "lodash.get registry metadata",
+      "url": "https://registry.npmjs.org/lodash.get/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve path semantics, array-index access, default-value behavior, nullish handling, and minimum-runtime support."
+    ],
+    "steps": [
+      {
+        "id": "replace-lodash-get",
+        "title": "Use optional chaining",
+        "instructions": "Rewrite each lodash.get call with optional chaining and nullish coalescing where a default value is required, then remove the dependency.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run nested access, default-value, nullish, and repository tests."
+      }
+    ]
+  }
+}

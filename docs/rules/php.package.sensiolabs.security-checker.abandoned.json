@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "php.package.sensiolabs.security-checker.abandoned",
+  "ecosystem": "php",
+  "purl": "pkg:composer/sensiolabs/security-checker",
+  "affectedVersions": "vers:composer/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "sensiolabs/security-checker is abandoned",
+  "summary": "Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker.",
+  "replacement": "https://github.com/fabpot/local-php-security-checker",
+  "sources": [
+    {
+      "title": "sensiolabs/security-checker on Packagist",
+      "url": "https://packagist.org/packages/sensiolabs/security-checker"
+    },
+    {
+      "title": "sensiolabs/security-checker Composer metadata",
+      "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep composer.json and composer.lock consistent after removing sensiolabs/security-checker, and check that no other package still requires it.",
+      "Preserve existing behavior while replacing the abandoned package; review its public API usage before choosing a replacement."
+    ],
+    "steps": [
+      {
+        "id": "replace-abandoned-package",
+        "title": "Replace the abandoned package",
+        "instructions": "Remove sensiolabs/security-checker from composer.json and adopt the tool the author points to (https://github.com/fabpot/local-php-security-checker), then run `composer update`.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "composer validate && composer install",
+        "purpose": "Confirm the Composer project is valid and installs without the abandoned package."
+      },
+      {
+        "command": "composer validate && vendor/bin/phpunit",
+        "purpose": "Validate the Composer project and run the PHPUnit suite after the replacement."
+      }
+    ]
+  }
+}

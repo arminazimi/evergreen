@@ -2,6 +2,7 @@
 title: "Locale.format has been removed — dates, impact, migration"
 description: "Python 3.12 removed locale.format, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.format.html"
+json_twin: "/rules/python.symbol.locale.format.json"
 ---
 
 # Locale.format has been removed

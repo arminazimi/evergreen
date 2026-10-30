@@ -2,6 +2,7 @@
 title: "Ruby image release line 3.3 reaches end-of-life on 2027-03-31 — dates, impact, migration"
 description: "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html"
+json_twin: "/rules/container.ruby.eol-3.3-and-older.json"
 ---
 
 # Ruby image release line 3.3 reaches end-of-life on 2027-03-31

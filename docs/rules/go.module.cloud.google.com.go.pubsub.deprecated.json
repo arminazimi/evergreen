@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "go.module.cloud.google.com.go.pubsub.deprecated",
+  "ecosystem": "go",
+  "purl": "pkg:golang/cloud.google.com/go/pubsub",
+  "affectedVersions": "vers:golang/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "cloud.google.com/go/pubsub is deprecated",
+  "summary": "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026. For migration, see https://github.com/googleapis/google-cloud-go/blob/main/pubsub/MIGRATING.md\"",
+  "replacement": "cloud.google.com/go/pubsub/v2",
+  "sources": [
+    {
+      "title": "cloud.google.com/go/pubsub v1.51.1 go.mod",
+      "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+    },
+    {
+      "title": "Go module deprecation reference",
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep go.mod and go.sum consistent: after the change no package should still require cloud.google.com/go/pubsub, directly or through a replace directive.",
+      "Check cloud.google.com/go/pubsub/v2 for API differences before switching; it may not be a drop-in replacement for every cloud.google.com/go/pubsub call."
+    ],
+    "steps": [
+      {
+        "id": "replace-module-dependency",
+        "title": "Replace the deprecated module",
+        "instructions": "Replace the cloud.google.com/go/pubsub requirement with cloud.google.com/go/pubsub/v2 (`go get cloud.google.com/go/pubsub/v2@latest`), then run `go mod tidy`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "migrate-module-usages",
+        "title": "Migrate imports and calls",
+        "instructions": "Update imports and calls of cloud.google.com/go/pubsub in the reported files to cloud.google.com/go/pubsub/v2.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "go build ./... && go test ./...",
+        "purpose": "Build and test every package without the deprecated module."
+      },
+      {
+        "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+        "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+      }
+    ]
+  }
+}

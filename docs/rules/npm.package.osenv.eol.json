@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.osenv.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/osenv",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "osenv is no longer supported",
+  "summary": "npm states that the osenv package is no longer supported.",
+  "sources": [
+    {
+      "title": "osenv package deprecation notice",
+      "url": "https://www.npmjs.com/package/osenv"
+    },
+    {
+      "title": "osenv registry metadata",
+      "url": "https://registry.npmjs.org/osenv/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve platform-specific home, temp, editor, shell, path, and environment-variable fallback behavior actually used by the application."
+    ],
+    "steps": [
+      {
+        "id": "replace-osenv",
+        "title": "Replace operating-system environment helpers",
+        "instructions": "Replace each osenv helper with maintained runtime APIs and explicit environment-variable handling, then remove osenv.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run environment resolution and cross-platform repository tests."
+      }
+    ]
+  }
+}

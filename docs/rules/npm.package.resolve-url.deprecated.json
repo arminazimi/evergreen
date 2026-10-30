@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.resolve-url.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/resolve-url",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "resolve-url is deprecated",
+  "summary": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
+  "replacement": "URL",
+  "sources": [
+    {
+      "title": "resolve-url maintainer deprecation notice",
+      "url": "https://github.com/lydell/resolve-url#deprecated"
+    },
+    {
+      "title": "resolve-url registry metadata",
+      "url": "https://registry.npmjs.org/resolve-url/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve base URL selection, sequential resolution, protocol-relative URLs, absolute URLs, encoding, and browser compatibility."
+    ],
+    "steps": [
+      {
+        "id": "replace-resolve-url",
+        "title": "Use the URL API",
+        "instructions": "Replace resolve-url calls with URL construction, applying each base explicitly and returning the same string form expected by callers.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run relative, absolute, protocol-relative, encoded, multi-base, and repository tests."
+      }
+    ]
+  }
+}

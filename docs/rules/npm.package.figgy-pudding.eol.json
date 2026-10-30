@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.figgy-pudding.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/figgy-pudding",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "figgy-pudding is no longer supported",
+  "summary": "npm states that the figgy-pudding module is no longer supported.",
+  "sources": [
+    {
+      "title": "figgy-pudding package deprecation notice",
+      "url": "https://www.npmjs.com/package/figgy-pudding"
+    },
+    {
+      "title": "figgy-pudding registry metadata",
+      "url": "https://registry.npmjs.org/figgy-pudding/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve option defaults, validation, inheritance, provider lookup, key enumeration, and sensitive-value handling."
+    ],
+    "steps": [
+      {
+        "id": "replace-figgy-pudding",
+        "title": "Replace configuration wrappers",
+        "instructions": "Replace figgy-pudding instances with explicit validated configuration objects or a maintained configuration library, then remove the package.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run configuration defaults, validation, inheritance, and repository tests."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "Redis image release lines 6.0 and older are end-of-life — dates, impact, migration"
 description: "These Redis release lines no longer receive fixes from the vendor."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html"
+json_twin: "/rules/container.redis.eol-6.0-and-older.json"
 ---
 
 # Redis image release lines 6.0 and older are end-of-life

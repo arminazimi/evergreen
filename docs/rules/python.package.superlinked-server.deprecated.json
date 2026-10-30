@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.superlinked-server.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/superlinked-server",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "superlinked-server is deprecated",
+  "summary": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
+  "replacement": "SIE Server and sie-sdk",
+  "sources": [
+    {
+      "title": "superlinked-server deprecation notice",
+      "url": "https://pypi.org/project/superlinked-server/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve model selection, indexing, query behavior, deployment settings, authentication, and response contracts."
+    ],
+    "steps": [
+      {
+        "id": "replace-superlinked-server",
+        "title": "Adopt SIE",
+        "instructions": "Deploy SIE Server, replace the legacy package with sie-sdk, and translate server and client configuration to the current interfaces.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run inference, indexing, query, and repository tests."
+      }
+    ]
+  }
+}

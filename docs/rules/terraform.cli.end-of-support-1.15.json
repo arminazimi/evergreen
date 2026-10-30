@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "terraform.cli.end-of-support-1.15",
+  "ecosystem": "terraform",
+  "purl": "pkg:generic/terraform",
+  "affectedVersions": "vers:semver/>=1.15.0|<1.16.0",
+  "event": "end-of-support",
+  "severity": "medium",
+  "title": "Terraform CLI 1.15 is no longer a supported release line",
+  "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (first released 2026-04-29) stopped being one of them when Terraform 1.17 was released on 2026-10-21. The support window is taken from the dates of the hashicorp/terraform GitHub releases for 1.15.0 and 1.17.0.",
+  "replacement": "Terraform 1.16 or later",
+  "deadline": "2026-10-21",
+  "sources": [
+    {
+      "title": "hashicorp/terraform release v1.17.0",
+      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0"
+    },
+    {
+      "title": "hashicorp/terraform release v1.15.0",
+      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
+    },
+    {
+      "title": "HashiCorp Terraform support policy",
+      "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-30",
+    "reviewedAt": "2026-10-30",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep required_version in *.tf, the pin in .terraform-version or .tool-versions, and the Terraform version installed in CI and by every teammate on one supported release line.",
+      "Terraform state written by a newer release may not be readable by an older one, so move every place that runs plan or apply together instead of one environment at a time.",
+      "Do not run terraform init -upgrade as part of this change unless provider upgrades are intended: it can change provider versions and rewrite .terraform.lock.hcl."
+    ],
+    "steps": [
+      {
+        "id": "raise-cli-pin",
+        "title": "Raise the Terraform CLI pin",
+        "instructions": "Change the reported .terraform-version or terraform entry in .tool-versions to the release in the replacement.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-required-version",
+        "title": "Raise required_version",
+        "instructions": "Raise the lower bound of required_version in the terraform block of each *.tf file so it admits only supported releases, and read the upgrade notes of every line you cross.",
+        "targets": "all"
+      },
+      {
+        "id": "align-ci-toolchain",
+        "title": "Align CI and documentation",
+        "instructions": "Update CI workflows, Docker images, and setup documentation that install Terraform (for example hashicorp/setup-terraform) so they match the new pin.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "terraform version",
+        "purpose": "Confirm the active Terraform CLI is the intended release."
+      },
+      {
+        "command": "terraform init -backend=false && terraform validate",
+        "purpose": "Initialize without touching remote state and check that the configuration is valid on the new release."
+      },
+      {
+        "command": "terraform plan",
+        "purpose": "Review the plan and confirm the upgrade introduces no unexpected changes."
+      }
+    ]
+  }
+}

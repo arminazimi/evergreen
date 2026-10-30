@@ -2,6 +2,7 @@
 title: "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 — dates, impact, migration"
 description: "Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html"
+json_twin: "/rules/container.ubuntu.eol-22.04.json"
 ---
 
 # Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01

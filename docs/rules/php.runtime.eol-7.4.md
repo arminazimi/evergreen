@@ -2,6 +2,7 @@
 title: "PHP 7.4 is end-of-life — dates, impact, migration"
 description: "The PHP unsupported branches page lists the PHP 7.4 branch as end of life on 2022-11-28; the branch no longer receives security or bug fixes from the PHP project."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.4.html"
+json_twin: "/rules/php.runtime.eol-7.4.json"
 ---
 
 # PHP 7.4 is end-of-life

@@ -2,6 +2,7 @@
 title: "domexception is deprecated — dates, impact, migration"
 description: "npm directs users of domexception to the platform-native DOMException implementation."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html"
+json_twin: "/rules/npm.package.domexception.deprecated.json"
 ---
 
 # domexception is deprecated

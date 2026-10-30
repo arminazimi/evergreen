@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "go.module.github.com.streadway.amqp.deprecated",
+  "ecosystem": "go",
+  "purl": "pkg:golang/github.com/streadway/amqp",
+  "affectedVersions": "vers:golang/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "github.com/streadway/amqp is deprecated",
+  "summary": "The latest github.com/streadway/amqp module declares: \"Consider using the github.com/rabbitmq/amqp091-go package instead.\"",
+  "replacement": "github.com/rabbitmq/amqp091-go",
+  "sources": [
+    {
+      "title": "github.com/streadway/amqp v1.1.0 go.mod",
+      "url": "https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod"
+    },
+    {
+      "title": "Go module deprecation reference",
+      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep go.mod and go.sum consistent: after the change no package should still require github.com/streadway/amqp, directly or through a replace directive.",
+      "Check github.com/rabbitmq/amqp091-go for API differences before switching; it may not be a drop-in replacement for every github.com/streadway/amqp call."
+    ],
+    "steps": [
+      {
+        "id": "replace-module-dependency",
+        "title": "Replace the deprecated module",
+        "instructions": "Replace the github.com/streadway/amqp requirement with github.com/rabbitmq/amqp091-go (`go get github.com/rabbitmq/amqp091-go@latest`), then run `go mod tidy`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "migrate-module-usages",
+        "title": "Migrate imports and calls",
+        "instructions": "Update imports and calls of github.com/streadway/amqp in the reported files to github.com/rabbitmq/amqp091-go.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "go build ./... && go test ./...",
+        "purpose": "Build and test every package without the deprecated module."
+      },
+      {
+        "command": "go mod tidy && git diff --exit-code go.mod go.sum",
+        "purpose": "Confirm go.mod and go.sum are tidy after the replacement."
+      }
+    ]
+  }
+}

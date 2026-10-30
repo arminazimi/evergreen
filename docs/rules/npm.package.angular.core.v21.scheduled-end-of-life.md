@@ -2,6 +2,7 @@
 title: "@angular/core v21 reaches end of life on 2027-06-30 — dates, impact, migration"
 description: "Angular's release schedule lists v21 with \"LTS ends 2027-06\", a month-precision date. Evergreen uses the last day of that month, 2027-06-30, as the deadline."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v21.scheduled-end-of-life.html"
+json_twin: "/rules/npm.package.angular.core.v21.scheduled-end-of-life.json"
 ---
 
 # @angular/core v21 reaches end of life on 2027-06-30

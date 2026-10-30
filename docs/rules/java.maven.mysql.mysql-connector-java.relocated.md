@@ -2,6 +2,7 @@
 title: "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j — dates, impact, migration"
 description: "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html"
+json_twin: "/rules/java.maven.mysql.mysql-connector-java.relocated.json"
 ---
 
 # mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j

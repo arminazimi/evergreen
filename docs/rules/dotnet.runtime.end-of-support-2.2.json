@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "dotnet.runtime.end-of-support-2.2",
+  "ecosystem": "dotnet",
+  "purl": "pkg:generic/dotnet",
+  "affectedVersions": "vers:semver/>=2.2.0|<2.3.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": ".NET Core 2.2 is no longer supported",
+  "summary": ".NET Core 2.2 (Standard Term Support) reached the end of its support on 2019-12-23. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 2.2.x is reported too.",
+  "replacement": ".NET 10 (LTS), or the newest supported .NET release",
+  "deadline": "2019-12-23",
+  "sources": [
+    {
+      "title": ".NET and .NET Core official support policy",
+      "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+    },
+    {
+      "title": ".NET releases index (channel, support phase, end-of-life date)",
+      "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Move the project files, global.json, CI images, and container base images to the same release line; a mix hides the old runtime.",
+      "Read the breaking-changes list of each release between the old and new line before raising the target."
+    ],
+    "steps": [
+      {
+        "id": "raise-target-framework",
+        "title": "Raise the target framework",
+        "instructions": "Change the reported TargetFramework (or TargetFrameworks entry) from the 2.2 line to a supported one, for example net10.0.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-sdk-pin",
+        "title": "Raise the SDK pin",
+        "instructions": "Update the sdk version in global.json to an SDK of the same supported line, or remove the pin if the repository does not need one.",
+        "targets": "all"
+      },
+      {
+        "id": "align-ci-and-images",
+        "title": "Align CI and container images",
+        "instructions": "Update setup-dotnet versions in CI and the mcr.microsoft.com/dotnet images in Dockerfiles to the new line.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "dotnet --list-sdks && dotnet --list-runtimes",
+        "purpose": "Confirm the SDK and runtime in use are the intended supported release."
+      },
+      {
+        "command": "dotnet build && dotnet test",
+        "purpose": "Build and test every project on the new target."
+      }
+    ]
+  }
+}

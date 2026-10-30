@@ -2,6 +2,7 @@
 title: "Imp.get_tag has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.get_tag, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.get-tag.html"
+json_twin: "/rules/python.symbol.imp.get-tag.json"
 ---
 
 # Imp.get_tag has been removed

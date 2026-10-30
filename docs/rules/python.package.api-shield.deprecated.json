@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.api-shield.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/api-shield",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "api-shield is deprecated",
+  "summary": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
+  "replacement": "waygate",
+  "sources": [
+    {
+      "title": "api-shield deprecation notice",
+      "url": "https://pypi.org/project/api-shield/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve feature flags, rollout state, rate limits, maintenance windows, storage, and framework adapters."
+    ],
+    "steps": [
+      {
+        "id": "replace-api-shield",
+        "title": "Replace api-shield",
+        "instructions": "Replace the distribution, change shield imports and commands to waygate, and migrate configuration using the maintained documentation.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run policy, rollout, rate-limit, and repository tests."
+      }
+    ]
+  }
+}

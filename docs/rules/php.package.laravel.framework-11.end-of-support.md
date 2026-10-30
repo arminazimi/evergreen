@@ -2,6 +2,7 @@
 title: "Laravel 11 is no longer supported — dates, impact, migration"
 description: "Laravel's support policy states that security fixes for Laravel 11 ended on 2026-03-12; the release no longer receives security or bug fixes from the Laravel project."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html"
+json_twin: "/rules/php.package.laravel.framework-11.end-of-support.json"
 ---
 
 # Laravel 11 is no longer supported

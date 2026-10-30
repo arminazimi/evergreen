@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "java.maven.org.hibernate.hibernate-entitymanager.relocated",
+  "ecosystem": "java",
+  "purl": "pkg:maven/org.hibernate/hibernate-entitymanager",
+  "affectedVersions": "vers:maven/>=6.0.0.Alpha3",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager",
+  "summary": "The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocation to org.hibernate.orm:hibernate-entitymanager.",
+  "replacement": "org.hibernate.orm:hibernate-entitymanager",
+  "sources": [
+    {
+      "title": "org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central",
+      "url": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Replace org.hibernate:hibernate-entitymanager with org.hibernate.orm:hibernate-entitymanager; the relocation in the artifact's POM names the new coordinates, so keep the version unless you intend to upgrade it.",
+      "Update every module and dependency-management block that names the old coordinates, and remove exclusions that mention them."
+    ],
+    "steps": [
+      {
+        "id": "change-coordinates",
+        "title": "Change the dependency coordinates",
+        "instructions": "Replace the reported `org.hibernate:hibernate-entitymanager` dependency with `org.hibernate.orm:hibernate-entitymanager`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-dependency-surfaces",
+        "title": "Align other declarations",
+        "instructions": "Update every other pom.xml, Gradle build file, version catalog, and BOM override that names the old coordinates.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+        "purpose": "Confirm the old coordinates are gone from the resolved dependency graph."
+      },
+      {
+        "command": "./mvnw -B verify || ./gradlew build",
+        "purpose": "Build and test the project with the new coordinates."
+      }
+    ]
+  }
+}

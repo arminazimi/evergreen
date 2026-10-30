@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "container.ubuntu.eol-20.04-and-older",
+  "ecosystem": "container",
+  "purl": "pkg:docker/library/ubuntu",
+  "affectedVersions": "vers:semver/<20.10.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Ubuntu image release lines 20.04 and older are past standard support end-of-life",
+  "summary": "These Ubuntu releases no longer receive standard security updates from the vendor.",
+  "replacement": "An ubuntu image on a supported release line",
+  "deadline": "2025-05-31",
+  "sources": [
+    {
+      "title": "Ubuntu release cycle",
+      "url": "https://ubuntu.com/about/release-cycle"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the base image and deployment manifests that use ubuntu on one supported Ubuntu release line.",
+      "Confirm the application and its dependencies work on the target Ubuntu release."
+    ],
+    "steps": [
+      {
+        "id": "update-image-declaration",
+        "title": "Update the base image",
+        "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-image-surfaces",
+        "title": "Align other image references",
+        "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker build .",
+        "purpose": "Build the image on the new base."
+      },
+      {
+        "command": "docker run --rm IMAGE sh -c 'echo ok'",
+        "purpose": "Confirm the container starts on the new base."
+      }
+    ]
+  }
+}

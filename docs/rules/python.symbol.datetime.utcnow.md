@@ -2,6 +2,7 @@
 title: "datetime.utcnow is deprecated — dates, impact, migration"
 description: "Python 3.12 deprecates datetime.datetime.utcnow() and says to use timezone-aware objects to represent datetimes in UTC."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcnow.html"
+json_twin: "/rules/python.symbol.datetime.utcnow.json"
 ---
 
 # datetime.utcnow is deprecated

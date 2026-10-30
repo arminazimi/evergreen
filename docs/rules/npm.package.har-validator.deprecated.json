@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.har-validator.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/har-validator",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "har-validator is deprecated",
+  "summary": "npm states that har-validator is no longer supported.",
+  "sources": [
+    {
+      "title": "har-validator package deprecation notice",
+      "url": "https://www.npmjs.com/package/har-validator"
+    },
+    {
+      "title": "har-validator registry metadata",
+      "url": "https://registry.npmjs.org/har-validator/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the accepted HAR specification version, validation strictness, and error reporting."
+    ],
+    "steps": [
+      {
+        "id": "select-har-validator",
+        "title": "Select a maintained HAR validator",
+        "instructions": "Choose a maintained validator that supports the project's HAR version and required validation semantics.",
+        "targets": "all"
+      },
+      {
+        "id": "replace-har-validation",
+        "title": "Replace validation calls",
+        "instructions": "Translate har-validator calls and handle the replacement's result and error format explicitly.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run valid and invalid HAR fixtures and repository tests."
+      }
+    ]
+  }
+}

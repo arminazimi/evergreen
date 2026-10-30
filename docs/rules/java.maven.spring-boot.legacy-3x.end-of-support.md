@@ -2,6 +2,7 @@
 title: "Spring Boot 3.x is out of open-source support — dates, impact, migration"
 description: "Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.3.x and 3.4.x lines were explicitly marked as the end of OSS support, and 3.5.16 was announced as the last OSS release…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html"
+json_twin: "/rules/java.maven.spring-boot.legacy-3x.end-of-support.json"
 ---
 
 # Spring Boot 3.x is out of open-source support

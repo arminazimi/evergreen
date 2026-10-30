@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.action-gh-release.node20",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/softprops/action-gh-release",
+  "affectedVersions": "vers:semver/<3.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Unsupported softprops/action-gh-release runtime",
+  "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "replacement": "softprops/action-gh-release@v3 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "softprops/action-gh-release v3.0.0 release notes",
+      "url": "https://github.com/softprops/action-gh-release/releases/tag/v3.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "claude-agent"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the release tag, name, notes, draft and prerelease flags, and the files to upload; the job still needs contents: write."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade action-gh-release",
+        "instructions": "Change the uses reference to softprops/action-gh-release@v3 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-action-inputs",
+        "title": "Review action-gh-release inputs",
+        "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

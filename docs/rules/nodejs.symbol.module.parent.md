@@ -2,6 +2,7 @@
 title: "Module.parent is deprecated — dates, impact, migration"
 description: "Node.js deprecates module.parent (DEP0144: documentation-only since v14.6.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.module.parent.html"
+json_twin: "/rules/nodejs.symbol.module.parent.json"
 ---
 
 # Module.parent is deprecated

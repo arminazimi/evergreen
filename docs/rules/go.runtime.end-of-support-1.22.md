@@ -2,6 +2,7 @@
 title: "Go 1.22 is no longer supported — dates, impact, migration"
 description: "The Go release policy supports a major release until two newer major releases exist. Go 1.22 support ended when Go 1.24 was released."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.22.html"
+json_twin: "/rules/go.runtime.end-of-support-1.22.json"
 ---
 
 # Go 1.22 is no longer supported

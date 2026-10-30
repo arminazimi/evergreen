@@ -2,6 +2,7 @@
 title: "The Visual Studio 12 2013 generator is removed — dates, impact, migration"
 description: "CMake 3.31 removed the Visual Studio 12 2013 generator. Projects and presets that still name that generator cannot configure on CMake 3.31 or newer. CMake 3.31.0 was published on 2024-11-06."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator.visual-studio-12-2013.removed.html"
+json_twin: "/rules/cpp.cmake.generator.visual-studio-12-2013.removed.json"
 ---
 
 # The Visual Studio 12 2013 generator is removed

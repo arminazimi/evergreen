@@ -2,6 +2,7 @@
 title: "PostgreSQL image major versions 13 and older are end-of-life — dates, impact, migration"
 description: "The PostgreSQL project no longer releases fixes for these major versions."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html"
+json_twin: "/rules/container.postgres.eol-13-and-older.json"
 ---
 
 # PostgreSQL image major versions 13 and older are end-of-life

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.w3c-hr-time.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/w3c-hr-time",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "w3c-hr-time is deprecated",
+  "summary": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
+  "replacement": "Native performance.now() and performance.timeOrigin",
+  "sources": [
+    {
+      "title": "w3c-hr-time package deprecation notice",
+      "url": "https://www.npmjs.com/package/w3c-hr-time"
+    },
+    {
+      "title": "w3c-hr-time registry metadata",
+      "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve monotonic timing, time-origin assumptions, units, precision expectations, and minimum-runtime support."
+    ],
+    "steps": [
+      {
+        "id": "replace-w3c-hr-time",
+        "title": "Use native high-resolution time",
+        "instructions": "Replace w3c-hr-time imports and clock reads with native performance.now() and performance.timeOrigin, then remove the dependency.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run timing behavior and repository tests without relying on exact wall-clock values."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "DaemonSet extensions/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of DaemonSet is no longer served as of v1.16, which was released on 2019-09-18."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.daemonset.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.extensions.daemonset.v1beta1.removed.json"
 ---
 
 # DaemonSet extensions/v1beta1 is no longer served

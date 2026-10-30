@@ -2,6 +2,7 @@
 title: "Next.js 13 is out of support — dates, impact, migration"
 description: "Next.js 13 was released on 2022-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2024-10-26."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html"
+json_twin: "/rules/npm.package.next.13.support-end.json"
 ---
 
 # Next.js 13 is out of support

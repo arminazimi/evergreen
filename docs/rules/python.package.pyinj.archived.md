@@ -2,6 +2,7 @@
 title: "pyinj is archived on PyPI — dates, impact, migration"
 description: "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pyinj.archived.html"
+json_twin: "/rules/python.package.pyinj.archived.json"
 ---
 
 # pyinj is archived on PyPI

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.django-celery.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/django-celery",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "django-celery is no longer required",
+  "summary": "The project states that django-celery is no longer required because Celery supports Django directly.",
+  "replacement": "Celery's built-in Django integration",
+  "sources": [
+    {
+      "title": "django-celery retirement notice",
+      "url": "https://pypi.org/project/django-celery/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve task discovery, broker and result settings, periodic schedules, worker startup, retries, and Django application initialization."
+    ],
+    "steps": [
+      {
+        "id": "adopt-celery-django",
+        "title": "Adopt Celery's Django integration",
+        "instructions": "Configure the Celery application using the current Django integration and translate djcelery settings and setup calls.",
+        "targets": "all"
+      },
+      {
+        "id": "remove-django-celery",
+        "title": "Remove django-celery",
+        "instructions": "Remove django-celery and djcelery from dependencies, installed applications, imports, commands, and migrations after data needs are resolved.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run task, scheduling, result-backend, and repository tests."
+      }
+    ]
+  }
+}

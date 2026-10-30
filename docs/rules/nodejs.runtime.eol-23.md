@@ -2,6 +2,7 @@
 title: "Node.js 23 is end-of-life — dates, impact, migration"
 description: "Node.js 23 no longer receives security or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-23.html"
+json_twin: "/rules/nodejs.runtime.eol-23.json"
 ---
 
 # Node.js 23 is end-of-life

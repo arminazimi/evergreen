@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.typing.no-type-check-decorator",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.13",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "Typing.no_type_check_decorator is deprecated",
+  "summary": "Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3.15.",
+  "sources": [
+    {
+      "title": "What's New in Python 3.13",
+      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+    },
+    {
+      "title": "Python deprecations: pending removal in 3.15",
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of typing.no_type_check_decorator with code that no longer depends on it.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

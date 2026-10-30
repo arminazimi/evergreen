@@ -2,6 +2,7 @@
 title: "AWS Lambda Python 3.8 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html"
+json_twin: "/rules/serverless.aws-lambda.python3.8.json"
 ---
 
 # AWS Lambda Python 3.8 runtime is end-of-life

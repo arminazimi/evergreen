@@ -2,6 +2,7 @@
 title: "CMake policy versions older than 3.10 are deprecated — dates, impact, migration"
 description: "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html"
+json_twin: "/rules/cpp.cmake.policy-below-3.10.deprecated.json"
 ---
 
 # CMake policy versions older than 3.10 are deprecated

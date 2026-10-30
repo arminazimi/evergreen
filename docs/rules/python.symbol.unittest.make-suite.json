@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.unittest.make-suite",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.13",
+  "event": "removed",
+  "severity": "high",
+  "title": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed",
+  "summary": "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.",
+  "replacement": "The matching TestLoader methods: loadTestsFromTestCase(), loadTestsFromModule(), getTestCaseNames()",
+  "sources": [
+    {
+      "title": "What's New in Python 3.13",
+      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+    },
+    {
+      "title": "What's New in Python 3.11",
+      "url": "https://docs.python.org/3/whatsnew/3.11.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Use TestLoader",
+        "instructions": "Call unittest.defaultTestLoader.loadTestsFromTestCase(cls), loadTestsFromModule(module) or getTestCaseNames(cls).",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

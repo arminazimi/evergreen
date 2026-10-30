@@ -2,6 +2,7 @@
 title: "The onerror argument of shutil.rmtree is deprecated — dates, impact, migration"
 description: "Python 3.12 deprecates the onerror argument of shutil.rmtree(); onexc is the same handler but receives the exception instance."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html"
+json_twin: "/rules/python.symbol.shutil.rmtree-onerror.json"
 ---
 
 # The onerror argument of shutil.rmtree is deprecated

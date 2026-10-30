@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "container.couchbase.eol-7.2-and-older",
+  "ecosystem": "container",
+  "purl": "pkg:docker/library/couchbase",
+  "affectedVersions": "vers:semver/<7.6.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Couchbase Server image release lines 7.2 and older are end-of-life",
+  "summary": "These Couchbase Server release lines are past their end-of-life date in the vendor's lifecycle schedule (7.2 reached end of life in July 2026; 7.6 is supported until March 2027).",
+  "replacement": "A couchbase image on a supported release line",
+  "deadline": "2026-07-31",
+  "sources": [
+    {
+      "title": "Couchbase software lifecycle schedules",
+      "url": "https://www.couchbase.com/support-policy/EOL/"
+    },
+    {
+      "title": "Couchbase enterprise software support policy",
+      "url": "https://www.couchbase.com/support-policy/enterprise-software/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the base image, Compose image, CI service containers, and deployment manifests that use couchbase on one supported Couchbase Server release line.",
+      "Confirm the application and its data or configuration work on the target Couchbase Server release; read the vendor's upgrade notes before moving across several release lines."
+    ],
+    "steps": [
+      {
+        "id": "update-image-declaration",
+        "title": "Update the base image",
+        "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-image-surfaces",
+        "title": "Align other image references",
+        "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker build .",
+        "purpose": "Build the image on the new base."
+      },
+      {
+        "command": "docker run --rm IMAGE sh -c 'echo ok'",
+        "purpose": "Confirm the container starts on the new base."
+      }
+    ]
+  }
+}

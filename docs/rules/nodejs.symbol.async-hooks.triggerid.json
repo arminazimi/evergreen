@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.async-hooks.triggerid",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=9.0.0",
+  "event": "removed",
+  "severity": "high",
+  "title": "Async_hooks.triggerId has been removed",
+  "summary": "Node.js removed async_hooks.triggerId (DEP0071: runtime deprecation since v8.2.0, end-of-life since v9.0.0).",
+  "replacement": "async_hooks.triggerAsyncId()",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0071",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of async_hooks.triggerId with async_hooks.triggerAsyncId().",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "LocalSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the authorization.k8s.io/v1beta1 API version of LocalSubjectAccessReview is no longer served as of v1.22, which was released on 2021-08-04."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.authorization-k8s-io.localsubjectaccessreview.v1beta1.removed.json"
 ---
 
 # LocalSubjectAccessReview authorization.k8s.io/v1beta1 is no longer served

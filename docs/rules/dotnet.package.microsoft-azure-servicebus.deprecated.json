@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "dotnet.package.microsoft-azure-servicebus.deprecated",
+  "ecosystem": "dotnet",
+  "purl": "pkg:nuget/Microsoft.Azure.ServiceBus",
+  "affectedVersions": "vers:nuget/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "Microsoft.Azure.ServiceBus is deprecated on NuGet",
+  "summary": "NuGet marks all 33 listed versions of Microsoft.Azure.ServiceBus as deprecated (reason: Legacy). The publisher's message: \"Please note, this package is obsolete as of 9/30/2026 and is no longer maintained or monitored. Microsoft encourages you to upgrade to the replacement package, Azure.Messaging.ServiceBus, to continue receiving updates. Refer to the migration guide (https://aka.ms/azsdk/net/migrate/sb) for guidance on upgrading. Refer to our deprecation policy (https://aka.ms/azsdk/support-policies) for more details.\"",
+  "replacement": "Azure.Messaging.ServiceBus",
+  "deadline": "2026-09-30",
+  "sources": [
+    {
+      "title": "Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)",
+      "url": "https://www.nuget.org/packages/Microsoft.Azure.ServiceBus"
+    },
+    {
+      "title": "NuGet package deprecation",
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the namespace, queue, topic, and subscription names the same; only the client library changes.",
+      "Read the migration guide first: message settlement, sessions, and retry options moved to ServiceBusClient, ServiceBusSender, ServiceBusReceiver, and ServiceBusProcessor."
+    ],
+    "steps": [
+      {
+        "id": "replace-servicebus",
+        "title": "Move to Azure.Messaging.ServiceBus",
+        "instructions": "Replace Microsoft.Azure.ServiceBus with Azure.Messaging.ServiceBus and update QueueClient, TopicClient, and SubscriptionClient code to ServiceBusClient with senders, receivers, or processors.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "dotnet build && dotnet test",
+        "purpose": "Build and test after the client library change."
+      }
+    ]
+  }
+}

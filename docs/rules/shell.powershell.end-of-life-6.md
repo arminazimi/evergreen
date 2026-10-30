@@ -2,6 +2,7 @@
 title: "PowerShell 6.x is no longer supported — dates, impact, migration"
 description: "Microsoft's PowerShell support lifecycle lists every PowerShell 6 release (6.0, 6.1, and 6.2) as retired; the last, 6.2, reached end of support on 2020-09-04."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html"
+json_twin: "/rules/shell.powershell.end-of-life-6.json"
 ---
 
 # PowerShell 6.x is no longer supported

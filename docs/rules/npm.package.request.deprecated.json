@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.request.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/request",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "request is deprecated",
+  "summary": "The package is fully deprecated and no new changes are expected.",
+  "replacement": "Native fetch or a maintained HTTP client",
+  "deadline": "2020-02-11",
+  "sources": [
+    {
+      "title": "request package deprecation notice",
+      "url": "https://www.npmjs.com/package/request"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-13",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."
+    ],
+    "steps": [
+      {
+        "id": "choose-http-client",
+        "title": "Choose the target HTTP client",
+        "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.",
+        "targets": "all"
+      },
+      {
+        "id": "replace-request-calls",
+        "title": "Rewrite request usages",
+        "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.",
+        "targets": "usages"
+      },
+      {
+        "id": "replace-request-dependency",
+        "title": "Replace the dependency",
+        "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run HTTP behavior and repository tests when defined."
+      },
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Verify imports, types, and the build remain valid."
+      }
+    ]
+  }
+}

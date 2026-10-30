@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.q.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/q",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "q is deprecated",
+  "summary": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
+  "replacement": "Native Promise",
+  "sources": [
+    {
+      "title": "q package deprecation notice",
+      "url": "https://www.npmjs.com/package/q"
+    },
+    {
+      "title": "q registry metadata",
+      "url": "https://registry.npmjs.org/q/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve fulfillment and rejection timing, chaining, progress behavior where used, error propagation, and cancellation assumptions."
+    ],
+    "steps": [
+      {
+        "id": "audit-q-extensions",
+        "title": "Audit Q-specific behavior",
+        "instructions": "Identify Q-only APIs and semantic assumptions before translating promise chains.",
+        "targets": "usages"
+      },
+      {
+        "id": "replace-q",
+        "title": "Use native promises",
+        "instructions": "Rewrite Q construction, combinators, and chains with native Promise and async/await equivalents, then remove q.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run asynchronous success, rejection, ordering, and repository tests."
+      }
+    ]
+  }
+}

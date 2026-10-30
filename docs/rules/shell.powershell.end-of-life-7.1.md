@@ -2,6 +2,7 @@
 title: "PowerShell 7.1 is no longer supported — dates, impact, migration"
 description: "Microsoft's PowerShell support lifecycle lists 7.1 (built on .NET 5.0) as retired: support ended on 2022-05-08, so it receives no further updates, including security updates."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html"
+json_twin: "/rules/shell.powershell.end-of-life-7.1.json"
 ---
 
 # PowerShell 7.1 is no longer supported

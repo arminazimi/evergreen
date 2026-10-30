@@ -2,6 +2,7 @@
 title: "FlowSchema flowcontrol.apiserver.k8s.io/v1beta3 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta3 API version of FlowSchema is no longer served as of v1.32, which was released on 2024-12-11."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed.html"
+json_twin: "/rules/kubernetes.flowcontrol-apiserver-k8s-io.flowschema.v1beta3.removed.json"
 ---
 
 # FlowSchema flowcontrol.apiserver.k8s.io/v1beta3 is no longer served

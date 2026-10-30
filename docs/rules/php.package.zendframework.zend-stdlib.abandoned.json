@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "php.package.zendframework.zend-stdlib.abandoned",
+  "ecosystem": "php",
+  "purl": "pkg:composer/zendframework/zend-stdlib",
+  "affectedVersions": "vers:composer/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "zendframework/zend-stdlib is abandoned",
+  "summary": "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead. The Laminas Project announced that Zend Framework packages were archived and marked abandoned on Packagist when the project moved to Laminas.",
+  "replacement": "laminas/laminas-stdlib",
+  "deadline": "2019-12-31",
+  "sources": [
+    {
+      "title": "zendframework/zend-stdlib on Packagist",
+      "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+    },
+    {
+      "title": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!",
+      "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve array and parameter helper behavior while moving from Zend\\Stdlib to Laminas\\Stdlib.",
+      "Keep composer.json, composer.lock, and any package that still requires zendframework/zend-stdlib consistent after the replacement."
+    ],
+    "steps": [
+      {
+        "id": "replace-zend-stdlib-dependency",
+        "title": "Replace the dependency",
+        "instructions": "Remove zendframework/zend-stdlib from composer.json and require laminas/laminas-stdlib, then run `composer update`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "migrate-zend-stdlib-usages",
+        "title": "Migrate Zend\\Stdlib usages",
+        "instructions": "Replace reported Zend\\Stdlib use statements, ArrayUtils calls, and Parameters constructors with the Laminas\\Stdlib equivalents.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "composer validate && composer show laminas/laminas-stdlib",
+        "purpose": "Confirm the Composer project is valid and laminas/laminas-stdlib is installed."
+      },
+      {
+        "command": "composer validate && vendor/bin/phpunit",
+        "purpose": "Validate the Composer project and run the PHPUnit suite with the replacement package."
+      }
+    ]
+  }
+}

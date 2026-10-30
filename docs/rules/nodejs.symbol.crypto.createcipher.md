@@ -2,6 +2,7 @@
 title: "crypto.createCipher and createDecipher have been removed — dates, impact, migration"
 description: "Node.js removed crypto.createCipher() and crypto.createDecipher() because they use a weak key derivation (MD5, no salt) and static IVs (DEP0106, end-of-life since v22.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.createcipher.html"
+json_twin: "/rules/nodejs.symbol.crypto.createcipher.json"
 ---
 
 # crypto.createCipher and createDecipher have been removed

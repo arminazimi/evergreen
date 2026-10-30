@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.ipaddr.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/ipaddr",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "ipaddr is superseded",
+  "summary": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
+  "replacement": "ipaddress",
+  "sources": [
+    {
+      "title": "ipaddr supersession notice",
+      "url": "https://pypi.org/project/ipaddr/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve IPv4 and IPv6 parsing, strictness, network boundaries, address ordering, exception behavior, and text formatting."
+    ],
+    "steps": [
+      {
+        "id": "replace-ipaddr",
+        "title": "Replace ipaddr",
+        "instructions": "Replace the dependency and translate IPAddress, IPNetwork, and related usages to the standard-library ipaddress API.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-address-edge-cases",
+        "title": "Verify address behavior",
+        "instructions": "Test IPv4, IPv6, malformed input, host bits, networks, containment, and serialization used by the application.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run networking edge cases and repository tests."
+      }
+    ]
+  }
+}

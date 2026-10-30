@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.stable.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/stable",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "stable is deprecated",
+  "summary": "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.",
+  "replacement": "Array.prototype.sort",
+  "sources": [
+    {
+      "title": "stable package deprecation notice",
+      "url": "https://www.npmjs.com/package/stable"
+    },
+    {
+      "title": "stable registry metadata",
+      "url": "https://registry.npmjs.org/stable/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve comparator behavior, input mutation, output ordering, and support for the project's minimum JavaScript runtime."
+    ],
+    "steps": [
+      {
+        "id": "replace-stable",
+        "title": "Use native stable sorting",
+        "instructions": "Replace stable package calls with Array.prototype.sort using the same comparator, then remove the dependency.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run ordering and repository tests on every supported runtime."
+      }
+    ]
+  }
+}

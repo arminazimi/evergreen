@@ -2,6 +2,7 @@
 title: "AWS Lambda Node.js 12 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html"
+json_twin: "/rules/serverless.aws-lambda.nodejs12.x.json"
 ---
 
 # AWS Lambda Node.js 12 runtime is end-of-life

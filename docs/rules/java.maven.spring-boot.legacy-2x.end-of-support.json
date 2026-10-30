@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "java.maven.spring-boot.legacy-2x.end-of-support",
+  "ecosystem": "java",
+  "purl": "pkg:maven/org.springframework.boot/spring-boot",
+  "affectedVersions": "vers:maven/>=2.0.0|<3.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Spring Boot 2.x is out of open-source support",
+  "summary": "Spring Boot 2.x no longer receives regular open-source releases. Spring Boot 2.7 had an extended commercial support period, which is distinct from community OSS support. Upgrade to a supported Spring Boot 4.x line and follow the 2.x-to-3.x and 3.x-to-4.x migration guidance.",
+  "replacement": "Spring Boot 4.1.x",
+  "sources": [
+    {
+      "title": "Spring Boot support policy",
+      "url": "https://spring.io/projects/spring-boot#support"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-25",
+    "reviewedAt": "2026-10-25",
+    "reviewer": "Aaqibhafeezkhan"
+  },
+  "migration": {
+    "constraints": [
+      "Spring Boot 2.7's extended commercial support does not mean the 2.x line remains in community open-source support.",
+      "Spring Boot 3 requires Java 17 or later and includes the Jakarta EE namespace migration; complete the 2.x-to-3.x changes before moving to 4.x."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-to-spring-boot-3",
+        "title": "Upgrade to a supported 3.x baseline first",
+        "instructions": "Follow the official Spring Boot 3 migration guide, move to Java 17 or later, and migrate Java EE javax APIs to their Jakarta equivalents where required.",
+        "targets": "declaration"
+      },
+      {
+        "id": "upgrade-to-spring-boot-4",
+        "title": "Move to a supported 4.x release",
+        "instructions": "Follow the Spring Boot 4 migration guide, align Spring Framework and managed dependencies, and remove configuration deprecated by the intermediate releases.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "./mvnw -B verify || ./gradlew build",
+        "purpose": "Build and run the project's tests after the upgrade."
+      },
+      {
+        "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+        "purpose": "Check that the resolved dependency graph uses a consistent supported Spring Boot line."
+      }
+    ]
+  }
+}

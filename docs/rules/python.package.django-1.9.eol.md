@@ -2,6 +2,7 @@
 title: "Django 1.9 is end-of-life — dates, impact, migration"
 description: "The Django project lists the 1.9 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 4, 2017."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-1.9.eol.html"
+json_twin: "/rules/python.package.django-1.9.eol.json"
 ---
 
 # Django 1.9 is end-of-life

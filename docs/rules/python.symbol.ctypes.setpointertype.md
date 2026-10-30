@@ -2,6 +2,7 @@
 title: "Ctypes.SetPointerType is deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates ctypes.SetPointerType, to be removed in Python 3.15."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ctypes.setpointertype.html"
+json_twin: "/rules/python.symbol.ctypes.setpointertype.json"
 ---
 
 # Ctypes.SetPointerType is deprecated

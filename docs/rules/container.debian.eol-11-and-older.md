@@ -2,6 +2,7 @@
 title: "Debian image release lines 11 and older are end-of-life — dates, impact, migration"
 description: "These Debian releases no longer receive LTS security updates from the vendor."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html"
+json_twin: "/rules/container.debian.eol-11-and-older.json"
 ---
 
 # Debian image release lines 11 and older are end-of-life

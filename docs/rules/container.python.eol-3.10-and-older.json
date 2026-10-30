@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "container.python.eol-3.10-and-older",
+  "ecosystem": "container",
+  "purl": "pkg:docker/library/python",
+  "affectedVersions": "vers:semver/<3.11.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Python image release lines 3.10 and older are end-of-life",
+  "summary": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+  "replacement": "A python image on a supported release line",
+  "deadline": "2026-10-01",
+  "sources": [
+    {
+      "title": "Status of Python versions",
+      "url": "https://devguide.python.org/versions/"
+    },
+    {
+      "title": "Python release cycle (machine-readable)",
+      "url": "https://peps.python.org/api/release-cycle.json"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the base image, requires-python, CI matrices, and deployment runtimes on one supported Python release.",
+      "Confirm binary wheels and dependencies support the target Python release; rebuild any virtual environment or wheel cache inside the image."
+    ],
+    "steps": [
+      {
+        "id": "update-image-declaration",
+        "title": "Update the base image",
+        "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-image-surfaces",
+        "title": "Align other image references",
+        "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker build .",
+        "purpose": "Build the image on the new base."
+      },
+      {
+        "command": "docker run --rm IMAGE python --version",
+        "purpose": "Confirm the container runs the intended Python version."
+      }
+    ]
+  }
+}

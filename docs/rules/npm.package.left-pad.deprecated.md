@@ -2,6 +2,7 @@
 title: "left-pad is deprecated — dates, impact, migration"
 description: "The package author recommends the built-in String.prototype.padStart method."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html"
+json_twin: "/rules/npm.package.left-pad.deprecated.json"
 ---
 
 # left-pad is deprecated

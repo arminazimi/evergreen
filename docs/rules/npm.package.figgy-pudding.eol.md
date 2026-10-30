@@ -2,6 +2,7 @@
 title: "figgy-pudding is no longer supported — dates, impact, migration"
 description: "npm states that the figgy-pudding module is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html"
+json_twin: "/rules/npm.package.figgy-pudding.eol.json"
 ---
 
 # figgy-pudding is no longer supported

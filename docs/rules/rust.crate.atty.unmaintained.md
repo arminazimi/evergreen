@@ -2,6 +2,7 @@
 title: "atty is no longer maintained — dates, impact, migration"
 description: "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unmaintained.html"
+json_twin: "/rules/rust.crate.atty.unmaintained.json"
 ---
 
 # atty is no longer maintained

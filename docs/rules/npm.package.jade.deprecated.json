@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.jade.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/jade",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "jade is deprecated",
+  "summary": "npm states that Jade was renamed to Pug and directs users to the pug package.",
+  "replacement": "pug",
+  "sources": [
+    {
+      "title": "jade package deprecation notice",
+      "url": "https://www.npmjs.com/package/jade"
+    },
+    {
+      "title": "jade registry metadata",
+      "url": "https://registry.npmjs.org/jade/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve template rendering, locals, includes, inheritance, whitespace, and generated HTML."
+    ],
+    "steps": [
+      {
+        "id": "replace-jade",
+        "title": "Replace Jade with Pug",
+        "instructions": "Replace the jade dependency, imports, file extensions, and build integrations with pug equivalents.",
+        "targets": "all"
+      },
+      {
+        "id": "compare-rendered-html",
+        "title": "Compare rendered output",
+        "instructions": "Render representative templates and review generated HTML and escaping behavior for differences.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run template rendering and repository tests when defined."
+      }
+    ]
+  }
+}

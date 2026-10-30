@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "elixir.erlang.eol-25",
+  "ecosystem": "elixir",
+  "purl": "pkg:generic/erlang",
+  "affectedVersions": "vers:semver/>=25.0.0|<26.0.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Erlang/OTP 25 no longer receives security updates",
+  "summary": "Erlang/OTP supports the last three major releases with security updates. OTP 25 left that window when OTP 28 shipped on 2025-05-21, so the release no longer receives security updates from the Erlang/OTP project.",
+  "replacement": "Erlang/OTP 27 or later",
+  "deadline": "2025-05-21",
+  "sources": [
+    {
+      "title": "Erlang/OTP security policy",
+      "url": "https://github.com/erlang/otp/security/policy"
+    },
+    {
+      "title": "OTP 28.0 release",
+      "url": "https://github.com/erlang/otp/releases/tag/OTP-28.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep .tool-versions erlang pins, asdf elixir …-otp-N suffixes, CI setup-beam OTP versions, and container images on one supported OTP release that the project's Elixir supports.",
+      "Confirm Mix dependencies and NIFs build on the target OTP and recompile after changing the runtime."
+    ],
+    "steps": [
+      {
+        "id": "update-erlang-declaration",
+        "title": "Raise the Erlang/OTP version",
+        "instructions": "Change the reported declaration from OTP 25 to a supported release (see the replacement), using the project's existing version manager.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-erlang-surfaces",
+        "title": "Align other OTP version surfaces",
+        "instructions": "Update .tool-versions, asdf elixir …-otp-N pins, CI setup-beam OTP versions, and Dockerfile erlang images so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell",
+        "purpose": "Confirm the active OTP release is the intended major."
+      },
+      {
+        "command": "mix deps.get && mix compile",
+        "purpose": "Re-resolve dependencies and compile on the new OTP."
+      },
+      {
+        "command": "mix test",
+        "purpose": "Run the Mix test suite on the new OTP."
+      }
+    ]
+  }
+}

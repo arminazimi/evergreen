@@ -2,6 +2,7 @@
 title: "typing is archived on PyPI — dates, impact, migration"
 description: "PyPI marks typing as archived: the project does not expect to be updated in the future."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.typing.archived.html"
+json_twin: "/rules/python.package.typing.archived.json"
 ---
 
 # typing is archived on PyPI

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.asyncio-requests.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/asyncio-requests",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "asyncio-requests is retired",
+  "summary": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+  "replacement": "asyncio-gateway",
+  "sources": [
+    {
+      "title": "asyncio-gateway migration notice",
+      "url": "https://pypi.org/project/asyncio-gateway/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve HTTP, SOAP, FTP, and SFTP behavior, TLS verification, retries, processors, response envelopes, and error handling."
+    ],
+    "steps": [
+      {
+        "id": "replace-asyncio-requests",
+        "title": "Replace asyncio-requests",
+        "instructions": "Replace the distribution and asyncio_requests imports with asyncio-gateway interfaces, then review the documented breaking and security changes.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run protocol, TLS, response, and repository tests."
+      }
+    ]
+  }
+}

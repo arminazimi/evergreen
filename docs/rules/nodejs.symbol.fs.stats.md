@@ -2,6 +2,7 @@
 title: "The fs.Stats constructor is deprecated — dates, impact, migration"
 description: "Node.js deprecates the fs.Stats constructor (DEP0180: documentation-only since v20.13.0, runtime deprecation since v22.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.stats.html"
+json_twin: "/rules/nodejs.symbol.fs.stats.json"
 ---
 
 # The fs.Stats constructor is deprecated

@@ -2,6 +2,7 @@
 title: "Python 3.10 and older are end-of-life — dates, impact, migration"
 description: "These Python release lines no longer receive security or bug fixes from the Python core team."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.10-and-older.html"
+json_twin: "/rules/python.runtime.eol-3.10-and-older.json"
 ---
 
 # Python 3.10 and older are end-of-life

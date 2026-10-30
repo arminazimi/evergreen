@@ -2,6 +2,7 @@
 title: "Timers.active has been removed — dates, impact, migration"
 description: "Node.js removed timers.active (DEP0126: runtime deprecation since v11.14.0, end-of-life since v24.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.timers.active.html"
+json_twin: "/rules/nodejs.symbol.timers.active.json"
 ---
 
 # Timers.active has been removed

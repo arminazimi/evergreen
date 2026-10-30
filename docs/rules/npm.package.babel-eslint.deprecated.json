@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.babel-eslint.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/babel-eslint",
+  "affectedVersions": "vers:npm/1.0.0|1.0.1|1.0.2|1.0.3|1.0.4|1.0.6|1.0.7|1.0.8|1.0.9|1.0.10|1.0.11|1.0.12|1.0.13|1.0.14|2.0.0|2.0.2|3.0.0|3.0.1|3.1.0|3.1.1|3.1.3|3.1.4|3.1.5|3.1.6|3.1.7|3.1.8|3.1.9|3.1.10|3.1.11|3.1.12|3.1.13|3.1.14|3.1.15|3.1.16|3.1.17|3.1.18|3.1.19|3.1.20|3.1.21|3.1.22|3.1.23|3.1.24|3.1.25|3.1.26|3.1.27|3.1.28|3.1.29|3.1.30|4.0.0|4.0.1|4.0.2|4.0.3|4.0.4|4.0.5|4.0.6|4.0.7|4.0.8|4.0.9|4.0.10|4.1.0|4.1.1|4.1.2|4.1.3|4.1.4|4.1.5|4.1.6|4.1.7|4.1.8|5.0.0|5.0.1|5.0.2|5.0.3|5.0.4|6.0.0|6.0.1|6.0.2|6.0.3|6.0.4|6.0.5|6.1.0|6.1.1|6.1.2|7.0.0|7.1.0|7.1.1|7.2.0|7.2.1|7.2.2|7.2.3|8.0.0|8.0.1|8.0.2|8.0.3|8.1.0|8.1.1|8.1.2|8.2.0|8.2.1|8.2.2|8.2.3|8.2.4|8.2.5|8.2.6|9.0.0|10.0.0|10.0.1|10.0.2|10.0.3|10.1.0|11.0.0-beta.0|11.0.0-beta.1|11.0.0-beta.2",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "babel-eslint is deprecated",
+  "summary": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
+  "replacement": "@babel/eslint-parser",
+  "sources": [
+    {
+      "title": "babel-eslint on npm",
+      "url": "https://www.npmjs.com/package/babel-eslint"
+    },
+    {
+      "title": "babel-eslint version metadata",
+      "url": "https://registry.npmjs.org/babel-eslint"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the same parser options, lint rules, and supported syntax (decorators, class properties, Flow) in the new parser configuration."
+    ],
+    "steps": [
+      {
+        "id": "replace-babel-eslint",
+        "title": "Replace the parser package",
+        "instructions": "Replace babel-eslint with @babel/eslint-parser in dependencies and set the ESLint parser to @babel/eslint-parser.",
+        "targets": "all"
+      },
+      {
+        "id": "check-babel-config",
+        "title": "Provide a Babel configuration",
+        "instructions": "@babel/eslint-parser needs a Babel config (or requireConfigFile: false with parserOptions.babelOptions); add one so the same syntax parses.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run lint --if-present",
+        "purpose": "Run the linter with the new parser and compare the results."
+      }
+    ]
+  }
+}

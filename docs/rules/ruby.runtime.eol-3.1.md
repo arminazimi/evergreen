@@ -2,6 +2,7 @@
 title: "Ruby 3.1 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 3.1 as eol: normal maintenance ended on 2024-04-01 and the branch reached end-of-life on 2025-03-26."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html"
+json_twin: "/rules/ruby.runtime.eol-3.1.json"
 ---
 
 # Ruby 3.1 is end-of-life

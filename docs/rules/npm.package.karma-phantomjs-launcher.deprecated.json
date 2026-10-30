@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.karma-phantomjs-launcher.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/karma-phantomjs-launcher",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "karma-phantomjs-launcher is deprecated",
+  "summary": "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.",
+  "replacement": "A maintained Karma browser launcher such as karma-chrome-launcher",
+  "sources": [
+    {
+      "title": "karma-phantomjs-launcher package deprecation notice",
+      "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+    },
+    {
+      "title": "karma-phantomjs-launcher registry metadata",
+      "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve browser test coverage, Karma execution mode, launch flags, and CI behavior."
+    ],
+    "steps": [
+      {
+        "id": "select-browser-launcher",
+        "title": "Select a maintained browser launcher",
+        "instructions": "Choose a maintained Karma launcher supported by local and CI environments and add its package.",
+        "targets": "declaration"
+      },
+      {
+        "id": "replace-phantomjs-launcher",
+        "title": "Replace PhantomJS configuration",
+        "instructions": "Replace the PhantomJS launcher and browser name in Karma configuration, then remove karma-phantomjs-launcher.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the browser test suite in its supported local or CI mode."
+      }
+    ]
+  }
+}

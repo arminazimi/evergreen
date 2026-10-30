@@ -2,6 +2,7 @@
 title: "Process.assert has been removed — dates, impact, migration"
 description: "Node.js removed process.assert (DEP0100: documentation-only since v0.3.7, runtime deprecation since v10.0.0, end-of-life since v23.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.assert.html"
+json_twin: "/rules/nodejs.symbol.process.assert.json"
 ---
 
 # Process.assert has been removed

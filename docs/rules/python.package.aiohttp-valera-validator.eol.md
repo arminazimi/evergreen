@@ -2,6 +2,7 @@
 title: "aiohttp-valera-validator was renamed and is no longer maintained — dates, impact, migration"
 description: "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.aiohttp-valera-validator.eol.html"
+json_twin: "/rules/python.package.aiohttp-valera-validator.eol.json"
 ---
 
 # aiohttp-valera-validator was renamed and is no longer maintained

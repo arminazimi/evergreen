@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.typing.archived",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/typing",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "medium",
+  "title": "typing is archived on PyPI",
+  "summary": "PyPI marks typing as archived: the project does not expect to be updated in the future.",
+  "sources": [
+    {
+      "title": "typing on PyPI",
+      "url": "https://pypi.org/project/typing/"
+    },
+    {
+      "title": "typing project status (PyPI Simple API)",
+      "url": "https://pypi.org/simple/typing/"
+    },
+    {
+      "title": "Project status markers (PEP 792)",
+      "url": "https://packaging.python.org/specifications/project-status-markers/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve behavior while removing typing; PyPI says the project does not expect to be updated, so it will not receive fixes or support for newer Python releases."
+    ],
+    "steps": [
+      {
+        "id": "replace-typing",
+        "title": "Replace typing",
+        "instructions": "Remove typing from requirements, pyproject.toml, and lock files and replace it with a maintained alternative (often the standard library or the project that superseded it), then update the imports.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pip check",
+        "purpose": "Confirm the installed distributions have no broken requirements."
+      },
+      {
+        "command": "python -m pytest",
+        "purpose": "Run the test suite without the archived distribution."
+      }
+    ]
+  }
+}

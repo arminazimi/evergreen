@@ -2,6 +2,7 @@
 title: "Importlib.util.set_package has been removed — dates, impact, migration"
 description: "Python 3.12 removed importlib.util.set_package, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html"
+json_twin: "/rules/python.symbol.importlib.util.set-package.json"
 ---
 
 # Importlib.util.set_package has been removed

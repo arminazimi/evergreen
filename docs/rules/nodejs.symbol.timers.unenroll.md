@@ -2,6 +2,7 @@
 title: "Timers.unenroll has been removed — dates, impact, migration"
 description: "Node.js removed timers.unenroll (DEP0096: runtime deprecation since v10.0.0, end-of-life since v24.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.timers.unenroll.html"
+json_twin: "/rules/nodejs.symbol.timers.unenroll.json"
 ---
 
 # Timers.unenroll has been removed

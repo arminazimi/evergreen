@@ -2,6 +2,7 @@
 title: "Async_hooks.triggerId has been removed — dates, impact, migration"
 description: "Node.js removed async_hooks.triggerId (DEP0071: runtime deprecation since v8.2.0, end-of-life since v9.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.async-hooks.triggerid.html"
+json_twin: "/rules/nodejs.symbol.async-hooks.triggerid.json"
 ---
 
 # Async_hooks.triggerId has been removed

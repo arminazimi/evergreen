@@ -2,6 +2,7 @@
 title: "Timers.enroll has been removed — dates, impact, migration"
 description: "Node.js removed timers.enroll (DEP0095: runtime deprecation since v10.0.0, end-of-life since v24.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.timers.enroll.html"
+json_twin: "/rules/nodejs.symbol.timers.enroll.json"
 ---
 
 # Timers.enroll has been removed

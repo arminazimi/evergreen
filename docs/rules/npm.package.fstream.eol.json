@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.fstream.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/fstream",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "fstream is no longer supported",
+  "summary": "npm states that the fstream package is no longer supported.",
+  "sources": [
+    {
+      "title": "fstream package deprecation notice",
+      "url": "https://www.npmjs.com/package/fstream"
+    },
+    {
+      "title": "fstream registry metadata",
+      "url": "https://registry.npmjs.org/fstream/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve filesystem traversal, filtering, permissions, ownership, symlink handling, stream backpressure, and archive boundary security."
+    ],
+    "steps": [
+      {
+        "id": "replace-fstream",
+        "title": "Replace filesystem streaming",
+        "instructions": "Select maintained filesystem and archive primitives for the used fstream behavior, migrate readers and writers, then remove fstream.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run files, directories, symlinks, permissions, errors, and repository tests."
+      }
+    ]
+  }
+}

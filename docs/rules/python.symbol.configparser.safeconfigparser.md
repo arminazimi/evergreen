@@ -2,6 +2,7 @@
 title: "Configparser.SafeConfigParser has been removed — dates, impact, migration"
 description: "Python 3.12 removed configparser.SafeConfigParser, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.configparser.safeconfigparser.html"
+json_twin: "/rules/python.symbol.configparser.safeconfigparser.json"
 ---
 
 # Configparser.SafeConfigParser has been removed

@@ -2,6 +2,7 @@
 title: "Xcode 15 through 25 are not accepted for App Store uploads — dates, impact, migration"
 description: "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html"
+json_twin: "/rules/swift.xcode.app-store-15-through-25.json"
 ---
 
 # Xcode 15 through 25 are not accepted for App Store uploads

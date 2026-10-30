@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.multimodal-timesfm.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/multimodal-timesfm",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "multimodal-timesfm is no longer maintained",
+  "summary": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
+  "replacement": "tsfmx",
+  "sources": [
+    {
+      "title": "multimodal-timesfm rename notice",
+      "url": "https://pypi.org/project/multimodal-timesfm/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve model identifiers, checkpoints, preprocessing, forecast horizons, covariates, device selection, and output shapes."
+    ],
+    "steps": [
+      {
+        "id": "replace-multimodal-timesfm",
+        "title": "Replace multimodal-timesfm",
+        "instructions": "Replace the distribution and translate imports, model loading, and forecast calls to tsfmx.",
+        "targets": "all"
+      },
+      {
+        "id": "compare-forecasts",
+        "title": "Compare forecast behavior",
+        "instructions": "Run pinned fixtures through both packages and compare shapes, missing-value handling, and forecast tolerances.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run forecasting and repository tests when defined."
+      }
+    ]
+  }
+}

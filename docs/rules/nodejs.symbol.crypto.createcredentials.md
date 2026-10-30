@@ -2,6 +2,7 @@
 title: "Crypto.createCredentials has been removed — dates, impact, migration"
 description: "Node.js removed crypto.createCredentials (DEP0010: runtime deprecation since v0.11.13, end-of-life since v11.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.createcredentials.html"
+json_twin: "/rules/nodejs.symbol.crypto.createcredentials.json"
 ---
 
 # Crypto.createCredentials has been removed

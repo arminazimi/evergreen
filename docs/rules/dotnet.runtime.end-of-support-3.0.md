@@ -2,6 +2,7 @@
 title: ".NET Core 3.0 is no longer supported — dates, impact, migration"
 description: ".NET Core 3.0 (Standard Term Support) reached the end of its support on 2020-03-03. Microsoft no longer ships security or quality fixes for it."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-3.0.html"
+json_twin: "/rules/dotnet.runtime.end-of-support-3.0.json"
 ---
 
 # .NET Core 3.0 is no longer supported

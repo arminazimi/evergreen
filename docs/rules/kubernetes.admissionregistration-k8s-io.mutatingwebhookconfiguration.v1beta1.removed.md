@@ -2,6 +2,7 @@
 title: "MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the admissionregistration.k8s.io/v1beta1 API version of MutatingWebhookConfiguration is no longer served as of v1.22, which was released on…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.admissionregistration-k8s-io.mutatingwebhookconfiguration.v1beta1.removed.json"
 ---
 
 # MutatingWebhookConfiguration admissionregistration.k8s.io/v1beta1 is no longer served

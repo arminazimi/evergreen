@@ -2,6 +2,7 @@
 title: "Ruby image release lines 3.2 and older are end-of-life — dates, impact, migration"
 description: "These Ruby branches no longer receive security or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html"
+json_twin: "/rules/container.ruby.eol-3.2-and-older.json"
 ---
 
 # Ruby image release lines 3.2 and older are end-of-life

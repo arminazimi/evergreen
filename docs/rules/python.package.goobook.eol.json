@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.goobook.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/goobook",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "medium",
+  "title": "goobook is no longer maintained",
+  "summary": "The maintainer states that the project is no longer maintained.",
+  "sources": [
+    {
+      "title": "goobook maintenance notice",
+      "url": "https://pypi.org/project/goobook/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve contact fields, address-book search, authentication, caching, and command output used by scripts."
+    ],
+    "steps": [
+      {
+        "id": "replace-goobook",
+        "title": "Select a maintained contacts client",
+        "instructions": "Choose a maintained Google Contacts or CardDAV client, export or preserve local state, and replace goobook commands and integrations.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run contact lookup, synchronization, and repository tests when defined."
+      }
+    ]
+  }
+}
