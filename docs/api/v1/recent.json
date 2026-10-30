@@ -1,6 +1,19 @@
 {
   "changes": [
     {
+      "deadline": "2027-04-01",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "observedAt": "2026-10-30",
+      "path": "products/docker-library-redis.json",
+      "productId": "docker-library-redis",
+      "purl": "pkg:docker/library/redis",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "container.redis.eol-6.2-and-older",
+      "severity": "low",
+      "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -14,17 +27,17 @@
       "title": "PostgreSQL 10 is no longer a supported major version"
     },
     {
-      "deadline": "2024-07-29",
-      "ecosystem": "database",
+      "deadline": "2023-12-04",
+      "ecosystem": "serverless",
       "event": "end-of-life",
       "observedAt": "2026-10-29",
-      "path": "products/generic-redis.json",
-      "productId": "generic-redis",
-      "purl": "pkg:generic/redis",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "productId": "generic-aws-lambda-runtime-python3-7",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
       "reviewedAt": "2026-10-29",
-      "ruleId": "database.redis.end-of-life-7.0",
+      "ruleId": "serverless.aws-lambda.python3.7",
       "severity": "high",
-      "title": "Redis 7.0 is end-of-life"
+      "title": "AWS Lambda Python 3.7 runtime is end-of-life"
     },
     {
       "ecosystem": "osv",

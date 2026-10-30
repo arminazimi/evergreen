@@ -52,6 +52,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-7",
+      "latestReview": "2026-10-29",
+      "name": "python3.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2024-10-14",
       "ecosystems": [
         "serverless"
