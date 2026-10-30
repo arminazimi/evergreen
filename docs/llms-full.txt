@@ -1265,6 +1265,10 @@ npx evergreen-deprecation rollup org-reports/*/evergreen-report.json \
 
 [`templates/rollup/`](../templates/rollup/) packages that command as a GitHub Pages workflow. It runs after a successful organization scan, downloads the same artifacts, and publishes the page without a server. It only runs when the scan succeeds, so use `fail-on-severity: none` if you want the page even while the backlog is ungated.
 
+### Optional: developer portals
+
+To show the same lifecycle risk in Backstage, Grafana, Port, or Cortex — from one offline `export --format portal` catalog — see [Developer portals](PORTALS.md).
+
 ## 5. Set up the recurring digest
 
 The schedule in [step 2](#2-add-the-caller-workflow) is the recurrence. This step connects it to a chat channel.
