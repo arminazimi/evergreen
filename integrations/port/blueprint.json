@@ -1,0 +1,33 @@
+{
+  "identifier": "evergreen-service",
+  "title": "Evergreen service",
+  "icon": "Service",
+  "description": "Lifecycle risk per scanned path, from `evergreen export --format portal`.",
+  "schema": {
+    "properties": {
+      "path": {
+        "type": "string",
+        "title": "Scanned path",
+        "description": "Repository or service path that Evergreen scanned."
+      },
+      "next_end_of_life": {
+        "type": "string",
+        "title": "Next end of life",
+        "description": "Earliest finding deadline for this path (YYYY-MM-DD), when a finding has one."
+      },
+      "report_link": {
+        "type": "string",
+        "title": "Report link",
+        "format": "url",
+        "description": "Detailed Evergreen report for this path."
+      },
+      "findings_info": { "type": "number", "title": "Info findings" },
+      "findings_low": { "type": "number", "title": "Low findings" },
+      "findings_medium": { "type": "number", "title": "Medium findings" },
+      "findings_high": { "type": "number", "title": "High findings" },
+      "findings_critical": { "type": "number", "title": "Critical findings" },
+      "findings_total": { "type": "number", "title": "Total findings" }
+    },
+    "required": ["path", "report_link"]
+  }
+}
