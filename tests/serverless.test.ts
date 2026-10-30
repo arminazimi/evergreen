@@ -112,6 +112,18 @@ test("matches AWS and Google identifiers by Package URL and ignores Azure versio
   assert.ok(!findings.some((finding) => finding.location.path === "main.tf" && (finding.location.line === 13 || finding.location.line === 23 || finding.location.line === 38)));
 });
 
+test("the Python 3.7 rule flags that runtime and not a supported one", async () => {
+  const ruleId = "serverless.aws-lambda.python3.7";
+  const fixtures = resolve("tests/fixtures/serverless.aws-lambda.python3.7");
+  const match = await serverlessDetector.scan({ root: resolve(fixtures, "match") });
+  assert.deepEqual(
+    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
+    [["template.yaml", 6]],
+  );
+  const clean = await serverlessDetector.scan({ root: resolve(fixtures, "clean") });
+  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+});
+
 test("the first matching rule wins, and a malformed VERS does not hide a later rule", async () => {
   const node14 = (await committedRules()).find((rule) => rule.id === "serverless.aws-lambda.nodejs14.x")!;
   const earlier = { ...node14, id: "serverless.aws-lambda.nodejs14.x.earlier", vers: "vers:semver/*" };
