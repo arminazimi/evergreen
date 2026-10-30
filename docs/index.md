@@ -37,6 +37,7 @@ hosted service.
 - [Organization rollout](ORG_ROLLOUT.md)
 - [Detector SDK](DETECTORS.md)
 - [Architecture and trust boundaries](ARCHITECTURE.md)
+- [Decision records](decisions/index.md)
 - [Roadmap](ROADMAP.md)
 - [Post-launch notes and next roadmap](NEXT.md)
 - [Brand guide](https://github.com/arminazimi/evergreen/blob/main/brand/BRAND_GUIDE.md)
