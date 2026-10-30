@@ -31,10 +31,12 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: ${{ matrix.node }}
-          cache: ${{ runner.os == 'Windows' && '' || 'npm' }}
+          cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
       - run: npm ci
       - name: npm run check
         # The committed action bundle is verified only for a release; ordinary pull requests would conflict on it.
@@ -71,7 +73,7 @@ jobs:
           name: eol-calendar
           path: ${{ runner.temp }}/eol-calendar
           retention-days: 14
-      - name: Dogfood Evergreen action
+      - name: Dogfood Evergreen action # zizmor: ignore[self-repository] -- it scans this repository with the action under test
         if: runner.os == 'Linux' && matrix.node == 24
         uses: ./
         with:
@@ -89,6 +91,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -98,6 +102,8 @@ jobs:
       - name: Scan this repository with the code under test
         run: |
           node dist/src/cli.js scan . --baseline .evergreen-baseline.json --json > "$RUNNER_TEMP/self-scan.json"
+          # The template literals below are JavaScript evaluated by node, not shell expansions.
+          # shellcheck disable=SC2016
           node -e '
             const result = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
             for (const f of result.findings) console.error(`::error::${f.ruleId} ${f.id}: new finding not covered by .evergreen-baseline.json`);
@@ -112,6 +118,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -128,6 +136,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           ruby-version: "3.3"
@@ -151,6 +161,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # zizmor: ignore[artipacked] -- it pushes the badges branch with the checkout token
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: coverage-badge

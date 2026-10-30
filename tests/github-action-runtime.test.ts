@@ -14,6 +14,8 @@ import type { Finding } from "../src/domain.js";
 import { renderBadgeSvg } from "../src/badge.js";
 import { renderBadge, renderFailure, runGitHubAction } from "../src/github-action.js";
 
+const UPLOAD_ARTIFACT = "actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9";
+
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -157,7 +159,7 @@ test("action metadata packages the scan and report upload as a reusable action",
   assert.ok(
     metadata.runs?.steps?.some(
       (step) =>
-        step.uses === "actions/upload-artifact@v7" &&
+        step.uses === UPLOAD_ARTIFACT &&
         step.if === "always() && inputs.upload-report == 'true' && steps.scan.outputs.report-path != ''",
     ),
   );
@@ -409,7 +411,7 @@ test("badge upload is opt-in and skips scans that produced no endpoint", async (
   assert.equal(action.runs.steps[0]?.env?.["INPUT_UPLOAD-BADGE"], "${{ inputs.upload-badge }}");
   const upload = action.runs.steps.find((step) => step.name === "Upload README badge endpoint");
   assert.equal(upload?.if, "always() && inputs.upload-badge == 'true' && steps.scan.outputs.badge-path != ''");
-  assert.equal(upload?.uses, "actions/upload-artifact@v7");
+  assert.equal(upload?.uses, UPLOAD_ARTIFACT);
   assert.equal(upload?.with?.path, "${{ steps.scan.outputs.badge-path }}\n${{ steps.scan.outputs.badge-svg-path }}\n");
   assert.equal(action.outputs["badge-svg-path"]?.value, "${{ steps.scan.outputs.badge-svg-path }}");
 });

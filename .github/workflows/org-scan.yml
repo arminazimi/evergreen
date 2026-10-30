@@ -99,6 +99,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           repository: ${{ needs.list.outputs.organization }}/${{ matrix.repo }}
+          persist-credentials: false
       - uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
         with:
           fail-on-severity: ${{ inputs.fail-on-severity }}

@@ -28,12 +28,14 @@ jobs:
       id-token: write # the npm trusted-publishing exchange and the provenance attestation; nothing else
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           # Trusted publishing needs npm 11.5.1 or newer, which Node 24 ships.
           node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: npm
+          package-manager-cache: false
       - run: npm ci
       - name: The tag must match package.json
         run: |
@@ -68,9 +70,12 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
+          package-manager-cache: false
       - name: Wait for the registry to serve the new version
         run: |
           version="${GITHUB_REF_NAME#v}"
@@ -106,6 +111,8 @@ jobs:
       id-token: write # the mcp-publisher OIDC exchange; nothing else
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - name: server.json must match the tag
         run: |
           expected="v$(jq -r .version server.json)"
