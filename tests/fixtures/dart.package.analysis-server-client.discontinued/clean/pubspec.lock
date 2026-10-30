@@ -1,0 +1,13 @@
+# Resolved versions below are lookalikes: the dependency named
+# analysis_server_client is a fork fetched from git, so it is not hosted.
+packages:
+  analysis_server_client:
+    dependency: "direct main"
+    description:
+      name: analysis_server_client
+      url: "https://example.com/analysis_server_client.git"
+      resolved-ref: "6f1c2a4e9b7d3c5a8e0f2b4d6c8a0e2f4b6d8c0a"
+    source: git
+    version: "3.0.0"
+sdks:
+  dart: ">=3.13.0 <4.0.0"

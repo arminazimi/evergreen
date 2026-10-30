@@ -1,6 +1,6 @@
 # Dart and Flutter fixtures
 
-These fixtures define the parser boundary for Dart and Flutter declarations in [epic #53](https://github.com/arminazimi/evergreen/issues/53). The scope is the `environment` SDK constraints and direct dependencies in `pubspec.yaml`; the resolved packages and SDK constraints in `pubspec.lock`; and the Flutter version pinned by FVM in `.fvmrc` or `.fvm/fvm_config.json`. Line numbers below are 1-based. The versions are parser examples only: **they do not claim that any Dart SDK, Flutter release, or package is end of life or deprecated.** A lifecycle finding needs a reviewed rule with an authoritative source ([epic #53](https://github.com/arminazimi/evergreen/issues/53), “Scope” and “Non-goals”).
+These fixtures define the parser boundary for Dart and Flutter declarations in [epic #53](https://github.com/arminazimi/evergreen/issues/53). The scope is the `environment` SDK constraints and direct dependencies in `pubspec.yaml`; the resolved packages and SDK constraints in `pubspec.lock`; and the Flutter version pinned by FVM in `.fvmrc` or `.fvm/fvm_config.json`. Line numbers below are 1-based. Except for the `discontinued` fixtures, which exercise a reviewed rule, the versions are parser examples only: **they do not claim that any Dart SDK, Flutter release, or package is end of life or deprecated.** A lifecycle finding needs a reviewed rule with an authoritative source ([epic #53](https://github.com/arminazimi/evergreen/issues/53), “Scope” and “Non-goals”).
 
 | Fixture file | Expected case |
 | --- | --- |
@@ -20,8 +20,12 @@ These fixtures define the parser boundary for Dart and Flutter declarations in [
 | `malformed/pubspec.lock` | An unclosed flow sequence (line 10): no partial declarations, no error. |
 | `malformed/.fvmrc` | A trailing comma after the last member (line 2) makes the document invalid JSON: no declaration, no error. |
 | `malformed/.fvm/fvm_config.json` | A missing value (line 2) makes the document invalid JSON: no declaration, no error. |
+| `discontinued/pubspec.yaml` | The dependency `analysis_server_client` `^2.0.1` (line 10): a valid declaration of the discontinued package, so it matches `dart.package.analysis-server-client.discontinued`. |
+| `discontinued/pubspec.lock` | The resolved hosted packages `analysis_server_client` (line 11) and `http` (line 19) and the SDK constraint `dart` (line 21): the resolved discontinued package is a finding, `http` is not. |
+| `lookalike/pubspec.yaml` | The hosted dependency `analysis_server_client_extra` `^1.0.0` (line 10) and a git-sourced dependency named `analysis_server_client` (lines 11–14): valid declarations that no discontinued rule matches. |
+| `lookalike/pubspec.lock` | A git-sourced dependency named `analysis_server_client` (lines 4–11) and the SDK constraint `dart` (line 13): no hosted declaration for that name. |
 
-The `positive` fixtures are one realistic minimal project per declaration type. The zero fixtures are valid projects whose declarations are all supported, so they yield no lifecycle findings. Unclassified or lookalike values in the negative fixtures are not findings. Malformed fixtures are handled without an error or partial declarations.
+The `positive` fixtures are one realistic minimal project per declaration type. The zero fixtures are valid projects whose declarations are all supported, so they yield no lifecycle findings. The `discontinued` fixtures exercise the reviewed `dart.package.analysis-server-client.discontinued` rule, and the `lookalike` fixtures show that a similar name or a non-hosted source is not flagged. Unclassified or lookalike values in the negative fixtures are not findings. Malformed fixtures are handled without an error or partial declarations.
 
 `pubspec.lock` and the two FVM files exist in both the positive and zero cases because a Flutter project commonly pins its SDK in more than one place; the negative cases pin versions only in comments, prose, or channels.
 

@@ -35,23 +35,6 @@
       "type": "generic"
     },
     {
-      "earliestDeadline": "2023-03-31",
-      "ecosystems": [
-        "serverless"
-      ],
-      "events": [
-        "end-of-life"
-      ],
-      "id": "generic-aws-lambda-runtime-nodejs12-x",
-      "latestReview": "2026-10-29",
-      "name": "nodejs12.x",
-      "namespace": "aws-lambda-runtime",
-      "path": "products/generic-aws-lambda-runtime-nodejs12-x.json",
-      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
-      "rules": 1,
-      "type": "generic"
-    },
-    {
       "earliestDeadline": "2023-12-04",
       "ecosystems": [
         "serverless"
@@ -65,6 +48,23 @@
       "namespace": "aws-lambda-runtime",
       "path": "products/generic-aws-lambda-runtime-nodejs14-x.json",
       "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-7",
+      "latestReview": "2026-10-29",
+      "name": "python3.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
       "rules": 1,
       "type": "generic"
     },
@@ -1333,6 +1333,22 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2024-07-29",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-redis",
+      "latestReview": "2026-10-29",
+      "name": "redis",
+      "path": "products/generic-redis.json",
+      "purl": "pkg:generic/redis",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2015-02-23",
       "ecosystems": [
         "ruby"
@@ -1406,11 +1422,11 @@
         "end-of-support"
       ],
       "id": "generic-terraform",
-      "latestReview": "2026-10-21",
+      "latestReview": "2026-10-30",
       "name": "terraform",
       "path": "products/generic-terraform.json",
       "purl": "pkg:generic/terraform",
-      "rules": 5,
+      "rules": 6,
       "type": "generic"
     },
     {
@@ -1430,7 +1446,7 @@
       "type": "generic"
     }
   ],
-  "rules": 291,
+  "rules": 293,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "generic"
 }

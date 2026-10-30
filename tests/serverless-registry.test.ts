@@ -12,6 +12,7 @@ const SOURCE_DEADLINES = {
   "serverless.aws-lambda.nodejs12.x": { deadline: "2023-03-31", source: AWS_RUNTIMES, identifier: "nodejs12.x" },
   "serverless.aws-lambda.nodejs14.x": { deadline: "2023-12-04", source: AWS_RUNTIMES, identifier: "nodejs14.x" },
   "serverless.aws-lambda.python3.8": { deadline: "2024-10-14", source: AWS_RUNTIMES, identifier: "python3.8" },
+  "serverless.aws-lambda.python3.7": { deadline: "2023-12-04", source: AWS_RUNTIMES, identifier: "python3.7" },
   "serverless.aws-lambda.ruby2.7": { deadline: "2023-12-07", source: AWS_RUNTIMES, identifier: "ruby2.7" },
   "serverless.aws-lambda.dotnetcore3.1": { deadline: "2023-04-03", source: AWS_RUNTIMES, identifier: "dotnetcore3.1" },
   "serverless.google-cloud-functions.nodejs14": {
