@@ -1,0 +1,8 @@
+{
+  "name": "@acme/billing",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "uglify-es": "^3.3.9"
+  }
+}

@@ -275,7 +275,9 @@ export async function scanRepository(
   const dataWarnings = active ? [...active.info.warnings, ...(data?.stale ? [staleDataWarning(data)] : [])] : [];
   const dataVersion = options.dataVersion ?? active?.info.version ?? "bundled";
 
-  const repoFiles = !noCache && detectors.length > 0 ? await listRepositoryFiles(resolvedRoot) : [];
+  // Always list when detectors run: the cache needs the paths, and plan touch-sets need them
+  // in coverage so shared lockfiles conflict across tasks even when the scan found findings.
+  const repoFiles = detectors.length > 0 ? await listRepositoryFiles(resolvedRoot) : [];
   const fileHashMap = new Map<string, Promise<string>>();
   const getFileHash = (relPath: string): Promise<string> => {
     let existing = fileHashMap.get(relPath);
@@ -559,15 +561,26 @@ export async function scanRepository(
     return advisoryIds?.length ? { ...finding, advisoryIds } : finding;
   });
   const findingsSorted = withAdvisories.sort((left, right) => left.id.localeCompare(right.id));
-  // Coverage is for the empty-scan help; skip the extra walk when there are already findings to show.
+  // Empty scans keep the detector-matched coverage walk (ecosystems + help text). Scans with
+  // findings reuse the repository file list so plan touch-sets can attach lockfiles.
   const coverage =
-    detectors.length === 0 || findingsSorted.length > 0
+    detectors.length === 0
       ? undefined
-      : await buildScanCoverage(
-          resolvedRoot,
-          detectors,
-          references.map((reference) => reference.location.path),
-        );
+      : findingsSorted.length === 0
+        ? await buildScanCoverage(
+            resolvedRoot,
+            detectors,
+            references.map((reference) => reference.location.path),
+          )
+        : {
+            ecosystems: [...new Set(findingsSorted.map((finding) => finding.detector))].sort((left, right) =>
+              left.localeCompare(right),
+            ),
+            filesRead: [...repoFiles].sort((left, right) => left.localeCompare(right)),
+            unsupportedFiles: [...new Set(references.map((reference) => reference.location.path))].sort((left, right) =>
+              left.localeCompare(right),
+            ),
+          };
 
   return {
     schemaVersion: "evergreen.scan.v1",

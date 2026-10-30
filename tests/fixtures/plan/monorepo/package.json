@@ -1,0 +1,8 @@
+{
+  "name": "plan-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ]
+}
