@@ -26,7 +26,7 @@ The published package can read the filesystem, read environment variables, spawn
 
 [`.github/workflows/scorecard.yml`](.github/workflows/scorecard.yml) runs OpenSSF Scorecard weekly, on every push to `main`, and on branch-protection changes. It publishes results to the Scorecard API and uploads SARIF to GitHub code scanning. Actions in that workflow are pinned to full commit SHAs, and the job uses the minimum token permissions Scorecard needs (`contents: read`, `security-events: write`, `id-token: write`).
 
-[`.github/workflows/codeql.yml`](.github/workflows/codeql.yml) runs CodeQL static analysis on every pull request and every push to `main`, covering the JavaScript and TypeScript source that makes up the package, CLI, MCP server, and Action. It uploads SARIF to GitHub code scanning alongside the Scorecard and Evergreen results, with the same SHA-pinned actions and a job-level `security-events: write` permission.
+[`.github/workflows/codeql.yml`](.github/workflows/codeql.yml) runs CodeQL static analysis on `main` every week and on demand, covering the JavaScript and TypeScript source that makes up the package, CLI, MCP server, and Action. It uploads SARIF to GitHub code scanning alongside the Scorecard and Evergreen results, with the same SHA-pinned actions and a job-level `security-events: write` permission.
 
 Dependabot keeps npm dependencies and SHA-pinned Actions current, configured in [`.github/dependabot.yml`](.github/dependabot.yml). Its pull requests run the same `npm run check` and review as any other change.
 

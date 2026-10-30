@@ -8,8 +8,6 @@ on:
   schedule:
     # Weekly on Saturdays (Scorecard Maintained check).
     - cron: "27 4 * * 6"
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions: read-all

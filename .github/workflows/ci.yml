@@ -10,8 +10,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # A newer push to main supersedes an older one; a merge-queue run is never cancelled.
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   check:
@@ -24,6 +25,9 @@ jobs:
         include:
           - os: ubuntu-latest
             node: 22
+    # Pull requests run Linux only; Windows and macOS run on main and in the merge queue,
+    # where the scarce runners no longer hold up every pull request. A skipped matrix leg passes.
+    if: github.event_name != 'pull_request' || matrix.os == 'ubuntu-latest'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     permissions:

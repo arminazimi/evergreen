@@ -5,16 +5,17 @@ name: Package smoke
 # package.json fails here because the packed CLI would miss registry data or the bin entry.
 
 on:
-  push:
-    branches: [main]
   merge_group:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: package-smoke-${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: package-smoke-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   smoke:
