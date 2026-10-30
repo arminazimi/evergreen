@@ -1,6 +1,6 @@
 {
   "schemaVersion": "evergreen.baseline.v1",
-  "createdAt": "2026-10-29T16:19:28.112Z",
+  "createdAt": "2026-10-30T17:30:23.169Z",
   "findings": [
     {
       "fingerprint": "29ca519a9a7077a2f885fdc53dc72bc557726532338b9443eb3150b926c0df7f",
@@ -10,6 +10,16 @@
     {
       "fingerprint": "72adeeb4d0b56fae1582aad8bc242706c07b85835062d460642560027f8f0e36",
       "ruleId": "android.play-billing.version-5",
+      "path": "examples/gallery/android/build.gradle.kts"
+    },
+    {
+      "fingerprint": "6416b9dfe1a2db352aa7522add8d3f7b516cd45d33afa3bf0984aaee2f0feab8",
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "examples/gallery/android/build.gradle"
+    },
+    {
+      "fingerprint": "2b777bf1bb791bbf6f1b770deafa1c1372ce2a541baba35891316deac4630a84",
+      "ruleId": "android.target-sdk.existing.default-below-35",
       "path": "examples/gallery/android/build.gradle.kts"
     },
     {
@@ -561,6 +571,10 @@
     {
       "at": "2026-10-29T16:19:28.112Z",
       "count": 110
+    },
+    {
+      "at": "2026-10-30T17:30:23.169Z",
+      "count": 112
     }
   ]
 }
