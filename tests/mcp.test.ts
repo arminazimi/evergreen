@@ -452,6 +452,7 @@ test("every tool advertises an outputSchema, and its structured content validate
       ["check_dependency", { purl: "pkg:npm/request@2.88.2" }],
       ["check_dependency", { purl: "pkg:npm/express" }],
       ["forecast_repository", { repository_path: root, as_of: "2026-10-29" }],
+      ["plan_migrations", { repository_path: root }],
     ];
     for (const [name, args] of calls) {
       const result = await client.request("tools/call", { name, arguments: args });
