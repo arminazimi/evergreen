@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.upload-artifact.retired",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/actions/upload-artifact",
+  "affectedVersions": "vers:semver/<7.0.0",
+  "event": "removed",
+  "severity": "critical",
+  "title": "Retired actions/upload-artifact release",
+  "summary": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+  "replacement": "actions/upload-artifact@v7 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "Deprecation notice for artifact actions v3",
+      "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-13",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve artifact names, selected paths, retention settings, and overwrite behavior."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade upload-artifact",
+        "instructions": "Change the uses reference to actions/upload-artifact@v7 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-artifact-inputs",
+        "title": "Review upload inputs",
+        "instructions": "Confirm artifact paths, names, retention-days, compression, and overwrite settings against the target release.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

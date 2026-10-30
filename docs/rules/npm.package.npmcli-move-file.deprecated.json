@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.npmcli-move-file.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40npmcli/move-file",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "@npmcli/move-file is deprecated",
+  "summary": "npm states that @npmcli/move-file functionality moved to @npmcli/fs.",
+  "replacement": "@npmcli/fs",
+  "sources": [
+    {
+      "title": "@npmcli/move-file package deprecation notice",
+      "url": "https://www.npmjs.com/package/@npmcli/move-file"
+    },
+    {
+      "title": "@npmcli/move-file registry metadata",
+      "url": "https://registry.npmjs.org/@npmcli%2Fmove-file/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve overwrite, cross-device fallback, directory creation, permissions, error propagation, and platform-specific move behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-npmcli-move-file",
+        "title": "Move to @npmcli/fs",
+        "instructions": "Replace the dependency and imports with the move-file functionality exposed by @npmcli/fs, adapting changed exports and options.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run same-device, cross-device, overwrite, failure, and repository tests."
+      }
+    ]
+  }
+}

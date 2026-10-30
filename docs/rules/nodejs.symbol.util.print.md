@@ -2,6 +2,7 @@
 title: "Util.print has been removed — dates, impact, migration"
 description: "Node.js removed util.print (DEP0026: runtime deprecation since v0.11.3, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.print.html"
+json_twin: "/rules/nodejs.symbol.util.print.json"
 ---
 
 # Util.print has been removed

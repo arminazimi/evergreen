@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.pytest-runner.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/pytest-runner",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "pytest-runner is deprecated",
+  "summary": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
+  "replacement": "tox, nox, or direct pytest invocation",
+  "sources": [
+    {
+      "title": "pytest-runner deprecation notice",
+      "url": "https://pypi.org/project/pytest-runner/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve test dependencies, pytest options, environment variables, supported Python versions, and CI exit behavior."
+    ],
+    "steps": [
+      {
+        "id": "remove-pytest-runner",
+        "title": "Remove pytest-runner",
+        "instructions": "Remove pytest-runner from setup requirements and move test dependencies out of tests_require.",
+        "targets": "declaration"
+      },
+      {
+        "id": "add-test-bootstrap",
+        "title": "Add an explicit test runner",
+        "instructions": "Configure tox, nox, or the existing environment manager to install test dependencies and invoke pytest directly.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run the test suite without setup.py test or pytest-runner."
+      }
+    ]
+  }
+}

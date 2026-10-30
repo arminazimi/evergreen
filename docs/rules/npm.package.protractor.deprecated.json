@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.protractor.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/protractor",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "Protractor is deprecated",
+  "summary": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
+  "sources": [
+    {
+      "title": "protractor package deprecation notice",
+      "url": "https://www.npmjs.com/package/protractor"
+    },
+    {
+      "title": "protractor registry metadata",
+      "url": "https://registry.npmjs.org/protractor/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve end-to-end coverage, browser matrix, selectors, waits, authentication state, screenshots, retries, and CI artifacts."
+    ],
+    "steps": [
+      {
+        "id": "select-e2e-runner",
+        "title": "Select a maintained end-to-end runner",
+        "instructions": "Choose a maintained runner that supports the browsers, environments, and test capabilities the suite requires.",
+        "targets": "all"
+      },
+      {
+        "id": "migrate-protractor-suite",
+        "title": "Migrate the Protractor suite",
+        "instructions": "Translate configuration, page objects, selectors, waits, assertions, and CI commands incrementally to the selected runner.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the migrated end-to-end suite and repository tests."
+      }
+    ]
+  }
+}

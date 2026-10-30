@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.path.makelong",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=9.0.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "Path._makeLong is deprecated",
+  "summary": "Node.js deprecates path._makeLong (DEP0080: documentation-only since v9.0.0).",
+  "replacement": "path.toNamespacedPath()",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0080",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of path._makeLong with path.toNamespacedPath().",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.batchnotebook.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/batchnotebook",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "BatchNotebook is deprecated",
+  "summary": "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.",
+  "replacement": "runipy",
+  "sources": [
+    {
+      "title": "BatchNotebook deprecation notice",
+      "url": "https://pypi.org/project/BatchNotebook/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve notebook input and output paths, cell execution order, timeouts, errors, kernel selection, and rendered report artifacts."
+    ],
+    "steps": [
+      {
+        "id": "replace-batchnotebook",
+        "title": "Replace BatchNotebook",
+        "instructions": "Move notebook execution to runipy as recommended by the maintainer, or to the maintained notebook execution facility selected by the project, then remove BatchNotebook.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run notebook execution, timeout, failure, output, and project tests when defined."
+      }
+    ]
+  }
+}

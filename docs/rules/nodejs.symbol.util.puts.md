@@ -2,6 +2,7 @@
 title: "Util.puts has been removed — dates, impact, migration"
 description: "Node.js removed util.puts (DEP0027: runtime deprecation since v0.11.3, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.puts.html"
+json_twin: "/rules/nodejs.symbol.util.puts.json"
 ---
 
 # Util.puts has been removed

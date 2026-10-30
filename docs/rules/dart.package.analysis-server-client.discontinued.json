@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "dart.package.analysis-server-client.discontinued",
+  "ecosystem": "dart",
+  "purl": "pkg:pub/analysis_server_client",
+  "affectedVersions": "vers:semver/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "analysis_server_client is discontinued on pub.dev",
+  "summary": "pub.dev marks analysis_server_client as discontinued.",
+  "sources": [
+    {
+      "title": "analysis_server_client on pub.dev",
+      "url": "https://pub.dev/packages/analysis_server_client"
+    },
+    {
+      "title": "analysis_server_client package metadata",
+      "url": "https://pub.dev/api/packages/analysis_server_client"
+    },
+    {
+      "title": "Hosted Pub Repository Specification Version 2",
+      "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-30",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "analysis_server_client wraps the analysis_server protocol, so replacing it changes the call sites and not only the dependency entry: migrate the pubspec declaration and the Dart code that imports the package together.",
+      "The publisher lists no replacement package on pub.dev, so choose a maintained fork or a direct implementation of the protocol before removing the dependency."
+    ],
+    "steps": [
+      {
+        "id": "audit-usages",
+        "title": "Audit the client call sites",
+        "instructions": "List every file that imports package:analysis_server_client and the client, server, and protocol calls it makes.",
+        "targets": "usages"
+      },
+      {
+        "id": "choose-replacement",
+        "title": "Choose a maintained replacement",
+        "instructions": "Pick a maintained fork or implement the analysis_server protocol directly, and confirm the choice supports the Dart SDK constraint in environment.sdk.",
+        "targets": "declaration"
+      },
+      {
+        "id": "replace-and-remove",
+        "title": "Replace the dependency",
+        "instructions": "Update the imports and call sites, replace analysis_server_client in pubspec.yaml, and re-resolve dependencies so pubspec.lock no longer contains it.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "dart pub get",
+        "purpose": "Re-resolve dependencies after replacing the package."
+      },
+      {
+        "command": "dart analyze && dart test",
+        "purpose": "Analyze and test a Dart package on the replacement client."
+      },
+      {
+        "command": "dart analyze && flutter test",
+        "purpose": "Analyze and test a Flutter app on the replacement client."
+      }
+    ]
+  }
+}

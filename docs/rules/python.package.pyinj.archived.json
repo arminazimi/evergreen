@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.pyinj.archived",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/pyinj",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "medium",
+  "title": "pyinj is archived on PyPI",
+  "summary": "PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.",
+  "replacement": "injx",
+  "sources": [
+    {
+      "title": "pyinj archival and migration notice",
+      "url": "https://pypi.org/project/pyinj/"
+    },
+    {
+      "title": "pyinj project status (PyPI Simple API)",
+      "url": "https://pypi.org/simple/pyinj/"
+    },
+    {
+      "title": "Project status markers (PEP 792)",
+      "url": "https://packaging.python.org/specifications/project-status-markers/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve provider scopes, binding resolution, constructor injection, overrides, and application startup behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-pyinj",
+        "title": "Replace pyinj with injx",
+        "instructions": "Replace the distribution and imports, then translate bindings and injection declarations to the injx API.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-injection-graph",
+        "title": "Verify the injection graph",
+        "instructions": "Exercise application startup, nested dependencies, scopes, overrides, and missing-binding errors.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run dependency-injection and repository tests."
+      }
+    ]
+  }
+}

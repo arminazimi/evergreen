@@ -2,6 +2,7 @@
 title: "fennec is retired on Hex — dates, impact, migration"
 description: "Hex marks every published fennec release as retired with reason renamed, and the retirement message says the package was renamed to mongooseice."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.package.fennec.retired.html"
+json_twin: "/rules/elixir.package.fennec.retired.json"
 ---
 
 # fennec is retired on Hex

@@ -2,6 +2,7 @@
 title: "@types/sanitize-filename is deprecated — dates, impact, migration"
 description: "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html"
+json_twin: "/rules/npm.package.types.sanitize-filename.deprecated.json"
 ---
 
 # @types/sanitize-filename is deprecated

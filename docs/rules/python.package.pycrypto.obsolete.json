@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.pycrypto.obsolete",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/pycrypto",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "critical",
+  "title": "PyCrypto is obsolete and vulnerable",
+  "summary": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+  "replacement": "pycryptodome or cryptography",
+  "deadline": "2022-01-27",
+  "sources": [
+    {
+      "title": "Archived PyCrypto repository warning",
+      "url": "https://github.com/pycrypto/pycrypto"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-14",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Treat this as a security-sensitive migration: preserve algorithms, modes, key sizes, padding, nonces or IVs, authentication tags, and serialized ciphertext formats.",
+      "Do not silently change cryptographic primitives or defaults without explicit compatibility and security review."
+    ],
+    "steps": [
+      {
+        "id": "choose-crypto-library",
+        "title": "Choose the maintained library",
+        "instructions": "Select pycryptodome for a closer Crypto namespace migration or cryptography for a higher-level maintained interface.",
+        "targets": "all"
+      },
+      {
+        "id": "replace-crypto-usages",
+        "title": "Migrate cryptographic usages",
+        "instructions": "Update every reported import and operation, making keys, modes, padding, nonces, tags, and encoding explicit.",
+        "targets": "usages"
+      },
+      {
+        "id": "replace-pycrypto-dependency",
+        "title": "Replace the dependency",
+        "instructions": "Remove pycrypto, add the selected maintained package, and regenerate the environment lock data.",
+        "targets": "declaration"
+      },
+      {
+        "id": "verify-test-vectors",
+        "title": "Verify cryptographic test vectors",
+        "instructions": "Confirm known plaintext/ciphertext vectors and backward compatibility with persisted encrypted data.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run cryptographic vectors and repository tests."
+      },
+      {
+        "command": "python -m pip check",
+        "purpose": "Check installed dependency compatibility."
+      }
+    ]
+  }
+}

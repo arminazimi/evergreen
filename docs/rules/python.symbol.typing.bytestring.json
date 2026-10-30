@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.typing.bytestring",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.9",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "Typing.ByteString is deprecated",
+  "summary": "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.",
+  "replacement": "collections.abc.Buffer, or an explicit union",
+  "sources": [
+    {
+      "title": "Python deprecations: pending removal in 3.17",
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of typing.ByteString with collections.abc.Buffer, or an explicit union.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

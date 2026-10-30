@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.distribute.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/distribute",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "distribute is deprecated",
+  "summary": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
+  "replacement": "setuptools",
+  "sources": [
+    {
+      "title": "Distribute deprecation notice",
+      "url": "https://pypi.org/project/distribute/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve build backend behavior, package metadata, entry points, and supported installer environments."
+    ],
+    "steps": [
+      {
+        "id": "replace-distribute",
+        "title": "Replace Distribute",
+        "instructions": "Replace distribute requirements and bootstrap scripts with setuptools and remove distribute-specific installation logic.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-package-build",
+        "title": "Verify package builds",
+        "instructions": "Build source and wheel distributions in a clean environment and inspect their metadata and entry points.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pip check",
+        "purpose": "Check the packaging environment after replacement."
+      },
+      {
+        "command": "python -m pytest",
+        "purpose": "Run packaging and repository tests."
+      }
+    ]
+  }
+}

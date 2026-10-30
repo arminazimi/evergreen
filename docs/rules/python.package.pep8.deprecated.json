@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.pep8.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/pep8",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "pep8 was renamed to pycodestyle",
+  "summary": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
+  "replacement": "pycodestyle",
+  "sources": [
+    {
+      "title": "pycodestyle rename notice",
+      "url": "https://pypi.org/project/pycodestyle/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve selected checks, ignore lists, file exclusions, maximum line length, and CI failure behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-pep8",
+        "title": "Replace pep8 with pycodestyle",
+        "instructions": "Replace the dependency, commands, imports, and configuration section name with pycodestyle equivalents.",
+        "targets": "all"
+      },
+      {
+        "id": "compare-style-results",
+        "title": "Compare style results",
+        "instructions": "Run both configurations on the same source tree and review any changed diagnostics before removing pep8.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pycodestyle .",
+        "purpose": "Run the replacement style checker with project configuration."
+      }
+    ]
+  }
+}

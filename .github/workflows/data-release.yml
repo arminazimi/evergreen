@@ -34,10 +34,12 @@ jobs:
       OIDC_ISSUER: https://token.actions.githubusercontent.com
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
-          cache: npm
+          package-manager-cache: false
       - run: npm ci
       - run: npm run check
 
@@ -56,17 +58,22 @@ jobs:
             TAG="data-dry-run"
             REVISION=1
           fi
-          echo "created_at=${CREATED_AT}" >> "$GITHUB_OUTPUT"
-          echo "revision=${REVISION}" >> "$GITHUB_OUTPUT"
-          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          {
+            echo "created_at=${CREATED_AT}"
+            echo "revision=${REVISION}"
+            echo "tag=${TAG}"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Build the bundle twice and require identical bytes
+        env:
+          CREATED_AT: ${{ steps.version.outputs.created_at }}
+          REVISION: ${{ steps.version.outputs.revision }}
         run: |
           mkdir -p out
           for run in a b; do
             node dist/tools/build-data-bundle.js \
-              --created-at "${{ steps.version.outputs.created_at }}" \
-              --revision "${{ steps.version.outputs.revision }}" \
+              --created-at "$CREATED_AT" \
+              --revision "$REVISION" \
               --out "out/${run}.json"
           done
           cmp out/a.json out/b.json

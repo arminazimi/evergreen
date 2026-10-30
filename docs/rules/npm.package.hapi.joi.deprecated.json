@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.hapi.joi.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40hapi/joi",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "@hapi/joi is deprecated",
+  "summary": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
+  "replacement": "joi",
+  "sources": [
+    {
+      "title": "@hapi/joi package deprecation notice",
+      "url": "https://www.npmjs.com/package/@hapi/joi"
+    },
+    {
+      "title": "@hapi/joi registry metadata",
+      "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve validation schemas, preferences, extensions, and error handling."
+    ],
+    "steps": [
+      {
+        "id": "replace-hapi-joi",
+        "title": "Replace @hapi/joi",
+        "instructions": "Move the dependency and imports from @hapi/joi to joi, then adapt any API differences for the installed target version.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-joi-schemas",
+        "title": "Verify validation behavior",
+        "instructions": "Exercise successful and failing validation paths and compare their values and errors.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run schema validation and repository tests when defined."
+      }
+    ]
+  }
+}

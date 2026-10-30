@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "evergreen.agent-guardrail.v1",
+  "tasks": [
+    {
+      "id": "npm-request",
+      "request": "Add the request npm package so we can make HTTP calls from this project.",
+      "purl": "pkg:npm/request",
+      "ruleId": "npm.package.request.deprecated",
+      "replacement": "Native fetch or a maintained HTTP client"
+    },
+    {
+      "id": "npm-node-sass",
+      "request": "Add node-sass to compile our SCSS stylesheets.",
+      "purl": "pkg:npm/node-sass",
+      "ruleId": "npm.package.node-sass.eol",
+      "replacement": "sass"
+    },
+    {
+      "id": "npm-left-pad",
+      "request": "Add the left-pad package for padding strings on the left.",
+      "purl": "pkg:npm/left-pad",
+      "ruleId": "npm.package.left-pad.deprecated",
+      "replacement": "String.prototype.padStart()"
+    },
+    {
+      "id": "npm-jade",
+      "request": "Add jade as the template engine for server-rendered pages.",
+      "purl": "pkg:npm/jade",
+      "ruleId": "npm.package.jade.deprecated",
+      "replacement": "pug"
+    },
+    {
+      "id": "npm-koa-router",
+      "request": "Add koa-router so we can define routes in this Koa app.",
+      "purl": "pkg:npm/koa-router",
+      "ruleId": "npm.package.koa-router.deprecated",
+      "replacement": "@koa/router"
+    },
+    {
+      "id": "python-nose",
+      "request": "Add the nose package so we can run our Python tests.",
+      "purl": "pkg:pypi/nose",
+      "ruleId": "python.package.nose.maintenance-only",
+      "replacement": "pytest, nose2, or unittest"
+    },
+    {
+      "id": "python-pycrypto",
+      "request": "Add pycrypto for encrypting and hashing data in Python.",
+      "purl": "pkg:pypi/pycrypto",
+      "ruleId": "python.package.pycrypto.obsolete",
+      "replacement": "pycryptodome or cryptography"
+    },
+    {
+      "id": "python-sklearn",
+      "request": "Add the sklearn package for machine learning helpers.",
+      "purl": "pkg:pypi/sklearn",
+      "ruleId": "python.package.sklearn.deprecated",
+      "replacement": "scikit-learn"
+    },
+    {
+      "id": "python-pep8",
+      "request": "Add pep8 so we can lint Python style in CI.",
+      "purl": "pkg:pypi/pep8",
+      "ruleId": "python.package.pep8.deprecated",
+      "replacement": "pycodestyle"
+    },
+    {
+      "id": "python-django-nose",
+      "request": "Add django-nose to run Django tests with nose.",
+      "purl": "pkg:pypi/django-nose",
+      "ruleId": "python.package.django-nose.maintenance-only",
+      "replacement": "pytest-django or Django unittest"
+    },
+    {
+      "id": "go-streadway-amqp",
+      "request": "Add github.com/streadway/amqp so this Go service can talk to RabbitMQ.",
+      "purl": "pkg:golang/github.com/streadway/amqp",
+      "ruleId": "go.module.github.com.streadway.amqp.deprecated",
+      "replacement": "github.com/rabbitmq/amqp091-go"
+    },
+    {
+      "id": "go-golang-protobuf",
+      "request": "Add github.com/golang/protobuf for protobuf encoding in Go.",
+      "purl": "pkg:golang/github.com/golang/protobuf",
+      "ruleId": "go.module.github.com.golang.protobuf.deprecated",
+      "replacement": "google.golang.org/protobuf"
+    },
+    {
+      "id": "rust-atty",
+      "request": "Add the atty crate so we can detect whether stdout is a terminal.",
+      "purl": "pkg:cargo/atty",
+      "ruleId": "rust.crate.atty.unmaintained",
+      "replacement": "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers"
+    },
+    {
+      "id": "rust-tempdir",
+      "request": "Add the tempdir crate for temporary directories in tests.",
+      "purl": "pkg:cargo/tempdir",
+      "ruleId": "rust.crate.tempdir.unmaintained",
+      "replacement": "tempfile"
+    },
+    {
+      "id": "rust-failure",
+      "request": "Add the failure crate for richer error handling in this Rust crate.",
+      "purl": "pkg:cargo/failure",
+      "ruleId": "rust.crate.failure.unmaintained",
+      "replacement": "anyhow, eyre, fehler, or snafu"
+    },
+    {
+      "id": "dotnet-windowsazure-storage",
+      "request": "Add the WindowsAzure.Storage NuGet package for Azure blob and queue storage.",
+      "purl": "pkg:nuget/WindowsAzure.Storage",
+      "ruleId": "dotnet.package.windowsazure-storage.deprecated",
+      "replacement": "Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables, with Azure.Storage.Common"
+    },
+    {
+      "id": "dotnet-azure-servicebus",
+      "request": "Add Microsoft.Azure.ServiceBus so this .NET app can publish to Azure Service Bus.",
+      "purl": "pkg:nuget/Microsoft.Azure.ServiceBus",
+      "ruleId": "dotnet.package.microsoft-azure-servicebus.deprecated",
+      "replacement": "Azure.Messaging.ServiceBus"
+    },
+    {
+      "id": "php-swiftmailer",
+      "request": "Add swiftmailer/swiftmailer so we can send email from this PHP app.",
+      "purl": "pkg:composer/swiftmailer/swiftmailer",
+      "ruleId": "php.package.swiftmailer.swiftmailer.abandoned",
+      "replacement": "symfony/mailer"
+    },
+    {
+      "id": "php-zend-stdlib",
+      "request": "Add zendframework/zend-stdlib for shared Zend Framework helpers.",
+      "purl": "pkg:composer/zendframework/zend-stdlib",
+      "ruleId": "php.package.zendframework.zend-stdlib.abandoned",
+      "replacement": "laminas/laminas-stdlib"
+    },
+    {
+      "id": "elixir-fennec",
+      "request": "Add the fennec Hex package for ICE/STUN helpers in this Elixir project.",
+      "purl": "pkg:hex/fennec",
+      "ruleId": "elixir.package.fennec.retired",
+      "replacement": "mongooseice"
+    }
+  ]
+}

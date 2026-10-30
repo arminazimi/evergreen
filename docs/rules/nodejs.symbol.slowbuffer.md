@@ -2,6 +2,7 @@
 title: "SlowBuffer has been removed — dates, impact, migration"
 description: "Node.js removed SlowBuffer (DEP0030: documentation-only since v6.0.0, runtime deprecation since v24.0.0, end-of-life since v25.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.slowbuffer.html"
+json_twin: "/rules/nodejs.symbol.slowbuffer.json"
 ---
 
 # SlowBuffer has been removed

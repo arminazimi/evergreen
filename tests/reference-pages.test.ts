@@ -22,8 +22,10 @@ import {
   pageTitle,
   renderIndex,
   renderLookupPage,
+  renderRuleData,
   renderRulePage,
   renderSitemap,
+  ruleDataUrl,
   ruleUrl,
   write,
 } from "../tools/build-reference-pages.js";
@@ -63,13 +65,70 @@ function structuredData(page: string): Record<string, unknown> {
   return JSON.parse(match[1]!) as Record<string, unknown>;
 }
 
-test("every bundled rule has a page, and the committed pages match the registry", async () => {
+test("every bundled rule has a page and a JSON twin, and the committed files match the registry", async () => {
   const registries = await loadRegistries();
   const total = registries.reduce((sum, item) => sum + item.rules.length, 0);
   assert.ok(total >= 100);
   const files = buildFiles(registries);
-  assert.equal(files.filter((file) => file.path.startsWith("docs/rules/") && !file.path.endsWith("index.md")).length, total);
+  const pages = files.filter((file) => file.path.startsWith("docs/rules/") && file.path.endsWith(".md") && !file.path.endsWith("index.md"));
+  const twins = files.filter((file) => file.path.startsWith("docs/rules/") && file.path.endsWith(".json"));
+  assert.equal(pages.length, total);
+  assert.equal(twins.length, total);
+  assert.deepEqual(
+    twins.map((file) => file.path),
+    pages.map((file) => file.path.replace(/\.md$/, ".json")),
+  );
   assert.deepEqual(await drift(files), []);
+});
+
+test("a page links its JSON twin, and the twin is the evergreen.rule.v1 document", () => {
+  const fixture = rule({
+    sources: [{ title: "Demo lifecycle", url: "https://example.com/demo", accessedAt: "2026-10-03" }],
+    migration: {
+      constraints: ["Keep behavior."],
+      steps: [{ id: "change", title: "Change it", instructions: "Do the change.", targets: "declaration" }],
+      verification: [{ command: "make test", purpose: "Run the tests." }],
+    },
+  });
+  const page = renderRulePage(fixture, 180);
+  const frontMatter = parse(page.slice(4, page.indexOf("\n---\n", 4))) as { json_twin: string };
+  assert.equal(frontMatter.json_twin, "/rules/demo.thing.eol-1.json");
+  assert.equal(ruleDataUrl(fixture.id), `${SITE_URL}/rules/demo.thing.eol-1.json`);
+
+  const contents = renderRuleData(fixture);
+  assert.ok(contents.endsWith("\n"));
+  const twin = JSON.parse(contents) as Record<string, unknown>;
+  assert.equal(twin.schemaVersion, "evergreen.rule.v1");
+  assert.equal(twin.id, fixture.id);
+  assert.equal(twin.ecosystem, fixture.ecosystem);
+  assert.equal(twin.purl, fixture.purl);
+  assert.equal(twin.affectedVersions, fixture.vers);
+  assert.equal(twin.event, fixture.event);
+  assert.equal(twin.severity, fixture.severity);
+  assert.equal(twin.title, fixture.title);
+  assert.equal(twin.summary, fixture.summary);
+  assert.equal(twin.deadline, fixture.deadline);
+  assert.equal(twin.replacement, fixture.replacement);
+  assert.deepEqual(twin.sources, fixture.sources);
+  assert.deepEqual(twin.provenance, fixture.provenance);
+  assert.deepEqual(twin.migration, fixture.migration);
+});
+
+test("every published rule twin is a valid evergreen.rule.v1 document", async () => {
+  const { Ajv2020 } = await import("ajv/dist/2020.js");
+  const validate = new Ajv2020({ allErrors: true }).compile(JSON.parse(await readFile(resolve("schemas/rule.v1.schema.json"), "utf8")) as object);
+  for (const item of await loadRegistries()) {
+    for (const entry of item.rules) {
+      const twin = JSON.parse(renderRuleData(entry)) as unknown;
+      assert.equal(validate(twin), true, `${entry.id}: ${JSON.stringify(validate.errors)}`);
+    }
+  }
+});
+
+test("the site head links a page's JSON twin when its front matter names one", async () => {
+  const include = await readFile("docs/_includes/head-custom.html", "utf8");
+  assert.match(include, /\{%-\s*if page\.json_twin\s*%\}/);
+  assert.match(include, /<link rel="alternate" type="application\/json" href="\{\{ page\.json_twin \| relative_url \}\}">/);
 });
 
 test("a page states status, versions, dates, sources, freshness, migration, and detectors", () => {
@@ -249,15 +308,22 @@ test("drift names a changed page, a missing page, and a stale page", async () =>
     "differs: docs/rules/demo.thing.eol-1.md",
     "differs: docs/rules/index.md",
     "differs: docs/sitemap.xml",
+    "stale: docs/rules/demo.other.eol-2.json",
     "stale: docs/rules/demo.other.eol-2.md",
   ]);
 
   await write(fewer, root);
   assert.deepEqual(await drift(fewer, root), []);
+
+  await writeFile(join(root, "docs/rules/demo.thing.eol-1.json"), "{}\n");
+  assert.deepEqual(await drift(fewer, root), ["differs: docs/rules/demo.thing.eol-1.json"]);
+  await write(fewer, root);
+
   assert.deepEqual(await drift(buildFiles([registry([rule(), rule({ id: "demo.new.eol-3" })])]), root), [
     "differs: docs/lookup.html",
     "differs: docs/rules/index.md",
     "differs: docs/sitemap.xml",
+    "missing: docs/rules/demo.new.eol-3.json",
     "missing: docs/rules/demo.new.eol-3.md",
   ]);
 });
@@ -406,11 +472,13 @@ test("--check passes on fresh pages and fails, naming the page, when one drifts"
   const drifted = await checkIn(root);
   assert.equal(drifted.code, 1);
   assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.md/);
+  assert.match(drifted.stderr, /differs: docs\/rules\/demo\.thing\.eol-1\.json/);
   assert.match(drifted.stderr, /npm run build:reference/);
 
-  // A rule is removed: its page is stale.
+  // A rule is removed: its page and its JSON twin are stale.
   await writeFile(join(root, "registry/demo.json"), JSON.stringify(registry([])));
   assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.md/);
+  assert.match((await checkIn(root)).stderr, /stale: docs\/rules\/demo\.thing\.eol-1\.json/);
 });
 
 test("CI runs the drift check", async () => {

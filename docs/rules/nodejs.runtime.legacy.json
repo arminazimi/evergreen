@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.runtime.legacy",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/<18.0.0",
+  "event": "end-of-life",
+  "severity": "critical",
+  "title": "Legacy Node.js runtime is end-of-life",
+  "summary": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
+  "replacement": "Node.js 22 LTS or later",
+  "sources": [
+    {
+      "title": "Node.js end-of-life releases",
+      "url": "https://nodejs.org/en/about/eol"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-13",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+      "Expect dependency and language compatibility changes when crossing multiple Node.js majors."
+    ],
+    "steps": [
+      {
+        "id": "update-runtime-declaration",
+        "title": "Update the Node.js declaration",
+        "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+        "targets": "declaration"
+      },
+      {
+        "id": "upgrade-in-supported-stages",
+        "title": "Upgrade across supported majors",
+        "instructions": "Resolve dependency and runtime incompatibilities in supported-major increments before adopting the final target.",
+        "targets": "all"
+      },
+      {
+        "id": "align-runtime-surfaces",
+        "title": "Align runtime surfaces",
+        "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "node --version",
+        "purpose": "Confirm the active Node.js runtime is supported."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository test suite on the target runtime when defined."
+      },
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Verify the project builds on the target runtime."
+      }
+    ]
+  }
+}

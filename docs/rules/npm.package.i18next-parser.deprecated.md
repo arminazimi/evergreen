@@ -2,6 +2,7 @@
 title: "i18next-parser is deprecated — dates, impact, migration"
 description: "npm marks i18next-parser as deprecated: \"Project is deprecated, use i18next-cli instead\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html"
+json_twin: "/rules/npm.package.i18next-parser.deprecated.json"
 ---
 
 # i18next-parser is deprecated

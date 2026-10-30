@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "scala.runtime.eol-2.11",
+  "ecosystem": "scala",
+  "purl": "pkg:generic/scala",
+  "affectedVersions": "vers:semver/>=2.11.0|<2.12.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Scala 2.11 reached end of life",
+  "summary": "The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained.",
+  "replacement": "Scala 2.13 or Scala 3",
+  "deadline": "2016-01-01",
+  "sources": [
+    {
+      "title": "Scala development guarantees — Scala 2.11 status",
+      "url": "https://scala-lang.org/development/"
+    },
+    {
+      "title": "Scala 2 maintenance plans",
+      "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-27",
+    "reviewedAt": "2026-10-27",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep .scala-version, build.sbt scalaVersion, CI setup-java / setup-scala versions, and container images on one supported Scala release line.",
+      "Confirm libraryDependencies cross-build or resolve on the target Scala and re-resolve with sbt after changing the runtime."
+    ],
+    "steps": [
+      {
+        "id": "update-scala-declaration",
+        "title": "Raise the Scala version",
+        "instructions": "Change the reported declaration from Scala 2.11 to a supported release (see the replacement), using the project's existing version manager or sbt setting.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-scala-surfaces",
+        "title": "Align other Scala version surfaces",
+        "instructions": "Update .scala-version, build.sbt scalaVersion, CI matrices, and Dockerfile Scala images so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "scala -version",
+        "purpose": "Confirm the active Scala runtime is the intended release."
+      },
+      {
+        "command": "sbt -Dsbt.supershell=false compile",
+        "purpose": "Compile the project on the new Scala."
+      },
+      {
+        "command": "sbt -Dsbt.supershell=false test",
+        "purpose": "Run the sbt test suite on the new Scala."
+      }
+    ]
+  }
+}

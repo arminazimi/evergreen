@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.crypto.hash",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=22.0.0",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "The crypto.Hash constructor is deprecated",
+  "summary": "Node.js deprecates the crypto.Hash constructor (DEP0179: documentation-only since v21.5.0, runtime deprecation since v22.0.0).",
+  "replacement": "crypto.createHash()",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0179",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of the crypto.Hash constructor with crypto.createHash().",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

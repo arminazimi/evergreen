@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.request-promise.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/request-promise",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "request-promise is deprecated",
+  "summary": "npm states that request-promise is deprecated because it extends the deprecated request package.",
+  "replacement": "Native fetch or a maintained promise-based HTTP client",
+  "sources": [
+    {
+      "title": "request-promise package deprecation notice",
+      "url": "https://www.npmjs.com/package/request-promise"
+    },
+    {
+      "title": "request-promise registry metadata",
+      "url": "https://registry.npmjs.org/request-promise/latest"
+    },
+    {
+      "title": "Node.js 18 release announcement: global fetch",
+      "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve request options, authentication, redirects, timeouts, retries, transforms, full-response mode, and rejection semantics."
+    ],
+    "steps": [
+      {
+        "id": "select-promise-http-client",
+        "title": "Select the target HTTP client",
+        "instructions": "Choose native fetch or one maintained promise-based client that covers the affected request-promise behavior.",
+        "targets": "all"
+      },
+      {
+        "id": "replace-request-promise",
+        "title": "Replace request-promise",
+        "instructions": "Rewrite requests, response handling, and errors for the selected client, then remove request-promise.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run HTTP behavior and repository tests when defined."
+      }
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "database.redis.end-of-life-7.0",
+  "ecosystem": "database",
+  "purl": "pkg:generic/redis",
+  "affectedVersions": "vers:semver/>=7.0.0|<7.1.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Redis 7.0 is end-of-life",
+  "summary": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the line.",
+  "replacement": "Redis 7.4 or later",
+  "deadline": "2024-07-29",
+  "sources": [
+    {
+      "title": "Redis Open Source version management",
+      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/",
+      "accessedAt": "2026-10-29"
+    },
+    {
+      "title": "endoflife.date: Redis",
+      "url": "https://endoflife.date/redis",
+      "accessedAt": "2026-10-29"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-29",
+    "reviewedAt": "2026-10-29",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Redis persists data in RDB snapshots and the AOF log; a dataset written by a newer server cannot be read by an older one, so a backup taken before the upgrade is the only way back.",
+      "Replication and ACL behavior changed across the 7.x minor lines; read the release notes for every minor you cross and move traffic to an upgraded replica before switching over.",
+      "Changing a Compose image tag restarts the container but does not migrate data: point the new version at the existing volume, or restore the backup into a fresh one.",
+      "Managed Redis services such as ElastiCache and Memorystore name their own engine version and are not matched by this rule; check their support policy separately."
+    ],
+    "steps": [
+      {
+        "id": "back-up-data",
+        "title": "Back up the data first",
+        "instructions": "Take a verified RDB snapshot (BGSAVE) or copy the AOF and its directory for every Redis instance in the reported files before changing any version. Keep the backup until the new version serves traffic without errors.",
+        "targets": "all"
+      },
+      {
+        "id": "upgrade-server",
+        "title": "Upgrade the Redis server",
+        "instructions": "Start the target Redis version against the existing data directory on a staging instance, or as a replica of the current server, and check the log and INFO for load errors. On Compose, change the image tag and confirm the container starts with the same volume.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-declared-version",
+        "title": "Raise the declared version",
+        "instructions": "Change the image tag in every Compose file that runs Redis, including overrides, to the release in the replacement. Do this in every environment, not only the reported line.",
+        "targets": "all"
+      },
+      {
+        "id": "align-clients",
+        "title": "Check clients and tooling",
+        "instructions": "Update Redis client libraries, ACL users that depend on renamed commands, and CI service containers or local setup documentation that assume the old Redis version.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker compose config",
+        "purpose": "Confirm the Compose file is valid and shows the intended Redis image tag after the change."
+      },
+      {
+        "command": "redis-cli INFO server",
+        "purpose": "Confirm redis_version on the running server reports the target release."
+      },
+      {
+        "command": "terraform plan",
+        "purpose": "Review the plan and confirm no Terraform-managed resource still declares the retired Redis version line."
+      }
+    ]
+  }
+}

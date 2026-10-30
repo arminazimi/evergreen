@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.util.isnumber",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=23.0.0",
+  "event": "removed",
+  "severity": "high",
+  "title": "Util.isNumber has been removed",
+  "summary": "Node.js removed util.isNumber (DEP0052: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).",
+  "replacement": "typeof arg === 'number'",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0052",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of util.isNumber with typeof arg === 'number'.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

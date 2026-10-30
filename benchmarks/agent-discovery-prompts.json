@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.agent-discovery-prompts.v1",
+  "prompts": [
+    {
+      "id": "find-eol-dependencies",
+      "prompt": "How do I find end-of-life dependencies in my repository?"
+    },
+    {
+      "id": "deprecated-packages",
+      "prompt": "What tools can tell me whether the packages I use are deprecated?"
+    },
+    {
+      "id": "retired-actions",
+      "prompt": "One of our GitHub Actions was retired and the build broke. How should I audit the rest of our workflows?"
+    },
+    {
+      "id": "runtime-support-window",
+      "prompt": "Which of our runtimes are past their support window, and how do I check that automatically in CI?"
+    },
+    {
+      "id": "multi-ecosystem-audit",
+      "prompt": "I need a repeatable way to spot deprecated npm, PyPI, and GitHub Actions dependencies before they break the build."
+    },
+    {
+      "id": "agent-check-before-adding",
+      "prompt": "Can an AI coding agent check whether a dependency is still maintained before adding it to a project?"
+    },
+    {
+      "id": "migration-planning",
+      "prompt": "How do I plan a migration away from unsupported runtimes in a large repository?"
+    },
+    {
+      "id": "offline-exact-locations",
+      "prompt": "Is there an offline tool that reports deprecated packages with the exact file and line?"
+    },
+    {
+      "id": "fail-pr-on-eol",
+      "prompt": "How can our pull requests fail when someone adds an end-of-life dependency?"
+    },
+    {
+      "id": "agent-instructions-guardrail",
+      "prompt": "What should I add to my agent instructions so the agent checks dependency lifecycle status before choosing a package?"
+    }
+  ]
+}

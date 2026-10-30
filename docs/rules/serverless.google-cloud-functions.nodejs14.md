@@ -2,6 +2,7 @@
 title: "Google Cloud Functions Node.js 14 runtime is end-of-life — dates, impact, migration"
 description: "The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs14.html"
+json_twin: "/rules/serverless.google-cloud-functions.nodejs14.json"
 ---
 
 # Google Cloud Functions Node.js 14 runtime is end-of-life

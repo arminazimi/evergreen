@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed",
+  "ecosystem": "kubernetes",
+  "purl": "pkg:generic/kubernetes/autoscaling/HorizontalPodAutoscaler",
+  "affectedVersions": "vers:semver/2.0.0-beta.2",
+  "event": "removed",
+  "severity": "high",
+  "title": "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served",
+  "summary": "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta2 API version of HorizontalPodAutoscaler is no longer served as of v1.26, which was released on 2022-12-09.",
+  "replacement": "autoscaling/v2 HorizontalPodAutoscaler, available since v1.23",
+  "deadline": "2022-12-09",
+  "sources": [
+    {
+      "title": "Kubernetes Deprecated API Migration Guide",
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    },
+    {
+      "title": "Kubernetes v1.26: Electrifying (release announcement, 2022-12-09)",
+      "url": "https://kubernetes.io/blog/2022/12/09/kubernetes-v1-26-release/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the scaling targets and the min and max replica counts unchanged.",
+      "In autoscaling/v2, targetAverageUtilization is replaced by target.averageUtilization together with target.type: Utilization."
+    ],
+    "steps": [
+      {
+        "id": "update-api-version",
+        "title": "Change the HorizontalPodAutoscaler apiVersion",
+        "instructions": "Change the reported `apiVersion` to `autoscaling/v2` and rewrite any metric target fields that use the old names.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-other-manifests",
+        "title": "Align other HorizontalPodAutoscaler declarations",
+        "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old API version, so the repository agrees.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "kubeconform -strict -summary <manifest-paths>",
+        "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+      },
+      {
+        "command": "kubectl apply --dry-run=server -f <manifest-path>",
+        "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+      },
+      {
+        "command": "helm template <chart-path> | kubeconform -strict -",
+        "purpose": "For a Helm chart, render it and validate the output."
+      }
+    ]
+  }
+}

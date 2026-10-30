@@ -2,6 +2,7 @@
 title: "Ruby 2.3 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 2.3 as eol: normal maintenance ended on 2018-03-28 and the branch reached end-of-life on 2019-03-31."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.3.html"
+json_twin: "/rules/ruby.runtime.eol-2.3.json"
 ---
 
 # Ruby 2.3 is end-of-life

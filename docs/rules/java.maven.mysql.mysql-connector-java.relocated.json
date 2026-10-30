@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "java.maven.mysql.mysql-connector-java.relocated",
+  "ecosystem": "java",
+  "purl": "pkg:maven/mysql/mysql-connector-java",
+  "affectedVersions": "vers:maven/>=8.0.31",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+  "summary": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
+  "replacement": "com.mysql:mysql-connector-j",
+  "sources": [
+    {
+      "title": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
+      "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Replace mysql:mysql-connector-java with com.mysql:mysql-connector-j; the relocation in the artifact's POM names the new coordinates, so keep the version unless you intend to upgrade it.",
+      "Update every module and dependency-management block that names the old coordinates, and remove exclusions that mention them."
+    ],
+    "steps": [
+      {
+        "id": "change-coordinates",
+        "title": "Change the dependency coordinates",
+        "instructions": "Replace the reported `mysql:mysql-connector-java` dependency with `com.mysql:mysql-connector-j`.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-dependency-surfaces",
+        "title": "Align other declarations",
+        "instructions": "Update every other pom.xml, Gradle build file, version catalog, and BOM override that names the old coordinates.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "./mvnw -B dependency:tree || ./gradlew dependencies",
+        "purpose": "Confirm the old coordinates are gone from the resolved dependency graph."
+      },
+      {
+        "command": "./mvnw -B verify || ./gradlew build",
+        "purpose": "Build and test the project with the new coordinates."
+      }
+    ]
+  }
+}

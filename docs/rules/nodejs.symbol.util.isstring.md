@@ -2,6 +2,7 @@
 title: "util.isString has been removed — dates, impact, migration"
 description: "Node.js removed util.isString() (DEP0045 to DEP0058 group, end-of-life since v23.0.0), so calls throw a TypeError."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isstring.html"
+json_twin: "/rules/nodejs.symbol.util.isstring.json"
 ---
 
 # util.isString has been removed

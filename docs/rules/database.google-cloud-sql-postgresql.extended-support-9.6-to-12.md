@@ -2,6 +2,7 @@
 title: "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support — dates, impact, migration"
 description: "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12 with extended support starting 2025-02-01 and deprecation on 2028-02-01."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html"
+json_twin: "/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.json"
 ---
 
 # Cloud SQL for PostgreSQL 9.6 through 12 are in extended support

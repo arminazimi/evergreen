@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.boom.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/boom",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "boom is deprecated",
+  "summary": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
+  "replacement": "@hapi/boom",
+  "sources": [
+    {
+      "title": "boom package deprecation notice",
+      "url": "https://www.npmjs.com/package/boom"
+    },
+    {
+      "title": "boom registry metadata",
+      "url": "https://registry.npmjs.org/boom/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve HTTP status codes, payload shape, headers, and error classification."
+    ],
+    "steps": [
+      {
+        "id": "replace-boom",
+        "title": "Replace boom",
+        "instructions": "Move the dependency and imports from boom to @hapi/boom and update changed API calls.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-http-errors",
+        "title": "Verify HTTP errors",
+        "instructions": "Compare status codes and serialized error payloads for every affected error path.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run HTTP error behavior and repository tests when defined."
+      }
+    ]
+  }
+}

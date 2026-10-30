@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.asyncio.child-watcher",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "asyncio child watcher functions are deprecated",
+  "summary": "Python 3.12 deprecates asyncio.set_child_watcher() and asyncio.get_child_watcher(), to be removed in Python 3.14; the event loop now uses the best available child watcher for each platform.",
+  "replacement": "Remove manual child watcher configuration",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    },
+    {
+      "title": "Python deprecations: pending removal in 3.14",
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Remove child watcher setup",
+        "instructions": "Delete the calls; the event loop picks a child watcher for the platform.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

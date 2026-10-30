@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "swift.xcode.app-store-15-through-25",
+  "ecosystem": "swift",
+  "purl": "pkg:generic/xcode",
+  "affectedVersions": "vers:semver/>=15.0.0|<26.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Xcode 15 through 25 are not accepted for App Store uploads",
+  "summary": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+  "replacement": "Xcode 26 or later",
+  "deadline": "2026-04-28",
+  "sources": [
+    {
+      "title": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
+      "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep .xcode-version, CI Xcode selections, and local installs on one Xcode release that App Store Connect still accepts."
+    ],
+    "steps": [
+      {
+        "id": "raise-xcode-pin",
+        "title": "Raise the Xcode pin",
+        "instructions": "Change the reported .xcode-version (or equivalent CI Xcode version) from the 15–25 line to Xcode 26 or later.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-xcode-surfaces",
+        "title": "Align other Xcode surfaces",
+        "instructions": "Update CI macOS/Xcode images and documented install steps so they match the new pin.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "xcodebuild -version",
+        "purpose": "Confirm the active Xcode is the intended release."
+      },
+      {
+        "command": "xcodebuild -scheme \"$(basename \"$PWD\")\" -destination 'generic/platform=iOS' build",
+        "purpose": "Build with the new Xcode before uploading to App Store Connect."
+      },
+      {
+        "command": "swift build && swift test",
+        "purpose": "Build and test the Swift package on the toolchain that matches the new Xcode."
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.gauge.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/gauge",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "gauge is no longer supported",
+  "summary": "npm states that the gauge package is no longer supported.",
+  "sources": [
+    {
+      "title": "gauge package deprecation notice",
+      "url": "https://www.npmjs.com/package/gauge"
+    },
+    {
+      "title": "gauge registry metadata",
+      "url": "https://registry.npmjs.org/gauge/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve terminal detection, redraw behavior, themes, templates, progress values, status sections, and non-TTY output."
+    ],
+    "steps": [
+      {
+        "id": "replace-gauge",
+        "title": "Replace the terminal gauge",
+        "instructions": "Select a maintained terminal progress implementation, migrate rendering and update calls, then remove gauge.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run TTY, non-TTY, redraw, and repository tests."
+      }
+    ]
+  }
+}

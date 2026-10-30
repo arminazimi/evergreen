@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.imp.cache-from-source",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "removed",
+  "severity": "high",
+  "title": "Imp.cache_from_source has been removed",
+  "summary": "Python 3.12 removed imp.cache_from_source, so using it raises an error.",
+  "replacement": "importlib.util.cache_from_source()",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of imp.cache_from_source with importlib.util.cache_from_source().",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "Rails 8.0 security support is scheduled to end — dates, impact, migration"
 description: "The Rails maintenance policy says Rails 8.0.x receives security fixes until 2026-11-07. Rails 8.1.x is the newer supported release series."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html"
+json_twin: "/rules/ruby.gem.rails-8.0.scheduled-end-of-life.json"
 ---
 
 # Rails 8.0 security support is scheduled to end

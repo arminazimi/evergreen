@@ -2,6 +2,7 @@
 title: "cryptiles is deprecated — dates, impact, migration"
 description: "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.cryptiles.deprecated.html"
+json_twin: "/rules/npm.package.cryptiles.deprecated.json"
 ---
 
 # cryptiles is deprecated

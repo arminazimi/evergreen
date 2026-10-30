@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "elixir.package.fennec.retired",
+  "ecosystem": "elixir",
+  "purl": "pkg:hex/fennec",
+  "affectedVersions": "vers:semver/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "fennec is retired on Hex",
+  "summary": "Hex marks every published fennec release as retired with reason renamed, and the retirement message says the package was renamed to mongooseice.",
+  "replacement": "mongooseice",
+  "sources": [
+    {
+      "title": "fennec on Hex",
+      "url": "https://hex.pm/packages/fennec"
+    },
+    {
+      "title": "mongooseice on Hex",
+      "url": "https://hex.pm/packages/mongooseice"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve STUN/TURN configuration and call sites while moving from fennec to mongooseice.",
+      "Keep mix.exs and mix.lock consistent after the replacement."
+    ],
+    "steps": [
+      {
+        "id": "replace-fennec-dependency",
+        "title": "Replace the dependency",
+        "instructions": "Remove {:fennec, …} from mix.exs deps and add {:mongooseice, …} at a maintained version, then run mix deps.get.",
+        "targets": "declaration"
+      },
+      {
+        "id": "migrate-fennec-usages",
+        "title": "Migrate fennec usages",
+        "instructions": "Update application and module references from Fennec to MongooseICE as the mongooseice package documents.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "mix deps.get && mix deps | grep mongooseice",
+        "purpose": "Confirm mongooseice is resolved into the Mix dependency tree."
+      },
+      {
+        "command": "mix test",
+        "purpose": "Run the Mix test suite with the replacement package."
+      }
+    ]
+  }
+}

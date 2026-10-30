@@ -2,6 +2,7 @@
 title: "Microsoft.Azure.ServiceBus is deprecated on NuGet — dates, impact, migration"
 description: "NuGet marks all 33 listed versions of Microsoft.Azure.ServiceBus as deprecated (reason: Legacy)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-servicebus.deprecated.html"
+json_twin: "/rules/dotnet.package.microsoft-azure-servicebus.deprecated.json"
 ---
 
 # Microsoft.Azure.ServiceBus is deprecated on NuGet

@@ -36,7 +36,7 @@ test("Evergreen skill follows the portable Agent Skills contract", async () => {
   assert.doesNotMatch(String(frontmatter.description), /[<>]/);
   assert.match(
     String(frontmatter.description),
-    /Do not use for routine dependency upgrades, vulnerability or security audits/,
+    /Do not use for adding a dependency, routine upgrades, vulnerability or security audits/,
   );
   assert.deepEqual(
     Object.keys(frontmatter).sort(),
@@ -123,7 +123,28 @@ test("skill distribution documents canonical discovery and host compatibility", 
   }
 });
 
-test("the dependency guard corpus is balanced, labeled, and meets the trigger gates", async () => {
+test("check-before-add skill follows the portable Agent Skills contract", async () => {
+  const contents = await readFile(resolve("skills/evergreen-check-before-add/SKILL.md"), "utf8");
+  const { frontmatter, body } = parseSkill(contents);
+
+  assert.equal(frontmatter.name, "evergreen-check-before-add");
+  assert.equal(typeof frontmatter.description, "string");
+  assert.ok(String(frontmatter.description).length <= 1024);
+  assert.doesNotMatch(String(frontmatter.description), /[<>]/);
+  assert.match(String(frontmatter.description), /before adding/);
+  assert.match(String(frontmatter.description), /Do not use for repository lifecycle scans/);
+  assert.deepEqual(
+    Object.keys(frontmatter).sort(),
+    ["description", "license", "metadata", "name"],
+  );
+  assert.ok(body.split("\n").length < 80, "check-before-add instructions should stay thin");
+  assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
+  assert.match(body, /\bcheck_dependency\b/);
+  assert.match(body, /evergreen check/);
+  assert.match(body, /normal authorization rules/);
+});
+
+test("the check-before-add corpus is balanced, labeled, and meets the trigger gates", async () => {
   const { calculateMetrics, classifyDependencyAddition, loadDependencyEvalCorpus, skillEvalHosts } = await import("../benchmarks/skill-trigger-eval.js");
   const corpus = await loadDependencyEvalCorpus();
   assert.equal(corpus.schemaVersion, "evergreen.dependency-guard-evals.v1");

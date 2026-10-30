@@ -2,6 +2,7 @@
 title: "Django 1.4 LTS is end-of-life — dates, impact, migration"
 description: "The Django project lists the 1.4 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was October 1, 2015."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-1.4.eol.html"
+json_twin: "/rules/python.package.django-1.4.eol.json"
 ---
 
 # Django 1.4 LTS is end-of-life

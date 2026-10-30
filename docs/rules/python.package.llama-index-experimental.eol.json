@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.llama-index-experimental.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/llama-index-experimental",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "llama-index-experimental is no longer maintained",
+  "summary": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
+  "sources": [
+    {
+      "title": "llama-index-experimental lifecycle notice",
+      "url": "https://pypi.org/project/llama-index-experimental/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve data connectors, indexes, query behavior, prompts, model configuration, serialization, and observability used by the application."
+    ],
+    "steps": [
+      {
+        "id": "replace-llama-index-experimental",
+        "title": "Replace experimental integrations",
+        "instructions": "Inventory the experimental APIs in use, select maintained LlamaIndex or alternative implementations for each, migrate call sites, then remove the package.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run indexing, retrieval, generation, persistence, and project tests when defined."
+      }
+    ]
+  }
+}

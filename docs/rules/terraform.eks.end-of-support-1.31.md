@@ -2,6 +2,7 @@
 title: "Amazon EKS 1.31 is past end of standard support — dates, impact, migration"
 description: "Amazon EKS 1.31 reached the end of standard support on 2025-11-26 and is in extended support until 2026-11-26."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.31.html"
+json_twin: "/rules/terraform.eks.end-of-support-1.31.json"
 ---
 
 # Amazon EKS 1.31 is past end of standard support

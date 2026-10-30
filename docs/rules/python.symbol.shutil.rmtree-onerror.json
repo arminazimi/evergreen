@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.shutil.rmtree-onerror",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "The onerror argument of shutil.rmtree is deprecated",
+  "summary": "Python 3.12 deprecates the onerror argument of shutil.rmtree(); onexc is the same handler but receives the exception instance.",
+  "replacement": "onexc",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Use onexc",
+        "instructions": "Rename onerror to onexc and change the handler to take (function, path, exception) instead of (function, path, exc_info).",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

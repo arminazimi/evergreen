@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "rust.crate.failure.unmaintained",
+  "ecosystem": "rust",
+  "purl": "pkg:cargo/failure",
+  "affectedVersions": "vers:cargo/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "failure is no longer maintained",
+  "summary": "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.",
+  "replacement": "anyhow, eyre, fehler, or snafu",
+  "sources": [
+    {
+      "title": "RustSec advisory RUSTSEC-2020-0036",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2020-0036.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep error types, `Display` output, and public error conversions stable for callers of this crate."
+    ],
+    "steps": [
+      {
+        "id": "replace-failure",
+        "title": "Replace failure",
+        "instructions": "Replace failure with anyhow for application errors or thiserror/snafu for library error types, and update `Fail` derives, `failure::Error`, and `format_err!` uses.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "cargo build --all-targets && cargo test",
+        "purpose": "Build and test after the error-handling change."
+      }
+    ]
+  }
+}

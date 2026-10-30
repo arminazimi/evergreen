@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.left-pad.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/left-pad",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "left-pad is deprecated",
+  "summary": "The package author recommends the built-in String.prototype.padStart method.",
+  "replacement": "String.prototype.padStart()",
+  "sources": [
+    {
+      "title": "left-pad package deprecation notice",
+      "url": "https://www.npmjs.com/package/left-pad"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-13",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve target width, fill-string behavior, string coercion, and handling of values already wider than the requested length."
+    ],
+    "steps": [
+      {
+        "id": "replace-padding-calls",
+        "title": "Replace left-pad calls",
+        "instructions": "Convert each reported call to String(value).padStart(length, fill) while preserving existing coercion and defaults.",
+        "targets": "usages"
+      },
+      {
+        "id": "remove-left-pad",
+        "title": "Remove the dependency",
+        "instructions": "Delete left-pad from package metadata and refresh the lockfile.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run padding edge cases and repository tests when defined."
+      },
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Verify the project builds without left-pad."
+      }
+    ]
+  }
+}

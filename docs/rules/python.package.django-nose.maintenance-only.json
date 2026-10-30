@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.django-nose.maintenance-only",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/django-nose",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "django-nose is maintenance-only",
+  "summary": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
+  "replacement": "pytest-django or Django unittest",
+  "sources": [
+    {
+      "title": "django-nose project notice",
+      "url": "https://pypi.org/project/django-nose/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-14",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve Django settings selection, database setup, fixture loading, test labels, and any django-nose plugin behavior."
+    ],
+    "steps": [
+      {
+        "id": "choose-django-runner",
+        "title": "Choose the Django test runner",
+        "instructions": "Select pytest-django or Django's built-in test runner and document the chosen invocation.",
+        "targets": "all"
+      },
+      {
+        "id": "migrate-django-nose-configuration",
+        "title": "Migrate runner configuration",
+        "instructions": "Replace TEST_RUNNER, imports, plugins, and django-nose-specific options at every reported usage.",
+        "targets": "usages"
+      },
+      {
+        "id": "replace-django-nose-dependency",
+        "title": "Replace the dependency",
+        "instructions": "Remove django-nose and add only the target runner and plugins required by the suite.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python manage.py test",
+        "purpose": "Run Django's configured test suite."
+      },
+      {
+        "command": "python -m pytest",
+        "purpose": "Run the suite through pytest-django when selected."
+      },
+      {
+        "command": "python -m pip check",
+        "purpose": "Check installed dependency compatibility."
+      }
+    ]
+  }
+}

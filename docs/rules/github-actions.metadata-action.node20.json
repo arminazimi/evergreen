@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.metadata-action.node20",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/docker/metadata-action",
+  "affectedVersions": "vers:semver/<6.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Unsupported docker/metadata-action runtime",
+  "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "replacement": "docker/metadata-action@v6 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "docker/metadata-action v6.0.0 release notes",
+      "url": "https://github.com/docker/metadata-action/releases/tag/v6.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "claude-agent"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the images, tags, and labels configuration so published image names do not change; Node 24 needs Actions Runner v2.327.1 or later on self-hosted runners."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade metadata-action",
+        "instructions": "Change the uses reference to docker/metadata-action@v6 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-action-inputs",
+        "title": "Review metadata-action inputs",
+        "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

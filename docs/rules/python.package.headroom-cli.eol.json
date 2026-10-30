@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.headroom-cli.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/headroom-cli",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "headroom-cli was renamed and is no longer maintained",
+  "summary": "The maintainer states that headroom-cli is no longer maintained and development continues as quotagauge.",
+  "replacement": "quotagauge",
+  "sources": [
+    {
+      "title": "headroom-cli rename and migration notice",
+      "url": "https://pypi.org/project/headroom-cli/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve provider configuration, usage history, statusline and hook integration, CLI behavior, and the existing ~/.headroom state."
+    ],
+    "steps": [
+      {
+        "id": "replace-headroom-cli",
+        "title": "Move to quotagauge",
+        "instructions": "Install quotagauge, run its initialization for configured providers, verify settings rewrites and state migration, then uninstall headroom-cli.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "quotagauge init --all",
+        "purpose": "Initialize integrations and exercise the maintainer-provided state migration."
+      }
+    ]
+  }
+}

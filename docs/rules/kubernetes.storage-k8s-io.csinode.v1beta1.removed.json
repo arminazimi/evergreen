@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "kubernetes.storage-k8s-io.csinode.v1beta1.removed",
+  "ecosystem": "kubernetes",
+  "purl": "pkg:generic/kubernetes/storage.k8s.io/CSINode",
+  "affectedVersions": "vers:semver/1.0.0-beta.1",
+  "event": "removed",
+  "severity": "high",
+  "title": "CSINode storage.k8s.io/v1beta1 is no longer served",
+  "summary": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSINode is no longer served as of v1.22, which was released on 2021-08-04.",
+  "replacement": "storage.k8s.io/v1 CSINode",
+  "deadline": "2021-08-04",
+  "sources": [
+    {
+      "title": "Kubernetes Deprecated API Migration Guide",
+      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    },
+    {
+      "title": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+      "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the resource's behavior unchanged: the same name, namespace, labels, and spec semantics.",
+      "The replacement (storage.k8s.io/v1 CSINode) can differ in required fields or field names from the removed version; read the CSINode entry in the Kubernetes Deprecated API Migration Guide and convert the manifest accordingly."
+    ],
+    "steps": [
+      {
+        "id": "update-api-version",
+        "title": "Change the CSINode apiVersion",
+        "instructions": "Change the reported `apiVersion` to the replacement version (storage.k8s.io/v1 CSINode).",
+        "targets": "declaration"
+      },
+      {
+        "id": "convert-fields",
+        "title": "Convert fields the new version changed",
+        "instructions": "Apply the field changes the migration guide lists for CSINode, then check the manifest still expresses the same intent.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-other-manifests",
+        "title": "Align other CSINode declarations",
+        "instructions": "Update every other manifest, Helm template, and kustomize patch or target that names the old CSINode API version, so the repository agrees.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "kubeconform -strict -summary <manifest-paths>",
+        "purpose": "Validate the migrated manifests against the schemas of the target Kubernetes version."
+      },
+      {
+        "command": "kubectl apply --dry-run=server -f <manifest-path>",
+        "purpose": "Ask a cluster on the target version to accept the migrated manifest without applying it."
+      },
+      {
+        "command": "helm template <chart-path> | kubeconform -strict -",
+        "purpose": "For a Helm chart, render it and validate the output."
+      }
+    ]
+  }
+}

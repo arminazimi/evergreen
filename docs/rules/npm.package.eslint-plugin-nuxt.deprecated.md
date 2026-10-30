@@ -2,6 +2,7 @@
 title: "eslint-plugin-nuxt is deprecated — dates, impact, migration"
 description: "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html"
+json_twin: "/rules/npm.package.eslint-plugin-nuxt.deprecated.json"
 ---
 
 # eslint-plugin-nuxt is deprecated

@@ -2,6 +2,7 @@
 title: "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated — dates, impact, migration"
 description: "Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115: documentation-only since v11.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html"
+json_twin: "/rules/nodejs.symbol.crypto.prng.json"
 ---
 
 # Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated

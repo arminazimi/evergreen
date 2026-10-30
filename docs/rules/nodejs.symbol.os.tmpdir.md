@@ -2,6 +2,7 @@
 title: "Os.tmpDir has been removed — dates, impact, migration"
 description: "Node.js removed os.tmpDir (DEP0022: runtime deprecation since v7.0.0, end-of-life since v14.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.tmpdir.html"
+json_twin: "/rules/nodejs.symbol.os.tmpdir.json"
 ---
 
 # Os.tmpDir has been removed

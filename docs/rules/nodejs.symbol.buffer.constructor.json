@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.buffer.constructor",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=10.0.0",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "The Buffer() constructor is deprecated",
+  "summary": "Node.js deprecates calling Buffer() or new Buffer() in application code (DEP0005): documentation-only since v6.0.0, runtime warning since v10.0.0.",
+  "replacement": "Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from()",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0005 Buffer() constructor",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the Buffer constructor",
+        "instructions": "Use Buffer.from for existing data, Buffer.alloc for zero-filled memory, and Buffer.allocUnsafe only when the content is overwritten immediately.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

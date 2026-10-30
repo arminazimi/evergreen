@@ -2,6 +2,7 @@
 title: "@types/dotenv is deprecated — dates, impact, migration"
 description: "npm marks @types/dotenv as deprecated: \"This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html"
+json_twin: "/rules/npm.package.types.dotenv.deprecated.json"
 ---
 
 # @types/dotenv is deprecated

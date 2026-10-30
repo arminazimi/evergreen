@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "terraform.aks.end-of-life-1.30",
+  "ecosystem": "terraform",
+  "purl": "pkg:generic/azure-kubernetes-service",
+  "affectedVersions": "vers:semver/>=1.30.0|<1.31.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "AKS 1.30 is past long-term support",
+  "summary": "AKS 1.30 reached the end of its 12-month support window on 2025-08-22 and the end of long-term support on 2026-07-31. AKS no longer provides patches for this version.",
+  "replacement": "Azure Kubernetes Service 1.35 or later",
+  "deadline": "2026-07-31",
+  "sources": [
+    {
+      "title": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+      "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "AKS upgrades one minor version at a time and upgrades the control plane before the agent pools.",
+      "Long-term support is opt-in per cluster; without it, a version stops receiving patches at the end of its 12-month support window.",
+      "An agent pool cannot run a newer version than its control plane, so raise the control plane and the pools together."
+    ],
+    "steps": [
+      {
+        "id": "raise-kubernetes-version",
+        "title": "Raise the cluster version",
+        "instructions": "Set kubernetes_version to the release in the replacement, then run terraform plan and apply the control-plane upgrade.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-node-pools",
+        "title": "Raise the agent pools",
+        "instructions": "Raise each azurerm_kubernetes_cluster_node_pool orchestrator_version so the agent pools match the new control plane.",
+        "targets": "all"
+      },
+      {
+        "id": "review-removed-apis",
+        "title": "Remove APIs the new version deleted",
+        "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "terraform init -backend=false && terraform validate",
+        "purpose": "Initialize without touching remote state and check that the configuration is valid."
+      },
+      {
+        "command": "terraform plan",
+        "purpose": "Review the plan and confirm the control-plane and agent-pool changes are the intended ones."
+      },
+      {
+        "command": "az aks show --resource-group <group> --name <cluster> --query kubernetesVersion",
+        "purpose": "Confirm the control plane reports the new version."
+      },
+      {
+        "command": "kubectl version",
+        "purpose": "Confirm kubectl and the API server agree on the version."
+      }
+    ]
+  }
+}

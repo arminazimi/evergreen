@@ -2,6 +2,7 @@
 title: "babel-eslint is deprecated — dates, impact, migration"
 description: "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html"
+json_twin: "/rules/npm.package.babel-eslint.deprecated.json"
 ---
 
 # babel-eslint is deprecated

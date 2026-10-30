@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.process.binding",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=10.9.0",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "process.binding is deprecated",
+  "summary": "Node.js documents process.binding() as for internal use only and deprecates it (DEP0111, documentation-only since v10.9.0); it is unavailable when the permission model is enabled.",
+  "replacement": "The public API that replaces the binding in use; the entry names no single replacement",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0111 process.binding",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace process.binding",
+        "instructions": "Identify which internal binding is requested and move to its public module, for example util.types.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

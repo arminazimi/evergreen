@@ -2,6 +2,7 @@
 title: "Imp.get_suffixes has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.get_suffixes, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.get-suffixes.html"
+json_twin: "/rules/python.symbol.imp.get-suffixes.json"
 ---
 
 # Imp.get_suffixes has been removed

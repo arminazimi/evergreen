@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.pako.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/pako",
+  "affectedVersions": "vers:npm/3.0.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/pako is deprecated",
+  "summary": "npm marks @types/pako as deprecated: \"This is a stub types definition. pako provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "pako",
+  "sources": [
+    {
+      "title": "@types/pako on npm",
+      "url": "https://www.npmjs.com/package/@types/pako"
+    },
+    {
+      "title": "@types/pako version metadata",
+      "url": "https://registry.npmjs.org/@types%2fpako"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/pako only declares types; pako now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/pako from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep pako on a version that ships its own type definitions and import its types from pako.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with pako's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

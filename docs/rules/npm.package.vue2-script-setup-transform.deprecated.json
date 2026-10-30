@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.vue2-script-setup-transform.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/vue2-script-setup-transform",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "vue2-script-setup-transform is deprecated",
+  "summary": "npm marks vue2-script-setup-transform as deprecated: \"renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0\"",
+  "replacement": "unplugin-vue2-script-setup",
+  "sources": [
+    {
+      "title": "vue2-script-setup-transform on npm",
+      "url": "https://www.npmjs.com/package/vue2-script-setup-transform"
+    },
+    {
+      "title": "vue2-script-setup-transform registry metadata",
+      "url": "https://registry.npmjs.org/vue2-script-setup-transform/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the compiled `<script setup>` output and the order of Vue 2 build plugins."
+    ],
+    "steps": [
+      {
+        "id": "replace-script-setup-transform",
+        "title": "Replace the transform plugin",
+        "instructions": "Replace vue2-script-setup-transform with unplugin-vue2-script-setup in dependencies and the build configuration.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-sfc-output",
+        "title": "Verify compiled components",
+        "instructions": "Compare the compiled single-file components and their runtime behavior with the previous build.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Build the Vue 2 application with the maintained plugin."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the component and repository tests when defined."
+      }
+    ]
+  }
+}

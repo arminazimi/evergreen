@@ -2,6 +2,7 @@
 title: "DaemonSet apps/v1beta2 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta2 API version of DaemonSet is no longer served as of v1.16, which was released on 2019-09-18."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.apps.daemonset.v1beta2.removed.html"
+json_twin: "/rules/kubernetes.apps.daemonset.v1beta2.removed.json"
 ---
 
 # DaemonSet apps/v1beta2 is no longer served

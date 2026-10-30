@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.nuxt.typescript-build.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40nuxt/typescript-build",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "@nuxt/typescript-build is deprecated",
+  "summary": "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+  "replacement": "Nuxt 3 (no TypeScript build module needed)",
+  "sources": [
+    {
+      "title": "@nuxt/typescript-build on npm",
+      "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+    },
+    {
+      "title": "@nuxt/typescript-build registry metadata",
+      "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve TypeScript compilation, type checking, and the build-module behavior the project depends on."
+    ],
+    "steps": [
+      {
+        "id": "plan-nuxt3-upgrade",
+        "title": "Plan the Nuxt 3 upgrade",
+        "instructions": "Follow the Nuxt 3 migration guidance for build modules and TypeScript configuration before removing the module.",
+        "targets": "all"
+      },
+      {
+        "id": "drop-typescript-build-module",
+        "title": "Drop the TypeScript build module",
+        "instructions": "Remove @nuxt/typescript-build from buildModules and the project dependencies; Nuxt 3 compiles and type-checks TypeScript without a build module.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Build the Nuxt 3 application with its built-in TypeScript support."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the application and repository tests when defined."
+      }
+    ]
+  }
+}

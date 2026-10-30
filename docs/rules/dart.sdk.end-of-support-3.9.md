@@ -2,6 +2,7 @@
 title: "Dart 3.9 no longer receives security updates — dates, impact, migration"
 description: "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.9 stopped being that release when Dart 3.10 shipped on 2025-11-12."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.9.html"
+json_twin: "/rules/dart.sdk.end-of-support-3.9.json"
 ---
 
 # Dart 3.9 no longer receives security updates

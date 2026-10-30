@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.crypto.prng",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=11.0.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated",
+  "summary": "Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115: documentation-only since v11.0.0).",
+  "replacement": "crypto.randomBytes()",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0115",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the code unchanged; check the replacement's argument and return-value differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace the usage",
+        "instructions": "Replace each reported use of crypto.prng, crypto.pseudoRandomBytes and crypto.rng with crypto.randomBytes().",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

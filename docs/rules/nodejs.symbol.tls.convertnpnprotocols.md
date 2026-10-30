@@ -2,6 +2,7 @@
 title: "Tls.convertNPNProtocols has been removed — dates, impact, migration"
 description: "Node.js removed tls.convertNPNProtocols (DEP0107: runtime deprecation since v10.0.0, end-of-life since v11.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.convertnpnprotocols.html"
+json_twin: "/rules/nodejs.symbol.tls.convertnpnprotocols.json"
 ---
 
 # Tls.convertNPNProtocols has been removed

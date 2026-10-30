@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.uglify-es.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/uglify-es",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "uglify-es is deprecated",
+  "summary": "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\"",
+  "replacement": "uglify-js (3.13 or later) or terser",
+  "sources": [
+    {
+      "title": "uglify-es on npm",
+      "url": "https://www.npmjs.com/package/uglify-es"
+    },
+    {
+      "title": "uglify-es registry metadata",
+      "url": "https://registry.npmjs.org/uglify-es/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the same minification options, source maps, and output syntax level."
+    ],
+    "steps": [
+      {
+        "id": "replace-uglify-es",
+        "title": "Replace uglify-es",
+        "instructions": "Replace uglify-es with uglify-js 3.13 or later (or terser) in dependencies, build scripts, and bundler configuration.",
+        "targets": "all"
+      },
+      {
+        "id": "compare-output",
+        "title": "Compare minified output",
+        "instructions": "Build and compare bundle size, source maps, and behavior of the minified output.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Build with the new minifier and compare the output."
+      }
+    ]
+  }
+}

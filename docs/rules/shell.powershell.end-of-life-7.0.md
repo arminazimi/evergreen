@@ -2,6 +2,7 @@
 title: "PowerShell 7.0 (LTS) is no longer supported — dates, impact, migration"
 description: "Microsoft's PowerShell support lifecycle lists 7.0 LTS (built on .NET Core 3.1) as retired: support ended on 2022-12-03, so it receives no further updates, including security updates."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.0.html"
+json_twin: "/rules/shell.powershell.end-of-life-7.0.json"
 ---
 
 # PowerShell 7.0 (LTS) is no longer supported

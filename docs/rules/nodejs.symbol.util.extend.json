@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.util.extend",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=6.0.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "util._extend is deprecated",
+  "summary": "Node.js deprecates util._extend() (DEP0060): documentation-only since v6.0.0, runtime warning since v22.0.0.",
+  "replacement": "Object.assign(target, source)",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0060 util._extend",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace util._extend",
+        "instructions": "Replace each reported util._extend(target, source) with Object.assign(target, source).",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.cryptiles.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/cryptiles",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "cryptiles is deprecated",
+  "summary": "npm states that cryptiles moved to @hapi/cryptiles and that the old distribution is no longer maintained.",
+  "replacement": "@hapi/cryptiles",
+  "sources": [
+    {
+      "title": "cryptiles package deprecation notice",
+      "url": "https://www.npmjs.com/package/cryptiles"
+    },
+    {
+      "title": "cryptiles registry metadata",
+      "url": "https://registry.npmjs.org/cryptiles/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve random-token entropy, timing-safe comparisons, and cryptographic input and output encodings."
+    ],
+    "steps": [
+      {
+        "id": "replace-cryptiles",
+        "title": "Replace cryptiles",
+        "instructions": "Move the dependency and imports from cryptiles to @hapi/cryptiles and adapt changed APIs.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-crypto-behavior",
+        "title": "Verify cryptographic behavior",
+        "instructions": "Exercise token generation and comparison paths with their existing encodings and lengths.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run security-sensitive behavior and repository tests when defined."
+      }
+    ]
+  }
+}

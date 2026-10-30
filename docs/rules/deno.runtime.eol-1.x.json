@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "deno.runtime.eol-1.x",
+  "ecosystem": "deno",
+  "purl": "pkg:generic/deno",
+  "affectedVersions": "vers:semver/>=1.0.0|<2.0.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Deno 1.x is end-of-life",
+  "summary": "Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-life and no longer receives feature updates or bug fixes.",
+  "replacement": "Deno 2.0 or later",
+  "deadline": "2024-10-09",
+  "sources": [
+    {
+      "title": "Deno 2.0.0 Release",
+      "url": "https://github.com/denoland/deno/releases/tag/v2.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Upgrade to Deno 2.0 or later while verifying compatibility with Deno 2 breaking changes."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-deno-runtime",
+        "title": "Upgrade Deno runtime",
+        "instructions": "Update the Deno version pin in deno.json, deno.jsonc, or environment setup to Deno 2.0 or later.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "deno --version",
+        "purpose": "Confirm active Deno runtime version."
+      }
+    ]
+  }
+}

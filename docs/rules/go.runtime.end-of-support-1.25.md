@@ -2,6 +2,7 @@
 title: "Go 1.25 is no longer supported — dates, impact, migration"
 description: "The Go release policy supports a major release until two newer major releases exist. Go 1.25 support ended when Go 1.27 was released."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.25.html"
+json_twin: "/rules/go.runtime.end-of-support-1.25.json"
 ---
 
 # Go 1.25 is no longer supported

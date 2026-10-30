@@ -2,6 +2,7 @@
 title: "Legacy Node.js runtime is end-of-life — dates, impact, migration"
 description: "This Node.js release line is end-of-life and no longer receives security or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html"
+json_twin: "/rules/nodejs.runtime.legacy.json"
 ---
 
 # Legacy Node.js runtime is end-of-life

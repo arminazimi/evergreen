@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.symbol.util.isstring",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=23.0.0",
+  "event": "removed",
+  "severity": "high",
+  "title": "util.isString has been removed",
+  "summary": "Node.js removed util.isString() (DEP0045 to DEP0058 group, end-of-life since v23.0.0), so calls throw a TypeError.",
+  "replacement": "typeof arg === 'string'",
+  "sources": [
+    {
+      "title": "Node.js deprecations: DEP0045 to DEP0058 util.is* functions",
+      "url": "https://nodejs.org/api/deprecations.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and error handling differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Replace util.isString",
+        "instructions": "Replace each reported util.isString(x) with typeof x === 'string'.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

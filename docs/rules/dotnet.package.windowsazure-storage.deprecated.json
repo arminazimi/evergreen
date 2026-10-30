@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "dotnet.package.windowsazure-storage.deprecated",
+  "ecosystem": "dotnet",
+  "purl": "pkg:nuget/WindowsAzure.Storage",
+  "affectedVersions": "vers:nuget/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "WindowsAzure.Storage is deprecated on NuGet",
+  "summary": "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored. The deprecation names Azure.Storage.Common as the replacement.",
+  "replacement": "Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables, with Azure.Storage.Common",
+  "deadline": "2023-03-31",
+  "sources": [
+    {
+      "title": "WindowsAzure.Storage on NuGet (deprecation metadata)",
+      "url": "https://www.nuget.org/packages/WindowsAzure.Storage"
+    },
+    {
+      "title": "NuGet package deprecation",
+      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+    },
+    {
+      "title": "Azure SDK support policies",
+      "url": "https://azure.github.io/azure-sdk/policies_support.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the data format and the blob, queue, and table names the same; only the client library changes."
+    ],
+    "steps": [
+      {
+        "id": "replace-windowsazure-storage",
+        "title": "Move to the Azure.Storage.* packages",
+        "instructions": "Replace WindowsAzure.Storage with the package for each service in use (Azure.Storage.Blobs, Azure.Storage.Queues, Azure.Storage.Files.Shares, or Azure.Data.Tables) and update CloudStorageAccount and CloudBlobClient code to the new client types.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "dotnet build && dotnet test",
+        "purpose": "Build and test after the client library change."
+      }
+    ]
+  }
+}

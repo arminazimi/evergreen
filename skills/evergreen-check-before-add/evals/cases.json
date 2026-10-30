@@ -384,6 +384,54 @@
       "prompt": "Replace moment with a lighter package.",
       "shouldTrigger": true,
       "reason": "Picking a replacement package."
+    },
+    {
+      "id": "as-scan-not-add",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Scan this repository for deprecated runtimes, packages, and GitHub Actions.",
+      "shouldTrigger": false,
+      "reason": "Repository lifecycle discovery belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cx-eol-not-add",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Find any end-of-life Python runtime declared in the repository.",
+      "shouldTrigger": false,
+      "reason": "Runtime lifecycle discovery belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cl-migrate-not-add",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Follow the Evergreen migration for the selected finding.",
+      "shouldTrigger": false,
+      "reason": "Finding migration belongs to evergreen-deprecation."
+    },
+    {
+      "id": "as-verify-not-add",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Verify that the deprecation in the Evergreen report is gone.",
+      "shouldTrigger": false,
+      "reason": "Verification belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cx-support-not-add",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Does package.json pin a Node runtime that is out of support?",
+      "shouldTrigger": false,
+      "reason": "Support-status lifecycle question belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cl-inventory-not-add",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Inventory end-of-life toolchain dependencies in this repo.",
+      "shouldTrigger": false,
+      "reason": "Lifecycle inventory belongs to evergreen-deprecation."
     }
   ]
 }

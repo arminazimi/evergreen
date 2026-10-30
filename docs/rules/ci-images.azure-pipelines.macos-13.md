@@ -2,6 +2,7 @@
 title: "Azure Pipelines macOS 13 Ventura hosted image is retired — dates, impact, migration"
 description: "The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hosted agents page states that date, and the Azure DevOps blog lists the same full retiral date."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-13.html"
+json_twin: "/rules/ci-images.azure-pipelines.macos-13.json"
 ---
 
 # Azure Pipelines macOS 13 Ventura hosted image is retired

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.sequelize.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/sequelize",
+  "affectedVersions": "vers:npm/6.12.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/sequelize is deprecated",
+  "summary": "npm marks @types/sequelize as deprecated: \"This is a stub types definition. sequelize provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "sequelize",
+  "sources": [
+    {
+      "title": "@types/sequelize on npm",
+      "url": "https://www.npmjs.com/package/@types/sequelize"
+    },
+    {
+      "title": "@types/sequelize version metadata",
+      "url": "https://registry.npmjs.org/@types%2fsequelize"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/sequelize only declares types; sequelize now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/sequelize from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep sequelize on a version that ships its own type definitions and import its types from sequelize.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with sequelize's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@
 title: "json 2.17.1.1 is yanked — dates, impact, migration"
 description: "RubyGems lists json 2.17.1.1 as yanked: the version is not available for download or for other gems that depended on it. The version page also flags two known security vulnerabilities."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.gem.json.yanked-2.17.1.1.html"
+json_twin: "/rules/ruby.gem.json.yanked-2.17.1.1.json"
 ---
 
 # json 2.17.1.1 is yanked

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.pkgutil.find-loader",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "pkgutil.find_loader and get_loader are deprecated",
+  "summary": "Python 3.12 deprecates pkgutil.find_loader() and pkgutil.get_loader(), to be removed in Python 3.14.",
+  "replacement": "importlib.util.find_spec()",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    },
+    {
+      "title": "Python deprecations: pending removal in 3.14",
+      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Use find_spec",
+        "instructions": "Replace the call with importlib.util.find_spec(name) and read spec.loader if the loader is needed.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

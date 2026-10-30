@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.refractor.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/refractor",
+  "affectedVersions": "vers:npm/4.0.0",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/refractor is deprecated",
+  "summary": "npm marks @types/refractor as deprecated: \"This is a stub types definition. refractor provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "refractor",
+  "sources": [
+    {
+      "title": "@types/refractor on npm",
+      "url": "https://www.npmjs.com/package/@types/refractor"
+    },
+    {
+      "title": "@types/refractor version metadata",
+      "url": "https://registry.npmjs.org/@types%2frefractor"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/refractor only declares types; refractor now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/refractor from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep refractor on a version that ships its own type definitions and import its types from refractor.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with refractor's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

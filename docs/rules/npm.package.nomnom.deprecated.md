@@ -2,6 +2,7 @@
 title: "nomnom is deprecated — dates, impact, migration"
 description: "npm states that nomnom is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html"
+json_twin: "/rules/npm.package.nomnom.deprecated.json"
 ---
 
 # nomnom is deprecated

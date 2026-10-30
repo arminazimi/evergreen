@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.datacommons.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/datacommons",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "datacommons is deprecated",
+  "summary": "The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.",
+  "replacement": "datacommons-client",
+  "sources": [
+    {
+      "title": "datacommons deprecation notice",
+      "url": "https://pypi.org/project/datacommons/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve API endpoints, authentication, statistical-variable identifiers, entity queries, response shapes, pagination, and retry behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-datacommons",
+        "title": "Replace the Data Commons client",
+        "instructions": "Replace datacommons with datacommons-client and translate client construction and API calls using the official migration guide.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-datacommons-results",
+        "title": "Verify query results",
+        "instructions": "Compare representative entity, observation, and graph query responses and error paths against expected fixtures.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run Data Commons integration and repository tests."
+      }
+    ]
+  }
+}

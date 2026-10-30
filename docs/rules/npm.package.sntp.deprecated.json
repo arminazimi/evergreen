@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.sntp.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/sntp",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "sntp is deprecated",
+  "summary": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
+  "replacement": "@hapi/sntp",
+  "sources": [
+    {
+      "title": "sntp package deprecation notice",
+      "url": "https://www.npmjs.com/package/sntp"
+    },
+    {
+      "title": "sntp registry metadata",
+      "url": "https://registry.npmjs.org/sntp/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve server selection, timeout behavior, clock-offset calculations, error handling, and any security-sensitive time checks."
+    ],
+    "steps": [
+      {
+        "id": "replace-sntp",
+        "title": "Replace sntp",
+        "instructions": "Move the dependency and imports from sntp to @hapi/sntp and adapt changed APIs.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-time-behavior",
+        "title": "Verify network-time behavior",
+        "instructions": "Test successful queries, timeouts, invalid responses, and clock-offset handling with controlled fixtures.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run time synchronization and repository tests when defined."
+      }
+    ]
+  }
+}

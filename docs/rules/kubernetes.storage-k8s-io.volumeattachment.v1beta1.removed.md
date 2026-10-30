@@ -2,6 +2,7 @@
 title: "VolumeAttachment storage.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of VolumeAttachment is no longer served as of v1.22, which was released on 2021-08-04."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.storage-k8s-io.volumeattachment.v1beta1.removed.json"
 ---
 
 # VolumeAttachment storage.k8s.io/v1beta1 is no longer served

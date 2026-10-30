@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.vsdeband.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/vsdeband",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "vsdeband is deprecated",
+  "summary": "The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.",
+  "replacement": "vsjetpack",
+  "sources": [
+    {
+      "title": "vsdeband deprecation notice",
+      "url": "https://pypi.org/project/vsdeband/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve filter selection, thresholds, planes, grain behavior, frame formats, and rendered video output."
+    ],
+    "steps": [
+      {
+        "id": "replace-vsdeband",
+        "title": "Replace vsdeband",
+        "instructions": "Replace the dependency and translate vsdeband imports and filter calls to their vsjetpack equivalents.",
+        "targets": "all"
+      },
+      {
+        "id": "compare-video-output",
+        "title": "Compare rendered output",
+        "instructions": "Render representative clips and compare frame properties and visual output around gradients and motion.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run video-processing and repository tests when defined."
+      }
+    ]
+  }
+}

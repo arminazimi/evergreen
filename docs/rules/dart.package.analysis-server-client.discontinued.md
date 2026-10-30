@@ -2,6 +2,7 @@
 title: "analysis_server_client is discontinued on pub.dev — dates, impact, migration"
 description: "pub.dev marks analysis_server_client as discontinued."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html"
+json_twin: "/rules/dart.package.analysis-server-client.discontinued.json"
 ---
 
 # analysis_server_client is discontinued on pub.dev

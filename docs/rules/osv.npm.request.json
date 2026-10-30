@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "osv.npm.request",
+  "ecosystem": "osv",
+  "purl": "pkg:npm/request",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "request has unfixed OSV advisories",
+  "summary": "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.",
+  "sources": [
+    {
+      "title": "GHSA-p8p7-x288-28g6",
+      "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-27",
+    "reviewedAt": "2026-10-27",
+    "reviewer": "arminazimi"
+  }
+}

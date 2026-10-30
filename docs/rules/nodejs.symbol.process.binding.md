@@ -2,6 +2,7 @@
 title: "process.binding is deprecated — dates, impact, migration"
 description: "Node.js documents process.binding() as for internal use only and deprecates it (DEP0111, documentation-only since v10.9.0); it is unavailable when the permission model is enabled."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.binding.html"
+json_twin: "/rules/nodejs.symbol.process.binding.json"
 ---
 
 # process.binding is deprecated

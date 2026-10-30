@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.domexception.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/domexception",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "domexception is deprecated",
+  "summary": "npm directs users of domexception to the platform-native DOMException implementation.",
+  "replacement": "Native DOMException",
+  "sources": [
+    {
+      "title": "domexception package deprecation notice",
+      "url": "https://www.npmjs.com/package/domexception"
+    },
+    {
+      "title": "domexception registry metadata",
+      "url": "https://registry.npmjs.org/domexception/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve exception names, messages, codes where consumed, instanceof checks, serialization, and minimum-runtime support."
+    ],
+    "steps": [
+      {
+        "id": "replace-domexception",
+        "title": "Use native DOMException",
+        "instructions": "Replace domexception imports and constructors with the global DOMException implementation, then remove the dependency.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run exception behavior and repository tests."
+      }
+    ]
+  }
+}

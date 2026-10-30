@@ -2,6 +2,7 @@
 title: "Unsupported actions/cache runtime — dates, impact, migration"
 description: "This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.cache.node20.html"
+json_twin: "/rules/github-actions.cache.node20.json"
 ---
 
 # Unsupported actions/cache runtime

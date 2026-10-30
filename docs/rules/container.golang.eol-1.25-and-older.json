@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "container.golang.eol-1.25-and-older",
+  "ecosystem": "container",
+  "purl": "pkg:docker/library/golang",
+  "affectedVersions": "vers:semver/<1.26.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Go image release lines 1.25 and older are end-of-life",
+  "summary": "These Go release lines no longer receive fixes from the vendor.",
+  "replacement": "A golang image on a supported release line",
+  "deadline": "2026-08-19",
+  "sources": [
+    {
+      "title": "Go release policy (vendor)",
+      "url": "https://go.dev/doc/devel/release#policy"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the base image, Compose image, CI service containers, and deployment manifests that use golang on one supported Go release line.",
+      "Confirm the application and its data or configuration work on the target Go release; read the vendor's upgrade notes before moving across several release lines."
+    ],
+    "steps": [
+      {
+        "id": "update-image-declaration",
+        "title": "Update the base image",
+        "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-image-surfaces",
+        "title": "Align other image references",
+        "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "docker build .",
+        "purpose": "Build the image on the new base."
+      },
+      {
+        "command": "docker run --rm IMAGE sh -c 'echo ok'",
+        "purpose": "Confirm the container starts on the new base."
+      }
+    ]
+  }
+}

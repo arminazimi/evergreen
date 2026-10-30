@@ -2,6 +2,7 @@
 title: "Azure Database for PostgreSQL 11, 12, and 13 are past standard support — dates, impact, migration"
 description: "The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standard support end date for PostgreSQL 11, 12, and 13."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html"
+json_twin: "/rules/database.azure-postgresql.standard-support-ended-11-to-13.json"
 ---
 
 # Azure Database for PostgreSQL 11, 12, and 13 are past standard support

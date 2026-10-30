@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.sklearn.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/sklearn",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "sklearn is deprecated on PyPI",
+  "summary": "The sklearn maintainers state that the PyPI package is deprecated and that scikit-learn is the actual distribution name.",
+  "replacement": "scikit-learn",
+  "sources": [
+    {
+      "title": "sklearn deprecation notice",
+      "url": "https://pypi.org/project/sklearn/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep Python imports as sklearn; only the distribution name used by installers and dependency metadata changes."
+    ],
+    "steps": [
+      {
+        "id": "replace-sklearn-distribution",
+        "title": "Replace the distribution name",
+        "instructions": "Replace sklearn with scikit-learn in dependency declarations and installation commands without renaming sklearn imports.",
+        "targets": "declaration"
+      },
+      {
+        "id": "refresh-sklearn-environment",
+        "title": "Refresh the environment",
+        "instructions": "Regenerate lock data and confirm the intended scikit-learn version resolves for every supported Python runtime.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pip check",
+        "purpose": "Check the resolved scikit-learn environment."
+      },
+      {
+        "command": "python -m pytest",
+        "purpose": "Run model, preprocessing, and repository tests."
+      }
+    ]
+  }
+}

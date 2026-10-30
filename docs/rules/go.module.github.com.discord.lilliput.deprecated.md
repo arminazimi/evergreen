@@ -2,6 +2,7 @@
 title: "github.com/discord/lilliput is deprecated — dates, impact, migration"
 description: "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html"
+json_twin: "/rules/go.module.github.com.discord.lilliput.deprecated.json"
 ---
 
 # github.com/discord/lilliput is deprecated

@@ -1,0 +1,7 @@
+{%- comment -%}
+  A rule page publishes a JSON twin beside itself; tools/build-reference-pages.ts sets json_twin on each one.
+  Link it so an agent can read the data instead of parsing the HTML.
+{%- endcomment -%}
+{%- if page.json_twin %}
+<link rel="alternate" type="application/json" href="{{ page.json_twin | relative_url }}">
+{%- endif -%}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "ci-images.azure-pipelines.macos-13",
+  "ecosystem": "ci-images",
+  "purl": "pkg:generic/azure-pipelines/macos-image",
+  "affectedVersions": "vers:intdot/13",
+  "event": "removed",
+  "severity": "high",
+  "title": "Azure Pipelines macOS 13 Ventura hosted image is retired",
+  "summary": "The macOS 13 Ventura hosted image was retired on 2025-12-04. The Microsoft-hosted agents page states that date, and the Azure DevOps blog lists the same full retiral date.",
+  "replacement": "macos-14, macos-15, or macos-latest",
+  "deadline": "2025-12-04",
+  "sources": [
+    {
+      "title": "Microsoft-hosted agents for Azure Pipelines",
+      "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted",
+      "accessedAt": "2026-10-21"
+    },
+    {
+      "title": "Upcoming Updates for Azure Pipelines Agents Images",
+      "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/",
+      "accessedAt": "2026-10-21"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Change only Microsoft-hosted pool.vmImage labels. This retirement does not apply to self-hosted agents, Managed DevOps Pools, or VM scale sets.",
+      "The macOS 13 notice names macos-14, macos-15, or macos-latest. macos-14 has its own scheduled removal on 2026-11-02, so prefer macos-15 or macos-latest when the workload allows it."
+    ],
+    "steps": [
+      {
+        "id": "retarget-vm-image",
+        "title": "Retarget the hosted image",
+        "instructions": "Change the reported pool.vmImage from macos-13 to macos-15 or macos-latest (the notice also allows macos-14; see the replacement).",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-vm-image-surfaces",
+        "title": "Align other Azure Pipelines pools",
+        "instructions": "Update every other azure-pipelines.yml pool, including stage and job pools, that still pins macos-13. Leave self-hosted pool names unchanged.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "gitlab-ci-lint || circleci config validate",
+        "purpose": "Lint .gitlab-ci.yml with gitlab-ci-lint, or .circleci/config.yml with circleci config validate, when the repository has that file. Azure Pipelines has no equivalent local validator: queue the pipeline and confirm the job uses the replacement vmImage."
+      }
+    ]
+  }
+}

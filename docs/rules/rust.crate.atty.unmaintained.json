@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "rust.crate.atty.unmaintained",
+  "ecosystem": "rust",
+  "purl": "pkg:cargo/atty",
+  "affectedVersions": "vers:cargo/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "atty is no longer maintained",
+  "summary": "The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.",
+  "replacement": "std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers",
+  "sources": [
+    {
+      "title": "RustSec advisory RUSTSEC-2024-0375",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2024-0375.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve how colored or interactive output is chosen when stdout or stderr is not a terminal."
+    ],
+    "steps": [
+      {
+        "id": "replace-atty",
+        "title": "Use std::io::IsTerminal",
+        "instructions": "Replace `atty::is(Stream::Stdout)` with `std::io::stdout().is_terminal()` (stable since Rust 1.70, `use std::io::IsTerminal`), or use the is-terminal crate on older compilers, and remove the atty dependency.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "cargo build --all-targets && cargo test",
+        "purpose": "Build and test after removing atty."
+      }
+    ]
+  }
+}

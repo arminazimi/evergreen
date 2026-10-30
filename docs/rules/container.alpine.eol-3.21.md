@@ -2,6 +2,7 @@
 title: "Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01 — dates, impact, migration"
 description: "Alpine Linux 3.21 is scheduled to stop receiving security updates on 2026-11-01."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.21.html"
+json_twin: "/rules/container.alpine.eol-3.21.json"
 ---
 
 # Alpine Linux image release line 3.21 reaches end-of-life on 2026-11-01

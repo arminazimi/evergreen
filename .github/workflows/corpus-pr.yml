@@ -34,6 +34,7 @@ jobs:
         with:
           # The affected ecosystems come from the diff against the base branch, which needs its history.
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24

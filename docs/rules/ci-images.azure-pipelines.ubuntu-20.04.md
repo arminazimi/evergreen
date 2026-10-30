@@ -2,6 +2,7 @@
 title: "Azure Pipelines Ubuntu 20.04 hosted image is retired — dates, impact, migration"
 description: "The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure DevOps blog deprecation plan. The Microsoft-hosted agents page lists that image as retired."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-20.04.html"
+json_twin: "/rules/ci-images.azure-pipelines.ubuntu-20.04.json"
 ---
 
 # Azure Pipelines Ubuntu 20.04 hosted image is retired

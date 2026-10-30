@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "php.package.doctrine.cache.abandoned",
+  "ecosystem": "php",
+  "purl": "pkg:composer/doctrine/cache",
+  "affectedVersions": "vers:composer/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "doctrine/cache is abandoned",
+  "summary": "Packagist marks doctrine/cache as abandoned and no longer maintained.",
+  "sources": [
+    {
+      "title": "doctrine/cache on Packagist",
+      "url": "https://packagist.org/packages/doctrine/cache"
+    },
+    {
+      "title": "doctrine/cache Composer metadata",
+      "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-20",
+    "reviewedAt": "2026-10-20",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep composer.json and composer.lock consistent after removing doctrine/cache, and check that no other package still requires it.",
+      "Preserve existing behavior while replacing the abandoned package; review its public API usage before choosing a replacement."
+    ],
+    "steps": [
+      {
+        "id": "replace-abandoned-package",
+        "title": "Replace the abandoned package",
+        "instructions": "Remove doctrine/cache from composer.json and replace it with a maintained alternative that fits how the project uses it, then run `composer update`.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "composer validate && composer install",
+        "purpose": "Confirm the Composer project is valid and installs without the abandoned package."
+      },
+      {
+        "command": "composer validate && vendor/bin/phpunit",
+        "purpose": "Validate the Composer project and run the PHPUnit suite after the replacement."
+      }
+    ]
+  }
+}

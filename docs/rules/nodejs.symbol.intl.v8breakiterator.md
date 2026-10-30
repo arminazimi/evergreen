@@ -2,6 +2,7 @@
 title: "Intl.v8BreakIterator has been removed — dates, impact, migration"
 description: "Node.js removed Intl.v8BreakIterator (DEP0017: runtime deprecation since v7.0.0, end-of-life since v9.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.intl.v8breakiterator.html"
+json_twin: "/rules/nodejs.symbol.intl.v8breakiterator.json"
 ---
 
 # Intl.v8BreakIterator has been removed

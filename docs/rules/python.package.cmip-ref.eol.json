@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.cmip-ref.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/cmip-ref",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "cmip_ref was renamed and is no longer maintained",
+  "summary": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
+  "replacement": "climate-ref",
+  "sources": [
+    {
+      "title": "cmip_ref rename and maintenance notice",
+      "url": "https://pypi.org/project/cmip-ref/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve configuration, climate data inputs, diagnostics, output formats, provenance, and command behavior."
+    ],
+    "steps": [
+      {
+        "id": "replace-cmip-ref",
+        "title": "Move to climate-ref",
+        "instructions": "Replace cmip_ref with climate-ref, update imports from cmip_ref to climate_ref, and translate any changed configuration or commands.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run climate data, diagnostics, output, command, and project tests when defined."
+      }
+    ]
+  }
+}

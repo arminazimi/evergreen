@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.symbol.datetime.utcfromtimestamp",
+  "ecosystem": "python",
+  "purl": "pkg:generic/python",
+  "affectedVersions": "vers:pypi/>=3.12",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "datetime.utcfromtimestamp is deprecated",
+  "summary": "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC.",
+  "replacement": "datetime.fromtimestamp(timestamp, datetime.UTC)",
+  "sources": [
+    {
+      "title": "What's New in Python 3.12",
+      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+    },
+    {
+      "title": "datetime documentation",
+      "url": "https://docs.python.org/3/library/datetime.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-21",
+    "reviewedAt": "2026-10-21",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the behavior of the call unchanged; check the replacement's argument and return-type differences."
+    ],
+    "steps": [
+      {
+        "id": "replace-symbol",
+        "title": "Use an aware datetime",
+        "instructions": "Replace datetime.utcfromtimestamp(ts) with datetime.fromtimestamp(ts, datetime.UTC); check comparisons with naive datetimes.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -W error::DeprecationWarning -m pytest",
+        "purpose": "Run the tests with deprecation warnings as errors when pytest is used."
+      }
+    ]
+  }
+}

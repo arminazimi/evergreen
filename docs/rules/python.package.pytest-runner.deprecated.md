@@ -2,6 +2,7 @@
 title: "pytest-runner is deprecated — dates, impact, migration"
 description: "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html"
+json_twin: "/rules/python.package.pytest-runner.deprecated.json"
 ---
 
 # pytest-runner is deprecated

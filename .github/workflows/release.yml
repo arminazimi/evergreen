@@ -17,6 +17,7 @@ on:
         description: Dry run of the major Action tag for this release tag (for example v1.4.2). Pushes nothing.
         required: false
         default: ""
+  # zizmor: ignore[dangerous-triggers] -- it runs only after the Publish workflow completes successfully
   workflow_run:
     workflows: [Publish to npm]
     types: [completed]
@@ -33,6 +34,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -74,6 +76,7 @@ jobs:
       # The default branch is checked out, not the release commit: the decision script then always comes from
       # reviewed code on the default branch, even for a release (or a dry-run tag) that predates the script.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # zizmor: ignore[artipacked] -- it moves the major tag with the checkout token
         with:
           fetch-depth: 0
       - name: Select the stable release tag
@@ -145,6 +148,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -182,6 +186,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -206,6 +211,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -377,6 +383,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - name: Select release
         id: release
         shell: bash
@@ -432,6 +439,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - name: Select release
         id: release
         shell: bash
@@ -459,7 +467,7 @@ jobs:
         env:
           VERSION: ${{ steps.release.outputs.version }}
         run: |
-          for attempt in $(seq 1 40); do
+          for _ in $(seq 1 40); do
             if [ "$(npm view "evergreen-deprecation@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
               exit 0
             fi
@@ -477,6 +485,7 @@ jobs:
           curl -fsSL "$url" -o "$RUNNER_TEMP/evergreen.tgz"
           echo "sha256=$(sha256sum "$RUNNER_TEMP/evergreen.tgz" | awk '{ print $1 }')" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        # zizmor: ignore[artipacked] -- it pushes the formula with the deploy key
         if: steps.release.outputs.skip != 'true'
         with:
           repository: arminazimi/homebrew-tap
@@ -533,6 +542,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           # `node --build-sea` needs 25.5 or newer; the binary carries this runtime.
@@ -550,21 +560,29 @@ jobs:
       - run: npm run build --silent
       - name: Build the binary
         shell: bash
+        env:
+          FILE: ${{ steps.release.outputs.file }}
         run: |
           mkdir binaries
-          node .github/scripts/build-sea.mjs "binaries/${{ steps.release.outputs.file }}"
+          node .github/scripts/build-sea.mjs "binaries/$FILE"
       - name: Sign ad hoc (macOS refuses to run an unsigned executable)
         if: runner.os == 'macOS'
-        run: codesign --force --sign - "binaries/${{ steps.release.outputs.file }}"
+        env:
+          FILE: ${{ steps.release.outputs.file }}
+        run: codesign --force --sign - "binaries/$FILE"
       - name: Smoke test without Node.js on the path
         if: runner.os != 'Windows'
+        env:
+          FILE: ${{ steps.release.outputs.file }}
         run: |
-          node .github/scripts/smoke.mjs tests/fixtures/smoke -- env PATH=/usr/bin:/bin "$PWD/binaries/${{ steps.release.outputs.file }}"
+          node .github/scripts/smoke.mjs tests/fixtures/smoke -- env PATH=/usr/bin:/bin "$PWD/binaries/$FILE"
       - name: Smoke test
         if: runner.os == 'Windows'
         shell: bash
+        env:
+          FILE: ${{ steps.release.outputs.file }}
         run: |
-          node .github/scripts/smoke.mjs tests/fixtures/smoke -- "$PWD/binaries/${{ steps.release.outputs.file }}"
+          node .github/scripts/smoke.mjs tests/fixtures/smoke -- "$PWD/binaries/$FILE"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: binary-${{ matrix.target }}
@@ -592,6 +610,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           pattern: binary-*
@@ -635,6 +654,7 @@ jobs:
       actions: read
       id-token: write
       contents: write
+    # zizmor: ignore[unpinned-uses] -- the generator identifies itself by this vX.Y.Z tag, not by a commit SHA
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: ${{ needs.binary-release.outputs.hashes }}

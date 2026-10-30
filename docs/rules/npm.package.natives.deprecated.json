@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.natives.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/natives",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "high",
+  "title": "natives is deprecated",
+  "summary": "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.",
+  "replacement": "graceful-fs 4.x",
+  "sources": [
+    {
+      "title": "natives package deprecation notice",
+      "url": "https://www.npmjs.com/package/natives"
+    },
+    {
+      "title": "natives registry metadata",
+      "url": "https://registry.npmjs.org/natives/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve filesystem behavior, retry semantics, and compatibility with the Node.js versions supported by the project."
+    ],
+    "steps": [
+      {
+        "id": "replace-natives",
+        "title": "Replace natives",
+        "instructions": "Replace the natives dependency and imports with graceful-fs 4.x, using its public filesystem API instead of Node.js internals.",
+        "targets": "all"
+      },
+      {
+        "id": "verify-filesystem-behavior",
+        "title": "Verify filesystem behavior",
+        "instructions": "Exercise affected file operations, including concurrent access and error paths, on every supported Node.js version.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run filesystem behavior and repository tests when defined."
+      }
+    ]
+  }
+}

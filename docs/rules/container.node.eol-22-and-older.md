@@ -2,6 +2,7 @@
 title: "Node.js image release line 22 reaches end-of-life on 2027-04-30 — dates, impact, migration"
 description: "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html"
+json_twin: "/rules/container.node.eol-22-and-older.json"
 ---
 
 # Node.js image release line 22 reaches end-of-life on 2027-04-30

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.node-sass.eol",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/node-sass",
+  "affectedVersions": "vers:npm/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Node Sass is end-of-life",
+  "summary": "Node Sass is no longer maintained and its repository has been archived.",
+  "replacement": "sass",
+  "deadline": "2024-07-24",
+  "sources": [
+    {
+      "title": "Node Sass is end-of-life",
+      "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-13",
+    "reviewedAt": "2026-10-14",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+    ],
+    "steps": [
+      {
+        "id": "replace-sass-dependency",
+        "title": "Replace Node Sass",
+        "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.",
+        "targets": "declaration"
+      },
+      {
+        "id": "update-sass-calls",
+        "title": "Update compiler usages",
+        "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.",
+        "targets": "usages"
+      },
+      {
+        "id": "compare-css-output",
+        "title": "Compare compiled output",
+        "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run stylesheet and repository tests when defined."
+      },
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Compile the project and its stylesheets with Sass."
+      }
+    ]
+  }
+}

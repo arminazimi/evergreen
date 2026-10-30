@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.babel-preset-es2015.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/babel-preset-es2015",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "babel-preset-es2015 is deprecated",
+  "summary": "npm recommends babel-preset-env instead of babel-preset-es2015.",
+  "replacement": "@babel/preset-env",
+  "sources": [
+    {
+      "title": "babel-preset-es2015 package deprecation notice",
+      "url": "https://www.npmjs.com/package/babel-preset-es2015"
+    },
+    {
+      "title": "babel-preset-es2015 registry metadata",
+      "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the JavaScript syntax targets and emitted runtime behavior required by supported environments."
+    ],
+    "steps": [
+      {
+        "id": "replace-es2015-preset",
+        "title": "Replace the Babel preset",
+        "instructions": "Replace babel-preset-es2015 with @babel/preset-env and update Babel configuration to use @babel/preset-env.",
+        "targets": "all"
+      },
+      {
+        "id": "configure-targets",
+        "title": "Configure supported targets",
+        "instructions": "Set explicit target environments so the replacement emits only the transforms and polyfill behavior the project requires.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Build the project and verify the replacement Babel output."
+      }
+    ]
+  }
+}

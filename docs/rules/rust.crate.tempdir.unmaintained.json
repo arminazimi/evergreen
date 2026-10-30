@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "rust.crate.tempdir.unmaintained",
+  "ecosystem": "rust",
+  "purl": "pkg:cargo/tempdir",
+  "affectedVersions": "vers:cargo/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "tempdir is no longer maintained",
+  "summary": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
+  "replacement": "tempfile",
+  "sources": [
+    {
+      "title": "RustSec advisory RUSTSEC-2018-0017",
+      "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep temporary directories cleaned up on drop, as before."
+    ],
+    "steps": [
+      {
+        "id": "replace-tempdir",
+        "title": "Replace tempdir with tempfile",
+        "instructions": "Replace the tempdir dependency with tempfile and change `TempDir::new(prefix)` calls to `tempfile::tempdir()` or `tempfile::Builder`.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "cargo build --all-targets && cargo test",
+        "purpose": "Build and run the tests that create temporary directories."
+      }
+    ]
+  }
+}

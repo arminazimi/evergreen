@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "scala.sbt.eol-0.13",
+  "ecosystem": "scala",
+  "purl": "pkg:generic/sbt",
+  "affectedVersions": "vers:semver/>=0.13.0|<1.0.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "sbt 0.13 reached end of life",
+  "summary": "The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18.",
+  "replacement": "sbt 1.x or sbt 2.x",
+  "deadline": "2018-11-30",
+  "sources": [
+    {
+      "title": "sbt download — release timeline",
+      "url": "https://www.scala-sbt.org/download/"
+    },
+    {
+      "title": "Migrating from sbt 0.13.x",
+      "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-27",
+    "reviewedAt": "2026-10-27",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep project/build.properties sbt.version, the installed sbt launcher, and CI sbt setup on one supported sbt major.",
+      "Migrate build definitions away from 0.13-only syntax before raising sbt.version; see the migration guide."
+    ],
+    "steps": [
+      {
+        "id": "update-sbt-declaration",
+        "title": "Raise the sbt version",
+        "instructions": "Change project/build.properties sbt.version from 0.13.x to a supported release (see the replacement).",
+        "targets": "declaration"
+      },
+      {
+        "id": "migrate-sbt-build",
+        "title": "Migrate the build definition",
+        "instructions": "Apply the sbt 0.13 → 1.x migration guide for operators, Build.scala layouts, and plugins, then re-resolve plugins.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "sbt -Dsbt.supershell=false sbtVersion",
+        "purpose": "Confirm the active sbt version is the intended release."
+      },
+      {
+        "command": "sbt -Dsbt.supershell=false compile",
+        "purpose": "Compile the project on the new sbt."
+      },
+      {
+        "command": "sbt -Dsbt.supershell=false test",
+        "purpose": "Run the sbt test suite on the new sbt."
+      }
+    ]
+  }
+}

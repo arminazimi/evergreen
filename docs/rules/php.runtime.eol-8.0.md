@@ -2,6 +2,7 @@
 title: "PHP 8.0 is end-of-life — dates, impact, migration"
 description: "The PHP unsupported branches page lists the PHP 8.0 branch as end of life on 2023-11-26; the branch no longer receives security or bug fixes from the PHP project."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.0.html"
+json_twin: "/rules/php.runtime.eol-8.0.json"
 ---
 
 # PHP 8.0 is end-of-life

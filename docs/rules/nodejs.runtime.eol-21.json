@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "nodejs.runtime.eol-21",
+  "ecosystem": "nodejs",
+  "purl": "pkg:generic/nodejs",
+  "affectedVersions": "vers:semver/>=21.0.0|<22.0.0",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "Node.js 21 is end-of-life",
+  "summary": "Node.js 21 no longer receives security or bug fixes.",
+  "replacement": "Node.js 22 LTS or later",
+  "deadline": "2024-06-01",
+  "sources": [
+    {
+      "title": "Node.js Release Working Group schedule",
+      "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-17",
+    "reviewedAt": "2026-10-17",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+      "Confirm native modules and production dependencies support the target Node.js major."
+    ],
+    "steps": [
+      {
+        "id": "update-runtime-declaration",
+        "title": "Update the Node.js declaration",
+        "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-runtime-surfaces",
+        "title": "Align runtime surfaces",
+        "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "node --version",
+        "purpose": "Confirm the active Node.js runtime is supported."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository test suite on the target runtime when defined."
+      },
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Verify the project builds on the target runtime."
+      }
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "ruby.gem.json.yanked-2.17.1.1",
+  "ecosystem": "ruby",
+  "purl": "pkg:gem/json",
+  "affectedVersions": "vers:gem/2.17.1.1",
+  "event": "removed",
+  "severity": "high",
+  "title": "json 2.17.1.1 is yanked",
+  "summary": "RubyGems lists json 2.17.1.1 as yanked: the version is not available for download or for other gems that depended on it. The version page also flags two known security vulnerabilities.",
+  "replacement": "A published json release that is not yanked",
+  "sources": [
+    {
+      "title": "RubyGems: json 2.17.1.1 is yanked",
+      "url": "https://rubygems.org/gems/json/versions/2.17.1.1"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-18",
+    "reviewedAt": "2026-10-18",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Keep the Gemfile requirement, Gemfile.lock resolved version, and gemspec constraint on a published json release.",
+      "Regenerate the lockfile after changing the requirement; do not keep a yanked version in the resolution."
+    ],
+    "steps": [
+      {
+        "id": "replace-json-version",
+        "title": "Move off the yanked version",
+        "instructions": "Change the Gemfile or gemspec constraint to a published json release and run `bundle update json` so Gemfile.lock resolves a version that is not yanked.",
+        "targets": "declaration"
+      },
+      {
+        "id": "align-json-surfaces",
+        "title": "Align the lockfile and gemspec",
+        "instructions": "Check every Gemfile.lock in the repository and the gemspec constraint so none resolves the yanked version.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "bundle exec ruby -e 'require \"json\"; puts JSON::VERSION'",
+        "purpose": "Confirm the resolved json version."
+      },
+      {
+        "command": "bundle exec rake test",
+        "purpose": "Run the test suite with the replacement version."
+      }
+    ]
+  }
+}

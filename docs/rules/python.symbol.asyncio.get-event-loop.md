@@ -2,6 +2,7 @@
 title: "asyncio.get_event_loop warns when it has to create a loop — dates, impact, migration"
 description: "In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html"
+json_twin: "/rules/python.symbol.asyncio.get-event-loop.json"
 ---
 
 # asyncio.get_event_loop warns when it has to create a loop

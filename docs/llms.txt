@@ -18,6 +18,7 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [Migration packets](https://arminazimi.github.io/evergreen/MIGRATION_PACKETS.html): the structured context Evergreen builds for one finding.
 - [Environment doctor and compatibility](https://arminazimi.github.io/evergreen/COMPATIBILITY.html): supported ecosystems, hosts, and maturity.
 - [Agent Skill](https://arminazimi.github.io/evergreen/AGENT_SKILLS.html): the portable skill for coding agents and how its triggering is evaluated.
+- [Evergreen, Slipway, and Seaworthy](https://arminazimi.github.io/evergreen/SITE_STACK.html): the agent loop for a Slipway-shaped site — check dependencies with Evergreen, verify `_site/` with Seaworthy when it ships.
 
 ## Evidence, data, and trust
 

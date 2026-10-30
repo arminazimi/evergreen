@@ -2,6 +2,7 @@
 title: "rollup-plugin-babel is deprecated — dates, impact, migration"
 description: "npm states that rollup-plugin-babel is deprecated and no longer maintained, and recommends @rollup/plugin-babel."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-babel.deprecated.html"
+json_twin: "/rules/npm.package.rollup-plugin-babel.deprecated.json"
 ---
 
 # rollup-plugin-babel is deprecated

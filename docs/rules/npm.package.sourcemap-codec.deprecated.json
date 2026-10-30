@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.sourcemap-codec.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/sourcemap-codec",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "sourcemap-codec is deprecated",
+  "summary": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
+  "replacement": "@jridgewell/sourcemap-codec",
+  "sources": [
+    {
+      "title": "sourcemap-codec package deprecation notice",
+      "url": "https://www.npmjs.com/package/sourcemap-codec"
+    },
+    {
+      "title": "sourcemap-codec registry metadata",
+      "url": "https://registry.npmjs.org/sourcemap-codec/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve decoded segment ordering, generated and original positions, names, empty lines, and encoded source-map output."
+    ],
+    "steps": [
+      {
+        "id": "replace-sourcemap-codec",
+        "title": "Move to the maintained codec",
+        "instructions": "Replace the dependency and imports with @jridgewell/sourcemap-codec and adapt any changed exports.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run source-map round-trip and repository tests."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.poetry-version-plugin.deprecated",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/poetry-version-plugin",
+  "affectedVersions": "vers:pypi/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "poetry-version-plugin is deprecated",
+  "summary": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
+  "replacement": "uv, PDM, Hatch, or poetry-dynamic-versioning",
+  "sources": [
+    {
+      "title": "poetry-version-plugin deprecation notice",
+      "url": "https://pypi.org/project/poetry-version-plugin/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the version source, tag format, source-tree state, built metadata, editable installs, and release automation."
+    ],
+    "steps": [
+      {
+        "id": "replace-poetry-version-plugin",
+        "title": "Replace dynamic versioning",
+        "instructions": "Choose a maintained versioning workflow, migrate Poetry configuration and release jobs, and remove poetry-version-plugin.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m build",
+        "purpose": "Build distributions and inspect their resolved versions."
+      }
+    ]
+  }
+}

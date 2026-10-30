@@ -2,6 +2,7 @@
 title: "CronJob batch/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cronjob.v1beta1.removed.html"
+json_twin: "/rules/kubernetes.batch.cronjob.v1beta1.removed.json"
 ---
 
 # CronJob batch/v1beta1 is no longer served

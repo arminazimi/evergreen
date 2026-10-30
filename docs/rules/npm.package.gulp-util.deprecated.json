@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.gulp-util.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/gulp-util",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "gulp-util is deprecated",
+  "summary": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
+  "replacement": "Maintained purpose-specific modules listed by Gulp",
+  "sources": [
+    {
+      "title": "gulp-util package deprecation notice",
+      "url": "https://www.npmjs.com/package/gulp-util"
+    },
+    {
+      "title": "gulp-util registry metadata",
+      "url": "https://registry.npmjs.org/gulp-util/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve each used utility's logging, file, plugin-error, and stream behavior."
+    ],
+    "steps": [
+      {
+        "id": "inventory-gulp-util",
+        "title": "Inventory gulp-util APIs",
+        "instructions": "Map every imported gulp-util member to the purpose-specific replacement recommended by Gulp.",
+        "targets": "usages"
+      },
+      {
+        "id": "replace-gulp-util",
+        "title": "Install focused replacements",
+        "instructions": "Replace gulp-util imports and dependency with only the maintained modules required by those usages.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Run the Gulp build and verify task output."
+      }
+    ]
+  }
+}

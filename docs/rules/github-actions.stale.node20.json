@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "github-actions.stale.node20",
+  "ecosystem": "github-actions",
+  "purl": "pkg:github/actions/stale",
+  "affectedVersions": "vers:semver/<10.0.0",
+  "event": "end-of-support",
+  "severity": "high",
+  "title": "Unsupported actions/stale runtime",
+  "summary": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+  "replacement": "actions/stale@v10 or later",
+  "deadline": "2026-09-23",
+  "sources": [
+    {
+      "title": "Node 20 is no longer available in GitHub Actions",
+      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+    },
+    {
+      "title": "actions/stale v10.0.0 release notes",
+      "url": "https://github.com/actions/stale/releases/tag/v10.0.0"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "claude-agent"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve the stale and close timing, exempt labels, and operations-per-run limits when upgrading."
+    ],
+    "steps": [
+      {
+        "id": "upgrade-action-ref",
+        "title": "Upgrade stale",
+        "instructions": "Change the uses reference to actions/stale@v10 or a later supported major.",
+        "targets": "declaration"
+      },
+      {
+        "id": "review-action-inputs",
+        "title": "Review stale inputs",
+        "instructions": "Compare configured inputs with the target release and update renamed or changed options; confirm the runner meets the release's minimum version.",
+        "targets": "declaration"
+      }
+    ],
+    "verification": [
+      {
+        "command": "git diff --check",
+        "purpose": "Validate the edited workflow diff."
+      }
+    ]
+  }
+}

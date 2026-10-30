@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "python.package.aiohttp-valera-validator.eol",
+  "ecosystem": "python",
+  "purl": "pkg:pypi/aiohttp-valera-validator",
+  "affectedVersions": "vers:pypi/*",
+  "event": "end-of-life",
+  "severity": "high",
+  "title": "aiohttp-valera-validator was renamed and is no longer maintained",
+  "summary": "The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.",
+  "replacement": "aiohttp-d42-validator",
+  "sources": [
+    {
+      "title": "aiohttp-valera-validator rename notice",
+      "url": "https://pypi.org/project/aiohttp-valera-validator/"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve request parameter, query, body, and response validation; schema semantics; aiohttp middleware behavior; and error responses."
+    ],
+    "steps": [
+      {
+        "id": "replace-aiohttp-valera-validator",
+        "title": "Move to aiohttp-d42-validator",
+        "instructions": "Replace the distribution, update imports to aiohttp_d42_validator, and translate schemas and decorators to the renamed package.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "python -m pytest",
+        "purpose": "Run valid and invalid request, schema, response, middleware, and project tests when defined."
+      }
+    ]
+  }
+}

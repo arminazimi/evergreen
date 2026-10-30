@@ -2,6 +2,7 @@
 title: "Util.log has been removed — dates, impact, migration"
 description: "Node.js removed util.log (DEP0059: documentation-only since v6.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.log.html"
+json_twin: "/rules/nodejs.symbol.util.log.json"
 ---
 
 # Util.log has been removed

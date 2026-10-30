@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.types.react-virtualized-auto-sizer.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40types/react-virtualized-auto-sizer",
+  "affectedVersions": "vers:npm/1.0.8",
+  "event": "deprecated",
+  "severity": "low",
+  "title": "@types/react-virtualized-auto-sizer is deprecated",
+  "summary": "npm marks @types/react-virtualized-auto-sizer as deprecated: \"This is a stub types definition. react-virtualized-auto-sizer provides its own type definitions, so you do not need this installed.\"",
+  "replacement": "react-virtualized-auto-sizer",
+  "sources": [
+    {
+      "title": "@types/react-virtualized-auto-sizer on npm",
+      "url": "https://www.npmjs.com/package/@types/react-virtualized-auto-sizer"
+    },
+    {
+      "title": "@types/react-virtualized-auto-sizer version metadata",
+      "url": "https://registry.npmjs.org/@types%2freact-virtualized-auto-sizer"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-19",
+    "reviewedAt": "2026-10-19",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "@types/react-virtualized-auto-sizer only declares types; react-virtualized-auto-sizer now ships its own declarations, so no conflicting ambient definition may remain."
+    ],
+    "steps": [
+      {
+        "id": "remove-types-package",
+        "title": "Remove the stub types package",
+        "instructions": "Remove @types/react-virtualized-auto-sizer from devDependencies and any explicit reference to it, such as a tsconfig.json compilerOptions.types entry.",
+        "targets": "declaration"
+      },
+      {
+        "id": "use-bundled-types",
+        "title": "Use the bundled declarations",
+        "instructions": "Keep react-virtualized-auto-sizer on a version that ships its own type definitions and import its types from react-virtualized-auto-sizer.",
+        "targets": "usages"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run build --if-present",
+        "purpose": "Type-check and build with react-virtualized-auto-sizer's own declarations."
+      },
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run the repository tests when defined."
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "npm.package.humanwhocodes-object-schema.deprecated",
+  "ecosystem": "npm",
+  "purl": "pkg:npm/%40humanwhocodes/object-schema",
+  "affectedVersions": "vers:npm/*",
+  "event": "deprecated",
+  "severity": "medium",
+  "title": "@humanwhocodes/object-schema is deprecated",
+  "summary": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
+  "replacement": "@eslint/object-schema",
+  "sources": [
+    {
+      "title": "@humanwhocodes/object-schema package deprecation notice",
+      "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+    },
+    {
+      "title": "@humanwhocodes/object-schema registry metadata",
+      "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-16",
+    "reviewedAt": "2026-10-16",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "Preserve validation, merge strategies, required keys, defaults, error behavior, and exported API semantics."
+    ],
+    "steps": [
+      {
+        "id": "replace-object-schema",
+        "title": "Move to the ESLint package",
+        "instructions": "Replace the dependency and imports with @eslint/object-schema, then adapt renamed or changed exports using its maintained API.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "npm run test --if-present",
+        "purpose": "Run schema validation, merge, and repository tests."
+      }
+    ]
+  }
+}

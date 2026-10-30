@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "evergreen.rule.v1",
+  "id": "terraform.eks.end-of-support-1.31",
+  "ecosystem": "terraform",
+  "purl": "pkg:generic/amazon-eks",
+  "affectedVersions": "vers:semver/>=1.31.0|<1.32.0",
+  "event": "end-of-support",
+  "severity": "medium",
+  "title": "Amazon EKS 1.31 is past end of standard support",
+  "summary": "Amazon EKS 1.31 reached the end of standard support on 2025-11-26 and is in extended support until 2026-11-26. Amazon EKS gives a minor version 14 months of standard support and then up to 12 months of extended support at an additional cost per cluster hour.",
+  "replacement": "Amazon EKS 1.35 or later",
+  "deadline": "2025-11-26",
+  "sources": [
+    {
+      "title": "Amazon EKS: Understand the Kubernetes version lifecycle",
+      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+    }
+  ],
+  "provenance": {
+    "observedAt": "2026-10-26",
+    "reviewedAt": "2026-10-26",
+    "reviewer": "arminazimi"
+  },
+  "migration": {
+    "constraints": [
+      "A control plane and its node groups are upgraded separately: raise the control plane before the node groups and the add-ons that pin a Kubernetes version.",
+      "Amazon EKS upgrades one minor version at a time, so cross each intervening minor version and read its upgrade notes.",
+      "A version past end of extended support is auto-upgraded, and a version in extended support is billed at the extended-support rate."
+    ],
+    "steps": [
+      {
+        "id": "raise-cluster-version",
+        "title": "Raise the cluster version",
+        "instructions": "Set cluster_version to the release in the replacement, then run terraform plan and apply the control-plane upgrade.",
+        "targets": "declaration"
+      },
+      {
+        "id": "raise-node-groups",
+        "title": "Raise the node groups and add-ons",
+        "instructions": "Raise each aws_eks_node_group version and each managed add-on that pins a Kubernetes version so they match the new control plane.",
+        "targets": "all"
+      },
+      {
+        "id": "review-removed-apis",
+        "title": "Remove APIs the new version deleted",
+        "instructions": "Read the Kubernetes deprecation guide for every minor version crossed and replace removed API versions in manifests and Helm charts before applying.",
+        "targets": "all"
+      }
+    ],
+    "verification": [
+      {
+        "command": "terraform init -backend=false && terraform validate",
+        "purpose": "Initialize without touching remote state and check that the configuration is valid."
+      },
+      {
+        "command": "terraform plan",
+        "purpose": "Review the plan and confirm the control-plane and node-group changes are the intended ones."
+      },
+      {
+        "command": "aws eks describe-cluster --name <cluster> --query 'cluster.version'",
+        "purpose": "Confirm the control plane reports the new version."
+      },
+      {
+        "command": "kubectl version",
+        "purpose": "Confirm kubectl and the API server agree on the version."
+      }
+    ]
+  }
+}
