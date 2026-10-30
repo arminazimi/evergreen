@@ -7,6 +7,9 @@ import { after, test } from "node:test";
 import { NpmDetector } from "../src/detectors/npm.js";
 
 const enginesFixtures = resolve("tests/fixtures/nodejs/engines");
+const typesStubFixtures = resolve("tests/fixtures/npm/types-stubs");
+const stubTypeRule = /^npm\.package\.types\.[^.]+\.deprecated$/;
+
 const temporaryRoots: string[] = [];
 
 after(async () => {
@@ -119,6 +122,22 @@ test("stub-type deprecations exclude older typed releases and respect resolved v
   }
 });
 
+test("types-stubs positive fixture reports the deprecated @types/glob stub", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(typesStubFixtures, "positive") });
+  const stubFindings = findings.filter((finding) => stubTypeRule.test(finding.ruleId));
+
+  assert.equal(stubFindings.length, 1);
+  assert.equal(stubFindings[0]?.ruleId, "npm.package.types.glob.deprecated");
+  assert.equal(stubFindings[0]?.location.path, "package.json");
+});
+
+test("types-stubs negative fixture produces no stub-type findings on lookalikes", async () => {
+  const findings = await new NpmDetector().scan({ root: resolve(typesStubFixtures, "negative") });
+  assert.deepEqual(
+    findings.filter((finding) => stubTypeRule.test(finding.ruleId)),
+    [],
+  );
+});
 
 test("version-specific npm rules match declared ranges when no lockfile is available", async () => {
   for (const [range, affected] of [["^8.1.0", false], ["^9.0.0", true], ["*", true], ["workspace:*", false]] as const) {

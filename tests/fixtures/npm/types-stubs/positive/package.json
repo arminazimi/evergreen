@@ -1,0 +1,7 @@
+{
+  "name": "types-stubs-positive",
+  "private": true,
+  "dependencies": {
+    "@types/glob": "^9.0.0"
+  }
+}

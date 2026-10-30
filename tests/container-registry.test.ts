@@ -9,9 +9,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/container.json", "utf8"))).rules;
 }
 
-test("container registry has twenty-three valid rules with vendor sources", async () => {
+test("container registry has twenty-four valid rules with vendor sources", async () => {
   const all = await rules();
-  assert.equal(all.length, 23);
+  assert.equal(all.length, 24);
   for (const rule of all) {
     assert.match(rule.purl, /^pkg:docker\/library\//);
     assert.ok(rule.sources.every((source) => source.url.startsWith("https://")));
@@ -54,10 +54,11 @@ test("a scheduled image line is a low-severity rule for exactly that line", asyn
   assert.deepEqual(scheduled.map((rule) => [rule.id, rule.vers, rule.severity, rule.deadline]), [
     ["container.node.eol-22-and-older", "vers:semver/>=22.0.0|<23.0.0", "low", "2027-04-30"],
     ["container.postgres.eol-14-and-older", "vers:semver/>=14.0.0|<15.0.0", "low", "2026-11-12"],
+    ["container.redis.eol-6.2-and-older", "vers:semver/>=6.2.0|<6.3.0", "low", "2027-04-01"],
     ["container.ubuntu.eol-22.04", "vers:semver/>=22.0.0|<22.10.0", "low", "2027-06-01"],
     ["container.alpine.eol-3.21", "vers:semver/>=3.21.0|<3.22.0", "low", "2026-11-01"],
   ]);
-  for (const [rule, version, affected] of [["container.node.eol-22-and-older", "22.4.0", true], ["container.node.eol-22-and-older", "21.9.0", false], ["container.node.eol-22-and-older", "24.0.0", false], ["container.postgres.eol-14-and-older", "14.5.0", true], ["container.postgres.eol-14-and-older", "15.0.0", false], ["container.postgres.eol-14-and-older", "13.9.0", false]] as const) {
+  for (const [rule, version, affected] of [["container.node.eol-22-and-older", "22.4.0", true], ["container.node.eol-22-and-older", "21.9.0", false], ["container.node.eol-22-and-older", "24.0.0", false], ["container.postgres.eol-14-and-older", "14.5.0", true], ["container.postgres.eol-14-and-older", "15.0.0", false], ["container.postgres.eol-14-and-older", "13.9.0", false], ["container.redis.eol-6.2-and-older", "6.2.0", true], ["container.redis.eol-6.2-and-older", "6.2.7", true], ["container.redis.eol-6.2-and-older", "6.3.0", false], ["container.redis.eol-6.2-and-older", "6.1.9", false]] as const) {
     assert.equal(versContains(scheduled.find((item) => item.id === rule)!.vers, version), affected, `${rule} ${version}`);
   }
 });

@@ -404,15 +404,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-redis",
-      "latestReview": "2026-10-20",
+      "latestReview": "2026-10-30",
       "name": "redis",
       "namespace": "library",
       "path": "products/docker-library-redis.json",
       "purl": "pkg:docker/library/redis",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -564,6 +565,23 @@
       "namespace": "aws-lambda-runtime",
       "path": "products/generic-aws-lambda-runtime-nodejs14-x.json",
       "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-7",
+      "latestReview": "2026-10-29",
+      "name": "python3.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
       "rules": 1,
       "type": "generic"
     },
@@ -4387,7 +4405,7 @@
     {
       "path": "types/docker.json",
       "products": 19,
-      "rules": 23,
+      "rules": 24,
       "type": "docker"
     },
     {
@@ -4398,8 +4416,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 84,
-      "rules": 290,
+      "products": 85,
+      "rules": 291,
       "type": "generic"
     },
     {

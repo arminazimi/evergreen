@@ -12,6 +12,7 @@ never throw for malformed input.
 | `positive/Containerfile` | A tag plus digest; the tag is classified, the digest is kept as evidence. |
 | `positive/compose.yaml` | `services.*.image` entries, quoted and unquoted; the `build`-only service has none. |
 | `positive/docker-compose.yml` | The legacy Compose file name with a fully qualified image. |
+| `positive/redis.Dockerfile` | A Redis release line whose scheduled end of life is `2027-04-01`. |
 | `negative/Dockerfile` | Comments, build arguments, variables, `latest`, no tag, digest-only, `scratch`, a supported release line, a reference to an earlier stage, and `FROM` inside a `RUN` string produce no findings. |
 | `negative/compose.yaml` | Variable interpolation, `container_name`, `labels`, a top-level extension key, `latest`, and a supported release line produce no findings. |
 | `zero/Dockerfile` | A valid file with only a supported base image produces no findings. |

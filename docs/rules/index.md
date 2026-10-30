@@ -44,6 +44,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [PostgreSQL image release line 14 reaches end-of-life on 2026-11-12](container.postgres.eol-14-and-older.html) — scheduled end of life, `container.postgres.eol-14-and-older`
 - [Python image release lines 3.10 and older are end-of-life](container.python.eol-3.10-and-older.html) — end of life, `container.python.eol-3.10-and-older`
 - [Redis image release lines 6.0 and older are end-of-life](container.redis.eol-6.0-and-older.html) — end of life, `container.redis.eol-6.0-and-older`
+- [Redis image release line 6.2 reaches end-of-life on 2027-04-01](container.redis.eol-6.2-and-older.html) — scheduled end of life, `container.redis.eol-6.2-and-older`
 - [Ruby image release lines 3.2 and older are end-of-life](container.ruby.eol-3.2-and-older.html) — end of life, `container.ruby.eol-3.2-and-older`
 - [Traefik image release lines 3.6 and older are end-of-life](container.traefik.eol-3.6-and-older.html) — end of life, `container.traefik.eol-3.6-and-older`
 - [Ubuntu image release lines 20.04 and older are past standard support end-of-life](container.ubuntu.eol-20.04-and-older.html) — end of life, `container.ubuntu.eol-20.04-and-older`
@@ -559,6 +560,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 
 - [AWS Lambda .NET Core 3.1 runtime is end-of-life](serverless.aws-lambda.dotnetcore3.1.html) — end of life, `serverless.aws-lambda.dotnetcore3.1`
 - [AWS Lambda Node.js 14 runtime is end-of-life](serverless.aws-lambda.nodejs14.x.html) — end of life, `serverless.aws-lambda.nodejs14.x`
+- [AWS Lambda Python 3.7 runtime is end-of-life](serverless.aws-lambda.python3.7.html) — end of life, `serverless.aws-lambda.python3.7`
 - [AWS Lambda Python 3.8 runtime is end-of-life](serverless.aws-lambda.python3.8.html) — end of life, `serverless.aws-lambda.python3.8`
 - [AWS Lambda Ruby 2.7 runtime is end-of-life](serverless.aws-lambda.ruby2.7.html) — end of life, `serverless.aws-lambda.ruby2.7`
 - [Google Cloud Functions Node.js 14 runtime is end-of-life](serverless.google-cloud-functions.nodejs14.html) — end of life, `serverless.google-cloud-functions.nodejs14`

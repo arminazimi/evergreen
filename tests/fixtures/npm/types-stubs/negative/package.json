@@ -1,0 +1,8 @@
+{
+  "name": "types-stubs-negative",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^22.0.0",
+    "@acme/widgets": "^1.0.0"
+  }
+}

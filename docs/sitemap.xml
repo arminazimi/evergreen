@@ -31,6 +31,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
@@ -489,6 +490,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html</loc><lastmod>2026-10-27</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnetcore3.1.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs14.x.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.7.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs14.html</loc><lastmod>2026-10-21</lastmod></url>
