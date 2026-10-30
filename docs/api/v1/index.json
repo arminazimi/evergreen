@@ -1850,6 +1850,22 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2024-07-29",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-redis",
+      "latestReview": "2026-10-29",
+      "name": "redis",
+      "path": "products/generic-redis.json",
+      "purl": "pkg:generic/redis",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2015-02-23",
       "ecosystems": [
         "ruby"
@@ -4372,7 +4388,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 519,
+  "rules": 520,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4401,8 +4417,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 85,
-      "rules": 292,
+      "products": 86,
+      "rules": 293,
       "type": "generic"
     },
     {

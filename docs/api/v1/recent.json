@@ -1267,18 +1267,6 @@
       "ruleId": "nodejs.symbol.intl.v8breakiterator",
       "severity": "high",
       "title": "Intl.v8BreakIterator has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.createrequirefrompath",
-      "severity": "high",
-      "title": "Module.createRequireFromPath has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
