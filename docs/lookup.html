@@ -723,6 +723,24 @@ h1 {
     ]
   },
   {
+    "id": "container.redis.eol-6.2-and-older",
+    "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01",
+    "summary": "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "container",
+    "purl": "pkg:docker/library/redis",
+    "vers": "vers:semver/>=6.2.0|\u003c6.3.0",
+    "deadline": "2027-04-01",
+    "replacement": "A redis image on a later supported release line",
+    "sources": [
+      {
+        "title": "Redis release policy (vendor)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      }
+    ]
+  },
+  {
     "id": "container.ruby.eol-3.2-and-older",
     "title": "Ruby image release lines 3.2 and older are end-of-life",
     "summary": "These Ruby branches no longer receive security or bug fixes.",

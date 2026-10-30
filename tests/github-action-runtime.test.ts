@@ -158,7 +158,7 @@ test("action metadata packages the scan and report upload as a reusable action",
     metadata.runs?.steps?.some(
       (step) =>
         step.uses === "actions/upload-artifact@v7" &&
-        step.if === "always() && inputs.upload-report == 'true'",
+        step.if === "always() && inputs.upload-report == 'true' && steps.scan.outputs.report-path != ''",
     ),
   );
 });

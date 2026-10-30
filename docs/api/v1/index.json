@@ -1,5 +1,5 @@
 {
-  "latestReview": "2026-10-29",
+  "latestReview": "2026-10-30",
   "products": [
     {
       "ecosystems": [
@@ -404,15 +404,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-redis",
-      "latestReview": "2026-10-20",
+      "latestReview": "2026-10-30",
       "name": "redis",
       "namespace": "library",
       "path": "products/docker-library-redis.json",
       "purl": "pkg:docker/library/redis",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -4373,7 +4374,7 @@
     {
       "path": "types/docker.json",
       "products": 19,
-      "rules": 23,
+      "rules": 24,
       "type": "docker"
     },
     {
