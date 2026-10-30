@@ -1568,6 +1568,15 @@
             "kind": "migration-commit",
             "url": "https://github.com/edwardm/ECORE-JS-Page-Down-Progress/commit/948dbb345bc71a3d451f676943dbd0257f87cbb8"
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 43,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 43 of package.json reads `\"node-sass\": \"^4.14.1\"`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
+          }
         }
       ]
     },
@@ -1815,6 +1824,15 @@
             "kind": "migration-commit",
             "url": "https://github.com/warengonzaga/fork-corner/commit/e9d93d63eea6ec48acae00eb9c484631e9cdbf83"
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of package.json reads `\"node-sass\": \"^5.0.0\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
+          }
         }
       ]
     },
@@ -1912,6 +1930,15 @@
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 28 of .github/workflows/build.yml reads uses: actions/setup-python@v2, a release below the supported major."
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 33,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 33 of package.json reads `\"node-sass\": \"^8.0.0\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
+          }
         }
       ]
     },
@@ -1955,6 +1982,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 37 of package.json declares `\"babel-eslint\": \"^10.0.3\"`, a package npm marks as deprecated in favour of @babel/eslint-parser."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 41,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 41 of package.json reads `\"node-sass\": \"^9.0.0\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
           }
         }
       ]
@@ -2177,6 +2213,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Reviewed at this commit: line 1 of .nvmrc reads 22.20, a Node.js 22 declaration, which is scheduled to reach end-of-life on 2027-04-30."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 48,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 48 of package.json reads `\"node-sass\": \"^6.0.1\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
           }
         }
       ]
@@ -18685,6 +18730,15 @@
             "kind": "maintainer-review",
             "note": "Read .github/workflows/ci.yml:12 at this commit: `node-version: [10.x, 12.x]`; the setup-node version (read directly or from the matrix key it names) is a Node.js release line past end of life."
           }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 45,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 45 of package.json reads `\"node-sass\": \"^6.0.0\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
+          }
         }
       ]
     },
@@ -18763,6 +18817,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:51 at this commit: `\"node-sass\": \"4.14.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 51,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 51 of package.json reads `\"node-sass\": \"4.14.1\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
           }
         }
       ]
@@ -18892,6 +18955,15 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read package.json:9 at this commit: `\"node-sass\": \"^6.0.1\",`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "npm.package.node-sass.deprecated",
+          "path": "package.json",
+          "line": 9,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 9 of package.json reads `\"node-sass\": \"^6.0.1\",`, a declaration of the deprecated node-sass package, which its maintainers deprecated in favor of Dart Sass (https://www.npmjs.com/package/node-sass)."
           }
         }
       ]
