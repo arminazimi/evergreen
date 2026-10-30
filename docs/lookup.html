@@ -9982,6 +9982,24 @@ h1 {
     ]
   },
   {
+    "id": "serverless.aws-lambda.nodejs12.x",
+    "title": "AWS Lambda Node.js 12 runtime is end-of-life",
+    "summary": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+    "vers": "vers:semver/*",
+    "deadline": "2023-03-31",
+    "replacement": "nodejs24.x or nodejs22.x",
+    "sources": [
+      {
+        "title": "AWS Lambda runtimes",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      }
+    ]
+  },
+  {
     "id": "serverless.aws-lambda.nodejs14.x",
     "title": "AWS Lambda Node.js 14 runtime is end-of-life",
     "summary": "The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",

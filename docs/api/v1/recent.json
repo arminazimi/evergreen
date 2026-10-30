@@ -78,6 +78,19 @@
       "title": "Redis 7.0 is end-of-life"
     },
     {
+      "deadline": "2023-03-31",
+      "ecosystem": "serverless",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-aws-lambda-runtime-nodejs12-x.json",
+      "productId": "generic-aws-lambda-runtime-nodejs12-x",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "serverless.aws-lambda.nodejs12.x",
+      "severity": "high",
+      "title": "AWS Lambda Node.js 12 runtime is end-of-life"
+    },
+    {
       "deadline": "2023-12-04",
       "ecosystem": "serverless",
       "event": "end-of-life",

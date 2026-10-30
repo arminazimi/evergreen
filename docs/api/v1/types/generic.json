@@ -35,6 +35,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-nodejs12-x",
+      "latestReview": "2026-10-29",
+      "name": "nodejs12.x",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-nodejs12-x.json",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2023-12-04",
       "ecosystems": [
         "serverless"
@@ -1446,7 +1463,7 @@
       "type": "generic"
     }
   ],
-  "rules": 293,
+  "rules": 294,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "generic"
 }

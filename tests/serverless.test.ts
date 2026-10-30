@@ -73,6 +73,7 @@ test("serverless passes detector conformance on every fixture", async () => {
           expected(byId("serverless.aws-lambda.nodejs14.x"), "template.yaml", 7),
           expected(byId("serverless.aws-lambda.python3.8"), "template.yaml", 15),
           expected(byId("serverless.aws-lambda.dotnetcore3.1"), "template.yaml", 21),
+          expected(byId("serverless.aws-lambda.nodejs12.x"), "template.yaml", 27),
           expected(byId("serverless.aws-lambda.ruby2.7"), "template.yml", 12),
         ],
       },
@@ -106,10 +107,24 @@ test("matches AWS and Google identifiers by Package URL and ignores Azure versio
       ["serverless.aws-lambda.nodejs14.x", "template.yaml", 7],
       ["serverless.aws-lambda.python3.8", "template.yaml", 15],
       ["serverless.aws-lambda.dotnetcore3.1", "template.yaml", 21],
+      ["serverless.aws-lambda.nodejs12.x", "template.yaml", 27],
       ["serverless.aws-lambda.ruby2.7", "template.yml", 12],
     ],
   );
   assert.ok(!findings.some((finding) => finding.location.path === "main.tf" && (finding.location.line === 13 || finding.location.line === 23 || finding.location.line === 38)));
+});
+
+test("a Node.js 12 Lambda runtime is reported, while a lookalike and a supported runtime are not", async () => {
+  const node12 = (await committedRules()).find((rule) => rule.id === "serverless.aws-lambda.nodejs12.x")!;
+  const root = await repository({
+    "template.yaml":
+      "Resources:\n  Legacy:\n    Type: AWS::Lambda::Function\n    Properties:\n      Runtime: nodejs12.x\n  Lookalike:\n    Type: AWS::Lambda::Function\n    Properties:\n      Runtime: nodejs12\n  Current:\n    Type: AWS::Lambda::Function\n    Properties:\n      Runtime: nodejs22.x\n",
+  });
+  const findings = (await serverlessDetector.scan({ root })).filter((finding) => finding.ruleId === node12.id);
+  assert.deepEqual(
+    findings.map((finding) => [finding.location.path, finding.location.line, finding.severity, finding.deadline]),
+    [["template.yaml", 5, "high", "2023-03-31"]],
+  );
 });
 
 test("the Python 3.7 rule flags that runtime and not a supported one", async () => {

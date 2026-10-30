@@ -1,0 +1,55 @@
+{
+  "productId": "generic-aws-lambda-runtime-nodejs12-x",
+  "productPath": "products/generic-aws-lambda-runtime-nodejs12-x.json",
+  "rule": {
+    "deadline": "2023-03-31",
+    "ecosystem": "serverless",
+    "event": "end-of-life",
+    "id": "serverless.aws-lambda.nodejs12.x",
+    "migration": {
+      "constraints": [
+        "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+        "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+      ],
+      "steps": [
+        {
+          "id": "raise-lambda-runtime",
+          "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from nodejs12.x to a supported AWS Lambda Node.js identifier (see the replacement).",
+          "targets": "declaration",
+          "title": "Raise the AWS Lambda runtime"
+        },
+        {
+          "id": "align-lambda-runtime-surfaces",
+          "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins nodejs12.x.",
+          "targets": "all",
+          "title": "Align other runtime surfaces"
+        }
+      ],
+      "verification": [
+        {
+          "command": "sam validate || serverless print || terraform validate",
+          "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+        }
+      ]
+    },
+    "provenance": {
+      "observedAt": "2026-10-29",
+      "reviewedAt": "2026-10-29",
+      "reviewer": "arminazimi"
+    },
+    "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+    "replacement": "nodejs24.x or nodejs22.x",
+    "severity": "high",
+    "sources": [
+      {
+        "accessedAt": "2026-10-29",
+        "title": "AWS Lambda runtimes",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      }
+    ],
+    "summary": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
+    "title": "AWS Lambda Node.js 12 runtime is end-of-life",
+    "vers": "vers:semver/*"
+  },
+  "schemaVersion": "evergreen.api-rule.v1"
+}

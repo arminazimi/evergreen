@@ -1,0 +1,7 @@
+Resources:
+  Api:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      Timeout: 30
