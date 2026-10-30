@@ -2,6 +2,7 @@
 title: "Google Play requires targetSdk 35+ for existing phone and tablet apps — dates, impact, migration"
 description: "The Google Play target API level requirement page states, starting 2026-08-31: Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html"
+image: "/assets/og/android.target-sdk.existing.default-below-35.svg"
 json_twin: "/rules/android.target-sdk.existing.default-below-35.json"
 ---
 
