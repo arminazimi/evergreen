@@ -3,6 +3,8 @@ docs:
     children:
       - title: "90-second demo"
         url: /DEMO.html
+      - title: "CLI reference"
+        url: /CLI.html
       - title: "v0.1 validation results"
         url: /VALIDATION.html
       - title: "Environment doctor and compatibility matrix"

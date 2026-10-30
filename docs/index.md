@@ -13,6 +13,7 @@ hosted service.
 
 - [Five-step quickstart](QUICKSTART.md)
 - [90-second demo](DEMO.md)
+- [CLI reference](CLI.md)
 - [Start contributing](CONTRIBUTE.md)
 - [Evergreen compared with Renovate, Dependabot, and endoflife.date](compare/index.md)
 - [v0.1 validation results](VALIDATION.md)
