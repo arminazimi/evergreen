@@ -15,8 +15,84 @@ concurrency:
   cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
+  # Classifies the change set so pull requests run only what they need. push and
+  # merge_group always run everything; a docs-only pull request skips the test job.
+  changes:
+    name: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      docs_only: ${{ steps.classify.outputs.docs_only }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Pull requests need history so the docs-only classifier can diff against the base.
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Classify whether this pull request is documentation-only
+        id: classify
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" != "pull_request" ]; then
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            echo "Event is $EVENT_NAME; the full check matrix runs."
+            exit 0
+          fi
+
+          if [ -z "${BASE_SHA:-}" ]; then
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+            echo "No pull request base SHA; treating as a code change."
+            exit 0
+          fi
+
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          mapfile -t CHANGED < <(git diff --name-only --diff-filter=ACMRD "$BASE_SHA" HEAD)
+
+          is_generated() {
+            case "$1" in
+              docs/rules/*|docs/ROADMAP.md|docs/llms-full.txt|dist/*|plugins/*|.claude-plugin/*|.agents/plugins/*) return 0 ;;
+              *) return 1 ;;
+            esac
+          }
+
+          is_docs() {
+            local path="$1"
+            if is_generated "$path"; then
+              return 1
+            fi
+            case "$path" in
+              docs/*) return 0 ;;
+            esac
+            [[ "$path" == *.md ]]
+          }
+
+          docs_only=false
+          if [ "${#CHANGED[@]}" -gt 0 ]; then
+            docs_only=true
+            for path in "${CHANGED[@]}"; do
+              if ! is_docs "$path"; then
+                docs_only=false
+                break
+              fi
+            done
+          fi
+
+          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          {
+            echo "Changed files (${#CHANGED[@]}):"
+            printf '%s\n' "${CHANGED[@]}"
+            echo "docs_only=$docs_only"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   check:
     name: check (${{ matrix.os }}, node ${{ matrix.node }})
+    needs: changes
+    if: needs.changes.outputs.docs_only != 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -171,6 +247,38 @@ jobs:
           EVERGREEN_VERIFY_ACTION_BUNDLE: "${{ (startsWith(github.event.pull_request.title, 'chore: release') || startsWith(github.event.head_commit.message, 'chore: release')) && '1' || '' }}"
         run: npm run check
 
+  # Documentation-only pull requests skip the test matrix and run these checks instead.
+  docs:
+    name: docs (reference and llms)
+    needs: changes
+    if: needs.changes.outputs.docs_only == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build --silent
+      - name: Check the reference pages against the registry
+        run: node dist/tools/build-reference-pages.js --check
+      - name: Check docs/llms-full.txt against the linked pages
+        run: node dist/tools/build-llms-full.js --check
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the documentation site
+        working-directory: docs
+        run: bundle exec jekyll build --baseurl ""
+
   self-scan:
     if: github.event_name != 'pull_request'
     name: self-scan (fail on new findings)
@@ -282,7 +390,7 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [check, check-cross-os, self-scan, perf-budget, lighthouse, coverage-badge]
+    needs: [changes, check, docs, check-cross-os, self-scan, perf-budget, lighthouse, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
