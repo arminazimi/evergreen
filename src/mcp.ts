@@ -7,6 +7,7 @@ import { EvergreenAgentTools } from "./agent-tools.js";
 import { bundledRules, checkDependency } from "./check-dependency.js";
 import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "./forecast.js";
 import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
+import { buildPlan } from "./plan-build.js";
 import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";
 import { findPackageFileSync } from "./package-files.js";
 import { VERSION } from "./version.js";
@@ -19,6 +20,7 @@ export const MCP_TOOL_NAMES = [
   "verify_migration",
   "check_dependency",
   "forecast_repository",
+  "plan_migrations",
 ] as const;
 
 const repositoryInput = {
@@ -43,6 +45,7 @@ export const MCP_OUTPUT_SCHEMA_FILES = {
   verify_migration: "verification.v1.schema.json",
   check_dependency: "check.v1.schema.json",
   forecast_repository: "forecast.v1.schema.json",
+  plan_migrations: "plan.v1.schema.json",
 } as const satisfies Record<(typeof MCP_TOOL_NAMES)[number], string>;
 
 type JsonObject = Record<string, unknown>;
@@ -383,6 +386,27 @@ export function createEvergreenMcpServer(
         const result = await tools.scan(repository_path);
         server.sendResourceListChanged();
         return success(buildForecast(result, await bundledRules(), as_of ?? new Date().toISOString().slice(0, 10), months));
+      } catch (error) {
+        return failure(error);
+      }
+    },
+  );
+
+  server.registerTool(
+    "plan_migrations",
+    {
+      title: "Plan migrations",
+      description:
+        "Run a fresh local scan and return a migration plan: waves of independent tasks a coordinating agent can hand to other agents. Each item names the finding, the paths it touches, and a suggested branch.",
+      inputSchema: z.object(repositoryInput),
+      outputSchema: outputSchema("plan_migrations"),
+      annotations: MCP_TOOL_ANNOTATIONS,
+    },
+    async ({ repository_path }) => {
+      try {
+        const result = await tools.scan(repository_path);
+        server.sendResourceListChanged();
+        return success(buildPlan(result));
       } catch (error) {
         return failure(error);
       }
