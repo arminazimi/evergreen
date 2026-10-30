@@ -3,10 +3,10 @@ name: Release
 # Drafts the changelog entries for a release from conventional commits. It only reads the repository and
 # the notes job publishes nothing: a maintainer copies them into CHANGELOG.md (or runs the tool with --write) and
 # follows docs/RELEASING.md for the rest. After a successful npm publish it also builds the standalone binaries
-# (no Node.js needed) and attaches them to the GitHub release with checksums, a GitHub build-provenance
-# attestation, and an SLSA .intoto.jsonl provenance file from the SLSA GitHub generator. It also smoke-tests the
-# README quickstart against the published package on Linux, macOS, and Windows (tests/quickstart.md is the
-# recorded expectation).
+# (no Node.js needed) and attaches them to the GitHub release with checksums, keyless Sigstore (cosign) signatures,
+# a GitHub build-provenance attestation, and an SLSA .intoto.jsonl provenance file from the SLSA GitHub generator.
+# It also smoke-tests the README quickstart against the published package on Linux, macOS, and Windows
+# (tests/quickstart.md is the recorded expectation).
 on:
   workflow_dispatch:
     inputs:
@@ -590,10 +590,11 @@ jobs:
           if-no-files-found: error
 
   binary-release:
-    # Attaches the binaries to the GitHub release for the tag, with a SHA256SUMS file and a build provenance
+    # Attaches the binaries to the GitHub release for the tag, with a SHA256SUMS file, keyless Sigstore
+    # (cosign) .sigstore.json signatures for each binary and the checksums file, and a build provenance
     # attestation for each binary (verify with `gh attestation verify <file> --repo arminazimi/evergreen`).
     # Hashes are also passed to the SLSA generator job below, which attaches an .intoto.jsonl provenance
-    # file to the same release (verify with slsa-verifier).
+    # file to the same release (verify with slsa-verifier). Signing uses GitHub OIDC; no long-lived keys.
     needs: binary
     if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
@@ -602,6 +603,10 @@ jobs:
       contents: write
       id-token: write
       attestations: write
+    # workflow_run jobs run the workflow file from the default branch, so the OIDC identity is refs/heads/main.
+    env:
+      IDENTITY_PATTERN: ^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$
+      OIDC_ISSUER: https://token.actions.githubusercontent.com
     outputs:
       tag: ${{ steps.release.outputs.tag }}
       hashes: ${{ steps.release.outputs.hashes }}
@@ -631,6 +636,25 @@ jobs:
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
           subject-path: binaries/evergreen-*
+      - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+      - name: Sign binaries and checksums (keyless)
+        working-directory: binaries
+        run: |
+          for file in evergreen-* SHA256SUMS; do
+            case "${file}" in *.sigstore.json) continue ;; esac
+            cosign sign-blob --yes --bundle "${file}.sigstore.json" "${file}"
+          done
+      - name: Verify what was just signed
+        working-directory: binaries
+        run: |
+          for file in evergreen-* SHA256SUMS; do
+            case "${file}" in *.sigstore.json) continue ;; esac
+            cosign verify-blob \
+              --bundle "${file}.sigstore.json" \
+              --certificate-oidc-issuer "${OIDC_ISSUER}" \
+              --certificate-identity-regexp "${IDENTITY_PATTERN}" \
+              "${file}"
+          done
       - name: Attach to the release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -642,7 +666,7 @@ jobs:
             case "$TAG" in *-*) prerelease="--prerelease" ;; esac
             gh release create "$TAG" --verify-tag --title "$TAG" --notes "Standalone binaries for $TAG. Release notes follow." $prerelease
           fi
-          gh release upload "$TAG" binaries/evergreen-* binaries/SHA256SUMS --clobber
+          gh release upload "$TAG" binaries/evergreen-* binaries/SHA256SUMS binaries/*.sigstore.json --clobber
 
   # SLSA Build L3 provenance for the release binaries. Must be referenced by a vX.Y.Z tag (not a
   # commit SHA): that is how the generator identifies itself. upload-tag-name is required because

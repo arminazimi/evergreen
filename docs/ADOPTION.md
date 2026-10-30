@@ -215,6 +215,6 @@ The Scorecard checks that are lowest and what they would need:
 | Code-Review | 0 | Approving reviews are deliberately not a merge gate so agent pull requests can merge after green checks; a policy choice, not a defect. |
 | Dependency-Update-Tool | 0 | No Dependabot or Renovate configuration exists. Tracked in #1374. |
 | SAST | 0 | [CodeQL](../.github/workflows/codeql.yml) analyzes every push to `main` and every pull request as of #1377; the score lifts on the next run. |
-| Signed-Releases | 2 | Only the npm attestations are signed; the last four GitHub release artifacts are not. Tracked in #1376. |
+| Signed-Releases | 2 | Only one of the last five GitHub releases carried recognized signature assets (`.intoto.jsonl`). The binary-release job now attaches keyless Sigstore (`.sigstore.json`) signatures alongside each binary and `SHA256SUMS`; the score lifts as signed releases replace the unsigned ones among the last five. |
 
 Security-Policy, Token-Permissions, License, Packaging, and CI-Tests all score 10. Revisit this review on the same cadence as the Socket table: at each release. Scan findings never use these services, so none of this affects a scan; it is adoption and trust context only.

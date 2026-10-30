@@ -96,7 +96,17 @@ Each stable or pre-release tag also produces binaries that need no Node.js, for 
 
 - **What they are.** [`build-sea.mjs`](../.github/scripts/build-sea.mjs) stages exactly the files `npm pack` would publish, installs the production dependencies from `package-lock.json`, and embeds them in a Node.js [single executable application](https://nodejs.org/api/single-executable-applications.html) (built with `node --build-sea`, so the build runner uses Node.js 26). On first run, [`sea-boot.cjs`](../.github/scripts/sea-boot.cjs) unpacks the embedded package into the user's cache directory (`~/.cache/evergreen`, `~/Library/Caches/evergreen`, or `%LOCALAPPDATA%\evergreen`; `EVERGREEN_SEA_CACHE` overrides it) and runs the same CLI as the npm package. Scans still use no network.
 - **Gate.** Every binary runs `--help`, `capabilities`, and a scan of `tests/fixtures/smoke` (`.github/scripts/smoke.mjs`) before it is uploaded; on Linux and macOS this runs with `PATH=/usr/bin:/bin`, so a binary that secretly needs Node.js fails the release.
-- **What is attached.** The release gets `evergreen-<version>-<os>-<arch>` files (`.exe` on Windows) and `SHA256SUMS`. Each binary carries a build provenance attestation: `gh attestation verify evergreen-<version>-<os>-<arch> --repo arminazimi/evergreen`, or compare `sha256sum -c SHA256SUMS`. If no release exists for the tag yet, the job creates one with a placeholder body; replace it in step 8.
+- **What is attached.** The release gets `evergreen-<version>-<os>-<arch>` files (`.exe` on Windows), `SHA256SUMS`, a keyless Sigstore (cosign) `.sigstore.json` bundle for each of those files, and an SLSA `multiple.intoto.jsonl` provenance file. Each binary also carries a GitHub build provenance attestation: `gh attestation verify evergreen-<version>-<os>-<arch> --repo arminazimi/evergreen`, or compare `sha256sum -c SHA256SUMS`. To check a Sigstore signature by hand:
+
+  ```bash
+  cosign verify-blob \
+    --bundle evergreen-<version>-<os>-<arch>.sigstore.json \
+    --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+    --certificate-identity-regexp '^https://github\.com/arminazimi/evergreen/\.github/workflows/release\.yml@refs/heads/main$' \
+    evergreen-<version>-<os>-<arch>
+  ```
+
+  If no release exists for the tag yet, the job creates one with a placeholder body; replace it in step 8.
 - **macOS.** The binaries are signed ad hoc, not notarized. Downloaded with `curl` or `gh release download` they run as they are; a browser download is quarantined, and `xattr -d com.apple.quarantine <file>` clears it.
 - **If a binary job fails.** The npm package is already published and is not affected. Fix the cause, then re-run the failed jobs of the `Release notes` workflow run that followed the publish; `gh release upload --clobber` replaces files that were already attached.
 - **Trying it before a release.** From a built checkout with Node.js 25.5 or newer, `node .github/scripts/build-sea.mjs evergreen-test`, then `node .github/scripts/smoke.mjs tests/fixtures/smoke -- ./evergreen-test` (on macOS run `codesign --force --sign - evergreen-test` first). Use an official Node.js build; some distributions (Homebrew's, for one) are built without single-executable support.
