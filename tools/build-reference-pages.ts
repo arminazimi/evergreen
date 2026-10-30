@@ -67,7 +67,13 @@ const proseCell = (value: string) => inline(cell(value));
 
 /** A link label: no square brackets that would end the label early. */
 const linkLabel = (value: string) =>
-  inline(value.replace(/\\/g, "\\\\").replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ")).replace(/[[\]]/g, "\\$&");
+  inline(
+    value
+      .replace(/\\/g, "\\\\")
+      .replace(/[[\]]/g, "\\$&")
+      .replace(/\|/g, "\\|")
+      .replace(/\s*\n\s*/g, " "),
+  );
 
 /** JSON for a `<script>` element: `<` is escaped so the data can never close the element. */
 const scriptJson = (value: unknown) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
