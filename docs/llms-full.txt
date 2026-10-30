@@ -2385,32 +2385,34 @@ Source: https://arminazimi.github.io/evergreen/AGENT_SKILLS.html
 
 # Evergreen Agent Skills
 
-Evergreen ships two portable Skills under `skills/`. Each follows the open Agent Skills directory format: standard YAML frontmatter plus Markdown instructions. There is no vendor-specific manifest, invocation policy, tool allowlist, script, or generated prompt.
+Evergreen ships three portable Skills under `skills/`. Each follows the open Agent Skills directory format: standard YAML frontmatter plus Markdown instructions. There is no vendor-specific manifest, invocation policy, tool allowlist, script, or generated prompt.
 
 | Skill | Directory | Moment |
 | --- | --- | --- |
 | `evergreen-deprecation` | `skills/evergreen-deprecation/` | Repository lifecycle scans and finding explain / migrate / verify workflows |
 | `evergreen-check-before-add` | `skills/evergreen-check-before-add/` | Adding or choosing a package, runtime, or GitHub Action |
+| `evergreen-upgrade-runtime-action` | `skills/evergreen-upgrade-runtime-action/` | Upgrading an already-declared runtime or GitHub Action |
 
 ## Design
 
 Each Skill is an orchestration layer. It tells an agent when to act, then maps those intents to Evergreen's MCP tools or CLI commands. Lifecycle rules, evidence, affected-file calculation, migration steps, and verification behavior remain in the executable and versioned JSON contracts.
 
-This split prevents prompt drift: improving a detector or migration packet changes every client without requiring a rewritten Skill. The two descriptions name different moments on purpose so they do not compete for the same prompt.
+This split prevents prompt drift: improving a detector or migration packet changes every client without requiring a rewritten Skill. The descriptions name different moments on purpose so they do not compete for the same prompt.
 
 ## Installation
 
-The skills CLI discovers both Skills directly from the Evergreen monorepo. No dedicated distribution repository is needed:
+The skills CLI discovers the Skills directly from the Evergreen monorepo. No dedicated distribution repository is needed:
 
 ```sh
 npx skills add arminazimi/evergreen
 ```
 
-The repository exposes two Skills. For a non-interactive or explicitly selected install, use:
+The repository exposes three Skills. For a non-interactive or explicitly selected install, use:
 
 ```sh
 npx skills add arminazimi/evergreen --skill evergreen-deprecation --yes
 npx skills add arminazimi/evergreen --skill evergreen-check-before-add --yes
+npx skills add arminazimi/evergreen --skill evergreen-upgrade-runtime-action --yes
 ```
 
 Update them with:
@@ -2418,9 +2420,10 @@ Update them with:
 ```sh
 npx skills update evergreen-deprecation
 npx skills update evergreen-check-before-add
+npx skills update evergreen-upgrade-runtime-action
 ```
 
-The npm package also includes the complete `skills/evergreen-deprecation` and `skills/evergreen-check-before-add` folders for hosts that prefer a manual copy or link.
+The npm package also includes the complete `skills/evergreen-deprecation`, `skills/evergreen-check-before-add`, and `skills/evergreen-upgrade-runtime-action` folders for hosts that prefer a manual copy or link.
 
 To tell the agents working in any other project to check dependencies with Evergreen, copy the snippet in [examples/agents-snippet.md](../examples/agents-snippet.md) into `AGENTS.md`, `CLAUDE.md`, or a similar instruction file.
 
@@ -2465,7 +2468,7 @@ Portable skills-CLI alternative: `npx skills add arminazimi/evergreen --agent co
 npx skills add arminazimi/evergreen --agent cursor --yes
 ```
 
-**Verify.** `npx skills list` shows `evergreen-deprecation` and `evergreen-check-before-add`. Restart Cursor, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
+**Verify.** `npx skills list` shows `evergreen-deprecation`, `evergreen-check-before-add`, and `evergreen-upgrade-runtime-action`. Restart Cursor, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
 
 ### VS Code
 
@@ -2475,11 +2478,11 @@ VS Code Copilot Chat picks up the Skills through the skills CLI's `github-copilo
 npx skills add arminazimi/evergreen --agent github-copilot --yes
 ```
 
-**Verify.** `npx skills list` shows both Skills. Reload the VS Code window, open Copilot Chat in Agent mode, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
+**Verify.** `npx skills list` shows all three Skills. Reload the VS Code window, open Copilot Chat in Agent mode, then use the shared verify prompt. For the MCP server, see [MCP](MCP.md#one-command-install-per-host).
 
 ## One Skill for every ecosystem
 
-Evergreen briefly shipped four per-ecosystem Skills (Node.js, Python, GitHub Actions, containers) and removed them in favor of the lifecycle Skill. They were near-copies that differed only by a rule-prefix filter, so every workflow change had to be made five times, they could trigger together on one request, and they covered four of the ecosystems Evergreen supports. The claim that narrower descriptions trigger more reliably was never measured for that split. The later `evergreen-check-before-add` Skill is a different kind of split: it names a distinct moment (adding a dependency) rather than an ecosystem. If a measurement shows a gain from ecosystem splits, split by ecosystem then.
+Evergreen briefly shipped four per-ecosystem Skills (Node.js, Python, GitHub Actions, containers) and removed them in favor of the lifecycle Skill. They were near-copies that differed only by a rule-prefix filter, so every workflow change had to be made five times, they could trigger together on one request, and they covered four of the ecosystems Evergreen supports. The claim that narrower descriptions trigger more reliably was never measured for that split. Later Skills split by *moment*, not ecosystem: `evergreen-check-before-add` for adding a dependency, and `evergreen-upgrade-runtime-action` for upgrading an already-declared runtime or GitHub Action after the upgrade-job eval showed misses (see below). If a measurement shows a gain from ecosystem splits, split by ecosystem then.
 
 The ecosystem-specific cautions live in the lifecycle Skill's "Ecosystem notes".
 
@@ -2505,7 +2508,7 @@ On 2026-10-15, `npx skills add arminazimi/evergreen --list` discovered the `ever
 | GitHub Copilot | `github-copilot` | Passed |
 | Gemini CLI | `gemini-cli` | Passed |
 
-The same install registered the Skill with skills.sh. It is discoverable as `arminazimi/evergreen@evergreen-deprecation` at [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation). After this change the repository lists two Skills; `evergreen-check-before-add` appears alongside it once published. The skills CLI security summary reported Gen Agent Trust Hub **Safe**, Socket **0 alerts**, and Snyk **Low Risk** at validation time. These external assessments can change and do not replace review of the installed files.
+The same install registered the Skill with skills.sh. It is discoverable as `arminazimi/evergreen@evergreen-deprecation` at [skills.sh](https://skills.sh/arminazimi/evergreen/evergreen-deprecation). The repository lists three Skills once published (`evergreen-check-before-add` and `evergreen-upgrade-runtime-action` alongside it). The skills CLI security summary reported Gen Agent Trust Hub **Safe**, Socket **0 alerts**, and Snyk **Low Risk** at validation time. These external assessments can change and do not replace review of the installed files.
 
 ## Evaluation
 
@@ -2558,13 +2561,34 @@ Current published baseline:
 | Codex | 18 | 100% | 0% |
 | Claude | 18 | 100% | 0% |
 
+### Upgrade runtime or Action Skill (`evergreen-upgrade-runtime-action`)
+
+Issue #1598 asked whether to split further Skills for runtime upgrades and GitHub Actions upgrades. The decision corpus is the 24 positive prompts in `skills/evergreen-upgrade-runtime-action/evals/cases.json` (12 runtime, 12 Actions; natural phrasing and lifecycle-worded asks, split across the three discovery lanes). Measuring `evergreen-deprecation` alone on those prompts:
+
+| Measurement | Cases | Covered by `evergreen-deprecation` | Rate | Threshold | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Runtime and GitHub Actions upgrade job | 24 | 12 | 50% | 80% | Added `evergreen-upgrade-runtime-action` |
+
+Misses were everyday upgrade asks without lifecycle jargon (`Upgrade our Node.js runtime to the current LTS.`, `Bump actions/checkout and actions/setup-node.`, and ten peers). Lifecycle-worded upgrades still hit the existing Skill; the new Skill names the upgrade moment so those misses are covered without an ecosystem split.
+
+The same JSON file is the Skill's own trigger corpus: 42 prompts, 24 expected triggers and 18 non-triggers (additions, whole-repo scans, routine package bumps, security, docs, and verification). `npm run eval:skill-triggers` reports it under `upgradeRuntimeAction` with the same gates (at least 40 cases, recall of 90% or more, false-trigger rate under 5%) and fails when its positives falsely trigger the check-before-add classifier or the reverse.
+
+Current published baseline:
+
+| Lane | Cases | Recall | False-trigger rate |
+| --- | ---: | ---: | ---: |
+| All | 42 | 100% | 0% |
+| Agent Skills | 14 | 100% | 0% |
+| Codex | 14 | 100% | 0% |
+| Claude | 14 | 100% | 0% |
+
 CI also validates the portable frontmatter, small instruction surface, vendor neutrality, complete tool mapping, and safety invariants.
 
 Independent forward tests exercise three different agent situations:
 
 | Agent situation | Observable success criterion | Result |
 | --- | --- | --- |
-| Skill discovery | Classify every trigger and non-trigger case through the metadata contract without reading expected answers. | Lifecycle and check-before-add corpora both pass across three lanes. |
+| Skill discovery | Classify every trigger and non-trigger case through the metadata contract without reading expected answers. | Lifecycle, check-before-add, and upgrade-runtime-action corpora all pass across three lanes. |
 | MCP-capable agent | Discover, explain, create context, migrate, and verify through the real stdio protocol in one session. | Passed with all five tools; checkout finding verified absent. |
 | CLI-only agent | Complete the same lifecycle using only documented CLI fallbacks and a fresh final scan. | Passed; request migration changed only two packet files and ended with zero findings. |
 
