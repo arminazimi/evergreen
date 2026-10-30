@@ -327,7 +327,7 @@
       "type": "docker"
     }
   ],
-  "rules": 24,
+  "rules": 25,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "docker"
 }

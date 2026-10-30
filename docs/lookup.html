@@ -154,7 +154,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 521 rules and makes no network requests after it loads.
+        This page embeds 522 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -170,7 +170,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 521 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 522 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -751,6 +751,24 @@ h1 {
     "vers": "vers:semver/\u003c3.3.0",
     "deadline": "2026-04-01",
     "replacement": "A ruby image on a supported branch",
+    "sources": [
+      {
+        "title": "Ruby maintenance branches",
+        "url": "https://www.ruby-lang.org/en/downloads/branches/"
+      }
+    ]
+  },
+  {
+    "id": "container.ruby.eol-3.3-and-older",
+    "title": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31",
+    "summary": "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "container",
+    "purl": "pkg:docker/library/ruby",
+    "vers": "vers:semver/>=3.3.0|\u003c3.4.0",
+    "deadline": "2027-03-31",
+    "replacement": "A ruby image on a later supported release line",
     "sources": [
       {
         "title": "Ruby maintenance branches",

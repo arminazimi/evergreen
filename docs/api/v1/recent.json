@@ -39,6 +39,19 @@
       "title": "analysis_server_client is discontinued on pub.dev"
     },
     {
+      "deadline": "2027-03-31",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/docker-library-ruby.json",
+      "productId": "docker-library-ruby",
+      "purl": "pkg:docker/library/ruby",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "container.ruby.eol-3.3-and-older",
+      "severity": "low",
+      "title": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1255,18 +1268,6 @@
       "ruleId": "nodejs.symbol.fs.rmdir-recursive",
       "severity": "high",
       "title": "The recursive option of fs.rmdir has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.fs.stats",
-      "severity": "medium",
-      "title": "The fs.Stats constructor is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
