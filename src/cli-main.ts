@@ -43,6 +43,7 @@ import { renderVerification, verifyFix } from "./fix/verify.js";
 import { findRepositories, renderMultiScanText, scanProjects, scanRepository, applyScanSelection } from "./engine.js";
 import { renderStatusCard } from "./status-card.js";
 import { lookupProduct, renderLookupText } from "./lookup.js";
+import { upgradeCheck } from "./upgrade/command.js";
 import { scanDemo } from "./demo.js";
 import { createMigrationPacket } from "./migration-packet.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
@@ -95,6 +96,7 @@ Usage:
   evergreen plan [path] [--json] [--wave <n>]   # migration waves from a scan; --wave prints one zero-based wave
   evergreen status-card [path] [--name <label>]   # print a static SVG summary of findings, next end of life, and data age
   evergreen lookup <product> [version] [--json]   # support status, end-of-life date, and evidence for a product
+  evergreen upgrade-check --to <runtime@version> [path] [--json]   # dependencies whose declared support excludes the target runtime
   evergreen badge [path] --snippet <markdown|html|rst> [--repo <owner/name>] [--branch <name>]   # print README markup for the published badge
   evergreen badge [path] --shields   # print shields.io endpoint JSON for the current scan
   evergreen diff <base>..<head> [path] [--json]   # findings a change introduced or fixed; exit 1 only when it introduced some
@@ -784,7 +786,7 @@ async function main(rawArgs: string[]): Promise<number> {
   }
 
   const [command] = args;
-  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge" && command !== "receipt") {
+  if (command !== "sbom" && command !== "export" && command !== "scan" && command !== "check" && command !== "guard" && command !== "data" && command !== "new-detector" && command !== "new-rule" && command !== "rules" && command !== "init" && command !== "setup" && command !== "usage" && command !== "mcp" && command !== "explain" && command !== "context" && command !== "baseline" && command !== "forecast" && command !== "plan" && command !== "diff" && command !== "rollup" && command !== "renovate-preset" && command !== "dependabot-config" && command !== "fix" && command !== "doctor" && command !== "report-issue" && command !== "capabilities" && command !== "watch" && command !== "completions" && command !== "status-card" && command !== "lookup" && command !== "badge" && command !== "receipt" && command !== "upgrade-check") {
     return fail("usage", `Unknown command: ${command ?? ""}`, `\n${HELP}`);
   }
 
@@ -807,6 +809,7 @@ async function main(rawArgs: string[]): Promise<number> {
   if (command === "status-card") return statusCard(args.slice(1));
   if (command === "badge") return badge(args.slice(1));
   if (command === "lookup") return lookup(args.slice(1));
+  if (command === "upgrade-check") return upgradeCheck(args.slice(1));
 
   const optionValue = (name: string): string | undefined => {
     const index = args.indexOf(name);

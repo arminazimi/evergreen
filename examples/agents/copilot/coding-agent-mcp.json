@@ -11,6 +11,7 @@
       ],
       "tools": [
         "check_dependency",
+        "check_upgrade",
         "scan_repository",
         "list_deprecations",
         "explain_deprecation",

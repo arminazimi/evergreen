@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import { completable, fromJsonSchema, McpServer, ResourceNotFoundError, ResourceTemplate } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
@@ -9,6 +10,7 @@ import { buildForecast, DEFAULT_FORECAST_MONTHS, MAX_FORECAST_MONTHS } from "./f
 import { MIGRATE_FINDING_PROMPT, renderMigrationPrompt } from "./migration-prompt.js";
 import { buildPlan } from "./plan-build.js";
 import { ruleUri, RULE_URI_PREFIX, toRuleDocument } from "./rule-resources.js";
+import { checkUpgrade, parseUpgradeTarget } from "./upgrade/index.js";
 import { findPackageFileSync } from "./package-files.js";
 import { VERSION } from "./version.js";
 
@@ -19,6 +21,7 @@ export const MCP_TOOL_NAMES = [
   "create_migration_context",
   "verify_migration",
   "check_dependency",
+  "check_upgrade",
   "forecast_repository",
   "plan_migrations",
 ] as const;
@@ -44,6 +47,7 @@ export const MCP_OUTPUT_SCHEMA_FILES = {
   create_migration_context: "context.v1.schema.json",
   verify_migration: "verification.v1.schema.json",
   check_dependency: "check.v1.schema.json",
+  check_upgrade: "upgrade.v1.schema.json",
   forecast_repository: "forecast.v1.schema.json",
   plan_migrations: "plan.v1.schema.json",
 } as const satisfies Record<(typeof MCP_TOOL_NAMES)[number], string>;
@@ -351,6 +355,37 @@ export function createEvergreenMcpServer(
     async ({ purl, version }) => {
       try {
         return success(await checkDependency({ purl, ...(version ? { version } : {}) }));
+      } catch (error) {
+        return failure(error);
+      }
+    },
+  );
+
+  server.registerTool(
+    "check_upgrade",
+    {
+      title: "Check upgrade",
+      description:
+        "Answer from files already in the repository whether a project can move to a target runtime, without running anything or using the network. Pass target as runtime@version, for example php@8.4. Returns evergreen.upgrade.v1: the verdict, the analyzers that applied, and every blocker, warning, and unknown with its path, line, and the exact constraint it read. An unknown verdict means Evergreen found no evidence for this runtime in this repository; it is not a statement that the upgrade is safe.",
+      inputSchema: z.object({
+        path: z
+          .string()
+          .min(1)
+          .default(".")
+          .describe("Local path to the repository. Defaults to the server working directory."),
+        target: z
+          .string()
+          .min(1)
+          .describe("Runtime and release to move to, as runtime@version, for example php@8.4 or nodejs@22."),
+      }),
+      outputSchema: outputSchema("check_upgrade"),
+      annotations: MCP_TOOL_ANNOTATIONS,
+    },
+    async ({ path, target }) => {
+      try {
+        const parsed = parseUpgradeTarget(target);
+        if (!parsed) return failure(new Error(`target must be <runtime>@<version>, for example php@8.4 (got "${target}").`));
+        return success(await checkUpgrade(resolve(path), parsed));
       } catch (error) {
         return failure(error);
       }
