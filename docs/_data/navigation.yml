@@ -57,3 +57,37 @@ docs:
         url: /https://github.com/arminazimi/evergreen/blob/main/brand/LICENSE/
       - title: "Distribution brand checklist"
         url: /DISTRIBUTION_BRAND.html
+  - title: Detectors
+    children:
+      - title: "Detector reference"
+        url: /detectors/
+      - title: "Container base images"
+        url: /detectors/container.html
+      - title: "Dart and Flutter"
+        url: /detectors/dart.html
+      - title: "Database runtimes"
+        url: /detectors/database.html
+      - title: "Deno and Bun"
+        url: /detectors/deno.html
+      - title: ".NET"
+        url: /detectors/dotnet.html
+      - title: "Elixir and Mix"
+        url: /detectors/elixir.html
+      - title: "Go"
+        url: /detectors/go.html
+      - title: "Java and Kotlin (JVM)"
+        url: /detectors/java.html
+      - title: "Kubernetes APIs"
+        url: /detectors/kubernetes.html
+      - title: "Rust"
+        url: /detectors/rust.html
+      - title: "Scala and sbt"
+        url: /detectors/scala.html
+      - title: "Serverless runtimes"
+        url: /detectors/serverless.html
+      - title: "Shell and PowerShell"
+        url: /detectors/shell.html
+      - title: "Swift"
+        url: /detectors/swift.html
+      - title: "Terraform"
+        url: /detectors/terraform.html

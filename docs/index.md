@@ -35,6 +35,7 @@ hosted service.
 - [Cross-host plugin evaluation and security boundaries](PLUGIN_EVALS.md)
 - [GitHub Action](GITHUB_ACTION.md)
 - [Organization rollout](ORG_ROLLOUT.md)
+- [Detector reference](detectors/index.md)
 - [Detector SDK](DETECTORS.md)
 - [Architecture and trust boundaries](ARCHITECTURE.md)
 - [Roadmap](ROADMAP.md)
