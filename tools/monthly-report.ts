@@ -75,6 +75,11 @@ export interface ContributorMetrics {
   monthContributors: number;
   contributors: string[];
   monthContributorsList: string[];
+  /** Contributors who are neither a maintainer (see MAINTAINERS.md) nor a bot. */
+  externalContributors: string[];
+  monthExternalContributorsList: string[];
+  totalExternalContributors: number;
+  monthExternalContributors: number;
   isShallow: boolean;
 }
 
@@ -257,10 +262,20 @@ export function formatContributorName(raw: string): string {
   return raw.trim();
 }
 
+/** Names and handles the maintainer commits under, lowercase. Keep in step with MAINTAINERS.md. */
+export const MAINTAINER_ALIASES: readonly string[] = ["armin azimi", "a.azimi", "arminazimi"];
+
+/** True for a contributor who is a maintainer or a bot, so is not counted as external. */
+export function isInternalContributor(name: string, maintainers: readonly string[] = MAINTAINER_ALIASES): boolean {
+  const lower = name.trim().toLowerCase();
+  return lower.endsWith("[bot]") || lower === "github-actions" || maintainers.includes(lower);
+}
+
 /** Collects contributor metrics from git log. */
 export function collectContributorMetrics(
   gitRunner: GitRunner = defaultGitRunner,
   month?: string,
+  maintainers: readonly string[] = MAINTAINER_ALIASES,
 ): ContributorMetrics {
   let isShallow = false;
   try {
@@ -328,6 +343,11 @@ export function collectContributorMetrics(
       ? [...monthContributorsSet].sort((a, b) => a.localeCompare(b))
       : contributors;
 
+    const externalContributors = contributors.filter((name) => !isInternalContributor(name, maintainers));
+    const monthExternalContributorsList = monthContributorsList.filter(
+      (name) => !isInternalContributor(name, maintainers),
+    );
+
     return {
       totalCommits,
       monthCommits,
@@ -335,6 +355,10 @@ export function collectContributorMetrics(
       monthContributors: monthContributorsList.length,
       contributors,
       monthContributorsList,
+      externalContributors,
+      monthExternalContributorsList,
+      totalExternalContributors: externalContributors.length,
+      monthExternalContributors: monthExternalContributorsList.length,
       isShallow,
     };
   } catch {
@@ -345,6 +369,10 @@ export function collectContributorMetrics(
       monthContributors: 0,
       contributors: [],
       monthContributorsList: [],
+      externalContributors: [],
+      monthExternalContributorsList: [],
+      totalExternalContributors: 0,
+      monthExternalContributors: 0,
       isShallow,
     };
   }
@@ -507,9 +535,9 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push(`| Supported ecosystems | ${data.ecosystems.total} ecosystems | ${data.ecosystems.supported} supported, ${data.ecosystems.experimental} experimental |`);
   lines.push(`| Validation corpus | ${formatNumber(data.corpus.totalRepositories)} repositories | ${formatNumber(data.corpus.totalExpectedFindings)} expected findings across ${Object.keys(data.corpus.byEcosystem).length} ecosystems |`);
   const contributorHighlight = data.contributors.isShallow
-    ? `${data.contributors.totalContributors} contributors (partial: shallow history)`
-    : `${data.contributors.totalContributors} contributors`;
-  lines.push(`| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month} |`);
+    ? `${data.contributors.totalContributors} contributors, ${data.contributors.totalExternalContributors} external (partial: shallow history)`
+    : `${data.contributors.totalContributors} contributors, ${data.contributors.totalExternalContributors} external`;
+  lines.push(`| Contributors | ${contributorHighlight} | ${formatNumber(data.contributors.monthCommits)} commits in ${data.month}; ${data.contributors.monthExternalContributors} external contributors |`);
   const starsCell =
     data.adoption.githubStars !== "unavailable" ? `${formatNumber(data.adoption.githubStars)} GitHub stars` : "unavailable";
   const adoptionMomentum = (() => {
@@ -682,6 +710,14 @@ export function generateMonthlyReport(data: MonthlyReportData): string {
   lines.push("");
   for (const contributor of data.contributors.contributors) {
     lines.push(`- ${contributor}`);
+  }
+  lines.push("");
+  lines.push("### External contributors");
+  lines.push("");
+  lines.push(`${data.contributors.totalExternalContributors} external contributors in total, ${data.contributors.monthExternalContributors} in ${data.month}. External means an author or \`Co-authored-by\` name that is not a maintainer in [MAINTAINERS.md](MAINTAINERS.md) and not a bot. Source: \`git log\` authors and \`Co-authored-by\` trailers, with \`.mailmap\` applied.`);
+  lines.push("");
+  for (const contributor of data.contributors.externalContributors) {
+    lines.push(`- ${contributor}${data.contributors.monthExternalContributorsList.includes(contributor) ? ` (active in ${data.month})` : ""}`);
   }
   lines.push("");
 

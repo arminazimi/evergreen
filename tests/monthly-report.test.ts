@@ -15,6 +15,7 @@ import {
   collectRuleMetrics,
   createGitRunner,
   formatContributorName,
+  isInternalContributor,
   generateMonthlyReport,
 } from "../tools/monthly-report.js";
 import type { MonthlyReportData } from "../tools/monthly-report.js";
@@ -152,7 +153,12 @@ test("collectContributorMetrics counts authors and co-authors in a temporary git
     assert.equal(metrics.totalCommits, 3);
     assert.equal(metrics.totalContributors, 3);
     assert.deepEqual(metrics.contributors, ["Alice", "Bob", "Carol"]);
+    assert.deepEqual(metrics.externalContributors, ["Alice", "Bob", "Carol"]);
     assert.equal(metrics.isShallow, false);
+
+    const withMaintainer = collectContributorMetrics(runner, undefined, ["alice"]);
+    assert.deepEqual(withMaintainer.externalContributors, ["Bob", "Carol"]);
+    assert.equal(withMaintainer.totalExternalContributors, 2);
   } finally {
     await rm(tempRepo, { recursive: true, force: true });
   }
@@ -235,8 +241,8 @@ test("collectContributorMetrics handles git runner failures gracefully", () => {
   assert.equal(metrics.isShallow, false);
 });
 
-test("generateMonthlyReport creates a complete markdown document with all sections", () => {
-  const mockData: MonthlyReportData = {
+function sampleReportData(): MonthlyReportData {
+  return {
     month: "2026-10",
     asOfDate: "2026-10-28",
     version: "0.7.1",
@@ -276,6 +282,10 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
       monthContributors: 2,
       contributors: ["Alice Smith", "Bob Jones"],
       monthContributorsList: ["Alice Smith", "Bob Jones"],
+      externalContributors: ["Alice Smith", "Bob Jones"],
+      monthExternalContributorsList: ["Alice Smith"],
+      totalExternalContributors: 2,
+      monthExternalContributors: 1,
       isShallow: false,
     },
     adoption: {
@@ -292,6 +302,10 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
       ],
     },
   };
+}
+
+test("generateMonthlyReport creates a complete markdown document with all sections", () => {
+  const mockData = sampleReportData();
 
   const report = generateMonthlyReport(mockData);
 
@@ -301,7 +315,7 @@ test("generateMonthlyReport creates a complete markdown document with all sectio
   assert.match(report, /\| Lifecycle rules \| 100 rules \| 50 reviewed across 2 ecosystems \|/);
   assert.match(report, /\| Supported ecosystems \| 2 ecosystems \| 1 supported, 1 experimental \|/);
   assert.match(report, /\| Validation corpus \| 50 repositories \| 200 expected findings across 2 ecosystems \|/);
-  assert.match(report, /\| Contributors \| 2 contributors \| 30 commits in 2026-10 \|/);
+  assert.match(report, /\| Contributors \| 2 contributors, 2 external \| 30 commits in 2026-10; 1 external contributors \|/);
   assert.match(report, /\| Adoption \| 10 GitHub stars \| 10 stars \(\+2 vs last month\) \|/);
   assert.doesNotMatch(report, /total across channels/);
   assert.match(report, /^## Lifecycle rules$/m);
@@ -460,4 +474,19 @@ test("CLI execution runs and exits successfully", async () => {
   } finally {
     await rm(tempDir, { recursive: true, force: true });
   }
+});
+
+test("isInternalContributor treats maintainers and bots as internal", () => {
+  assert.equal(isInternalContributor("Armin Azimi"), true);
+  assert.equal(isInternalContributor("dependabot[bot]"), true);
+  assert.equal(isInternalContributor("Hsn"), false);
+});
+
+test("the report separates external contributors and states the source", () => {
+  const report = generateMonthlyReport(sampleReportData());
+  assert.match(report, /### External contributors/);
+  assert.match(report, /2 external contributors in total, 1 in 2026-10/);
+  assert.match(report, /- Alice Smith \(active in 2026-10\)/);
+  assert.match(report, /- Bob Jones\n/);
+  assert.match(report, /Source: `git log`/);
 });
