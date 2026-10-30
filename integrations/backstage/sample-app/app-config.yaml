@@ -1,0 +1,21 @@
+# Wire this into a Backstage app (or use sample-app/serve.mjs for the zero-dep demo).
+app:
+  title: Evergreen Backstage sample
+  baseUrl: http://localhost:3000
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+
+# Absolute path or http(s) URL of an evergreen.portal.v1 export.
+# The sample server defaults to ../sample-data/portal-export.json.
+evergreen:
+  portalExportSource: ../sample-data/portal-export.json
+
+catalog:
+  locations:
+    - type: file
+      target: ./catalog/entities.yaml
+      rules:
+        - allow: [Component]

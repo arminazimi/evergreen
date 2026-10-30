@@ -1,0 +1,50 @@
+# Sample Backstage catalog entities for the Evergreen lifecycle card demo.
+# Each Component maps to a path in sample-data/portal-export.json via evergreen.io/service-path.
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api
+  description: Sample API service with dated lifecycle findings
+  annotations:
+    evergreen.io/service-path: /repos/api
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: legacy-batch
+  description: Sample batch job with the most findings
+  annotations:
+    evergreen.io/service-path: /repos/legacy-batch
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: checkout
+  description: Sample service with a clean portal row (no findings)
+  annotations:
+    evergreen.io/service-path: /repos/checkout
+spec:
+  type: service
+  lifecycle: production
+  owner: guests
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: payments
+  description: Sample payments service
+  annotations:
+    evergreen.io/service-path: /repos/payments
+spec:
+  type: service
+  lifecycle: production
+  owner: guests

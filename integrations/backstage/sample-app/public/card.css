@@ -1,0 +1,41 @@
+/* Served by serve.mjs; kept here so the preview can be opened from disk with a relative link if needed. */
+:root {
+  color-scheme: light;
+  --ink: #14201b;
+  --muted: #4d5c55;
+  --paper: #f4f7f5;
+  --card: #ffffff;
+  --line: #d5e0da;
+  --critical: #9b1c1c;
+  --high: #b45309;
+  --medium: #a16207;
+  --low: #1d4ed8;
+  --info: #475569;
+  --none: #15803d;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: linear-gradient(180deg, #e8f0eb, var(--paper)); color: var(--ink); }
+header, main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; color: var(--muted); margin: 0 0 0.5rem; }
+h1 { margin: 0 0 0.5rem; font-size: 2rem; }
+header p:last-child { color: var(--muted); max-width: 40rem; }
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; box-shadow: 0 8px 24px rgb(20 32 27 / 6%); }
+.card h2 { margin: 0 0 0.25rem; font-size: 1.15rem; }
+.desc { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+dl { display: grid; gap: 0.4rem; margin: 0 0 0.75rem; }
+dl div { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.5rem; font-size: 0.9rem; }
+dt { color: var(--muted); }
+dd { margin: 0; overflow-wrap: anywhere; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th, td { text-align: left; padding: 0.3rem 0; border-top: 1px solid var(--line); }
+.card.severity-critical { border-top: 4px solid var(--critical); }
+.card.severity-high { border-top: 4px solid var(--high); }
+.card.severity-medium { border-top: 4px solid var(--medium); }
+.card.severity-low { border-top: 4px solid var(--low); }
+.card.severity-info { border-top: 4px solid var(--info); }
+.card.severity-none { border-top: 4px solid var(--none); }
+.card.missing { opacity: 0.85; }
+a { color: #0f766e; }
+code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.85em; }
