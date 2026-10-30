@@ -12,6 +12,7 @@ import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { DiffError, diffRefs } from "./diff.js";
 import type { DiffResult } from "./diff.js";
+import { buildForecast } from "./forecast.js";
 import { relativePosix } from "./paths.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
 import type { DataInfo, SuppressionState } from "./domain.js";
@@ -475,8 +476,50 @@ export function renderFailure(outcome: GitHubActionFailure): string | undefined 
 export const ATTRIBUTION_LINE = "<sub>Scanned by [Evergreen](https://github.com/arminazimi/evergreen)</sub>";
 
 const SUMMARY_FINDINGS = 10;
+const SUMMARY_TIMELINE_EVENTS = 10;
+const DAY_MS = 86_400_000;
 
 const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+
+const plural = (count: number, noun: string): string => `${count} ${noun}${count === 1 ? "" : "s"}`;
+
+function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY_MS);
+}
+
+/**
+ * What reaches a dated end of life in the next twelve months, earliest first, with how many days are
+ * left. The forecast is built from the findings themselves — no registry rules are loaded here — so it
+ * lists exactly the dated findings the scan reports. Capped like the findings table, so a large report
+ * stays inside GitHub's summary size limit.
+ */
+function renderTimeline(findings: readonly Finding[]): string[] {
+  const today = new Date().toISOString().slice(0, 10);
+  const forecast = buildForecast({ schemaVersion: "evergreen.scan.v1", root: ".", scannedAt: "", findings: [...findings], diagnostics: [] }, [], today);
+  if (forecast.total === 0) return [];
+
+  const events = forecast.groups.flatMap((group) => group.events);
+  const lines = [
+    "### Timeline",
+    "",
+    `**Next ${plural(forecast.months, "month")}:** ${plural(events.length, "dated lifecycle event")} affect${events.length === 1 ? "s" : ""} this repository (${forecast.today} to ${forecast.until}).`,
+    "",
+    "| Ends | Left | Severity | Lifecycle event | Location |",
+    "|---|---|---|---|---|",
+  ];
+  for (const event of events.slice(0, SUMMARY_TIMELINE_EVENTS)) {
+    const left = daysBetween(today, event.date);
+    const [first, ...rest] = event.findings;
+    const location =
+      first === undefined
+        ? "—"
+        : `\`${cell(first.path)}${first.line === undefined ? "" : `:${first.line}`}\`${rest.length === 0 ? "" : ` +${rest.length} more`}`;
+    lines.push(`| ${event.date} | ${left === 0 ? "today" : `${plural(left, "day")} left`} | ${event.severity} | ${cell(event.title)} | ${location} |`);
+  }
+  if (events.length > SUMMARY_TIMELINE_EVENTS) lines.push("", `…and ${events.length - SUMMARY_TIMELINE_EVENTS} more dated events; the JSON report artifact lists every deadline.`);
+  lines.push("");
+  return lines;
+}
 
 function appendFindingTables(lines: string[], findings: readonly Finding[]): void {
   if (findings.length === 0) return;
@@ -526,6 +569,7 @@ export function renderSummary(
       : `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`
     : `Found **${findings.length}** lifecycle finding${findings.length === 1 ? "" : "s"} introduced by this pull request (${diff.base}..${diff.head}); ${status}.`;
   const lines = ["## Evergreen", "", counts, ""];
+  lines.push(...renderTimeline(findings));
 
   if (packages && packages.length > 0) {
     for (const pkg of packages) {
