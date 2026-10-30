@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "npm",
+  "testRunner": "command",
+  "coverageAnalysis": "off",
+  "disableTypeChecks": "{src/engine.ts,src/baseline.ts,src/diff.ts,src/vers/**/*.ts}",
+  "buildCommand": "npm run build --silent",
+  "commandRunner": {
+    "command": "node --test dist/tests/engine.test.js dist/tests/baseline.test.js dist/tests/diff.test.js dist/tests/vers.test.js dist/tests/vers-semver.test.js dist/tests/vers-pep440.test.js dist/tests/vers-maven.test.js dist/tests/vers-nuget-gem.test.js"
+  },
+  "mutate": [
+    "src/engine.ts",
+    "src/baseline.ts",
+    "src/diff.ts",
+    "src/vers/**/*.ts"
+  ],
+  "reporters": ["clear-text", "progress", "json"],
+  "jsonReporter": {
+    "fileName": "artifacts/mutation-report.json"
+  },
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": null
+  },
+  "timeoutMS": 60000,
+  "concurrency": 4
+}

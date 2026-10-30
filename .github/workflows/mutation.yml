@@ -1,0 +1,93 @@
+name: Mutation
+
+on:
+  schedule:
+    # Nightly.
+    - cron: "47 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    name: mutation score
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Run mutation testing on the core engine
+        run: npm run test:mutation
+      - name: Publish mutation score and survivors
+        if: always() && hashFiles('artifacts/mutation-report.json') != ''
+        run: |
+          node <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          const fs = require("node:fs");
+          const report = JSON.parse(
+            fs.readFileSync("artifacts/mutation-report.json", "utf8"),
+          );
+          const rows = [];
+          for (const [file, value] of Object.entries(report.files ?? {})) {
+            for (const mutant of value.mutants ?? []) {
+              rows.push({ file, mutant });
+            }
+          }
+          const counts = {
+            Killed: 0,
+            Survived: 0,
+            NoCoverage: 0,
+            Timeout: 0,
+            RuntimeError: 0,
+            CompileError: 0,
+            Ignored: 0,
+          };
+          for (const { mutant } of rows) {
+            if (Object.hasOwn(counts, mutant.status)) {
+              counts[mutant.status] += 1;
+            }
+          }
+          const detected = counts.Killed + counts.Timeout;
+          const undetected = counts.Survived + counts.NoCoverage;
+          const scored = detected + undetected;
+          const score =
+            scored === 0 ? null : Math.round((detected / scored) * 10000) / 100;
+          const survivors = rows.filter(
+            ({ mutant }) =>
+              mutant.status === "Survived" || mutant.status === "NoCoverage",
+          );
+
+          console.log("## Mutation score");
+          console.log("");
+          console.log("| Metric | Value |");
+          console.log("| --- | ---: |");
+          console.log(
+            `| Score | ${score === null ? "n/a" : `${score.toFixed(2)}%`} |`,
+          );
+          console.log(`| Mutants | ${rows.length} |`);
+          console.log(`| Killed | ${counts.Killed} |`);
+          console.log(`| Survived | ${counts.Survived} |`);
+          console.log(`| No coverage | ${counts.NoCoverage} |`);
+          console.log(`| Timeout | ${counts.Timeout} |`);
+          console.log(`| Runtime error | ${counts.RuntimeError} |`);
+          console.log(`| Compile error | ${counts.CompileError} |`);
+          console.log("");
+          console.log("## Surviving mutants");
+          console.log("");
+          if (survivors.length === 0) {
+            console.log("None.");
+          } else {
+            console.log("| File | Line | Mutator | Status |");
+            console.log("| --- | ---: | --- | --- |");
+            for (const { file, mutant } of survivors) {
+              const line = mutant.location?.start?.line ?? "?";
+              console.log(
+                `| \`${file}\` | ${line} | ${mutant.mutatorName} | ${mutant.status} |`,
+              );
+            }
+          }
+          EOF

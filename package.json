@@ -81,6 +81,7 @@
     "mcp": "npm run build --silent && node dist/src/mcp-cli.js",
     "test": "npm run build --silent && node tools/run-tests.mjs",
     "test:fuzz": "npm run build --silent && node --test dist/tests/fuzz/parsers.test.js",
+    "test:mutation": "stryker run",
     "test:coverage": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-coverage-lines=93 --test-coverage-branches=87 --test-coverage-functions=93 --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
     "test:coverage:lcov": "npm run build --silent && node --test --experimental-test-coverage --test-coverage-exclude=\"dist/tests/**\" --test-coverage-exclude=\"dist/benchmarks/**\" --test-coverage-exclude=\"dist/action/**\" --test-coverage-exclude=\"dist/src/usage/vendor/**\" --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info \"dist/tests/**/*.test.js\"",
     "check": "npm run build && node dist/tools/check-pipeline.js",
@@ -130,6 +131,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^10.1.1",
     "@types/node": "^24.0.0",
     "@types/semver": "^7.8.0",
     "@vercel/ncc": "^0.45.0",
