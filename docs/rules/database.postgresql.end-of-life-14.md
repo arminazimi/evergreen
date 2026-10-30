@@ -2,6 +2,7 @@
 title: "PostgreSQL 14 reaches the end of its support on 2026-11-12 — dates, impact, migration"
 description: "The PostgreSQL Global Development Group lists 14 as supported until its final release on November 12, 2026, after which it receives no further bug or security fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-14.html"
+image: "/assets/og/database.postgresql.end-of-life-14.svg"
 json_twin: "/rules/database.postgresql.end-of-life-14.json"
 ---
 

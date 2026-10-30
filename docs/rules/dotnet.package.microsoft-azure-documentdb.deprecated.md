@@ -2,6 +2,7 @@
 title: "Microsoft.Azure.DocumentDB is deprecated on NuGet — dates, impact, migration"
 description: "NuGet marks all 36 listed versions of Microsoft.Azure.DocumentDB as deprecated (reason: Legacy)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html"
+image: "/assets/og/dotnet.package.microsoft-azure-documentdb.deprecated.svg"
 json_twin: "/rules/dotnet.package.microsoft-azure-documentdb.deprecated.json"
 ---
 

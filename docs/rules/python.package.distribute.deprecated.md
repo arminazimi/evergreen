@@ -2,6 +2,7 @@
 title: "distribute is deprecated — dates, impact, migration"
 description: "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html"
+image: "/assets/og/python.package.distribute.deprecated.svg"
 json_twin: "/rules/python.package.distribute.deprecated.json"
 ---
 

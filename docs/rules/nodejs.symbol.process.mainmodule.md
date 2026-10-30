@@ -2,6 +2,7 @@
 title: "Process.mainModule is deprecated — dates, impact, migration"
 description: "Node.js deprecates process.mainModule (DEP0138: documentation-only since v14.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.mainmodule.html"
+image: "/assets/og/nodejs.symbol.process.mainmodule.svg"
 json_twin: "/rules/nodejs.symbol.process.mainmodule.json"
 ---
 

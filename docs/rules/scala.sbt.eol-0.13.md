@@ -2,6 +2,7 @@
 title: "sbt 0.13 reached end of life — dates, impact, migration"
 description: "The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html"
+image: "/assets/og/scala.sbt.eol-0.13.svg"
 json_twin: "/rules/scala.sbt.eol-0.13.json"
 ---
 

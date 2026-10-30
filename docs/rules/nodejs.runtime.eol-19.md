@@ -2,6 +2,7 @@
 title: "Node.js 19 is end-of-life — dates, impact, migration"
 description: "Node.js 19 no longer receives security or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.eol-19.html"
+image: "/assets/og/nodejs.runtime.eol-19.svg"
 json_twin: "/rules/nodejs.runtime.eol-19.json"
 ---
 

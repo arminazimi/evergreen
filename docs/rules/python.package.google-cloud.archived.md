@@ -2,6 +2,7 @@
 title: "google-cloud is archived on PyPI — dates, impact, migration"
 description: "PyPI marks google-cloud as archived: the project does not expect to be updated in the future."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.google-cloud.archived.html"
+image: "/assets/og/python.package.google-cloud.archived.svg"
 json_twin: "/rules/python.package.google-cloud.archived.json"
 ---
 

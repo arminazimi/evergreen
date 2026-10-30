@@ -2,6 +2,7 @@
 title: "ipaddr is superseded — dates, impact, migration"
 description: "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html"
+image: "/assets/og/python.package.ipaddr.deprecated.svg"
 json_twin: "/rules/python.package.ipaddr.deprecated.json"
 ---
 

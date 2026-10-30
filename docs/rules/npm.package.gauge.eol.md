@@ -2,6 +2,7 @@
 title: "gauge is no longer supported — dates, impact, migration"
 description: "npm states that the gauge package is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html"
+image: "/assets/og/npm.package.gauge.eol.svg"
 json_twin: "/rules/npm.package.gauge.eol.json"
 ---
 

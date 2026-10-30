@@ -2,6 +2,7 @@
 title: "GKE 1.32 is past end of standard support — dates, impact, migration"
 description: "GKE 1.32 reached the end of standard support on 2026-04-27 and is in extended support until 2027-02-11."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html"
+image: "/assets/og/terraform.gke.end-of-support-1.32.svg"
 json_twin: "/rules/terraform.gke.end-of-support-1.32.json"
 ---
 

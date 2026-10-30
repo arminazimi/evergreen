@@ -2,6 +2,7 @@
 title: "Crypto.Credentials has been removed — dates, impact, migration"
 description: "Node.js removed crypto.Credentials (DEP0011: runtime deprecation since v0.11.13, end-of-life since v11.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.credentials.html"
+image: "/assets/og/nodejs.symbol.crypto.credentials.svg"
 json_twin: "/rules/nodejs.symbol.crypto.credentials.json"
 ---
 

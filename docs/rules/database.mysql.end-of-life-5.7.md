@@ -2,6 +2,7 @@
 title: "MySQL 5.7 is end-of-life — dates, impact, migration"
 description: "MySQL 5.7 reached end of life on 2023-10-31 and no longer receives security or bug fixes from Oracle."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-5.7.html"
+image: "/assets/og/database.mysql.end-of-life-5.7.svg"
 json_twin: "/rules/database.mysql.end-of-life-5.7.json"
 ---
 

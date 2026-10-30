@@ -2,6 +2,7 @@
 title: "Ubuntu image release lines 20.04 and older are past standard support end-of-life — dates, impact, migration"
 description: "These Ubuntu releases no longer receive standard security updates from the vendor."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html"
+image: "/assets/og/container.ubuntu.eol-20.04-and-older.svg"
 json_twin: "/rules/container.ubuntu.eol-20.04-and-older.json"
 ---
 

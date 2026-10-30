@@ -2,6 +2,7 @@
 title: "locale.getdefaultlocale is deprecated — dates, impact, migration"
 description: "Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html"
+image: "/assets/og/python.symbol.locale.getdefaultlocale.svg"
 json_twin: "/rules/python.symbol.locale.getdefaultlocale.json"
 ---
 

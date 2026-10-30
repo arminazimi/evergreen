@@ -2,6 +2,7 @@
 title: "Microsoft.Azure.Storage.Blob is deprecated on NuGet — dates, impact, migration"
 description: "NuGet marks all 24 listed versions of Microsoft.Azure.Storage.Blob as deprecated (reason: Legacy)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-storage-blob.deprecated.html"
+image: "/assets/og/dotnet.package.microsoft-azure-storage-blob.deprecated.svg"
 json_twin: "/rules/dotnet.package.microsoft-azure-storage-blob.deprecated.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Lifecycle reference — end of life, removed, and deprecated components"
 description: "One page per lifecycle rule: status, affected versions, dates, sources, migration, and the detector that reads it."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/"
+image: "/assets/og/default.svg"
 ---
 
 # Lifecycle reference

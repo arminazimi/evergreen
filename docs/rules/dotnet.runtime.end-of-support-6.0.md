@@ -2,6 +2,7 @@
 title: ".NET 6 is no longer supported — dates, impact, migration"
 description: ".NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-6.0.html"
+image: "/assets/og/dotnet.runtime.end-of-support-6.0.svg"
 json_twin: "/rules/dotnet.runtime.end-of-support-6.0.json"
 ---
 

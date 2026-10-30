@@ -2,6 +2,7 @@
 title: "Ruby 2.4 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 2.4 as eol: normal maintenance ended on 2019-04-01 and the branch reached end-of-life on 2020-03-31."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.4.html"
+image: "/assets/og/ruby.runtime.eol-2.4.svg"
 json_twin: "/rules/ruby.runtime.eol-2.4.json"
 ---
 

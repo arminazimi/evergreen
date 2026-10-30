@@ -2,6 +2,7 @@
 title: "Imp.load_module has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.load_module, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.load-module.html"
+image: "/assets/og/python.symbol.imp.load-module.svg"
 json_twin: "/rules/python.symbol.imp.load-module.json"
 ---
 

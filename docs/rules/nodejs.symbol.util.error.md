@@ -2,6 +2,7 @@
 title: "Util.error has been removed — dates, impact, migration"
 description: "Node.js removed util.error (DEP0029: runtime deprecation since v0.11.3, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.error.html"
+image: "/assets/og/nodejs.symbol.util.error.svg"
 json_twin: "/rules/nodejs.symbol.util.error.json"
 ---
 

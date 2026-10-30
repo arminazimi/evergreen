@@ -2,6 +2,7 @@
 title: "Util.debug has been removed — dates, impact, migration"
 description: "Node.js removed util.debug (DEP0028: runtime deprecation since v0.11.3, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.debug.html"
+image: "/assets/og/nodejs.symbol.util.debug.svg"
 json_twin: "/rules/nodejs.symbol.util.debug.json"
 ---
 

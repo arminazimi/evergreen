@@ -2,6 +2,7 @@
 title: "Erlang/OTP 25 no longer receives security updates — dates, impact, migration"
 description: "Erlang/OTP supports the last three major releases with security updates. OTP 25 left that window when OTP 28 shipped on 2025-05-21, so the release no longer receives security updates from the…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.erlang.eol-25.html"
+image: "/assets/og/elixir.erlang.eol-25.svg"
 json_twin: "/rules/elixir.erlang.eol-25.json"
 ---
 

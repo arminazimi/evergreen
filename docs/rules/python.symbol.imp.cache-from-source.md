@@ -2,6 +2,7 @@
 title: "Imp.cache_from_source has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.cache_from_source, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.cache-from-source.html"
+image: "/assets/og/python.symbol.imp.cache-from-source.svg"
 json_twin: "/rules/python.symbol.imp.cache-from-source.json"
 ---
 

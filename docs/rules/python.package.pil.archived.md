@@ -2,6 +2,7 @@
 title: "PIL is archived on PyPI — dates, impact, migration"
 description: "PyPI marks PIL as archived: the project does not expect to be updated in the future."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pil.archived.html"
+image: "/assets/og/python.package.pil.archived.svg"
 json_twin: "/rules/python.package.pil.archived.json"
 ---
 

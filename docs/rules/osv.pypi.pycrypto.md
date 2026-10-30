@@ -2,6 +2,7 @@
 title: "pycrypto has unfixed OSV advisories — dates, impact, migration"
 description: "OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycrypto with no fixed version in the affected ranges."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html"
+image: "/assets/og/osv.pypi.pycrypto.svg"
 json_twin: "/rules/osv.pypi.pycrypto.json"
 ---
 

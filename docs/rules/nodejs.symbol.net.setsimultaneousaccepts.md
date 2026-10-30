@@ -2,6 +2,7 @@
 title: "Net._setSimultaneousAccepts has been removed — dates, impact, migration"
 description: "Node.js removed net._setSimultaneousAccepts (DEP0121: runtime deprecation since v12.0.0, end-of-life since v24.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html"
+image: "/assets/og/nodejs.symbol.net.setsimultaneousaccepts.svg"
 json_twin: "/rules/nodejs.symbol.net.setsimultaneousaccepts.json"
 ---
 

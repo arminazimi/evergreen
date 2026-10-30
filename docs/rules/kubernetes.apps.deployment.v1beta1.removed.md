@@ -2,6 +2,7 @@
 title: "Deployment apps/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the apps/v1beta1 API version of Deployment is no longer served as of v1.16, which was released on 2019-09-18."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.apps.deployment.v1beta1.removed.html"
+image: "/assets/og/kubernetes.apps.deployment.v1beta1.removed.svg"
 json_twin: "/rules/kubernetes.apps.deployment.v1beta1.removed.json"
 ---
 

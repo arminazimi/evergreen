@@ -2,6 +2,7 @@
 title: "github.com/cncf/udpa/go is deprecated — dates, impact, migration"
 description: "The latest github.com/cncf/udpa/go module declares: \"use github.com/cncf/xds/go instead.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.com.cncf.udpa.go.deprecated.html"
+image: "/assets/og/go.module.github.com.cncf.udpa.go.deprecated.svg"
 json_twin: "/rules/go.module.github.com.cncf.udpa.go.deprecated.json"
 ---
 

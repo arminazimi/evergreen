@@ -2,6 +2,7 @@
 title: "multimodal-timesfm is no longer maintained — dates, impact, migration"
 description: "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html"
+image: "/assets/og/python.package.multimodal-timesfm.deprecated.svg"
 json_twin: "/rules/python.package.multimodal-timesfm.deprecated.json"
 ---
 

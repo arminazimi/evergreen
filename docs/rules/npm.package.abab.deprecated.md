@@ -2,6 +2,7 @@
 title: "abab is deprecated — dates, impact, migration"
 description: "npm directs users of abab to the platform-native atob and btoa functions."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html"
+image: "/assets/og/npm.package.abab.deprecated.svg"
 json_twin: "/rules/npm.package.abab.deprecated.json"
 ---
 

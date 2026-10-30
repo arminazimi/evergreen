@@ -2,6 +2,7 @@
 title: "@types/diff is deprecated — dates, impact, migration"
 description: "npm marks @types/diff as deprecated: \"This is a stub types definition. diff provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html"
+image: "/assets/og/npm.package.types.diff.deprecated.svg"
 json_twin: "/rules/npm.package.types.diff.deprecated.json"
 ---
 

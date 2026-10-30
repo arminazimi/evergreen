@@ -2,6 +2,7 @@
 title: "Ruby 3.2 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 3.2 as eol: normal maintenance ended on 2025-04-01 and the branch reached end-of-life on 2026-04-01."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.2.html"
+image: "/assets/og/ruby.runtime.eol-3.2.svg"
 json_twin: "/rules/ruby.runtime.eol-3.2.json"
 ---
 

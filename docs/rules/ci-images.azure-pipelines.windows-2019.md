@@ -2,6 +2,7 @@
 title: "Azure Pipelines Windows Server 2019 hosted image is retired — dates, impact, migration"
 description: "The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps blog sets that full removal date, and the Microsoft-hosted agents page records the same retirement."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html"
+image: "/assets/og/ci-images.azure-pipelines.windows-2019.svg"
 json_twin: "/rules/ci-images.azure-pipelines.windows-2019.json"
 ---
 

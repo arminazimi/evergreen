@@ -2,6 +2,7 @@
 title: "Ruby 2.5 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 2.5 as eol: normal maintenance ended on 2020-04-01 and the branch reached end-of-life on 2021-04-05."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.5.html"
+image: "/assets/og/ruby.runtime.eol-2.5.svg"
 json_twin: "/rules/ruby.runtime.eol-2.5.json"
 ---
 

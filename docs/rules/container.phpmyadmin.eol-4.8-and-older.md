@@ -2,6 +2,7 @@
 title: "phpMyAdmin image release lines 4.8 and older are end-of-life — dates, impact, migration"
 description: "These phpMyAdmin release lines are unsupported: the vendor's downloads page supports only the current stable line and the 4.9 LTS line, and says older releases are unsupported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html"
+image: "/assets/og/container.phpmyadmin.eol-4.8-and-older.svg"
 json_twin: "/rules/container.phpmyadmin.eol-4.8-and-older.json"
 ---
 

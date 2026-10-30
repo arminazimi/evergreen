@@ -2,6 +2,7 @@
 title: "HorizontalPodAutoscaler autoscaling/v2beta2 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the autoscaling/v2beta2 API version of HorizontalPodAutoscaler is no longer served as of v1.26, which was released on 2022-12-09."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.html"
+image: "/assets/og/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.svg"
 json_twin: "/rules/kubernetes.autoscaling.horizontalpodautoscaler.v2beta2.removed.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Unsupported actions/create-github-app-token runtime — dates, impact, migration"
 description: "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.create-github-app-token.node20.html"
+image: "/assets/og/github-actions.create-github-app-token.node20.svg"
 json_twin: "/rules/github-actions.create-github-app-token.node20.json"
 ---
 

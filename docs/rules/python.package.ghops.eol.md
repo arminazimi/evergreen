@@ -2,6 +2,7 @@
 title: "ghops is deprecated and no longer maintained — dates, impact, migration"
 description: "The maintainer states that ghops is deprecated and no longer maintained, and directs users to repoindex."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.ghops.eol.html"
+image: "/assets/og/python.package.ghops.eol.svg"
 json_twin: "/rules/python.package.ghops.eol.json"
 ---
 

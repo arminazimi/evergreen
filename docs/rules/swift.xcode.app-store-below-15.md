@@ -2,6 +2,7 @@
 title: "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration"
 description: "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html"
+image: "/assets/og/swift.xcode.app-store-below-15.svg"
 json_twin: "/rules/swift.xcode.app-store-below-15.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "uglify-es is deprecated — dates, impact, migration"
 description: "npm marks uglify-es as deprecated: \"support for ECMAScript is superseded by `uglify-js` as of v3.13.0\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-es.deprecated.html"
+image: "/assets/og/npm.package.uglify-es.deprecated.svg"
 json_twin: "/rules/npm.package.uglify-es.deprecated.json"
 ---
 

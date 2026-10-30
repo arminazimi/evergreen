@@ -2,6 +2,7 @@
 title: "Io.OpenWrapper has been removed — dates, impact, migration"
 description: "Python 3.12 removed io.OpenWrapper, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.io.openwrapper.html"
+image: "/assets/og/python.symbol.io.openwrapper.svg"
 json_twin: "/rules/python.symbol.io.openwrapper.json"
 ---
 

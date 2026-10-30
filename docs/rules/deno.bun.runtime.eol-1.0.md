@@ -2,6 +2,7 @@
 title: "Bun 1.0.x is end-of-life — dates, impact, migration"
 description: "Bun 1.0.x was superseded by Bun 1.1.0 and is end-of-life."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-1.0.html"
+image: "/assets/og/deno.bun.runtime.eol-1.0.svg"
 json_twin: "/rules/deno.bun.runtime.eol-1.0.json"
 ---
 

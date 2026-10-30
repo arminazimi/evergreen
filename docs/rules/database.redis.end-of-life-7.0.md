@@ -2,6 +2,7 @@
 title: "Redis 7.0 is end-of-life — dates, impact, migration"
 description: "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html"
+image: "/assets/og/database.redis.end-of-life-7.0.svg"
 json_twin: "/rules/database.redis.end-of-life-7.0.json"
 ---
 

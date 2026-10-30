@@ -2,6 +2,7 @@
 title: "Module.register is deprecated — dates, impact, migration"
 description: "Node.js deprecates module.register (DEP0205: documentation-only since v25.9.0, runtime deprecation since v26.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.module.register.html"
+image: "/assets/og/nodejs.symbol.module.register.svg"
 json_twin: "/rules/nodejs.symbol.module.register.json"
 ---
 

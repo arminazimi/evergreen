@@ -2,6 +2,7 @@
 title: "Process._getActiveRequests and process._getActiveHandles are deprecated — dates, impact, migration"
 description: "Node.js deprecates process._getActiveRequests and process._getActiveHandles (DEP0161: documentation-only since v17.6.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.process.getactive.html"
+image: "/assets/og/nodejs.symbol.process.getactive.svg"
 json_twin: "/rules/nodejs.symbol.process.getactive.json"
 ---
 

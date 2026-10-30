@@ -2,6 +2,7 @@
 title: "Tls.CryptoStream has been removed — dates, impact, migration"
 description: "Node.js removed tls.CryptoStream (DEP0042: documentation-only since v0.11.3, end-of-life since v10.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.cryptostream.html"
+image: "/assets/og/nodejs.symbol.tls.cryptostream.svg"
 json_twin: "/rules/nodejs.symbol.tls.cryptostream.json"
 ---
 

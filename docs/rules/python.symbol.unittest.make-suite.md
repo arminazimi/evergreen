@@ -2,6 +2,7 @@
 title: "unittest.makeSuite, findTestCases and getTestCaseNames have been removed — dates, impact, migration"
 description: "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html"
+image: "/assets/og/python.symbol.unittest.make-suite.svg"
 json_twin: "/rules/python.symbol.unittest.make-suite.json"
 ---
 

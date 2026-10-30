@@ -2,6 +2,7 @@
 title: "@types/emoji-regex is deprecated — dates, impact, migration"
 description: "npm marks @types/emoji-regex as deprecated: \"This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html"
+image: "/assets/og/npm.package.types.emoji-regex.deprecated.svg"
 json_twin: "/rules/npm.package.types.emoji-regex.deprecated.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "util._extend is deprecated — dates, impact, migration"
 description: "Node.js deprecates util._extend() (DEP0060): documentation-only since v6.0.0, runtime warning since v22.0.0."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.extend.html"
+image: "/assets/og/nodejs.symbol.util.extend.svg"
 json_twin: "/rules/nodejs.symbol.util.extend.json"
 ---
 

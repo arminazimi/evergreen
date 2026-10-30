@@ -2,6 +2,7 @@
 title: "WindowsAzure.Storage is deprecated on NuGet — dates, impact, migration"
 description: "Microsoft marked every version of WindowsAzure.Storage as deprecated (reason: Legacy) because the package has been obsolete since 2023-03-31 and is no longer maintained or monitored."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.windowsazure-storage.deprecated.html"
+image: "/assets/og/dotnet.package.windowsazure-storage.deprecated.svg"
 json_twin: "/rules/dotnet.package.windowsazure-storage.deprecated.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Webbrowser.MacOSX has been removed — dates, impact, migration"
 description: "Python 3.13 removed webbrowser.MacOSX, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.webbrowser.macosx.html"
+image: "/assets/og/python.symbol.webbrowser.macosx.svg"
 json_twin: "/rules/python.symbol.webbrowser.macosx.json"
 ---
 

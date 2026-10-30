@@ -2,6 +2,7 @@
 title: "The hash and mgf1Hash options of RSA-PSS key generation have been removed — dates, impact, migration"
 description: "Node.js removed the hash and mgf1Hash options of RSA-PSS key generation (DEP0154: documentation-only since v16.10.0, runtime deprecation since v20.0.0, end-of-life since v25.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.rsa-pss-options.html"
+image: "/assets/og/nodejs.symbol.crypto.rsa-pss-options.svg"
 json_twin: "/rules/nodejs.symbol.crypto.rsa-pss-options.json"
 ---
 

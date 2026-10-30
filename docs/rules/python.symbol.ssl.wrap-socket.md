@@ -2,6 +2,7 @@
 title: "Ssl.wrap_socket has been removed — dates, impact, migration"
 description: "Python 3.12 removed ssl.wrap_socket, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ssl.wrap-socket.html"
+image: "/assets/og/python.symbol.ssl.wrap-socket.svg"
 json_twin: "/rules/python.symbol.ssl.wrap-socket.json"
 ---
 

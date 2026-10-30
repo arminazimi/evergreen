@@ -2,6 +2,7 @@
 title: "Imp.find_module has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.find_module, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.find-module.html"
+image: "/assets/og/python.symbol.imp.find-module.svg"
 json_twin: "/rules/python.symbol.imp.find-module.json"
 ---
 

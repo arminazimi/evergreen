@@ -2,6 +2,7 @@
 title: "AKS 1.29 is past long-term support — dates, impact, migration"
 description: "AKS 1.29 reached the end of its 12-month support window on 2025-03-31 and the end of long-term support on 2026-04-30. AKS no longer provides patches for this version."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html"
+image: "/assets/og/terraform.aks.end-of-life-1.29.svg"
 json_twin: "/rules/terraform.aks.end-of-life-1.29.json"
 ---
 

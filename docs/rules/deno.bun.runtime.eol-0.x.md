@@ -2,6 +2,7 @@
 title: "Bun 0.x pre-release is end-of-life — dates, impact, migration"
 description: "Bun 0.x pre-release versions are obsolete and end-of-life following the Bun 1.0.0 release."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-0.x.html"
+image: "/assets/og/deno.bun.runtime.eol-0.x.svg"
 json_twin: "/rules/deno.bun.runtime.eol-0.x.json"
 ---
 

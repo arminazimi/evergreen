@@ -2,6 +2,7 @@
 title: "PHP 7.0 is end-of-life — dates, impact, migration"
 description: "The PHP release branches list marks PHP 7.0 as end of life: active support ended on 2018-01-04 and security support ended on 2019-01-10."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.0.html"
+image: "/assets/og/php.runtime.eol-7.0.svg"
 json_twin: "/rules/php.runtime.eol-7.0.json"
 ---
 

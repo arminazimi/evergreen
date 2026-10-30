@@ -2,6 +2,7 @@
 title: "koa-router is deprecated — dates, impact, migration"
 description: "npm marks koa-router as deprecated: \"Please use @koa/router instead, starting from v9!\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.koa-router.deprecated.html"
+image: "/assets/og/npm.package.koa-router.deprecated.svg"
 json_twin: "/rules/npm.package.koa-router.deprecated.json"
 ---
 

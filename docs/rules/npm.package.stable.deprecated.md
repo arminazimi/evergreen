@@ -2,6 +2,7 @@
 title: "stable is deprecated — dates, impact, migration"
 description: "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html"
+image: "/assets/og/npm.package.stable.deprecated.svg"
 json_twin: "/rules/npm.package.stable.deprecated.json"
 ---
 

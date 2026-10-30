@@ -2,6 +2,7 @@
 title: "lodash.get is deprecated — dates, impact, migration"
 description: "npm recommends replacing lodash.get with JavaScript's optional chaining operator."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html"
+image: "/assets/og/npm.package.lodash-get.deprecated.svg"
 json_twin: "/rules/npm.package.lodash-get.deprecated.json"
 ---
 

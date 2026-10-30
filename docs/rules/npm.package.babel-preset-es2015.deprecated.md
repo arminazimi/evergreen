@@ -2,6 +2,7 @@
 title: "babel-preset-es2015 is deprecated — dates, impact, migration"
 description: "npm recommends babel-preset-env instead of babel-preset-es2015."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html"
+image: "/assets/og/npm.package.babel-preset-es2015.deprecated.svg"
 json_twin: "/rules/npm.package.babel-preset-es2015.deprecated.json"
 ---
 

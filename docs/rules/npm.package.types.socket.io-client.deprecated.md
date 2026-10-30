@@ -2,6 +2,7 @@
 title: "@types/socket.io-client is deprecated — dates, impact, migration"
 description: "npm marks @types/socket.io-client as deprecated: \"This is a stub types definition. socket.io-client provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.socket.io-client.deprecated.html"
+image: "/assets/og/npm.package.types.socket.io-client.deprecated.svg"
 json_twin: "/rules/npm.package.types.socket.io-client.deprecated.json"
 ---
 

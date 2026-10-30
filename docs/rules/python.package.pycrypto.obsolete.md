@@ -2,6 +2,7 @@
 title: "PyCrypto is obsolete and vulnerable — dates, impact, migration"
 description: "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html"
+image: "/assets/og/python.package.pycrypto.obsolete.svg"
 json_twin: "/rules/python.package.pycrypto.obsolete.json"
 ---
 

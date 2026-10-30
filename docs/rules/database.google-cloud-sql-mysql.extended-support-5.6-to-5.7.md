@@ -2,6 +2,7 @@
 title: "Cloud SQL for MySQL 5.6 and 5.7 are in extended support — dates, impact, migration"
 description: "The Cloud SQL for MySQL version policy lists MySQL 5.6 and 5.7 with extended support starting 2025-02-01 and deprecation on 2028-02-01."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html"
+image: "/assets/og/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.svg"
 json_twin: "/rules/database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.json"
 ---
 

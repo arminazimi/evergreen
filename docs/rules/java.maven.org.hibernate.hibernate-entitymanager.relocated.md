@@ -2,6 +2,7 @@
 title: "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager — dates, impact, migration"
 description: "The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocation to org.hibernate.orm:hibernate-entitymanager."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html"
+image: "/assets/og/java.maven.org.hibernate.hibernate-entitymanager.relocated.svg"
 json_twin: "/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.json"
 ---
 

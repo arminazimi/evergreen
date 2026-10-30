@@ -2,6 +2,7 @@
 title: "MariaDB image release lines 10.10 and older are end-of-life — dates, impact, migration"
 description: "These MariaDB release lines no longer receive fixes from the vendor."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html"
+image: "/assets/og/container.mariadb.eol-10.10-and-older.svg"
 json_twin: "/rules/container.mariadb.eol-10.10-and-older.json"
 ---
 

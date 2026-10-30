@@ -2,6 +2,7 @@
 title: "Sqlite3.OptimizedUnicode has been removed — dates, impact, migration"
 description: "Python 3.12 removed sqlite3.OptimizedUnicode, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.sqlite3.optimizedunicode.html"
+image: "/assets/og/python.symbol.sqlite3.optimizedunicode.svg"
 json_twin: "/rules/python.symbol.sqlite3.optimizedunicode.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "pathlib is archived on PyPI — dates, impact, migration"
 description: "PyPI marks pathlib as archived: the project does not expect to be updated in the future."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pathlib.archived.html"
+image: "/assets/og/python.package.pathlib.archived.svg"
 json_twin: "/rules/python.package.pathlib.archived.json"
 ---
 

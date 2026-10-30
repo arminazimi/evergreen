@@ -2,6 +2,7 @@
 title: "tslint is deprecated — dates, impact, migration"
 description: "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html"
+image: "/assets/og/npm.package.tslint.deprecated.svg"
 json_twin: "/rules/npm.package.tslint.deprecated.json"
 ---
 

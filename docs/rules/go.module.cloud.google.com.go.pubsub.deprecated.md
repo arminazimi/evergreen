@@ -2,6 +2,7 @@
 title: "cloud.google.com/go/pubsub is deprecated — dates, impact, migration"
 description: "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html"
+image: "/assets/og/go.module.cloud.google.com.go.pubsub.deprecated.svg"
 json_twin: "/rules/go.module.cloud.google.com.go.pubsub.deprecated.json"
 ---
 

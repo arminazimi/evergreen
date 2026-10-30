@@ -2,6 +2,7 @@
 title: "Django 3.1 is end-of-life — dates, impact, migration"
 description: "The Django project lists the 3.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 7, 2021."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-3.1.eol.html"
+image: "/assets/og/python.package.django-3.1.eol.svg"
 json_twin: "/rules/python.package.django-3.1.eol.json"
 ---
 

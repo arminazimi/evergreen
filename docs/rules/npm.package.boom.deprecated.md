@@ -2,6 +2,7 @@
 title: "boom is deprecated — dates, impact, migration"
 description: "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html"
+image: "/assets/og/npm.package.boom.deprecated.svg"
 json_twin: "/rules/npm.package.boom.deprecated.json"
 ---
 

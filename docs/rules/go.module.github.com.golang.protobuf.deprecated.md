@@ -2,6 +2,7 @@
 title: "github.com/golang/protobuf is deprecated — dates, impact, migration"
 description: "The latest github.com/golang/protobuf module declares: \"Use the \"google.golang.org/protobuf\" module instead.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html"
+image: "/assets/og/go.module.github.com.golang.protobuf.deprecated.svg"
 json_twin: "/rules/go.module.github.com.golang.protobuf.deprecated.json"
 ---
 

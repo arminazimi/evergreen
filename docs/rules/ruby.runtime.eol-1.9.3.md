@@ -2,6 +2,7 @@
 title: "Ruby 1.9.3 is end-of-life — dates, impact, migration"
 description: "The Ruby maintenance branches page marks Ruby 1.9.3 as eol: normal maintenance ended on 2014-02-24 and the branch reached end-of-life on 2015-02-23."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-1.9.3.html"
+image: "/assets/og/ruby.runtime.eol-1.9.3.svg"
 json_twin: "/rules/ruby.runtime.eol-1.9.3.json"
 ---
 

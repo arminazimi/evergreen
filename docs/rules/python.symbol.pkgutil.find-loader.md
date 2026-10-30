@@ -2,6 +2,7 @@
 title: "pkgutil.find_loader and get_loader are deprecated — dates, impact, migration"
 description: "Python 3.12 deprecates pkgutil.find_loader() and pkgutil.get_loader(), to be removed in Python 3.14."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.pkgutil.find-loader.html"
+image: "/assets/og/python.symbol.pkgutil.find-loader.svg"
 json_twin: "/rules/python.symbol.pkgutil.find-loader.json"
 ---
 

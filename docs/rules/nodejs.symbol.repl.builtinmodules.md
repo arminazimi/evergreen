@@ -2,6 +2,7 @@
 title: "Repl.builtinModules is deprecated — dates, impact, migration"
 description: "Node.js deprecates repl.builtinModules (DEP0191: documentation-only since v24.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinmodules.html"
+image: "/assets/og/nodejs.symbol.repl.builtinmodules.svg"
 json_twin: "/rules/nodejs.symbol.repl.builtinmodules.json"
 ---
 

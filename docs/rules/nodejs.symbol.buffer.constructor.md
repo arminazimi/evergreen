@@ -2,6 +2,7 @@
 title: "The Buffer() constructor is deprecated — dates, impact, migration"
 description: "Node.js deprecates calling Buffer() or new Buffer() in application code (DEP0005): documentation-only since v6.0.0, runtime warning since v10.0.0."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.buffer.constructor.html"
+image: "/assets/og/nodejs.symbol.buffer.constructor.svg"
 json_twin: "/rules/nodejs.symbol.buffer.constructor.json"
 ---
 

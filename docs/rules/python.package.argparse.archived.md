@@ -2,6 +2,7 @@
 title: "argparse is archived on PyPI — dates, impact, migration"
 description: "PyPI marks argparse as archived: the project does not expect to be updated in the future."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html"
+image: "/assets/og/python.package.argparse.archived.svg"
 json_twin: "/rules/python.package.argparse.archived.json"
 ---
 

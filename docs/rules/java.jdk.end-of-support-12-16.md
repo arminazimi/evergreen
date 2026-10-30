@@ -2,6 +2,7 @@
 title: "Java 12 to 16 are no longer supported — dates, impact, migration"
 description: "The Oracle Java SE Support Roadmap lists Java 12 to 16 as non-LTS releases whose Premier Support ended between September 2019 and September 2021."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-12-16.html"
+image: "/assets/og/java.jdk.end-of-support-12-16.svg"
 json_twin: "/rules/java.jdk.end-of-support-12-16.json"
 ---
 

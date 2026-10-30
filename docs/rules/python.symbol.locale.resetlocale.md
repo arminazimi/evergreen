@@ -2,6 +2,7 @@
 title: "Locale.resetlocale has been removed — dates, impact, migration"
 description: "Python 3.13 removed locale.resetlocale, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.resetlocale.html"
+image: "/assets/og/python.symbol.locale.resetlocale.svg"
 json_twin: "/rules/python.symbol.locale.resetlocale.json"
 ---
 

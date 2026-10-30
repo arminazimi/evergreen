@@ -2,6 +2,7 @@
 title: "Fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK have been removed — dates, impact, migration"
 description: "Node.js removed fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK (DEP0176: documentation-only since v20.8.0, runtime deprecation since v24.0.0, end-of-life since v25.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.access-constants.html"
+image: "/assets/og/nodejs.symbol.fs.access-constants.svg"
 json_twin: "/rules/nodejs.symbol.fs.access-constants.json"
 ---
 

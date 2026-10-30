@@ -2,6 +2,7 @@
 title: "AKS 1.28 and earlier are no longer supported — dates, impact, migration"
 description: "AKS supports a generally available Kubernetes version for 12 months, with opt-in long-term support beyond that."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.28-and-older.html"
+image: "/assets/og/terraform.aks.end-of-life-1.28-and-older.svg"
 json_twin: "/rules/terraform.aks.end-of-life-1.28-and-older.json"
 ---
 

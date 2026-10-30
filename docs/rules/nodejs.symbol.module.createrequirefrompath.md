@@ -2,6 +2,7 @@
 title: "Module.createRequireFromPath has been removed — dates, impact, migration"
 description: "Node.js removed module.createRequireFromPath (DEP0130: documentation-only since v12.2.0, runtime deprecation since v13.0.0, end-of-life since v16.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.module.createrequirefrompath.html"
+image: "/assets/og/nodejs.symbol.module.createrequirefrompath.svg"
 json_twin: "/rules/nodejs.symbol.module.createrequirefrompath.json"
 ---
 

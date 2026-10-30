@@ -2,6 +2,7 @@
 title: "Next.js 14 is out of support — dates, impact, migration"
 description: "Next.js 14 was released on 2023-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2025-10-26."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.14.support-end.html"
+image: "/assets/og/npm.package.next.14.support-end.svg"
 json_twin: "/rules/npm.package.next.14.support-end.json"
 ---
 

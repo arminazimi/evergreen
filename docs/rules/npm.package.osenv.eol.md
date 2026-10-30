@@ -2,6 +2,7 @@
 title: "osenv is no longer supported — dates, impact, migration"
 description: "npm states that the osenv package is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html"
+image: "/assets/og/npm.package.osenv.eol.svg"
 json_twin: "/rules/npm.package.osenv.eol.json"
 ---
 

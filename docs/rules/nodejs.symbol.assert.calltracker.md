@@ -2,6 +2,7 @@
 title: "Assert.CallTracker has been removed — dates, impact, migration"
 description: "Node.js removed assert.CallTracker (DEP0173: runtime deprecation since v20.1.0, end-of-life since v25.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.assert.calltracker.html"
+image: "/assets/og/nodejs.symbol.assert.calltracker.svg"
 json_twin: "/rules/nodejs.symbol.assert.calltracker.json"
 ---
 

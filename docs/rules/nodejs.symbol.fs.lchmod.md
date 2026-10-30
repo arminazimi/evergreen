@@ -2,6 +2,7 @@
 title: "Fs.lchmod and fs.lchmodSync are deprecated — dates, impact, migration"
 description: "Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only since v0.4.7)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html"
+image: "/assets/og/nodejs.symbol.fs.lchmod.svg"
 json_twin: "/rules/nodejs.symbol.fs.lchmod.json"
 ---
 

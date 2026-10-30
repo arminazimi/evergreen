@@ -2,6 +2,7 @@
 title: "goobook is no longer maintained — dates, impact, migration"
 description: "The maintainer states that the project is no longer maintained."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.goobook.eol.html"
+image: "/assets/og/python.package.goobook.eol.svg"
 json_twin: "/rules/python.package.goobook.eol.json"
 ---
 

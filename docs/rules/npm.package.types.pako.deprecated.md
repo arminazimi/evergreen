@@ -2,6 +2,7 @@
 title: "@types/pako is deprecated — dates, impact, migration"
 description: "npm marks @types/pako as deprecated: \"This is a stub types definition. pako provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.pako.deprecated.html"
+image: "/assets/og/npm.package.types.pako.deprecated.svg"
 json_twin: "/rules/npm.package.types.pako.deprecated.json"
 ---
 

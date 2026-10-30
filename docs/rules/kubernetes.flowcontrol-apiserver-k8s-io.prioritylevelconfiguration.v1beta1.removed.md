@@ -2,6 +2,7 @@
 title: "PriorityLevelConfiguration flowcontrol.apiserver.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta1 API version of PriorityLevelConfiguration is no longer served as of v1.26, which was released on…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.html"
+image: "/assets/og/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.svg"
 json_twin: "/rules/kubernetes.flowcontrol-apiserver-k8s-io.prioritylevelconfiguration.v1beta1.removed.json"
 ---
 

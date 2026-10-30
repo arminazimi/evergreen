@@ -2,6 +2,7 @@
 title: "Importlib.util.set_loader has been removed — dates, impact, migration"
 description: "Python 3.12 removed importlib.util.set_loader, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-loader.html"
+image: "/assets/og/python.symbol.importlib.util.set-loader.svg"
 json_twin: "/rules/python.symbol.importlib.util.set-loader.json"
 ---
 

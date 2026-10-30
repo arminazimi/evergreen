@@ -2,6 +2,7 @@
 title: "Util.isNullOrUndefined has been removed — dates, impact, migration"
 description: "Node.js removed util.isNullOrUndefined (DEP0051: documentation-only since v4.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.isnullorundefined.html"
+image: "/assets/og/nodejs.symbol.util.isnullorundefined.svg"
 json_twin: "/rules/nodejs.symbol.util.isnullorundefined.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "PostgreSQL 11 is no longer a supported major version — dates, impact, migration"
 description: "The PostgreSQL Global Development Group lists 11 as unsupported: its final release was on November 9, 2023, so it receives no further bug or security fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-11.html"
+image: "/assets/og/database.postgresql.end-of-life-11.svg"
 json_twin: "/rules/database.postgresql.end-of-life-11.json"
 ---
 

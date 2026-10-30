@@ -2,6 +2,7 @@
 title: "AWS Lambda .NET Core 3.1 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists dotnetcore3.1 under Deprecated runtimes with deprecation date 2023-04-03. AWS no longer applies security or other updates to that managed runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnetcore3.1.html"
+image: "/assets/og/serverless.aws-lambda.dotnetcore3.1.svg"
 json_twin: "/rules/serverless.aws-lambda.dotnetcore3.1.json"
 ---
 

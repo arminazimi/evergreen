@@ -2,6 +2,7 @@
 title: "Elixir 1.15 no longer receives security updates — dates, impact, migration"
 description: "Elixir's security policy provides security patches only for the five most recent minor branches."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.15.html"
+image: "/assets/og/elixir.runtime.eol-1.15.svg"
 json_twin: "/rules/elixir.runtime.eol-1.15.json"
 ---
 

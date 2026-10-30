@@ -2,6 +2,7 @@
 title: "AWS Lambda Python 3.7 runtime is end-of-life — dates, impact, migration"
 description: "The AWS Lambda runtimes table lists python3.7 under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.7.html"
+image: "/assets/og/serverless.aws-lambda.python3.7.svg"
 json_twin: "/rules/serverless.aws-lambda.python3.7.json"
 ---
 

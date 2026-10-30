@@ -2,6 +2,7 @@
 title: "@angular/core v18 and older are no longer supported — dates, impact, migration"
 description: "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. Versions before v19 receive no fixes, including security fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v18-and-older.end-of-support.html"
+image: "/assets/og/npm.package.angular.core.v18-and-older.end-of-support.svg"
 json_twin: "/rules/npm.package.angular.core.v18-and-older.end-of-support.json"
 ---
 

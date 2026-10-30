@@ -2,6 +2,7 @@
 title: "Retired actions/download-artifact release — dates, impact, migration"
 description: "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html"
+image: "/assets/og/github-actions.download-artifact.retired.svg"
 json_twin: "/rules/github-actions.download-artifact.retired.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Imp.load_source has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.load_source, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.load-source.html"
+image: "/assets/og/python.symbol.imp.load-source.svg"
 json_twin: "/rules/python.symbol.imp.load-source.json"
 ---
 

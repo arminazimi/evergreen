@@ -2,6 +2,7 @@
 title: "The CMakeFindFrameworks module is deprecated — dates, impact, migration"
 description: "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html"
+image: "/assets/og/cpp.cmake.module.cmake-find-frameworks.deprecated.svg"
 json_twin: "/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.json"
 ---
 

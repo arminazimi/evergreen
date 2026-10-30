@@ -2,6 +2,7 @@
 title: "@types/koa-helmet is deprecated — dates, impact, migration"
 description: "npm marks @types/koa-helmet as deprecated: \"This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html"
+image: "/assets/og/npm.package.types.koa-helmet.deprecated.svg"
 json_twin: "/rules/npm.package.types.koa-helmet.deprecated.json"
 ---
 

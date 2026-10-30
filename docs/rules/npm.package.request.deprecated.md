@@ -2,6 +2,7 @@
 title: "request is deprecated — dates, impact, migration"
 description: "The package is fully deprecated and no new changes are expected."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request.deprecated.html"
+image: "/assets/og/npm.package.request.deprecated.svg"
 json_twin: "/rules/npm.package.request.deprecated.json"
 ---
 

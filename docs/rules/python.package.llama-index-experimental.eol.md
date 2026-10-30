@@ -2,6 +2,7 @@
 title: "llama-index-experimental is no longer maintained — dates, impact, migration"
 description: "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html"
+image: "/assets/og/python.package.llama-index-experimental.eol.svg"
 json_twin: "/rules/python.package.llama-index-experimental.eol.json"
 ---
 

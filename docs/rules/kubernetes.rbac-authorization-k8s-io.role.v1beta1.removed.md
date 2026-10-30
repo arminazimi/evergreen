@@ -2,6 +2,7 @@
 title: "Role rbac.authorization.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the rbac.authorization.k8s.io/v1beta1 API version of Role is no longer served as of v1.22, which was released on 2021-08-04."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.html"
+image: "/assets/og/kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.svg"
 json_twin: "/rules/kubernetes.rbac-authorization-k8s-io.role.v1beta1.removed.json"
 ---
 

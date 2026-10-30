@@ -2,6 +2,7 @@
 title: "Os.getNetworkInterfaces has been removed — dates, impact, migration"
 description: "Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6.0, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html"
+image: "/assets/og/nodejs.symbol.os.getnetworkinterfaces.svg"
 json_twin: "/rules/nodejs.symbol.os.getnetworkinterfaces.json"
 ---
 

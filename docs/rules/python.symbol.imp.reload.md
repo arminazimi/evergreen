@@ -2,6 +2,7 @@
 title: "Imp.reload has been removed — dates, impact, migration"
 description: "Python 3.12 removed imp.reload, so using it raises an error."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.imp.reload.html"
+image: "/assets/og/python.symbol.imp.reload.svg"
 json_twin: "/rules/python.symbol.imp.reload.json"
 ---
 

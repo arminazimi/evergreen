@@ -2,6 +2,7 @@
 title: "@types/glob is deprecated — dates, impact, migration"
 description: "npm marks @types/glob as deprecated: \"This is a stub types definition. glob provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.glob.deprecated.html"
+image: "/assets/og/npm.package.types.glob.deprecated.svg"
 json_twin: "/rules/npm.package.types.glob.deprecated.json"
 ---
 

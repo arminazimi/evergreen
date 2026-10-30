@@ -2,6 +2,7 @@
 title: "Platform.java_ver is deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates platform.java_ver, to be removed in Python 3.15."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.platform.java-ver.html"
+image: "/assets/og/python.symbol.platform.java-ver.svg"
 json_twin: "/rules/python.symbol.platform.java-ver.json"
 ---
 

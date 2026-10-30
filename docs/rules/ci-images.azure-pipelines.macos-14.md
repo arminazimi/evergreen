@@ -2,6 +2,7 @@
 title: "Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal — dates, impact, migration"
 description: "The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.macos-14.html"
+image: "/assets/og/ci-images.azure-pipelines.macos-14.svg"
 json_twin: "/rules/ci-images.azure-pipelines.macos-14.json"
 ---
 

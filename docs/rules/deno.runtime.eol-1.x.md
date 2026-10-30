@@ -2,6 +2,7 @@
 title: "Deno 1.x is end-of-life — dates, impact, migration"
 description: "Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-life and no longer receives feature updates or bug fixes."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-1.x.html"
+image: "/assets/og/deno.runtime.eol-1.x.svg"
 json_twin: "/rules/deno.runtime.eol-1.x.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31 — dates, impact, migration"
 description: "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-9.html"
+image: "/assets/og/android.play-billing.version-9.svg"
 json_twin: "/rules/android.play-billing.version-9.json"
 ---
 

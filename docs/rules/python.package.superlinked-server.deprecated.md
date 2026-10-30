@@ -2,6 +2,7 @@
 title: "superlinked-server is deprecated — dates, impact, migration"
 description: "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html"
+image: "/assets/og/python.package.superlinked-server.deprecated.svg"
 json_twin: "/rules/python.package.superlinked-server.deprecated.json"
 ---
 

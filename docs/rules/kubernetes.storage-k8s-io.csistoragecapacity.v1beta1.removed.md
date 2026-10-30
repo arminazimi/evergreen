@@ -2,6 +2,7 @@
 title: "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html"
+image: "/assets/og/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.svg"
 json_twin: "/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.json"
 ---
 

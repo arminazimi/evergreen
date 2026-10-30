@@ -2,6 +2,7 @@
 title: "@hapi/joi is deprecated — dates, impact, migration"
 description: "npm marks @hapi/joi as deprecated and directs users to the joi package."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html"
+image: "/assets/og/npm.package.hapi.joi.deprecated.svg"
 json_twin: "/rules/npm.package.hapi.joi.deprecated.json"
 ---
 

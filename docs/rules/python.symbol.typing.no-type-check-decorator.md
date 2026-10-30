@@ -2,6 +2,7 @@
 title: "Typing.no_type_check_decorator is deprecated — dates, impact, migration"
 description: "Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3.15."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html"
+image: "/assets/og/python.symbol.typing.no-type-check-decorator.svg"
 json_twin: "/rules/python.symbol.typing.no-type-check-decorator.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "Django 2.0 is end-of-life — dates, impact, migration"
 description: "The Django project lists the 2.0 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 1, 2019."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.django-2.0.eol.html"
+image: "/assets/og/python.package.django-2.0.eol.svg"
 json_twin: "/rules/python.package.django-2.0.eol.json"
 ---
 

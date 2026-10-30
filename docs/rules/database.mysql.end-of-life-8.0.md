@@ -2,6 +2,7 @@
 title: "MySQL 8.0 is end-of-life — dates, impact, migration"
 description: "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html"
+image: "/assets/og/database.mysql.end-of-life-8.0.svg"
 json_twin: "/rules/database.mysql.end-of-life-8.0.json"
 ---
 

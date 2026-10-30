@@ -2,6 +2,7 @@
 title: "Spring Boot 2.x is out of open-source support — dates, impact, migration"
 description: "Spring Boot 2.x no longer receives regular open-source releases. Spring Boot 2.7 had an extended commercial support period, which is distinct from community OSS support."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-2x.end-of-support.html"
+image: "/assets/og/java.maven.spring-boot.legacy-2x.end-of-support.svg"
 json_twin: "/rules/java.maven.spring-boot.legacy-2x.end-of-support.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "fstream is no longer supported — dates, impact, migration"
 description: "npm states that the fstream package is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html"
+image: "/assets/og/npm.package.fstream.eol.svg"
 json_twin: "/rules/npm.package.fstream.eol.json"
 ---
 

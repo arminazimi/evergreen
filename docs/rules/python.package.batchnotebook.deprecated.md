@@ -2,6 +2,7 @@
 title: "BatchNotebook is deprecated — dates, impact, migration"
 description: "The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.batchnotebook.deprecated.html"
+image: "/assets/og/python.package.batchnotebook.deprecated.svg"
 json_twin: "/rules/python.package.batchnotebook.deprecated.json"
 ---
 

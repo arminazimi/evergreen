@@ -2,6 +2,7 @@
 title: "Python image release lines 3.10 and older are end-of-life — dates, impact, migration"
 description: "These Python release lines no longer receive security or bug fixes from the Python core team."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html"
+image: "/assets/og/container.python.eol-3.10-and-older.svg"
 json_twin: "/rules/container.python.eol-3.10-and-older.json"
 ---
 

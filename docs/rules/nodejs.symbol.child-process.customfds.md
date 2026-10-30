@@ -2,6 +2,7 @@
 title: "The customFds option of child_process has been removed — dates, impact, migration"
 description: "Node.js removed the customFds option of child_process (DEP0006: documentation-only since v0.5.10, runtime deprecation since v0.11.14, end-of-life since v12.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html"
+image: "/assets/og/nodejs.symbol.child-process.customfds.svg"
 json_twin: "/rules/nodejs.symbol.child-process.customfds.json"
 ---
 

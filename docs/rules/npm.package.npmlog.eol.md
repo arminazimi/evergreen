@@ -2,6 +2,7 @@
 title: "npmlog is no longer supported — dates, impact, migration"
 description: "npm states that the npmlog package is no longer supported."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.npmlog.eol.html"
+image: "/assets/og/npm.package.npmlog.eol.svg"
 json_twin: "/rules/npm.package.npmlog.eol.json"
 ---
 

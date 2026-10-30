@@ -2,6 +2,7 @@
 title: "@humanwhocodes/object-schema is deprecated — dates, impact, migration"
 description: "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html"
+image: "/assets/og/npm.package.humanwhocodes-object-schema.deprecated.svg"
 json_twin: "/rules/npm.package.humanwhocodes-object-schema.deprecated.json"
 ---
 

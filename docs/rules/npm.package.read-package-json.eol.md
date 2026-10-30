@@ -2,6 +2,7 @@
 title: "read-package-json is no longer supported — dates, impact, migration"
 description: "npm states that read-package-json is no longer supported and recommends @npmcli/package-json."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.read-package-json.eol.html"
+image: "/assets/og/npm.package.read-package-json.eol.svg"
 json_twin: "/rules/npm.package.read-package-json.eol.json"
 ---
 

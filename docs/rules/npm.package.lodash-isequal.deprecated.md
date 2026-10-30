@@ -2,6 +2,7 @@
 title: "lodash.isequal is deprecated — dates, impact, migration"
 description: "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html"
+image: "/assets/og/npm.package.lodash-isequal.deprecated.svg"
 json_twin: "/rules/npm.package.lodash-isequal.deprecated.json"
 ---
 

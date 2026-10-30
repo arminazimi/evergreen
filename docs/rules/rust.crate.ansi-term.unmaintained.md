@@ -2,6 +2,7 @@
 title: "ansi_term is no longer maintained — dates, impact, migration"
 description: "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html"
+image: "/assets/og/rust.crate.ansi-term.unmaintained.svg"
 json_twin: "/rules/rust.crate.ansi-term.unmaintained.json"
 ---
 

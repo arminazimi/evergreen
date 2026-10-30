@@ -2,6 +2,7 @@
 title: "Typing.ByteString is deprecated — dates, impact, migration"
 description: "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html"
+image: "/assets/og/python.symbol.typing.bytestring.svg"
 json_twin: "/rules/python.symbol.typing.bytestring.json"
 ---
 

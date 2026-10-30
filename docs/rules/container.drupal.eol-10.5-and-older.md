@@ -2,6 +2,7 @@
 title: "Drupal image release lines 10.5 and older are end-of-life — dates, impact, migration"
 description: "These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6…"
 canonical_url: "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html"
+image: "/assets/og/container.drupal.eol-10.5-and-older.svg"
 json_twin: "/rules/container.drupal.eol-10.5-and-older.json"
 ---
 

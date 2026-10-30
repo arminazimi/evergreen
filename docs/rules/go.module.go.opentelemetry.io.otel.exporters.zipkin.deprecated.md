@@ -2,6 +2,7 @@
 title: "go.opentelemetry.io/otel/exporters/zipkin is deprecated — dates, impact, migration"
 description: "The latest go.opentelemetry.io/otel/exporters/zipkin module declares: \"The zipkin exporter is deprecated and will be removed in early 2027."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.html"
+image: "/assets/og/go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.svg"
 json_twin: "/rules/go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.json"
 ---
 

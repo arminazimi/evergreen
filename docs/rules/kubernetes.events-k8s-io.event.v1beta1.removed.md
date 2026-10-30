@@ -2,6 +2,7 @@
 title: "Event events.k8s.io/v1beta1 is no longer served — dates, impact, migration"
 description: "The Kubernetes Deprecated API Migration Guide states that the events.k8s.io/v1beta1 API version of Event is no longer served as of v1.25, which was released on 2022-08-23."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.events-k8s-io.event.v1beta1.removed.html"
+image: "/assets/og/kubernetes.events-k8s-io.event.v1beta1.removed.svg"
 json_twin: "/rules/kubernetes.events-k8s-io.event.v1beta1.removed.json"
 ---
 

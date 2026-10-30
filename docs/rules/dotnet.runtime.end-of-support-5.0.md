@@ -2,6 +2,7 @@
 title: ".NET 5 is no longer supported — dates, impact, migration"
 description: ".NET 5 (Standard Term Support) reached the end of its support on 2022-05-10. Microsoft no longer ships security or quality fixes for it."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-5.0.html"
+image: "/assets/og/dotnet.runtime.end-of-support-5.0.svg"
 json_twin: "/rules/dotnet.runtime.end-of-support-5.0.json"
 ---
 

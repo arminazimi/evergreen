@@ -2,6 +2,7 @@
 title: "request has unfixed OSV advisories — dates, impact, migration"
 description: "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html"
+image: "/assets/og/osv.npm.request.svg"
 json_twin: "/rules/osv.npm.request.json"
 ---
 

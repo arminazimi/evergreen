@@ -153,6 +153,7 @@ test("a page states status, versions, dates, sources, freshness, migration, and 
   const page = renderRulePage(fixture, 180);
   assert.match(page, /^---\ntitle: "Demo 1 is end of life — dates, impact, migration"\n/);
   assert.match(page, /canonical_url: "https:\/\/arminazimi\.github\.io\/evergreen\/rules\/demo\.thing\.eol-1\.html"/);
+  assert.match(page, /image: "\/assets\/og\/demo\.thing\.eol-1\.svg"/);
   // The first paragraph answers status, date, and replacement, with the source linked.
   assert.match(
     page,
@@ -207,6 +208,7 @@ test("titles are unique, follow the search-friendly pattern, and every page name
       assert.equal(titles.has(title), false, `${entry.id} repeats the title of ${titles.get(title)}`);
       titles.set(title, entry.id);
       assert.ok(page.includes(`canonical_url: "${ruleUrl(entry.id)}"`), entry.id);
+      assert.ok(page.includes(`image: "/assets/og/${entry.id}.svg"`), entry.id);
       assert.ok(entry.title.length > 0 && JSON.parse(title).length <= 120, `${entry.id}: the title is too long for a search result`);
     }
   }
@@ -251,6 +253,7 @@ test("the lookup page inlines every rule with sources and makes no requests", as
   assert.ok(entries.length >= 100);
   assert.match(page, /^<!doctype html>\n<html lang="en">/);
   assert.match(page, /<link rel="canonical" href="https:\/\/arminazimi\.github\.io\/evergreen\/lookup\.html" \/>/);
+  assert.match(page, /<meta property="og:image" content="https:\/\/arminazimi\.github\.io\/evergreen\/assets\/og\/default\.svg" \/>/);
   assert.match(page, /<script type="application\/json" id="lookup-data">/);
   assert.doesNotMatch(page, /\bfetch\s*\(|XMLHttpRequest|navigator\.sendBeacon/);
   assert.match(page, /makes no network requests after it loads/);
@@ -293,8 +296,13 @@ test("lookup data can never close the embedded JSON element", () => {
 });
 
 test("the site configuration gives the absolute URL the canonical links rely on", async () => {
-  const config = parse(await readFile("docs/_config.yml", "utf8")) as { url: string; baseurl: string };
+  const config = parse(await readFile("docs/_config.yml", "utf8")) as {
+    url: string;
+    baseurl: string;
+    defaults: Array<{ values: { image?: string } }>;
+  };
   assert.equal(`${config.url}${config.baseurl}`, SITE_URL);
+  assert.equal(config.defaults[0]?.values.image, "/assets/og/default.svg");
 });
 
 test("a long summary is cut at a sentence for the description", () => {
@@ -357,10 +365,16 @@ test("every rule field is rendered in its context and escaped there", () => {
   const page = renderRulePage(fixture, 180);
 
   // Front matter stays a quoted YAML scalar, and the structured data gets the unescaped facts.
-  const frontMatter = parse(page.slice(4, page.indexOf("\n---\n", 4))) as { title: string; description: string; canonical_url: string };
+  const frontMatter = parse(page.slice(4, page.indexOf("\n---\n", 4))) as {
+    title: string;
+    description: string;
+    canonical_url: string;
+    image: string;
+  };
   assert.equal(frontMatter.title, pageTitle(fixture));
   assert.equal(frontMatter.description, fixture.summary);
   assert.equal(frontMatter.canonical_url, ruleUrl(fixture.id));
+  assert.equal(frontMatter.image, `/assets/og/${fixture.id}.svg`);
 
   // Prose is HTML-escaped, so a rule can never inject markup into the page.
   assert.match(page, /^# Demo 1 &lt;script&gt;alert\(1\)&lt;\/script&gt; \| upgrade$/m);
@@ -549,4 +563,7 @@ test("CI runs the drift check", async () => {
   const step = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-reference-pages.js --check");
   assert.ok(step, "ci.yml has no reference-page drift step");
   assert.match(step.if ?? "", /runner\.os == 'Linux'/);
+  const og = workflow.jobs.check.steps.find((item) => item.run === "node dist/tools/build-og-images.js --check");
+  assert.ok(og, "ci.yml has no OG-image drift step");
+  assert.match(og.if ?? "", /runner\.os == 'Linux'/);
 });

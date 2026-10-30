@@ -2,6 +2,7 @@
 title: "Laravel 10 is no longer supported — dates, impact, migration"
 description: "Laravel's support policy states that security fixes for Laravel 10 ended on 2025-02-04; the release no longer receives security or bug fixes from the Laravel project."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-10.end-of-support.html"
+image: "/assets/og/php.package.laravel.framework-10.end-of-support.svg"
 json_twin: "/rules/php.package.laravel.framework-10.end-of-support.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "The crypto.Hash constructor is deprecated — dates, impact, migration"
 description: "Node.js deprecates the crypto.Hash constructor (DEP0179: documentation-only since v21.5.0, runtime deprecation since v22.0.0)."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.hash.html"
+image: "/assets/og/nodejs.symbol.crypto.hash.svg"
 json_twin: "/rules/nodejs.symbol.crypto.hash.json"
 ---
 

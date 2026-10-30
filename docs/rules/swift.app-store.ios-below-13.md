@@ -2,6 +2,7 @@
 title: "iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads — dates, impact, migration"
 description: "Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later."
 canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html"
+image: "/assets/og/swift.app-store.ios-below-13.svg"
 json_twin: "/rules/swift.app-store.ios-below-13.json"
 ---
 

@@ -2,6 +2,7 @@
 title: "@types/form-data is deprecated — dates, impact, migration"
 description: "npm marks @types/form-data as deprecated: \"This is a stub types definition. form-data provides its own type definitions, so you do not need this installed.\""
 canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html"
+image: "/assets/og/npm.package.types.form-data.deprecated.svg"
 json_twin: "/rules/npm.package.types.form-data.deprecated.json"
 ---
 
