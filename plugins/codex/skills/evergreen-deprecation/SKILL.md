@@ -9,7 +9,7 @@ metadata:
 
 # Evergreen deprecation workflow
 
-Use Evergreen outputs as the source of truth. This workflow requires the Evergreen CLI or local MCP server and needs no account or API key. Prefer MCP tools when available; use the CLI mapping below when the host cannot connect to MCP. Keep detection, migration constraints, and verification logic in Evergreen rather than recreating them from these instructions.
+Use Evergreen outputs as the source of truth. Prefer MCP tools when the host can connect to them; otherwise use the `evergreen` command. If neither MCP nor an `evergreen` command is available, run the same commands through `npx -y evergreen-deprecation@0`, for example `npx -y evergreen-deprecation@0 scan <path> --json`. The workflow stays local and needs no account or API key. Keep detection, migration constraints, and verification logic in Evergreen rather than recreating them from these instructions.
 
 ## Workflow
 

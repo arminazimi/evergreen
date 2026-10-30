@@ -9,7 +9,7 @@ metadata:
 
 # Check before adding a dependency
 
-When a task adds a new package, runtime, or GitHub Action, or picks one to replace another, check it first with Evergreen. Prefer the MCP tool when available; use the CLI fallback when the host cannot connect to MCP. Keep lifecycle judgment in Evergreen rather than recreating it from these instructions.
+When a task adds a new package, runtime, or GitHub Action, or picks one to replace another, check it first with Evergreen. Prefer the MCP tool when the host can connect to it; otherwise use the `evergreen` command. If neither MCP nor an `evergreen` command is available, run `npx -y evergreen-deprecation@0 check <purl>`. Keep lifecycle judgment in Evergreen rather than recreating it from these instructions.
 
 ## Steps
 
