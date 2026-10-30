@@ -797,6 +797,8 @@ Every run force-pushes `evergreen/fixes`, and the pull request is found by its h
 
 `fix-pr` runs only on `schedule` and `workflow_dispatch` events. On any other event the Action logs a notice and leaves the repository alone, so a pull request from a fork, whose token is read-only, never tries to push. The scan itself stays offline: only the `git push` and the GitHub API calls that create, update, or close the pull request use the network, after the scan has finished. The job needs `contents: write` to push the branch and `pull-requests: write` to manage the pull request.
 
+See it working on a schedule in [evergreen-action-sample](https://github.com/arminazimi/evergreen-action-sample): it keeps one fix pull request and one tracking issue current every Monday.
+
 ## Permissions and privacy
 
 Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true`, `commands: true`, or `suggest-fixes: true`; it then writes one pull request comment, command reply, or review of suggestions, each found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands. `tracking-issue: true` needs `issues: write`; it updates one issue, also found by a hidden marker, and touches nothing else. With `fix-pr: true` it also needs `contents: write` (to push `evergreen/fixes`) and `pull-requests: write` (to open, update, or close the fix pull request).
