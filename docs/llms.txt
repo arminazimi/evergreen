@@ -16,6 +16,7 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 - [Hooks](https://arminazimi.github.io/evergreen/HOOKS.html): a Git pre-push hook that scans before every push, a Claude Code PreToolUse hook that blocks deprecated package installs, a Cursor rule, and a Copilot instructions file that make the agent check a dependency with Evergreen before adding it.
 - [Capability manifest](https://arminazimi.github.io/evergreen/CAPABILITIES.html): how a tool or agent discovers what Evergreen can do, programmatically.
 - [Migration packets](https://arminazimi.github.io/evergreen/MIGRATION_PACKETS.html): the structured context Evergreen builds for one finding.
+- [Migration plans](https://arminazimi.github.io/evergreen/PLAN.html): waves of independent migration tasks, and a print-only dispatch example for parallel agent sessions.
 - [Verification receipts](https://arminazimi.github.io/evergreen/RECEIPTS.html): how to read and reproduce a before/after receipt for a change.
 - [Share a lifecycle report](https://arminazimi.github.io/evergreen/SHARE_REPORT.html): produce the forecast timeline and the HTML report, what they contain, and what is safe to send.
 - [Environment doctor and compatibility](https://arminazimi.github.io/evergreen/COMPATIBILITY.html): supported ecosystems, hosts, and maturity.
