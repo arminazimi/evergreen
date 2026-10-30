@@ -31,7 +31,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html</loc><lastmod>2026-10-24</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.python.eol-3.10-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html</loc><lastmod>2026-10-20</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html</loc><lastmod>2026-10-26</lastmod></url>
@@ -41,6 +43,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.5.removed.html</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.10.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.11.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-support-3.12.html</loc><lastmod>2026-10-21</lastmod></url>
@@ -58,6 +61,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-13.html</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-14.html</loc><lastmod>2026-10-24</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eol-1.0.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-0.x.html</loc><lastmod>2026-10-26</lastmod></url>
@@ -487,7 +491,9 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/scala.runtime.eos-3.0-3.2.html</loc><lastmod>2026-10-27</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html</loc><lastmod>2026-10-27</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.dotnetcore3.1.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs14.x.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.7.html</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.ruby2.7.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/serverless.google-cloud-functions.nodejs14.html</loc><lastmod>2026-10-21</lastmod></url>
@@ -510,6 +516,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.13.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.14.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.15.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.31.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.32.html</loc><lastmod>2026-10-26</lastmod></url>

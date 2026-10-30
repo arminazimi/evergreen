@@ -1,5 +1,5 @@
 {
-  "latestReview": "2026-10-29",
+  "latestReview": "2026-10-30",
   "products": [
     {
       "ecosystems": [
@@ -404,15 +404,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-redis",
-      "latestReview": "2026-10-20",
+      "latestReview": "2026-10-30",
       "name": "redis",
       "namespace": "library",
       "path": "products/docker-library-redis.json",
       "purl": "pkg:docker/library/redis",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -421,15 +422,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-ruby",
-      "latestReview": "2026-10-16",
+      "latestReview": "2026-10-29",
       "name": "ruby",
       "namespace": "library",
       "path": "products/docker-library-ruby.json",
       "purl": "pkg:docker/library/ruby",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -551,6 +553,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2023-03-31",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-nodejs12-x",
+      "latestReview": "2026-10-29",
+      "name": "nodejs12.x",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-nodejs12-x.json",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2023-12-04",
       "ecosystems": [
         "serverless"
@@ -564,6 +583,23 @@
       "namespace": "aws-lambda-runtime",
       "path": "products/generic-aws-lambda-runtime-nodejs14-x.json",
       "purl": "pkg:generic/aws-lambda-runtime/nodejs14.x",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
+      "earliestDeadline": "2023-12-04",
+      "ecosystems": [
+        "serverless"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-aws-lambda-runtime-python3-7",
+      "latestReview": "2026-10-29",
+      "name": "python3.7",
+      "namespace": "aws-lambda-runtime",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
       "rules": 1,
       "type": "generic"
     },
@@ -1832,6 +1868,22 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2024-07-29",
+      "ecosystems": [
+        "database"
+      ],
+      "events": [
+        "end-of-life"
+      ],
+      "id": "generic-redis",
+      "latestReview": "2026-10-29",
+      "name": "redis",
+      "path": "products/generic-redis.json",
+      "purl": "pkg:generic/redis",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2015-02-23",
       "ecosystems": [
         "ruby"
@@ -1905,11 +1957,11 @@
         "end-of-support"
       ],
       "id": "generic-terraform",
-      "latestReview": "2026-10-21",
+      "latestReview": "2026-10-30",
       "name": "terraform",
       "path": "products/generic-terraform.json",
       "purl": "pkg:generic/terraform",
-      "rules": 5,
+      "rules": 6,
       "type": "generic"
     },
     {
@@ -3750,6 +3802,21 @@
     },
     {
       "ecosystems": [
+        "dart"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pub-analysis-server-client",
+      "latestReview": "2026-10-30",
+      "name": "analysis_server_client",
+      "path": "products/pub-analysis-server-client.json",
+      "purl": "pkg:pub/analysis_server_client",
+      "rules": 1,
+      "type": "pub"
+    },
+    {
+      "ecosystems": [
         "python"
       ],
       "events": [
@@ -4354,7 +4421,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 516,
+  "rules": 523,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4372,7 +4439,7 @@
     {
       "path": "types/docker.json",
       "products": 19,
-      "rules": 23,
+      "rules": 25,
       "type": "docker"
     },
     {
@@ -4383,8 +4450,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 84,
-      "rules": 290,
+      "products": 87,
+      "rules": 294,
       "type": "generic"
     },
     {
@@ -4422,6 +4489,12 @@
       "products": 4,
       "rules": 4,
       "type": "nuget"
+    },
+    {
+      "path": "types/pub.json",
+      "products": 1,
+      "rules": 1,
+      "type": "pub"
     },
     {
       "path": "types/pypi.json",

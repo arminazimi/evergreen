@@ -21,7 +21,4 @@ slipway:
     dark: /assets/brand/evergreen-mark-adaptive.svg
     favicon_svg: /assets/brand/evergreen-mark-adaptive.svg
   tokens:
-    accent: "#8f3048"
-    canvas: "#f3ece8"
-    text: "#0a0a0c"
     font_body: 'Inter, ui-sans-serif, -apple-system, "Segoe UI", sans-serif'

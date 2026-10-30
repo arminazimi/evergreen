@@ -511,8 +511,8 @@ does not provide a `with` entry.
 | `upload-sarif` | `false` | Set to `true` to upload the findings to GitHub code scanning as SARIF. Needs `security-events: write`. |
 | `upload-badge` | `false` | Generate a Shields.io endpoint JSON and a branded SVG badge, and upload both as the `evergreen-badge` artifact (14 days). |
 | `pr-comment` | `false` | Set to `true` to post one summary comment on pull requests (counts and the top findings). Re-runs update the same comment. Needs `pull-requests: write`. |
-| `fix-pr` | `false` | Set to `true` to open or update one pull request on `evergreen/fixes` with every deterministic fix, and close it when nothing is left to fix. Runs only on `schedule` and `workflow_dispatch` events. Needs `contents: write` and `pull-requests: write`. See [scheduled fix pull request](#scheduled-fix-pull-request). |
-| `github-token` | `${{ github.token }}` | Token used to post the comment when `pr-comment` is `true`, and to open, update, or close the fix pull request when `fix-pr` is `true`. |
+| `commands` | `false` | Set to `true` to answer `/evergreen explain` and `/evergreen ignore` comments when the workflow runs on `issue_comment`. Replies only to owners, members, and collaborators. Needs `pull-requests: write`. |
+| `github-token` | `${{ github.token }}` | Token used to post the comment or command reply when `pr-comment` or `commands` is `true`. |
 | `attribution` | `true` | Adds one line to the job summary saying the scan was done by Evergreen, with a link. Set to `false` to leave it out. |
 
 | Output | Availability | Meaning |
@@ -560,6 +560,47 @@ steps:
 
 Pull requests from forks get a read-only token, so the comment cannot be posted there: the Action logs a warning and the scan result is unaffected.
 
+### Comment commands
+
+Set `commands: "true"` and run the Action on `issue_comment` so a reviewer can ask about a finding or accept it without leaving the pull request. A short workflow of its own is enough; it can sit next to the scan workflow:
+
+```yaml
+name: Evergreen commands
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  answer:
+    if: github.event.issue.pull_request != null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: refs/pull/${{ github.event.issue.number }}/head
+      - uses: arminazimi/evergreen@v0
+        with:
+          commands: "true"
+```
+
+`/evergreen explain <finding-id>` replies with the finding, its location, replacement and deadline, the affected usages, and a link to every source. Take the id from an annotation's `Finding:` line, or from `evergreen scan . --json`.
+
+`/evergreen ignore <finding-id> <reason>` replies with a baseline entry that is ready to review and commit, for example:
+
+```json
+{ "fingerprint": "…", "ruleId": "nodejs.runtime.eol-20", "path": "package.json",
+  "reason": "Upgrade tracked in PLAT-12", "created": "2026-10-29", "expires": "2027-01-27" }
+```
+
+Nothing is pushed. The reviewer adds the entry to the file named by the `baseline` input (`.evergreen-baseline.json` when it is empty) and commits it. The entry hides the finding until `expires`, 90 days after the reply; after that the finding is reported again, and `on-expired: fail` fails the job as well.
+
+Comment text is untrusted input. Evergreen reads the first line that starts with `/evergreen`, parses it, and never evaluates it; file paths and ids from the comment are rendered as code, never as links. A reply is written only when the comment's `author_association` is `OWNER`, `MEMBER`, or `COLLABORATOR`; a command from anyone else, or a comment on an issue rather than a pull request, is skipped and logged as a notice. The finding comes from a local scan of the checked-out pull request head, so the scan stays offline and runs no repository code. Each reply carries a hidden marker and is updated on a re-run instead of being posted twice.
+
 ## Pull request diff mode
 
 `finding-count` and the severity gate cover every finding in the checkout. On a busy repository that backlog grows, so reviewers cannot see which findings a pull request actually introduced. `mode: diff` fixes that: the Action scans the pull request base and head refs with the same engine as `evergreen diff`, and the gate, annotations, badge, comment, and summary count only what the pull request introduced. Findings the pull request fixes are listed in a "Fixed by this pull request" table in the summary and the pull request comment.
@@ -584,44 +625,9 @@ Annotations on untouched files are noise, so diff mode annotates only findings o
 
 The scan stays offline; only the final step calls the GitHub API. The job needs `contents: read` and `issues: write`, and sets `fail-on-severity: none` so the schedule does not fail. Change `WINDOW_DAYS` or the cron line to taste.
 
-## Scheduled fix pull request
-
-Dependabot, but for end of life. Set `fix-pr: true` on a scheduled workflow and the Action keeps one pull request that contains every fix Evergreen can apply deterministically, the same patches `evergreen fix` prints. It commits them to `evergreen/fixes`, force-pushes the branch, and opens or updates that pull request. The body lists each fix with its exact location and the evidence it cites. When a run finds nothing left to fix, it closes the pull request instead of opening an empty one.
-
-```yaml
-name: Evergreen fixes
-
-on:
-  schedule:
-    - cron: "0 6 * * 1" # Mondays 06:00 UTC
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pull-requests: write
-
-concurrency:
-  group: evergreen-fixes
-  cancel-in-progress: false
-
-jobs:
-  fixes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: arminazimi/evergreen@v0.7.1
-        with:
-          fix-pr: "true"
-          fail-on-severity: none
-```
-
-Every run force-pushes `evergreen/fixes`, and the pull request is found by its head branch rather than by title or body, so running twice updates the same pull request. A fixer that cannot apply a change exactly leaves that finding alone: the pull request contains only the patches that were applied. Review the pull request as you would any other; Evergreen never merges it and never touches the default branch.
-
-`fix-pr` runs only on `schedule` and `workflow_dispatch` events. On any other event the Action logs a notice and leaves the repository alone, so a pull request from a fork, whose token is read-only, never tries to push. The scan itself stays offline: only the `git push` and the GitHub API calls that create, update, or close the pull request use the network, after the scan has finished. The job needs `contents: write` to push the branch and `pull-requests: write` to manage the pull request.
-
 ## Permissions and privacy
 
-Only `contents: read` is required for a scan. Evergreen needs `pull-requests: write` only when `pr-comment: true`, to post one comment on the pull request, found again by a hidden marker and updated on every re-run. With `fix-pr: true` it also needs `contents: write` (to push `evergreen/fixes`) and `pull-requests: write` (to open, update, or close the fix pull request). Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
+Only `contents: read` is required. Evergreen does not need `pull-requests: write` unless you set `pr-comment: true` or `commands: true`; it then writes one pull request comment, found again by a hidden marker and updated on every re-run, and needs only `pull-requests: write` for that. Evergreen does not send repository contents to an Evergreen backend. Annotations are emitted through runner workflow commands.
 
 The bundled scan is local and deterministic. When `upload-report` is `true`, the official `actions/upload-artifact` adapter sends `evergreen-report.json` to GitHub and retains it for 14 days. The report can contain repository-relative paths, matched source excerpts, dependency versions, and lifecycle evidence. Repository administrators should apply normal Actions artifact access controls or disable uploading for sensitive repositories.
 
@@ -3411,14 +3417,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 457 pinned repositories (2307 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 457 pinned repositories (2315 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 457 |
-| Expected findings | 2307 |
-| Products with findings | 120 |
-| Release lines with findings | 170 |
+| Expected findings | 2315 |
+| Products with findings | 121 |
+| Release lines with findings | 171 |
 
 ### By product
 
@@ -3460,6 +3466,7 @@ Measured on the public corpus of 457 pinned repositories (2307 expected findings
 | com.android.billingclient/billing | 9 | 5 | 7 |
 | kubernetes/apps/Deployment | 9 | 2 | 2 |
 | postgresql | 9 | 3 | 8 |
+| aws-lambda-runtime/nodejs12.x | 8 | 1 | 2 |
 | aws-lambda-runtime/python3.8 | 8 | 1 | 3 |
 | dart | 8 | 1 | 4 |
 | library/golang | 8 | 1 | 7 |
@@ -3591,6 +3598,7 @@ Measured on the public corpus of 457 pinned repositories (2307 expected findings
 | dotnet | .NET 5 is no longer supported | [`dotnet.runtime.end-of-support-5.0`](rules/dotnet.runtime.end-of-support-5.0.html) | end-of-support | 10 | 4 |
 | kubernetes/extensions/Ingress | Ingress extensions/v1beta1 is no longer served | [`kubernetes.extensions.ingress.v1beta1.removed`](rules/kubernetes.extensions.ingress.v1beta1.removed.html) | removed | 10 | 6 |
 | ruby | Ruby 3.1 is end-of-life | [`ruby.runtime.eol-3.1`](rules/ruby.runtime.eol-3.1.html) | end-of-life | 10 | 4 |
+| aws-lambda-runtime/nodejs12.x | AWS Lambda Node.js 12 runtime is end-of-life | [`serverless.aws-lambda.nodejs12.x`](rules/serverless.aws-lambda.nodejs12.x.html) | end-of-life | 8 | 2 |
 | aws-lambda-runtime/python3.8 | AWS Lambda Python 3.8 runtime is end-of-life | [`serverless.aws-lambda.python3.8`](rules/serverless.aws-lambda.python3.8.html) | end-of-life | 8 | 3 |
 | azure-pipelines/ubuntu-image | Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal | [`ci-images.azure-pipelines.ubuntu-22.04`](rules/ci-images.azure-pipelines.ubuntu-22.04.html) | scheduled-end-of-life | 8 | 5 |
 | dart | Dart 3.8 no longer receives security updates | [`dart.sdk.end-of-support-3.8`](rules/dart.sdk.end-of-support-3.8.html) | end-of-support | 8 | 4 |

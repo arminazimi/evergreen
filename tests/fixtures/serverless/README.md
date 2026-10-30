@@ -8,7 +8,7 @@ A parser returns each literal declaration and nothing else. Quotes around a valu
 
 | Fixture file | Expected case |
 | --- | --- |
-| `positive/template.yaml` | `Globals.Function.Runtime` `nodejs14.x` (line 7), `AWS::Serverless::Function` `Runtime` `python3.8` (line 15), and quoted `AWS::Lambda::Function` `Runtime` `dotnetcore3.1` (line 21). `Timeout`, `Handler`, `CodeUri`, and `Role` are not runtime declarations. |
+| `positive/template.yaml` | `Globals.Function.Runtime` `nodejs14.x` (line 7), `AWS::Serverless::Function` `Runtime` `python3.8` (line 15), quoted `AWS::Lambda::Function` `Runtime` `dotnetcore3.1` (line 21), and `AWS::Lambda::Function` `Runtime` `nodejs12.x` (line 27). `Timeout`, `Handler`, `CodeUri`, and `Role` are not runtime declarations. |
 | `positive/template.yml` | The `.yml` extension and a leading comment (line 1). Single-quoted `Globals.Function.Runtime` `nodejs16.x` (line 6) and `Runtime` `ruby2.7` (line 12). |
 | `positive/serverless.yml` | `provider.runtime` `nodejs14.x` (line 4) and function `api` `runtime` `python3.8` (line 9). `memorySize` (line 5) is not a runtime. `worker` (line 11) sets no runtime, so it adds no declaration. |
 | `positive/main.tf` | `aws_lambda_function.runtime` `nodejs14.x` (line 3), Linux function app `application_stack.node_version` `14` (line 13), Windows function app `application_stack.dotnet_version` `3.1` (line 23), `google_cloudfunctions_function.runtime` `nodejs14` (line 30), and `google_cloudfunctions2_function.build_config.runtime` `python38` (line 38). |

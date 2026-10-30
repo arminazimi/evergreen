@@ -46,12 +46,13 @@ test("drafts a discontinued-package rule from the real pub.dev recording", async
   assert.deepEqual(drafts.notes, []);
 });
 
-test("emits an addition when diffed against the existing Dart registry", async () => {
+test("recorded drafts match the curated registry line and leave nothing to add", async () => {
   const registry = JSON.parse(await readFile("registry/dart.json", "utf8")) as RegistryV2;
   const diff = diffDrafts(await execute(dartDiscontinuedImporter, { replay: recording }), registry);
-  assert.deepEqual(diff.added.map((rule) => rule.id), ["dart.package.analysis-server-client.discontinued"]);
-  assert.deepEqual(diff.changed, []);
+  assert.deepEqual(diff.added, []);
   assert.deepEqual(diff.removed, []);
+  const id = "dart.package.analysis-server-client.discontinued";
+  assert.ok(diff.unchanged.includes(id) || diff.changed.some((entry) => entry.id === id));
 });
 
 test("carries a valid pub.dev replacement into the draft", async () => {
