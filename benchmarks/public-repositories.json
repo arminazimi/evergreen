@@ -12109,6 +12109,15 @@
             "kind": "maintainer-review",
             "note": "Read Branch-SDK/build.gradle.kts:77 at this commit: `testImplementation(\"com.android.billingclient:billing:8.0.0\")`; the declaration matches the rule's affected range."
           }
+        },
+        {
+          "ruleId": "android.target-sdk.existing.default-below-35",
+          "path": "Branch-SDK-TestBed/build.gradle.kts",
+          "line": 39,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Read Branch-SDK-TestBed/build.gradle.kts:39 at this commit: `targetSdk = 34` in the com.android.application module defaultConfig; the declaration matches the rule's affected range."
+          }
         }
       ]
     },

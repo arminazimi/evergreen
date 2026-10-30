@@ -3904,14 +3904,14 @@ A citable summary of lifecycle risk in Evergreen's public benchmark corpus: ever
 ## Findings
 
 <!-- state-of-eol:start -->
-Measured on the public corpus of 457 pinned repositories (2315 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
+Measured on the public corpus of 457 pinned repositories (2316 expected findings). The last full corpus run was commit `c7b4e14` on 2026-10-24 (456 repositories, precision 1, recall 1). Method: [Validation](VALIDATION.md). Corpus: [`benchmarks/public-repositories.json`](../benchmarks/public-repositories.json). Regenerate with `npm run build:coverage` after `npm run record:corpus-run`.
 
 | Measure | Value |
 | --- | ---: |
 | Repositories | 457 |
-| Expected findings | 2315 |
-| Products with findings | 121 |
-| Release lines with findings | 171 |
+| Expected findings | 2316 |
+| Products with findings | 122 |
+| Release lines with findings | 172 |
 
 ### By product
 
@@ -4010,6 +4010,7 @@ Measured on the public corpus of 457 pinned repositories (2315 expected findings
 | @types/socket.io-client | 1 | 1 | 1 |
 | actions/configure-pages | 1 | 1 | 1 |
 | amazon-eks | 1 | 1 | 1 |
+| android/targetSdk | 1 | 1 | 1 |
 | aws-lambda-runtime/ruby2.7 | 1 | 1 | 1 |
 | cloud.google.com/go/pubsub | 1 | 1 | 1 |
 | doctrine/cache | 1 | 1 | 1 |
@@ -4166,6 +4167,7 @@ Measured on the public corpus of 457 pinned repositories (2315 expected findings
 | @types/socket.io-client | @types/socket.io-client is deprecated | [`npm.package.types.socket.io-client.deprecated`](rules/npm.package.types.socket.io-client.deprecated.html) | deprecated | 1 | 1 |
 | actions/configure-pages | Unsupported actions/configure-pages runtime | [`github-actions.configure-pages.node20`](rules/github-actions.configure-pages.node20.html) | end-of-support | 1 | 1 |
 | amazon-eks | Amazon EKS 1.30 and earlier are past end of extended support | [`terraform.eks.end-of-life-1.30-and-older`](rules/terraform.eks.end-of-life-1.30-and-older.html) | end-of-life | 1 | 1 |
+| android/targetSdk | Google Play requires targetSdk 35+ for existing phone and tablet apps | [`android.target-sdk.existing.default-below-35`](rules/android.target-sdk.existing.default-below-35.html) | end-of-support | 1 | 1 |
 | aws-lambda-runtime/ruby2.7 | AWS Lambda Ruby 2.7 runtime is end-of-life | [`serverless.aws-lambda.ruby2.7`](rules/serverless.aws-lambda.ruby2.7.html) | end-of-life | 1 | 1 |
 | cloud.google.com/go/pubsub | cloud.google.com/go/pubsub is deprecated | [`go.module.cloud.google.com.go.pubsub.deprecated`](rules/go.module.cloud.google.com.go.pubsub.deprecated.html) | deprecated | 1 | 1 |
 | com.android.billingclient/billing | Google Play Billing Library 5 is past its deprecation deadline | [`android.play-billing.version-5`](rules/android.play-billing.version-5.html) | deprecated | 1 | 1 |
