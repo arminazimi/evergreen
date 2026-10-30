@@ -75,7 +75,7 @@ jobs:
             exit 0
           fi
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
-          git diff --name-only --diff-filter=ACMR "$BASE_SHA"...HEAD -- 'src/**/*.ts' 'src/**/*.mts' 'src/**/*.cts' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.tsx' > "$RUNNER_TEMP/changed-src.txt"
+          git diff --name-only --diff-filter=ACMR "$BASE_SHA" HEAD -- 'src/**/*.ts' 'src/**/*.mts' 'src/**/*.cts' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.tsx' > "$RUNNER_TEMP/changed-src.txt"
           if [ ! -s "$RUNNER_TEMP/changed-src.txt" ]; then
             echo "No src/ files changed; skipping coverage diff."
             exit 0
