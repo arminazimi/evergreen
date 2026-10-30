@@ -7,7 +7,6 @@
    "title": "Unsupported actions/cache runtime",
    "summary": "actions/cache@v4: This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 9
@@ -49,7 +48,8 @@
      "url": "https://github.com/actions/cache#whats-new"
     }
    ],
-   "detector": "github-actions"
+   "detector": "github-actions",
+   "confidence": "exact"
   },
   {
    "id": "github-actions.checkout.node20:.github/workflows/ci.yml:7",
@@ -57,7 +57,6 @@
    "title": "Unsupported actions/checkout runtime",
    "summary": "actions/checkout@v4: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 7
@@ -99,7 +98,8 @@
      "url": "https://github.com/actions/checkout#checkout-v5"
     }
    ],
-   "detector": "github-actions"
+   "detector": "github-actions",
+   "confidence": "exact"
   },
   {
    "id": "github-actions.download-artifact.retired:.github/workflows/ci.yml:11",
@@ -107,7 +107,6 @@
    "title": "Retired actions/download-artifact release",
    "summary": "actions/download-artifact@v5: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
    "severity": "critical",
-   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 11
@@ -149,7 +148,8 @@
      "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
     }
    ],
-   "detector": "github-actions"
+   "detector": "github-actions",
+   "confidence": "exact"
   },
   {
    "id": "github-actions.setup-node.node20:.github/workflows/ci.yml:8",
@@ -157,7 +157,6 @@
    "title": "Unsupported actions/setup-node runtime",
    "summary": "actions/setup-node@v3: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 8
@@ -199,7 +198,8 @@
      "url": "https://github.com/actions/setup-node#breaking-changes-in-v5"
     }
    ],
-   "detector": "github-actions"
+   "detector": "github-actions",
+   "confidence": "exact"
   },
   {
    "id": "github-actions.upload-artifact.retired:.github/workflows/ci.yml:10",
@@ -207,7 +207,6 @@
    "title": "Retired actions/upload-artifact release",
    "summary": "actions/upload-artifact@v4: This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
    "severity": "critical",
-   "confidence": "exact",
    "location": {
     "path": ".github/workflows/ci.yml",
     "line": 10
@@ -249,7 +248,8 @@
      "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
     }
    ],
-   "detector": "github-actions"
+   "detector": "github-actions",
+   "confidence": "exact"
   },
   {
    "id": "nodejs.runtime.eol-18:package.json:3",
@@ -587,13 +587,13 @@
    "detector": "npm"
   },
   {
-  "id": "npm.package.left-pad.deprecated:package.json:5",
-  "ruleId": "npm.package.left-pad.deprecated",
-  "title": "left-pad is deprecated",
-  "summary": "left-pad is declared in dependencies as ^1.3.0; resolved: not found in a supported lockfile. The package author recommends the built-in String.prototype.padStart method.",
-  "severity": "medium",
-  "confidence": "range",
-  "location": {
+   "id": "npm.package.left-pad.deprecated:package.json:5",
+   "ruleId": "npm.package.left-pad.deprecated",
+   "title": "left-pad is deprecated",
+   "summary": "left-pad is declared in dependencies as ^1.3.0; resolved: not found in a supported lockfile. The package author recommends the built-in String.prototype.padStart method.",
+   "severity": "medium",
+   "confidence": "range",
+   "location": {
     "path": "package.json",
     "line": 5
    },
@@ -665,13 +665,78 @@
    "detector": "npm"
   },
   {
-  "id": "npm.package.node-sass.eol:package.json:6",
-  "ruleId": "npm.package.node-sass.eol",
-  "title": "Node Sass is end-of-life",
-  "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. Node Sass is no longer maintained and its repository has been archived.",
-  "severity": "high",
-  "confidence": "range",
-  "location": {
+   "id": "npm.package.node-sass.deprecated:package.json:6",
+   "ruleId": "npm.package.node-sass.deprecated",
+   "title": "node-sass is deprecated",
+   "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. npm marks node-sass as deprecated: \"Node Sass is no longer supported. Please use `sass` or `sass-embedded` instead.\"",
+   "severity": "medium",
+   "confidence": "range",
+   "location": {
+    "path": "package.json",
+    "line": 6
+   },
+   "replacement": "sass",
+   "migration": {
+    "constraints": [
+     "Preserve Sass include paths, importer behavior, output style, source maps, and generated CSS expected by the build."
+    ],
+    "steps": [
+     {
+      "id": "replace-sass-dependency",
+      "title": "Replace Node Sass",
+      "instructions": "Remove node-sass and add the maintained sass package in the same dependency section.",
+      "targets": "declaration"
+     },
+     {
+      "id": "update-sass-calls",
+      "title": "Update compiler usages",
+      "instructions": "Migrate render and renderSync imports and options to the supported Sass interface used by the project.",
+      "targets": "usages"
+     },
+     {
+      "id": "compare-css-output",
+      "title": "Compare compiled output",
+      "instructions": "Review generated CSS and source maps for behaviorally relevant differences.",
+      "targets": "all"
+     }
+    ],
+    "verification": [
+     {
+      "command": "npm run test --if-present",
+      "purpose": "Run stylesheet and repository tests when defined."
+     },
+     {
+      "command": "npm run build --if-present",
+      "purpose": "Compile the project and its stylesheets with Sass."
+     }
+    ]
+   },
+   "sources": [
+    {
+     "title": "node-sass package deprecation notice",
+     "url": "https://www.npmjs.com/package/node-sass"
+    },
+    {
+     "title": "node-sass registry metadata",
+     "url": "https://registry.npmjs.org/node-sass"
+    }
+   ],
+   "usages": [],
+   "impact": {
+    "usageCount": 0,
+    "affectedFiles": 0,
+    "level": "none"
+   },
+   "detector": "npm"
+  },
+  {
+   "id": "npm.package.node-sass.eol:package.json:6",
+   "ruleId": "npm.package.node-sass.eol",
+   "title": "Node Sass is end-of-life",
+   "summary": "node-sass is declared in devDependencies as ^9.0.0; resolved: not found in a supported lockfile. Node Sass is no longer maintained and its repository has been archived.",
+   "severity": "high",
+   "confidence": "range",
+   "location": {
     "path": "package.json",
     "line": 6
    },
@@ -727,13 +792,13 @@
    "detector": "npm"
   },
   {
-  "id": "npm.package.request.deprecated:package.json:5",
-  "ruleId": "npm.package.request.deprecated",
-  "title": "request is deprecated",
-  "summary": "request is declared in dependencies as ^2.88.0; resolved: not found in a supported lockfile. The package is fully deprecated and no new changes are expected.",
-  "severity": "high",
-  "confidence": "range",
-  "location": {
+   "id": "npm.package.request.deprecated:package.json:5",
+   "ruleId": "npm.package.request.deprecated",
+   "title": "request is deprecated",
+   "summary": "request is declared in dependencies as ^2.88.0; resolved: not found in a supported lockfile. The package is fully deprecated and no new changes are expected.",
+   "severity": "high",
+   "confidence": "range",
+   "location": {
     "path": "package.json",
     "line": 5
    },
@@ -820,7 +885,6 @@
    "title": "django-nose is maintenance-only",
    "summary": "django-nose is declared as >=1.4; resolved: not found in a supported lockfile. The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -877,7 +941,8 @@
     "affectedFiles": 0,
     "level": "none"
    },
-   "detector": "python"
+   "detector": "python",
+   "confidence": "exact"
   },
   {
    "id": "python.package.nose.maintenance-only:pyproject.toml:4",
@@ -885,7 +950,6 @@
    "title": "nose is maintenance-only",
    "summary": "nose is declared as ==1.3.7; resolved: 1.3.7. The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -954,7 +1018,8 @@
     "affectedFiles": 1,
     "level": "low"
    },
-   "detector": "python"
+   "detector": "python",
+   "confidence": "exact"
   },
   {
    "id": "python.package.pycrypto.obsolete:pyproject.toml:4",
@@ -962,7 +1027,6 @@
    "title": "PyCrypto is obsolete and vulnerable",
    "summary": "pycrypto is declared as >=2.6; resolved: not found in a supported lockfile. The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
    "severity": "critical",
-   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 4
@@ -1036,6 +1100,7 @@
     "level": "low"
    },
    "detector": "python",
+   "confidence": "exact",
    "advisoryIds": [
     "GHSA-6528-wvf6-f6qg",
     "GHSA-cq27-v7xp-c356",
@@ -1048,7 +1113,6 @@
    "title": "Python 3.9 and older are end-of-life",
    "summary": "pinned runtime 3.8.10 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
    "severity": "high",
-   "confidence": "exact",
    "location": {
     "path": ".python-version",
     "line": 1
@@ -1095,11 +1159,12 @@
      "url": "https://devguide.python.org/versions/"
     },
     {
-     "title": "PEP 596 \u2014 Python 3.9 release schedule",
+     "title": "PEP 596 — Python 3.9 release schedule",
      "url": "https://peps.python.org/pep-0596/"
     }
    ],
-   "detector": "python"
+   "detector": "python",
+   "confidence": "exact"
   },
   {
    "id": "python.runtime.eol-3.9-and-older:pyproject.toml:3",
@@ -1107,7 +1172,6 @@
    "title": "Python 3.9 and older are end-of-life",
    "summary": "compatibility range >=3.8 includes Python 3.8. These Python release lines no longer receive security or bug fixes from the Python core team.",
    "severity": "medium",
-   "confidence": "exact",
    "location": {
     "path": "pyproject.toml",
     "line": 3
@@ -1154,11 +1218,12 @@
      "url": "https://devguide.python.org/versions/"
     },
     {
-     "title": "PEP 596 \u2014 Python 3.9 release schedule",
+     "title": "PEP 596 — Python 3.9 release schedule",
      "url": "https://peps.python.org/pep-0596/"
     }
    ],
-   "detector": "python"
+   "detector": "python",
+   "confidence": "exact"
   }
  ],
  "diagnostics": []

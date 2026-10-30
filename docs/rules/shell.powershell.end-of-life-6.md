@@ -68,36 +68,71 @@ This page is generated from [`registry/shell.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
-  "headline": "PowerShell 6.x is no longer supported — dates, impact, migration",
-  "description": "Microsoft's PowerShell support lifecycle lists every PowerShell 6 release (6.0, 6.1, and 6.2) as retired; the last, 6.2, reached end of support on 2020-09-04.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-22",
-  "keywords": [
-    "end-of-life",
-    "shell",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PowerShell 6.x is no longer supported",
-    "identifier": "pkg:generic/powershell"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PowerShell support lifecycle",
-      "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
+      "headline": "PowerShell 6.x is no longer supported — dates, impact, migration",
+      "description": "Microsoft's PowerShell support lifecycle lists every PowerShell 6 release (6.0, 6.1, and 6.2) as retired; the last, 6.2, reached end of support on 2020-09-04.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-22",
+      "keywords": [
+        "end-of-life",
+        "shell",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PowerShell 6.x is no longer supported",
+        "identifier": "pkg:generic/powershell"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/shell.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-6.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2020-09-04. Affected versions: vers:semver/>=6.0.0|\u003c7.0.0. Source: PowerShell support lifecycle (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PowerShell 7.6 (LTS) or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/powershell."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/shell.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

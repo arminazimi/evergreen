@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
-  "headline": "boom is deprecated — dates, impact, migration",
-  "description": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "boom is deprecated",
-    "identifier": "pkg:npm/boom"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "boom package deprecation notice",
-      "url": "https://www.npmjs.com/package/boom"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
+      "headline": "boom is deprecated — dates, impact, migration",
+      "description": "npm states that boom moved to @hapi/boom and that the old distribution is no longer maintained.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "boom is deprecated",
+        "identifier": "pkg:npm/boom"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "boom package deprecation notice",
+          "url": "https://www.npmjs.com/package/boom"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "boom registry metadata",
+          "url": "https://registry.npmjs.org/boom/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "boom registry metadata",
-      "url": "https://registry.npmjs.org/boom/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.boom.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/boom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: boom package deprecation notice (https://www.npmjs.com/package/boom)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/boom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@hapi/boom"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/boom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/boom."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

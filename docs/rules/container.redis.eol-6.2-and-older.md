@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
-  "headline": "Redis image release line 6.2 reaches end-of-life on 2027-04-01 — dates, impact, migration",
-  "description": "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-30",
-  "keywords": [
-    "scheduled-end-of-life",
-    "container",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Redis image release line 6.2 reaches end-of-life on 2027-04-01",
-    "identifier": "pkg:docker/library/redis"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Redis release policy (vendor)",
-      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
+      "headline": "Redis image release line 6.2 reaches end-of-life on 2027-04-01 — dates, impact, migration",
+      "description": "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-30",
+      "keywords": [
+        "scheduled-end-of-life",
+        "container",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Redis image release line 6.2 reaches end-of-life on 2027-04-01",
+        "identifier": "pkg:docker/library/redis"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Redis release policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.2-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2027-04-01. Affected versions: vers:semver/>=6.2.0|\u003c6.3.0. Source: Redis release policy (vendor) (https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A redis image on a later supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/redis."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

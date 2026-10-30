@@ -26,13 +26,15 @@ function floatingReferences(contents: string): string[] {
 }
 
 const workflowsDirectory = resolve(".github/workflows");
+const actionManifest = resolve("action.yml");
 
-test("this repository's workflows pin every action to a full SHA with a version comment", async () => {
+test("this repository's workflows and Action pin every third-party action to a full SHA with a version comment", async () => {
   const names = (await readdir(workflowsDirectory)).filter((name) => /\.ya?ml$/.test(name));
   assert.ok(names.length > 0);
   for (const name of names) {
     assert.deepEqual(floatingReferences(await readFile(join(workflowsDirectory, name), "utf8")), [], name);
   }
+  assert.deepEqual(floatingReferences(await readFile(actionManifest, "utf8")), [], "action.yml");
 });
 
 test("the self-scan reports no unclassified action reference", async () => {

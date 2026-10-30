@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
-  "headline": "Apache ZooKeeper image release lines 3.7 and older are end-of-life — dates, impact, migration",
-  "description": "These Apache ZooKeeper release lines no longer receive fixes from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Apache ZooKeeper image release lines 3.7 and older are end-of-life",
-    "identifier": "pkg:docker/library/zookeeper"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Apache ZooKeeper release policy (vendor)",
-      "url": "https://zookeeper.apache.org/releases/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
+      "headline": "Apache ZooKeeper image release lines 3.7 and older are end-of-life — dates, impact, migration",
+      "description": "These Apache ZooKeeper release lines no longer receive fixes from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Apache ZooKeeper image release lines 3.7 and older are end-of-life",
+        "identifier": "pkg:docker/library/zookeeper"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Apache ZooKeeper release policy (vendor)",
+          "url": "https://zookeeper.apache.org/releases/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.zookeeper.eol-3.7-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/zookeeper?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2024-01-19. Affected versions: vers:semver/\u003c3.8.0. Source: Apache ZooKeeper release policy (vendor) (https://zookeeper.apache.org/releases/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/zookeeper?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A zookeeper image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/zookeeper?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/zookeeper."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

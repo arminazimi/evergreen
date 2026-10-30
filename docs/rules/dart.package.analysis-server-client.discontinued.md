@@ -68,46 +68,73 @@ This page is generated from [`registry/dart.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
-  "headline": "analysis_server_client is discontinued on pub.dev — dates, impact, migration",
-  "description": "pub.dev marks analysis_server_client as discontinued.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-30",
-  "keywords": [
-    "deprecated",
-    "dart",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "analysis_server_client is discontinued on pub.dev",
-    "identifier": "pkg:pub/analysis_server_client"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "analysis_server_client on pub.dev",
-      "url": "https://pub.dev/packages/analysis_server_client"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
+      "headline": "analysis_server_client is discontinued on pub.dev — dates, impact, migration",
+      "description": "pub.dev marks analysis_server_client as discontinued.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-30",
+      "keywords": [
+        "deprecated",
+        "dart",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "analysis_server_client is discontinued on pub.dev",
+        "identifier": "pkg:pub/analysis_server_client"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "analysis_server_client on pub.dev",
+          "url": "https://pub.dev/packages/analysis_server_client"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "analysis_server_client package metadata",
+          "url": "https://pub.dev/api/packages/analysis_server_client"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Hosted Pub Repository Specification Version 2",
+          "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dart.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "analysis_server_client package metadata",
-      "url": "https://pub.dev/api/packages/analysis_server_client"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Hosted Pub Repository Specification Version 2",
-      "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/dart.package.analysis-server-client.discontinued.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pub/analysis_server_client?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/*. Source: analysis_server_client on pub.dev (https://pub.dev/packages/analysis_server_client)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pub/analysis_server_client?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pub/analysis_server_client."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dart.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -1,6 +1,6 @@
 ---
 name: evergreen-deprecation
-description: Find, explain, migrate, and verify deprecated, end-of-life, or unsupported repository dependencies, including runtimes, packages, lockfiles, container images, and GitHub Actions. Use for lifecycle scans, support or maintenance status, finding, migration, or verification work, including finding IDs. Do not use for adding a dependency, routine upgrades, vulnerability or security audits, deprecated source APIs, application code, scripts, or unrelated modernization.
+description: Find, explain, migrate, and verify deprecated, end-of-life, or unsupported repository dependencies (runtimes, packages, lockfiles, containers, GitHub Actions). Use for lifecycle scans, support status, findings, migration, or verification. Do not use for adding a dependency, upgrading a declared runtime or Action (prefer evergreen-upgrade-runtime-action), routine package upgrades, vulnerability audits, deprecated source APIs, scripts, or unrelated modernization.
 license: Apache-2.0
 metadata:
   author: Evergreen
@@ -18,9 +18,9 @@ Use Evergreen outputs as the source of truth. Prefer MCP tools when the host can
 3. **Migrate.** Create migration context for that finding. Follow its constraints and ordered steps, preserve behavior at every listed usage, and account for each affected file. Inspect suggested commands before running them under the host's normal authorization rules.
 4. **Verify.** Run relevant project checks, then perform a fresh Evergreen verification. With MCP, verify the finding in the same session that observed it. This step is complete when the finding is absent, required checks pass, and any scope beyond the packet is explained.
 
-## Before adding a dependency
+## Related Skills
 
-When a task adds a package, runtime, or action, prefer `evergreen-check-before-add`, or check with `check_dependency` / `evergreen check <purl>`. If `affected`, prefer the cited replacement. `no-data` is not a safety claim.
+Prefer `evergreen-check-before-add` (or `check_dependency` / `evergreen check`) when adding a dependency, and `evergreen-upgrade-runtime-action` when upgrading a declared runtime or Action. If `affected`, prefer the cited replacement; `no-data` is not safety.
 
 ## Tool mapping
 

@@ -49,46 +49,73 @@ This page is generated from [`registry/osv.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
-  "headline": "pycrypto has unfixed OSV advisories — dates, impact, migration",
-  "description": "OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycrypto with no fixed version in the affected ranges.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-27",
-  "keywords": [
-    "deprecated",
-    "osv",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "pycrypto has unfixed OSV advisories",
-    "identifier": "pkg:pypi/pycrypto"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "GHSA-6528-wvf6-f6qg",
-      "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
+      "headline": "pycrypto has unfixed OSV advisories — dates, impact, migration",
+      "description": "OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycrypto with no fixed version in the affected ranges.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-27",
+      "keywords": [
+        "deprecated",
+        "osv",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "pycrypto has unfixed OSV advisories",
+        "identifier": "pkg:pypi/pycrypto"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "GHSA-6528-wvf6-f6qg",
+          "url": "https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GHSA-cq27-v7xp-c356",
+          "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PYSEC-2018-97",
+          "url": "https://osv.dev/vulnerability/PYSEC-2018-97"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/osv.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "GHSA-cq27-v7xp-c356",
-      "url": "https://osv.dev/vulnerability/GHSA-cq27-v7xp-c356"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "PYSEC-2018-97",
-      "url": "https://osv.dev/vulnerability/PYSEC-2018-97"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/osv.pypi.pycrypto.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/pycrypto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: GHSA-6528-wvf6-f6qg (https://osv.dev/vulnerability/GHSA-6528-wvf6-f6qg)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/pycrypto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/pycrypto."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/osv.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
-  "headline": "Caddy image release lines 1 and older are end-of-life — dates, impact, migration",
-  "description": "These Caddy release lines no longer receive fixes from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Caddy image release lines 1 and older are end-of-life",
-    "identifier": "pkg:docker/library/caddy"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Caddy release policy (vendor)",
-      "url": "https://github.com/caddyserver/caddy/security"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
+      "headline": "Caddy image release lines 1 and older are end-of-life — dates, impact, migration",
+      "description": "These Caddy release lines no longer receive fixes from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Caddy image release lines 1 and older are end-of-life",
+        "identifier": "pkg:docker/library/caddy"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Caddy release policy (vendor)",
+          "url": "https://github.com/caddyserver/caddy/security"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.caddy.eol-1-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/caddy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2020-07-01. Affected versions: vers:semver/\u003c2.0.0. Source: Caddy release policy (vendor) (https://github.com/caddyserver/caddy/security)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/caddy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A caddy image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/caddy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/caddy."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

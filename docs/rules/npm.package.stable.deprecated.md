@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
-  "headline": "stable is deprecated — dates, impact, migration",
-  "description": "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "stable is deprecated",
-    "identifier": "pkg:npm/stable"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "stable package deprecation notice",
-      "url": "https://www.npmjs.com/package/stable"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
+      "headline": "stable is deprecated — dates, impact, migration",
+      "description": "npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "stable is deprecated",
+        "identifier": "pkg:npm/stable"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "stable package deprecation notice",
+          "url": "https://www.npmjs.com/package/stable"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "stable registry metadata",
+          "url": "https://registry.npmjs.org/stable/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "stable registry metadata",
-      "url": "https://registry.npmjs.org/stable/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.stable.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/stable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: stable package deprecation notice (https://www.npmjs.com/package/stable)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/stable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Array.prototype.sort"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/stable?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/stable."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

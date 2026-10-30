@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
-  "headline": "resolve-url is deprecated — dates, impact, migration",
-  "description": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "resolve-url is deprecated",
-    "identifier": "pkg:npm/resolve-url"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "resolve-url maintainer deprecation notice",
-      "url": "https://github.com/lydell/resolve-url#deprecated"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
+      "headline": "resolve-url is deprecated — dates, impact, migration",
+      "description": "The maintainer deprecated resolve-url and recommends the platform URL API for resolving URLs in browsers.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "resolve-url is deprecated",
+        "identifier": "pkg:npm/resolve-url"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "resolve-url maintainer deprecation notice",
+          "url": "https://github.com/lydell/resolve-url#deprecated"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "resolve-url registry metadata",
+          "url": "https://registry.npmjs.org/resolve-url/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "resolve-url registry metadata",
-      "url": "https://registry.npmjs.org/resolve-url/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.resolve-url.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/resolve-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: resolve-url maintainer deprecation notice (https://github.com/lydell/resolve-url#deprecated)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/resolve-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "URL"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/resolve-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/resolve-url."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

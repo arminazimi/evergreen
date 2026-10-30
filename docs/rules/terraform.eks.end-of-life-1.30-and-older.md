@@ -69,36 +69,71 @@ This page is generated from [`registry/terraform.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
-  "headline": "Amazon EKS 1.30 and earlier are past end of extended support — dates, impact, migration",
-  "description": "Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "terraform",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Amazon EKS 1.30 and earlier are past end of extended support",
-    "identifier": "pkg:generic/amazon-eks"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Amazon EKS: Understand the Kubernetes version lifecycle",
-      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
+      "headline": "Amazon EKS 1.30 and earlier are past end of extended support — dates, impact, migration",
+      "description": "Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "terraform",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Amazon EKS 1.30 and earlier are past end of extended support",
+        "identifier": "pkg:generic/amazon-eks"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Amazon EKS: Understand the Kubernetes version lifecycle",
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:semver/\u003c1.31.0. Source: Amazon EKS: Understand the Kubernetes version lifecycle (https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Amazon EKS 1.35 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/amazon-eks."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

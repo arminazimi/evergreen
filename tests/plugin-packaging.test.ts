@@ -37,7 +37,11 @@ test("generated plugin packages match canonical shared assets", async () => {
 
 test("every canonical Skill is packaged into both plugins", async () => {
   const expected = await expectedPluginFiles();
-  for (const name of ["evergreen-check-before-add", "evergreen-deprecation"]) {
+  for (const name of [
+    "evergreen-check-before-add",
+    "evergreen-deprecation",
+    "evergreen-upgrade-runtime-action",
+  ]) {
     const canonical = await readFile(resolve("skills", name, "SKILL.md"), "utf8");
     assert.equal(expected.get(`plugins/codex/skills/${name}/SKILL.md`), canonical, name);
     assert.equal(expected.get(`plugins/claude/skills/${name}/SKILL.md`), canonical, name);

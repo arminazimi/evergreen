@@ -65,36 +65,71 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
-  "headline": "Xcode 15 through 25 are not accepted for App Store uploads — dates, impact, migration",
-  "description": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "end-of-support",
-    "swift",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Xcode 15 through 25 are not accepted for App Store uploads",
-    "identifier": "pkg:generic/xcode"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
-      "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+      "headline": "Xcode 15 through 25 are not accepted for App Store uploads — dates, impact, migration",
+      "description": "Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "end-of-support",
+        "swift",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Xcode 15 through 25 are not accepted for App Store uploads",
+        "identifier": "pkg:generic/xcode"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "SDK minimum requirements — App Store upcoming requirements (Xcode 26)",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04282026a"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-15-through-25.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-04-28. Affected versions: vers:semver/>=15.0.0|\u003c26.0.0. Source: SDK minimum requirements — App Store upcoming requirements (Xcode 26) (https://developer.apple.com/news/upcoming-requirements/?id=04282026a)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Xcode 26 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/xcode."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

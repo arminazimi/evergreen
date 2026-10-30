@@ -67,41 +67,76 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
-  "headline": ".NET Core 2.1 is no longer supported — dates, impact, migration",
-  "description": ".NET Core 2.1 (Long Term Support) reached the end of its support on 2021-08-21. Microsoft no longer ships security or quality fixes for it.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "end-of-support",
-    "dotnet",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": ".NET Core 2.1 is no longer supported",
-    "identifier": "pkg:generic/dotnet"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": ".NET and .NET Core official support policy",
-      "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
+      "headline": ".NET Core 2.1 is no longer supported — dates, impact, migration",
+      "description": ".NET Core 2.1 (Long Term Support) reached the end of its support on 2021-08-21. Microsoft no longer ships security or quality fixes for it.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "end-of-support",
+        "dotnet",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": ".NET Core 2.1 is no longer supported",
+        "identifier": "pkg:generic/dotnet"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": ".NET and .NET Core official support policy",
+          "url": "https://dotnet.microsoft.com/platform/support/policy/dotnet-core"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": ".NET releases index (channel, support phase, end-of-life date)",
+          "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": ".NET releases index (channel, support phase, end-of-life date)",
-      "url": "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/releases-index.json"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-of-support-2.1.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/dotnet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2021-08-21. Affected versions: vers:semver/>=2.1.0|\u003c2.2.0. Source: .NET and .NET Core official support policy (https://dotnet.microsoft.com/platform/support/policy/dotnet-core)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/dotnet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": ".NET 10 (LTS), or the newest supported .NET release"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/dotnet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/dotnet."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

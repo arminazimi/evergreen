@@ -67,41 +67,76 @@ This page is generated from [`registry/scala.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
-  "headline": "Scala 2.11 reached end of life — dates, impact, migration",
-  "description": "The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-27",
-  "keywords": [
-    "end-of-life",
-    "scala",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Scala 2.11 reached end of life",
-    "identifier": "pkg:generic/scala"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Scala development guarantees — Scala 2.11 status",
-      "url": "https://scala-lang.org/development/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
+      "headline": "Scala 2.11 reached end of life — dates, impact, migration",
+      "description": "The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-27",
+      "keywords": [
+        "end-of-life",
+        "scala",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Scala 2.11 reached end of life",
+        "identifier": "pkg:generic/scala"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Scala development guarantees — Scala 2.11 status",
+          "url": "https://scala-lang.org/development/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Scala 2 maintenance plans",
+          "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/scala.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Scala 2 maintenance plans",
-      "url": "https://www.scala-lang.org/blog/2024/12/16/scala-2-maintenance.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2.11.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/scala?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2016-01-01. Affected versions: vers:semver/>=2.11.0|\u003c2.12.0. Source: Scala development guarantees — Scala 2.11 status (https://scala-lang.org/development/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/scala?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scala 2.13 or Scala 3"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/scala?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/scala."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/scala.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

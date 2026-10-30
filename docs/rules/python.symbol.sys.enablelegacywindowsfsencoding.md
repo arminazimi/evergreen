@@ -63,41 +63,76 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
-  "headline": "Sys._enablelegacywindowsfsencoding is deprecated — dates, impact, migration",
-  "description": "Python 3.13 deprecates sys._enablelegacywindowsfsencoding, to be removed in Python 3.16.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Sys._enablelegacywindowsfsencoding is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
+      "headline": "Sys._enablelegacywindowsfsencoding is deprecated — dates, impact, migration",
+      "description": "Python 3.13 deprecates sys._enablelegacywindowsfsencoding, to be removed in Python 3.16.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Sys._enablelegacywindowsfsencoding is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Python deprecations: pending removal in 3.16",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Python deprecations: pending removal in 3.16",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sys.enablelegacywindowsfsencoding.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.13. Source: What's New in Python 3.13 (https://docs.python.org/3/whatsnew/3.13.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "the PYTHONLEGACYWINDOWSFSENCODING environment variable"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

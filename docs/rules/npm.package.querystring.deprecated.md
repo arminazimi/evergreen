@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
-  "headline": "querystring is deprecated — dates, impact, migration",
-  "description": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "querystring is deprecated",
-    "identifier": "pkg:npm/querystring"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "querystring package deprecation notice",
-      "url": "https://www.npmjs.com/package/querystring"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
+      "headline": "querystring is deprecated — dates, impact, migration",
+      "description": "npm describes the querystring API as legacy and recommends URLSearchParams for new code.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "querystring is deprecated",
+        "identifier": "pkg:npm/querystring"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "querystring package deprecation notice",
+          "url": "https://www.npmjs.com/package/querystring"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "querystring registry metadata",
+          "url": "https://registry.npmjs.org/querystring/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "querystring registry metadata",
-      "url": "https://registry.npmjs.org/querystring/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.querystring.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/querystring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: querystring package deprecation notice (https://www.npmjs.com/package/querystring)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/querystring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "URLSearchParams"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/querystring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/querystring."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

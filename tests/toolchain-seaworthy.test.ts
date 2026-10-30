@@ -41,6 +41,7 @@ test("workspace discovery reports each package's own manifest", async () => {
   assert.deepEqual(await scan(), [
     { detector: "github-actions", ruleId: "github-actions.checkout.node20", path: ".github/workflows/ci.yml", line: 15 },
     { detector: "npm", ruleId: "nodejs.runtime.eol-20", path: "packages/action/.nvmrc", line: 1 },
+    { detector: "npm", ruleId: "npm.package.node-sass.deprecated", path: "packages/mcp/package.json", line: 10 },
     { detector: "npm", ruleId: "npm.package.node-sass.eol", path: "packages/mcp/package.json", line: 10 },
     { detector: "npm", ruleId: "npm.package.request.deprecated", path: "packages/verify/package.json", line: 10 },
   ]);
@@ -54,6 +55,7 @@ test("every path is repository-relative and names the package that holds the dec
   }
   const packages = new Map([
     ["npm.package.request.deprecated", "packages/verify/"],
+    ["npm.package.node-sass.deprecated", "packages/mcp/"],
     ["npm.package.node-sass.eol", "packages/mcp/"],
     ["nodejs.runtime.eol-20", "packages/action/"],
   ]);

@@ -71,41 +71,76 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
-  "headline": "Azure Database for PostgreSQL 11, 12, and 13 are past standard support — dates, impact, migration",
-  "description": "The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standard support end date for PostgreSQL 11, 12, and 13.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-support",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Azure Database for PostgreSQL 11, 12, and 13 are past standard support",
-    "identifier": "pkg:generic/azure-database-postgresql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Azure Database for PostgreSQL version policy",
-      "url": "https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
+      "headline": "Azure Database for PostgreSQL 11, 12, and 13 are past standard support — dates, impact, migration",
+      "description": "The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standard support end date for PostgreSQL 11, 12, and 13.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-support",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Azure Database for PostgreSQL 11, 12, and 13 are past standard support",
+        "identifier": "pkg:generic/azure-database-postgresql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Azure Database for PostgreSQL version policy",
+          "url": "https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.azure-postgresql.standard-support-ended-11-to-13.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/azure-database-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-07-31. Affected versions: vers:semver/>=11.0.0|\u003c14.0.0. Source: Azure Database for PostgreSQL version policy (https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/azure-database-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PostgreSQL 14 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/azure-database-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/azure-database-postgresql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

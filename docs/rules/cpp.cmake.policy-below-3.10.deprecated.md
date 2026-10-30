@@ -64,46 +64,81 @@ This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
-  "headline": "CMake policy versions older than 3.10 are deprecated — dates, impact, migration",
-  "description": "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "cpp",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "CMake policy versions older than 3.10 are deprecated",
-    "identifier": "pkg:generic/cmake"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "CMake 3.31 release notes (compatibility older than 3.10 deprecated)",
-      "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
+      "headline": "CMake policy versions older than 3.10 are deprecated — dates, impact, migration",
+      "description": "CMake 3.31 deprecated compatibility with policy versions older than 3.10. A cmake_minimum_required(VERSION) or cmake_policy(VERSION) call that does not set the policy version to at least 3.10…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "cpp",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "CMake policy versions older than 3.10 are deprecated",
+        "identifier": "pkg:generic/cmake"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "CMake 3.31 release notes (compatibility older than 3.10 deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "cmake_minimum_required (Changed in 3.31)",
+          "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "CMake 3.31.0 GitHub release",
+          "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "cmake_minimum_required (Changed in 3.31)",
-      "url": "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "CMake 3.31.0 GitHub release",
-      "url": "https://github.com/Kitware/CMake/releases/tag/v3.31.0"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.policy-below-3.10.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/cmake?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2024-11-06. Affected versions: vers:semver/>=3.5.0|\u003c3.10.0. Source: CMake 3.31 release notes (compatibility older than 3.10 deprecated) (https://cmake.org/cmake/help/latest/release/3.31.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/cmake?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "cmake_minimum_required(VERSION 3.10) or newer, or VERSION \u003cmin>...\u003cmax> with \u003cmax> at least 3.10"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/cmake?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/cmake."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

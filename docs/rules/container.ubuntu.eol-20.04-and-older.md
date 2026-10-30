@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
-  "headline": "Ubuntu image release lines 20.04 and older are past standard support end-of-life — dates, impact, migration",
-  "description": "These Ubuntu releases no longer receive standard security updates from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ubuntu image release lines 20.04 and older are past standard support end-of-life",
-    "identifier": "pkg:docker/library/ubuntu"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ubuntu release cycle",
-      "url": "https://ubuntu.com/about/release-cycle"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
+      "headline": "Ubuntu image release lines 20.04 and older are past standard support end-of-life — dates, impact, migration",
+      "description": "These Ubuntu releases no longer receive standard security updates from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ubuntu image release lines 20.04 and older are past standard support end-of-life",
+        "identifier": "pkg:docker/library/ubuntu"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ubuntu release cycle",
+          "url": "https://ubuntu.com/about/release-cycle"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-20.04-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-05-31. Affected versions: vers:semver/\u003c20.10.0. Source: Ubuntu release cycle (https://ubuntu.com/about/release-cycle)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An ubuntu image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/ubuntu."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

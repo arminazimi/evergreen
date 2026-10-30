@@ -61,36 +61,63 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
-  "headline": "llama-index-experimental is no longer maintained — dates, impact, migration",
-  "description": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "llama-index-experimental is no longer maintained",
-    "identifier": "pkg:pypi/llama-index-experimental"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "llama-index-experimental lifecycle notice",
-      "url": "https://pypi.org/project/llama-index-experimental/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
+      "headline": "llama-index-experimental is no longer maintained — dates, impact, migration",
+      "description": "The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "llama-index-experimental is no longer maintained",
+        "identifier": "pkg:pypi/llama-index-experimental"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "llama-index-experimental lifecycle notice",
+          "url": "https://pypi.org/project/llama-index-experimental/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.llama-index-experimental.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/llama-index-experimental?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:pypi/*. Source: llama-index-experimental lifecycle notice (https://pypi.org/project/llama-index-experimental/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/llama-index-experimental?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/llama-index-experimental."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

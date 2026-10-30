@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
-  "headline": "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration",
-  "description": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "MySQL image release lines 8.0 and older are past end-of-life",
-    "identifier": "pkg:docker/library/mysql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "MySQL end-of-life notice",
-      "url": "https://www.mysql.com/support/eol-notice.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
+      "headline": "MySQL image release lines 8.0 and older are past end-of-life — dates, impact, migration",
+      "description": "Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "MySQL image release lines 8.0 and older are past end-of-life",
+        "identifier": "pkg:docker/library/mysql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "MySQL end-of-life notice",
+          "url": "https://www.mysql.com/support/eol-notice.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.mysql.eol-8.0-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-21. Affected versions: vers:semver/\u003c8.1.0. Source: MySQL end-of-life notice (https://www.mysql.com/support/eol-notice.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A mysql image on a supported release such as the 8.4 LTS line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/mysql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

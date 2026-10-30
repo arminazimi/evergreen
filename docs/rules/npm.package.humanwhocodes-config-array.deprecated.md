@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
-  "headline": "@humanwhocodes/config-array is deprecated — dates, impact, migration",
-  "description": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@humanwhocodes/config-array is deprecated",
-    "identifier": "pkg:npm/%40humanwhocodes/config-array"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@humanwhocodes/config-array package deprecation notice",
-      "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+      "headline": "@humanwhocodes/config-array is deprecated — dates, impact, migration",
+      "description": "npm recommends replacing @humanwhocodes/config-array with @eslint/config-array.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@humanwhocodes/config-array is deprecated",
+        "identifier": "pkg:npm/%40humanwhocodes/config-array"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@humanwhocodes/config-array package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/config-array"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@humanwhocodes/config-array registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@humanwhocodes/config-array registry metadata",
-      "url": "https://registry.npmjs.org/@humanwhocodes%2Fconfig-array/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-config-array.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40humanwhocodes/config-array?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: @humanwhocodes/config-array package deprecation notice (https://www.npmjs.com/package/@humanwhocodes/config-array)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40humanwhocodes/config-array?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@eslint/config-array"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40humanwhocodes/config-array?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40humanwhocodes/config-array."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

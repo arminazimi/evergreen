@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
-  "headline": "i18next-parser is deprecated — dates, impact, migration",
-  "description": "npm marks i18next-parser as deprecated: \"Project is deprecated, use i18next-cli instead\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "i18next-parser is deprecated",
-    "identifier": "pkg:npm/i18next-parser"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "i18next-parser on npm",
-      "url": "https://www.npmjs.com/package/i18next-parser"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
+      "headline": "i18next-parser is deprecated — dates, impact, migration",
+      "description": "npm marks i18next-parser as deprecated: \"Project is deprecated, use i18next-cli instead\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "i18next-parser is deprecated",
+        "identifier": "pkg:npm/i18next-parser"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "i18next-parser on npm",
+          "url": "https://www.npmjs.com/package/i18next-parser"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "i18next-parser registry metadata",
+          "url": "https://registry.npmjs.org/i18next-parser/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "i18next-parser registry metadata",
-      "url": "https://registry.npmjs.org/i18next-parser/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.i18next-parser.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/i18next-parser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: i18next-parser on npm (https://www.npmjs.com/package/i18next-parser)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/i18next-parser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "i18next-cli"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/i18next-parser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/i18next-parser."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

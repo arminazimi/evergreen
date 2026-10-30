@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
-  "headline": "Glob.glob0 and glob.glob1 are deprecated — dates, impact, migration",
-  "description": "Python 3.13 deprecates glob.glob0 and glob.glob1.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Glob.glob0 and glob.glob1 are deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
+      "headline": "Glob.glob0 and glob.glob1 are deprecated — dates, impact, migration",
+      "description": "Python 3.13 deprecates glob.glob0 and glob.glob1.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Glob.glob0 and glob.glob1 are deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.glob.glob0.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.13. Source: What's New in Python 3.13 (https://docs.python.org/3/whatsnew/3.13.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "glob.glob() with a path-like root_dir"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

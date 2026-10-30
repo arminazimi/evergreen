@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
-  "headline": "The onerror argument of shutil.rmtree is deprecated — dates, impact, migration",
-  "description": "Python 3.12 deprecates the onerror argument of shutil.rmtree(); onexc is the same handler but receives the exception instance.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "The onerror argument of shutil.rmtree is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
+      "headline": "The onerror argument of shutil.rmtree is deprecated — dates, impact, migration",
+      "description": "Python 3.12 deprecates the onerror argument of shutil.rmtree(); onexc is the same handler but receives the exception instance.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "The onerror argument of shutil.rmtree is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.shutil.rmtree-onerror.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.12. Source: What's New in Python 3.12 (https://docs.python.org/3/whatsnew/3.12.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "onexc"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

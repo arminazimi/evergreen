@@ -66,36 +66,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
-  "headline": "django-nose is maintenance-only — dates, impact, migration",
-  "description": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "deprecated",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "django-nose is maintenance-only",
-    "identifier": "pkg:pypi/django-nose"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "django-nose project notice",
-      "url": "https://pypi.org/project/django-nose/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
+      "headline": "django-nose is maintenance-only — dates, impact, migration",
+      "description": "The package states that it is in maintenance mode and recommends pytest or Django unittest for new projects.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "deprecated",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "django-nose is maintenance-only",
+        "identifier": "pkg:pypi/django-nose"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "django-nose project notice",
+          "url": "https://pypi.org/project/django-nose/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-nose.maintenance-only.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/django-nose?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: django-nose project notice (https://pypi.org/project/django-nose/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/django-nose?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "pytest-django or Django unittest"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/django-nose?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/django-nose."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

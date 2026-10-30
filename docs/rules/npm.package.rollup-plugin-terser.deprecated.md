@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
-  "headline": "rollup-plugin-terser is deprecated — dates, impact, migration",
-  "description": "npm marks rollup-plugin-terser as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "rollup-plugin-terser is deprecated",
-    "identifier": "pkg:npm/rollup-plugin-terser"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "rollup-plugin-terser on npm",
-      "url": "https://www.npmjs.com/package/rollup-plugin-terser"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
+      "headline": "rollup-plugin-terser is deprecated — dates, impact, migration",
+      "description": "npm marks rollup-plugin-terser as deprecated: \"This package has been deprecated and is no longer maintained. Please use @rollup/plugin-terser\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "rollup-plugin-terser is deprecated",
+        "identifier": "pkg:npm/rollup-plugin-terser"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "rollup-plugin-terser on npm",
+          "url": "https://www.npmjs.com/package/rollup-plugin-terser"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "rollup-plugin-terser registry metadata",
+          "url": "https://registry.npmjs.org/rollup-plugin-terser/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "rollup-plugin-terser registry metadata",
-      "url": "https://registry.npmjs.org/rollup-plugin-terser/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.rollup-plugin-terser.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/rollup-plugin-terser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: rollup-plugin-terser on npm (https://www.npmjs.com/package/rollup-plugin-terser)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/rollup-plugin-terser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@rollup/plugin-terser"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/rollup-plugin-terser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/rollup-plugin-terser."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

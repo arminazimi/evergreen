@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
-  "headline": "karma-phantomjs-launcher is deprecated — dates, impact, migration",
-  "description": "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "karma-phantomjs-launcher is deprecated",
-    "identifier": "pkg:npm/karma-phantomjs-launcher"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "karma-phantomjs-launcher package deprecation notice",
-      "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
+      "headline": "karma-phantomjs-launcher is deprecated — dates, impact, migration",
+      "description": "npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "karma-phantomjs-launcher is deprecated",
+        "identifier": "pkg:npm/karma-phantomjs-launcher"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "karma-phantomjs-launcher package deprecation notice",
+          "url": "https://www.npmjs.com/package/karma-phantomjs-launcher"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "karma-phantomjs-launcher registry metadata",
+          "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "karma-phantomjs-launcher registry metadata",
-      "url": "https://registry.npmjs.org/karma-phantomjs-launcher/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.karma-phantomjs-launcher.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/karma-phantomjs-launcher?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: karma-phantomjs-launcher package deprecation notice (https://www.npmjs.com/package/karma-phantomjs-launcher)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/karma-phantomjs-launcher?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A maintained Karma browser launcher such as karma-chrome-launcher"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/karma-phantomjs-launcher?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/karma-phantomjs-launcher."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -5,8 +5,8 @@ name: Rules (changed)
 # Offline: it reads the checkout only. There is no network step, no secret, and no write scope.
 
 on:
-  pull_request:
-    types: [labeled]
+  push:
+    branches: [main]
     paths:
       - "registry/**"
       - "tests/fixtures/**"
@@ -19,12 +19,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: rules-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: rules-${{ github.sha }}
+  cancel-in-progress: false
 
 jobs:
   rules:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: rules (changed)
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -43,7 +42,7 @@ jobs:
       - name: Lint and test the changed rules
         shell: bash
         env:
-          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.before }}
         run: |
-          git fetch --no-tags origin "$BASE_REF"
-          node dist/tools/changed-rules.js --base "origin/$BASE_REF" --summary "$GITHUB_STEP_SUMMARY"
+          git fetch --no-tags origin "$BASE_SHA"
+          node dist/tools/changed-rules.js --base "$BASE_SHA" --summary "$GITHUB_STEP_SUMMARY"

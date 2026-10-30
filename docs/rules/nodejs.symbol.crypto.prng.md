@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
-  "headline": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated — dates, impact, migration",
-  "description": "Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115: documentation-only since v11.0.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "nodejs",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0115",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
+      "headline": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated — dates, impact, migration",
+      "description": "Node.js deprecates crypto.prng, crypto.pseudoRandomBytes and crypto.rng (DEP0115: documentation-only since v11.0.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "nodejs",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Crypto.prng, crypto.pseudoRandomBytes and crypto.rng are deprecated",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0115",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypto.prng.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/>=11.0.0. Source: Node.js deprecations: DEP0115 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "crypto.randomBytes()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

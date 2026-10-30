@@ -71,41 +71,76 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
-  "headline": "Redis 7.0 is end-of-life — dates, impact, migration",
-  "description": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-29",
-  "keywords": [
-    "end-of-life",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Redis 7.0 is end-of-life",
-    "identifier": "pkg:generic/redis"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Redis Open Source version management",
-      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
+      "headline": "Redis 7.0 is end-of-life — dates, impact, migration",
+      "description": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-29",
+      "keywords": [
+        "end-of-life",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Redis 7.0 is end-of-life",
+        "identifier": "pkg:generic/redis"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Redis Open Source version management",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "endoflife.date: Redis",
+          "url": "https://endoflife.date/redis"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "endoflife.date: Redis",
-      "url": "https://endoflife.date/redis"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.redis.end-of-life-7.0.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2024-07-29. Affected versions: vers:semver/>=7.0.0|\u003c7.1.0. Source: Redis Open Source version management (https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Redis 7.4 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/redis."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

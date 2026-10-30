@@ -70,41 +70,76 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
-  "headline": "MySQL 8.0 is end-of-life — dates, impact, migration",
-  "description": "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-22",
-  "keywords": [
-    "end-of-life",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "MySQL 8.0 is end-of-life",
-    "identifier": "pkg:generic/mysql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "MySQL supported platforms and lifecycle",
-      "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
+      "headline": "MySQL 8.0 is end-of-life — dates, impact, migration",
+      "description": "MySQL 8.0 reached end of life on 2026-04-30 and no longer receives security or bug fixes from Oracle.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-22",
+      "keywords": [
+        "end-of-life",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "MySQL 8.0 is end-of-life",
+        "identifier": "pkg:generic/mysql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "MySQL supported platforms and lifecycle",
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "endoflife.date: MySQL",
+          "url": "https://endoflife.date/mysql"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "endoflife.date: MySQL",
-      "url": "https://endoflife.date/mysql"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.mysql.end-of-life-8.0.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-30. Affected versions: vers:semver/>=8.0.0|\u003c8.1.0. Source: MySQL supported platforms and lifecycle (https://www.mysql.com/support/supportedplatforms/database.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MySQL 8.4 LTS or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/mysql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

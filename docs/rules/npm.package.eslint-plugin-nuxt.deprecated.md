@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
-  "headline": "eslint-plugin-nuxt is deprecated — dates, impact, migration",
-  "description": "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "eslint-plugin-nuxt is deprecated",
-    "identifier": "pkg:npm/eslint-plugin-nuxt"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "eslint-plugin-nuxt on npm",
-      "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
+      "headline": "eslint-plugin-nuxt is deprecated — dates, impact, migration",
+      "description": "npm marks eslint-plugin-nuxt as deprecated: \"eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "eslint-plugin-nuxt is deprecated",
+        "identifier": "pkg:npm/eslint-plugin-nuxt"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "eslint-plugin-nuxt on npm",
+          "url": "https://www.npmjs.com/package/eslint-plugin-nuxt"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "eslint-plugin-nuxt registry metadata",
+          "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "eslint-plugin-nuxt registry metadata",
-      "url": "https://registry.npmjs.org/eslint-plugin-nuxt/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-plugin-nuxt.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/eslint-plugin-nuxt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: eslint-plugin-nuxt on npm (https://www.npmjs.com/package/eslint-plugin-nuxt)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/eslint-plugin-nuxt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@nuxt/eslint-plugin"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/eslint-plugin-nuxt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/eslint-plugin-nuxt."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

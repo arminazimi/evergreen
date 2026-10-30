@@ -66,36 +66,71 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
-  "headline": "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration",
-  "description": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "end-of-support",
-    "swift",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Xcode older than 15 is not accepted for App Store uploads",
-    "identifier": "pkg:generic/xcode"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Xcode 15 — App Store upcoming requirements",
-      "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+      "headline": "Xcode older than 15 is not accepted for App Store uploads — dates, impact, migration",
+      "description": "Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "end-of-support",
+        "swift",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Xcode older than 15 is not accepted for App Store uploads",
+        "identifier": "pkg:generic/xcode"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Xcode 15 — App Store upcoming requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=04292024a"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-store-below-15.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2024-04-29. Affected versions: vers:semver/\u003c15.0.0. Source: Xcode 15 — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=04292024a)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Xcode 26 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/xcode?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/xcode."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

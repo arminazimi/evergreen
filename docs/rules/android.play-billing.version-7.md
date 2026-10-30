@@ -65,36 +65,71 @@ This page is generated from [`registry/android.json`](https://github.com/arminaz
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
-  "headline": "Google Play Billing Library 7 is past its deprecation deadline — dates, impact, migration",
-  "description": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "android",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Google Play Billing Library 7 is past its deprecation deadline",
-    "identifier": "pkg:maven/com.android.billingclient/billing"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Google Play Billing Library version deprecation — support timeline",
-      "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
+      "headline": "Google Play Billing Library 7 is past its deprecation deadline — dates, impact, migration",
+      "description": "The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "android",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Google Play Billing Library 7 is past its deprecation deadline",
+        "identifier": "pkg:maven/com.android.billingclient/billing"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Google Play Billing Library version deprecation — support timeline",
+          "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/android.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/android.play-billing.version-7.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:maven/com.android.billingclient/billing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2026-08-31. Affected versions: vers:maven/>=7.0.0|\u003c8.0.0. Source: Google Play Billing Library version deprecation — support timeline (https://developer.android.com/google/play/billing/deprecation-faq)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:maven/com.android.billingclient/billing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Google Play Billing Library 8.x or 9.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:maven/com.android.billingclient/billing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:maven/com.android.billingclient/billing."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/android.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

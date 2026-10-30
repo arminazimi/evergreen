@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
-  "headline": "Sysconfig.expand_makefile_vars is deprecated — dates, impact, migration",
-  "description": "Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Sysconfig.expand_makefile_vars is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Python deprecations: pending removal in 3.16",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
+      "headline": "Sysconfig.expand_makefile_vars is deprecated — dates, impact, migration",
+      "description": "Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Sysconfig.expand_makefile_vars is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Python deprecations: pending removal in 3.16",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.16.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.sysconfig.expand-makefile-vars.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.14. Source: Python deprecations: pending removal in 3.16 (https://docs.python.org/3/deprecations/pending-removal-in-3.16.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "the vars argument of sysconfig.get_paths()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

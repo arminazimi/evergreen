@@ -65,36 +65,71 @@ This page is generated from [`registry/swift.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
-  "headline": "iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads — dates, impact, migration",
-  "description": "Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-support",
-    "swift",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads",
-    "identifier": "pkg:generic/ios"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "iOS and iPadOS minimum system requirements — App Store upcoming requirements",
-      "url": "https://developer.apple.com/news/upcoming-requirements/?id=0992026a"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
+      "headline": "iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads — dates, impact, migration",
+      "description": "Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-support",
+        "swift",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads",
+        "identifier": "pkg:generic/ios"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "iOS and iPadOS minimum system requirements — App Store upcoming requirements",
+          "url": "https://developer.apple.com/news/upcoming-requirements/?id=0992026a"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios-below-13.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/ios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-09-09. Affected versions: vers:semver/\u003c13.0.0. Source: iOS and iPadOS minimum system requirements — App Store upcoming requirements (https://developer.apple.com/news/upcoming-requirements/?id=0992026a)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/ios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "iOS 13 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/ios?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/ios."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/swift.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

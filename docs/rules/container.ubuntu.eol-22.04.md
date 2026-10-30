@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
-  "headline": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 — dates, impact, migration",
-  "description": "Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "scheduled-end-of-life",
-    "container",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01",
-    "identifier": "pkg:docker/library/ubuntu"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ubuntu release cycle",
-      "url": "https://ubuntu.com/about/release-cycle"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
+      "headline": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01 — dates, impact, migration",
+      "description": "Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "scheduled-end-of-life",
+        "container",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01",
+        "identifier": "pkg:docker/library/ubuntu"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ubuntu release cycle",
+          "url": "https://ubuntu.com/about/release-cycle"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eol-22.04.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2027-06-01. Affected versions: vers:semver/>=22.0.0|\u003c22.10.0. Source: Ubuntu release cycle (https://ubuntu.com/about/release-cycle)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An ubuntu image on a later supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/ubuntu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/ubuntu."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

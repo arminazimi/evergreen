@@ -68,41 +68,76 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
-  "headline": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served — dates, impact, migration",
-  "description": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "removed",
-    "kubernetes",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served",
-    "identifier": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
+      "headline": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served — dates, impact, migration",
+      "description": "The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSIStorageCapacity is no longer served as of v1.27, which was released on 2023-04-11.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "removed",
+        "kubernetes",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "CSIStorageCapacity storage.k8s.io/v1beta1 is no longer served",
+        "identifier": "pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)",
+          "url": "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes v1.27: Chill Vibes (release announcement, 2023-04-11)",
-      "url": "https://kubernetes.io/blog/2023/04/11/kubernetes-v1-27-release/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-k8s-io.csistoragecapacity.v1beta1.removed.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed as of 2023-04-11. Affected versions: vers:semver/1.0.0-beta.1. Source: Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "storage.k8s.io/v1 CSIStorageCapacity, available since v1.24"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/kubernetes/storage.k8s.io/CSIStorageCapacity."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -16,6 +16,7 @@ import {
   buildFiles,
   checkCommand,
   drift,
+  faqMainEntity,
   loadRegistries,
   lookupEntries,
   lookupUrl,
@@ -59,10 +60,20 @@ const registry = (rules: RegistryV2Rule[], maxReviewAgeDays?: number): RegistryV
   rules,
 });
 
-function structuredData(page: string): Record<string, unknown> {
+function structuredDataRoot(page: string): Record<string, unknown> {
   const match = /<script type="application\/ld\+json">\n([\s\S]*?)\n<\/script>/.exec(page);
   assert.ok(match, "the page has no JSON-LD block");
   return JSON.parse(match[1]!) as Record<string, unknown>;
+}
+
+function structuredData(page: string, type: string): Record<string, unknown> {
+  const root = structuredDataRoot(page);
+  if (root["@type"] === type) return root;
+  const graph = root["@graph"];
+  assert.ok(Array.isArray(graph), `structured data has no @graph for ${type}`);
+  const node = (graph as Array<Record<string, unknown>>).find((entry) => entry["@type"] === type);
+  assert.ok(node, `structured data has no ${type}`);
+  return node;
 }
 
 test("every bundled rule has a page and a JSON twin, and the committed files match the registry", async () => {
@@ -414,8 +425,11 @@ test("each page carries valid structured data that agrees with the page", async 
   for (const item of await loadRegistries()) {
     for (const entry of item.rules) {
       const page = renderRulePage(entry, 365);
-      const data = structuredData(page);
-      assert.equal(data["@context"], "https://schema.org");
+      const root = structuredDataRoot(page);
+      assert.equal(root["@context"], "https://schema.org");
+      assert.ok(Array.isArray(root["@graph"]));
+
+      const data = structuredData(page, "TechArticle");
       assert.equal(data["@type"], "TechArticle");
       assert.equal(data.url, ruleUrl(entry.id));
       assert.equal(data["@id"], data.url);
@@ -427,17 +441,64 @@ test("each page carries valid structured data that agrees with the page", async 
       assert.ok((data.description as string).length <= 201);
       assert.match(data.isBasedOn as string, new RegExp(`/registry/${entry.ecosystem}\\.json$`));
       assert.equal((data.publisher as { url: string }).url, "https://arminazimi.github.io/evergreen");
+
+      const faq = structuredData(page, "FAQPage");
+      assert.equal(faq["@type"], "FAQPage");
+      assert.equal(faq.url, ruleUrl(entry.id));
+      assert.equal(faq["@id"], `${ruleUrl(entry.id)}#faq`);
+      assert.deepEqual(faq.mainEntity, faqMainEntity(entry));
+      const questions = faq.mainEntity as Array<{ name: string; acceptedAnswer: { text: string } }>;
+      assert.ok(questions.length >= 2);
+      assert.ok(questions.every((question) => question.name.length > 0 && question.acceptedAnswer.text.length > 0));
+      assert.ok(questions.some((question) => question.acceptedAnswer.text.includes(checkCommand(entry))));
+      if (entry.replacement) {
+        assert.ok(questions.some((question) => question.acceptedAnswer.text === entry.replacement));
+      }
     }
   }
 });
 
+test("the home page publishes SoftwareApplication structured data", async () => {
+  const home = await readFile("docs/index.md", "utf8");
+  const data = structuredData(home, "SoftwareApplication");
+  assert.equal(structuredDataRoot(home)["@context"], "https://schema.org");
+  assert.equal(data["@type"], "SoftwareApplication");
+  assert.equal(data.name, "Evergreen");
+  assert.equal(data.alternateName, "evergreen-deprecation");
+  assert.equal(data.applicationCategory, "DeveloperApplication");
+  assert.equal(data.operatingSystem, "Node.js 22 or newer");
+  assert.equal(data.url, "https://arminazimi.github.io/evergreen/");
+  assert.equal(data.downloadUrl, "https://www.npmjs.com/package/evergreen-deprecation");
+  assert.equal((data.offers as { price: string; priceCurrency: string }).price, "0");
+  assert.equal((data.offers as { price: string; priceCurrency: string }).priceCurrency, "USD");
+  assert.deepEqual(data.sameAs, [
+    "https://github.com/arminazimi/evergreen",
+    "https://www.npmjs.com/package/evergreen-deprecation",
+  ]);
+  assert.equal(typeof data.description, "string");
+  assert.ok((data.description as string).length > 40);
+});
+
 test("data can never close the structured-data element", () => {
-  const page = renderRulePage(rule({ summary: "Bad </script><script>alert(1)</script> text", title: "A </script> title" }), 365);
+  const page = renderRulePage(
+    rule({
+      summary: "Bad </script><script>alert(1)</script> text",
+      title: "A </script> title",
+      replacement: "Use </script><script>alert(2)</script>",
+    }),
+    365,
+  );
   const block = page.slice(page.indexOf('<script type="application/ld+json">'));
   // Only the closing tag the generator writes: no `</` appears inside the JSON.
   assert.equal(block.indexOf("</"), block.lastIndexOf("</script>"));
-  assert.equal(structuredData(page).headline, "A </script> title — dates, impact, migration");
-  assert.equal(structuredData(page).description, "Bad </script><script>alert(1)</script> text");
+  assert.equal(structuredData(page, "TechArticle").headline, "A </script> title — dates, impact, migration");
+  assert.equal(structuredData(page, "TechArticle").description, "Bad </script><script>alert(1)</script> text");
+  assert.equal(
+    (structuredData(page, "FAQPage").mainEntity as Array<{ acceptedAnswer: { text: string } }>).find(
+      (question) => question.acceptedAnswer.text.startsWith("Use "),
+    )?.acceptedAnswer.text,
+    "Use </script><script>alert(2)</script>",
+  );
 });
 
 test("the page says where the machine-readable data lives and that no CLE export exists yet", () => {

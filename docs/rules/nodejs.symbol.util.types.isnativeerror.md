@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
-  "headline": "Util.types.isNativeError is deprecated — dates, impact, migration",
-  "description": "Node.js deprecates util.types.isNativeError (DEP0197: documentation-only since v24.2.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "nodejs",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Util.types.isNativeError is deprecated",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0197",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
+      "headline": "Util.types.isNativeError is deprecated — dates, impact, migration",
+      "description": "Node.js deprecates util.types.isNativeError (DEP0197: documentation-only since v24.2.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "nodejs",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Util.types.isNativeError is deprecated",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0197",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.types.isnativeerror.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/>=24.2.0. Source: Node.js deprecations: DEP0197 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Error.isError()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

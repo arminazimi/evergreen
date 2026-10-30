@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
-  "headline": "Ruby image release lines 3.2 and older are end-of-life — dates, impact, migration",
-  "description": "These Ruby branches no longer receive security or bug fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ruby image release lines 3.2 and older are end-of-life",
-    "identifier": "pkg:docker/library/ruby"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ruby maintenance branches",
-      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
+      "headline": "Ruby image release lines 3.2 and older are end-of-life — dates, impact, migration",
+      "description": "These Ruby branches no longer receive security or bug fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ruby image release lines 3.2 and older are end-of-life",
+        "identifier": "pkg:docker/library/ruby"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.2-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-01. Affected versions: vers:semver/\u003c3.3.0. Source: Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A ruby image on a supported branch"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/ruby."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
-  "headline": "babel-preset-es2015 is deprecated — dates, impact, migration",
-  "description": "npm recommends babel-preset-env instead of babel-preset-es2015.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "babel-preset-es2015 is deprecated",
-    "identifier": "pkg:npm/babel-preset-es2015"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "babel-preset-es2015 package deprecation notice",
-      "url": "https://www.npmjs.com/package/babel-preset-es2015"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
+      "headline": "babel-preset-es2015 is deprecated — dates, impact, migration",
+      "description": "npm recommends babel-preset-env instead of babel-preset-es2015.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "babel-preset-es2015 is deprecated",
+        "identifier": "pkg:npm/babel-preset-es2015"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "babel-preset-es2015 package deprecation notice",
+          "url": "https://www.npmjs.com/package/babel-preset-es2015"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "babel-preset-es2015 registry metadata",
+          "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "babel-preset-es2015 registry metadata",
-      "url": "https://registry.npmjs.org/babel-preset-es2015/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-preset-es2015.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/babel-preset-es2015?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: babel-preset-es2015 package deprecation notice (https://www.npmjs.com/package/babel-preset-es2015)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/babel-preset-es2015?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@babel/preset-env"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/babel-preset-es2015?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/babel-preset-es2015."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -70,41 +70,76 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
-  "headline": "PostgreSQL 12 is no longer a supported major version — dates, impact, migration",
-  "description": "The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on November 21, 2024, so it receives no further bug or security fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-22",
-  "keywords": [
-    "end-of-life",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PostgreSQL 12 is no longer a supported major version",
-    "identifier": "pkg:generic/postgresql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
+      "headline": "PostgreSQL 12 is no longer a supported major version — dates, impact, migration",
+      "description": "The PostgreSQL Global Development Group lists 12 as unsupported: its final release was on November 21, 2024, so it receives no further bug or security fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-22",
+      "keywords": [
+        "end-of-life",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PostgreSQL 12 is no longer a supported major version",
+        "identifier": "pkg:generic/postgresql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "endoflife.date: PostgreSQL",
+          "url": "https://endoflife.date/postgresql"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "endoflife.date: PostgreSQL",
-      "url": "https://endoflife.date/postgresql"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-12.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2024-11-21. Affected versions: vers:semver/>=12.0.0|\u003c13.0.0. Source: PostgreSQL versioning policy (https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PostgreSQL 16 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/postgresql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

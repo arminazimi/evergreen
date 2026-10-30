@@ -63,36 +63,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
-  "headline": "pep8 was renamed to pycodestyle — dates, impact, migration",
-  "description": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "pep8 was renamed to pycodestyle",
-    "identifier": "pkg:pypi/pep8"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "pycodestyle rename notice",
-      "url": "https://pypi.org/project/pycodestyle/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
+      "headline": "pep8 was renamed to pycodestyle — dates, impact, migration",
+      "description": "The maintainers renamed the pep8 project to pycodestyle to reduce confusion.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "pep8 was renamed to pycodestyle",
+        "identifier": "pkg:pypi/pep8"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "pycodestyle rename notice",
+          "url": "https://pypi.org/project/pycodestyle/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pep8.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/pep8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: pycodestyle rename notice (https://pypi.org/project/pycodestyle/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/pep8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "pycodestyle"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/pep8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/pep8."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
-  "headline": "url.parse is deprecated — dates, impact, migration",
-  "description": "Node.js deprecates url.parse() because its behavior is not standardized and error-prone with security implications (DEP0169): documentation-only since v19.0.0 and v18.13.0, application runtime…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "nodejs",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "url.parse is deprecated",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0169 url.parse",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
+      "headline": "url.parse is deprecated — dates, impact, migration",
+      "description": "Node.js deprecates url.parse() because its behavior is not standardized and error-prone with security implications (DEP0169): documentation-only since v19.0.0 and v18.13.0, application runtime…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "nodejs",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "url.parse is deprecated",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0169 url.parse",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.url.parse.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/>=18.13.0. Source: Node.js deprecations: DEP0169 url.parse (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The WHATWG URL API, new URL()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

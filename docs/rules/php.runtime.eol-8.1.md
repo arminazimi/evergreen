@@ -67,41 +67,76 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
-  "headline": "PHP 8.1 is end-of-life — dates, impact, migration",
-  "description": "The PHP unsupported branches page lists the PHP 8.1 branch as end of life on 2025-12-31; the branch no longer receives security or bug fixes from the PHP project.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "end-of-life",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PHP 8.1 is end-of-life",
-    "identifier": "pkg:generic/php"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PHP unsupported branches",
-      "url": "https://www.php.net/eol.php"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
+      "headline": "PHP 8.1 is end-of-life — dates, impact, migration",
+      "description": "The PHP unsupported branches page lists the PHP 8.1 branch as end of life on 2025-12-31; the branch no longer receives security or bug fixes from the PHP project.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "end-of-life",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PHP 8.1 is end-of-life",
+        "identifier": "pkg:generic/php"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PHP unsupported branches",
+          "url": "https://www.php.net/eol.php"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "PHP supported versions",
-      "url": "https://www.php.net/supported-versions.php"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-12-31. Affected versions: vers:semver/>=8.1.0|\u003c8.2.0. Source: PHP unsupported branches (https://www.php.net/eol.php)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PHP 8.3 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/php."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

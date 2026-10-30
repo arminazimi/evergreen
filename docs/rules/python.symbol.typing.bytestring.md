@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
-  "headline": "Typing.ByteString is deprecated — dates, impact, migration",
-  "description": "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Typing.ByteString is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Python deprecations: pending removal in 3.17",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
+      "headline": "Typing.ByteString is deprecated — dates, impact, migration",
+      "description": "Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Typing.ByteString is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Python deprecations: pending removal in 3.17",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.17.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.bytestring.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.9. Source: Python deprecations: pending removal in 3.17 (https://docs.python.org/3/deprecations/pending-removal-in-3.17.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "collections.abc.Buffer, or an explicit union"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

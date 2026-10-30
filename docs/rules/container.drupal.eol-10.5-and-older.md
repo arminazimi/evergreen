@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
-  "headline": "Drupal image release lines 10.5 and older are end-of-life — dates, impact, migration",
-  "description": "These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Drupal image release lines 10.5 and older are end-of-life",
-    "identifier": "pkg:docker/library/drupal"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Drupal release policy (vendor)",
-      "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
+      "headline": "Drupal image release lines 10.5 and older are end-of-life — dates, impact, migration",
+      "description": "These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Drupal image release lines 10.5 and older are end-of-life",
+        "identifier": "pkg:docker/library/drupal"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Drupal release policy (vendor)",
+          "url": "https://www.drupal.org/about/core/policies/core-release-cycles/schedule"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.drupal.eol-10.5-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/drupal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-07-01. Affected versions: vers:semver/\u003c10.6.0. Source: Drupal release policy (vendor) (https://www.drupal.org/about/core/policies/core-release-cycles/schedule)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/drupal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A drupal image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/drupal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/drupal."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

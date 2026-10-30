@@ -65,36 +65,71 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
-  "headline": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j — dates, impact, migration",
-  "description": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "java",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
-    "identifier": "pkg:maven/mysql/mysql-connector-java"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
-      "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+      "headline": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j — dates, impact, migration",
+      "description": "The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:mysql-connector-j. Its message says: \"MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "java",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "mysql:mysql-connector-java has moved to com.mysql:mysql-connector-j",
+        "identifier": "pkg:maven/mysql/mysql-connector-java"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "mysql:mysql-connector-java 8.0.33 POM on Maven Central",
+          "url": "https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.mysql.mysql-connector-java.relocated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:maven/mysql/mysql-connector-java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:maven/>=8.0.31. Source: mysql:mysql-connector-java 8.0.33 POM on Maven Central (https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.pom)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:maven/mysql/mysql-connector-java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "com.mysql:mysql-connector-j"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:maven/mysql/mysql-connector-java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:maven/mysql/mysql-connector-java."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

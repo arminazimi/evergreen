@@ -61,36 +61,63 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
-  "headline": "Fs.lchmod and fs.lchmodSync are deprecated — dates, impact, migration",
-  "description": "Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only since v0.4.7).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "nodejs",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Fs.lchmod and fs.lchmodSync are deprecated",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0035",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
+      "headline": "Fs.lchmod and fs.lchmodSync are deprecated — dates, impact, migration",
+      "description": "Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only since v0.4.7).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "nodejs",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Fs.lchmod and fs.lchmodSync are deprecated",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0035",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lchmod.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/>=0.4.7. Source: Node.js deprecations: DEP0035 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -62,36 +62,71 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
-  "headline": "ansi_term is no longer maintained — dates, impact, migration",
-  "description": "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "rust",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "ansi_term is no longer maintained",
-    "identifier": "pkg:cargo/ansi_term"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "RustSec advisory RUSTSEC-2021-0139",
-      "url": "https://rustsec.org/advisories/RUSTSEC-2021-0139.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
+      "headline": "ansi_term is no longer maintained — dates, impact, migration",
+      "description": "The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "rust",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "ansi_term is no longer maintained",
+        "identifier": "pkg:cargo/ansi_term"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "RustSec advisory RUSTSEC-2021-0139",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2021-0139.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-term.unmaintained.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:cargo/ansi_term?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:cargo/*. Source: RustSec advisory RUSTSEC-2021-0139 (https://rustsec.org/advisories/RUSTSEC-2021-0139.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:cargo/ansi_term?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A maintained terminal-styling crate (the advisory lists unvetted alternatives such as anstyle, nu-ansi-term, owo-colors, and console)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:cargo/ansi_term?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:cargo/ansi_term."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

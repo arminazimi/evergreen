@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
-  "headline": "@nuxt/typescript-build is deprecated — dates, impact, migration",
-  "description": "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@nuxt/typescript-build is deprecated",
-    "identifier": "pkg:npm/%40nuxt/typescript-build"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@nuxt/typescript-build on npm",
-      "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
+      "headline": "@nuxt/typescript-build is deprecated — dates, impact, migration",
+      "description": "npm marks @nuxt/typescript-build as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@nuxt/typescript-build is deprecated",
+        "identifier": "pkg:npm/%40nuxt/typescript-build"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@nuxt/typescript-build on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/typescript-build"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@nuxt/typescript-build registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@nuxt/typescript-build registry metadata",
-      "url": "https://registry.npmjs.org/@nuxt%2ftypescript-build/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.typescript-build.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40nuxt/typescript-build?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: @nuxt/typescript-build on npm (https://www.npmjs.com/package/@nuxt/typescript-build)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40nuxt/typescript-build?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nuxt 3 (no TypeScript build module needed)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40nuxt/typescript-build?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40nuxt/typescript-build."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

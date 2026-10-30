@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
-  "headline": "q is deprecated — dates, impact, migration",
-  "description": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "q is deprecated",
-    "identifier": "pkg:npm/q"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "q package deprecation notice",
-      "url": "https://www.npmjs.com/package/q"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
+      "headline": "q is deprecated — dates, impact, migration",
+      "description": "The q maintainer states that consumers can almost certainly migrate to native JavaScript promises.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "q is deprecated",
+        "identifier": "pkg:npm/q"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "q package deprecation notice",
+          "url": "https://www.npmjs.com/package/q"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "q registry metadata",
+          "url": "https://registry.npmjs.org/q/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "q registry metadata",
-      "url": "https://registry.npmjs.org/q/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.q.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/q?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: q package deprecation notice (https://www.npmjs.com/package/q)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/q?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Native Promise"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/q?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/q."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

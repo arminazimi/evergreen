@@ -67,41 +67,76 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
-  "headline": "Python 3.9 and older are end-of-life — dates, impact, migration",
-  "description": "These Python release lines no longer receive security or bug fixes from the Python core team.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Python 3.9 and older are end-of-life",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Status of Python versions",
-      "url": "https://devguide.python.org/versions/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+      "headline": "Python 3.9 and older are end-of-life — dates, impact, migration",
+      "description": "These Python release lines no longer receive security or bug fixes from the Python core team.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Python 3.9 and older are end-of-life",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Status of Python versions",
+          "url": "https://devguide.python.org/versions/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PEP 596 — Python 3.9 release schedule",
+          "url": "https://peps.python.org/pep-0596/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "PEP 596 — Python 3.9 release schedule",
-      "url": "https://peps.python.org/pep-0596/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-3.9-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-10-31. Affected versions: vers:pypi/\u003c3.10. Source: Status of Python versions (https://devguide.python.org/versions/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A supported Python release"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

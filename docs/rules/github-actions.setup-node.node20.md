@@ -64,41 +64,76 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
-  "headline": "Unsupported actions/setup-node runtime — dates, impact, migration",
-  "description": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "end-of-support",
-    "github-actions",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Unsupported actions/setup-node runtime",
-    "identifier": "pkg:github/actions/setup-node"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node 20 is no longer available in GitHub Actions",
-      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
+      "headline": "Unsupported actions/setup-node runtime — dates, impact, migration",
+      "description": "This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "end-of-support",
+        "github-actions",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Unsupported actions/setup-node runtime",
+        "identifier": "pkg:github/actions/setup-node"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "actions/setup-node v5 runtime guidance",
+          "url": "https://github.com/actions/setup-node#breaking-changes-in-v5"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "actions/setup-node v5 runtime guidance",
-      "url": "https://github.com/actions/setup-node#breaking-changes-in-v5"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/github-actions.setup-node.node20.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:github/actions/setup-node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-09-23. Affected versions: vers:semver/\u003c5.0.0. Source: Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:github/actions/setup-node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "actions/setup-node@v5 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:github/actions/setup-node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:github/actions/setup-node."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

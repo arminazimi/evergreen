@@ -66,41 +66,76 @@ This page is generated from [`registry/go.json`](https://github.com/arminazimi/e
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
-  "headline": "cloud.google.com/go/pubsub is deprecated — dates, impact, migration",
-  "description": "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "go",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "cloud.google.com/go/pubsub is deprecated",
-    "identifier": "pkg:golang/cloud.google.com/go/pubsub"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "cloud.google.com/go/pubsub v1.51.1 go.mod",
-      "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
+      "headline": "cloud.google.com/go/pubsub is deprecated — dates, impact, migration",
+      "description": "The latest cloud.google.com/go/pubsub module declares: \"use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "go",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "cloud.google.com/go/pubsub is deprecated",
+        "identifier": "pkg:golang/cloud.google.com/go/pubsub"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "cloud.google.com/go/pubsub v1.51.1 go.mod",
+          "url": "https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.cloud.google.com.go.pubsub.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:golang/cloud.google.com/go/pubsub?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:golang/*. Source: cloud.google.com/go/pubsub v1.51.1 go.mod (https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:golang/cloud.google.com/go/pubsub?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "cloud.google.com/go/pubsub/v2"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:golang/cloud.google.com/go/pubsub?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:golang/cloud.google.com/go/pubsub."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

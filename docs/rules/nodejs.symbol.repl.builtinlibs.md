@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
-  "headline": "Repl._builtinLibs is deprecated — dates, impact, migration",
-  "description": "Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "nodejs",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Repl._builtinLibs is deprecated",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0142",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
+      "headline": "Repl._builtinLibs is deprecated — dates, impact, migration",
+      "description": "Node.js deprecates repl._builtinLibs (DEP0142: documentation-only since v14.3.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "nodejs",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Repl._builtinLibs is deprecated",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0142",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.repl.builtinlibs.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:semver/>=14.3.0. Source: Node.js deprecations: DEP0142 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "require('node:module').builtinModules"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

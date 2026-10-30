@@ -36,8 +36,10 @@ test("Evergreen skill follows the portable Agent Skills contract", async () => {
   assert.doesNotMatch(String(frontmatter.description), /[<>]/);
   assert.match(
     String(frontmatter.description),
-    /Do not use for adding a dependency, routine upgrades, vulnerability or security audits/,
+    /Do not use for adding a dependency/,
   );
+  assert.match(String(frontmatter.description), /routine package upgrades|routine upgrades/);
+  assert.match(String(frontmatter.description), /vulnerability(?: or security)? audits/);
   assert.deepEqual(
     Object.keys(frontmatter).sort(),
     ["description", "license", "metadata", "name"],
@@ -186,4 +188,54 @@ test("the dependency classifier also holds on prompts that are not in the corpus
     "Write a test for the date helper.",
     "Add retries to the upload function.",
   ]) assert.equal(classifyDependencyAddition(prompt), false, prompt);
+});
+
+test("upgrade-runtime-action skill follows the portable Agent Skills contract", async () => {
+  const contents = await readFile(resolve("skills/evergreen-upgrade-runtime-action/SKILL.md"), "utf8");
+  const { frontmatter, body } = parseSkill(contents);
+
+  assert.equal(frontmatter.name, "evergreen-upgrade-runtime-action");
+  assert.equal(typeof frontmatter.description, "string");
+  assert.ok(String(frontmatter.description).length <= 1024);
+  assert.doesNotMatch(String(frontmatter.description), /[<>]/);
+  assert.match(String(frontmatter.description), /Upgrade an already-declared runtime/);
+  assert.match(String(frontmatter.description), /Do not use for adding a new dependency/);
+  assert.deepEqual(
+    Object.keys(frontmatter).sort(),
+    ["description", "license", "metadata", "name"],
+  );
+  assert.ok(body.split("\n").length < 80, "upgrade-runtime-action instructions should stay thin");
+  assert.doesNotMatch(contents, /\b(Codex|Claude|Cursor|Gemini|OpenAI|Anthropic)\b/i);
+  assert.match(body, /\bscan_repository\b/);
+  assert.match(body, /\bcheck_dependency\b/);
+  assert.match(body, /normal authorization rules/);
+});
+
+test("the upgrade-runtime-action corpus meets the trigger gates and the deprecation coverage decision", async () => {
+  const {
+    calculateMetrics,
+    classifyRuntimeActionUpgrade,
+    deprecationCoverageOnUpgradeJob,
+    loadUpgradeRuntimeActionEvalCorpus,
+    skillEvalHosts,
+  } = await import("../benchmarks/skill-trigger-eval.js");
+  const corpus = await loadUpgradeRuntimeActionEvalCorpus();
+  assert.equal(corpus.schemaVersion, "evergreen.upgrade-runtime-action-evals.v1");
+  assert.ok(corpus.cases.length >= 40);
+  assert.equal(new Set(corpus.cases.map((item) => item.id)).size, corpus.cases.length);
+  assert.equal(new Set(corpus.cases.map((item) => item.prompt)).size, corpus.cases.length);
+  for (const item of corpus.cases) assert.ok(item.reason.trim().length > 0, item.id);
+  assert.ok(corpus.cases.some((item) => item.kind === "ambiguous"));
+  for (const host of skillEvalHosts) {
+    const lane = corpus.cases.filter((item) => item.host === host);
+    assert.ok(lane.some((item) => item.shouldTrigger) && lane.some((item) => !item.shouldTrigger), host);
+    const metrics = calculateMetrics(lane, classifyRuntimeActionUpgrade);
+    assert.ok(metrics.recall >= 0.9, `${host} recall ${metrics.recall}`);
+    assert.ok(metrics.falseTriggerRate < 0.05, `${host} false-trigger rate ${metrics.falseTriggerRate}`);
+  }
+  const overall = calculateMetrics(corpus.cases, classifyRuntimeActionUpgrade);
+  assert.ok(overall.recall >= 0.9 && overall.falseTriggerRate < 0.05);
+  const coverage = deprecationCoverageOnUpgradeJob(corpus.cases);
+  assert.ok(coverage.cases >= 20);
+  assert.ok(coverage.rate < 0.8, `expected deprecation misses below 80%, got ${coverage.rate}`);
 });

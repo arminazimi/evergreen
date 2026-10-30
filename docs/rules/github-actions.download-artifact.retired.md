@@ -64,41 +64,76 @@ This page is generated from [`registry/github-actions.json`](https://github.com/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
-  "headline": "Retired actions/download-artifact release — dates, impact, migration",
-  "description": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "removed",
-    "github-actions",
-    "critical"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Retired actions/download-artifact release",
-    "identifier": "pkg:github/actions/download-artifact"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node 20 is no longer available in GitHub Actions",
-      "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+      "headline": "Retired actions/download-artifact release — dates, impact, migration",
+      "description": "This release uses a retired artifact service or JavaScript runtime. Version 7 runs on Node.js 24.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "removed",
+        "github-actions",
+        "critical"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Retired actions/download-artifact release",
+        "identifier": "pkg:github/actions/download-artifact"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Deprecation notice for artifact actions v3",
+          "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Deprecation notice for artifact actions v3",
-      "url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/github-actions.download-artifact.retired.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:github/actions/download-artifact?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed as of 2026-09-23. Affected versions: vers:semver/\u003c7.0.0. Source: Node 20 is no longer available in GitHub Actions (https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:github/actions/download-artifact?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "actions/download-artifact@v7 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:github/actions/download-artifact?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:github/actions/download-artifact."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

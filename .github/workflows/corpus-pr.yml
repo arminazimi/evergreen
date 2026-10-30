@@ -4,8 +4,8 @@ name: Corpus (affected ecosystems)
 # repositories for just the corpus ecosystems the change touches, so a detector or rule change that adds
 # false positives shows up before merge instead of in the weekly run. Do not add it to the required checks.
 on:
-  pull_request:
-    types: [labeled]
+  push:
+    branches: [main]
     paths:
       - "src/**"
       - "registry/**"
@@ -19,15 +19,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: corpus-pr-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: corpus-pr-${{ github.sha }}
+  cancel-in-progress: false
 
 env:
   EVERGREEN_CORPUS_CACHE: ${{ github.workspace }}/.corpus-cache
 
 jobs:
   corpus:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: corpus (affected ecosystems)
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -59,10 +58,10 @@ jobs:
       - name: Check the affected ecosystems against the pinned corpus
         shell: bash
         env:
-          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.before }}
         run: |
-          git fetch --no-tags origin "$BASE_REF"
-          node dist/benchmarks/public-repositories.js --changed "origin/$BASE_REF" --output corpus-result.json 2>&1 | tee corpus.log
+          git fetch --no-tags origin "$BASE_SHA"
+          node dist/benchmarks/public-repositories.js --changed "$BASE_SHA" --output corpus-result.json 2>&1 | tee corpus.log
       - name: Show the result in the job summary
         if: always()
         shell: bash

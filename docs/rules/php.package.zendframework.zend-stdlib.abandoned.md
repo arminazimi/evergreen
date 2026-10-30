@@ -66,41 +66,76 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
-  "headline": "zendframework/zend-stdlib is abandoned — dates, impact, migration",
-  "description": "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "zendframework/zend-stdlib is abandoned",
-    "identifier": "pkg:composer/zendframework/zend-stdlib"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "zendframework/zend-stdlib on Packagist",
-      "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
+      "headline": "zendframework/zend-stdlib is abandoned — dates, impact, migration",
+      "description": "Packagist marks zendframework/zend-stdlib as abandoned and no longer maintained, and the author suggests using laminas/laminas-stdlib instead.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "zendframework/zend-stdlib is abandoned",
+        "identifier": "pkg:composer/zendframework/zend-stdlib"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "zendframework/zend-stdlib on Packagist",
+          "url": "https://packagist.org/packages/zendframework/zend-stdlib"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!",
+          "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Endings and Beginnings: Goodbye, and Please Welcome the Laminas Project!",
-      "url": "https://www.zendframework.com/blog/2020-01-24-laminas-launch.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.zendframework.zend-stdlib.abandoned.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:composer/zendframework/zend-stdlib?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2019-12-31. Affected versions: vers:composer/*. Source: zendframework/zend-stdlib on Packagist (https://packagist.org/packages/zendframework/zend-stdlib)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:composer/zendframework/zend-stdlib?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "laminas/laminas-stdlib"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:composer/zendframework/zend-stdlib?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:composer/zendframework/zend-stdlib."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
-  "headline": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31 — dates, impact, migration",
-  "description": "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-29",
-  "keywords": [
-    "scheduled-end-of-life",
-    "container",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31",
-    "identifier": "pkg:docker/library/ruby"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ruby maintenance branches",
-      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
+      "headline": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31 — dates, impact, migration",
+      "description": "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-29",
+      "keywords": [
+        "scheduled-end-of-life",
+        "container",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31",
+        "identifier": "pkg:docker/library/ruby"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-3.3-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2027-03-31. Affected versions: vers:semver/>=3.3.0|\u003c3.4.0. Source: Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A ruby image on a later supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/ruby."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

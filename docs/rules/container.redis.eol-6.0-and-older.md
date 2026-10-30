@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
-  "headline": "Redis image release lines 6.0 and older are end-of-life — dates, impact, migration",
-  "description": "These Redis release lines no longer receive fixes from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Redis image release lines 6.0 and older are end-of-life",
-    "identifier": "pkg:docker/library/redis"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Redis release policy (vendor)",
-      "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
+      "headline": "Redis image release lines 6.0 and older are end-of-life — dates, impact, migration",
+      "description": "These Redis release lines no longer receive fixes from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Redis image release lines 6.0 and older are end-of-life",
+        "identifier": "pkg:docker/library/redis"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Redis release policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.redis.eol-6.0-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2022-05-31. Affected versions: vers:semver/\u003c6.2.0. Source: Redis release policy (vendor) (https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A redis image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/redis."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

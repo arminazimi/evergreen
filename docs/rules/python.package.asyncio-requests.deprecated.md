@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
-  "headline": "asyncio-requests is retired — dates, impact, migration",
-  "description": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "asyncio-requests is retired",
-    "identifier": "pkg:pypi/asyncio-requests"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "asyncio-gateway migration notice",
-      "url": "https://pypi.org/project/asyncio-gateway/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+      "headline": "asyncio-requests is retired — dates, impact, migration",
+      "description": "The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "asyncio-requests is retired",
+        "identifier": "pkg:pypi/asyncio-requests"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "asyncio-gateway migration notice",
+          "url": "https://pypi.org/project/asyncio-gateway/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.asyncio-requests.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/asyncio-requests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: asyncio-gateway migration notice (https://pypi.org/project/asyncio-gateway/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/asyncio-requests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "asyncio-gateway"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/asyncio-requests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/asyncio-requests."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

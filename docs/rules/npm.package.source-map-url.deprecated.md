@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
-  "headline": "source-map-url is deprecated — dates, impact, migration",
-  "description": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "source-map-url is deprecated",
-    "identifier": "pkg:npm/source-map-url"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "source-map-url maintainer deprecation notice",
-      "url": "https://github.com/lydell/source-map-url#deprecated"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
+      "headline": "source-map-url is deprecated — dates, impact, migration",
+      "description": "The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "source-map-url is deprecated",
+        "identifier": "pkg:npm/source-map-url"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "source-map-url maintainer deprecation notice",
+          "url": "https://github.com/lydell/source-map-url#deprecated"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "source-map-url registry metadata",
+          "url": "https://registry.npmjs.org/source-map-url/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "source-map-url registry metadata",
-      "url": "https://registry.npmjs.org/source-map-url/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.source-map-url.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/source-map-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: source-map-url maintainer deprecation notice (https://github.com/lydell/source-map-url#deprecated)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/source-map-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "convert-source-map"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/source-map-url?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/source-map-url."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

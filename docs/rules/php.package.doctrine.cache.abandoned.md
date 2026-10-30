@@ -64,41 +64,68 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
-  "headline": "doctrine/cache is abandoned — dates, impact, migration",
-  "description": "Packagist marks doctrine/cache as abandoned and no longer maintained.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "doctrine/cache is abandoned",
-    "identifier": "pkg:composer/doctrine/cache"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "doctrine/cache on Packagist",
-      "url": "https://packagist.org/packages/doctrine/cache"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
+      "headline": "doctrine/cache is abandoned — dates, impact, migration",
+      "description": "Packagist marks doctrine/cache as abandoned and no longer maintained.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "doctrine/cache is abandoned",
+        "identifier": "pkg:composer/doctrine/cache"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "doctrine/cache on Packagist",
+          "url": "https://packagist.org/packages/doctrine/cache"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "doctrine/cache Composer metadata",
+          "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "doctrine/cache Composer metadata",
-      "url": "https://repo.packagist.org/p2/doctrine/cache.json"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.doctrine.cache.abandoned.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:composer/doctrine/cache?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:composer/*. Source: doctrine/cache on Packagist (https://packagist.org/packages/doctrine/cache)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:composer/doctrine/cache?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:composer/doctrine/cache."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

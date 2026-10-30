@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
-  "headline": "superlinked-server is deprecated — dates, impact, migration",
-  "description": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "superlinked-server is deprecated",
-    "identifier": "pkg:pypi/superlinked-server"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "superlinked-server deprecation notice",
-      "url": "https://pypi.org/project/superlinked-server/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
+      "headline": "superlinked-server is deprecated — dates, impact, migration",
+      "description": "The maintainer identifies superlinked-server as a legacy package deprecated for new projects and directs users to SIE Server and sie-sdk.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "superlinked-server is deprecated",
+        "identifier": "pkg:pypi/superlinked-server"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "superlinked-server deprecation notice",
+          "url": "https://pypi.org/project/superlinked-server/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked-server.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/superlinked-server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: superlinked-server deprecation notice (https://pypi.org/project/superlinked-server/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/superlinked-server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SIE Server and sie-sdk"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/superlinked-server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/superlinked-server."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

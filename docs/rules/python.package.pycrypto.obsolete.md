@@ -67,36 +67,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
-  "headline": "PyCrypto is obsolete and vulnerable — dates, impact, migration",
-  "description": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "critical"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PyCrypto is obsolete and vulnerable",
-    "identifier": "pkg:pypi/pycrypto"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Archived PyCrypto repository warning",
-      "url": "https://github.com/pycrypto/pycrypto"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+      "headline": "PyCrypto is obsolete and vulnerable — dates, impact, migration",
+      "description": "The archived project warns that PyCrypto 2.x is unmaintained, obsolete, and contains security vulnerabilities.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "critical"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PyCrypto is obsolete and vulnerable",
+        "identifier": "pkg:pypi/pycrypto"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Archived PyCrypto repository warning",
+          "url": "https://github.com/pycrypto/pycrypto"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pycrypto.obsolete.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/pycrypto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2022-01-27. Affected versions: vers:pypi/*. Source: Archived PyCrypto repository warning (https://github.com/pycrypto/pycrypto)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/pycrypto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "pycryptodome or cryptography"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/pycrypto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/pycrypto."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

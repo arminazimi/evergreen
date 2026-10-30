@@ -3078,14 +3078,15 @@
         "npm"
       ],
       "events": [
+        "deprecated",
         "end-of-life"
       ],
       "id": "npm-node-sass",
-      "latestReview": "2026-10-14",
+      "latestReview": "2026-10-30",
       "name": "node-sass",
       "path": "products/npm-node-sass.json",
       "purl": "pkg:npm/node-sass",
-      "rules": 1,
+      "rules": 2,
       "type": "npm"
     },
     {
@@ -4498,7 +4499,7 @@
     {
       "path": "types/npm.json",
       "products": 74,
-      "rules": 82,
+      "rules": 83,
       "type": "npm"
     },
     {

@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
-  "headline": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12 — dates, impact, migration",
-  "description": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-24",
-  "keywords": [
-    "scheduled-end-of-life",
-    "container",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
-    "identifier": "pkg:docker/library/postgres"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL release policy (vendor)",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
+      "headline": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12 — dates, impact, migration",
+      "description": "The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-24",
+      "keywords": [
+        "scheduled-end-of-life",
+        "container",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PostgreSQL image release line 14 reaches end-of-life on 2026-11-12",
+        "identifier": "pkg:docker/library/postgres"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL release policy (vendor)",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-14-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2026-11-12. Affected versions: vers:semver/>=14.0.0|\u003c15.0.0. Source: PostgreSQL release policy (vendor) (https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/postgres."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

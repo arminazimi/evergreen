@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
-  "headline": "@types/diff is deprecated — dates, impact, migration",
-  "description": "npm marks @types/diff as deprecated: \"This is a stub types definition. diff provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/diff is deprecated",
-    "identifier": "pkg:npm/%40types/diff"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/diff on npm",
-      "url": "https://www.npmjs.com/package/@types/diff"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
+      "headline": "@types/diff is deprecated — dates, impact, migration",
+      "description": "npm marks @types/diff as deprecated: \"This is a stub types definition. diff provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/diff is deprecated",
+        "identifier": "pkg:npm/%40types/diff"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/diff on npm",
+          "url": "https://www.npmjs.com/package/@types/diff"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/diff version metadata",
+          "url": "https://registry.npmjs.org/@types%2fdiff"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/diff version metadata",
-      "url": "https://registry.npmjs.org/@types%2fdiff"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.diff.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/diff?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/8.0.0. Source: @types/diff on npm (https://www.npmjs.com/package/@types/diff)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/diff?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "diff"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/diff?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/diff."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

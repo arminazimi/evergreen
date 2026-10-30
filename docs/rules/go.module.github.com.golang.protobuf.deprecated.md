@@ -66,41 +66,76 @@ This page is generated from [`registry/go.json`](https://github.com/arminazimi/e
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
-  "headline": "github.com/golang/protobuf is deprecated — dates, impact, migration",
-  "description": "The latest github.com/golang/protobuf module declares: \"Use the \"google.golang.org/protobuf\" module instead.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "go",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "github.com/golang/protobuf is deprecated",
-    "identifier": "pkg:golang/github.com/golang/protobuf"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "github.com/golang/protobuf v1.5.4 go.mod",
-      "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
+      "headline": "github.com/golang/protobuf is deprecated — dates, impact, migration",
+      "description": "The latest github.com/golang/protobuf module declares: \"Use the \"google.golang.org/protobuf\" module instead.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "go",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "github.com/golang/protobuf is deprecated",
+        "identifier": "pkg:golang/github.com/golang/protobuf"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "github.com/golang/protobuf v1.5.4 go.mod",
+          "url": "https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.golang.protobuf.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:golang/github.com/golang/protobuf?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:golang/*. Source: github.com/golang/protobuf v1.5.4 go.mod (https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:golang/github.com/golang/protobuf?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "google.golang.org/protobuf"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:golang/github.com/golang/protobuf?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:golang/github.com/golang/protobuf."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

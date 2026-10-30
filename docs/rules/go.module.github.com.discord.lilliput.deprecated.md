@@ -65,41 +65,68 @@ This page is generated from [`registry/go.json`](https://github.com/arminazimi/e
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
-  "headline": "github.com/discord/lilliput is deprecated — dates, impact, migration",
-  "description": "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "go",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "github.com/discord/lilliput is deprecated",
-    "identifier": "pkg:golang/github.com/discord/lilliput"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "github.com/discord/lilliput v1.5.1 go.mod",
-      "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
+      "headline": "github.com/discord/lilliput is deprecated — dates, impact, migration",
+      "description": "The latest github.com/discord/lilliput module declares: \"discord/lilliput is unmaintained as of October 2026. There will be no further releases, including for security fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "go",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "github.com/discord/lilliput is deprecated",
+        "identifier": "pkg:golang/github.com/discord/lilliput"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "github.com/discord/lilliput v1.5.1 go.mod",
+          "url": "https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Go module deprecation reference",
+          "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Go module deprecation reference",
-      "url": "https://go.dev/ref/mod#go-mod-file-module-deprecation"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.module.github.com.discord.lilliput.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:golang/github.com/discord/lilliput?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:golang/*. Source: github.com/discord/lilliput v1.5.1 go.mod (https://proxy.golang.org/github.com/discord/lilliput/@v/v1.5.1.mod)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:golang/github.com/discord/lilliput?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:golang/github.com/discord/lilliput."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

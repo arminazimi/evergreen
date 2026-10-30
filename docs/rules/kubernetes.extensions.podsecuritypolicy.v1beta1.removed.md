@@ -68,41 +68,76 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
-  "headline": "PodSecurityPolicy extensions/v1beta1 is no longer served — dates, impact, migration",
-  "description": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.16, which was released on 2019-09-18.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "removed",
-    "kubernetes",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PodSecurityPolicy extensions/v1beta1 is no longer served",
-    "identifier": "pkg:generic/kubernetes/extensions/PodSecurityPolicy"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
+      "headline": "PodSecurityPolicy extensions/v1beta1 is no longer served — dates, impact, migration",
+      "description": "The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of PodSecurityPolicy is no longer served as of v1.16, which was released on 2019-09-18.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "removed",
+        "kubernetes",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PodSecurityPolicy extensions/v1beta1 is no longer served",
+        "identifier": "pkg:generic/kubernetes/extensions/PodSecurityPolicy"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
+          "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes 1.16: Custom Resources, Overhauled Metrics, and Volume Extensions (release announcement, 2019-09-18)",
-      "url": "https://kubernetes.io/blog/2019/09/18/kubernetes-1-16-release-announcement/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.extensions.podsecuritypolicy.v1beta1.removed.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/kubernetes/extensions/PodSecurityPolicy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed as of 2019-09-18. Affected versions: vers:semver/1.0.0-beta.1. Source: Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/kubernetes/extensions/PodSecurityPolicy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "policy/v1beta1 PodSecurityPolicy, available since v1.10"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/kubernetes/extensions/PodSecurityPolicy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/kubernetes/extensions/PodSecurityPolicy."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

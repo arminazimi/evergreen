@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
-  "headline": "imagej was renamed to pyimagej — dates, impact, migration",
-  "description": "The maintainers state that the imagej Python package was renamed to pyimagej.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "imagej was renamed to pyimagej",
-    "identifier": "pkg:pypi/imagej"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "imagej rename notice",
-      "url": "https://pypi.org/project/imagej/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
+      "headline": "imagej was renamed to pyimagej — dates, impact, migration",
+      "description": "The maintainers state that the imagej Python package was renamed to pyimagej.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "imagej was renamed to pyimagej",
+        "identifier": "pkg:pypi/imagej"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "imagej rename notice",
+          "url": "https://pypi.org/project/imagej/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.imagej.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/imagej?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: imagej rename notice (https://pypi.org/project/imagej/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/imagej?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "pyimagej"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/imagej?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/imagej."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

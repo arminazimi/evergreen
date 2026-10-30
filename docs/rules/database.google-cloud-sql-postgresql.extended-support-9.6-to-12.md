@@ -71,41 +71,76 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
-  "headline": "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support — dates, impact, migration",
-  "description": "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12 with extended support starting 2025-02-01 and deprecation on 2028-02-01.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-support",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support",
-    "identifier": "pkg:generic/google-cloud-sql-postgresql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Cloud SQL for PostgreSQL database versions and version policies",
-      "url": "https://cloud.google.com/sql/docs/postgres/db-versions"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
+      "headline": "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support — dates, impact, migration",
+      "description": "The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12 with extended support starting 2025-02-01 and deprecation on 2028-02-01.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-support",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Cloud SQL for PostgreSQL 9.6 through 12 are in extended support",
+        "identifier": "pkg:generic/google-cloud-sql-postgresql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Cloud SQL for PostgreSQL database versions and version policies",
+          "url": "https://cloud.google.com/sql/docs/postgres/db-versions"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/google-cloud-sql-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2025-02-01. Affected versions: vers:semver/>=9.6.0|\u003c13.0.0. Source: Cloud SQL for PostgreSQL database versions and version policies (https://cloud.google.com/sql/docs/postgres/db-versions)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/google-cloud-sql-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PostgreSQL 14 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/google-cloud-sql-postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/google-cloud-sql-postgresql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -66,36 +66,71 @@ This page is generated from [`registry/go.json`](https://github.com/arminazimi/e
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
-  "headline": "Go 1.20 and older are no longer supported — dates, impact, migration",
-  "description": "The Go release policy supports a major release until two newer major releases exist. Go 1.20 support ended when Go 1.22 was released, and every older release lost support before that.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "end-of-support",
-    "go",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Go 1.20 and older are no longer supported",
-    "identifier": "pkg:generic/golang"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Go release history and support policy",
-      "url": "https://go.dev/doc/devel/release"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
+      "headline": "Go 1.20 and older are no longer supported — dates, impact, migration",
+      "description": "The Go release policy supports a major release until two newer major releases exist. Go 1.20 support ended when Go 1.22 was released, and every older release lost support before that.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "end-of-support",
+        "go",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Go 1.20 and older are no longer supported",
+        "identifier": "pkg:generic/golang"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Go release history and support policy",
+          "url": "https://go.dev/doc/devel/release"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/go.runtime.end-of-support-1.20-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2024-02-06. Affected versions: vers:golang/\u003c1.21.0. Source: Go release history and support policy (https://go.dev/doc/devel/release)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Go 1.26 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/golang."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/go.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

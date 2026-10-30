@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
-  "headline": "asyncio.get_event_loop warns when it has to create a loop — dates, impact, migration",
-  "description": "In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "asyncio.get_event_loop warns when it has to create a loop",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
+      "headline": "asyncio.get_event_loop warns when it has to create a loop — dates, impact, migration",
+      "description": "In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "asyncio.get_event_loop warns when it has to create a loop",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.asyncio.get-event-loop.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.12. Source: What's New in Python 3.12 (https://docs.python.org/3/whatsnew/3.12.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "asyncio.run() at entry points, or asyncio.get_running_loop() inside coroutines"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

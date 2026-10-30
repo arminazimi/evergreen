@@ -15,10 +15,10 @@ const text = await readFile(resolve(".github/workflows/corpus-pr.yml"), "utf8");
 const workflow = parse(text) as Workflow;
 const job = workflow.jobs.corpus!;
 
-test("it runs on pull requests, only for relevant paths, and never on pull_request_target", () => {
-  assert.deepEqual(Object.keys(workflow.on), ["pull_request"]);
-  assert.ok(workflow.on.pull_request!.paths!.includes("registry/**"));
-  assert.ok(workflow.on.pull_request!.paths!.includes("src/**"));
+test("it runs on pushes to main, only for relevant paths, and never on pull_request_target", () => {
+  assert.deepEqual(Object.keys(workflow.on), ["push"]);
+  assert.ok(workflow.on.push!.paths!.includes("registry/**"));
+  assert.ok(workflow.on.push!.paths!.includes("src/**"));
 });
 
 test("it has read-only permissions and no secrets", () => {
@@ -27,13 +27,13 @@ test("it has read-only permissions and no secrets", () => {
   assert.ok(!/secrets\./.test(text));
 });
 
-test("the base branch reaches the shell only through an environment variable", () => {
+test("the base commit reaches the shell only through an environment variable", () => {
   for (const step of job.steps.filter((item) => item.run)) {
     assert.ok(!/\$\{\{/.test(step.run!), `an expression is interpolated into a run script: ${step.name ?? step.run}`);
   }
   const check = job.steps.find((step) => step.run?.includes("--changed"))!;
-  assert.equal(check.env?.BASE_REF, "${{ github.base_ref }}");
-  assert.match(check.run!, /--changed "origin\/\$BASE_REF"/);
+  assert.equal(check.env?.BASE_SHA, "${{ github.event.before }}");
+  assert.match(check.run!, /--changed "\$BASE_SHA"/);
 });
 
 test("it checks out history, restores but never saves the cache, and prints the mismatch lines in the summary", () => {

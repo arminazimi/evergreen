@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "evergreen.upgrade-runtime-action-evals.v1",
+  "cases": [
+    {
+      "id": "as-up-rt-1",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Upgrade our Node.js runtime to the current LTS.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cx-up-rt-1",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Upgrade Node from 16 to 22 in engines and .nvmrc.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cl-up-rt-1",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Bump the Python runtime declared in this repository.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "as-up-rt-2",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Raise requires-python; the project still pins an old interpreter.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cx-up-rt-2",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Upgrade our Node.js runtime; 16 is end of life.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cl-up-rt-2",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Move the declared Node runtime off the unsupported release.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "as-up-rt-3",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Upgrade the Python runtime; maintenance has ended.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cx-up-rt-3",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Migrate .nvmrc from Node 14 to a maintained LTS.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cl-up-rt-3",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Bump the runtime in the Dockerfile base image for Node.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "as-up-rt-4",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Update the Node version used by this repo.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cx-up-rt-4",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Upgrade Python 3.8 in pyproject.toml to a supported release.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "cl-up-rt-4",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Our runtime is retired — upgrade it.",
+      "shouldTrigger": true,
+      "reason": "Runtime upgrade of an already-declared toolchain."
+    },
+    {
+      "id": "as-up-gha-1",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Upgrade GitHub Actions across the workflows.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cx-up-gha-1",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Bump actions/checkout and actions/setup-node.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cl-up-gha-1",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Update all GitHub Actions to supported versions.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "as-up-gha-2",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Upgrade the Actions used in CI.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cx-up-gha-2",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Upgrade GitHub Actions that still run on the deprecated Node 12 runtime.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cl-up-gha-2",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Replace the sunset actions/cache@v1 with a supported version.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "as-up-gha-3",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Bump workflow actions that are end of life.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cx-up-gha-3",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Migrate CI off retired GitHub Actions.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cl-up-gha-3",
+      "host": "claude",
+      "kind": "positive",
+      "prompt": "Update actions/setup-node to a newer major.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "as-up-gha-4",
+      "host": "agent-skills",
+      "kind": "positive",
+      "prompt": "Upgrade pinned GitHub Actions in .github/workflows.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cx-up-gha-4",
+      "host": "codex",
+      "kind": "positive",
+      "prompt": "Find deprecated GitHub Actions in our workflows and upgrade them.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "cl-up-gha-4",
+      "host": "claude",
+      "kind": "ambiguous",
+      "prompt": "Bump the Actions that have been sunset by their maintainers.",
+      "shouldTrigger": true,
+      "reason": "GitHub Actions upgrade of already-declared workflow pins."
+    },
+    {
+      "id": "as-up-neg-add",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Add the request package to this service so it can call the billing API.",
+      "shouldTrigger": false,
+      "reason": "Adding a dependency belongs to evergreen-check-before-add."
+    },
+    {
+      "id": "cx-up-neg-add",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "npm install left-pad and use it for padding.",
+      "shouldTrigger": false,
+      "reason": "Adding a dependency belongs to evergreen-check-before-add."
+    },
+    {
+      "id": "cl-up-neg-add",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Add actions/checkout@v4 to the CI workflow.",
+      "shouldTrigger": false,
+      "reason": "Adding an action belongs to evergreen-check-before-add."
+    },
+    {
+      "id": "as-up-neg-scan",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Scan this repository for deprecated runtimes, packages, and GitHub Actions.",
+      "shouldTrigger": false,
+      "reason": "Whole-repository lifecycle discovery belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cx-up-neg-scan",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "List every end-of-life finding before we plan the release.",
+      "shouldTrigger": false,
+      "reason": "Whole-repository lifecycle discovery belongs to evergreen-deprecation."
+    },
+    {
+      "id": "cl-up-neg-scan",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Explain the selected Evergreen finding and its sources.",
+      "shouldTrigger": false,
+      "reason": "Finding explain/migrate without an upgrade ask belongs to evergreen-deprecation."
+    },
+    {
+      "id": "as-up-neg-pkgs",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Upgrade every dependency in this project to the latest version.",
+      "shouldTrigger": false,
+      "reason": "Routine package upgrades are outside this Skill."
+    },
+    {
+      "id": "cx-up-neg-pkgs",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Bump lodash to the newest release.",
+      "shouldTrigger": false,
+      "reason": "Routine package upgrades are outside this Skill."
+    },
+    {
+      "id": "cl-up-neg-pkgs",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Bring all packages up to their latest versions.",
+      "shouldTrigger": false,
+      "reason": "Routine package upgrades are outside this Skill."
+    },
+    {
+      "id": "as-up-neg-sec",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Run a vulnerability and security audit on dependencies.",
+      "shouldTrigger": false,
+      "reason": "Security audits are a separate workflow."
+    },
+    {
+      "id": "cx-up-neg-sec",
+      "host": "codex",
+      "kind": "ambiguous",
+      "prompt": "Bump lodash to patch a CVE.",
+      "shouldTrigger": false,
+      "reason": "Security remediation is a separate workflow."
+    },
+    {
+      "id": "cl-up-neg-docs",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Add a README section about the supported Node versions.",
+      "shouldTrigger": false,
+      "reason": "Documentation without an upgrade ask is unrelated."
+    },
+    {
+      "id": "as-up-neg-remove",
+      "host": "agent-skills",
+      "kind": "negative",
+      "prompt": "Remove the colors package and use the built-in instead.",
+      "shouldTrigger": false,
+      "reason": "Removals are outside this Skill."
+    },
+    {
+      "id": "cx-up-neg-choose",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Which package should I use for date handling?",
+      "shouldTrigger": false,
+      "reason": "Choosing a new package belongs to evergreen-check-before-add."
+    },
+    {
+      "id": "cl-up-neg-refactor",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Rename the module and fix its imports.",
+      "shouldTrigger": false,
+      "reason": "Unrelated refactor work."
+    },
+    {
+      "id": "as-up-neg-di",
+      "host": "agent-skills",
+      "kind": "ambiguous",
+      "prompt": "Explain dependency injection in this service.",
+      "shouldTrigger": false,
+      "reason": "Unrelated terminology overlap."
+    },
+    {
+      "id": "cx-up-neg-test",
+      "host": "codex",
+      "kind": "negative",
+      "prompt": "Write a unit test for the date helper.",
+      "shouldTrigger": false,
+      "reason": "Unrelated test work."
+    },
+    {
+      "id": "cl-up-neg-verify",
+      "host": "claude",
+      "kind": "negative",
+      "prompt": "Verify that this deprecation finding is gone after the migration.",
+      "shouldTrigger": false,
+      "reason": "Verification without an upgrade ask belongs to evergreen-deprecation."
+    }
+  ]
+}

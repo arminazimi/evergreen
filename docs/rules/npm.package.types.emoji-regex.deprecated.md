@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
-  "headline": "@types/emoji-regex is deprecated — dates, impact, migration",
-  "description": "npm marks @types/emoji-regex as deprecated: \"This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/emoji-regex is deprecated",
-    "identifier": "pkg:npm/%40types/emoji-regex"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/emoji-regex on npm",
-      "url": "https://www.npmjs.com/package/@types/emoji-regex"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
+      "headline": "@types/emoji-regex is deprecated — dates, impact, migration",
+      "description": "npm marks @types/emoji-regex as deprecated: \"This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/emoji-regex is deprecated",
+        "identifier": "pkg:npm/%40types/emoji-regex"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/emoji-regex on npm",
+          "url": "https://www.npmjs.com/package/@types/emoji-regex"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/emoji-regex version metadata",
+          "url": "https://registry.npmjs.org/@types%2femoji-regex"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/emoji-regex version metadata",
-      "url": "https://registry.npmjs.org/@types%2femoji-regex"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.emoji-regex.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/emoji-regex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/9.2.0|9.2.1|9.2.2. Source: @types/emoji-regex on npm (https://www.npmjs.com/package/@types/emoji-regex)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/emoji-regex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "emoji-regex"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/emoji-regex?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/emoji-regex."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

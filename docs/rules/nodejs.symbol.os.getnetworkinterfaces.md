@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
-  "headline": "Os.getNetworkInterfaces has been removed — dates, impact, migration",
-  "description": "Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6.0, end-of-life since v12.0.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "nodejs",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Os.getNetworkInterfaces has been removed",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0023",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
+      "headline": "Os.getNetworkInterfaces has been removed — dates, impact, migration",
+      "description": "Node.js removed os.getNetworkInterfaces (DEP0023: runtime deprecation since v0.6.0, end-of-life since v12.0.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "nodejs",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Os.getNetworkInterfaces has been removed",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0023",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.getnetworkinterfaces.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:semver/>=12.0.0. Source: Node.js deprecations: DEP0023 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "os.networkInterfaces()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

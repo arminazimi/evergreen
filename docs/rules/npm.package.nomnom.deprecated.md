@@ -63,41 +63,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
-  "headline": "nomnom is deprecated — dates, impact, migration",
-  "description": "npm states that nomnom is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "nomnom is deprecated",
-    "identifier": "pkg:npm/nomnom"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "nomnom package deprecation notice",
-      "url": "https://www.npmjs.com/package/nomnom"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
+      "headline": "nomnom is deprecated — dates, impact, migration",
+      "description": "npm states that nomnom is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "nomnom is deprecated",
+        "identifier": "pkg:npm/nomnom"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "nomnom package deprecation notice",
+          "url": "https://www.npmjs.com/package/nomnom"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "nomnom registry metadata",
+          "url": "https://registry.npmjs.org/nomnom/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "nomnom registry metadata",
-      "url": "https://registry.npmjs.org/nomnom/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/nomnom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: nomnom package deprecation notice (https://www.npmjs.com/package/nomnom)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/nomnom?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/nomnom."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

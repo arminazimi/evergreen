@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
-  "headline": "The customFds option of child_process has been removed — dates, impact, migration",
-  "description": "Node.js removed the customFds option of child_process (DEP0006: documentation-only since v0.5.10, runtime deprecation since v0.11.14, end-of-life since v12.0.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "nodejs",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "The customFds option of child_process has been removed",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0006",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
+      "headline": "The customFds option of child_process has been removed — dates, impact, migration",
+      "description": "Node.js removed the customFds option of child_process (DEP0006: documentation-only since v0.5.10, runtime deprecation since v0.11.14, end-of-life since v12.0.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "nodejs",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "The customFds option of child_process has been removed",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0006",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.child-process.customfds.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:semver/>=12.0.0. Source: Node.js deprecations: DEP0006 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "options.stdio"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

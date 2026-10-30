@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
-  "headline": "superlinked is deprecated for new projects — dates, impact, migration",
-  "description": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "superlinked is deprecated for new projects",
-    "identifier": "pkg:pypi/superlinked"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "superlinked legacy framework notice",
-      "url": "https://pypi.org/project/superlinked/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
+      "headline": "superlinked is deprecated for new projects — dates, impact, migration",
+      "description": "Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "superlinked is deprecated for new projects",
+        "identifier": "pkg:pypi/superlinked"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "superlinked legacy framework notice",
+          "url": "https://pypi.org/project/superlinked/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.superlinked.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/superlinked?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: superlinked legacy framework notice (https://pypi.org/project/superlinked/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/superlinked?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SIE and sie-sdk"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/superlinked?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/superlinked."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

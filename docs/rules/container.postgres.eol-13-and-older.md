@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
-  "headline": "PostgreSQL image major versions 13 and older are end-of-life — dates, impact, migration",
-  "description": "The PostgreSQL project no longer releases fixes for these major versions.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PostgreSQL image major versions 13 and older are end-of-life",
-    "identifier": "pkg:docker/library/postgres"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
+      "headline": "PostgreSQL image major versions 13 and older are end-of-life — dates, impact, migration",
+      "description": "The PostgreSQL project no longer releases fixes for these major versions.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PostgreSQL image major versions 13 and older are end-of-life",
+        "identifier": "pkg:docker/library/postgres"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.postgres.eol-13-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-11-13. Affected versions: vers:semver/\u003c14.0.0. Source: PostgreSQL versioning policy (https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A postgres image on a supported major version (the upgrade needs a dump/restore or pg_upgrade)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/postgres?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/postgres."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

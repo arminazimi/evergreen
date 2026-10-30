@@ -63,36 +63,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
-  "headline": "ipaddr is superseded — dates, impact, migration",
-  "description": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "ipaddr is superseded",
-    "identifier": "pkg:pypi/ipaddr"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "ipaddr supersession notice",
-      "url": "https://pypi.org/project/ipaddr/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
+      "headline": "ipaddr is superseded — dates, impact, migration",
+      "description": "The project states that ipaddr was superseded by the Python standard-library ipaddress module and its Python 2 backport.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "ipaddr is superseded",
+        "identifier": "pkg:pypi/ipaddr"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "ipaddr supersession notice",
+          "url": "https://pypi.org/project/ipaddr/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.ipaddr.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/ipaddr?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: ipaddr supersession notice (https://pypi.org/project/ipaddr/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/ipaddr?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ipaddress"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/ipaddr?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/ipaddr."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

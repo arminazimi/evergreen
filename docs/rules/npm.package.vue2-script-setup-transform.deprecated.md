@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
-  "headline": "vue2-script-setup-transform is deprecated — dates, impact, migration",
-  "description": "npm marks vue2-script-setup-transform as deprecated: \"renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "vue2-script-setup-transform is deprecated",
-    "identifier": "pkg:npm/vue2-script-setup-transform"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "vue2-script-setup-transform on npm",
-      "url": "https://www.npmjs.com/package/vue2-script-setup-transform"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
+      "headline": "vue2-script-setup-transform is deprecated — dates, impact, migration",
+      "description": "npm marks vue2-script-setup-transform as deprecated: \"renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "vue2-script-setup-transform is deprecated",
+        "identifier": "pkg:npm/vue2-script-setup-transform"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "vue2-script-setup-transform on npm",
+          "url": "https://www.npmjs.com/package/vue2-script-setup-transform"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "vue2-script-setup-transform registry metadata",
+          "url": "https://registry.npmjs.org/vue2-script-setup-transform/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "vue2-script-setup-transform registry metadata",
-      "url": "https://registry.npmjs.org/vue2-script-setup-transform/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-script-setup-transform.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/vue2-script-setup-transform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: vue2-script-setup-transform on npm (https://www.npmjs.com/package/vue2-script-setup-transform)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/vue2-script-setup-transform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "unplugin-vue2-script-setup"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/vue2-script-setup-transform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/vue2-script-setup-transform."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

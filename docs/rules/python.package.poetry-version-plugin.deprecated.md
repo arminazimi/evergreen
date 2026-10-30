@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
-  "headline": "poetry-version-plugin is deprecated — dates, impact, migration",
-  "description": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "poetry-version-plugin is deprecated",
-    "identifier": "pkg:pypi/poetry-version-plugin"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "poetry-version-plugin deprecation notice",
-      "url": "https://pypi.org/project/poetry-version-plugin/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
+      "headline": "poetry-version-plugin is deprecated — dates, impact, migration",
+      "description": "The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "poetry-version-plugin is deprecated",
+        "identifier": "pkg:pypi/poetry-version-plugin"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "poetry-version-plugin deprecation notice",
+          "url": "https://pypi.org/project/poetry-version-plugin/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.poetry-version-plugin.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/poetry-version-plugin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: poetry-version-plugin deprecation notice (https://pypi.org/project/poetry-version-plugin/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/poetry-version-plugin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "uv, PDM, Hatch, or poetry-dynamic-versioning"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/poetry-version-plugin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/poetry-version-plugin."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

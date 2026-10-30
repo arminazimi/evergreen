@@ -64,36 +64,71 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
-  "headline": "left-pad is deprecated — dates, impact, migration",
-  "description": "The package author recommends the built-in String.prototype.padStart method.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "left-pad is deprecated",
-    "identifier": "pkg:npm/left-pad"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "left-pad package deprecation notice",
-      "url": "https://www.npmjs.com/package/left-pad"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
+      "headline": "left-pad is deprecated — dates, impact, migration",
+      "description": "The package author recommends the built-in String.prototype.padStart method.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "left-pad is deprecated",
+        "identifier": "pkg:npm/left-pad"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "left-pad package deprecation notice",
+          "url": "https://www.npmjs.com/package/left-pad"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.left-pad.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/left-pad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: left-pad package deprecation notice (https://www.npmjs.com/package/left-pad)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/left-pad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "String.prototype.padStart()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/left-pad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/left-pad."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -67,41 +67,76 @@ This page is generated from [`registry/elixir.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
-  "headline": "Elixir 1.14 no longer receives security updates — dates, impact, migration",
-  "description": "Elixir's security policy provides security patches only for the five most recent minor branches.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "elixir",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Elixir 1.14 no longer receives security updates",
-    "identifier": "pkg:generic/elixir"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Elixir security policy",
-      "url": "https://github.com/elixir-lang/elixir/security/policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
+      "headline": "Elixir 1.14 no longer receives security updates — dates, impact, migration",
+      "description": "Elixir's security policy provides security patches only for the five most recent minor branches.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "elixir",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Elixir 1.14 no longer receives security updates",
+        "identifier": "pkg:generic/elixir"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Elixir security policy",
+          "url": "https://github.com/elixir-lang/elixir/security/policy"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Elixir v1.19.0 release",
+          "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/elixir.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Elixir v1.19.0 release",
-      "url": "https://github.com/elixir-lang/elixir/releases/tag/v1.19.0"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-1.14.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/elixir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-10-16. Affected versions: vers:semver/>=1.14.0|\u003c1.15.0. Source: Elixir security policy (https://github.com/elixir-lang/elixir/security/policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/elixir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Elixir 1.16 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/elixir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/elixir."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/elixir.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
-  "headline": "seofleet-cli is deprecated — dates, impact, migration",
-  "description": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "seofleet-cli is deprecated",
-    "identifier": "pkg:pypi/seofleet-cli"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "seofleet-cli deprecation notice",
-      "url": "https://pypi.org/project/seofleet-cli/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
+      "headline": "seofleet-cli is deprecated — dates, impact, migration",
+      "description": "The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "seofleet-cli is deprecated",
+        "identifier": "pkg:pypi/seofleet-cli"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "seofleet-cli deprecation notice",
+          "url": "https://pypi.org/project/seofleet-cli/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.seofleet-cli.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/seofleet-cli?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: seofleet-cli deprecation notice (https://pypi.org/project/seofleet-cli/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/seofleet-cli?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "llmscout-cli"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/seofleet-cli?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/seofleet-cli."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -66,41 +66,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
-  "headline": "crypto-js is deprecated — dates, impact, migration",
-  "description": "npm marks crypto-js as deprecated: \"Active development of CryptoJS has been discontinued. This library is no longer maintained.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "crypto-js is deprecated",
-    "identifier": "pkg:npm/crypto-js"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "crypto-js on npm",
-      "url": "https://www.npmjs.com/package/crypto-js"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
+      "headline": "crypto-js is deprecated — dates, impact, migration",
+      "description": "npm marks crypto-js as deprecated: \"Active development of CryptoJS has been discontinued. This library is no longer maintained.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "crypto-js is deprecated",
+        "identifier": "pkg:npm/crypto-js"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "crypto-js on npm",
+          "url": "https://www.npmjs.com/package/crypto-js"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "crypto-js registry metadata",
+          "url": "https://registry.npmjs.org/crypto-js/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "crypto-js registry metadata",
-      "url": "https://registry.npmjs.org/crypto-js/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-js.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/crypto-js?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: crypto-js on npm (https://www.npmjs.com/package/crypto-js)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/crypto-js?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Web Crypto API (globalThis.crypto.subtle) or a maintained cryptography library"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/crypto-js?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/crypto-js."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

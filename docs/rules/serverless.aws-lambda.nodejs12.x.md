@@ -64,36 +64,71 @@ This page is generated from [`registry/serverless.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
-  "headline": "AWS Lambda Node.js 12 runtime is end-of-life — dates, impact, migration",
-  "description": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-29",
-  "keywords": [
-    "end-of-life",
-    "serverless",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "AWS Lambda Node.js 12 runtime is end-of-life",
-    "identifier": "pkg:generic/aws-lambda-runtime/nodejs12.x"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "AWS Lambda runtimes",
-      "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
+      "headline": "AWS Lambda Node.js 12 runtime is end-of-life — dates, impact, migration",
+      "description": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-29",
+      "keywords": [
+        "end-of-life",
+        "serverless",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "AWS Lambda Node.js 12 runtime is end-of-life",
+        "identifier": "pkg:generic/aws-lambda-runtime/nodejs12.x"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.nodejs12.x.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/aws-lambda-runtime/nodejs12.x?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2023-03-31. Affected versions: vers:semver/*. Source: AWS Lambda runtimes (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/aws-lambda-runtime/nodejs12.x?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "nodejs24.x or nodejs22.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/aws-lambda-runtime/nodejs12.x?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/aws-lambda-runtime/nodejs12.x."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

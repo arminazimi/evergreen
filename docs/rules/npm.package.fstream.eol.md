@@ -62,41 +62,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
-  "headline": "fstream is no longer supported — dates, impact, migration",
-  "description": "npm states that the fstream package is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "fstream is no longer supported",
-    "identifier": "pkg:npm/fstream"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "fstream package deprecation notice",
-      "url": "https://www.npmjs.com/package/fstream"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
+      "headline": "fstream is no longer supported — dates, impact, migration",
+      "description": "npm states that the fstream package is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "fstream is no longer supported",
+        "identifier": "pkg:npm/fstream"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "fstream package deprecation notice",
+          "url": "https://www.npmjs.com/package/fstream"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "fstream registry metadata",
+          "url": "https://registry.npmjs.org/fstream/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "fstream registry metadata",
-      "url": "https://registry.npmjs.org/fstream/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.fstream.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/fstream?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:npm/*. Source: fstream package deprecation notice (https://www.npmjs.com/package/fstream)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/fstream?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/fstream."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

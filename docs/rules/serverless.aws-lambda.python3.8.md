@@ -64,36 +64,71 @@ This page is generated from [`registry/serverless.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
-  "headline": "AWS Lambda Python 3.8 runtime is end-of-life — dates, impact, migration",
-  "description": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-life",
-    "serverless",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "AWS Lambda Python 3.8 runtime is end-of-life",
-    "identifier": "pkg:generic/aws-lambda-runtime/python3.8"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "AWS Lambda runtimes",
-      "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
+      "headline": "AWS Lambda Python 3.8 runtime is end-of-life — dates, impact, migration",
+      "description": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-life",
+        "serverless",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "AWS Lambda Python 3.8 runtime is end-of-life",
+        "identifier": "pkg:generic/aws-lambda-runtime/python3.8"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/serverless.aws-lambda.python3.8.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/aws-lambda-runtime/python3.8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2024-10-14. Affected versions: vers:semver/*. Source: AWS Lambda runtimes (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/aws-lambda-runtime/python3.8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "python3.13 or python3.12"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/aws-lambda-runtime/python3.8?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/aws-lambda-runtime/python3.8."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

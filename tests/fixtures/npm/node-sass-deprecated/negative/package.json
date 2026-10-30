@@ -1,0 +1,7 @@
+{
+  "name": "node-sass-deprecated-negative",
+  "private": true,
+  "dependencies": {
+    "sass": "^1.77.0"
+  }
+}

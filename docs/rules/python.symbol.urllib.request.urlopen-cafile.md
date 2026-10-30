@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
-  "headline": "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed — dates, impact, migration",
-  "description": "Python 3.13 removed the cafile, capath and cadefault parameters of urllib.request.urlopen, so using it raises an error.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
+      "headline": "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed — dates, impact, migration",
+      "description": "Python 3.13 removed the cafile, capath and cadefault parameters of urllib.request.urlopen, so using it raises an error.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "The cafile, capath and cadefault parameters of urllib.request.urlopen have been removed",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.urllib.request.urlopen-cafile.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:pypi/>=3.13. Source: What's New in Python 3.13 (https://docs.python.org/3/whatsnew/3.13.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "the context parameter with an ssl.SSLContext"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

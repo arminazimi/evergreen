@@ -64,46 +64,73 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
-  "headline": "argparse is archived on PyPI — dates, impact, migration",
-  "description": "PyPI marks argparse as archived: the project does not expect to be updated in the future.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "argparse is archived on PyPI",
-    "identifier": "pkg:pypi/argparse"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "argparse on PyPI",
-      "url": "https://pypi.org/project/argparse/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
+      "headline": "argparse is archived on PyPI — dates, impact, migration",
+      "description": "PyPI marks argparse as archived: the project does not expect to be updated in the future.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "argparse is archived on PyPI",
+        "identifier": "pkg:pypi/argparse"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "argparse on PyPI",
+          "url": "https://pypi.org/project/argparse/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "argparse project status (PyPI Simple API)",
+          "url": "https://pypi.org/simple/argparse/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Project status markers (PEP 792)",
+          "url": "https://packaging.python.org/specifications/project-status-markers/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "argparse project status (PyPI Simple API)",
-      "url": "https://pypi.org/simple/argparse/"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Project status markers (PEP 792)",
-      "url": "https://packaging.python.org/specifications/project-status-markers/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.argparse.archived.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/argparse?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:pypi/*. Source: argparse on PyPI (https://pypi.org/project/argparse/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/argparse?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/argparse."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -63,41 +63,76 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
-  "headline": "datetime.utcfromtimestamp is deprecated — dates, impact, migration",
-  "description": "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "datetime.utcfromtimestamp is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
+      "headline": "datetime.utcfromtimestamp is deprecated — dates, impact, migration",
+      "description": "Python 3.12 deprecates datetime.datetime.utcfromtimestamp() and says to use timezone-aware objects to represent datetimes in UTC.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "datetime.utcfromtimestamp is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "datetime documentation",
+          "url": "https://docs.python.org/3/library/datetime.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "datetime documentation",
-      "url": "https://docs.python.org/3/library/datetime.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.datetime.utcfromtimestamp.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.12. Source: What's New in Python 3.12 (https://docs.python.org/3/whatsnew/3.12.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "datetime.fromtimestamp(timestamp, datetime.UTC)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

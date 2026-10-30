@@ -67,41 +67,76 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
-  "headline": "Java 18 to 20 are no longer supported — dates, impact, migration",
-  "description": "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "end-of-support",
-    "java",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Java 18 to 20 are no longer supported",
-    "identifier": "pkg:generic/java"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Oracle Java SE Support Roadmap",
-      "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
+      "headline": "Java 18 to 20 are no longer supported — dates, impact, migration",
+      "description": "The Oracle Java SE Support Roadmap lists Java 18 to 20 as non-LTS releases whose Premier Support ended between September 2022 and September 2023.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "end-of-support",
+        "java",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Java 18 to 20 are no longer supported",
+        "identifier": "pkg:generic/java"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Oracle Java SE Support Roadmap",
+          "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Eclipse Temurin support",
+          "url": "https://adoptium.net/support/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Eclipse Temurin support",
-      "url": "https://adoptium.net/support/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-18-20.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:semver/>=18.0.0|\u003c21.0.0. Source: Oracle Java SE Support Roadmap (https://www.oracle.com/java/technologies/java-se-support-roadmap.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Java 25 (LTS) or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/java."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

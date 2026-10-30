@@ -72,46 +72,81 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
-  "headline": "Azure Database for MySQL 5.7 is past standard support — dates, impact, migration",
-  "description": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-support",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Azure Database for MySQL 5.7 is past standard support",
-    "identifier": "pkg:generic/azure-database-mysql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Azure Database for MySQL version support policy",
-      "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
+      "headline": "Azure Database for MySQL 5.7 is past standard support — dates, impact, migration",
+      "description": "The Azure Database for MySQL version support policy lists 2026-09-30 as the standard support end date for MySQL 5.7.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-support",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Azure Database for MySQL 5.7 is past standard support",
+        "identifier": "pkg:generic/azure-database-mysql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Azure Database for MySQL version support policy",
+          "url": "https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "MySQL supported platforms and lifecycle",
+          "url": "https://www.mysql.com/support/supportedplatforms/database.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "endoflife.date: MySQL",
+          "url": "https://endoflife.date/mysql"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "MySQL supported platforms and lifecycle",
-      "url": "https://www.mysql.com/support/supportedplatforms/database.html"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "endoflife.date: MySQL",
-      "url": "https://endoflife.date/mysql"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.azure-mysql.standard-support-ended-5.7.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/azure-database-mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-09-30. Affected versions: vers:semver/>=5.7.0|\u003c5.8.0. Source: Azure Database for MySQL version support policy (https://learn.microsoft.com/azure/mysql/flexible-server/concepts-supported-versions)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/azure-database-mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "MySQL 8.0 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/azure-database-mysql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/azure-database-mysql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>
