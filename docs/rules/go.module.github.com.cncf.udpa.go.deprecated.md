@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.co
 
 # github.com/cncf/udpa/go is deprecated
 
+**Deprecated.** The source gives no day. Replacement: github.com/cncf/xds/go. Source: [github.com/cncf/udpa/go v0.0.0-20220112060539-c52dc94e7fbe go.mod](https://proxy.golang.org/github.com/cncf/udpa/go/@v/v0.0.0-20220112060539-c52dc94e7fbe.mod).
+
+Check a version:
+
+```bash
+evergreen check pkg:golang/github.com/cncf/udpa/go
+```
+
 The latest github.com/cncf/udpa/go module declares: "use github.com/cncf/xds/go instead."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

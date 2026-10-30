@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.e
 
 # gauge is no longer supported
 
+**End of life.** The source gives no day. Source: [gauge package deprecation notice](https://www.npmjs.com/package/gauge).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/gauge
+```
+
 npm states that the gauge package is no longer supported.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.typin
 
 # Typing.ByteString is deprecated
 
+**Deprecated.** The source gives no day. Replacement: collections.abc.Buffer, or an explicit union. Source: [Python deprecations: pending removal in 3.17](https://docs.python.org/3/deprecations/pending-removal-in-3.17.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 Python 3.9 deprecates typing.ByteString, to be removed in Python 3.17.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.
 
 # util._extend is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Object.assign(target, source). Source: [Node.js deprecations: DEP0060 util._extend](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates util._extend() (DEP0060): documentation-only since v6.0.0, runtime warning since v22.0.0.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.pty.m
 
 # pty.master_open and slave_open are deprecated
 
+**Deprecated.** The source gives no day. Replacement: pty.openpty(). Source: [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 Python 3.12 gives the undocumented pty.master_open() and pty.slave_open() a DeprecationWarning, to be removed in Python 3.14.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

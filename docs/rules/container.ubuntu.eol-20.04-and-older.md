@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eo
 
 # Ubuntu image release lines 20.04 and older are past standard support end-of-life
 
+**End of life** as of 2025-05-31. Replacement: An ubuntu image on a supported release line. Source: [Ubuntu release cycle](https://ubuntu.com/about/release-cycle).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/ubuntu
+```
+
 These Ubuntu releases no longer receive standard security updates from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

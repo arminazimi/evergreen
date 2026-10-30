@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-
 
 # Ruby image release line 3.3 reaches end-of-life on 2027-03-31
 
+**Scheduled end of life** as of 2027-03-31. Replacement: A ruby image on a later supported release line. Source: [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/ruby
+```
+
 Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

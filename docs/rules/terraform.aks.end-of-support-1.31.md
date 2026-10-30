@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-o
 
 # AKS 1.31 is past its 12-month support window
 
+**End of support** as of 2025-11-01. Replacement: Azure Kubernetes Service 1.35 or later. Source: [Supported Kubernetes versions in Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-kubernetes-service
+```
+
 AKS 1.31 reached the end of its 12-month support window on 2025-11-01. Long-term support, which must be enabled for a cluster, ends on 2026-11-30.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

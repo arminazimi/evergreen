@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.cloud.goo
 
 # cloud.google.com/go/pubsub is deprecated
 
+**Deprecated.** The source gives no day. Replacement: cloud.google.com/go/pubsub/v2. Source: [cloud.google.com/go/pubsub v1.51.1 go.mod](https://proxy.golang.org/cloud.google.com/go/pubsub/@v/v1.51.1.mod).
+
+Check a version:
+
+```bash
+evergreen check pkg:golang/cloud.google.com/go/pubsub
+```
+
 The latest cloud.google.com/go/pubsub module declares: "use cloud.google.com/go/pubsub/v2 instead. This version will be supported with bug fixes and security patches until December 31st, 2026. For migration, see https://github.com/googleapis/google-cloud-go/blob/main/pubsub/MIGRATING.md"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

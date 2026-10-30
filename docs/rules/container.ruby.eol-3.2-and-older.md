@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ruby.eol-
 
 # Ruby image release lines 3.2 and older are end-of-life
 
+**End of life** as of 2026-04-01. Replacement: A ruby image on a supported branch. Source: [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/ruby
+```
+
 These Ruby branches no longer receive security or bug fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypt
 
 # Crypto.DEFAULT_ENCODING has been removed
 
+**Removed.** The source gives no day. Source: [Node.js deprecations: DEP0091](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed crypto.DEFAULT_ENCODING (DEP0091: runtime deprecation since v10.0.0, end-of-life since v20.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

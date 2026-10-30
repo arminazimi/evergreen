@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.zookeeper
 
 # Apache ZooKeeper image release lines 3.7 and older are end-of-life
 
+**End of life** as of 2024-01-19. Replacement: A zookeeper image on a supported release line. Source: [Apache ZooKeeper release policy (vendor)](https://zookeeper.apache.org/releases/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/zookeeper
+```
+
 These Apache ZooKeeper release lines no longer receive fixes from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

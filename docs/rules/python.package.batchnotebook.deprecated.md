@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.batc
 
 # BatchNotebook is deprecated
 
+**Deprecated.** The source gives no day. Replacement: runipy. Source: [BatchNotebook deprecation notice](https://pypi.org/project/BatchNotebook/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/batchnotebook
+```
+
 The maintainer says not to use BatchNotebook, marks it deprecated, and recommends runipy.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

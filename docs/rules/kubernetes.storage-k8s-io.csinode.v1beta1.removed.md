@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.storage-
 
 # CSINode storage.k8s.io/v1beta1 is no longer served
 
+**Removed** as of 2021-08-04. Replacement: storage.k8s.io/v1 CSINode. Source: [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/kubernetes/storage.k8s.io/CSINode
+```
+
 The Kubernetes Deprecated API Migration Guide states that the storage.k8s.io/v1beta1 API version of CSINode is no longer served as of v1.22, which was released on 2021-08-04.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

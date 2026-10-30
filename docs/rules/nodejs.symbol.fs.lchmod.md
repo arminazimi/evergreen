@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.lc
 
 # Fs.lchmod and fs.lchmodSync are deprecated
 
+**Deprecated.** The source gives no day. Source: [Node.js deprecations: DEP0035](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates fs.lchmod and fs.lchmodSync (DEP0035: documentation-only since v0.4.7).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

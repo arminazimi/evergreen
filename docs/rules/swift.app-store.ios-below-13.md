@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.app-store.ios
 
 # iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads
 
+**End of support** as of 2026-09-09. Replacement: iOS 13 or later. Source: [iOS and iPadOS minimum system requirements — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=0992026a).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/ios
+```
+
 Since September 9, 2026, iOS and iPadOS apps uploaded to App Store Connect must target iOS 13 or later.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

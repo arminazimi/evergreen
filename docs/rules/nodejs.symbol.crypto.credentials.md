@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypt
 
 # Crypto.Credentials has been removed
 
+**Removed.** The source gives no day. Replacement: tls.SecureContext. Source: [Node.js deprecations: DEP0011](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed crypto.Credentials (DEP0011: runtime deprecation since v0.11.13, end-of-life since v11.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

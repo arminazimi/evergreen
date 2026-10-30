@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.couchbase
 
 # Couchbase Server image release lines 7.2 and older are end-of-life
 
+**End of life** as of 2026-07-31. Replacement: A couchbase image on a supported release line. Source: [Couchbase software lifecycle schedules](https://www.couchbase.com/support-policy/EOL/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/couchbase
+```
+
 These Couchbase Server release lines are past their end-of-life date in the vendor's lifecycle schedule (7.2 reached end of life in July 2026; 7.6 is supported until March 2027).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

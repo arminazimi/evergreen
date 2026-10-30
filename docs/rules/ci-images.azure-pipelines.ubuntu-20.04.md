@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pip
 
 # Azure Pipelines Ubuntu 20.04 hosted image is retired
 
+**Removed** as of 2025-04-30. Replacement: ubuntu-22.04, ubuntu-24.04, or ubuntu-latest. Source: [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-pipelines/ubuntu-image
+```
+
 The Ubuntu 20.04 hosted image was fully removed on 2025-04-30, per the Azure DevOps blog deprecation plan. The Microsoft-hosted agents page lists that image as retired.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

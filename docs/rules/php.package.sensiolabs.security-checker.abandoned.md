@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.sensiol
 
 # sensiolabs/security-checker is abandoned
 
+**Deprecated.** The source gives no day. Replacement: https://github.com/fabpot/local-php-security-checker. Source: [sensiolabs/security-checker on Packagist](https://packagist.org/packages/sensiolabs/security-checker).
+
+Check a version:
+
+```bash
+evergreen check pkg:composer/sensiolabs/security-checker
+```
+
 Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

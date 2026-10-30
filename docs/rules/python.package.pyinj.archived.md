@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pyin
 
 # pyinj is archived on PyPI
 
+**End of life.** The source gives no day. Replacement: injx. Source: [pyinj archival and migration notice](https://pypi.org/project/pyinj/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/pyinj
+```
+
 PyPI marks pyinj as archived, and the maintainers state that the repository is no longer maintained.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

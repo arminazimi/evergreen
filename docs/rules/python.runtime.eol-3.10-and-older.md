@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.runtime.eol-
 
 # Python 3.10 and older are end-of-life
 
+**End of life** as of 2026-10-01. Replacement: A supported Python release. Source: [Status of Python versions](https://devguide.python.org/versions/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 These Python release lines no longer receive security or bug fixes from the Python core team.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

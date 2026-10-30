@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-sto
 
 # Xcode 15 through 25 are not accepted for App Store uploads
 
+**End of support** as of 2026-04-28. Replacement: Xcode 26 or later. Source: [SDK minimum requirements — App Store upcoming requirements (Xcode 26)](https://developer.apple.com/news/upcoming-requirements/?id=04282026a).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/xcode
+```
+
 Since April 28, 2026. Apps uploaded to App Store Connect must be built with Xcode 26 or later using an SDK for iOS 26, iPadOS 26, tvOS 26, visionOS 26, or watchOS 26.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pyte
 
 # pytest-runner is deprecated
 
+**Deprecated.** The source gives no day. Replacement: tox, nox, or direct pytest invocation. Source: [pytest-runner deprecation notice](https://pypi.org/project/pytest-runner/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/pytest-runner
+```
+
 The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-2.
 
 # Ruby 2.1 is end-of-life
 
+**End of life** as of 2017-03-31. Replacement: Ruby 3.4 or later. Source: [Ruby maintenance branches](https://www.ruby-lang.org/en/downloads/branches/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/ruby
+```
+
 The Ruby maintenance branches page marks Ruby 2.1 as eol: normal maintenance ended on 2016-03-31 and the branch reached end-of-life on 2017-03-31.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

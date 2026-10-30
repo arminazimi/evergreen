@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.sourcem
 
 # sourcemap-codec is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @jridgewell/sourcemap-codec. Source: [sourcemap-codec package deprecation notice](https://www.npmjs.com/package/sourcemap-codec).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/sourcemap-codec
+```
+
 npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

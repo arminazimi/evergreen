@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/android.play-billin
 
 # Google Play Billing Library 5 is past its deprecation deadline
 
+**Deprecated** as of 2024-08-31. Replacement: Google Play Billing Library 8.x or 9.x. Source: [Google Play Billing Library version deprecation — support timeline](https://developer.android.com/google/play/billing/deprecation-faq).
+
+Check a version:
+
+```bash
+evergreen check pkg:maven/com.android.billingclient/billing
+```
+
 The Google Play Billing Library version deprecation page states that all versions have a two-year deprecation cycle. Its support timeline table lists version 5 with a new app and update deadline of August 31, 2024 and an extension deadline of November 1, 2024.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

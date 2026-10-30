@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.asyn
 
 # asyncio-requests is retired
 
+**Deprecated.** The source gives no day. Replacement: asyncio-gateway. Source: [asyncio-gateway migration notice](https://pypi.org/project/asyncio-gateway/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/asyncio-requests
+```
+
 The maintainer states that asyncio-requests is retired and that development continues under the asyncio-gateway name.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

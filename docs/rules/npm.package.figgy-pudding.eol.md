@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-p
 
 # figgy-pudding is no longer supported
 
+**End of life.** The source gives no day. Source: [figgy-pudding package deprecation notice](https://www.npmjs.com/package/figgy-pudding).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/figgy-pudding
+```
+
 npm states that the figgy-pudding module is no longer supported.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

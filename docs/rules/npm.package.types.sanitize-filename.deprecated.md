@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.s
 
 # @types/sanitize-filename is deprecated
 
+**Deprecated.** The source gives no day. Replacement: sanitize-filename. Source: [@types/sanitize-filename on npm](https://www.npmjs.com/package/@types/sanitize-filename).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40types/sanitize-filename
+```
+
 npm marks @types/sanitize-filename as deprecated: "This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

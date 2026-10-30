@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-sa
 
 # Node Sass is end-of-life
 
+**End of life** as of 2024-07-24. Replacement: sass. Source: [Node Sass is end-of-life](https://sass-lang.com/blog/node-sass-is-end-of-life/).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/node-sass
+```
+
 Node Sass is no longer maintained and its repository has been archived.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lamb
 
 # AWS Lambda Node.js 14 runtime is end-of-life
 
+**End of life** as of 2023-12-04. Replacement: nodejs22.x or nodejs24.x. Source: [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/aws-lambda-runtime/nodejs14.x
+```
+
 The AWS Lambda runtimes table lists nodejs14.x under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

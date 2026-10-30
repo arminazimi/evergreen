@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/database.redis.end-
 
 # Redis 7.0 is end-of-life
 
+**End of life** as of 2024-07-29. Replacement: Redis 7.4 or later. Source: [Redis Open Source version management](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/redis
+```
+
 Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the line.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

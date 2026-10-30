@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.timer
 
 # Timers._unrefActive has been removed
 
+**Removed.** The source gives no day. Replacement: timeout.refresh(), or timeout.unref(). Source: [Node.js deprecations: DEP0127](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed timers._unrefActive (DEP0127: runtime deprecation since v11.14.0, end-of-life since v24.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

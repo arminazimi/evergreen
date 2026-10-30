@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.alpine.eo
 
 # Alpine Linux image release lines 3.20 and older are end-of-life
 
+**End of life** as of 2026-04-01. Replacement: An alpine image on a supported release line. Source: [Alpine Linux releases](https://alpinelinux.org/releases/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/alpine
+```
+
 These Alpine Linux releases no longer receive security updates from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

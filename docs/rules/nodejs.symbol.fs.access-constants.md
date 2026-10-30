@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.ac
 
 # Fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK have been removed
 
+**Removed.** The source gives no day. Replacement: fs.constants or fs.promises.constants. Source: [Node.js deprecations: DEP0176](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK (DEP0176: documentation-only since v20.8.0, runtime deprecation since v24.0.0, end-of-life since v25.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

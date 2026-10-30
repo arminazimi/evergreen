@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.buffe
 
 # The Buffer() constructor is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from(). Source: [Node.js deprecations: DEP0005 Buffer() constructor](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates calling Buffer() or new Buffer() in application code (DEP0005): documentation-only since v6.0.0, runtime warning since v10.0.0.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pip
 
 # Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal
 
+**Scheduled end of life** as of 2026-11-02. Replacement: macos-latest or macos-15. Source: [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-pipelines/macos-image
+```
+
 The macOS 14 Sonoma hosted image deprecation starts on 2026-07-06 and its scheduled removal is 2026-11-02, per Microsoft's hosted image deprecation schedule.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

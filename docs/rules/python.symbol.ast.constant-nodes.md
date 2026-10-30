@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.c
 
 # ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated
 
+**Deprecated.** The source gives no day. Replacement: ast.Constant. Source: [Python deprecations: pending removal in 3.14](https://docs.python.org/3/deprecations/pending-removal-in-3.14.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.couchdb.e
 
 # Apache CouchDB image release lines 3.3 and older are end-of-life
 
+**End of life.** The source gives no day. Replacement: A couchdb image on a supported release line. Source: [Apache CouchDB security policy](https://docs.couchdb.org/en/stable/cve/index.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/couchdb
+```
+
 The CouchDB project publishes CVE fixes only for the current release series and its immediate predecessor, so these older release lines receive no security fixes by policy.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

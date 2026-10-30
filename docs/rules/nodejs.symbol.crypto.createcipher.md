@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypt
 
 # crypto.createCipher and createDecipher have been removed
 
+**Removed.** The source gives no day. Replacement: crypto.createCipheriv() and crypto.createDecipheriv(), with keys from crypto.scrypt() or crypto.pbkdf2() and random salts. Source: [Node.js deprecations: DEP0106 crypto.createCipher](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed crypto.createCipher() and crypto.createDecipher() because they use a weak key derivation (MD5, no salt) and static IVs (DEP0106, end-of-life since v22.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

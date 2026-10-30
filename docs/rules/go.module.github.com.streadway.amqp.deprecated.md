@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.co
 
 # github.com/streadway/amqp is deprecated
 
+**Deprecated.** The source gives no day. Replacement: github.com/rabbitmq/amqp091-go. Source: [github.com/streadway/amqp v1.1.0 go.mod](https://proxy.golang.org/github.com/streadway/amqp/@v/v1.1.0.mod).
+
+Check a version:
+
+```bash
+evergreen check pkg:golang/github.com/streadway/amqp
+```
+
 The latest github.com/streadway/amqp module declares: "Consider using the github.com/rabbitmq/amqp091-go package instead."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

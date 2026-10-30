@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.runtime.eol-
 
 # Elixir 1.14 no longer receives security updates
 
+**End of life** as of 2025-10-16. Replacement: Elixir 1.16 or later. Source: [Elixir security policy](https://github.com/elixir-lang/elixir/security/policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/elixir
+```
+
 Elixir's security policy provides security patches only for the five most recent minor branches. Elixir 1.14 left that window when Elixir 1.19 shipped on 2025-10-16, so the branch no longer receives security patches from the Elixir project.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

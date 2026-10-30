@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request
 
 # request is deprecated
 
+**Deprecated** as of 2020-02-11. Replacement: Native fetch or a maintained HTTP client. Source: [request package deprecation notice](https://www.npmjs.com/package/request).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/request
+```
+
 The package is fully deprecated and no new changes are expected.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

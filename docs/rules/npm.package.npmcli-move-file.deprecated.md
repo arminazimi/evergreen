@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-
 
 # @npmcli/move-file is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @npmcli/fs. Source: [@npmcli/move-file package deprecation notice](https://www.npmjs.com/package/@npmcli/move-file).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40npmcli/move-file
+```
+
 npm states that @npmcli/move-file functionality moved to @npmcli/fs.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

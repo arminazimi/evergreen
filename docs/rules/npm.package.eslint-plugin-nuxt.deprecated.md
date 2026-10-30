@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.eslint-
 
 # eslint-plugin-nuxt is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @nuxt/eslint-plugin. Source: [eslint-plugin-nuxt on npm](https://www.npmjs.com/package/eslint-plugin-nuxt).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/eslint-plugin-nuxt
+```
+
 npm marks eslint-plugin-nuxt as deprecated: "eslint-plugin-nuxt was built for Nuxt 2. Use @nuxt/eslint-plugin instead: https://eslint.nuxt.com/packages/plugin"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

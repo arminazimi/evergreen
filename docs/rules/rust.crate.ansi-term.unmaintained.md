@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.ansi-ter
 
 # ansi_term is no longer maintained
 
+**Deprecated.** The source gives no day. Replacement: A maintained terminal-styling crate (the advisory lists unvetted alternatives such as anstyle, nu-ansi-term, owo-colors, and console). Source: [RustSec advisory RUSTSEC-2021-0139](https://rustsec.org/advisories/RUSTSEC-2021-0139.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:cargo/ansi_term
+```
+
 The maintainer has advised that ansi_term is deprecated and will not receive any maintenance.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

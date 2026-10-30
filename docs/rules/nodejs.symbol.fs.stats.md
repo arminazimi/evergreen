@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.st
 
 # The fs.Stats constructor is deprecated
 
+**Deprecated.** The source gives no day. Source: [Node.js deprecations: DEP0180](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates the fs.Stats constructor (DEP0180: documentation-only since v20.13.0, runtime deprecation since v22.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

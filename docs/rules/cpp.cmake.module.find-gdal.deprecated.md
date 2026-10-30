@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.fi
 
 # The FindGDAL module is deprecated
 
+**Deprecated** as of 2025-03-27. Replacement: find_package(GDAL CONFIG) using GDAL's upstream CMake package. Source: [CMake 4.0 release notes (FindGDAL deprecated)](https://cmake.org/cmake/help/latest/release/4.0.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/cmake-module/find-gdal
+```
+
 CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead. CMake 4.0.0 was published on 2025-03-27.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

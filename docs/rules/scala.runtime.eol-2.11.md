@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/scala.runtime.eol-2
 
 # Scala 2.11 reached end of life
 
+**End of life** as of 2016-01-01. Replacement: Scala 2.13 or Scala 3. Source: [Scala development guarantees — Scala 2.11 status](https://scala-lang.org/development/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/scala
+```
+
 The Scala project's development guarantees page states that Scala 2.11 reached end-of-life in 2016. It remains available in some contexts, but it is no longer maintained.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

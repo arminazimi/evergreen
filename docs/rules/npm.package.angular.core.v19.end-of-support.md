@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular
 
 # @angular/core v19 is no longer supported
 
+**End of support.** The source gives no day. Replacement: @angular/core@22. Source: [Angular release and support schedule](https://angular.dev/reference/releases).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40angular/core
+```
+
 Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/database.azure-post
 
 # Azure Database for PostgreSQL 11, 12, and 13 are past standard support
 
+**End of support** as of 2026-07-31. Replacement: PostgreSQL 14 or later. Source: [Azure Database for PostgreSQL version policy](https://learn.microsoft.com/azure/postgresql/flexible-server/concepts-version-policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-database-postgresql
+```
+
 The Azure Database for PostgreSQL version policy lists 2026-07-31 as the standard support end date for PostgreSQL 11, 12, and 13. After that date Azure offers only time-boxed Extended Support, and it does not allow new servers on those major versions.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.sdk.end-of-sup
 
 # Dart 3.10 no longer receives security updates
 
+**End of support** as of 2026-02-11. Replacement: Dart 3.13 or later. Source: [Dart security policy](https://dart.dev/security).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/dart
+```
+
 The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.10 stopped being that release when Dart 3.11 shipped on 2026-02-11.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

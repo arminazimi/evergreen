@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.fs.ex
 
 # fs.exists is deprecated
 
+**Deprecated.** The source gives no day. Replacement: fs.stat() or fs.access(). Source: [Node.js deprecations: DEP0034 fs.exists](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js documents fs.exists(path, callback) as deprecated (DEP0034, documentation-only since v1.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

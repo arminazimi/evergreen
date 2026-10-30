@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.aws-lamb
 
 # AWS Lambda Python 3.8 runtime is end-of-life
 
+**End of life** as of 2024-10-14. Replacement: python3.13 or python3.12. Source: [AWS Lambda runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/aws-lambda-runtime/python3.8
+```
+
 The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

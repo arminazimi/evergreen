@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/swift.xcode.app-sto
 
 # Xcode older than 15 is not accepted for App Store uploads
 
+**End of support** as of 2024-04-29. Replacement: Xcode 26 or later. Source: [Xcode 15 — App Store upcoming requirements](https://developer.apple.com/news/upcoming-requirements/?id=04292024a).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/xcode
+```
+
 Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadOS 17, tvOS 17, or watchOS 10 starting April 29, 2024.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

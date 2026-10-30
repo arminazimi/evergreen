@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-o
 
 # Terraform CLI 1.15 is no longer a supported release line
 
+**End of support** as of 2026-10-21. Replacement: Terraform 1.16 or later. Source: [hashicorp/terraform release v1.17.0](https://github.com/hashicorp/terraform/releases/tag/v1.17.0).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/terraform
+```
+
 HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (first released 2026-04-29) stopped being one of them when Terraform 1.17 was released on 2026-10-21. The support window is taken from the dates of the hashicorp/terraform GitHub releases for 1.15.0 and 1.17.0.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

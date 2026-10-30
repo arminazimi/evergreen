@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.runtime.eol-1.
 
 # Deno 1.x is end-of-life
 
+**End of life** as of 2024-10-09. Replacement: Deno 2.0 or later. Source: [Deno 2.0.0 Release](https://github.com/denoland/deno/releases/tag/v2.0.0).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/deno
+```
+
 Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-life and no longer receives feature updates or bug fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

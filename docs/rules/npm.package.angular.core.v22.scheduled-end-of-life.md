@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.angular
 
 # @angular/core v22 reaches end of life on 2028-06-30
 
+**Scheduled end of life** as of 2028-06-30. Source: [Angular release and support schedule](https://angular.dev/reference/releases).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40angular/core
+```
+
 Angular's release schedule lists v22 with "LTS ends 2028-06", a month-precision date. Evergreen uses the last day of that month, 2028-06-30, as the deadline. LTS receives only critical fixes and security patches until the end of that month.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

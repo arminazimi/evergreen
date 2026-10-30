@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.djan
 
 # Django 4.1 is end-of-life
 
+**End of life** as of 2023-12-01. Replacement: Django 5.2 LTS or a newer supported release. Source: [Django supported versions](https://www.djangoproject.com/download/#supported-versions).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/django
+```
+
 The Django project lists the 4.1 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was December 1, 2023.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

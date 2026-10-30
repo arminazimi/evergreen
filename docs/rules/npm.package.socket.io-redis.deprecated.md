@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.socket.
 
 # socket.io-redis is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @socket.io/redis-adapter. Source: [socket.io-redis on npm](https://www.npmjs.com/package/socket.io-redis).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/socket.io-redis
+```
+
 npm marks socket.io-redis as deprecated: "This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here: https://socket.io/docs/v4/redis-adapter/#migrating-from-socketio-redis"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

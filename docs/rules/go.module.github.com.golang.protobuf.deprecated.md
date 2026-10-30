@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/go.module.github.co
 
 # github.com/golang/protobuf is deprecated
 
+**Deprecated.** The source gives no day. Replacement: google.golang.org/protobuf. Source: [github.com/golang/protobuf v1.5.4 go.mod](https://proxy.golang.org/github.com/golang/protobuf/@v/v1.5.4.mod).
+
+Check a version:
+
+```bash
+evergreen check pkg:golang/github.com/golang/protobuf
+```
+
 The latest github.com/golang/protobuf module declares: "Use the "google.golang.org/protobuf" module instead."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

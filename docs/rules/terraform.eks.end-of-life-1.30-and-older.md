@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-o
 
 # Amazon EKS 1.30 and earlier are past end of extended support
 
+**End of life.** The source gives no day. Replacement: Amazon EKS 1.35 or later. Source: [Amazon EKS: Understand the Kubernetes version lifecycle](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/amazon-eks
+```
+
 Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support. A cluster that reaches the end of extended support is auto-upgraded to the oldest version in extended support.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.koa-rou
 
 # koa-router is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @koa/router. Source: [koa-router on npm](https://www.npmjs.com/package/koa-router).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/koa-router
+```
+
 npm marks koa-router as deprecated: "Please use @koa/router instead, starting from v9!"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

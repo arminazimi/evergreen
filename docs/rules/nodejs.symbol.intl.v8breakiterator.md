@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.intl.
 
 # Intl.v8BreakIterator has been removed
 
+**Removed.** The source gives no day. Replacement: Intl.Segmenter. Source: [Node.js deprecations: DEP0017](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed Intl.v8BreakIterator (DEP0017: runtime deprecation since v7.0.0, end-of-life since v9.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.swiftma
 
 # swiftmailer/swiftmailer is abandoned
 
+**Deprecated** as of 2021-11-30. Replacement: symfony/mailer. Source: [swiftmailer/swiftmailer on Packagist](https://packagist.org/packages/swiftmailer/swiftmailer).
+
+Check a version:
+
+```bash
+evergreen check pkg:composer/swiftmailer/swiftmailer
+```
+
 Packagist marks swiftmailer/swiftmailer as abandoned and no longer maintained, and the author suggests using symfony/mailer instead. The Symfony project set Swiftmailer's end of maintenance for the end of November 2021.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.karma-p
 
 # karma-phantomjs-launcher is deprecated
 
+**Deprecated.** The source gives no day. Replacement: A maintained Karma browser launcher such as karma-chrome-launcher. Source: [karma-phantomjs-launcher package deprecation notice](https://www.npmjs.com/package/karma-phantomjs-launcher).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/karma-phantomjs-launcher
+```
+
 npm states that PhantomJS development stopped and recommends Puppeteer or a similar maintained browser.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

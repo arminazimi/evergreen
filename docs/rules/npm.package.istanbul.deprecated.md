@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.istanbu
 
 # istanbul is deprecated
 
+**Deprecated.** The source gives no day. Replacement: nyc. Source: [istanbul package deprecation notice](https://www.npmjs.com/package/istanbul).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/istanbul
+```
+
 npm states that istanbul is no longer maintained and recommends nyc.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.react-b
 
 # react-beautiful-dnd is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Pragmatic drag and drop, dnd-kit, or a maintained fork. Source: [react-beautiful-dnd on npm](https://www.npmjs.com/package/react-beautiful-dnd).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/react-beautiful-dnd
+```
+
 npm marks react-beautiful-dnd as deprecated: "react-beautiful-dnd is now deprecated. Context and options: https://github.com/atlassian/react-beautiful-dnd/issues/2672"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

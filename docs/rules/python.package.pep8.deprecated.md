@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.pep8
 
 # pep8 was renamed to pycodestyle
 
+**Deprecated.** The source gives no day. Replacement: pycodestyle. Source: [pycodestyle rename notice](https://pypi.org/project/pycodestyle/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/pep8
+```
+
 The maintainers renamed the pep8 project to pycodestyle to reduce confusion.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

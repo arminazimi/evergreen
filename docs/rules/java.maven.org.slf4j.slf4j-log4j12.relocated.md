@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.org.slf4
 
 # org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j
 
+**Deprecated.** The source gives no day. Replacement: org.slf4j:slf4j-reload4j. Source: [org.slf4j:slf4j-log4j12 2.1.0-alpha1 POM on Maven Central](https://repo1.maven.org/maven2/org/slf4j/slf4j-log4j12/2.1.0-alpha1/slf4j-log4j12-2.1.0-alpha1.pom).
+
+Check a version:
+
+```bash
+evergreen check pkg:maven/org.slf4j/slf4j-log4j12
+```
+
 The POM of org.slf4j:slf4j-log4j12 2.1.0-alpha1 declares a relocation to org.slf4j:slf4j-reload4j.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.goog
 
 # google-cloud is archived on PyPI
 
+**End of life.** The source gives no day. Source: [google-cloud on PyPI](https://pypi.org/project/google-cloud/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/google-cloud
+```
+
 PyPI marks google-cloud as archived: the project does not expect to be updated in the future.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

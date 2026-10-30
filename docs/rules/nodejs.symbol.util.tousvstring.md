@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.
 
 # Util.toUSVString is deprecated
 
+**Deprecated.** The source gives no day. Replacement: String.prototype.toWellFormed. Source: [Node.js deprecations: DEP0175](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates util.toUSVString (DEP0175: documentation-only since v20.8.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

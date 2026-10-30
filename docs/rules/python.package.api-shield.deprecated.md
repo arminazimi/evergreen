@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.api-
 
 # api-shield is deprecated
 
+**Deprecated.** The source gives no day. Replacement: waygate. Source: [api-shield deprecation notice](https://pypi.org/project/api-shield/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/api-shield
+```
+
 The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

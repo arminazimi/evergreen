@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.i18next
 
 # i18next-parser is deprecated
 
+**Deprecated.** The source gives no day. Replacement: i18next-cli. Source: [i18next-parser on npm](https://www.npmjs.com/package/i18next-parser).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/i18next-parser
+```
+
 npm marks i18next-parser as deprecated: "Project is deprecated, use i18next-cli instead"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

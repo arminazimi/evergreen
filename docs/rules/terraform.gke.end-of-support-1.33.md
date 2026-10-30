@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-o
 
 # GKE 1.33 is past end of standard support
 
+**End of support** as of 2026-08-12. Replacement: GKE 1.35 or later. Source: [GKE versioning and support](https://cloud.google.com/kubernetes-engine/versioning).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/google-kubernetes-engine
+```
+
 GKE 1.33 reached the end of standard support on 2026-08-12 and is in extended support until 2027-06-12. GKE provides up to 24 months of support per minor version: about 14 months of standard support and the rest as extended support in the Extended channel.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

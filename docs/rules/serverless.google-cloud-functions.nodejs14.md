@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/serverless.google-c
 
 # Google Cloud Functions Node.js 14 runtime is end-of-life
 
+**End of life** as of 2025-01-30. Replacement: nodejs22 or nodejs24. Source: [Cloud Run functions runtime support](https://cloud.google.com/functions/docs/runtime-support).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/google-cloud-functions-runtime/nodejs14
+```
+
 The Google Cloud Functions runtime support schedule lists Node.js 14 (runtime ID nodejs14) as deprecated on 2024-01-30 and decommissioned on 2025-01-30. Google no longer provides maintenance for that runtime.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.drupal.eo
 
 # Drupal image release lines 10.5 and older are end-of-life
 
+**End of life** as of 2026-07-01. Replacement: A drupal image on a supported release line. Source: [Drupal release policy (vendor)](https://www.drupal.org/about/core/policies/core-release-cycles/schedule).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/drupal
+```
+
 These Drupal release lines no longer receive security fixes from the vendor: the core release schedule ends security support for 10.5 when 11.4 is released, in the week of 2026-06-29, and lists 10.6 as the only supported minor of Drupal 10.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

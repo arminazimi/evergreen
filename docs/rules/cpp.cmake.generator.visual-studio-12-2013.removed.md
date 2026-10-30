@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/cpp.cmake.generator
 
 # The Visual Studio 12 2013 generator is removed
 
+**Removed** as of 2024-11-06. Replacement: A still-supported Visual Studio generator, such as Visual Studio 17 2022. Source: [CMake 3.31 release notes (Visual Studio 12 2013 generator removed)](https://cmake.org/cmake/help/latest/release/3.31.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/cmake-generator/visual-studio-12-2013
+```
+
 CMake 3.31 removed the Visual Studio 12 2013 generator. Projects and presets that still name that generator cannot configure on CMake 3.31 or newer. CMake 3.31.0 was published on 2024-11-06.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

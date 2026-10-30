@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.babel-p
 
 # babel-preset-es2015 is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @babel/preset-env. Source: [babel-preset-es2015 package deprecation notice](https://www.npmjs.com/package/babel-preset-es2015).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/babel-preset-es2015
+```
+
 npm recommends babel-preset-env instead of babel-preset-es2015.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

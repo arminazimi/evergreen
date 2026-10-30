@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.package.micr
 
 # Microsoft.Azure.ServiceBus is deprecated on NuGet
 
+**Deprecated** as of 2026-09-30. Replacement: Azure.Messaging.ServiceBus. Source: [Microsoft.Azure.ServiceBus on NuGet (deprecation metadata)](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus).
+
+Check a version:
+
+```bash
+evergreen check pkg:nuget/Microsoft.Azure.ServiceBus
+```
+
 NuGet marks all 33 listed versions of Microsoft.Azure.ServiceBus as deprecated (reason: Legacy). The publisher's message: "Please note, this package is obsolete as of 9/30/2026 and is no longer maintained or monitored. Microsoft encourages you to upgrade to the replacement package, Azure.Messaging.ServiceBus, to continue receiving updates. Refer to the migration guide (https://aka.ms/azsdk/net/migrate/sb) for guidance on upgrading. Refer to our deprecation policy (https://aka.ms/azsdk/support-policies) for more details."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

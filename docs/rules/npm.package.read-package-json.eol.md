@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.read-pa
 
 # read-package-json is no longer supported
 
+**End of life.** The source gives no day. Replacement: @npmcli/package-json. Source: [read-package-json package deprecation notice](https://www.npmjs.com/package/read-package-json).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/read-package-json
+```
+
 npm states that read-package-json is no longer supported and recommends @npmcli/package-json.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

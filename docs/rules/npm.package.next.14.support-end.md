@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.next.14
 
 # Next.js 14 is out of support
 
+**End of support** as of 2025-10-26. Replacement: Next.js 16 (Active LTS). Source: [Next.js support policy](https://nextjs.org/support-policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/next
+```
+
 Next.js 14 was released on 2023-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2025-10-26.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

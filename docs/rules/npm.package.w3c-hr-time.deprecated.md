@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-
 
 # w3c-hr-time is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Native performance.now() and performance.timeOrigin. Source: [w3c-hr-time package deprecation notice](https://www.npmjs.com/package/w3c-hr-time).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/w3c-hr-time
+```
+
 npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.cmip
 
 # cmip_ref was renamed and is no longer maintained
 
+**End of life.** The source gives no day. Replacement: climate-ref. Source: [cmip_ref rename and maintenance notice](https://pypi.org/project/cmip-ref/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/cmip-ref
+```
+
 The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

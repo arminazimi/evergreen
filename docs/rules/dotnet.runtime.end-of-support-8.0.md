@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-
 
 # .NET 8 reaches end of support on 2026-11-10
 
+**Scheduled end of life** as of 2026-11-10. Replacement: .NET 10 (LTS), or the newest supported .NET release. Source: [.NET and .NET Core official support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/dotnet
+```
+
 .NET 8 (Long Term Support) is scheduled to reach the end of its support on 2026-11-10, according to Microsoft's releases index. After that date Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 8.0.x is reported too.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

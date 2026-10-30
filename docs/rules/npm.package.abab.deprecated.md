@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.abab.de
 
 # abab is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Native atob() and btoa(). Source: [abab package deprecation notice](https://www.npmjs.com/package/abab).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/abab
+```
+
 npm directs users of abab to the platform-native atob and btoa functions.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

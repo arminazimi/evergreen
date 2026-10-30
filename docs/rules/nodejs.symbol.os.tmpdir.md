@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.os.tm
 
 # Os.tmpDir has been removed
 
+**Removed.** The source gives no day. Replacement: os.tmpdir(). Source: [Node.js deprecations: DEP0022](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed os.tmpDir (DEP0022: runtime deprecation since v7.0.0, end-of-life since v14.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.uglify-
 
 # uglify-es is deprecated
 
+**Deprecated.** The source gives no day. Replacement: uglify-js (3.13 or later) or terser. Source: [uglify-es on npm](https://www.npmjs.com/package/uglify-es).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/uglify-es
+```
+
 npm marks uglify-es as deprecated: "support for ECMAScript is superseded by `uglify-js` as of v3.13.0"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

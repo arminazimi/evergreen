@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.2
 
 # PHP 7.2 is end-of-life
 
+**End of life** as of 2020-11-30. Replacement: PHP 8.4 or later. Source: [PHP release branches](https://www.php.net/releases/branches.php).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/php
+```
+
 The PHP release branches list marks PHP 7.2 as end of life: active support ended on 2019-11-30 and security support ended on 2020-11-30.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

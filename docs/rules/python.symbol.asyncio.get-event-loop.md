@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.async
 
 # asyncio.get_event_loop warns when it has to create a loop
 
+**Deprecated.** The source gives no day. Replacement: asyncio.run() at entry points, or asyncio.get_running_loop() inside coroutines. Source: [What's New in Python 3.12](https://docs.python.org/3/whatsnew/3.12.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 In Python 3.12 the default event loop policy's get_event_loop() emits a DeprecationWarning when there is no current event loop and it decides to create one.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

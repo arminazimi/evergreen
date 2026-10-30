@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.package.laravel
 
 # Laravel 11 is no longer supported
 
+**End of support** as of 2026-03-12. Replacement: Laravel 13. Source: [Laravel support policy](https://laravel.com/docs/releases#support-policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:composer/laravel/framework
+```
+
 Laravel's support policy states that security fixes for Laravel 11 ended on 2026-03-12; the release no longer receives security or bug fixes from the Laravel project.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

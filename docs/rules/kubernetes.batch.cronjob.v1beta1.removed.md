@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.batch.cr
 
 # CronJob batch/v1beta1 is no longer served
 
+**Removed** as of 2022-08-23. Replacement: batch/v1 CronJob, available since v1.21. Source: [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/kubernetes/batch/CronJob
+```
+
 The Kubernetes Deprecated API Migration Guide states that the batch/v1beta1 API version of CronJob is no longer served as of v1.25, which was released on 2022-08-23.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

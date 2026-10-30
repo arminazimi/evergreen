@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.sysco
 
 # Sysconfig.expand_makefile_vars is deprecated
 
+**Deprecated.** The source gives no day. Replacement: the vars argument of sysconfig.get_paths(). Source: [Python deprecations: pending removal in 3.16](https://docs.python.org/3/deprecations/pending-removal-in-3.16.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 Python 3.14 deprecates sysconfig.expand_makefile_vars, to be removed in Python 3.16.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-8.1
 
 # PHP 8.1 is end-of-life
 
+**End of life** as of 2025-12-31. Replacement: PHP 8.3 or later. Source: [PHP unsupported branches](https://www.php.net/eol.php).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/php
+```
+
 The PHP unsupported branches page lists the PHP 8.1 branch as end of life on 2025-12-31; the branch no longer receives security or bug fixes from the PHP project.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.llam
 
 # llama-index-experimental is no longer maintained
 
+**End of life.** The source gives no day. Source: [llama-index-experimental lifecycle notice](https://pypi.org/project/llama-index-experimental/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/llama-index-experimental
+```
+
 The maintainer states that llama-index-experimental is deprecated, no longer maintained, and will receive no further updates or bug fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

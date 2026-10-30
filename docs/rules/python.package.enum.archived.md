@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.enum
 
 # enum is archived on PyPI
 
+**End of life.** The source gives no day. Source: [enum on PyPI](https://pypi.org/project/enum/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/enum
+```
+
 PyPI marks enum as archived: the project does not expect to be updated in the future.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

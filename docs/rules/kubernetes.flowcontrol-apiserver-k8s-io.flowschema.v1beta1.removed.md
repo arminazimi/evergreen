@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.flowcont
 
 # FlowSchema flowcontrol.apiserver.k8s.io/v1beta1 is no longer served
 
+**Removed** as of 2022-12-09. Replacement: flowcontrol.apiserver.k8s.io/v1beta2 FlowSchema. Source: [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/kubernetes/flowcontrol.apiserver.k8s.io/FlowSchema
+```
+
 The Kubernetes Deprecated API Migration Guide states that the flowcontrol.apiserver.k8s.io/v1beta1 API version of FlowSchema is no longer served as of v1.26, which was released on 2022-12-09.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

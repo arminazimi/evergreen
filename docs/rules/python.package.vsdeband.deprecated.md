@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vsde
 
 # vsdeband is deprecated
 
+**Deprecated.** The source gives no day. Replacement: vsjetpack. Source: [vsdeband deprecation notice](https://pypi.org/project/vsdeband/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/vsdeband
+```
+
 The maintainer marks vsdeband as deprecated and directs users to the vsjetpack package.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

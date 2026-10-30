@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.golang.eo
 
 # Go image release lines 1.25 and older are end-of-life
 
+**End of life** as of 2026-08-19. Replacement: A golang image on a supported release line. Source: [Go release policy (vendor)](https://go.dev/doc/devel/release#policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/golang
+```
+
 These Go release lines no longer receive fixes from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

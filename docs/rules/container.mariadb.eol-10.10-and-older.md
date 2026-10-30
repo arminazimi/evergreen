@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mariadb.e
 
 # MariaDB image release lines 10.10 and older are end-of-life
 
+**End of life** as of 2026-07-06. Replacement: A mariadb image on a supported release line. Source: [MariaDB release policy (vendor)](https://mariadb.org/about/#maintenance-policy).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/mariadb
+```
+
 These MariaDB release lines no longer receive fixes from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

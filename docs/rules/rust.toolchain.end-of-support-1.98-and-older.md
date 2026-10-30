@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.toolchain.end-
 
 # Rust 1.98 and older are no longer supported
 
+**End of support** as of 2026-10-01. Replacement: The latest stable Rust release. Source: [Rust security policy](https://www.rust-lang.org/policies/security).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/rust
+```
+
 The Rust project only provides support and security updates for the most recent stable release, so a release line is unsupported once the next stable release ships. Rust 1.99 was released on 2026-10-01.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

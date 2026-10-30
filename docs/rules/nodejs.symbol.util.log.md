@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.
 
 # Util.log has been removed
 
+**Removed.** The source gives no day. Replacement: a third-party logging library, or console.log(new Date().toLocaleString(), message). Source: [Node.js deprecations: DEP0059](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js removed util.log (DEP0059: documentation-only since v6.0.0, runtime deprecation since v22.0.0, end-of-life since v23.0.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

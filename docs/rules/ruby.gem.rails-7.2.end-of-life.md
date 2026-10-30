@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.
 
 # Rails 7.2 is end-of-life
 
+**End of life** as of 2026-08-09. Replacement: Rails 8.1.x. Source: [Ruby on Rails maintenance policy](https://rubyonrails.org/maintenance).
+
+Check a version:
+
+```bash
+evergreen check pkg:gem/rails
+```
+
 The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails end-of-support announcement set its security support deadline to 2026-08-09.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

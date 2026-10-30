@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-ut
 
 # gulp-util is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Maintained purpose-specific modules listed by Gulp. Source: [gulp-util package deprecation notice](https://www.npmjs.com/package/gulp-util).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/gulp-util
+```
+
 npm marks gulp-util as deprecated and links to the Gulp migration guidance.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

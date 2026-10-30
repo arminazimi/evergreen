@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.agen
 
 # agentops-toolkit was renamed and is no longer maintained
 
+**End of life.** The source gives no day. Replacement: agentops-accelerator. Source: [agentops-toolkit rename notice](https://pypi.org/project/agentops-toolkit/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/agentops-toolkit
+```
+
 The maintainer states that agentops-toolkit is no longer maintained and now ships as agentops-accelerator.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

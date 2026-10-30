@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.vssc
 
 # vsscale is deprecated
 
+**Deprecated.** The source gives no day. Replacement: vsjetpack. Source: [vsscale deprecation notice](https://pypi.org/project/vsscale/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/vsscale
+```
+
 The maintainer states that vsscale is deprecated and directs users to vsjetpack.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

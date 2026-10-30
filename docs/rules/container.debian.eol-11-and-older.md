@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.debian.eo
 
 # Debian image release lines 11 and older are end-of-life
 
+**End of life** as of 2026-08-31. Replacement: A debian image on a supported release line. Source: [Debian LTS](https://wiki.debian.org/LTS).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/debian
+```
+
 These Debian releases no longer receive LTS security updates from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

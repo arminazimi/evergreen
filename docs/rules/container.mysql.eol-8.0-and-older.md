@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.mysql.eol
 
 # MySQL image release lines 8.0 and older are past end-of-life
 
+**End of life** as of 2026-04-21. Replacement: A mysql image on a supported release such as the 8.4 LTS line. Source: [MySQL end-of-life notice](https://www.mysql.com/support/eol-notice.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/mysql
+```
+
 Oracle lists MySQL 8.0 and 5.7 as covered only by Sustaining Support, which means no new fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

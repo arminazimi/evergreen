@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/database.postgresql
 
 # PostgreSQL 14 reaches the end of its support on 2026-11-12
 
+**Scheduled end of life** as of 2026-11-12. Replacement: PostgreSQL 16 or later. Source: [PostgreSQL versioning policy](https://www.postgresql.org/support/versioning/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/postgresql
+```
+
 The PostgreSQL Global Development Group lists 14 as supported until its final release on November 12, 2026, after which it receives no further bug or security fixes. A database image tag or managed engine_version on this line will then run unsupported software.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.
 
 # Rails 8.0 security support is scheduled to end
 
+**Scheduled end of life** as of 2026-11-07. Replacement: Rails 8.1.x. Source: [Ruby on Rails maintenance policy](https://rubyonrails.org/maintenance).
+
+Check a version:
+
+```bash
+evergreen check pkg:gem/rails
+```
+
 The Rails maintenance policy says Rails 8.0.x receives security fixes until 2026-11-07. Rails 8.1.x is the newer supported release series.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

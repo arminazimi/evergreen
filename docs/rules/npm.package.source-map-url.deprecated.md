@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.source-
 
 # source-map-url is deprecated
 
+**Deprecated.** The source gives no day. Replacement: convert-source-map. Source: [source-map-url maintainer deprecation notice](https://github.com/lydell/source-map-url#deprecated).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/source-map-url
+```
+
 The maintainer deprecated source-map-url and recommends convert-source-map for working with source map comments.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

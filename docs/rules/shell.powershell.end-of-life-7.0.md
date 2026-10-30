@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/shell.powershell.en
 
 # PowerShell 7.0 (LTS) is no longer supported
 
+**End of life** as of 2022-12-03. Replacement: PowerShell 7.6 (LTS) or later. Source: [PowerShell support lifecycle](https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/powershell
+```
+
 Microsoft's PowerShell support lifecycle lists 7.0 LTS (built on .NET Core 3.1) as retired: support ended on 2022-12-03, so it receives no further updates, including security updates. A script or manifest that requires 7.0 targets an unsupported release.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

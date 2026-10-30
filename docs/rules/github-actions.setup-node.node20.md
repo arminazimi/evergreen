@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.setu
 
 # Unsupported actions/setup-node runtime
 
+**End of support** as of 2026-09-23. Replacement: actions/setup-node@v5 or later. Source: [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/).
+
+Check a version:
+
+```bash
+evergreen check pkg:github/actions/setup-node
+```
+
 This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

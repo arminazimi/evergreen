@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.atty.unm
 
 # atty is no longer maintained
 
+**Deprecated.** The source gives no day. Replacement: std::io::IsTerminal (stable since Rust 1.70), or the is-terminal crate for older compilers. Source: [RustSec advisory RUSTSEC-2024-0375](https://rustsec.org/advisories/RUSTSEC-2024-0375.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:cargo/atty
+```
+
 The maintainer of atty has published an official notice that the crate is no longer under development and that users should rely on the standard library's IsTerminal trait.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

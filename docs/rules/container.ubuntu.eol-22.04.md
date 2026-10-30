@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.ubuntu.eo
 
 # Ubuntu image release line 22.04 reaches standard support end-of-life on 2027-06-01
 
+**Scheduled end of life** as of 2027-06-01. Replacement: An ubuntu image on a later supported release line. Source: [Ubuntu release cycle](https://ubuntu.com/about/release-cycle).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/ubuntu
+```
+
 Ubuntu 22.04 is scheduled to stop receiving standard security updates on 2027-06-01.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

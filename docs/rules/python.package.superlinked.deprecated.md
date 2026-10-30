@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.supe
 
 # superlinked is deprecated for new projects
 
+**Deprecated.** The source gives no day. Replacement: SIE and sie-sdk. Source: [superlinked legacy framework notice](https://pypi.org/project/superlinked/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/superlinked
+```
+
 Superlinked marks its legacy Python framework deprecated for new projects and directs new development to SIE and sie-sdk.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

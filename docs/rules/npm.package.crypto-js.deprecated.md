@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.crypto-
 
 # crypto-js is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Web Crypto API (globalThis.crypto.subtle) or a maintained cryptography library. Source: [crypto-js on npm](https://www.npmjs.com/package/crypto-js).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/crypto-js
+```
+
 npm marks crypto-js as deprecated: "Active development of CryptoJS has been discontinued. This library is no longer maintained."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

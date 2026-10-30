@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.open
 
 # opennms-api-wrapper was renamed
 
+**Deprecated.** The source gives no day. Replacement: python-opennms. Source: [opennms-api-wrapper rename notice](https://pypi.org/project/opennms-api-wrapper/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/opennms-api-wrapper
+```
+
 The maintainer renamed opennms-api-wrapper to python-opennms and states that no further releases will be published under the old name.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.seof
 
 # seofleet-cli is deprecated
 
+**Deprecated.** The source gives no day. Replacement: llmscout-cli. Source: [seofleet-cli deprecation notice](https://pypi.org/project/seofleet-cli/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/seofleet-cli
+```
+
 The maintainer renamed seofleet-cli to llmscout-cli and states that no further releases will be published under the old name.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

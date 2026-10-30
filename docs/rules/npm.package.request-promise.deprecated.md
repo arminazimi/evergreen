@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.request
 
 # request-promise is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Native fetch or a maintained promise-based HTTP client. Source: [request-promise package deprecation notice](https://www.npmjs.com/package/request-promise).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/request-promise
+```
+
 npm states that request-promise is deprecated because it extends the deprecated request package.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

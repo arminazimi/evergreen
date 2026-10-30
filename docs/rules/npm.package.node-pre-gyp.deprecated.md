@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.node-pr
 
 # node-pre-gyp is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @mapbox/node-pre-gyp. Source: [node-pre-gyp package deprecation notice](https://www.npmjs.com/package/node-pre-gyp).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/node-pre-gyp
+```
+
 npm states that the unscoped node-pre-gyp package is deprecated and only @mapbox/node-pre-gyp will receive updates.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

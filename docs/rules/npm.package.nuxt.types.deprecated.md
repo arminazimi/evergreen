@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.ty
 
 # @nuxt/types is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Nuxt 3. Source: [@nuxt/types on npm](https://www.npmjs.com/package/@nuxt/types).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40nuxt/types
+```
+
 npm marks @nuxt/types as deprecated: "Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

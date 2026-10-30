@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.react-n
 
 # React Native 0.77 through 0.84 are unsupported
 
+**End of support.** The source gives no day. Replacement: React Native 0.87 (Active). Source: [React Native Releases Working Group support policy](https://github.com/reactwg/react-native-releases/blob/main/docs/support.md).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/react-native
+```
+
 The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported. No new releases are expected, except possible fixes for very important regressions, and the Release Crew recommends upgrading as soon as possible.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

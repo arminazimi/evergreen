@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/github-actions.cach
 
 # Unsupported actions/cache runtime
 
+**End of support** as of 2026-09-23. Replacement: actions/cache@v5 or later. Source: [Node 20 is no longer available in GitHub Actions](https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/).
+
+Check a version:
+
+```bash
+evergreen check pkg:github/actions/cache
+```
+
 This release uses a retired JavaScript runtime or cache service. Version 5 moved the action to Node.js 24.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.lega
 
 # Legacy Node.js runtime is end-of-life
 
+**End of life.** The source gives no day. Replacement: Node.js 22 LTS or later. Source: [Node.js end-of-life releases](https://nodejs.org/en/about/eol).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 This Node.js release line is end-of-life and no longer receives security or bug fixes.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-o
 
 # GKE 1.29 and earlier are no longer supported
 
+**End of life.** The source gives no day. Replacement: GKE 1.35 or later. Source: [GKE versioning and support](https://cloud.google.com/kubernetes-engine/versioning).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/google-kubernetes-engine
+```
+
 The GKE release schedule states that GKE 1.29 and earlier have reached end of support and are no longer supported.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

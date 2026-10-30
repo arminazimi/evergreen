@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.crypt
 
 # New crypto.Certificate() is deprecated
 
+**Deprecated.** The source gives no day. Replacement: the static methods of crypto.Certificate. Source: [Node.js deprecations: DEP0146](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates new crypto.Certificate() (DEP0146: documentation-only since v14.9.0).
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

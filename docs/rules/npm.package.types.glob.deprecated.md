@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.g
 
 # @types/glob is deprecated
 
+**Deprecated.** The source gives no day. Replacement: glob. Source: [@types/glob on npm](https://www.npmjs.com/package/@types/glob).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40types/glob
+```
+
 npm marks @types/glob as deprecated: "This is a stub types definition. glob provides its own type definitions, so you do not need this installed."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

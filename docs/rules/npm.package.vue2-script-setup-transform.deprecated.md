@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.vue2-sc
 
 # vue2-script-setup-transform is deprecated
 
+**Deprecated.** The source gives no day. Replacement: unplugin-vue2-script-setup. Source: [vue2-script-setup-transform on npm](https://www.npmjs.com/package/vue2-script-setup-transform).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/vue2-script-setup-transform
+```
+
 npm marks vue2-script-setup-transform as deprecated: "renamed to `unplugin-vue2-script-setup`, see https://github.com/antfu/unplugin-vue2-script-setup/releases/tag/v0.4.0"
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

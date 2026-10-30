@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/kubernetes.extensio
 
 # ReplicaSet extensions/v1beta1 is no longer served
 
+**Removed** as of 2019-09-18. Replacement: apps/v1 ReplicaSet, available since v1.9. Source: [Kubernetes Deprecated API Migration Guide](https://kubernetes.io/docs/reference/using-api/deprecation-guide/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/kubernetes/extensions/ReplicaSet
+```
+
 The Kubernetes Deprecated API Migration Guide states that the extensions/v1beta1 API version of ReplicaSet is no longer served as of v1.16, which was released on 2019-09-18.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

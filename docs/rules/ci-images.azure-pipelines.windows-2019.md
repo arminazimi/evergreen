@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pip
 
 # Azure Pipelines Windows Server 2019 hosted image is retired
 
+**Removed** as of 2025-12-31. Replacement: windows-2022, windows-2025, or windows-latest. Source: [Upcoming Updates for Azure Pipelines Agents Images](https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-pipelines/windows-image
+```
+
 The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps blog sets that full removal date, and the Microsoft-hosted agents page records the same retirement.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

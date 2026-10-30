@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.popper.
 
 # popper.js is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @popperjs/core. Source: [popper.js package deprecation notice](https://www.npmjs.com/package/popper.js).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/popper.js
+```
+
 npm identifies popper.js as the legacy Popper v1 package and directs users to @popperjs/core for Popper v2.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

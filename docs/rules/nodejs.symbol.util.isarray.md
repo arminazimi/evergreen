@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.util.
 
 # util.isArray is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Array.isArray(). Source: [Node.js deprecations: DEP0044 util.isArray](https://nodejs.org/api/deprecations.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/nodejs
+```
+
 Node.js deprecates util.isArray() (DEP0044): documentation-only since v4.0.0, runtime warning since v22.0.0.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

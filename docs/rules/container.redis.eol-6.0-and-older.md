@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.redis.eol
 
 # Redis image release lines 6.0 and older are end-of-life
 
+**End of life** as of 2022-05-31. Replacement: A redis image on a supported release line. Source: [Redis release policy (vendor)](https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/redis
+```
+
 These Redis release lines no longer receive fixes from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

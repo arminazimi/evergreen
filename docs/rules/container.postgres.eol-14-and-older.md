@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.postgres.
 
 # PostgreSQL image release line 14 reaches end-of-life on 2026-11-12
 
+**Scheduled end of life** as of 2026-11-12. Replacement: A postgres image on a later supported major version (the upgrade needs a dump/restore or pg_upgrade). Source: [PostgreSQL release policy (vendor)](https://www.postgresql.org/support/versioning/).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/postgres
+```
+
 The PostgreSQL 14 release line is scheduled to stop receiving fixes from the vendor on 2026-11-12.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

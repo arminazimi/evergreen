@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.humanwh
 
 # @humanwhocodes/object-schema is deprecated
 
+**Deprecated.** The source gives no day. Replacement: @eslint/object-schema. Source: [@humanwhocodes/object-schema package deprecation notice](https://www.npmjs.com/package/@humanwhocodes/object-schema).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40humanwhocodes/object-schema
+```
+
 npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

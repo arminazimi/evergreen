@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.djan
 
 # django-celery is no longer required
 
+**Deprecated.** The source gives no day. Replacement: Celery's built-in Django integration. Source: [django-celery retirement notice](https://pypi.org/project/django-celery/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/django-celery
+```
+
 The project states that django-celery is no longer required because Celery supports Django directly.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

@@ -12,7 +12,9 @@ import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 import {
   LOOKUP_PAGE,
   SITE_URL,
+  answerLead,
   buildFiles,
+  checkCommand,
   drift,
   loadRegistries,
   lookupEntries,
@@ -71,18 +73,24 @@ test("every bundled rule has a page, and the committed pages match the registry"
 });
 
 test("a page states status, versions, dates, sources, freshness, migration, and detectors", () => {
-  const page = renderRulePage(
-    rule({
-      migration: {
-        constraints: ["Keep behavior."],
-        steps: [{ id: "change", title: "Change it", instructions: "Do the change.", targets: "declaration" }],
-        verification: [{ command: "make test", purpose: "Run the tests." }],
-      },
-    }),
-    180,
-  );
+  const fixture = rule({
+    migration: {
+      constraints: ["Keep behavior."],
+      steps: [{ id: "change", title: "Change it", instructions: "Do the change.", targets: "declaration" }],
+      verification: [{ command: "make test", purpose: "Run the tests." }],
+    },
+  });
+  const page = renderRulePage(fixture, 180);
   assert.match(page, /^---\ntitle: "Demo 1 is end of life — dates, impact, migration"\n/);
   assert.match(page, /canonical_url: "https:\/\/arminazimi\.github\.io\/evergreen\/rules\/demo\.thing\.eol-1\.html"/);
+  // The first paragraph answers status, date, and replacement, with the source linked.
+  assert.match(
+    page,
+    /^# Demo 1 is end of life\n\n\*\*End of life\*\* as of 2026-01-31\. Replacement: Demo 2 \| or later\. Source: \[Demo lifecycle\]\(https:\/\/example\.com\/demo\)\.\n/m,
+  );
+  assert.match(page, /Check a version:\n\n```bash\nevergreen check pkg:generic\/demo\n```/);
+  assert.equal(answerLead(fixture), "**End of life** as of 2026-01-31. Replacement: Demo 2 | or later. Source: [Demo lifecycle](https://example.com/demo).");
+  assert.equal(checkCommand(fixture), "evergreen check pkg:generic/demo");
   assert.match(page, /\| Status \| End of life \|/);
   assert.match(page, /\| Affected versions \| `vers:semver\/<2\.0\.0` \|/);
   assert.match(page, /\| Date from the source \| 2026-01-31 \|/);
@@ -104,6 +112,8 @@ test("a range with a pipe does not break the table", () => {
 test("a rule with no day or migration says so instead of inventing one", () => {
   const { deadline: _deadline, replacement: _replacement, ...bare } = rule();
   const page = renderRulePage(bare, 365);
+  assert.match(page, /^\*\*End of life\.\*\* The source gives no day\. Source: \[Demo lifecycle\]\(https:\/\/example\.com\/demo\)\.$/m);
+  assert.doesNotMatch(page, /Replacement:/);
   assert.match(page, /\| Date from the source \| The source gives no day \|/);
   assert.doesNotMatch(page, /## Migration/);
   assert.doesNotMatch(page, /\| Replacement \|/);
@@ -128,6 +138,23 @@ test("titles are unique, follow the search-friendly pattern, and every page name
       titles.set(title, entry.id);
       assert.ok(page.includes(`canonical_url: "${ruleUrl(entry.id)}"`), entry.id);
       assert.ok(entry.title.length > 0 && JSON.parse(title).length <= 120, `${entry.id}: the title is too long for a search result`);
+    }
+  }
+});
+
+test("every rule page answers status, date, and replacement first, then offers evergreen check", async () => {
+  for (const item of await loadRegistries()) {
+    for (const entry of item.rules) {
+      const page = renderRulePage(entry, 365);
+      const lead = answerLead(entry);
+      const command = checkCommand(entry);
+      assert.ok(page.includes(lead), `${entry.id}: missing answer lead`);
+      assert.ok(page.includes(`\`\`\`bash\n${command}\n\`\`\``), `${entry.id}: missing check command`);
+      assert.ok(page.indexOf(lead) < page.indexOf(command), `${entry.id}: check should follow the answer`);
+      if (entry.deadline) assert.match(lead, new RegExp(`as of ${entry.deadline}`));
+      else assert.match(lead, /The source gives no day/);
+      if (entry.replacement) assert.ok(lead.includes("Replacement:"), entry.id);
+      assert.match(lead, /Source: \[/);
     }
   }
 });
@@ -260,6 +287,10 @@ test("every rule field is rendered in its context and escaped there", () => {
 
   // Prose is HTML-escaped, so a rule can never inject markup into the page.
   assert.match(page, /^# Demo 1 &lt;script&gt;alert\(1\)&lt;\/script&gt; \| upgrade$/m);
+  assert.match(
+    page,
+    /^\*\*End of life\*\* as of 2026-01-31\. Replacement: Demo 2 &lt;new&gt; \| later\. Source: \[Demo \\\[lifecycle\\\] &lt;doc&gt;\]\(https:\/\/example\.com\/demo\)\.$/m,
+  );
   assert.match(page, /^The vendor says &lt;\/script&gt;&lt;script&gt;alert\(2\)&lt;\/script&gt; &amp; more\.$/m);
   assert.match(page, /\| Replacement \| Demo 2 &lt;new&gt; \\\| later \|/);
   assert.match(page, /\| Replacement requires \| Node\.js 18\.0\.0 or newer and Python 3\.10 or newer \|/);

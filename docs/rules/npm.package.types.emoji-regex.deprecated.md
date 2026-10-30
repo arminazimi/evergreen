@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.types.e
 
 # @types/emoji-regex is deprecated
 
+**Deprecated.** The source gives no day. Replacement: emoji-regex. Source: [@types/emoji-regex on npm](https://www.npmjs.com/package/@types/emoji-regex).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/%40types/emoji-regex
+```
+
 npm marks @types/emoji-regex as deprecated: "This is a stub types definition. emoji-regex provides its own type definitions, so you do not need this installed."
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

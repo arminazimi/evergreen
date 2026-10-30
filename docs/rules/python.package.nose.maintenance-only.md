@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.nose
 
 # nose is maintenance-only
 
+**Deprecated.** The source gives no day. Replacement: pytest, nose2, or unittest. Source: [nose note to users](https://nose.readthedocs.io/en/latest/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/nose
+```
+
 The project warns that nose has been in maintenance mode for years and recommends alternatives for new projects.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

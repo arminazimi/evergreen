@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/java.maven.spring-b
 
 # Spring Boot 1.x is out of open-source support
 
+**End of support.** The source gives no day. Replacement: Spring Boot 4.1.x. Source: [Spring Boot support policy](https://spring.io/projects/spring-boot#support).
+
+Check a version:
+
+```bash
+evergreen check pkg:maven/org.springframework.boot/spring-boot
+```
+
 Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major releases. Commercial support availability is separate from community OSS support.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

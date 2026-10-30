@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.caddy.eol
 
 # Caddy image release lines 1 and older are end-of-life
 
+**End of life** as of 2020-07-01. Replacement: A caddy image on a supported release line. Source: [Caddy release policy (vendor)](https://github.com/caddyserver/caddy/security).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/caddy
+```
+
 These Caddy release lines no longer receive fixes from the vendor.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

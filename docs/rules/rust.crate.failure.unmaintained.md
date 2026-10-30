@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.
 
 # failure is no longer maintained
 
+**Deprecated.** The source gives no day. Replacement: anyhow, eyre, fehler, or snafu. Source: [RustSec advisory RUSTSEC-2020-0036](https://rustsec.org/advisories/RUSTSEC-2020-0036.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:cargo/failure
+```
+
 The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

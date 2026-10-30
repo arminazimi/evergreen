@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/container.node.eol-
 
 # Node.js image release line 22 reaches end-of-life on 2027-04-30
 
+**Scheduled end of life** as of 2027-04-30. Replacement: A node image on a later supported release line, such as node:24. Source: [Node.js end-of-life releases](https://nodejs.org/en/about/eol).
+
+Check a version:
+
+```bash
+evergreen check pkg:docker/library/node
+```
+
 Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

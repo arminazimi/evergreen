@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.data
 
 # datacommons is deprecated
 
+**Deprecated.** The source gives no day. Replacement: datacommons-client. Source: [datacommons deprecation notice](https://pypi.org/project/datacommons/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/datacommons
+```
+
 The maintainers state that datacommons is no longer maintained or functional and direct users to datacommons-client.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

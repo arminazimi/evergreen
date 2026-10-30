@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.dist
 
 # distribute is deprecated
 
+**Deprecated.** The source gives no day. Replacement: setuptools. Source: [Distribute deprecation notice](https://pypi.org/project/distribute/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/distribute
+```
+
 The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

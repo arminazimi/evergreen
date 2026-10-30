@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/npm.package.stable.
 
 # stable is deprecated
 
+**Deprecated.** The source gives no day. Replacement: Array.prototype.sort. Source: [stable package deprecation notice](https://www.npmjs.com/package/stable).
+
+Check a version:
+
+```bash
+evergreen check pkg:npm/stable
+```
+
 npm states that modern JavaScript engines already provide stable Array.prototype.sort behavior, so the stable package is deprecated.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

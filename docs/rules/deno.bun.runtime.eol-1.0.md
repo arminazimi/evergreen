@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/deno.bun.runtime.eo
 
 # Bun 1.0.x is end-of-life
 
+**End of life** as of 2024-04-01. Replacement: Bun 1.1 or later. Source: [Bun 1.1.0 Release](https://github.com/oven-sh/bun/releases/tag/bun-v1.1.0).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/bun
+```
+
 Bun 1.0.x was superseded by Bun 1.1.0 and is end-of-life.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

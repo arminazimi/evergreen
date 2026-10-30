@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.poet
 
 # poetry-version-plugin is deprecated
 
+**Deprecated.** The source gives no day. Replacement: uv, PDM, Hatch, or poetry-dynamic-versioning. Source: [poetry-version-plugin deprecation notice](https://pypi.org/project/poetry-version-plugin/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/poetry-version-plugin
+```
+
 The maintainer states that poetry-version-plugin is deprecated and recommends migrating to other project and versioning tools.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

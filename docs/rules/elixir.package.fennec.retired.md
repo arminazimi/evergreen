@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/elixir.package.fenn
 
 # fennec is retired on Hex
 
+**Deprecated.** The source gives no day. Replacement: mongooseice. Source: [fennec on Hex](https://hex.pm/packages/fennec).
+
+Check a version:
+
+```bash
+evergreen check pkg:hex/fennec
+```
+
 Hex marks every published fennec release as retired with reason renamed, and the retirement message says the package was renamed to mongooseice.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

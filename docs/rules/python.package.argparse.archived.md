@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.argp
 
 # argparse is archived on PyPI
 
+**End of life.** The source gives no day. Source: [argparse on PyPI](https://pypi.org/project/argparse/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/argparse
+```
+
 PyPI marks argparse as archived: the project does not expect to be updated in the future.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

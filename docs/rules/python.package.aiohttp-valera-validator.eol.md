@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.package.aioh
 
 # aiohttp-valera-validator was renamed and is no longer maintained
 
+**End of life.** The source gives no day. Replacement: aiohttp-d42-validator. Source: [aiohttp-valera-validator rename notice](https://pypi.org/project/aiohttp-valera-validator/).
+
+Check a version:
+
+```bash
+evergreen check pkg:pypi/aiohttp-valera-validator
+```
+
 The maintainer states that aiohttp-valera-validator is no longer maintained and was renamed to aiohttp-d42-validator.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

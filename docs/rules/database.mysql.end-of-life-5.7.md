@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/database.mysql.end-
 
 # MySQL 5.7 is end-of-life
 
+**End of life** as of 2023-10-31. Replacement: MySQL 8.4 LTS or later. Source: [MySQL supported platforms and lifecycle](https://www.mysql.com/support/supportedplatforms/database.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/mysql
+```
+
 MySQL 5.7 reached end of life on 2023-10-31 and no longer receives security or bug fixes from Oracle. The mysql.com lifecycle page could not be read when this rule was reviewed (it refuses automated requests), so the date is taken from the endoflife.date record for MySQL.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

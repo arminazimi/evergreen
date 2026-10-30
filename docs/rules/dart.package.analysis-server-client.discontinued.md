@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dart.package.analys
 
 # analysis_server_client is discontinued on pub.dev
 
+**Deprecated.** The source gives no day. Source: [analysis_server_client on pub.dev](https://pub.dev/packages/analysis_server_client).
+
+Check a version:
+
+```bash
+evergreen check pkg:pub/analysis_server_client
+```
+
 pub.dev marks analysis_server_client as discontinued.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

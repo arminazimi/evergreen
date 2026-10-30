@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/dotnet.runtime.end-
 
 # .NET 6 is no longer supported
 
+**End of support** as of 2024-11-12. Replacement: .NET 10 (LTS), or the newest supported .NET release. Source: [.NET and .NET Core official support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/dotnet
+```
+
 .NET 6 (Long Term Support) reached the end of its support on 2024-11-12. Microsoft no longer ships security or quality fixes for it. The same line applies to the SDK that carries it, so a global.json pinning an SDK 6.0.x is reported too.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

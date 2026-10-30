@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/python.symbol.unitt
 
 # unittest.makeSuite, findTestCases and getTestCaseNames have been removed
 
+**Removed.** The source gives no day. Replacement: The matching TestLoader methods: loadTestsFromTestCase(), loadTestsFromModule(), getTestCaseNames(). Source: [What's New in Python 3.13](https://docs.python.org/3/whatsnew/3.13.html).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/python
+```
+
 Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>

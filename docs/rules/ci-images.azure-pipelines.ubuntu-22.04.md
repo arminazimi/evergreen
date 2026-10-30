@@ -6,6 +6,14 @@ canonical_url: "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pip
 
 # Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal
 
+**Scheduled end of life** as of 2027-04-17. Replacement: ubuntu-latest, ubuntu-24.04, or ubuntu-26.04. Source: [Microsoft-hosted image deprecation schedule](https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule).
+
+Check a version:
+
+```bash
+evergreen check pkg:generic/azure-pipelines/ubuntu-image
+```
+
 The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.
 
 [Look up another package or runtime](../lookup.html) · <form action="../lookup.html" method="get" role="search"><input type="search" name="q" placeholder="Search packages and runtimes" aria-label="Package or runtime" /> <button type="submit">Search</button></form>
