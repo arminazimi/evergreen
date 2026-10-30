@@ -1,0 +1,129 @@
+name: Package smoke
+
+# Proves the packages people install match what CI builds: the npm tarball, the Docker image, and the
+# local Action all scan the same fixture and return the same findings. A broken `files` list in
+# package.json fails here because the packed CLI would miss registry data or the bin entry.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: package-smoke-${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  smoke:
+    name: npm, Docker, and Action
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Build the package and the Action bundle under test
+        run: |
+          npm run build
+          # Ordinary pull requests ship the committed Action bundle; rebuild so this job compares the
+          # source under test, not a stale release artifact.
+          npm run build:action --silent
+
+      - name: Pack, install, and scan with the npm tarball # zizmor: ignore[adhoc-packages] -- installs the local npm pack tarball under test, not a registry package
+        id: npm
+        run: |
+          set -euo pipefail
+          fixture="$GITHUB_WORKSPACE/tests/fixtures/smoke"
+          out="$RUNNER_TEMP/package-smoke"
+          mkdir -p "$out"
+          # prepack runs the full check; build already ran, so pack the built tree only.
+          npm pack --ignore-scripts --pack-destination "$out"
+          tarball="$(ls "$out"/evergreen-deprecation-*.tgz)"
+          install_dir="$out/npm-install"
+          mkdir -p "$install_dir"
+          (
+            cd "$install_dir"
+            npm init -y >/dev/null
+            npm install --no-save --no-fund --no-audit "$tarball"
+          )
+          bin="$install_dir/node_modules/.bin/evergreen"
+          version="$("$bin" --version)"
+          echo "Installed evergreen --version: $version"
+          test -n "$version"
+          "$bin" scan "$fixture" --json > "$out/npm-scan.json"
+          echo "path=$out/npm-scan.json" >> "$GITHUB_OUTPUT"
+          # shellcheck disable=SC2016
+          node -e '
+            const scan = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+            if (scan.schemaVersion !== "evergreen.scan.v1") throw new Error("npm scan is not a scan result");
+            if (!scan.findings?.length) throw new Error("npm scan found nothing on the smoke fixture");
+            const rules = new Set(scan.findings.map((f) => f.ruleId));
+            if (!rules.has("npm.package.request.deprecated")) throw new Error("npm scan missed the deprecated package");
+            if (![...rules].some((id) => id.startsWith("nodejs.runtime."))) throw new Error("npm scan missed the Node.js runtime finding");
+            console.log(`npm scan: ${scan.findings.length} findings`);
+          ' "$out/npm-scan.json"
+
+      - name: Build the Docker image and scan the fixture
+        id: docker
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/package-smoke"
+          docker build -t evergreen-package-smoke .
+          # Same network-free, read-only shape as the release image smoke.
+          docker run --rm --network none --read-only \
+            -v "$GITHUB_WORKSPACE/tests/fixtures/smoke:/workspace:ro" \
+            evergreen-package-smoke scan /workspace --json > "$out/docker-scan.json"
+          echo "path=$out/docker-scan.json" >> "$GITHUB_OUTPUT"
+          # shellcheck disable=SC2016
+          node -e '
+            const scan = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+            if (scan.schemaVersion !== "evergreen.scan.v1") throw new Error("docker scan is not a scan result");
+            if (!scan.findings?.length) throw new Error("docker scan found nothing on the smoke fixture");
+            console.log(`docker scan: ${scan.findings.length} findings`);
+          ' "$out/docker-scan.json"
+
+      - name: Scan the fixture with the local Action # zizmor: ignore[self-repository] -- it scans the fixture with the action under test
+        id: action
+        uses: ./
+        with:
+          path: tests/fixtures/smoke
+          fail-on-severity: none
+          upload-report: "false"
+          upload-sarif: "false"
+          upload-badge: "false"
+          attribution: "false"
+
+      - name: Assert Action outputs and compare all three scans
+        env:
+          NPM_SCAN: ${{ steps.npm.outputs.path }}
+          DOCKER_SCAN: ${{ steps.docker.outputs.path }}
+          ACTION_REPORT: ${{ steps.action.outputs.report-path }}
+          ACTION_COUNT: ${{ steps.action.outputs.finding-count }}
+        run: |
+          set -euo pipefail
+          test -n "$ACTION_REPORT"
+          test -f "$ACTION_REPORT"
+          test -n "$ACTION_COUNT"
+          node .github/scripts/release-smoke.mjs "$NPM_SCAN" "$DOCKER_SCAN"
+          node .github/scripts/release-smoke.mjs "$NPM_SCAN" "$ACTION_REPORT"
+          # shellcheck disable=SC2016
+          node -e '
+            const fs = require("fs");
+            const npm = JSON.parse(fs.readFileSync(process.env.NPM_SCAN, "utf8"));
+            const expected = String(npm.findings.length);
+            if (process.env.ACTION_COUNT !== expected) {
+              throw new Error(`Action finding-count is ${process.env.ACTION_COUNT}, expected ${expected}`);
+            }
+            console.log(`All three channels agree on ${expected} findings.`);
+          '
