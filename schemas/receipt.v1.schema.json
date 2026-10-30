@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/receipt.v1.schema.json",
+  "title": "Evergreen verification receipt v1",
+  "description": "What one change did to a repository's findings: which a before/after comparison resolved, which remain, which it introduced, and which verification commands the touched rules name. Reading and comparing scans only; no command is run.",
+  "type": "object",
+  "required": ["schema", "counts", "resolved", "remaining", "introduced", "commands", "data"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "evergreen.receipt.v1" },
+    "counts": {
+      "type": "object",
+      "description": "One count per list, so a reader can show a summary without walking the findings.",
+      "required": ["resolved", "remaining", "introduced"],
+      "additionalProperties": false,
+      "properties": {
+        "resolved": { "type": "integer", "minimum": 0 },
+        "remaining": { "type": "integer", "minimum": 0 },
+        "introduced": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "resolved": {
+      "type": "array",
+      "description": "Findings the before scan reported and the after scan does not, ordered by finding id.",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "remaining": {
+      "type": "array",
+      "description": "Findings both scans report, ordered by finding id.",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "introduced": {
+      "type": "array",
+      "description": "Findings only the after scan reports, ordered by finding id.",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "commands": {
+      "type": "array",
+      "description": "Verification commands the touched rules suggest, ordered by command. They are printed and never run.",
+      "items": {
+        "type": "object",
+        "required": ["command", "purpose"],
+        "additionalProperties": false,
+        "properties": {
+          "command": { "type": "string", "minLength": 1 },
+          "purpose": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "description": "The lifecycle data each side of the comparison used; null when a scan did not record it.",
+      "required": ["before", "after"],
+      "additionalProperties": false,
+      "properties": {
+        "before": { "oneOf": [{ "$ref": "scan.v1.schema.json#/properties/data" }, { "type": "null" }] },
+        "after": { "oneOf": [{ "$ref": "scan.v1.schema.json#/properties/data" }, { "type": "null" }] }
+      }
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": ["id", "rule", "title", "severity", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "description": "The scan's finding id, so the entry joins the finding in `scan --json`." },
+        "rule": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
+        "path": { "type": "string", "minLength": 1, "description": "Repository-relative path." },
+        "line": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}
