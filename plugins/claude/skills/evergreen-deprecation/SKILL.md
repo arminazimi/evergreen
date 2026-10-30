@@ -1,6 +1,6 @@
 ---
 name: evergreen-deprecation
-description: Find, explain, migrate, and verify end-of-life or deprecated repository dependencies, including runtimes, package declarations, and GitHub Actions. Use for repository lifecycle scans and Evergreen finding workflows, and to check a package, runtime, or action against lifecycle data before adding it to a project. Do not use for routine dependency upgrades, vulnerability or security audits, deprecated source APIs, or unrelated modernization.
+description: Find, explain, migrate, and verify deprecated, end-of-life, or unsupported repository dependencies, including runtimes, packages, lockfiles, container images, and GitHub Actions. Use for lifecycle scans, support or maintenance status, finding, migration, or verification work, including finding IDs, and pre-add checks. Do not use for routine dependency upgrades, vulnerability or security audits, deprecated source APIs, application code, scripts, or unrelated modernization.
 license: Apache-2.0
 metadata:
   author: Evergreen

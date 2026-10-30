@@ -30,36 +30,53 @@ export interface SkillTriggerMetrics {
   falseTriggerRate: number;
 }
 
-const lifecycleTerms = [
+const deprecationTerms = [
   /\bdeprecated?\b/,
   /\bdeprecation\b/,
-  /\bend[ -]of[ -]life\b/,
+];
+
+const lifecycleStatusTerms = [
+  /\bend[ -]of[ -](?:life|support)\b/,
   /\beol\b/,
-  /\bout of support\b/,
+  /\bout[ -]of[ -](?:support|maintenance)\b/,
   /\bunsupported\b/,
+  /\bstill (?:support|supports)\b/,
+  /\b(?:still |actively |currently |already )?supported\b/,
+  /\b(?:still |actively |currently |already )?maintained\b/,
+  /\b(?:receiving|gets?|getting) (?:security )?(?:updates|fixes|patches|support)\b/,
   /\bretired?\b/,
   /\bsunset\b/,
   /\bobsolete\b/,
-  /\bno longer maintained\b/,
+  /\bno longer (?:supported|maintained|updated)\b/,
   /\bmaintenance (?:has )?ended\b/,
-  /\bsupport window\b/,
+  /\bend of maintenance\b/,
+  /\bmaintenance (?:status|window|mode)\b/,
+  /\bsupport (?:window|status)\b/,
+  /\bpast (?:its )?(?:support|end[ -]of[ -]life)\b/,
+  /\b(?:stops?|stopped) (?:receiving|getting) (?:updates|fixes|support)\b/,
   /\blifecycle status\b/,
 ];
+
+const lifecycleTerms = [...deprecationTerms, ...lifecycleStatusTerms];
 
 const repositoryDependencyTerms = [
   /\brepositor(?:y|ies)\b/,
   /\brepo\b/,
-  /\bruntime\b/,
+  /\bruntimes?\b/,
   /\bnode(?:\.js|js)?\b/,
   /\bpython\b/,
-  /\bpackage(?:s| declaration)?\b/,
+  /\bpackage(?:s| declarations?)?\b/,
   /\bdependenc(?:y|ies)\b/,
-  /\bgithub action(?:s)?\b/,
+  /\bgithub actions?\b/,
   /\bactions\/[\w-]+\b/,
-  /\bworkflow(?:s)?\b/,
-  /\bmanifest(?:s)?\b/,
+  /\bworkflows?\b/,
+  /\bmanifests?\b/,
   /\bpackage\.json\b/,
   /\brequirements(?:\.txt)?\b/,
+  /\bpyproject(?:\.toml)?\b/,
+  /\bnvmrc\b/,
+  /\blockfiles?\b/,
+  /\b(?:dockerfile|container(?: image)?|base image)\b/,
   /\bci (?:action|pipeline|configuration)\b/,
   /\btoolchain\b/,
 ];
@@ -67,7 +84,11 @@ const repositoryDependencyTerms = [
 const evergreenFindingTerms = [
   /\bevergreen (?:finding|scan|report|context|migration|verification)\b/,
   /\bfinding id\b/,
-  /\bdeprecation finding\b/,
+  /\b(?:deprecation|lifecycle|end[ -]of[ -]life|eol|retirement|support) finding\b/,
+  /\b(?:this|that|selected|reported|same|current) finding\b/,
+  /\bmigration (?:packet|context)\b[^.?!]*\b(?:finding|deprecation|lifecycle)\b/,
+  /\b(?:finding|deprecation|lifecycle)\b[^.?!]*\bmigration (?:packet|context)\b/,
+  /\bverify (?:that )?(?:this |the )?(?:deprecation|finding|lifecycle)\b/,
 ];
 
 const securityTerms = [
@@ -80,8 +101,11 @@ const securityTerms = [
 ];
 
 const sourceApiTerms = [
-  /\bdeprecated (?:api|method|function|component|prop|hook|endpoint|class)\b/,
-  /\breplace .* (?:api|method|function|component|prop|hook)\b/,
+  /\bdeprecated (?:[\w.-]+ ){0,2}(?:apis?|methods?|functions?|components?|props?|hooks?|endpoints?|classes?)\b/,
+  /\b(?:apis?|methods?|functions?|components?|props?|hooks?|endpoints?|classes?) (?:is|are|was|were|has been|have been) deprecated\b/,
+  /\bdeprecated (?:[\w.-]+ ){0,2}(?:scripts?|commands?|config(?:uration)?s?|settings?|fields?|features?|flags?|tests?)\b/,
+  /\b(?:scripts?|commands?|config(?:uration)?s?|settings?|fields?|features?|flags?|tests?) (?:is|are|was|were|has been|have been) deprecated\b/,
+  /\bdeprecat(?:e|es|ing) (?:the |our |this )?(?:[\w.-]+ ){0,2}(?:apis?|methods?|functions?|components?|props?|hooks?|endpoints?|classes?|scripts?|commands?|config(?:uration)?s?|settings?|fields?|features?|flags?|tests?)\b/,
 ];
 
 const routineUpgradeTerms = [
@@ -98,17 +122,21 @@ function matchesAny(prompt: string, patterns: RegExp[]): boolean {
 /**
  * Deterministic proxy for metadata-only skill selection. It intentionally uses
  * concepts stated in the skill description, not case IDs or expected labels.
+ * A lifecycle status is required for source-API and configuration requests to
+ * count as triggers, so a deprecated hook or npm script stays a non-goal even
+ * when the repository uses a supported runtime.
  */
 export function classifySkillTrigger(prompt: string): boolean {
   const normalized = prompt.toLowerCase().replaceAll("’", "'");
   const hasLifecycle = matchesAny(normalized, lifecycleTerms);
+  const hasLifecycleStatus = matchesAny(normalized, lifecycleStatusTerms);
   const hasRepositoryDependency = matchesAny(normalized, repositoryDependencyTerms);
   const hasEvergreenFinding = matchesAny(normalized, evergreenFindingTerms);
 
   if (matchesAny(normalized, securityTerms) && !hasLifecycle && !hasEvergreenFinding) {
     return false;
   }
-  if (matchesAny(normalized, sourceApiTerms) && !hasRepositoryDependency && !hasEvergreenFinding) {
+  if (matchesAny(normalized, sourceApiTerms) && !hasLifecycleStatus && !hasEvergreenFinding) {
     return false;
   }
   if (matchesAny(normalized, routineUpgradeTerms) && !hasLifecycle && !hasEvergreenFinding) {
