@@ -84,7 +84,9 @@ Project-scoped copy of the same server entry: [`examples/agents/copilot/`](https
 
 ## What the server exposes
 
-Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities.
+Everything below is read-only and runs in the local process. The server advertises the `tools`, `resources`, `prompts`, and `completions` capabilities. The same evidence-backed findings the tools return also render as a shareable local HTML report (`evergreen scan --format html`):
+
+![Self-contained Evergreen HTML report showing finding counts and a high-severity deprecated package with location, replacement, and evidence](assets/screenshots/html-report.webp)
 
 ### Write safety
 

@@ -193,6 +193,8 @@ does not provide a `with` entry.
 
 The job summary shows how many findings there are per severity, the ten most severe findings with their location and a link to the evidence each one cites, the age of the lifecycle data, and a warning when the data is stale. When there are more than ten findings, it says how many more there are; the JSON report artifact lists them all.
 
+![Evergreen Actions job summary listing severity counts and the top lifecycle findings with evidence links](assets/screenshots/job-summary.webp)
+
 ### Branching on results
 
 The outputs describe the findings that remain after baseline comparison, so a later step can act on them without reading the report. Every value is empty or `false` when nothing remains.
@@ -244,6 +246,8 @@ High and critical findings become error annotations, medium findings become warn
 ### Pull request comment
 
 Set `pr-comment: true` to get one comment on the pull request with the counts per severity and the top findings, instead of reading every annotation. The same comment is updated on each re-run. The scan itself stays offline; only posting the comment calls the GitHub API.
+
+![Evergreen pull request comment showing severity counts and the top lifecycle findings with file locations](assets/screenshots/pr-comment.webp)
 
 ```yaml
 permissions:
@@ -516,6 +520,8 @@ can keep the artifact private or deliberately publish only this aggregate file.
 ## Code scanning
 
 Set `upload-sarif: true` to show findings in the repository's **Security → Code scanning** tab. The Action writes the same findings as SARIF 2.1.0 and hands the file to `github/codeql-action/upload-sarif` under the category `evergreen`. The job needs one more permission:
+
+![GitHub code scanning alert opened from Evergreen SARIF for a deprecated package, with replacement and verification steps](assets/screenshots/sarif-alert.webp)
 
 ```yaml
 permissions:
