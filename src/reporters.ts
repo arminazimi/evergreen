@@ -6,6 +6,7 @@ import { severityValues } from "./domain.js";
 import type { Forecast } from "./forecast.js";
 import { renderForecastSvg } from "./forecast-svg.js";
 import type { MigrationPacket, UpgradePath } from "./migration-packet.js";
+import { renderTreemapSvg, treemapFileId } from "./treemap.js";
 import { VERSION } from "./version.js";
 
 export type { ScanCoverage };
@@ -489,6 +490,10 @@ section.forecast{margin:0 0 1.5rem}section.forecast svg{max-width:100%;height:au
 section.forecast ul{margin:.5rem 0 0;padding-left:1.25rem}section.forecast li{margin:0 0 .25rem}
 @media print{section.forecast{break-inside:avoid}}`;
 
+const HTML_TREEMAP_STYLE = `
+section.treemap{margin:0 0 1.5rem}section.treemap svg{max-width:100%;height:auto}
+@media print{section.treemap{break-inside:avoid}}`;
+
 function htmlLocation(location: { path: string; line?: number }): string {
   return `${location.path}${location.line ? `:${location.line}` : ""}`;
 }
@@ -563,19 +568,36 @@ function htmlForecast(forecast: Forecast): string {
 }
 
 /**
+ * Directories and files sized by severity-weighted finding count, so the largest risk surfaces first. Each rectangle
+ * links to the matching file section below.
+ */
+function htmlTreemap(findings: readonly Finding[]): string {
+  return [
+    '<section class="treemap">',
+    "<h2>Findings by file</h2>",
+    '<p class="meta">Areas are sized by severity-weighted finding count (critical 8, high 4, medium 2, low 1, info 0.5); color is the highest severity. Select a rectangle to jump to its findings.</p>',
+    renderTreemapSvg(findings),
+    "</section>",
+  ].join("\n");
+}
+
+/**
  * Findings grouped by severity, most severe first, and then by path, using the same deterministic order as the
- * machine-readable reporters. Only the page order changes: the embedded JSON stays exactly the JSON report.
+ * machine-readable reporters. Only the page order changes: the embedded JSON stays exactly the JSON report. The first
+ * section for a path gets the id the treemap links to, so a file with findings at several severities keeps one id.
  */
 function htmlGroups(findings: readonly Finding[]): string {
   const ordered = [...findings].sort(findingOrder);
   const lines: string[] = [];
+  const linked = new Set<string>();
   for (const severity of severityValues.slice().reverse()) {
     const inSeverity = ordered.filter((finding) => finding.severity === severity);
     if (inSeverity.length === 0) continue;
     lines.push(`<section class="severity ${severity}">`);
     lines.push(`<h2><span class="badge">${severityLabel(severity)}</span>${inSeverity.length} finding${inSeverity.length === 1 ? "" : "s"}</h2>`);
     for (const path of new Set(inSeverity.map((finding) => finding.location.path))) {
-      lines.push('<section class="path">');
+      lines.push(linked.has(path) ? '<section class="path">' : `<section class="path" id="${treemapFileId(path)}">`);
+      linked.add(path);
       lines.push(`<h3><code>${escapeHtml(path)}</code></h3>`);
       lines.push(...inSeverity.filter((finding) => finding.location.path === path).map(htmlFinding));
       lines.push("</section>");
@@ -594,8 +616,8 @@ export interface HtmlOptions {
  * Renders a scan as one self-contained HTML file for sharing without a terminal or Code Scanning: inline styles, no
  * scripts, and no external requests (a CSP forbids them). Every value is escaped. The full JSON report is embedded as an
  * inert data block, so the page and `--format json` always describe the same scan. The visible page groups findings by
- * severity and path; the embedded JSON keeps the JSON report's own order. Without {@link HtmlOptions.forecast} the
- * output is exactly what it was before the option existed.
+ * severity and path and leads with a treemap of findings by file; the embedded JSON keeps the JSON report's own order.
+ * Without {@link HtmlOptions.forecast} the output is exactly what it was before the option existed.
  */
 export function renderHtml(result: ScanResult, options: HtmlOptions = {}): string {
   // "<" is escaped so no value can close the data block; JSON.parse reads the text back to the exact JSON report.
@@ -611,13 +633,14 @@ export function renderHtml(result: ScanResult, options: HtmlOptions = {}): strin
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">`,
     "<title>Evergreen report</title>",
-    `<style>${HTML_STYLE}${options.forecast ? HTML_FORECAST_STYLE : ""}</style>`,
+    `<style>${HTML_STYLE}${HTML_TREEMAP_STYLE}${options.forecast ? HTML_FORECAST_STYLE : ""}</style>`,
     "</head>",
     "<body>",
     "<h1>Evergreen report</h1>",
     `<p class="meta">${meta.map(escapeHtml).join("<br>")}</p>`,
     `<p><strong>${count} finding${count === 1 ? "" : "s"}</strong></p>`,
     htmlSummary(result.findings),
+    ...(count === 0 ? [] : [htmlTreemap(result.findings)]),
     ...(options.forecast ? [htmlForecast(options.forecast)] : []),
     ...(count === 0 ? ['<p class="meta">No lifecycle risks found.</p>'] : [htmlGroups(result.findings)]),
     ...notes,

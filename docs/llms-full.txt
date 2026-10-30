@@ -2715,9 +2715,12 @@ Open `report.html` in a browser, attach it to an issue, or paste it into chat. T
 
 - The repository path Evergreen scanned and when the scan ran.
 - A severity summary and every finding: title, severity, exact file path and line, rule id, replacement, and migration notes.
+- A treemap that sizes each directory and file by its severity-weighted findings (critical 8, high 4, medium 2, low 1, info 0.5) and colors it by its highest severity; each rectangle links to that file's findings below and shows its path and counts on hover or focus.
 - Authoritative source links for each finding (for example the Node.js release schedule or a GitHub changelog entry).
 - A "Next 12 months" forecast chart of dated end-of-life events in that window.
 - The full scan document in a `<script type="application/json" id="evergreen-report">` block for anyone who wants the machine-readable form.
+
+![Evergreen HTML report treemap sizing directories and files by severity-weighted finding count and coloring each rectangle by its highest severity](assets/screenshots/treemap.webp)
 
 On `examples/demo`, the report lists findings such as "Unsupported actions/checkout runtime" at `.github/workflows/ci.yml:9` and "request is deprecated" at `package.json`, each with its source URLs.
 
