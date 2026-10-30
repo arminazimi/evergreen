@@ -39,6 +39,19 @@
       "title": "analysis_server_client is discontinued on pub.dev"
     },
     {
+      "deadline": "2026-08-31",
+      "ecosystem": "android",
+      "event": "end-of-support",
+      "observedAt": "2026-10-19",
+      "path": "products/generic-android-targetsdk.json",
+      "productId": "generic-android-targetsdk",
+      "purl": "pkg:generic/android/targetSdk",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "severity": "high",
+      "title": "Google Play requires targetSdk 35+ for existing phone and tablet apps"
+    },
+    {
       "deadline": "2027-03-31",
       "ecosystem": "container",
       "event": "scheduled-end-of-life",
@@ -1257,18 +1270,6 @@
       "ruleId": "nodejs.symbol.fs.exists",
       "severity": "low",
       "title": "fs.exists is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.fs.lchmod",
-      "severity": "low",
-      "title": "Fs.lchmod and fs.lchmodSync are deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

@@ -15,6 +15,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Google Play Billing Library 7 is past its deprecation deadline](android.play-billing.version-7.html) — deprecated, `android.play-billing.version-7`
 - [Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31](android.play-billing.version-8.html) — scheduled end of life, `android.play-billing.version-8`
 - [Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31](android.play-billing.version-9.html) — scheduled end of life, `android.play-billing.version-9`
+- [Google Play requires targetSdk 35+ for existing phone and tablet apps](android.target-sdk.existing.default-below-35.html) — end of support, `android.target-sdk.existing.default-below-35`
 
 ## ci-images
 

@@ -536,6 +536,23 @@
       "type": "generic"
     },
     {
+      "earliestDeadline": "2026-08-31",
+      "ecosystems": [
+        "android"
+      ],
+      "events": [
+        "end-of-support"
+      ],
+      "id": "generic-android-targetsdk",
+      "latestReview": "2026-10-30",
+      "name": "targetSdk",
+      "namespace": "android",
+      "path": "products/generic-android-targetsdk.json",
+      "purl": "pkg:generic/android/targetSdk",
+      "rules": 1,
+      "type": "generic"
+    },
+    {
       "earliestDeadline": "2023-04-03",
       "ecosystems": [
         "serverless"
@@ -4421,7 +4438,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 523,
+  "rules": 524,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4450,8 +4467,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 87,
-      "rules": 294,
+      "products": 88,
+      "rules": 295,
       "type": "generic"
     },
     {
