@@ -51,6 +51,9 @@ jobs:
       - name: Check the reference pages against the registry
         if: runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/build-reference-pages.js --check
+      - name: Check the answer pages against the registry
+        if: runner.os == 'Linux' && matrix.node == 24
+        run: node dist/tools/build-answer-pages.js --check
       - name: Enforce coverage thresholds (main only)
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
         # Emits lcov.info beside the table so pull requests can diff per-file line coverage against main.
