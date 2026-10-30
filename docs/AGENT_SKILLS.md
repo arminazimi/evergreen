@@ -7,6 +7,8 @@ Evergreen ships two portable Skills under `skills/`. Each follows the open Agent
 | `evergreen-deprecation` | `skills/evergreen-deprecation/` | Repository lifecycle scans and finding explain / migrate / verify workflows |
 | `evergreen-check-before-add` | `skills/evergreen-check-before-add/` | Adding or choosing a package, runtime, or GitHub Action |
 
+New to the dependency guardrail? Follow the tutorial [Stop your coding agent from adding deprecated packages](guides/agent-dependency-guard.md).
+
 ## Design
 
 Each Skill is an orchestration layer. It tells an agent when to act, then maps those intents to Evergreen's MCP tools or CLI commands. Lifecycle rules, evidence, affected-file calculation, migration steps, and verification behavior remain in the executable and versioned JSON contracts.
