@@ -4421,7 +4421,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 522,
+  "rules": 523,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {

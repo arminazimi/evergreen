@@ -1269,18 +1269,6 @@
       "ruleId": "nodejs.symbol.fs.lchmod",
       "severity": "low",
       "title": "Fs.lchmod and fs.lchmodSync are deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.fs.rmdir-recursive",
-      "severity": "high",
-      "title": "The recursive option of fs.rmdir has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
