@@ -1,0 +1,30 @@
+# Dependency updates. Dependabot keeps package.json, the lockfile, and the
+# SHA-pinned GitHub Actions current, so the OpenSSF Scorecard
+# Dependency-Update-Tool check has a configuration to read. The 7-day cooldown
+# holds back a release until it has been public for a week. See SECURITY.md.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+    groups:
+      npm-minor-and-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
