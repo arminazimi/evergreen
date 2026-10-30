@@ -2,8 +2,18 @@
   "ecosystem": "android",
   "findings": [
     {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "build.gradle",
+      "severity": "high"
+    },
+    {
       "ruleId": "android.play-billing.version-5",
       "path": "build.gradle",
+      "severity": "high"
+    },
+    {
+      "ruleId": "android.target-sdk.existing.default-below-35",
+      "path": "build.gradle.kts",
       "severity": "high"
     },
     {
