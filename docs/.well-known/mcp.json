@@ -63,6 +63,10 @@
     {
       "name": "forecast_repository",
       "description": "Run a fresh local scan and list what reaches a dated end of life in the next months, grouped by month. Only events that carry an authoritative date are listed."
+    },
+    {
+      "name": "plan_migrations",
+      "description": "Run a fresh local scan and return a migration plan: waves of independent tasks a coordinating agent can hand to other agents."
     }
   ],
   "authentication": {
