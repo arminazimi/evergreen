@@ -1,0 +1,323 @@
+{
+  "schemaVersion": "evergreen.scan.v1",
+  "root": "examples/demo",
+  "scannedAt": "2026-10-30T00:00:00.000Z",
+  "findings": [
+    {
+      "id": "github-actions.checkout.node20:.github/workflows/ci.yml:9",
+      "ruleId": "github-actions.checkout.node20",
+      "title": "Unsupported actions/checkout runtime",
+      "summary": "actions/checkout@v4: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.",
+      "severity": "high",
+      "location": {
+        "path": ".github/workflows/ci.yml",
+        "line": 9
+      },
+      "replacement": "actions/checkout@v5 or later",
+      "deadline": "2026-09-23",
+      "migration": {
+        "constraints": [
+          "Preserve checkout depth, credentials, submodule, and sparse-checkout behavior configured through action inputs."
+        ],
+        "steps": [
+          {
+            "id": "upgrade-action-ref",
+            "title": "Upgrade the checkout action",
+            "instructions": "Change the uses reference to actions/checkout@v5 or a later supported major.",
+            "targets": "declaration"
+          },
+          {
+            "id": "review-action-inputs",
+            "title": "Review checkout inputs",
+            "instructions": "Compare configured inputs with the target release and update renamed or changed options.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "git diff --check",
+            "purpose": "Validate the edited workflow diff."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node 20 is no longer available in GitHub Actions",
+          "url": "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
+        },
+        {
+          "title": "actions/checkout runtime guidance",
+          "url": "https://github.com/actions/checkout#checkout-v5"
+        }
+      ],
+      "detector": "github-actions",
+      "confidence": "exact"
+    },
+    {
+      "id": "nodejs.runtime.eol-18:package.json:5",
+      "ruleId": "nodejs.runtime.eol-18",
+      "title": "Node.js 18 is end-of-life",
+      "summary": "compatibility range >=18 includes Node.js 18. Node.js 18 no longer receives security or bug fixes.",
+      "severity": "medium",
+      "confidence": "range",
+      "location": {
+        "path": "package.json",
+        "line": 5
+      },
+      "replacement": "Node.js 22 LTS or later",
+      "deadline": "2025-04-30",
+      "migration": {
+        "constraints": [
+          "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-runtime-declaration",
+            "title": "Update the Node.js declaration",
+            "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-runtime-surfaces",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "node --version",
+            "purpose": "Confirm the active Node.js runtime is supported."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository test suite on the target runtime when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify the project builds on the target runtime."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "detector": "npm"
+    },
+    {
+      "id": "nodejs.runtime.eol-19:package.json:5",
+      "ruleId": "nodejs.runtime.eol-19",
+      "title": "Node.js 19 is end-of-life",
+      "summary": "compatibility range >=18 includes Node.js 19. Node.js 19 no longer receives security or bug fixes.",
+      "severity": "medium",
+      "confidence": "range",
+      "location": {
+        "path": "package.json",
+        "line": 5
+      },
+      "replacement": "Node.js 22 LTS or later",
+      "deadline": "2023-06-01",
+      "migration": {
+        "constraints": [
+          "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-runtime-declaration",
+            "title": "Update the Node.js declaration",
+            "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-runtime-surfaces",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "node --version",
+            "purpose": "Confirm the active Node.js runtime is supported."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository test suite on the target runtime when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify the project builds on the target runtime."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "detector": "npm"
+    },
+    {
+      "id": "nodejs.runtime.eol-20:package.json:5",
+      "ruleId": "nodejs.runtime.eol-20",
+      "title": "Node.js 20 is end-of-life",
+      "summary": "compatibility range >=18 includes Node.js 20. Node.js 20 no longer receives security or bug fixes.",
+      "severity": "medium",
+      "confidence": "range",
+      "location": {
+        "path": "package.json",
+        "line": 5
+      },
+      "replacement": "Node.js 22 LTS or later",
+      "deadline": "2026-04-30",
+      "migration": {
+        "constraints": [
+          "Keep package metadata, local version files, CI matrices, and deployment runtimes on a mutually compatible Node.js release.",
+          "Confirm native modules and production dependencies support the target Node.js major."
+        ],
+        "steps": [
+          {
+            "id": "update-runtime-declaration",
+            "title": "Update the Node.js declaration",
+            "instructions": "Raise the reported engines or pinned runtime declaration to Node.js 22 LTS or later.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-runtime-surfaces",
+            "title": "Align runtime surfaces",
+            "instructions": "Update matching local version files, CI matrices, container images, and deployment configuration.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "node --version",
+            "purpose": "Confirm the active Node.js runtime is supported."
+          },
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run the repository test suite on the target runtime when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify the project builds on the target runtime."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "detector": "npm"
+    },
+    {
+      "id": "npm.package.request.deprecated:package.json:8",
+      "ruleId": "npm.package.request.deprecated",
+      "title": "request is deprecated",
+      "summary": "request is declared in dependencies as 2.88.2; resolved: not found in a supported lockfile. The package is fully deprecated and no new changes are expected.",
+      "severity": "high",
+      "confidence": "range",
+      "location": {
+        "path": "package.json",
+        "line": 8
+      },
+      "replacement": "Native fetch or a maintained HTTP client",
+      "deadline": "2020-02-11",
+      "migration": {
+        "constraints": [
+          "Preserve request method, headers, authentication, redirects, timeouts, retries, proxy behavior, streaming, and response/error semantics used by each call site."
+        ],
+        "steps": [
+          {
+            "id": "choose-http-client",
+            "title": "Choose the target HTTP client",
+            "instructions": "Select native fetch or one maintained client whose behavior covers the affected request usages.",
+            "targets": "all"
+          },
+          {
+            "id": "replace-request-calls",
+            "title": "Rewrite request usages",
+            "instructions": "Translate callbacks, options, response handling, errors, and streams at every reported import and call.",
+            "targets": "usages"
+          },
+          {
+            "id": "replace-request-dependency",
+            "title": "Replace the dependency",
+            "instructions": "Remove request from package metadata and add the selected maintained client only if native fetch is insufficient.",
+            "targets": "declaration"
+          }
+        ],
+        "verification": [
+          {
+            "command": "npm run test --if-present",
+            "purpose": "Run HTTP behavior and repository tests when defined."
+          },
+          {
+            "command": "npm run build --if-present",
+            "purpose": "Verify imports, types, and the build remain valid."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "request package deprecation notice",
+          "url": "https://www.npmjs.com/package/request"
+        }
+      ],
+      "usages": [
+        {
+          "kind": "import",
+          "language": "javascript",
+          "symbol": "request",
+          "location": {
+            "path": "src/client.js",
+            "line": 1,
+            "column": 22
+          },
+          "excerpt": "import request from \"request\";"
+        },
+        {
+          "kind": "call",
+          "language": "javascript",
+          "symbol": "request.get",
+          "location": {
+            "path": "src/client.js",
+            "line": 4,
+            "column": 3
+          },
+          "excerpt": "request.get(url, callback);"
+        }
+      ],
+      "impact": {
+        "usageCount": 2,
+        "affectedFiles": 1,
+        "level": "low"
+      },
+      "detector": "npm",
+      "advisoryIds": [
+        "GHSA-p8p7-x288-28g6"
+      ]
+    }
+  ],
+  "unclassified": {
+    "count": 0,
+    "references": []
+  },
+  "diagnostics": [],
+  "data": {
+    "source": "bundled",
+    "version": "0.7.1",
+    "createdAt": null,
+    "reviewedThrough": "2026-10-30",
+    "ageDays": 0,
+    "stale": false
+  }
+}
