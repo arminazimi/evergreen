@@ -10411,6 +10411,32 @@ h1 {
     ]
   },
   {
+    "id": "terraform.cli.end-of-support-1.15",
+    "title": "Terraform CLI 1.15 is no longer a supported release line",
+    "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (first released 2026-04-29) stopped being one of them when Terraform 1.17 was released on 2026-10-21. The support window is taken from the dates of the hashicorp/terraform GitHub releases for 1.15.0 and 1.17.0.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "terraform",
+    "purl": "pkg:generic/terraform",
+    "vers": "vers:semver/>=1.15.0|\u003c1.16.0",
+    "deadline": "2026-10-21",
+    "replacement": "Terraform 1.16 or later",
+    "sources": [
+      {
+        "title": "hashicorp/terraform release v1.17.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0"
+      },
+      {
+        "title": "hashicorp/terraform release v1.15.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
+      },
+      {
+        "title": "HashiCorp Terraform support policy",
+        "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+      }
+    ]
+  },
+  {
     "id": "terraform.eks.end-of-life-1.30-and-older",
     "title": "Amazon EKS 1.30 and earlier are past end of extended support",
     "summary": "Amazon EKS lists 1.31 as the oldest minor version still in extended support, so 1.30 and earlier have left extended support. A cluster that reaches the end of extended support is auto-upgraded to the oldest version in extended support.",

@@ -513,6 +513,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.13.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.14.html</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.15.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-life-1.30-and-older.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.31.html</loc><lastmod>2026-10-26</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.32.html</loc><lastmod>2026-10-26</lastmod></url>

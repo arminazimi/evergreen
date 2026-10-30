@@ -1850,22 +1850,6 @@
       "type": "generic"
     },
     {
-      "earliestDeadline": "2024-07-29",
-      "ecosystems": [
-        "database"
-      ],
-      "events": [
-        "end-of-life"
-      ],
-      "id": "generic-redis",
-      "latestReview": "2026-10-29",
-      "name": "redis",
-      "path": "products/generic-redis.json",
-      "purl": "pkg:generic/redis",
-      "rules": 1,
-      "type": "generic"
-    },
-    {
       "earliestDeadline": "2015-02-23",
       "ecosystems": [
         "ruby"
@@ -1939,11 +1923,11 @@
         "end-of-support"
       ],
       "id": "generic-terraform",
-      "latestReview": "2026-10-21",
+      "latestReview": "2026-10-30",
       "name": "terraform",
       "path": "products/generic-terraform.json",
       "purl": "pkg:generic/terraform",
-      "rules": 5,
+      "rules": 6,
       "type": "generic"
     },
     {
@@ -4417,7 +4401,7 @@
     },
     {
       "path": "types/generic.json",
-      "products": 86,
+      "products": 85,
       "rules": 292,
       "type": "generic"
     },
