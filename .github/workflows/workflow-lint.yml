@@ -4,8 +4,8 @@ name: Workflow lint
 # they merge. actionlint parses `.github/workflows`; zizmor audits those workflows and action.yml for
 # security issues. Both tools are pinned to exact releases and verified against a recorded checksum.
 on:
-  pull_request:
-    types: [labeled]
+  push:
+    branches: [main]
     paths:
       - ".github/**"
       - "action.yml"
@@ -15,12 +15,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: workflow-lint-${{ github.event.pull_request.number || github.sha }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: workflow-lint-${{ github.sha }}
+  cancel-in-progress: false
 
 jobs:
   lint:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: workflow-lint
     runs-on: ubuntu-latest
     timeout-minutes: 10

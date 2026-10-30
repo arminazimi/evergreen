@@ -2,7 +2,6 @@ name: CI
 
 on:
   pull_request:
-    types: [labeled]
   push:
     branches: [main]
   merge_group:
@@ -16,7 +15,6 @@ concurrency:
 
 jobs:
   check:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: check (${{ matrix.os }}, node ${{ matrix.node }})
     strategy:
       fail-fast: false
@@ -139,7 +137,7 @@ jobs:
           upload-badge: ${{ github.event_name == 'push' }}
 
   self-scan:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
+    if: github.event_name != 'pull_request'
     name: self-scan (fail on new findings)
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -167,7 +165,7 @@ jobs:
           ' "$RUNNER_TEMP/self-scan.json"
 
   perf-budget:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
+    if: github.event_name != 'pull_request'
     name: perf-budget (fixed fixture scan)
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -186,7 +184,7 @@ jobs:
         run: npm run build --silent && node dist/benchmarks/perf-budget.js --check
 
   lighthouse:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
+    if: github.event_name != 'pull_request'
     name: lighthouse (performance and accessibility 90+)
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -248,7 +246,7 @@ jobs:
   # individual jobs, so the matrix can change without editing repository settings.
   ci-ok:
     name: ci-ok
-    if: always() && (github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge')
+    if: always()
     needs: [check, self-scan, perf-budget, lighthouse, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5

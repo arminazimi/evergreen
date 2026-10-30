@@ -4,9 +4,6 @@ name: CodeQL
 # Results go to the same code-scanning dashboard as the Scorecard and Evergreen
 # SARIF uploads. Pinned to full commit SHAs; see SECURITY.md for token scopes.
 on:
-  pull_request:
-    types: [labeled]
-    branches: [main]
   push:
     branches: [main]
 
@@ -19,7 +16,6 @@ concurrency:
 
 jobs:
   analyze:
-    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: analyze (javascript-typescript)
     runs-on: ubuntu-latest
     timeout-minutes: 20
