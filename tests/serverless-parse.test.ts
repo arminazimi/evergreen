@@ -28,6 +28,7 @@ test("reads Globals and function Runtime values from template.yaml", async () =>
     { value: "nodejs14.x", line: 7 },
     { value: "python3.8", line: 15 },
     { value: "dotnetcore3.1", line: 21 },
+    { value: "nodejs12.x", line: 27 },
   ]);
 });
 

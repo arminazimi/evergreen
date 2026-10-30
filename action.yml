@@ -19,7 +19,10 @@ inputs:
     required: false
     default: ""
   baseline:
-    description: Optional baseline path relative to path. Leave empty to report every finding.
+    description: >-
+      Optional baseline path relative to path. Leave empty to report every finding. On the first run of an
+      evergreen/onboarding pull request a missing baseline does not fail the job: Evergreen records today's
+      findings as a suggested file in the pull request comment instead.
     required: false
     default: ""
   baseline-warn-days:
@@ -78,6 +81,21 @@ inputs:
     description: >-
       Post one summary comment on pull requests and update it on every re-run. Needs the
       pull-requests: write permission on the job; leave it off for pull requests from forks, whose token is read-only.
+      The baseline proposal on an evergreen/onboarding pull request is posted even when this is false.
+    required: false
+    default: "false"
+  commands:
+    description: >-
+      Answer /evergreen explain and /evergreen ignore commands in pull request comments when the workflow
+      runs on issue_comment. Replies only to OWNER, MEMBER, and COLLABORATOR comments, and never pushes.
+      Needs the pull-requests: write permission on the job.
+    required: false
+    default: "false"
+  fix-pr:
+    description: >-
+      Open or update one pull request on the evergreen/fixes branch with every deterministic fix, and close
+      it when nothing is left to fix. Runs only on schedule and workflow_dispatch events. Needs the
+      contents: write and pull-requests: write permissions on the job.
     required: false
     default: "false"
   suggest-fixes:
@@ -88,7 +106,7 @@ inputs:
     required: false
     default: "false"
   github-token:
-    description: Token used to post the pull request comment or the fix suggestions when pr-comment or suggest-fixes is true.
+    description: Token used to post the pull request comment, command reply, or fix suggestions, and to open, update, or close the fix pull request.
     required: false
     default: ${{ github.token }}
   attribution:
@@ -136,10 +154,12 @@ runs:
         INPUT_UPLOAD-BADGE: ${{ inputs.upload-badge }}
         INPUT_PR-COMMENT: ${{ inputs.pr-comment }}
         INPUT_SUGGEST-FIXES: ${{ inputs.suggest-fixes }}
+        INPUT_COMMANDS: ${{ inputs.commands }}
+        INPUT_FIX-PR: ${{ inputs.fix-pr }}
         INPUT_GITHUB-TOKEN: ${{ inputs.github-token }}
         INPUT_ATTRIBUTION: ${{ inputs.attribution }}
     - name: Upload machine-readable report
-      if: always() && inputs.upload-report == 'true'
+      if: always() && inputs.upload-report == 'true' && steps.scan.outputs.report-path != ''
       uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.report-name }}

@@ -244,15 +244,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-redis",
-      "latestReview": "2026-10-20",
+      "latestReview": "2026-10-30",
       "name": "redis",
       "namespace": "library",
       "path": "products/docker-library-redis.json",
       "purl": "pkg:docker/library/redis",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -261,15 +262,16 @@
         "container"
       ],
       "events": [
-        "end-of-life"
+        "end-of-life",
+        "scheduled-end-of-life"
       ],
       "id": "docker-library-ruby",
-      "latestReview": "2026-10-16",
+      "latestReview": "2026-10-29",
       "name": "ruby",
       "namespace": "library",
       "path": "products/docker-library-ruby.json",
       "purl": "pkg:docker/library/ruby",
-      "rules": 1,
+      "rules": 2,
       "type": "docker"
     },
     {
@@ -325,7 +327,7 @@
       "type": "docker"
     }
   ],
-  "rules": 23,
+  "rules": 25,
   "schemaVersion": "evergreen.api-type.v1",
   "type": "docker"
 }

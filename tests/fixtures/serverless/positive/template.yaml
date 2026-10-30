@@ -20,3 +20,9 @@ Resources:
       Handler: worker.handler
       Runtime: "dotnetcore3.1"
       Role: arn:aws:iam::123456789012:role/worker
+  Legacy:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: legacy.handler
+      Runtime: nodejs12.x
+      Role: arn:aws:iam::123456789012:role/legacy

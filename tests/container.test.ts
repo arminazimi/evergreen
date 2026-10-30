@@ -74,6 +74,7 @@ test("container passes detector conformance on every fixture", async () => {
           expected("container.ubuntu.eol-22.04", "os-images.Dockerfile", 6, "ubuntu:22.04"),
           expected("container.debian.eol-11-and-older", "os-images.Dockerfile", 7, "debian:11"),
           expected("container.alpine.eol-3.21", "os-images.Dockerfile", 8, "alpine:3.21"),
+          expected("container.redis.eol-6.2-and-older", "redis.Dockerfile", 1, "redis:6.2"),
         ]),
       },
     ],
@@ -107,6 +108,19 @@ test("Ubuntu and Debian codenames are resolved to release lines", async () => {
     ["container.ubuntu.eol-20.04-and-older", 5],
     ["container.ubuntu.eol-20.04-and-older", 6],
   ]);
+  assert.deepEqual(analysis.unclassified, []);
+});
+
+test("Ruby 3.3 is reported as scheduled end-of-life while later release lines are not", async () => {
+  const root = await repository({ Dockerfile: "FROM ruby:3.3.6-slim\nFROM ruby:3.2.8\nFROM ruby:3.4.1-slim\n" });
+  const analysis = await containerDetector.analyze({ root });
+  assert.deepEqual(
+    analysis.findings.map((finding) => [finding.ruleId, finding.location.line]),
+    [
+      ["container.ruby.eol-3.3-and-older", 1],
+      ["container.ruby.eol-3.2-and-older", 2],
+    ],
+  );
   assert.deepEqual(analysis.unclassified, []);
 });
 

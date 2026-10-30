@@ -151,6 +151,24 @@ test("matches a discontinued package in pubspec.yaml and pubspec.lock", async ()
   assert.match(findings[1]!.summary, /^pubspec\.yaml depends on example_widgets \^2\.1\.0\./);
 });
 
+test("the committed discontinued rule flags analysis_server_client and ignores lookalikes", async () => {
+  const ruleId = "dart.package.analysis-server-client.discontinued";
+  const discontinued = (await committedRules()).find((item) => item.id === ruleId);
+  assert.ok(discontinued);
+  assert.notEqual(discontinued.provenance.reviewer, "pending-review");
+
+  const findings = await dartDetector.scan({ root: resolve(fixtures, "discontinued") });
+  assert.deepEqual(findings.map((finding) => [finding.ruleId, finding.location.path, finding.location.line]), [
+    [ruleId, "pubspec.lock", 11],
+    [ruleId, "pubspec.yaml", 10],
+  ]);
+  assert.match(findings[0]!.summary, /^pubspec\.lock resolves analysis_server_client 2\.0\.1\./);
+  assert.match(findings[1]!.summary, /^pubspec\.yaml depends on analysis_server_client \^2\.0\.1\./);
+  assert.ok(findings.every((finding) => finding.severity === "medium"));
+
+  assert.deepEqual(await dartDetector.scan({ root: resolve(fixtures, "lookalike") }), []);
+});
+
 test("a package rule limited to a version range matches only a resolved version inside it", async () => {
   const detector = new DartDetector(async () => [rule({ vers: "vers:semver/<2.0.0" })]);
   const root = await repository({

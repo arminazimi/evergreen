@@ -7168,7 +7168,17 @@
       "commit": "755e2e49dd0a69556b39249b57f5db54b4ae893e",
       "ecosystem": "serverless",
       "selection": "blind",
-      "expected": []
+      "expected": [
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "serverless.yml",
+          "line": 21,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 21 of serverless.yml reads `runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        }
+      ]
     },
     {
       "repository": "dr-m/crc32_simd",
@@ -16798,6 +16808,69 @@
           "groundTruthSource": {
             "kind": "maintainer-review",
             "note": "Read s3-logs-extension-demo-zip-archive/template.yml:22 at this commit: `Runtime: python3.8`; the declaration matches the rule's affected range."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "cache-extension-demo/SAM/template.yaml",
+          "line": 108,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 108 of cache-extension-demo/SAM/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "cache-extension-demo/SAM/template.yaml",
+          "line": 70,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 70 of cache-extension-demo/SAM/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "go-example-adaptive-batching-extension/template.yaml",
+          "line": 36,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 36 of go-example-adaptive-batching-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "go-example-logs-api-extension/template.yaml",
+          "line": 37,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 37 of go-example-logs-api-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "kinesis-stream-logs-extension-demo/template.yaml",
+          "line": 57,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 57 of kinesis-stream-logs-extension-demo/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "kinesisfirehose-logs-extension-demo/template.yaml",
+          "line": 66,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 66 of kinesisfirehose-logs-extension-demo/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
+          }
+        },
+        {
+          "ruleId": "serverless.aws-lambda.nodejs12.x",
+          "path": "nodejs-example-logs-api-extension/template.yaml",
+          "line": 32,
+          "groundTruthSource": {
+            "kind": "maintainer-review",
+            "note": "Reviewed at this commit: line 32 of nodejs-example-logs-api-extension/template.yaml reads `Runtime: nodejs12.x`, a Lambda function on the nodejs12.x runtime, which AWS has deprecated and no longer lets you create or update (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)."
           }
         }
       ]

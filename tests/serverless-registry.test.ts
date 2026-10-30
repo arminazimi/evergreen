@@ -7,10 +7,12 @@ import { validateRegistryV2 } from "../src/registry.js";
 const AWS_RUNTIMES = "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html";
 const GOOGLE_RUNTIMES = "https://cloud.google.com/functions/docs/runtime-support";
 
-/** Deadlines taken from the vendor tables on 2026-10-21 (AWS deprecation date; Google decommission date). */
+/** Deadlines taken from the vendor tables on 2026-10-29 (AWS deprecation date; Google decommission date). */
 const SOURCE_DEADLINES = {
+  "serverless.aws-lambda.nodejs12.x": { deadline: "2023-03-31", source: AWS_RUNTIMES, identifier: "nodejs12.x" },
   "serverless.aws-lambda.nodejs14.x": { deadline: "2023-12-04", source: AWS_RUNTIMES, identifier: "nodejs14.x" },
   "serverless.aws-lambda.python3.8": { deadline: "2024-10-14", source: AWS_RUNTIMES, identifier: "python3.8" },
+  "serverless.aws-lambda.python3.7": { deadline: "2023-12-04", source: AWS_RUNTIMES, identifier: "python3.7" },
   "serverless.aws-lambda.ruby2.7": { deadline: "2023-12-07", source: AWS_RUNTIMES, identifier: "ruby2.7" },
   "serverless.aws-lambda.dotnetcore3.1": { deadline: "2023-04-03", source: AWS_RUNTIMES, identifier: "dotnetcore3.1" },
   "serverless.google-cloud-functions.nodejs14": {
@@ -24,9 +26,9 @@ async function rules() {
   return validateRegistryV2(JSON.parse(await readFile("registry/serverless.json", "utf8"))).rules;
 }
 
-test("the serverless registry has five valid rules that cite the vendor runtime tables", async () => {
+test("the serverless registry has seven valid rules that cite the vendor runtime tables", async () => {
   const all = await rules();
-  assert.equal(all.length, 5);
+  assert.equal(all.length, 7);
   assert.deepEqual(
     all.map((rule) => rule.id).sort(),
     Object.keys(SOURCE_DEADLINES).sort(),

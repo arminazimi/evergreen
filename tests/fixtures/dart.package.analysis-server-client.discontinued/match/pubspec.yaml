@@ -1,0 +1,11 @@
+name: evergreen_dart_discontinued
+description: A Dart package that depends on a discontinued pub package.
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ">=3.13.0 <4.0.0"
+
+dependencies:
+  analysis_server_client: ^2.0.1
+  http: ^1.6.0
