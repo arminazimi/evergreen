@@ -18,6 +18,7 @@ export const COMMANDS: CommandSpec[] = [
   { name: "plan", flags: ["--json", "--wave", "--data-version"], example: "evergreen plan . --json" },
   { name: "status-card", flags: ["--name"], example: "evergreen status-card . --name acme/widgets" },
   { name: "lookup", flags: ["--json"], example: "evergreen lookup node 18" },
+  { name: "inventory", flags: ["--format", "--json", "--fail-on", "--redact"], example: "evergreen inventory lambda.json" },
   { name: "badge", flags: ["--snippet", "--repo", "--branch", "--shields"], example: "evergreen badge . --snippet markdown" },
   { name: "diff", flags: ["--json", "--data-version"], example: "evergreen diff main..HEAD" },
   { name: "receipt", flags: ["--before", "--format", "--fail-on-introduced", "--json"], example: "evergreen receipt . --before before.json" },

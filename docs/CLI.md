@@ -235,6 +235,25 @@ Summarizes the local log of dependency checks. Logging is off unless `EVERGREEN_
 | `--file <path>` | Read another log file. Defaults to the log named by `EVERGREEN_USAGE_LOG`. |
 | `--json` | Print the summary as JSON. |
 
+## Deployed resources
+
+### `inventory`
+
+```bash
+evergreen inventory <file>... [--format auto|<importer-id>] [--json] [--fail-on <severity|none>] [--redact]
+```
+
+Reports end-of-life runtimes, images, engines, and cluster objects from the export files that cloud and cluster tools already produce, such as `kubectl get -o json` or `terraform show -json`. Evergreen never calls a provider API: you run the export command, and Evergreen reads the file. Each result names the importer, the file, and the JSON Pointer to the exact version value the claim rests on.
+
+A file no importer recognizes is listed, and the run exits `2`, after the recognized files are still reported.
+
+| Flag | What it does |
+| --- | --- |
+| `--format auto\|<importer-id>` | Read the files with one importer instead of auto-detection. Default `auto`. |
+| `--json` | Print the `evergreen.inventory.v1` report. |
+| `--fail-on <severity\|none>` | Exit `1` when an affected result is at or above the severity. Default: the config's `failOn`, else `high`. |
+| `--redact` | Replace every resource name with the first 12 hex characters of its SHA-256. |
+
 ## Integrations
 
 ### `mcp`

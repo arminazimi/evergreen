@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/inventory.v1.schema.json",
+  "title": "Evergreen inventory v1",
+  "description": "The lifecycle of what an export file says is deployed, with the exact place in the file each claim rests on.",
+  "type": "object",
+  "required": ["schemaVersion", "results", "unrecognized"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "evergreen.inventory.v1" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["item", "check"],
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "type": "object",
+            "required": ["importer", "file", "pointer", "resource", "purl"],
+            "additionalProperties": false,
+            "properties": {
+              "importer": { "type": "string", "minLength": 1 },
+              "file": { "type": "string", "minLength": 1 },
+              "pointer": {
+                "type": "string",
+                "pattern": "^(?:/(?:[^~/]|~[01])*)+$|^line:[1-9][0-9]*$",
+                "description": "RFC 6901 JSON Pointer to the version value, or line:<n> for a text export."
+              },
+              "resource": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The resource's own name. Never an account id, ARN, secret, or address."
+              },
+              "purl": { "type": "string", "pattern": "^pkg:" },
+              "version": { "type": "string", "minLength": 1 }
+            }
+          },
+          "check": { "$ref": "check.v1.schema.json" }
+        }
+      }
+    },
+    "unrecognized": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
