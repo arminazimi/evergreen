@@ -60,6 +60,14 @@ The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after
 
 The `scala` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [Scala 2.11 reached end of life](scala.runtime.eol-2.11.html)
+- [Scala 3.0–3.2 no longer receive patches](scala.runtime.eos-3.0-3.2.html)
+
+
 ## Data
 
 This page is generated from [`registry/scala.json`](https://github.com/arminazimi/evergreen/blob/main/registry/scala.json), rule `scala.sbt.eol-0.13`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

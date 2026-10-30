@@ -60,6 +60,24 @@ These Python release lines no longer receive security or bug fixes from the Pyth
 
 The `python` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Python 3.10 and older are end-of-life](python.runtime.eol-3.10-and-older.html)
+
+### Same ecosystem
+
+- [agentops-toolkit was renamed and is no longer maintained](python.package.agentops-toolkit.eol.html)
+- [aiohttp-valera-validator was renamed and is no longer maintained](python.package.aiohttp-valera-validator.eol.html)
+- [api-shield is deprecated](python.package.api-shield.deprecated.html)
+- [apisec-code-bolt was renamed](python.package.apisec-code-bolt.deprecated.html)
+- [argparse is archived on PyPI](python.package.argparse.archived.html)
+- [asyncio-requests is retired](python.package.asyncio-requests.deprecated.html)
+- [BatchNotebook is deprecated](python.package.batchnotebook.deprecated.html)
+- [cmip_ref was renamed and is no longer maintained](python.package.cmip-ref.eol.html)
+
+
 ## Data
 
 This page is generated from [`registry/python.json`](https://github.com/arminazimi/evergreen/blob/main/registry/python.json), rule `python.runtime.eol-3.9-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

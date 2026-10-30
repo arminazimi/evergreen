@@ -59,6 +59,29 @@ The Ruby maintenance branches page marks Ruby 2.2 as eol: normal maintenance end
 
 The `ruby` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Ruby 1.9.3 is end-of-life](ruby.runtime.eol-1.9.3.html)
+- [Ruby 2.0.0 is end-of-life](ruby.runtime.eol-2.0.0.html)
+- [Ruby 2.1 is end-of-life](ruby.runtime.eol-2.1.html)
+- [Ruby 2.3 is end-of-life](ruby.runtime.eol-2.3.html)
+- [Ruby 2.4 is end-of-life](ruby.runtime.eol-2.4.html)
+- [Ruby 2.5 is end-of-life](ruby.runtime.eol-2.5.html)
+- [Ruby 2.6 is end-of-life](ruby.runtime.eol-2.6.html)
+- [Ruby 2.7 is end-of-life](ruby.runtime.eol-2.7.html)
+- [Ruby 3.0 is end-of-life](ruby.runtime.eol-3.0.html)
+- [Ruby 3.1 is end-of-life](ruby.runtime.eol-3.1.html)
+- [Ruby 3.2 is end-of-life](ruby.runtime.eol-3.2.html)
+
+### Same ecosystem
+
+- [json 2.17.1.1 is yanked](ruby.gem.json.yanked-2.17.1.1.html)
+- [Rails 7.2 is end-of-life](ruby.gem.rails-7.2.end-of-life.html)
+- [Rails 8.0 security support is scheduled to end](ruby.gem.rails-8.0.scheduled-end-of-life.html)
+
+
 ## Data
 
 This page is generated from [`registry/ruby.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json), rule `ruby.runtime.eol-2.2`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

@@ -57,6 +57,18 @@ The AWS Lambda runtimes table lists ruby2.7 under Deprecated runtimes with depre
 
 The `serverless` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [AWS Lambda .NET Core 3.1 runtime is end-of-life](serverless.aws-lambda.dotnetcore3.1.html)
+- [AWS Lambda Node.js 12 runtime is end-of-life](serverless.aws-lambda.nodejs12.x.html)
+- [AWS Lambda Node.js 14 runtime is end-of-life](serverless.aws-lambda.nodejs14.x.html)
+- [AWS Lambda Python 3.7 runtime is end-of-life](serverless.aws-lambda.python3.7.html)
+- [AWS Lambda Python 3.8 runtime is end-of-life](serverless.aws-lambda.python3.8.html)
+- [Google Cloud Functions Node.js 14 runtime is end-of-life](serverless.google-cloud-functions.nodejs14.html)
+
+
 ## Data
 
 This page is generated from [`registry/serverless.json`](https://github.com/arminazimi/evergreen/blob/main/registry/serverless.json), rule `serverless.aws-lambda.ruby2.7`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

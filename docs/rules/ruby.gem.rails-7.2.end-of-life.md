@@ -63,6 +63,24 @@ The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails
 
 The `ruby` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Rails 8.0 security support is scheduled to end](ruby.gem.rails-8.0.scheduled-end-of-life.html)
+
+### Same ecosystem
+
+- [json 2.17.1.1 is yanked](ruby.gem.json.yanked-2.17.1.1.html)
+- [Ruby 1.9.3 is end-of-life](ruby.runtime.eol-1.9.3.html)
+- [Ruby 2.0.0 is end-of-life](ruby.runtime.eol-2.0.0.html)
+- [Ruby 2.1 is end-of-life](ruby.runtime.eol-2.1.html)
+- [Ruby 2.2 is end-of-life](ruby.runtime.eol-2.2.html)
+- [Ruby 2.3 is end-of-life](ruby.runtime.eol-2.3.html)
+- [Ruby 2.4 is end-of-life](ruby.runtime.eol-2.4.html)
+- [Ruby 2.5 is end-of-life](ruby.runtime.eol-2.5.html)
+
+
 ## Data
 
 This page is generated from [`registry/ruby.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json), rule `ruby.gem.rails-7.2.end-of-life`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

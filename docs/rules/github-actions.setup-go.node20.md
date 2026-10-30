@@ -57,6 +57,20 @@ This release predates the action's Node.js 24 runtime. GitHub no longer provides
 
 The `github-actions` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [Unsupported softprops/action-gh-release runtime](github-actions.action-gh-release.node20.html)
+- [Unsupported docker/bake-action runtime](github-actions.bake-action.node20.html)
+- [Unsupported docker/build-push-action runtime](github-actions.build-push-action.node20.html)
+- [Unsupported actions/cache runtime](github-actions.cache.node20.html)
+- [Unsupported actions/checkout runtime](github-actions.checkout.node20.html)
+- [Unsupported actions/configure-pages runtime](github-actions.configure-pages.node20.html)
+- [Unsupported actions/create-github-app-token runtime](github-actions.create-github-app-token.node20.html)
+- [Unsupported actions/deploy-pages runtime](github-actions.deploy-pages.node20.html)
+
+
 ## Data
 
 This page is generated from [`registry/github-actions.json`](https://github.com/arminazimi/evergreen/blob/main/registry/github-actions.json), rule `github-actions.setup-go.node20`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

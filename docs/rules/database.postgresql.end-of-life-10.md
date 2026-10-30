@@ -62,6 +62,27 @@ The PostgreSQL Global Development Group lists 10 as unsupported: its final relea
 
 The `database` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html)
+- [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html)
+- [PostgreSQL 13 is no longer a supported major version](database.postgresql.end-of-life-13.html)
+- [PostgreSQL 14 reaches the end of its support on 2026-11-12](database.postgresql.end-of-life-14.html)
+
+### Same ecosystem
+
+- [Azure Database for MySQL 5.7 is past standard support](database.azure-mysql.standard-support-ended-5.7.html)
+- [Azure Database for PostgreSQL 11, 12, and 13 are past standard support](database.azure-postgresql.standard-support-ended-11-to-13.html)
+- [Cloud SQL for MySQL 5.6 and 5.7 are in extended support](database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html)
+- [Cloud SQL for PostgreSQL 13 is in extended support](database.google-cloud-sql-postgresql.extended-support-13.html)
+- [Cloud SQL for PostgreSQL 9.6 through 12 are in extended support](database.google-cloud-sql-postgresql.extended-support-9.6-to-12.html)
+- [MySQL 5.7 is end-of-life](database.mysql.end-of-life-5.7.html)
+- [MySQL 8.0 is end-of-life](database.mysql.end-of-life-8.0.html)
+- [Redis 7.0 is end-of-life](database.redis.end-of-life-7.0.html)
+
+
 ## Data
 
 This page is generated from [`registry/database.json`](https://github.com/arminazimi/evergreen/blob/main/registry/database.json), rule `database.postgresql.end-of-life-10`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

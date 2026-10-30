@@ -58,6 +58,16 @@ The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps
 
 The `ci-images` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [Azure Pipelines macOS 13 Ventura hosted image is retired](ci-images.azure-pipelines.macos-13.html)
+- [Azure Pipelines macOS 14 Sonoma hosted image is scheduled for removal](ci-images.azure-pipelines.macos-14.html)
+- [Azure Pipelines Ubuntu 20.04 hosted image is retired](ci-images.azure-pipelines.ubuntu-20.04.html)
+- [Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal](ci-images.azure-pipelines.ubuntu-22.04.html)
+
+
 ## Data
 
 This page is generated from [`registry/ci-images.json`](https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json), rule `ci-images.azure-pipelines.windows-2019`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

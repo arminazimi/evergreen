@@ -60,6 +60,16 @@ The Rust project only provides support and security updates for the most recent 
 
 The `rust` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [ansi_term is no longer maintained](rust.crate.ansi-term.unmaintained.html)
+- [atty is no longer maintained](rust.crate.atty.unmaintained.html)
+- [failure is no longer maintained](rust.crate.failure.unmaintained.html)
+- [tempdir is no longer maintained](rust.crate.tempdir.unmaintained.html)
+
+
 ## Data
 
 This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.toolchain.end-of-support-1.98-and-older`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

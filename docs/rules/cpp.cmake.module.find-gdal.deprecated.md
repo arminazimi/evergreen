@@ -57,6 +57,16 @@ CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CM
 
 The `cpp` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [The Visual Studio 12 2013 generator is removed](cpp.cmake.generator.visual-studio-12-2013.removed.html)
+- [The CMakeFindFrameworks module is deprecated](cpp.cmake.module.cmake-find-frameworks.deprecated.html)
+- [CMake policy versions older than 3.10 are deprecated](cpp.cmake.policy-below-3.10.deprecated.html)
+- [CMake policy versions older than 3.5 are removed](cpp.cmake.policy-below-3.5.removed.html)
+
+
 ## Data
 
 This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json), rule `cpp.cmake.module.find-gdal.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

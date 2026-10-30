@@ -61,6 +61,16 @@ Microsoft's PowerShell support lifecycle lists 7.2 LTS (built on .NET 6.0) as re
 
 The `shell` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [PowerShell 6.x is no longer supported](shell.powershell.end-of-life-6.html)
+- [PowerShell 7.0 (LTS) is no longer supported](shell.powershell.end-of-life-7.0.html)
+- [PowerShell 7.1 is no longer supported](shell.powershell.end-of-life-7.1.html)
+- [PowerShell 7.3 is no longer supported](shell.powershell.end-of-life-7.3.html)
+
+
 ## Data
 
 This page is generated from [`registry/shell.json`](https://github.com/arminazimi/evergreen/blob/main/registry/shell.json), rule `shell.powershell.end-of-life-7.2`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

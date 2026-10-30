@@ -55,6 +55,16 @@ The maintainer of atty has published an official notice that the crate is no lon
 
 The `rust` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [ansi_term is no longer maintained](rust.crate.ansi-term.unmaintained.html)
+- [failure is no longer maintained](rust.crate.failure.unmaintained.html)
+- [tempdir is no longer maintained](rust.crate.tempdir.unmaintained.html)
+- [Rust 1.98 and older are no longer supported](rust.toolchain.end-of-support-1.98-and-older.html)
+
+
 ## Data
 
 This page is generated from [`registry/rust.json`](https://github.com/arminazimi/evergreen/blob/main/registry/rust.json), rule `rust.crate.atty.unmaintained`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

@@ -55,6 +55,18 @@ Deno 1.x was superseded by Deno 2.0 (released October 2024). Deno 1.x is end-of-
 
 The `deno` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Deno 0.x pre-release is end-of-life](deno.runtime.eol-0.x.html)
+
+### Same ecosystem
+
+- [Bun 0.x pre-release is end-of-life](deno.bun.runtime.eol-0.x.html)
+- [Bun 1.0.x is end-of-life](deno.bun.runtime.eol-1.0.html)
+
+
 ## Data
 
 This page is generated from [`registry/deno.json`](https://github.com/arminazimi/evergreen/blob/main/registry/deno.json), rule `deno.runtime.eol-1.x`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

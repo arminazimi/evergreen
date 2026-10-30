@@ -64,6 +64,24 @@ The Cloud SQL for PostgreSQL version policy lists PostgreSQL 9.6, 10, 11, and 12
 
 The `database` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Cloud SQL for PostgreSQL 13 is in extended support](database.google-cloud-sql-postgresql.extended-support-13.html)
+
+### Same ecosystem
+
+- [Azure Database for MySQL 5.7 is past standard support](database.azure-mysql.standard-support-ended-5.7.html)
+- [Azure Database for PostgreSQL 11, 12, and 13 are past standard support](database.azure-postgresql.standard-support-ended-11-to-13.html)
+- [Cloud SQL for MySQL 5.6 and 5.7 are in extended support](database.google-cloud-sql-mysql.extended-support-5.6-to-5.7.html)
+- [MySQL 5.7 is end-of-life](database.mysql.end-of-life-5.7.html)
+- [MySQL 8.0 is end-of-life](database.mysql.end-of-life-8.0.html)
+- [PostgreSQL 10 is no longer a supported major version](database.postgresql.end-of-life-10.html)
+- [PostgreSQL 11 is no longer a supported major version](database.postgresql.end-of-life-11.html)
+- [PostgreSQL 12 is no longer a supported major version](database.postgresql.end-of-life-12.html)
+
+
 ## Data
 
 This page is generated from [`registry/database.json`](https://github.com/arminazimi/evergreen/blob/main/registry/database.json), rule `database.google-cloud-sql-postgresql.extended-support-9.6-to-12`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

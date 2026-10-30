@@ -58,6 +58,20 @@ Packagist marks sensiolabs/security-checker as abandoned and no longer maintaine
 
 The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [doctrine/cache is abandoned](php.package.doctrine.cache.abandoned.html)
+- [fzaninotto/faker is abandoned](php.package.fzaninotto.faker.abandoned.html)
+- [Laravel 10 is no longer supported](php.package.laravel.framework-10.end-of-support.html)
+- [Laravel 11 is no longer supported](php.package.laravel.framework-11.end-of-support.html)
+- [swiftmailer/swiftmailer is abandoned](php.package.swiftmailer.swiftmailer.abandoned.html)
+- [zendframework/zend-stdlib is abandoned](php.package.zendframework.zend-stdlib.abandoned.html)
+- [PHP 7.0 is end-of-life](php.runtime.eol-7.0.html)
+- [PHP 7.1 is end-of-life](php.runtime.eol-7.1.html)
+
+
 ## Data
 
 This page is generated from [`registry/php.json`](https://github.com/arminazimi/evergreen/blob/main/registry/php.json), rule `php.package.sensiolabs.security-checker.abandoned`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

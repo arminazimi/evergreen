@@ -63,6 +63,28 @@ HashiCorp supports the two most recent Terraform release lines. Terraform 1.10 (
 
 The `terraform` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Terraform CLI 1.11 is no longer a supported release line](terraform.cli.end-of-support-1.11.html)
+- [Terraform CLI 1.12 is no longer a supported release line](terraform.cli.end-of-support-1.12.html)
+- [Terraform CLI 1.13 is no longer a supported release line](terraform.cli.end-of-support-1.13.html)
+- [Terraform CLI 1.14 is no longer a supported release line](terraform.cli.end-of-support-1.14.html)
+- [Terraform CLI 1.15 is no longer a supported release line](terraform.cli.end-of-support-1.15.html)
+
+### Same ecosystem
+
+- [AKS 1.28 and earlier are no longer supported](terraform.aks.end-of-life-1.28-and-older.html)
+- [AKS 1.29 is past long-term support](terraform.aks.end-of-life-1.29.html)
+- [AKS 1.30 is past long-term support](terraform.aks.end-of-life-1.30.html)
+- [AKS 1.31 is past its 12-month support window](terraform.aks.end-of-support-1.31.html)
+- [AKS 1.32 is past its 12-month support window](terraform.aks.end-of-support-1.32.html)
+- [AKS 1.33 is past its 12-month support window](terraform.aks.end-of-support-1.33.html)
+- [Amazon EKS 1.30 and earlier are past end of extended support](terraform.eks.end-of-life-1.30-and-older.html)
+- [Amazon EKS 1.31 is past end of standard support](terraform.eks.end-of-support-1.31.html)
+
+
 ## Data
 
 This page is generated from [`registry/terraform.json`](https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json), rule `terraform.cli.end-of-support-1.10`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

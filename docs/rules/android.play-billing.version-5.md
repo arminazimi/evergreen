@@ -58,6 +58,16 @@ The Google Play Billing Library version deprecation page states that all version
 
 The `android` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Google Play Billing Library 6 is past its deprecation deadline](android.play-billing.version-6.html)
+- [Google Play Billing Library 7 is past its deprecation deadline](android.play-billing.version-7.html)
+- [Google Play Billing Library 8 reaches its new-app and update deadline on 2027-08-31](android.play-billing.version-8.html)
+- [Google Play Billing Library 9 reaches its new-app and update deadline on 2028-08-31](android.play-billing.version-9.html)
+
+
 ## Data
 
 This page is generated from [`registry/android.json`](https://github.com/arminazimi/evergreen/blob/main/registry/android.json), rule `android.play-billing.version-5`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

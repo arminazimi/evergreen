@@ -63,6 +63,24 @@ Laravel's support policy states that security fixes for Laravel 11 ended on 2026
 
 The `php` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Laravel 10 is no longer supported](php.package.laravel.framework-10.end-of-support.html)
+
+### Same ecosystem
+
+- [doctrine/cache is abandoned](php.package.doctrine.cache.abandoned.html)
+- [fzaninotto/faker is abandoned](php.package.fzaninotto.faker.abandoned.html)
+- [sensiolabs/security-checker is abandoned](php.package.sensiolabs.security-checker.abandoned.html)
+- [swiftmailer/swiftmailer is abandoned](php.package.swiftmailer.swiftmailer.abandoned.html)
+- [zendframework/zend-stdlib is abandoned](php.package.zendframework.zend-stdlib.abandoned.html)
+- [PHP 7.0 is end-of-life](php.runtime.eol-7.0.html)
+- [PHP 7.1 is end-of-life](php.runtime.eol-7.1.html)
+- [PHP 7.2 is end-of-life](php.runtime.eol-7.2.html)
+
+
 ## Data
 
 This page is generated from [`registry/php.json`](https://github.com/arminazimi/evergreen/blob/main/registry/php.json), rule `php.package.laravel.framework-11.end-of-support`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

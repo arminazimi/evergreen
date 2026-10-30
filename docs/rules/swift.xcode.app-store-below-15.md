@@ -59,6 +59,17 @@ Apps uploaded to App Store Connect must be built with Xcode 15 for iOS 17, iPadO
 
 The `swift` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Xcode 15 through 25 are not accepted for App Store uploads](swift.xcode.app-store-15-through-25.html)
+
+### Same ecosystem
+
+- [iOS and iPadOS app targets below iOS 13 are not accepted for App Store uploads](swift.app-store.ios-below-13.html)
+
+
 ## Data
 
 This page is generated from [`registry/swift.json`](https://github.com/arminazimi/evergreen/blob/main/registry/swift.json), rule `swift.xcode.app-store-below-15`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

@@ -60,6 +60,19 @@ Erlang/OTP supports the last three major releases with security updates. OTP 26 
 
 The `elixir` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Erlang/OTP 25 no longer receives security updates](elixir.erlang.eol-25.html)
+
+### Same ecosystem
+
+- [fennec is retired on Hex](elixir.package.fennec.retired.html)
+- [Elixir 1.14 no longer receives security updates](elixir.runtime.eol-1.14.html)
+- [Elixir 1.15 no longer receives security updates](elixir.runtime.eol-1.15.html)
+
+
 ## Data
 
 This page is generated from [`registry/elixir.json`](https://github.com/arminazimi/evergreen/blob/main/registry/elixir.json), rule `elixir.erlang.eol-26`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

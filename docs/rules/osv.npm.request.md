@@ -40,6 +40,13 @@ OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affec
 
 No built-in detector reads `osv` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json).
 
+## Related
+
+### Same ecosystem
+
+- [pycrypto has unfixed OSV advisories](osv.pypi.pycrypto.html)
+
+
 ## Data
 
 This page is generated from [`registry/osv.json`](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json), rule `osv.npm.request`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

@@ -59,6 +59,30 @@ Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, 
 
 The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Node.js 18 is end-of-life](nodejs.runtime.eol-18.html)
+- [Node.js 19 is end-of-life](nodejs.runtime.eol-19.html)
+- [Node.js 20 is end-of-life](nodejs.runtime.eol-20.html)
+- [Node.js 21 is end-of-life](nodejs.runtime.eol-21.html)
+- [Node.js 23 is end-of-life](nodejs.runtime.eol-23.html)
+- [Node.js 25 is end-of-life](nodejs.runtime.eol-25.html)
+- [Legacy Node.js runtime is end-of-life](nodejs.runtime.legacy.html)
+
+### Same ecosystem
+
+- [Assert.CallTracker has been removed](nodejs.symbol.assert.calltracker.html)
+- [Async_hooks.currentId has been removed](nodejs.symbol.async-hooks.currentid.html)
+- [Async_hooks.triggerId has been removed](nodejs.symbol.async-hooks.triggerid.html)
+- [The Buffer() constructor is deprecated](nodejs.symbol.buffer.constructor.html)
+- [The customFds option of child_process has been removed](nodejs.symbol.child-process.customfds.html)
+- [New crypto.Certificate() is deprecated](nodejs.symbol.crypto.certificate.html)
+- [crypto.createCipher and createDecipher have been removed](nodejs.symbol.crypto.createcipher.html)
+- [Crypto.createCredentials has been removed](nodejs.symbol.crypto.createcredentials.html)
+
+
 ## Data
 
 This page is generated from [`registry/nodejs.json`](https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json), rule `nodejs.runtime.eol-22`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

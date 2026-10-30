@@ -61,6 +61,17 @@ pub.dev marks analysis_server_client as discontinued.
 
 The `dart` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [Dart 3.10 no longer receives security updates](dart.sdk.end-of-support-3.10.html)
+- [Dart 3.11 no longer receives security updates](dart.sdk.end-of-support-3.11.html)
+- [Dart 3.12 no longer receives security updates](dart.sdk.end-of-support-3.12.html)
+- [Dart 3.8 no longer receives security updates](dart.sdk.end-of-support-3.8.html)
+- [Dart 3.9 no longer receives security updates](dart.sdk.end-of-support-3.9.html)
+
+
 ## Data
 
 This page is generated from [`registry/dart.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dart.json), rule `dart.package.analysis-server-client.discontinued`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

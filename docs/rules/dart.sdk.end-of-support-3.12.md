@@ -62,6 +62,20 @@ The Dart security policy commits security updates only for the most recent stabl
 
 The `dart` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Dart 3.10 no longer receives security updates](dart.sdk.end-of-support-3.10.html)
+- [Dart 3.11 no longer receives security updates](dart.sdk.end-of-support-3.11.html)
+- [Dart 3.8 no longer receives security updates](dart.sdk.end-of-support-3.8.html)
+- [Dart 3.9 no longer receives security updates](dart.sdk.end-of-support-3.9.html)
+
+### Same ecosystem
+
+- [analysis_server_client is discontinued on pub.dev](dart.package.analysis-server-client.discontinued.html)
+
+
 ## Data
 
 This page is generated from [`registry/dart.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dart.json), rule `dart.sdk.end-of-support-3.12`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

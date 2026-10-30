@@ -60,6 +60,30 @@ evergreen check pkg:generic/dotnet
 
 The `dotnet` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [.NET Core 1.0 is no longer supported](dotnet.runtime.end-of-support-1.0.html)
+- [.NET Core 1.1 is no longer supported](dotnet.runtime.end-of-support-1.1.html)
+- [.NET Core 2.0 is no longer supported](dotnet.runtime.end-of-support-2.0.html)
+- [.NET Core 2.1 is no longer supported](dotnet.runtime.end-of-support-2.1.html)
+- [.NET Core 3.0 is no longer supported](dotnet.runtime.end-of-support-3.0.html)
+- [.NET Core 3.1 is no longer supported](dotnet.runtime.end-of-support-3.1.html)
+- [.NET 5 is no longer supported](dotnet.runtime.end-of-support-5.0.html)
+- [.NET 6 is no longer supported](dotnet.runtime.end-of-support-6.0.html)
+- [.NET 7 is no longer supported](dotnet.runtime.end-of-support-7.0.html)
+- [.NET 8 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-8.0.html)
+- [.NET 9 reaches end of support on 2026-11-10](dotnet.runtime.end-of-support-9.0.html)
+
+### Same ecosystem
+
+- [Microsoft.Azure.DocumentDB is deprecated on NuGet](dotnet.package.microsoft-azure-documentdb.deprecated.html)
+- [Microsoft.Azure.ServiceBus is deprecated on NuGet](dotnet.package.microsoft-azure-servicebus.deprecated.html)
+- [Microsoft.Azure.Storage.Blob is deprecated on NuGet](dotnet.package.microsoft-azure-storage-blob.deprecated.html)
+- [WindowsAzure.Storage is deprecated on NuGet](dotnet.package.windowsazure-storage.deprecated.html)
+
+
 ## Data
 
 This page is generated from [`registry/dotnet.json`](https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json), rule `dotnet.runtime.end-of-support-2.2`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

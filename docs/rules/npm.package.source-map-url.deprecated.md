@@ -56,6 +56,20 @@ The maintainer deprecated source-map-url and recommends convert-source-map for w
 
 The `npm` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [abab is deprecated](npm.package.abab.deprecated.html)
+- [@angular/core v18 and older are no longer supported](npm.package.angular.core.v18-and-older.end-of-support.html)
+- [@angular/core v19 is no longer supported](npm.package.angular.core.v19.end-of-support.html)
+- [@angular/core v20 reaches end of life on 2026-11-28](npm.package.angular.core.v20.scheduled-end-of-life.html)
+- [@angular/core v21 reaches end of life on 2027-06-30](npm.package.angular.core.v21.scheduled-end-of-life.html)
+- [@angular/core v22 reaches end of life on 2028-06-30](npm.package.angular.core.v22.scheduled-end-of-life.html)
+- [are-we-there-yet is no longer supported](npm.package.are-we-there-yet.eol.html)
+- [babel-eslint is deprecated](npm.package.babel-eslint.deprecated.html)
+
+
 ## Data
 
 This page is generated from [`registry/npm.json`](https://github.com/arminazimi/evergreen/blob/main/registry/npm.json), rule `npm.package.source-map-url.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

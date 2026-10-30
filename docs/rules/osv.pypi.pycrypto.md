@@ -42,6 +42,13 @@ OSV lists GHSA-6528-wvf6-f6qg, GHSA-cq27-v7xp-c356, PYSEC-2018-97 against pycryp
 
 No built-in detector reads `osv` declarations yet; the rule is data in the [lifecycle registry](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json).
 
+## Related
+
+### Same ecosystem
+
+- [request has unfixed OSV advisories](osv.npm.request.html)
+
+
 ## Data
 
 This page is generated from [`registry/osv.json`](https://github.com/arminazimi/evergreen/blob/main/registry/osv.json), rule `osv.pypi.pycrypto`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

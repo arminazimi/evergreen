@@ -210,7 +210,70 @@ function jsonLd(rule: RegistryV2Rule, url: string): unknown {
   };
 }
 
-export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): string {
+/** Cap related lists so large ecosystems (and shared PURLs) stay readable. */
+const MAX_OTHER_VERSIONS = 12;
+const MAX_SAME_ECOSYSTEM = 8;
+
+export interface RelatedRules {
+  otherVersions: RegistryV2Rule[];
+  sameEcosystem: RegistryV2Rule[];
+}
+
+const byRuleId = (left: RegistryV2Rule, right: RegistryV2Rule) => left.id.localeCompare(right.id);
+
+/**
+ * Other versions of the same product: same PURL, narrowed to the rule-id family
+ * (`ecosystem.kind.*`, for example `nodejs.runtime` vs `nodejs.symbol`) when a
+ * single PURL covers many distinct products.
+ */
+function otherVersionsOf(rule: RegistryV2Rule, catalog: readonly RegistryV2Rule[]): RegistryV2Rule[] {
+  const peers = catalog.filter((entry) => entry.purl === rule.purl && entry.id !== rule.id).sort(byRuleId);
+  if (peers.length === 0) return [];
+  const segments = rule.id.split(".");
+  if (segments.length < 2) return peers.slice(0, MAX_OTHER_VERSIONS);
+  const familyPrefix = `${segments[0]}.${segments[1]}.`;
+  return peers.filter((entry) => entry.id.startsWith(familyPrefix)).slice(0, MAX_OTHER_VERSIONS);
+}
+
+/** Related rule pages for internal links: other product versions, then the same ecosystem. */
+export function relatedRules(rule: RegistryV2Rule, catalog: readonly RegistryV2Rule[]): RelatedRules {
+  const otherVersions = otherVersionsOf(rule, catalog);
+  const listed = new Set(otherVersions.map((entry) => entry.id));
+  listed.add(rule.id);
+  const sameEcosystem = catalog
+    .filter((entry) => entry.ecosystem === rule.ecosystem && !listed.has(entry.id))
+    .sort(byRuleId)
+    .slice(0, MAX_SAME_ECOSYSTEM);
+  return { otherVersions, sameEcosystem };
+}
+
+function renderRelatedLinks(rule: RegistryV2Rule, catalog: readonly RegistryV2Rule[]): string[] {
+  if (catalog.length === 0) return [];
+  const { otherVersions, sameEcosystem } = relatedRules(rule, catalog);
+  if (otherVersions.length === 0 && sameEcosystem.length === 0) return [];
+  const lines = ["", "## Related", ""];
+  if (otherVersions.length > 0) {
+    lines.push("### Other versions of this product", "");
+    for (const entry of otherVersions) {
+      lines.push(`- [${linkLabel(entry.title)}](${entry.id}.html)`);
+    }
+    lines.push("");
+  }
+  if (sameEcosystem.length > 0) {
+    lines.push("### Same ecosystem", "");
+    for (const entry of sameEcosystem) {
+      lines.push(`- [${linkLabel(entry.title)}](${entry.id}.html)`);
+    }
+    lines.push("");
+  }
+  return lines;
+}
+
+export function renderRulePage(
+  rule: RegistryV2Rule,
+  maxReviewAgeDays: number,
+  catalog: readonly RegistryV2Rule[] = [],
+): string {
   const reviewDue = addDays(rule.provenance.reviewedAt, maxReviewAgeDays);
   const lines: string[] = [
     "---",
@@ -269,6 +332,8 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     const links = detectors.map((id) => (DETECTOR_PAGES.has(id) ? `[\`${id}\`](../detectors/${id}.md)` : `\`${id}\``));
     lines.push(`The ${links.join(" and ")} detector${detectors.length > 1 ? "s" : ""}. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).`);
   }
+
+  lines.push(...renderRelatedLinks(rule, catalog));
 
   lines.push(
     "",
@@ -739,13 +804,14 @@ export function buildFiles(registries: readonly RegistryV2[]): GeneratedFile[] {
     { path: `${RULES_DIRECTORY}/index.md`, contents: renderIndex(registries) },
     { path: "docs/sitemap.xml", contents: renderSitemap(registries) },
   ];
+  const catalog = registries.flatMap((registry) => registry.rules);
   const seen = new Set<string>();
   for (const registry of registries) {
     const days = registry.freshness?.maxReviewAgeDays ?? DEFAULT_MAX_REVIEW_AGE_DAYS;
     for (const rule of registry.rules) {
       if (seen.has(rule.id)) throw new Error(`Rule id "${rule.id}" appears in more than one registry.`);
       seen.add(rule.id);
-      files.push({ path: `${RULES_DIRECTORY}/${rule.id}.md`, contents: renderRulePage(rule, days) });
+      files.push({ path: `${RULES_DIRECTORY}/${rule.id}.md`, contents: renderRulePage(rule, days, catalog) });
       files.push({ path: `${RULES_DIRECTORY}/${rule.id}.json`, contents: renderRuleData(rule) });
     }
   }

@@ -21,6 +21,7 @@ import {
   lookupEntries,
   lookupUrl,
   pageTitle,
+  relatedRules,
   renderIndex,
   renderLookupPage,
   renderRuleData,
@@ -229,6 +230,62 @@ test("every rule page answers status, date, and replacement first, then offers e
   }
 });
 
+test("related links list other product versions and same-ecosystem rules", () => {
+  const v1 = rule({ id: "demo.thing.eol-1", title: "Demo 1 is end of life", purl: "pkg:generic/demo" });
+  const v2 = rule({ id: "demo.thing.eol-2", title: "Demo 2 is end of life", purl: "pkg:generic/demo", deadline: "2027-01-01" });
+  const other = rule({
+    id: "demo.other.eol-1",
+    title: "Other thing is end of life",
+    purl: "pkg:generic/other",
+  });
+  const foreign = rule({
+    id: "elsewhere.thing.eol-1",
+    ecosystem: "elsewhere",
+    title: "Elsewhere is end of life",
+    purl: "pkg:generic/elsewhere",
+  });
+  const catalog = [v1, v2, other, foreign];
+  const related = relatedRules(v1, catalog);
+  assert.deepEqual(
+    related.otherVersions.map((entry) => entry.id),
+    ["demo.thing.eol-2"],
+  );
+  assert.deepEqual(
+    related.sameEcosystem.map((entry) => entry.id),
+    ["demo.other.eol-1"],
+  );
+
+  const page = renderRulePage(v1, 365, catalog);
+  assert.match(page, /## Related\n\n### Other versions of this product\n\n- \[Demo 2 is end of life\]\(demo\.thing\.eol-2\.html\)/);
+  assert.match(page, /### Same ecosystem\n\n- \[Other thing is end of life\]\(demo\.other\.eol-1\.html\)/);
+  assert.doesNotMatch(page, /elsewhere\.thing\.eol-1/);
+  assert.ok(page.indexOf("## Related") < page.indexOf("## Data"));
+});
+
+test("a shared runtime PURL does not list symbols as other versions of a runtime rule", async () => {
+  const registries = await loadRegistries();
+  const nodejs = registries.find((item) => item.ecosystem === "nodejs");
+  assert.ok(nodejs);
+  const catalog = nodejs.rules;
+  const runtime = catalog.find((entry) => entry.id === "nodejs.runtime.eol-20");
+  assert.ok(runtime);
+  const related = relatedRules(runtime, catalog);
+  assert.ok(related.otherVersions.length >= 1);
+  assert.ok(related.otherVersions.every((entry) => entry.id.startsWith("nodejs.runtime.")));
+  assert.ok(related.sameEcosystem.some((entry) => entry.id.startsWith("nodejs.symbol.")));
+});
+
+test("every generated rule page links at least one related rule page", async () => {
+  const registries = await loadRegistries();
+  const catalog = registries.flatMap((item) => item.rules);
+  for (const entry of catalog) {
+    const page = renderRulePage(entry, 365, catalog);
+    assert.match(page, /## Related\n/, `${entry.id}: missing Related section`);
+    const links = [...page.matchAll(/## Related\n[\s\S]*?(?=\n## Data\n)/g)][0]?.[0] ?? "";
+    assert.match(links, /\]\([a-z0-9][a-z0-9.-]*\.html\)/, `${entry.id}: Related section has no rule link`);
+  }
+});
+
 test("the sitemap lists the site, the lookup page, the index, and every rule once, with the review date", async () => {
   const registries = await loadRegistries();
   const sitemap = renderSitemap(registries);
@@ -332,6 +389,7 @@ test("drift names a changed page, a missing page, and a stale page", async () =>
 
   assert.deepEqual(await drift(buildFiles([registry([rule(), rule({ id: "demo.new.eol-3" })])]), root), [
     "differs: docs/lookup.html",
+    "differs: docs/rules/demo.thing.eol-1.md",
     "differs: docs/rules/index.md",
     "differs: docs/sitemap.xml",
     "missing: docs/rules/demo.new.eol-3.json",

@@ -58,6 +58,20 @@ The POM of mysql:mysql-connector-java 8.0.33 declares a relocation to com.mysql:
 
 The [`java`](../detectors/java.md) detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [Java 12 to 16 are no longer supported](java.jdk.end-of-support-12-16.html)
+- [Java 18 to 20 are no longer supported](java.jdk.end-of-support-18-20.html)
+- [Java 22 to 24 are no longer supported](java.jdk.end-of-support-22-24.html)
+- [Java 26 is no longer supported](java.jdk.end-of-support-26.html)
+- [Java 9 and 10 are no longer supported](java.jdk.end-of-support-9-10.html)
+- [org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager](java.maven.org.hibernate.hibernate-entitymanager.relocated.html)
+- [org.slf4j:slf4j-log4j12 has moved to org.slf4j:slf4j-reload4j](java.maven.org.slf4j.slf4j-log4j12.relocated.html)
+- [Spring Boot 1.x is out of open-source support](java.maven.spring-boot.legacy-1x.end-of-support.html)
+
+
 ## Data
 
 This page is generated from [`registry/java.json`](https://github.com/arminazimi/evergreen/blob/main/registry/java.json), rule `java.maven.mysql.mysql-connector-java.relocated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

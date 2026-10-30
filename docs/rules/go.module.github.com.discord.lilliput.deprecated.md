@@ -58,6 +58,20 @@ The latest github.com/discord/lilliput module declares: "discord/lilliput is unm
 
 The [`go`](../detectors/go.md) detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Same ecosystem
+
+- [cloud.google.com/go/pubsub is deprecated](go.module.cloud.google.com.go.pubsub.deprecated.html)
+- [github.com/cncf/udpa/go is deprecated](go.module.github.com.cncf.udpa.go.deprecated.html)
+- [github.com/golang/protobuf is deprecated](go.module.github.com.golang.protobuf.deprecated.html)
+- [github.com/streadway/amqp is deprecated](go.module.github.com.streadway.amqp.deprecated.html)
+- [go.opentelemetry.io/otel/exporters/zipkin is deprecated](go.module.go.opentelemetry.io.otel.exporters.zipkin.deprecated.html)
+- [Go 1.20 and older are no longer supported](go.runtime.end-of-support-1.20-and-older.html)
+- [Go 1.21 is no longer supported](go.runtime.end-of-support-1.21.html)
+- [Go 1.22 is no longer supported](go.runtime.end-of-support-1.22.html)
+
+
 ## Data
 
 This page is generated from [`registry/go.json`](https://github.com/arminazimi/evergreen/blob/main/registry/go.json), rule `go.module.github.com.discord.lilliput.deprecated`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.

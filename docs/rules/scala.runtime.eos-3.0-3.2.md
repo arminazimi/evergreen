@@ -60,6 +60,17 @@ The Scala project's development guarantees page states that a non-LTS Scala 3 mi
 
 The `scala` detector. See [Detectors](../DETECTORS.md) and [Compatibility](../COMPATIBILITY.md).
 
+## Related
+
+### Other versions of this product
+
+- [Scala 2.11 reached end of life](scala.runtime.eol-2.11.html)
+
+### Same ecosystem
+
+- [sbt 0.13 reached end of life](scala.sbt.eol-0.13.html)
+
+
 ## Data
 
 This page is generated from [`registry/scala.json`](https://github.com/arminazimi/evergreen/blob/main/registry/scala.json), rule `scala.runtime.eos-3.0-3.2`, in the `evergreen.registry.v2` format ([how rules are written](../RULES.md)). A CLE (ECMA-428) export is not published yet. The same facts are embedded in this page as schema.org structured data.
