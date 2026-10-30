@@ -56,6 +56,56 @@
       }
     },
     {
+      "id": "serverless.aws-lambda.nodejs12.x",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/nodejs12.x",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Node.js 12 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists nodejs12.x under Deprecated runtimes with deprecation date 2023-03-31. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "nodejs24.x or nodejs22.x",
+      "deadline": "2023-03-31",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-29"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-29",
+        "reviewedAt": "2026-10-29",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Node.js language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from nodejs12.x to a supported AWS Lambda Node.js identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins nodejs12.x.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
+      }
+    },
+    {
       "id": "serverless.aws-lambda.python3.8",
       "ecosystem": "serverless",
       "purl": "pkg:generic/aws-lambda-runtime/python3.8",
@@ -94,6 +144,56 @@
             "id": "align-lambda-runtime-surfaces",
             "title": "Align other runtime surfaces",
             "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins python3.8.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "sam validate || serverless print || terraform validate",
+            "purpose": "Validate the updated SAM, Serverless Framework, or Terraform declaration before deploy."
+          }
+        ]
+      }
+    },
+    {
+      "id": "serverless.aws-lambda.python3.7",
+      "ecosystem": "serverless",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+      "vers": "vers:semver/*",
+      "event": "end-of-life",
+      "title": "AWS Lambda Python 3.7 runtime is end-of-life",
+      "summary": "The AWS Lambda runtimes table lists python3.7 under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",
+      "severity": "high",
+      "replacement": "python3.14 or python3.13",
+      "deadline": "2023-12-04",
+      "sources": [
+        {
+          "title": "AWS Lambda runtimes",
+          "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html",
+          "accessedAt": "2026-10-29"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-29",
+        "reviewedAt": "2026-10-29",
+        "reviewer": "arminazimi"
+      },
+      "migration": {
+        "constraints": [
+          "Keep provider.runtime, Globals.Function.Runtime, per-function Runtime, and Terraform aws_lambda_function.runtime on one AWS Lambda runtime identifier that AWS still supports.",
+          "Raising the managed runtime can require Python language and dependency changes; confirm handlers and native modules run on the replacement before deploying."
+        ],
+        "steps": [
+          {
+            "id": "raise-lambda-runtime",
+            "title": "Raise the AWS Lambda runtime",
+            "instructions": "Change the reported Runtime (or provider.runtime / terraform runtime) from python3.7 to a supported AWS Lambda Python identifier (see the replacement).",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-lambda-runtime-surfaces",
+            "title": "Align other runtime surfaces",
+            "instructions": "Update every other SAM/CloudFormation Globals or function Runtime, serverless.yml provider or function runtime, Terraform aws_lambda_function.runtime, and CI deploy config that still pins python3.7.",
             "targets": "all"
           }
         ],

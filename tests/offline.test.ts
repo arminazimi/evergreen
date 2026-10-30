@@ -42,7 +42,7 @@ const NETWORK_USE = /node:(?:https?|net|tls|dns|dgram|http2)\b|from ["'](?:https
 test("only the update command, the CLI entry point, and the Action's GitHub API calls can reach the network in the source tree", async () => {
   const using: string[] = [];
   for (const file of await sourceFiles(resolve("src"))) if (NETWORK_USE.test(await readFile(file, "utf8"))) using.push(relative(process.cwd(), file).replaceAll("\\", "/"));
-  assert.deepEqual(using.sort(), ["src/action-tracking-issue.ts", "src/cli-main.ts", "src/data-update.ts", "src/pr-comment.ts"]);
+  assert.deepEqual(using.sort(), ["src/action-fix-pr.ts", "src/action-tracking-issue.ts", "src/cli-main.ts", "src/data-update.ts", "src/pr-comment.ts"]);
   // The CLI only imports `http` to configure proxy support inside the update command.
   const cli = await readFile(resolve("src/cli-main.ts"), "utf8");
   assert.equal((cli.match(/fetch\(/g) ?? []).length, 0);

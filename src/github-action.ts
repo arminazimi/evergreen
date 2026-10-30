@@ -11,7 +11,9 @@ import type { Finding, ScanResult, Severity, SourceLocation, SuppressionRef } fr
 import { severityValues } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { DiffError, diffRefs } from "./diff.js";
+import { planFixReport } from "./fix/index.js";
 import type { DiffResult } from "./diff.js";
+import { buildForecast } from "./forecast.js";
 import { relativePosix } from "./paths.js";
 import { describeData, renderJson, renderSarif } from "./reporters.js";
 import type { DataInfo, SuppressionState } from "./domain.js";
@@ -46,6 +48,28 @@ export interface LineRange {
 export interface UnannotatedFindings {
   count: number;
   reportUrl?: string;
+}
+
+/** One applyable suggestion: the head-file lines it replaces and the lines that replace them. */
+export interface FixSuggestion {
+  /** Repository-relative POSIX path of the file the fix rewrites. */
+  path: string;
+  /** First head-file line (1-based) the suggestion replaces. */
+  startLine: number;
+  /** Last head-file line it replaces; equal to `startLine` for a one-line change. */
+  line: number;
+  /** The replacement lines, without the surrounding `suggestion` fence. */
+  replacement: string[];
+}
+
+/** One inline review comment in the shape the GitHub reviews API takes. */
+export interface SuggestionComment {
+  path: string;
+  line: number;
+  start_line?: number;
+  side: "RIGHT";
+  start_side?: "RIGHT";
+  body: string;
 }
 
 function unquotePath(header: string): string {
@@ -104,6 +128,97 @@ function changedLines(root: string, range: string): Map<string, LineRange[]> {
   }
 }
 
+/**
+ * Turns the unified diff a fixer returns into the replacements it proposes. Each run of removed lines
+ * followed by added lines becomes one suggestion; a run that only inserts or deletes lines cannot be
+ * expressed as one, so it is left out.
+ */
+export function suggestionsFromPatch(path: string, patch: string): FixSuggestion[] {
+  const suggestions: FixSuggestion[] = [];
+  let headLine = 0;
+  let inHunk = false;
+  let removed: number[] = [];
+  let added: string[] = [];
+
+  const flush = (): void => {
+    if (removed.length > 0 && added.length > 0) {
+      suggestions.push({ path, startLine: removed[0]!, line: removed[removed.length - 1]!, replacement: added });
+    }
+    removed = [];
+    added = [];
+  };
+
+  for (const line of patch.split("\n")) {
+    if (line.startsWith("@@ ")) {
+      flush();
+      inHunk = true;
+      const match = /^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/.exec(line);
+      if (match) headLine = Number(match[1]);
+      continue;
+    }
+    if (!inHunk && (line.startsWith("--- ") || line.startsWith("+++ "))) continue;
+    if (line.startsWith("+")) {
+      added.push(line.slice(1));
+      continue;
+    }
+    if (line.startsWith("-")) {
+      removed.push(headLine);
+      headLine += 1;
+      continue;
+    }
+    if (line.startsWith(" ")) {
+      flush();
+      headLine += 1;
+    }
+  }
+  flush();
+  return suggestions;
+}
+
+/**
+ * Plans the `suggestion` blocks for a diff-mode scan: every fixer runs over the introduced findings,
+ * and a replacement is kept only when every line it rewrites was added or changed by the pull request.
+ * Findings without a deterministic fix, and patches that only insert or delete lines, produce nothing.
+ */
+export async function planFixSuggestions(result: ScanResult, changed: ReadonlyMap<string, readonly LineRange[]>): Promise<FixSuggestion[]> {
+  const plan = await planFixReport(result);
+  const suggestions: FixSuggestion[] = [];
+  for (const patch of plan.patches) {
+    const ranges = changed.get(patch.path) ?? [];
+    for (const suggestion of suggestionsFromPatch(patch.path, patch.diff)) {
+      const replacedLines = Array.from({ length: suggestion.line - suggestion.startLine + 1 }, (_, offset) => suggestion.startLine + offset);
+      const touchesOnlyChangedLines = replacedLines.every((line) => ranges.some((range) => line >= range.start && line <= range.end));
+      if (touchesOnlyChangedLines) suggestions.push(suggestion);
+    }
+  }
+  return suggestions.sort((left, right) =>
+    left.path.localeCompare(right.path) || left.startLine - right.startLine || left.line - right.line);
+}
+
+/** A `suggestion` block: the lines GitHub replaces the commented lines with. */
+export function renderSuggestion(replacement: readonly string[]): string {
+  return ["```suggestion", ...replacement, "```"].join("\n");
+}
+
+/** One inline review comment that applies a planned fix. */
+export function suggestionComment(suggestion: FixSuggestion): SuggestionComment {
+  return {
+    path: suggestion.path,
+    ...(suggestion.startLine === suggestion.line ? {} : { start_line: suggestion.startLine, start_side: "RIGHT" as const }),
+    line: suggestion.line,
+    side: "RIGHT",
+    body: renderSuggestion(suggestion.replacement),
+  };
+}
+
+/** Hidden marker that identifies the one review Evergreen owns on a pull request, so re-runs update it. */
+export const FIX_SUGGESTION_MARKER = "<!-- evergreen-fix-suggestions -->";
+
+/** The review body: the marker, then what the review offers and how to make the same change locally. */
+export function renderSuggestionReview(count: number): string {
+  return `${FIX_SUGGESTION_MARKER}\nEvergreen can fix ${count} lifecycle finding${count === 1 ? "" : "s"} on lines this pull request changed. Apply a suggestion, or run \`npx evergreen-deprecation fix\` to make every change locally.`;
+}
+
 export interface GitHubActionOptions {
   root: string;
   reportPath: string;
@@ -133,6 +248,11 @@ export interface GitHubActionOptions {
   diffRange?: string;
   /** Which findings become annotations; defaults to `changed` in diff mode and `all` otherwise. */
   annotations?: AnnotationScope;
+  /**
+   * Plan the deterministic fixes for findings on lines the pull request changed, so the runner can
+   * post them as one review of `suggestion` comments. Only meaningful in diff mode.
+   */
+  suggestFixes?: boolean;
 }
 
 export interface GitHubActionOutcome {
@@ -145,6 +265,8 @@ export interface GitHubActionOutcome {
   annotations: GitHubAnnotation[];
   /** Findings left out of the annotations by `annotations: changed`; 0 for `all` and `none`. */
   unannotated: number;
+  /** The fixes `suggest-fixes` planned as review suggestions; empty when the input is off. */
+  suggestions: FixSuggestion[];
   /** The job should fail: the severity gate was met, or the `fail` expiry policy applies. */
   failed: boolean;
   /** A finding met the severity gate. */
@@ -419,15 +541,20 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     await writeFile(badgeSvgPath, `${renderBadgeSvg(result, expiredFailure)}\n`, "utf8");
   }
   const scope = parseAnnotations(options.annotations, options.mode === "diff" ? "diff" : "scan");
+  const diffRange = options.mode === "diff" ? options.diffRange : undefined;
+  const changed = diffRange !== undefined && (scope === "changed" || options.suggestFixes === true)
+    ? changedLines(root, diffRange)
+    : undefined;
   let annotatedFindings: readonly Finding[] = result.findings;
   let unannotated = 0;
   if (scope === "none") {
     annotatedFindings = [];
-  } else if (scope === "changed" && options.mode === "diff" && options.diffRange) {
-    const selected = selectChangedAnnotations(result.findings, changedLines(root, options.diffRange));
+  } else if (scope === "changed" && changed) {
+    const selected = selectChangedAnnotations(result.findings, changed);
     annotatedFindings = selected.annotated;
     unannotated = selected.unannotated.length;
   }
+  const suggestions = options.suggestFixes === true && changed ? await planFixSuggestions(result, changed) : [];
   return {
     result,
     reportPath,
@@ -436,6 +563,7 @@ export async function runGitHubAction(options: GitHubActionOptions): Promise<Git
     ...(sarifPath ? { sarifPath } : {}),
     annotations: annotatedFindings.map(annotationFor),
     unannotated,
+    suggestions,
     failed: expiredFailure || gateFailed,
     gateFailed,
     gate,
@@ -475,8 +603,50 @@ export function renderFailure(outcome: GitHubActionFailure): string | undefined 
 export const ATTRIBUTION_LINE = "<sub>Scanned by [Evergreen](https://github.com/arminazimi/evergreen)</sub>";
 
 const SUMMARY_FINDINGS = 10;
+const SUMMARY_TIMELINE_EVENTS = 10;
+const DAY_MS = 86_400_000;
 
 const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+
+const plural = (count: number, noun: string): string => `${count} ${noun}${count === 1 ? "" : "s"}`;
+
+function daysBetween(from: string, to: string): number {
+  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / DAY_MS);
+}
+
+/**
+ * What reaches a dated end of life in the next twelve months, earliest first, with how many days are
+ * left. The forecast is built from the findings themselves — no registry rules are loaded here — so it
+ * lists exactly the dated findings the scan reports. Capped like the findings table, so a large report
+ * stays inside GitHub's summary size limit.
+ */
+function renderTimeline(findings: readonly Finding[]): string[] {
+  const today = new Date().toISOString().slice(0, 10);
+  const forecast = buildForecast({ schemaVersion: "evergreen.scan.v1", root: ".", scannedAt: "", findings: [...findings], diagnostics: [] }, [], today);
+  if (forecast.total === 0) return [];
+
+  const events = forecast.groups.flatMap((group) => group.events);
+  const lines = [
+    "### Timeline",
+    "",
+    `**Next ${plural(forecast.months, "month")}:** ${plural(events.length, "dated lifecycle event")} affect${events.length === 1 ? "s" : ""} this repository (${forecast.today} to ${forecast.until}).`,
+    "",
+    "| Ends | Left | Severity | Lifecycle event | Location |",
+    "|---|---|---|---|---|",
+  ];
+  for (const event of events.slice(0, SUMMARY_TIMELINE_EVENTS)) {
+    const left = daysBetween(today, event.date);
+    const [first, ...rest] = event.findings;
+    const location =
+      first === undefined
+        ? "—"
+        : `\`${cell(first.path)}${first.line === undefined ? "" : `:${first.line}`}\`${rest.length === 0 ? "" : ` +${rest.length} more`}`;
+    lines.push(`| ${event.date} | ${left === 0 ? "today" : `${plural(left, "day")} left`} | ${event.severity} | ${cell(event.title)} | ${location} |`);
+  }
+  if (events.length > SUMMARY_TIMELINE_EVENTS) lines.push("", `…and ${events.length - SUMMARY_TIMELINE_EVENTS} more dated events; the JSON report artifact lists every deadline.`);
+  lines.push("");
+  return lines;
+}
 
 function appendFindingTables(lines: string[], findings: readonly Finding[]): void {
   if (findings.length === 0) return;
@@ -526,6 +696,7 @@ export function renderSummary(
       : `Found **${findings.length}** new lifecycle finding${findings.length === 1 ? "" : "s"}; ${status}.`
     : `Found **${findings.length}** lifecycle finding${findings.length === 1 ? "" : "s"} introduced by this pull request (${diff.base}..${diff.head}); ${status}.`;
   const lines = ["## Evergreen", "", counts, ""];
+  lines.push(...renderTimeline(findings));
 
   if (packages && packages.length > 0) {
     for (const pkg of packages) {

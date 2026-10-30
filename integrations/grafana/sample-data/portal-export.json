@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "evergreen.portal.v1",
+  "services": [
+    {
+      "path": "/repos/analytics",
+      "severities": { "info": 0, "low": 0, "medium": 0, "high": 1, "critical": 1 },
+      "nextEndOfLife": "2027-02-01",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-analytics.json"
+    },
+    {
+      "path": "/repos/api",
+      "severities": { "info": 1, "low": 0, "medium": 2, "high": 1, "critical": 1 },
+      "nextEndOfLife": "2026-12-31",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-api.json"
+    },
+    {
+      "path": "/repos/checkout",
+      "severities": { "info": 0, "low": 0, "medium": 0, "high": 0, "critical": 0 },
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-checkout.json"
+    },
+    {
+      "path": "/repos/docs-site",
+      "severities": { "info": 1, "low": 0, "medium": 0, "high": 0, "critical": 0 },
+      "nextEndOfLife": "2029-01-01",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-docs-site.json"
+    },
+    {
+      "path": "/repos/internal-tools",
+      "severities": { "info": 0, "low": 2, "medium": 1, "high": 0, "critical": 0 },
+      "nextEndOfLife": "2028-06-01",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-internal-tools.json"
+    },
+    {
+      "path": "/repos/legacy-batch",
+      "severities": { "info": 1, "low": 2, "medium": 4, "high": 3, "critical": 2 },
+      "nextEndOfLife": "2026-11-10",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-legacy-batch.json"
+    },
+    {
+      "path": "/repos/mobile",
+      "severities": { "info": 2, "low": 1, "medium": 2, "high": 0, "critical": 0 },
+      "nextEndOfLife": "2028-01-01",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-mobile.json"
+    },
+    {
+      "path": "/repos/payments",
+      "severities": { "info": 0, "low": 0, "medium": 1, "high": 1, "critical": 0 },
+      "nextEndOfLife": "2027-06-30",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-payments.json"
+    },
+    {
+      "path": "/repos/web",
+      "severities": { "info": 0, "low": 1, "medium": 1, "high": 2, "critical": 0 },
+      "nextEndOfLife": "2027-04-30",
+      "reportLink": "https://ci.example.com/artifacts/evergreen-report-web.json"
+    }
+  ]
+}

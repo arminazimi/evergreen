@@ -4,10 +4,11 @@
     "container"
   ],
   "events": [
-    "end-of-life"
+    "end-of-life",
+    "scheduled-end-of-life"
   ],
   "id": "docker-library-ruby",
-  "latestReview": "2026-10-16",
+  "latestReview": "2026-10-29",
   "name": "ruby",
   "namespace": "library",
   "purl": "pkg:docker/library/ruby",
@@ -64,6 +65,60 @@
       "summary": "These Ruby branches no longer receive security or bug fixes.",
       "title": "Ruby image release lines 3.2 and older are end-of-life",
       "vers": "vers:semver/<3.3.0"
+    },
+    {
+      "deadline": "2027-03-31",
+      "ecosystem": "container",
+      "event": "scheduled-end-of-life",
+      "id": "container.ruby.eol-3.3-and-older",
+      "migration": {
+        "constraints": [
+          "Keep the base image, .ruby-version, Gemfile ruby requirement, and CI matrices on one supported Ruby branch.",
+          "Confirm gems with native extensions build on the target Ruby, and rebuild bundled gems inside the image."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration",
+            "title": "Update the base image"
+          },
+          {
+            "id": "align-image-surfaces",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all",
+            "title": "Align other image references"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE ruby --version",
+            "purpose": "Confirm the container runs the intended Ruby version."
+          }
+        ]
+      },
+      "provenance": {
+        "importer": "endoflife-date",
+        "observedAt": "2026-10-29",
+        "reviewedAt": "2026-10-29",
+        "reviewer": "arminazimi"
+      },
+      "purl": "pkg:docker/library/ruby",
+      "replacement": "A ruby image on a later supported release line",
+      "severity": "low",
+      "sources": [
+        {
+          "title": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "summary": "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.",
+      "title": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31",
+      "vers": "vers:semver/>=3.3.0|<3.4.0"
     }
   ],
   "schemaVersion": "evergreen.api-product.v1",

@@ -7,7 +7,7 @@ import { after, test } from "node:test";
 
 import { parse as parseYaml } from "yaml";
 
-import { parseChangedLines, runGitHubAction, selectChangedAnnotations } from "../src/github-action.js";
+import { parseChangedLines, renderSummary, runGitHubAction, selectChangedAnnotations } from "../src/github-action.js";
 import type { Finding } from "../src/domain.js";
 
 const temporaryRoots: string[] = [];
@@ -281,6 +281,72 @@ test("an invalid annotations value fails the run before any scan", async () => {
 
   assert.equal(run.code, 1);
   assert.match(run.stdout, /Invalid annotations: everywhere/);
+});
+
+const DAY = 86_400_000;
+const today = (): string => new Date().toISOString().slice(0, 10);
+const inDays = (days: number): string => new Date(Date.parse(`${today()}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
+
+function datedFinding(id: string, severity: Finding["severity"], title: string, path: string, deadline?: string, line?: number): Finding {
+  return {
+    id,
+    ruleId: id.split(":")[0]!,
+    detector: "npm",
+    title,
+    summary: "s",
+    severity,
+    confidence: "exact",
+    location: line === undefined ? { path } : { path, line },
+    sources: [{ title: "Vendor | notice", url: "https://example.com/notice" }],
+    ...(deadline === undefined ? {} : { deadline }),
+  };
+}
+
+test("the job summary opens with a twelve-month timeline and days left for each dated finding", () => {
+  const text = renderSummary(
+    [
+      datedFinding("a.high:p:1", "high", "Soon | one", "package.json", inDays(0), 3),
+      datedFinding("b.high:p:2", "high", "One day", "package.json", inDays(1), 4),
+      datedFinding("c.low:p:3", "low", "Later one", ".nvmrc", inDays(200)),
+      datedFinding("d.low:p:4", "low", "Undated one", "Dockerfile"),
+    ],
+    false,
+    "high",
+    undefined,
+    false,
+  );
+
+  assert.match(text, /\*\*Next 12 months:\*\* 3 dated lifecycle events affect this repository \(\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}\)\./);
+  assert.ok(text.includes(`| ${inDays(0)} | today | high | Soon \\| one | \`package.json:3\` |`), text);
+  assert.ok(text.includes(`| ${inDays(1)} | 1 day left | high | One day | \`package.json:4\` |`), text);
+  assert.ok(text.includes(`| ${inDays(200)} | 200 days left | low | Later one | \`.nvmrc\` |`), text);
+  assert.equal(text.split("\n").filter((line) => /^\| \d{4}-\d{2}-\d{2} \|/.test(line)).length, 3, "the undated finding is not in the timeline");
+  assert.ok(text.indexOf("### Timeline") < text.indexOf("| Severity | Findings |"), "the timeline opens the summary");
+});
+
+test("the timeline keeps ten dated events and points at the report for the rest", () => {
+  const many = Array.from({ length: 13 }, (_, index) => datedFinding(`r${index + 1}:p:1`, "low", `Event ${index + 1}`, "package.json", inDays(index + 1)));
+  const text = renderSummary(many, false, "high", undefined, false);
+
+  assert.equal(text.split("\n").filter((line) => /^\| \d{4}-\d{2}-\d{2} \|/.test(line)).length, 10);
+  assert.match(text, /…and 3 more dated events; the JSON report artifact lists every deadline\./);
+});
+
+test("a scan with a dated finding writes the timeline with days left into the job summary", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-summary-timeline-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "Dockerfile"), "FROM node:22\n");
+
+  const run = await runAction(root);
+
+  assert.equal(run.code, 0);
+  const deadline = "2027-04-30";
+  const days = Math.round((Date.parse(`${deadline}T00:00:00Z`) - Date.parse(`${today()}T00:00:00Z`)) / DAY);
+  assert.match(run.summary, /### Timeline/);
+  assert.ok(
+    run.summary.includes(`| ${deadline} | ${days} days left | low | Node.js image release line 22 reaches end-of-life on 2027-04-30 | \`Dockerfile:1\` |`),
+    run.summary,
+  );
 });
 
 test("action.yml declares annotations with an empty default and passes it to the scan step", async () => {

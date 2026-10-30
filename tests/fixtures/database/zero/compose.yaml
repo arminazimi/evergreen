@@ -7,3 +7,5 @@ services:
     image: "mysql:8.4"
   web:
     build: .
+  session:
+    image: "redis:7.4"
