@@ -1,0 +1,89 @@
+{
+  "schema": "evergreen.receipt.v1",
+  "counts": {
+    "resolved": 1,
+    "remaining": 4,
+    "introduced": 0
+  },
+  "resolved": [
+    {
+      "id": "npm.package.request.deprecated:package.json:8",
+      "rule": "npm.package.request.deprecated",
+      "title": "request is deprecated",
+      "severity": "high",
+      "path": "package.json",
+      "line": 8
+    }
+  ],
+  "remaining": [
+    {
+      "id": "github-actions.checkout.node20:.github/workflows/ci.yml:9",
+      "rule": "github-actions.checkout.node20",
+      "title": "Unsupported actions/checkout runtime",
+      "severity": "high",
+      "path": ".github/workflows/ci.yml",
+      "line": 9
+    },
+    {
+      "id": "nodejs.runtime.eol-18:package.json:5",
+      "rule": "nodejs.runtime.eol-18",
+      "title": "Node.js 18 is end-of-life",
+      "severity": "medium",
+      "path": "package.json",
+      "line": 5
+    },
+    {
+      "id": "nodejs.runtime.eol-19:package.json:5",
+      "rule": "nodejs.runtime.eol-19",
+      "title": "Node.js 19 is end-of-life",
+      "severity": "medium",
+      "path": "package.json",
+      "line": 5
+    },
+    {
+      "id": "nodejs.runtime.eol-20:package.json:5",
+      "rule": "nodejs.runtime.eol-20",
+      "title": "Node.js 20 is end-of-life",
+      "severity": "medium",
+      "path": "package.json",
+      "line": 5
+    }
+  ],
+  "introduced": [],
+  "commands": [
+    {
+      "command": "git diff --check",
+      "purpose": "Validate the edited workflow diff."
+    },
+    {
+      "command": "node --version",
+      "purpose": "Confirm the active Node.js runtime is supported."
+    },
+    {
+      "command": "npm run build --if-present",
+      "purpose": "Verify imports, types, and the build remain valid."
+    },
+    {
+      "command": "npm run test --if-present",
+      "purpose": "Run HTTP behavior and repository tests when defined."
+    }
+  ],
+  "data": {
+    "before": {
+      "source": "bundled",
+      "version": "0.7.1",
+      "createdAt": null,
+      "reviewedThrough": "2026-10-30",
+      "ageDays": 0,
+      "stale": false
+    },
+    "after": {
+      "source": "bundled",
+      "version": "0.7.1",
+      "createdAt": null,
+      "reviewedThrough": "2026-10-30",
+      "ageDays": 0,
+      "stale": false
+    }
+  }
+}
