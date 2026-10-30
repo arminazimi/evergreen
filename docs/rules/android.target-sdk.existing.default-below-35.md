@@ -64,36 +64,71 @@ This page is generated from [`registry/android.json`](https://github.com/arminaz
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
-  "headline": "Google Play requires targetSdk 35+ for existing phone and tablet apps — dates, impact, migration",
-  "description": "The Google Play target API level requirement page states, starting 2026-08-31: Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-30",
-  "keywords": [
-    "end-of-support",
-    "android",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Google Play requires targetSdk 35+ for existing phone and tablet apps",
-    "identifier": "pkg:generic/android/targetSdk"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Meet Google Play's target API level requirement",
-      "url": "https://developer.android.com/google/play/requirements/target-sdk"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
+      "headline": "Google Play requires targetSdk 35+ for existing phone and tablet apps — dates, impact, migration",
+      "description": "The Google Play target API level requirement page states, starting 2026-08-31: Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-30",
+      "keywords": [
+        "end-of-support",
+        "android",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Google Play requires targetSdk 35+ for existing phone and tablet apps",
+        "identifier": "pkg:generic/android/targetSdk"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Meet Google Play's target API level requirement",
+          "url": "https://developer.android.com/google/play/requirements/target-sdk"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/android.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/android.target-sdk.existing.default-below-35.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/android/targetSdk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-08-31. Affected versions: vers:intdot/\u003c35. Source: Meet Google Play's target API level requirement (https://developer.android.com/google/play/requirements/target-sdk)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/android/targetSdk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "targetSdk 35 or higher (existing apps (availability to new users on newer OS versions); default (phone and tablet) apps)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/android/targetSdk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/android/targetSdk."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/android.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

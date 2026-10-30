@@ -1270,18 +1270,6 @@
       "ruleId": "nodejs.symbol.fs.access-constants",
       "severity": "high",
       "title": "Fs.F_OK, fs.R_OK, fs.W_OK and fs.X_OK have been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.fs.exists",
-      "severity": "low",
-      "title": "fs.exists is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
