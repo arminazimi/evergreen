@@ -110,6 +110,26 @@ function description(rule: RegistryV2Rule): string {
   return sentence > 80 ? cut.slice(0, sentence + 1) : `${cut.slice(0, cut.lastIndexOf(" ")).trimEnd()}…`;
 }
 
+/**
+ * The first paragraph answers the searcher's question: status, date, and replacement,
+ * with the primary source linked so evidence stays visible above the fold.
+ */
+export function answerLead(rule: RegistryV2Rule): string {
+  const status = EVENT_LABELS[rule.event];
+  const parts: string[] = [];
+  if (rule.deadline) parts.push(`**${status}** as of ${rule.deadline}.`);
+  else parts.push(`**${status}.** The source gives no day.`);
+  if (rule.replacement) parts.push(`Replacement: ${inline(rule.replacement)}.`);
+  const source = rule.sources[0];
+  if (source) parts.push(`Source: [${linkLabel(source.title)}](${source.url}).`);
+  return parts.join(" ");
+}
+
+/** A copy-paste `evergreen check` command for the rule's Package URL. */
+export function checkCommand(rule: RegistryV2Rule): string {
+  return `evergreen check ${rule.purl}`;
+}
+
 function detectorsFor(ecosystem: string): string[] {
   return getCapabilityManifest().ecosystems.find((entry) => entry.id === ecosystem)?.detectorIds.slice().sort() ?? [];
 }
@@ -145,6 +165,14 @@ export function renderRulePage(rule: RegistryV2Rule, maxReviewAgeDays: number): 
     "---",
     "",
     `# ${inline(rule.title)}`,
+    "",
+    answerLead(rule),
+    "",
+    "Check a version:",
+    "",
+    "```bash",
+    checkCommand(rule),
+    "```",
     "",
     inline(rule.summary),
     "",
