@@ -70,46 +70,81 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
-  "headline": "Laravel 11 is no longer supported — dates, impact, migration",
-  "description": "Laravel's support policy states that security fixes for Laravel 11 ended on 2026-03-12; the release no longer receives security or bug fixes from the Laravel project.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-23",
-  "keywords": [
-    "end-of-support",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Laravel 11 is no longer supported",
-    "identifier": "pkg:composer/laravel/framework"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Laravel support policy",
-      "url": "https://laravel.com/docs/releases#support-policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
+      "headline": "Laravel 11 is no longer supported — dates, impact, migration",
+      "description": "Laravel's support policy states that security fixes for Laravel 11 ended on 2026-03-12; the release no longer receives security or bug fixes from the Laravel project.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-23",
+      "keywords": [
+        "end-of-support",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Laravel 11 is no longer supported",
+        "identifier": "pkg:composer/laravel/framework"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Laravel support policy",
+          "url": "https://laravel.com/docs/releases#support-policy"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Laravel 12 upgrade guide",
+          "url": "https://laravel.com/docs/12.x/upgrade"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Laravel 13 upgrade guide",
+          "url": "https://laravel.com/docs/13.x/upgrade"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Laravel 12 upgrade guide",
-      "url": "https://laravel.com/docs/12.x/upgrade"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Laravel 13 upgrade guide",
-      "url": "https://laravel.com/docs/13.x/upgrade"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.laravel.framework-11.end-of-support.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:composer/laravel/framework?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-03-12. Affected versions: vers:composer/>=11.0.0|\u003c12.0.0. Source: Laravel support policy (https://laravel.com/docs/releases#support-policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:composer/laravel/framework?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Laravel 13"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:composer/laravel/framework?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:composer/laravel/framework."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

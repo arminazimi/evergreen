@@ -62,36 +62,71 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
-  "headline": "tempdir is no longer maintained — dates, impact, migration",
-  "description": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "rust",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "tempdir is no longer maintained",
-    "identifier": "pkg:cargo/tempdir"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "RustSec advisory RUSTSEC-2018-0017",
-      "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+      "headline": "tempdir is no longer maintained — dates, impact, migration",
+      "description": "The tempdir crate has been deprecated and its functionality merged into tempfile.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "rust",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "tempdir is no longer maintained",
+        "identifier": "pkg:cargo/tempdir"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "RustSec advisory RUSTSEC-2018-0017",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2018-0017.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.tempdir.unmaintained.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:cargo/tempdir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:cargo/*. Source: RustSec advisory RUSTSEC-2018-0017 (https://rustsec.org/advisories/RUSTSEC-2018-0017.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:cargo/tempdir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tempfile"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:cargo/tempdir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:cargo/tempdir."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

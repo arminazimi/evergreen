@@ -62,41 +62,68 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
-  "headline": "Typing.no_type_check_decorator is deprecated — dates, impact, migration",
-  "description": "Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3.15.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Typing.no_type_check_decorator is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
+      "headline": "Typing.no_type_check_decorator is deprecated — dates, impact, migration",
+      "description": "Python 3.13 deprecates typing.no_type_check_decorator, to be removed in Python 3.15.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Typing.no_type_check_decorator is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Python deprecations: pending removal in 3.15",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Python deprecations: pending removal in 3.15",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.15.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.typing.no-type-check-decorator.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.13. Source: What's New in Python 3.13 (https://docs.python.org/3/whatsnew/3.13.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

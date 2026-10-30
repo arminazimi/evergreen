@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
-  "headline": "sourcemap-codec is deprecated — dates, impact, migration",
-  "description": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "sourcemap-codec is deprecated",
-    "identifier": "pkg:npm/sourcemap-codec"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "sourcemap-codec package deprecation notice",
-      "url": "https://www.npmjs.com/package/sourcemap-codec"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
+      "headline": "sourcemap-codec is deprecated — dates, impact, migration",
+      "description": "npm recommends replacing sourcemap-codec with @jridgewell/sourcemap-codec.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "sourcemap-codec is deprecated",
+        "identifier": "pkg:npm/sourcemap-codec"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "sourcemap-codec package deprecation notice",
+          "url": "https://www.npmjs.com/package/sourcemap-codec"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "sourcemap-codec registry metadata",
+          "url": "https://registry.npmjs.org/sourcemap-codec/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "sourcemap-codec registry metadata",
-      "url": "https://registry.npmjs.org/sourcemap-codec/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sourcemap-codec.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/sourcemap-codec?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: sourcemap-codec package deprecation notice (https://www.npmjs.com/package/sourcemap-codec)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/sourcemap-codec?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@jridgewell/sourcemap-codec"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/sourcemap-codec?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/sourcemap-codec."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

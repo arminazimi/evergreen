@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
-  "headline": "inflight is deprecated — dates, impact, migration",
-  "description": "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "inflight is deprecated",
-    "identifier": "pkg:npm/inflight"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "inflight package deprecation notice",
-      "url": "https://www.npmjs.com/package/inflight"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
+      "headline": "inflight is deprecated — dates, impact, migration",
+      "description": "npm states that inflight is unsupported, leaks memory, and recommends lru-cache for keyed request coalescing.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "inflight is deprecated",
+        "identifier": "pkg:npm/inflight"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "inflight package deprecation notice",
+          "url": "https://www.npmjs.com/package/inflight"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "inflight registry metadata",
+          "url": "https://registry.npmjs.org/inflight/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "inflight registry metadata",
-      "url": "https://registry.npmjs.org/inflight/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.inflight.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/inflight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: inflight package deprecation notice (https://www.npmjs.com/package/inflight)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/inflight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "lru-cache"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/inflight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/inflight."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -65,36 +65,71 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
-  "headline": "Node Sass is end-of-life — dates, impact, migration",
-  "description": "Node Sass is no longer maintained and its repository has been archived.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Node Sass is end-of-life",
-    "identifier": "pkg:npm/node-sass"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node Sass is end-of-life",
-      "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+      "headline": "Node Sass is end-of-life — dates, impact, migration",
+      "description": "Node Sass is no longer maintained and its repository has been archived.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Node Sass is end-of-life",
+        "identifier": "pkg:npm/node-sass"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node Sass is end-of-life",
+          "url": "https://sass-lang.com/blog/node-sass-is-end-of-life/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/node-sass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2024-07-24. Affected versions: vers:npm/*. Source: Node Sass is end-of-life (https://sass-lang.com/blog/node-sass-is-end-of-life/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/node-sass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "sass"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/node-sass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/node-sass."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

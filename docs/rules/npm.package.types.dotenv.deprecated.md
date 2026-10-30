@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
-  "headline": "@types/dotenv is deprecated — dates, impact, migration",
-  "description": "npm marks @types/dotenv as deprecated: \"This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/dotenv is deprecated",
-    "identifier": "pkg:npm/%40types/dotenv"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/dotenv on npm",
-      "url": "https://www.npmjs.com/package/@types/dotenv"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
+      "headline": "@types/dotenv is deprecated — dates, impact, migration",
+      "description": "npm marks @types/dotenv as deprecated: \"This is a stub types definition. dotenv provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/dotenv is deprecated",
+        "identifier": "pkg:npm/%40types/dotenv"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/dotenv on npm",
+          "url": "https://www.npmjs.com/package/@types/dotenv"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/dotenv version metadata",
+          "url": "https://registry.npmjs.org/@types%2fdotenv"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/dotenv version metadata",
-      "url": "https://registry.npmjs.org/@types%2fdotenv"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.dotenv.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/dotenv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/8.2.0|8.2.1|8.2.2|8.2.3. Source: @types/dotenv on npm (https://www.npmjs.com/package/@types/dotenv)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/dotenv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "dotenv"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/dotenv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/dotenv."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

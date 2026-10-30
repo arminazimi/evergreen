@@ -67,41 +67,76 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
-  "headline": "PHP 7.3 is end-of-life — dates, impact, migration",
-  "description": "The PHP release branches list marks PHP 7.3 as end of life: active support ended on 2020-12-06 and security support ended on 2021-12-06.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PHP 7.3 is end-of-life",
-    "identifier": "pkg:generic/php"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PHP release branches",
-      "url": "https://www.php.net/releases/branches.php"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
+      "headline": "PHP 7.3 is end-of-life — dates, impact, migration",
+      "description": "The PHP release branches list marks PHP 7.3 as end of life: active support ended on 2020-12-06 and security support ended on 2021-12-06.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PHP 7.3 is end-of-life",
+        "identifier": "pkg:generic/php"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PHP release branches",
+          "url": "https://www.php.net/releases/branches.php"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "PHP supported versions",
+          "url": "https://www.php.net/supported-versions.php"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "PHP supported versions",
-      "url": "https://www.php.net/supported-versions.php"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.runtime.eol-7.3.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2021-12-06. Affected versions: vers:semver/>=7.3.0|\u003c7.4.0. Source: PHP release branches (https://www.php.net/releases/branches.php)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PHP 8.4 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/php."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

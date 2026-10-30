@@ -68,36 +68,71 @@ This page is generated from [`registry/shell.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
-  "headline": "PowerShell 7.1 is no longer supported — dates, impact, migration",
-  "description": "Microsoft's PowerShell support lifecycle lists 7.1 (built on .NET 5.0) as retired: support ended on 2022-05-08, so it receives no further updates, including security updates.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-22",
-  "keywords": [
-    "end-of-life",
-    "shell",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PowerShell 7.1 is no longer supported",
-    "identifier": "pkg:generic/powershell"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PowerShell support lifecycle",
-      "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
+      "headline": "PowerShell 7.1 is no longer supported — dates, impact, migration",
+      "description": "Microsoft's PowerShell support lifecycle lists 7.1 (built on .NET 5.0) as retired: support ended on 2022-05-08, so it receives no further updates, including security updates.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-22",
+      "keywords": [
+        "end-of-life",
+        "shell",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PowerShell 7.1 is no longer supported",
+        "identifier": "pkg:generic/powershell"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PowerShell support lifecycle",
+          "url": "https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/shell.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/shell.powershell.end-of-life-7.1.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2022-05-08. Affected versions: vers:semver/>=7.1.0|\u003c7.2.0. Source: PowerShell support lifecycle (https://learn.microsoft.com/powershell/scripting/install/powershell-support-lifecycle)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PowerShell 7.6 (LTS) or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/powershell?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/powershell."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/shell.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

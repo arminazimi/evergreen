@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
-  "headline": "lodash.get is deprecated — dates, impact, migration",
-  "description": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "lodash.get is deprecated",
-    "identifier": "pkg:npm/lodash.get"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "lodash.get package deprecation notice",
-      "url": "https://www.npmjs.com/package/lodash.get"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
+      "headline": "lodash.get is deprecated — dates, impact, migration",
+      "description": "npm recommends replacing lodash.get with JavaScript's optional chaining operator.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "lodash.get is deprecated",
+        "identifier": "pkg:npm/lodash.get"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "lodash.get package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.get"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "lodash.get registry metadata",
+          "url": "https://registry.npmjs.org/lodash.get/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "lodash.get registry metadata",
-      "url": "https://registry.npmjs.org/lodash.get/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-get.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/lodash.get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: lodash.get package deprecation notice (https://www.npmjs.com/package/lodash.get)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/lodash.get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Optional chaining (?.)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/lodash.get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/lodash.get."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

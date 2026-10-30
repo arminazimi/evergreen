@@ -62,41 +62,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
-  "headline": "gauge is no longer supported — dates, impact, migration",
-  "description": "npm states that the gauge package is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "gauge is no longer supported",
-    "identifier": "pkg:npm/gauge"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "gauge package deprecation notice",
-      "url": "https://www.npmjs.com/package/gauge"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+      "headline": "gauge is no longer supported — dates, impact, migration",
+      "description": "npm states that the gauge package is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "gauge is no longer supported",
+        "identifier": "pkg:npm/gauge"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "gauge package deprecation notice",
+          "url": "https://www.npmjs.com/package/gauge"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "gauge registry metadata",
+          "url": "https://registry.npmjs.org/gauge/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "gauge registry metadata",
-      "url": "https://registry.npmjs.org/gauge/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gauge.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/gauge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:npm/*. Source: gauge package deprecation notice (https://www.npmjs.com/package/gauge)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/gauge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/gauge."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

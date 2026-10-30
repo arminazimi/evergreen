@@ -70,41 +70,76 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
-  "headline": "Ingress networking.k8s.io/v1beta1 is no longer served — dates, impact, migration",
-  "description": "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "removed",
-    "kubernetes",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ingress networking.k8s.io/v1beta1 is no longer served",
-    "identifier": "pkg:generic/kubernetes/networking.k8s.io/Ingress"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes Deprecated API Migration Guide",
-      "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+      "headline": "Ingress networking.k8s.io/v1beta1 is no longer served — dates, impact, migration",
+      "description": "The Kubernetes Deprecated API Migration Guide states that the networking.k8s.io/v1beta1 API version of Ingress is no longer served as of v1.22, which was released on 2021-08-04.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "removed",
+        "kubernetes",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ingress networking.k8s.io/v1beta1 is no longer served",
+        "identifier": "pkg:generic/kubernetes/networking.k8s.io/Ingress"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes Deprecated API Migration Guide",
+          "url": "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
+          "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Kubernetes 1.22: Reaching New Peaks (release announcement, 2021-08-04)",
-      "url": "https://kubernetes.io/blog/2021/08/04/kubernetes-1-22-release-announcement/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.networking-k8s-io.ingress.v1beta1.removed.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/kubernetes/networking.k8s.io/Ingress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed as of 2021-08-04. Affected versions: vers:semver/1.0.0-beta.1. Source: Kubernetes Deprecated API Migration Guide (https://kubernetes.io/docs/reference/using-api/deprecation-guide/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/kubernetes/networking.k8s.io/Ingress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "networking.k8s.io/v1 Ingress, available since v1.19"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/kubernetes/networking.k8s.io/Ingress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/kubernetes/networking.k8s.io/Ingress."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

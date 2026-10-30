@@ -70,46 +70,81 @@ This page is generated from [`registry/ruby.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
-  "headline": "Rails 7.2 is end-of-life — dates, impact, migration",
-  "description": "The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails end-of-support announcement set its security support deadline to 2026-08-09.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-23",
-  "keywords": [
-    "end-of-life",
-    "ruby",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Rails 7.2 is end-of-life",
-    "identifier": "pkg:gem/rails"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ruby on Rails maintenance policy",
-      "url": "https://rubyonrails.org/maintenance"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
+      "headline": "Rails 7.2 is end-of-life — dates, impact, migration",
+      "description": "The Rails maintenance policy no longer lists Rails 7.2.x as supported. The Rails end-of-support announcement set its security support deadline to 2026-08-09.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-23",
+      "keywords": [
+        "end-of-life",
+        "ruby",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Rails 7.2 is end-of-life",
+        "identifier": "pkg:gem/rails"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ruby on Rails maintenance policy",
+          "url": "https://rubyonrails.org/maintenance"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Rails releases and end-of-support announcement",
+          "url": "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Upgrading Ruby on Rails",
+          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Rails releases and end-of-support announcement",
-      "url": "https://rubyonrails.org/2025/10/29/new-rails-releases-and-end-of-support-announcement"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Upgrading Ruby on Rails",
-      "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-7.2.end-of-life.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-08-09. Affected versions: vers:gem/>=7.2.0|\u003c8.0.0. Source: Ruby on Rails maintenance policy (https://rubyonrails.org/maintenance)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rails 8.1.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:gem/rails."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

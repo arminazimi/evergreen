@@ -71,51 +71,86 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
-  "headline": "Next.js 13 is out of support — dates, impact, migration",
-  "description": "Next.js 13 was released on 2022-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2024-10-26.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-support",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Next.js 13 is out of support",
-    "identifier": "pkg:npm/next"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Next.js support policy",
-      "url": "https://nextjs.org/support-policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
+      "headline": "Next.js 13 is out of support — dates, impact, migration",
+      "description": "Next.js 13 was released on 2022-10-26 and is listed under Unsupported Versions in the support policy. Its two-year Maintenance LTS window ended on 2024-10-26.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-support",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Next.js 13 is out of support",
+        "identifier": "pkg:npm/next"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Next.js support policy",
+          "url": "https://nextjs.org/support-policy"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Next.js upgrade guide: version 14",
+          "url": "https://nextjs.org/docs/app/building-your-application/upgrading/version-14"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Next.js upgrade guide: version 15",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Next.js upgrade guide: version 16",
+          "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Next.js upgrade guide: version 14",
-      "url": "https://nextjs.org/docs/app/building-your-application/upgrading/version-14"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Next.js upgrade guide: version 15",
-      "url": "https://nextjs.org/docs/app/guides/upgrading/version-15"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Next.js upgrade guide: version 16",
-      "url": "https://nextjs.org/docs/app/guides/upgrading/version-16"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.next.13.support-end.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/next?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2024-10-26. Affected versions: vers:npm/>=13.0.0|\u003c14.0.0. Source: Next.js support policy (https://nextjs.org/support-policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/next?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Next.js 16 (Active LTS)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/next?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/next."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

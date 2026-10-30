@@ -69,36 +69,71 @@ This page is generated from [`registry/database.json`](https://github.com/armina
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
-  "headline": "PostgreSQL 10 is no longer a supported major version — dates, impact, migration",
-  "description": "The PostgreSQL Global Development Group lists 10 as unsupported: its final release was on 2022-11-10, so it receives no further bug or security fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-29",
-  "keywords": [
-    "end-of-life",
-    "database",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "PostgreSQL 10 is no longer a supported major version",
-    "identifier": "pkg:generic/postgresql"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "PostgreSQL versioning policy",
-      "url": "https://www.postgresql.org/support/versioning/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
+      "headline": "PostgreSQL 10 is no longer a supported major version — dates, impact, migration",
+      "description": "The PostgreSQL Global Development Group lists 10 as unsupported: its final release was on 2022-11-10, so it receives no further bug or security fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-29",
+      "keywords": [
+        "end-of-life",
+        "database",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "PostgreSQL 10 is no longer a supported major version",
+        "identifier": "pkg:generic/postgresql"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "PostgreSQL versioning policy",
+          "url": "https://www.postgresql.org/support/versioning/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/database.postgresql.end-of-life-10.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2022-11-10. Affected versions: vers:semver/>=10.0.0|\u003c11.0.0. Source: PostgreSQL versioning policy (https://www.postgresql.org/support/versioning/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PostgreSQL 15 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/postgresql?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/postgresql."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/database.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

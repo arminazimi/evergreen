@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
-  "headline": "cmip_ref was renamed and is no longer maintained — dates, impact, migration",
-  "description": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "cmip_ref was renamed and is no longer maintained",
-    "identifier": "pkg:pypi/cmip-ref"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "cmip_ref rename and maintenance notice",
-      "url": "https://pypi.org/project/cmip-ref/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
+      "headline": "cmip_ref was renamed and is no longer maintained — dates, impact, migration",
+      "description": "The maintainers state that cmip_ref is deprecated, no longer maintained, and renamed to climate-ref.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "cmip_ref was renamed and is no longer maintained",
+        "identifier": "pkg:pypi/cmip-ref"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "cmip_ref rename and maintenance notice",
+          "url": "https://pypi.org/project/cmip-ref/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.cmip-ref.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/cmip-ref?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:pypi/*. Source: cmip_ref rename and maintenance notice (https://pypi.org/project/cmip-ref/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/cmip-ref?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "climate-ref"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/cmip-ref?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/cmip-ref."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

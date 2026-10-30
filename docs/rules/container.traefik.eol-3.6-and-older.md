@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
-  "headline": "Traefik image release lines 3.6 and older are end-of-life — dates, impact, migration",
-  "description": "These Traefik release lines no longer receive security fixes from the vendor: the release policy lists 3.7 as the only supported line, and security support for 3.6 ended on 2026-08-16.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Traefik image release lines 3.6 and older are end-of-life",
-    "identifier": "pkg:docker/library/traefik"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Traefik release policy (vendor)",
-      "url": "https://doc.traefik.io/traefik/deprecation/releases"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
+      "headline": "Traefik image release lines 3.6 and older are end-of-life — dates, impact, migration",
+      "description": "These Traefik release lines no longer receive security fixes from the vendor: the release policy lists 3.7 as the only supported line, and security support for 3.6 ended on 2026-08-16.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Traefik image release lines 3.6 and older are end-of-life",
+        "identifier": "pkg:docker/library/traefik"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Traefik release policy (vendor)",
+          "url": "https://doc.traefik.io/traefik/deprecation/releases"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.traefik.eol-3.6-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/traefik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-08-16. Affected versions: vers:semver/\u003c3.7.0. Source: Traefik release policy (vendor) (https://doc.traefik.io/traefik/deprecation/releases)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/traefik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A traefik image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/traefik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/traefik."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

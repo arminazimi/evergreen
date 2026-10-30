@@ -63,41 +63,76 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
-  "headline": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed — dates, impact, migration",
-  "description": "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.13",
-      "url": "https://docs.python.org/3/whatsnew/3.13.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
+      "headline": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed — dates, impact, migration",
+      "description": "Python 3.13 removed the unittest functions makeSuite(), findTestCases() and getTestCaseNames(), deprecated since Python 3.11, so calls raise AttributeError.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "unittest.makeSuite, findTestCases and getTestCaseNames have been removed",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.13",
+          "url": "https://docs.python.org/3/whatsnew/3.13.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.11",
+          "url": "https://docs.python.org/3/whatsnew/3.11.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.11",
-      "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.unittest.make-suite.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:pypi/>=3.13. Source: What's New in Python 3.13 (https://docs.python.org/3/whatsnew/3.13.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The matching TestLoader methods: loadTestsFromTestCase(), loadTestsFromModule(), getTestCaseNames()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
-  "headline": "@humanwhocodes/object-schema is deprecated — dates, impact, migration",
-  "description": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@humanwhocodes/object-schema is deprecated",
-    "identifier": "pkg:npm/%40humanwhocodes/object-schema"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@humanwhocodes/object-schema package deprecation notice",
-      "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+      "headline": "@humanwhocodes/object-schema is deprecated — dates, impact, migration",
+      "description": "npm recommends replacing @humanwhocodes/object-schema with @eslint/object-schema.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@humanwhocodes/object-schema is deprecated",
+        "identifier": "pkg:npm/%40humanwhocodes/object-schema"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@humanwhocodes/object-schema package deprecation notice",
+          "url": "https://www.npmjs.com/package/@humanwhocodes/object-schema"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@humanwhocodes/object-schema registry metadata",
+          "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@humanwhocodes/object-schema registry metadata",
-      "url": "https://registry.npmjs.org/@humanwhocodes%2Fobject-schema/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.humanwhocodes-object-schema.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40humanwhocodes/object-schema?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: @humanwhocodes/object-schema package deprecation notice (https://www.npmjs.com/package/@humanwhocodes/object-schema)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40humanwhocodes/object-schema?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@eslint/object-schema"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40humanwhocodes/object-schema?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40humanwhocodes/object-schema."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

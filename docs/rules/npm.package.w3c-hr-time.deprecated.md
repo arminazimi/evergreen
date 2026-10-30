@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
-  "headline": "w3c-hr-time is deprecated — dates, impact, migration",
-  "description": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "w3c-hr-time is deprecated",
-    "identifier": "pkg:npm/w3c-hr-time"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "w3c-hr-time package deprecation notice",
-      "url": "https://www.npmjs.com/package/w3c-hr-time"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
+      "headline": "w3c-hr-time is deprecated — dates, impact, migration",
+      "description": "npm directs users of w3c-hr-time to native performance.now() and performance.timeOrigin.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "w3c-hr-time is deprecated",
+        "identifier": "pkg:npm/w3c-hr-time"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "w3c-hr-time package deprecation notice",
+          "url": "https://www.npmjs.com/package/w3c-hr-time"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "w3c-hr-time registry metadata",
+          "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "w3c-hr-time registry metadata",
-      "url": "https://registry.npmjs.org/w3c-hr-time/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.w3c-hr-time.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/w3c-hr-time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: w3c-hr-time package deprecation notice (https://www.npmjs.com/package/w3c-hr-time)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/w3c-hr-time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Native performance.now() and performance.timeOrigin"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/w3c-hr-time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/w3c-hr-time."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

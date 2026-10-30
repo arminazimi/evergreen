@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
-  "headline": "@hapi/joi is deprecated — dates, impact, migration",
-  "description": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@hapi/joi is deprecated",
-    "identifier": "pkg:npm/%40hapi/joi"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@hapi/joi package deprecation notice",
-      "url": "https://www.npmjs.com/package/@hapi/joi"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
+      "headline": "@hapi/joi is deprecated — dates, impact, migration",
+      "description": "npm marks @hapi/joi as deprecated and directs users to the joi package.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@hapi/joi is deprecated",
+        "identifier": "pkg:npm/%40hapi/joi"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@hapi/joi package deprecation notice",
+          "url": "https://www.npmjs.com/package/@hapi/joi"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@hapi/joi registry metadata",
+          "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@hapi/joi registry metadata",
-      "url": "https://registry.npmjs.org/@hapi%2fjoi/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.hapi.joi.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40hapi/joi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: @hapi/joi package deprecation notice (https://www.npmjs.com/package/@hapi/joi)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40hapi/joi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "joi"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40hapi/joi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40hapi/joi."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

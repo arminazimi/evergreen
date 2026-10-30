@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
-  "headline": "domexception is deprecated — dates, impact, migration",
-  "description": "npm directs users of domexception to the platform-native DOMException implementation.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "domexception is deprecated",
-    "identifier": "pkg:npm/domexception"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "domexception package deprecation notice",
-      "url": "https://www.npmjs.com/package/domexception"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+      "headline": "domexception is deprecated — dates, impact, migration",
+      "description": "npm directs users of domexception to the platform-native DOMException implementation.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "domexception is deprecated",
+        "identifier": "pkg:npm/domexception"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "domexception package deprecation notice",
+          "url": "https://www.npmjs.com/package/domexception"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "domexception registry metadata",
+          "url": "https://registry.npmjs.org/domexception/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "domexception registry metadata",
-      "url": "https://registry.npmjs.org/domexception/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.domexception.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/domexception?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: domexception package deprecation notice (https://www.npmjs.com/package/domexception)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/domexception?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Native DOMException"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/domexception?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/domexception."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

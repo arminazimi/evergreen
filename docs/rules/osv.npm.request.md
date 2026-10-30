@@ -47,36 +47,63 @@ This page is generated from [`registry/osv.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
-  "headline": "request has unfixed OSV advisories — dates, impact, migration",
-  "description": "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-27",
-  "keywords": [
-    "deprecated",
-    "osv",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "request has unfixed OSV advisories",
-    "identifier": "pkg:npm/request"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "GHSA-p8p7-x288-28g6",
-      "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
+      "headline": "request has unfixed OSV advisories — dates, impact, migration",
+      "description": "OSV lists GHSA-p8p7-x288-28g6 against request with no fixed version in the affected ranges.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-27",
+      "keywords": [
+        "deprecated",
+        "osv",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "request has unfixed OSV advisories",
+        "identifier": "pkg:npm/request"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "GHSA-p8p7-x288-28g6",
+          "url": "https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/osv.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/osv.npm.request.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/request?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: GHSA-p8p7-x288-28g6 (https://osv.dev/vulnerability/GHSA-p8p7-x288-28g6)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/request?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/request."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/osv.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

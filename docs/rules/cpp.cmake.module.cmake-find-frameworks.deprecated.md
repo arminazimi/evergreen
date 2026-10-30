@@ -63,41 +63,76 @@ This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
-  "headline": "The CMakeFindFrameworks module is deprecated — dates, impact, migration",
-  "description": "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "cpp",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "The CMakeFindFrameworks module is deprecated",
-    "identifier": "pkg:generic/cmake-module/cmake-find-frameworks"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
-      "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+      "headline": "The CMakeFindFrameworks module is deprecated — dates, impact, migration",
+      "description": "CMake 3.31 deprecated the CMakeFindFrameworks module via policy CMP0173. Projects should use find_library() instead. CMake 3.31.0 was published on 2024-11-06.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "cpp",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "The CMakeFindFrameworks module is deprecated",
+        "identifier": "pkg:generic/cmake-module/cmake-find-frameworks"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "CMake 3.31 release notes (CMakeFindFrameworks deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/3.31.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "CMakeFindFrameworks module documentation",
+          "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "CMakeFindFrameworks module documentation",
-      "url": "https://cmake.org/cmake/help/latest/module/CMakeFindFrameworks.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.cmake-find-frameworks.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/cmake-module/cmake-find-frameworks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2024-11-06. Affected versions: vers:semver/*. Source: CMake 3.31 release notes (CMakeFindFrameworks deprecated) (https://cmake.org/cmake/help/latest/release/3.31.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/cmake-module/cmake-find-frameworks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "find_library()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/cmake-module/cmake-find-frameworks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/cmake-module/cmake-find-frameworks."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
-  "headline": "natives is deprecated — dates, impact, migration",
-  "description": "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "natives is deprecated",
-    "identifier": "pkg:npm/natives"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "natives package deprecation notice",
-      "url": "https://www.npmjs.com/package/natives"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
+      "headline": "natives is deprecated — dates, impact, migration",
+      "description": "npm states that natives relies on Node.js internals and will break, and directs users to graceful-fs 4.x.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "natives is deprecated",
+        "identifier": "pkg:npm/natives"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "natives package deprecation notice",
+          "url": "https://www.npmjs.com/package/natives"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "natives registry metadata",
+          "url": "https://registry.npmjs.org/natives/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "natives registry metadata",
-      "url": "https://registry.npmjs.org/natives/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.natives.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/natives?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: natives package deprecation notice (https://www.npmjs.com/package/natives)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/natives?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "graceful-fs 4.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/natives?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/natives."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -66,41 +66,76 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
-  "headline": "Node.js image release line 22 reaches end-of-life on 2027-04-30 — dates, impact, migration",
-  "description": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-24",
-  "keywords": [
-    "scheduled-end-of-life",
-    "container",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Node.js image release line 22 reaches end-of-life on 2027-04-30",
-    "identifier": "pkg:docker/library/node"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js end-of-life releases",
-      "url": "https://nodejs.org/en/about/eol"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
+      "headline": "Node.js image release line 22 reaches end-of-life on 2027-04-30 — dates, impact, migration",
+      "description": "Node.js 22 is scheduled to stop receiving security and bug fixes on 2027-04-30, so images tagged with it will then be built on an unsupported runtime.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-24",
+      "keywords": [
+        "scheduled-end-of-life",
+        "container",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Node.js image release line 22 reaches end-of-life on 2027-04-30",
+        "identifier": "pkg:docker/library/node"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js Release Working Group schedule",
+          "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Node.js Release Working Group schedule",
-      "url": "https://github.com/nodejs/Release/blob/main/schedule.json"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.node.eol-22-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2027-04-30. Affected versions: vers:semver/>=22.0.0|\u003c23.0.0. Source: Node.js end-of-life releases (https://nodejs.org/en/about/eol)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A node image on a later supported release line, such as node:24"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/node?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/node."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

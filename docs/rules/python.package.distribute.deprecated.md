@@ -64,36 +64,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
-  "headline": "distribute is deprecated — dates, impact, migration",
-  "description": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "distribute is deprecated",
-    "identifier": "pkg:pypi/distribute"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Distribute deprecation notice",
-      "url": "https://pypi.org/project/distribute/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+      "headline": "distribute is deprecated — dates, impact, migration",
+      "description": "The project describes Distribute as a deprecated Setuptools fork whose code was merged back into Setuptools.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "distribute is deprecated",
+        "identifier": "pkg:pypi/distribute"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Distribute deprecation notice",
+          "url": "https://pypi.org/project/distribute/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.distribute.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/distribute?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: Distribute deprecation notice (https://pypi.org/project/distribute/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/distribute?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "setuptools"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/distribute?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/distribute."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

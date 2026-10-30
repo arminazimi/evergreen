@@ -54,3 +54,34 @@ Shell completions: `source <(evergreen completions bash)`, `source <(evergreen c
 Evergreen runs on Node.js 22 or newer. Repository analysis stays on the local machine or CI runner.
 
 [Source code](https://github.com/arminazimi/evergreen) · [Report an issue](https://github.com/arminazimi/evergreen/issues) · [npm package](https://www.npmjs.com/package/evergreen-deprecation)
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Evergreen",
+  "alternateName": "evergreen-deprecation",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Node.js 22 or newer",
+  "description": "Local-first deprecation intelligence for software repositories. Finds end-of-life and deprecated runtimes, packages, and GitHub Actions at exact file locations, with sources and migration context.",
+  "url": "https://arminazimi.github.io/evergreen/",
+  "downloadUrl": "https://www.npmjs.com/package/evergreen-deprecation",
+  "installUrl": "https://www.npmjs.com/package/evergreen-deprecation",
+  "softwareHelp": "https://arminazimi.github.io/evergreen/QUICKSTART.html",
+  "license": "https://github.com/arminazimi/evergreen/blob/main/LICENSE",
+  "sameAs": [
+    "https://github.com/arminazimi/evergreen",
+    "https://www.npmjs.com/package/evergreen-deprecation"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Evergreen",
+    "url": "https://arminazimi.github.io/evergreen/"
+  }
+}
+</script>

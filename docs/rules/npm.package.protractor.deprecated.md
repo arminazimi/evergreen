@@ -63,41 +63,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
-  "headline": "Protractor is deprecated — dates, impact, migration",
-  "description": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Protractor is deprecated",
-    "identifier": "pkg:npm/protractor"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "protractor package deprecation notice",
-      "url": "https://www.npmjs.com/package/protractor"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+      "headline": "Protractor is deprecated — dates, impact, migration",
+      "description": "The Protractor maintainers deprecated the package and announced end-of-life for Summer 2023.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Protractor is deprecated",
+        "identifier": "pkg:npm/protractor"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "protractor package deprecation notice",
+          "url": "https://www.npmjs.com/package/protractor"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "protractor registry metadata",
+          "url": "https://registry.npmjs.org/protractor/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "protractor registry metadata",
-      "url": "https://registry.npmjs.org/protractor/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.protractor.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/protractor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: protractor package deprecation notice (https://www.npmjs.com/package/protractor)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/protractor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/protractor."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

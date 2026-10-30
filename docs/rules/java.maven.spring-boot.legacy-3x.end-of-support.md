@@ -67,46 +67,81 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
-  "headline": "Spring Boot 3.x is out of open-source support — dates, impact, migration",
-  "description": "Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.3.x and 3.4.x lines were explicitly marked as the end of OSS support, and 3.5.16 was announced as the last OSS release…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-25",
-  "keywords": [
-    "end-of-support",
-    "java",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Spring Boot 3.x is out of open-source support",
-    "identifier": "pkg:maven/org.springframework.boot/spring-boot"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Spring Boot 3.3.13 — end of open-source support",
-      "url": "https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
+      "headline": "Spring Boot 3.x is out of open-source support — dates, impact, migration",
+      "description": "Spring Boot 3.x has reached the end of its open-source support lifecycle. The 3.3.x and 3.4.x lines were explicitly marked as the end of OSS support, and 3.5.16 was announced as the last OSS release…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-25",
+      "keywords": [
+        "end-of-support",
+        "java",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Spring Boot 3.x is out of open-source support",
+        "identifier": "pkg:maven/org.springframework.boot/spring-boot"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Spring Boot 3.3.13 — end of open-source support",
+          "url": "https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Spring Boot 3.4.13 — end of open-source support",
+          "url": "https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Spring Boot 3.5.16 — last OSS release of the 3.5.x generation",
+          "url": "https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Spring Boot 3.4.13 — end of open-source support",
-      "url": "https://spring.io/blog/2025/12/18/spring-boot-3-4-13-available-now/"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Spring Boot 3.5.16 — last OSS release of the 3.5.x generation",
-      "url": "https://spring.io/blog/2026/06/25/spring-boot-3-5-16-available-now/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-3x.end-of-support.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:maven/>=3.0.0|\u003c4.0.0. Source: Spring Boot 3.3.13 — end of open-source support (https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spring Boot 4.1.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:maven/org.springframework.boot/spring-boot."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

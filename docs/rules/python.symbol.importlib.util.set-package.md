@@ -61,36 +61,63 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
-  "headline": "Importlib.util.set_package has been removed — dates, impact, migration",
-  "description": "Python 3.12 removed importlib.util.set_package, so using it raises an error.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Importlib.util.set_package has been removed",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.12",
-      "url": "https://docs.python.org/3/whatsnew/3.12.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
+      "headline": "Importlib.util.set_package has been removed — dates, impact, migration",
+      "description": "Python 3.12 removed importlib.util.set_package, so using it raises an error.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Importlib.util.set_package has been removed",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.12",
+          "url": "https://docs.python.org/3/whatsnew/3.12.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.importlib.util.set-package.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:pypi/>=3.12. Source: What's New in Python 3.12 (https://docs.python.org/3/whatsnew/3.12.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

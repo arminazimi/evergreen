@@ -70,41 +70,76 @@ This page is generated from [`registry/terraform.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
-  "headline": "GKE 1.32 is past end of standard support — dates, impact, migration",
-  "description": "GKE 1.32 reached the end of standard support on 2026-04-27 and is in extended support until 2027-02-11.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-support",
-    "terraform",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "GKE 1.32 is past end of standard support",
-    "identifier": "pkg:generic/google-kubernetes-engine"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "GKE versioning and support",
-      "url": "https://cloud.google.com/kubernetes-engine/versioning"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
+      "headline": "GKE 1.32 is past end of standard support — dates, impact, migration",
+      "description": "GKE 1.32 reached the end of standard support on 2026-04-27 and is in extended support until 2027-02-11.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-support",
+        "terraform",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "GKE 1.32 is past end of standard support",
+        "identifier": "pkg:generic/google-kubernetes-engine"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "GKE versioning and support",
+          "url": "https://cloud.google.com/kubernetes-engine/versioning"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "GKE release schedule",
+          "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "GKE release schedule",
-      "url": "https://cloud.google.com/kubernetes-engine/docs/release-schedule"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.gke.end-of-support-1.32.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/google-kubernetes-engine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-04-27. Affected versions: vers:semver/>=1.32.0|\u003c1.33.0. Source: GKE versioning and support (https://cloud.google.com/kubernetes-engine/versioning)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/google-kubernetes-engine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GKE 1.35 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/google-kubernetes-engine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/google-kubernetes-engine."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

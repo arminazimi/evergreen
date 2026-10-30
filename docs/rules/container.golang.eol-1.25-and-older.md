@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
-  "headline": "Go image release lines 1.25 and older are end-of-life — dates, impact, migration",
-  "description": "These Go release lines no longer receive fixes from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Go image release lines 1.25 and older are end-of-life",
-    "identifier": "pkg:docker/library/golang"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Go release policy (vendor)",
-      "url": "https://go.dev/doc/devel/release#policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
+      "headline": "Go image release lines 1.25 and older are end-of-life — dates, impact, migration",
+      "description": "These Go release lines no longer receive fixes from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Go image release lines 1.25 and older are end-of-life",
+        "identifier": "pkg:docker/library/golang"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Go release policy (vendor)",
+          "url": "https://go.dev/doc/devel/release#policy"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.golang.eol-1.25-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-08-19. Affected versions: vers:semver/\u003c1.26.0. Source: Go release policy (vendor) (https://go.dev/doc/devel/release#policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A golang image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/golang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/golang."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

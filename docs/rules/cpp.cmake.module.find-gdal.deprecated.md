@@ -64,41 +64,76 @@ This page is generated from [`registry/cpp.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
-  "headline": "The FindGDAL module is deprecated — dates, impact, migration",
-  "description": "CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "cpp",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "The FindGDAL module is deprecated",
-    "identifier": "pkg:generic/cmake-module/find-gdal"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "CMake 4.0 release notes (FindGDAL deprecated)",
-      "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
+      "headline": "The FindGDAL module is deprecated — dates, impact, migration",
+      "description": "CMake 4.0 deprecated the FindGDAL module in favor of upstream GDAL's official CMake package configuration file. Projects should call find_package(GDAL CONFIG) instead.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "cpp",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "The FindGDAL module is deprecated",
+        "identifier": "pkg:generic/cmake-module/find-gdal"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "CMake 4.0 release notes (FindGDAL deprecated)",
+          "url": "https://cmake.org/cmake/help/latest/release/4.0.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "FindGDAL module documentation",
+          "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "FindGDAL module documentation",
-      "url": "https://cmake.org/cmake/help/latest/module/FindGDAL.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/cpp.cmake.module.find-gdal.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/cmake-module/find-gdal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2025-03-27. Affected versions: vers:semver/*. Source: CMake 4.0 release notes (FindGDAL deprecated) (https://cmake.org/cmake/help/latest/release/4.0.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/cmake-module/find-gdal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "find_package(GDAL CONFIG) using GDAL's upstream CMake package"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/cmake-module/find-gdal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/cmake-module/find-gdal."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/cpp.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

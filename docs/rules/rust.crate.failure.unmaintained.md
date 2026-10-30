@@ -62,36 +62,71 @@ This page is generated from [`registry/rust.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
-  "headline": "failure is no longer maintained — dates, impact, migration",
-  "description": "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "rust",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "failure is no longer maintained",
-    "identifier": "pkg:cargo/failure"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "RustSec advisory RUSTSEC-2020-0036",
-      "url": "https://rustsec.org/advisories/RUSTSEC-2020-0036.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
+      "headline": "failure is no longer maintained — dates, impact, migration",
+      "description": "The failure crate is officially end-of-life: its former maintainer marked it deprecated and announced there will be no further updates or maintenance.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "rust",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "failure is no longer maintained",
+        "identifier": "pkg:cargo/failure"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "RustSec advisory RUSTSEC-2020-0036",
+          "url": "https://rustsec.org/advisories/RUSTSEC-2020-0036.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/rust.crate.failure.unmaintained.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:cargo/failure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:cargo/*. Source: RustSec advisory RUSTSEC-2020-0036 (https://rustsec.org/advisories/RUSTSEC-2020-0036.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:cargo/failure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "anyhow, eyre, fehler, or snafu"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:cargo/failure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:cargo/failure."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/rust.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

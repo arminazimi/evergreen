@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
-  "headline": "Alpine Linux image release lines 3.20 and older are end-of-life — dates, impact, migration",
-  "description": "These Alpine Linux releases no longer receive security updates from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Alpine Linux image release lines 3.20 and older are end-of-life",
-    "identifier": "pkg:docker/library/alpine"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Alpine Linux releases",
-      "url": "https://alpinelinux.org/releases/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+      "headline": "Alpine Linux image release lines 3.20 and older are end-of-life — dates, impact, migration",
+      "description": "These Alpine Linux releases no longer receive security updates from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Alpine Linux image release lines 3.20 and older are end-of-life",
+        "identifier": "pkg:docker/library/alpine"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Alpine Linux releases",
+          "url": "https://alpinelinux.org/releases/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.alpine.eol-3.20-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/alpine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-01. Affected versions: vers:semver/\u003c3.21.0. Source: Alpine Linux releases (https://alpinelinux.org/releases/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/alpine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An alpine image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/alpine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/alpine."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

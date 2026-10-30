@@ -68,41 +68,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
-  "headline": "@angular/core v20 reaches end of life on 2026-11-28 — dates, impact, migration",
-  "description": "Angular's release schedule lists v20 as LTS with \"LTS ends 2026-11-28\". LTS receives only critical fixes and security patches until that date.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "scheduled-end-of-life",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@angular/core v20 reaches end of life on 2026-11-28",
-    "identifier": "pkg:npm/%40angular/core"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Angular release and support schedule",
-      "url": "https://angular.dev/reference/releases"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
+      "headline": "@angular/core v20 reaches end of life on 2026-11-28 — dates, impact, migration",
+      "description": "Angular's release schedule lists v20 as LTS with \"LTS ends 2026-11-28\". LTS receives only critical fixes and security patches until that date.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "scheduled-end-of-life",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@angular/core v20 reaches end of life on 2026-11-28",
+        "identifier": "pkg:npm/%40angular/core"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Angular Update Guide",
-      "url": "https://angular.dev/update-guide"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v20.scheduled-end-of-life.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2026-11-28. Affected versions: vers:npm/>=20.0.0-0|\u003c21.0.0-0. Source: Angular release and support schedule (https://angular.dev/reference/releases)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@angular/core@22"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40angular/core."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

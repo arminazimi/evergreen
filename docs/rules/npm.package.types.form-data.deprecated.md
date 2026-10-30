@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
-  "headline": "@types/form-data is deprecated — dates, impact, migration",
-  "description": "npm marks @types/form-data as deprecated: \"This is a stub types definition. form-data provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/form-data is deprecated",
-    "identifier": "pkg:npm/%40types/form-data"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/form-data on npm",
-      "url": "https://www.npmjs.com/package/@types/form-data"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
+      "headline": "@types/form-data is deprecated — dates, impact, migration",
+      "description": "npm marks @types/form-data as deprecated: \"This is a stub types definition. form-data provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/form-data is deprecated",
+        "identifier": "pkg:npm/%40types/form-data"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/form-data on npm",
+          "url": "https://www.npmjs.com/package/@types/form-data"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/form-data version metadata",
+          "url": "https://registry.npmjs.org/@types%2fform-data"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/form-data version metadata",
-      "url": "https://registry.npmjs.org/@types%2fform-data"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.form-data.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/form-data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/2.5.0|2.5.1|2.5.2. Source: @types/form-data on npm (https://www.npmjs.com/package/@types/form-data)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/form-data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "form-data"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/form-data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/form-data."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

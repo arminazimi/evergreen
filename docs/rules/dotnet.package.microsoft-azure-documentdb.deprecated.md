@@ -64,41 +64,76 @@ This page is generated from [`registry/dotnet.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
-  "headline": "Microsoft.Azure.DocumentDB is deprecated on NuGet — dates, impact, migration",
-  "description": "NuGet marks all 36 listed versions of Microsoft.Azure.DocumentDB as deprecated (reason: Legacy).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "dotnet",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Microsoft.Azure.DocumentDB is deprecated on NuGet",
-    "identifier": "pkg:nuget/Microsoft.Azure.DocumentDB"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Microsoft.Azure.DocumentDB on NuGet (deprecation metadata)",
-      "url": "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
+      "headline": "Microsoft.Azure.DocumentDB is deprecated on NuGet — dates, impact, migration",
+      "description": "NuGet marks all 36 listed versions of Microsoft.Azure.DocumentDB as deprecated (reason: Legacy).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "dotnet",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Microsoft.Azure.DocumentDB is deprecated on NuGet",
+        "identifier": "pkg:nuget/Microsoft.Azure.DocumentDB"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Microsoft.Azure.DocumentDB on NuGet (deprecation metadata)",
+          "url": "https://www.nuget.org/packages/Microsoft.Azure.DocumentDB"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "NuGet package deprecation",
+          "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "NuGet package deprecation",
-      "url": "https://learn.microsoft.com/nuget/nuget-org/deprecate-packages"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/dotnet.package.microsoft-azure-documentdb.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:nuget/Microsoft.Azure.DocumentDB?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated as of 2023-03-31. Affected versions: vers:nuget/*. Source: Microsoft.Azure.DocumentDB on NuGet (deprecation metadata) (https://www.nuget.org/packages/Microsoft.Azure.DocumentDB)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:nuget/Microsoft.Azure.DocumentDB?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Microsoft.Azure.Cosmos"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:nuget/Microsoft.Azure.DocumentDB?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:nuget/Microsoft.Azure.DocumentDB."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/dotnet.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

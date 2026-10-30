@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
-  "headline": "socket.io-redis is deprecated — dates, impact, migration",
-  "description": "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here:…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "socket.io-redis is deprecated",
-    "identifier": "pkg:npm/socket.io-redis"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "socket.io-redis on npm",
-      "url": "https://www.npmjs.com/package/socket.io-redis"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
+      "headline": "socket.io-redis is deprecated — dates, impact, migration",
+      "description": "npm marks socket.io-redis as deprecated: \"This package has been renamed to '@socket.io/redis-adapter', please see the migration guide here:…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "socket.io-redis is deprecated",
+        "identifier": "pkg:npm/socket.io-redis"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "socket.io-redis on npm",
+          "url": "https://www.npmjs.com/package/socket.io-redis"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "socket.io-redis version metadata",
+          "url": "https://registry.npmjs.org/socket.io-redis"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "socket.io-redis version metadata",
-      "url": "https://registry.npmjs.org/socket.io-redis"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.socket.io-redis.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/socket.io-redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/6.0.0|6.0.1|6.1.0|6.1.1. Source: socket.io-redis on npm (https://www.npmjs.com/package/socket.io-redis)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/socket.io-redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@socket.io/redis-adapter"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/socket.io-redis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/socket.io-redis."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

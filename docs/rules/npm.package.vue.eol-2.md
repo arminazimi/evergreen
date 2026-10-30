@@ -72,56 +72,91 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
-  "headline": "Vue 2 is end-of-life — dates, impact, migration",
-  "description": "Vue 2 has reached end of life and is no longer actively maintained. After December 31st, 2023 it receives no updates, including security and browser compatibility fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Vue 2 is end-of-life",
-    "identifier": "pkg:npm/vue"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Vue 2 LTS, EOL & Extended Support",
-      "url": "https://v2.vuejs.org/lts/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
+      "headline": "Vue 2 is end-of-life — dates, impact, migration",
+      "description": "Vue 2 has reached end of life and is no longer actively maintained. After December 31st, 2023 it receives no updates, including security and browser compatibility fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Vue 2 is end-of-life",
+        "identifier": "pkg:npm/vue"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Vue 2 LTS, EOL & Extended Support",
+          "url": "https://v2.vuejs.org/lts/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Vue 3 Migration Guide",
+          "url": "https://v3-migration.vuejs.org/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Vue 3 Migration Guide: Migration Build",
+          "url": "https://v3-migration.vuejs.org/migration-build.html"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Vue 3 Migration Guide: Breaking Changes",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Vue 3 Migration Guide: Global API",
+          "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Vue 3 Migration Guide",
-      "url": "https://v3-migration.vuejs.org/"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Vue 3 Migration Guide: Migration Build",
-      "url": "https://v3-migration.vuejs.org/migration-build.html"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Vue 3 Migration Guide: Breaking Changes",
-      "url": "https://v3-migration.vuejs.org/breaking-changes/"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Vue 3 Migration Guide: Global API",
-      "url": "https://v3-migration.vuejs.org/breaking-changes/global-api.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.vue.eol-2.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/vue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2023-12-31. Affected versions: vers:npm/>=2.0.0|\u003c3.0.0. Source: Vue 2 LTS, EOL & Extended Support (https://v2.vuejs.org/lts/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/vue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vue 3 (vue@^3), following the Vue 3 migration guide"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/vue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/vue."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

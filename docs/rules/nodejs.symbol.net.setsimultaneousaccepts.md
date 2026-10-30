@@ -61,36 +61,63 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
-  "headline": "Net._setSimultaneousAccepts has been removed — dates, impact, migration",
-  "description": "Node.js removed net._setSimultaneousAccepts (DEP0121: runtime deprecation since v12.0.0, end-of-life since v24.0.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "nodejs",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Net._setSimultaneousAccepts has been removed",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0121",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
+      "headline": "Net._setSimultaneousAccepts has been removed — dates, impact, migration",
+      "description": "Node.js removed net._setSimultaneousAccepts (DEP0121: runtime deprecation since v12.0.0, end-of-life since v24.0.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "nodejs",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Net._setSimultaneousAccepts has been removed",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0121",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.net.setsimultaneousaccepts.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:semver/>=24.0.0. Source: Node.js deprecations: DEP0121 (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

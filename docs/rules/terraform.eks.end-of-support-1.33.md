@@ -69,36 +69,71 @@ This page is generated from [`registry/terraform.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
-  "headline": "Amazon EKS 1.33 is past end of standard support — dates, impact, migration",
-  "description": "Amazon EKS 1.33 reached the end of standard support on 2026-07-29 and is in extended support until 2027-07-29.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-support",
-    "terraform",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Amazon EKS 1.33 is past end of standard support",
-    "identifier": "pkg:generic/amazon-eks"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Amazon EKS: Understand the Kubernetes version lifecycle",
-      "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
+      "headline": "Amazon EKS 1.33 is past end of standard support — dates, impact, migration",
+      "description": "Amazon EKS 1.33 reached the end of standard support on 2026-07-29 and is in extended support until 2027-07-29.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-support",
+        "terraform",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Amazon EKS 1.33 is past end of standard support",
+        "identifier": "pkg:generic/amazon-eks"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Amazon EKS: Understand the Kubernetes version lifecycle",
+          "url": "https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.eks.end-of-support-1.33.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2026-07-29. Affected versions: vers:semver/>=1.33.0|\u003c1.34.0. Source: Amazon EKS: Understand the Kubernetes version lifecycle (https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Amazon EKS 1.35 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/amazon-eks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/amazon-eks."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

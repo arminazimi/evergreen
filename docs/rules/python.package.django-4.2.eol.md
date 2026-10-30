@@ -69,46 +69,81 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
-  "headline": "Django 4.2 LTS is end-of-life — dates, impact, migration",
-  "description": "The Django project lists the 4.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 7, 2026.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Django 4.2 LTS is end-of-life",
-    "identifier": "pkg:pypi/django"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Django supported versions",
-      "url": "https://www.djangoproject.com/download/#supported-versions"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
+      "headline": "Django 4.2 LTS is end-of-life — dates, impact, migration",
+      "description": "The Django project lists the 4.2 release series as unsupported: it no longer receives security updates or bug fixes, and its end of extended support was April 7, 2026.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Django 4.2 LTS is end-of-life",
+        "identifier": "pkg:pypi/django"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Django supported versions",
+          "url": "https://www.djangoproject.com/download/#supported-versions"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Django 4.2 release notes (4.2.30)",
+          "url": "https://docs.djangoproject.com/en/4.2/releases/4.2.30/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Django upgrade guide",
+          "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Django 4.2 release notes (4.2.30)",
-      "url": "https://docs.djangoproject.com/en/4.2/releases/4.2.30/"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Django upgrade guide",
-      "url": "https://docs.djangoproject.com/en/5.2/howto/upgrade-version/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.django-4.2.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/django?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-07. Affected versions: vers:pypi/>=4.2|\u003c5.0.dev0. Source: Django supported versions (https://www.djangoproject.com/download/#supported-versions)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/django?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Django 5.2 LTS or a newer supported release"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/django?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/django."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

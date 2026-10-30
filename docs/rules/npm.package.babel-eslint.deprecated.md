@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
-  "headline": "babel-eslint is deprecated — dates, impact, migration",
-  "description": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "babel-eslint is deprecated",
-    "identifier": "pkg:npm/babel-eslint"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "babel-eslint on npm",
-      "url": "https://www.npmjs.com/package/babel-eslint"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
+      "headline": "babel-eslint is deprecated — dates, impact, migration",
+      "description": "npm marks babel-eslint as deprecated: \"babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "babel-eslint is deprecated",
+        "identifier": "pkg:npm/babel-eslint"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "babel-eslint on npm",
+          "url": "https://www.npmjs.com/package/babel-eslint"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "babel-eslint version metadata",
+          "url": "https://registry.npmjs.org/babel-eslint"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "babel-eslint version metadata",
-      "url": "https://registry.npmjs.org/babel-eslint"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.babel-eslint.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/babel-eslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/1.0.0|1.0.1|1.0.2|1.0.3|1.0.4|1.0.6|1.0.7|1.0.8|1.0.9|1.0.10|1.0.11|1.0.12|1.0.13|1.0.14|2.0.0|2.0.2|3.0.0|3.0.1|3.1.0|3.1.1|3.1.3|3.1.4|3.1.5|3.1.6|3.1.7|3.1.8|3.1.9|3.1.10|3.1.11|3.1.12|3.1.13|3.1.14|3.1.15|3.1.16|3.1.17|3.1.18|3.1.19|3.1.20|3.1.21|3.1.22|3.1.23|3.1.24|3.1.25|3.1.26|3.1.27|3.1.28|3.1.29|3.1.30|4.0.0|4.0.1|4.0.2|4.0.3|4.0.4|4.0.5|4.0.6|4.0.7|4.0.8|4.0.9|4.0.10|4.1.0|4.1.1|4.1.2|4.1.3|4.1.4|4.1.5|4.1.6|4.1.7|4.1.8|5.0.0|5.0.1|5.0.2|5.0.3|5.0.4|6.0.0|6.0.1|6.0.2|6.0.3|6.0.4|6.0.5|6.1.0|6.1.1|6.1.2|7.0.0|7.1.0|7.1.1|7.2.0|7.2.1|7.2.2|7.2.3|8.0.0|8.0.1|8.0.2|8.0.3|8.1.0|8.1.1|8.1.2|8.2.0|8.2.1|8.2.2|8.2.3|8.2.4|8.2.5|8.2.6|9.0.0|10.0.0|10.0.1|10.0.2|10.0.3|10.1.0|11.0.0-beta.0|11.0.0-beta.1|11.0.0-beta.2. Source: babel-eslint on npm (https://www.npmjs.com/package/babel-eslint)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/babel-eslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@babel/eslint-parser"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/babel-eslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/babel-eslint."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -66,46 +66,81 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
-  "headline": "request-promise-native is deprecated — dates, impact, migration",
-  "description": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "request-promise-native is deprecated",
-    "identifier": "pkg:npm/request-promise-native"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "request-promise-native package deprecation notice",
-      "url": "https://www.npmjs.com/package/request-promise-native"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+      "headline": "request-promise-native is deprecated — dates, impact, migration",
+      "description": "npm states that request-promise-native is deprecated because it extends the deprecated request package.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "request-promise-native is deprecated",
+        "identifier": "pkg:npm/request-promise-native"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "request-promise-native package deprecation notice",
+          "url": "https://www.npmjs.com/package/request-promise-native"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "request-promise-native registry metadata",
+          "url": "https://registry.npmjs.org/request-promise-native/latest"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js 18 release announcement: global fetch",
+          "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "request-promise-native registry metadata",
-      "url": "https://registry.npmjs.org/request-promise-native/latest"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "Node.js 18 release announcement: global fetch",
-      "url": "https://nodejs.org/en/blog/announcements/v18-release-announce"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.request-promise-native.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/request-promise-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: request-promise-native package deprecation notice (https://www.npmjs.com/package/request-promise-native)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/request-promise-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Native fetch or a maintained promise-based HTTP client"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/request-promise-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/request-promise-native."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

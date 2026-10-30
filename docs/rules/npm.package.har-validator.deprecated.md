@@ -63,41 +63,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
-  "headline": "har-validator is deprecated — dates, impact, migration",
-  "description": "npm states that har-validator is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "har-validator is deprecated",
-    "identifier": "pkg:npm/har-validator"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "har-validator package deprecation notice",
-      "url": "https://www.npmjs.com/package/har-validator"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
+      "headline": "har-validator is deprecated — dates, impact, migration",
+      "description": "npm states that har-validator is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "har-validator is deprecated",
+        "identifier": "pkg:npm/har-validator"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "har-validator package deprecation notice",
+          "url": "https://www.npmjs.com/package/har-validator"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "har-validator registry metadata",
+          "url": "https://registry.npmjs.org/har-validator/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "har-validator registry metadata",
-      "url": "https://registry.npmjs.org/har-validator/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.har-validator.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/har-validator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: har-validator package deprecation notice (https://www.npmjs.com/package/har-validator)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/har-validator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/har-validator."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

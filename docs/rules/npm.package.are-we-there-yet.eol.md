@@ -62,41 +62,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
-  "headline": "are-we-there-yet is no longer supported — dates, impact, migration",
-  "description": "npm states that the are-we-there-yet package is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "are-we-there-yet is no longer supported",
-    "identifier": "pkg:npm/are-we-there-yet"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "are-we-there-yet package deprecation notice",
-      "url": "https://www.npmjs.com/package/are-we-there-yet"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
+      "headline": "are-we-there-yet is no longer supported — dates, impact, migration",
+      "description": "npm states that the are-we-there-yet package is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "are-we-there-yet is no longer supported",
+        "identifier": "pkg:npm/are-we-there-yet"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "are-we-there-yet package deprecation notice",
+          "url": "https://www.npmjs.com/package/are-we-there-yet"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "are-we-there-yet registry metadata",
+          "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "are-we-there-yet registry metadata",
-      "url": "https://registry.npmjs.org/are-we-there-yet/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.are-we-there-yet.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/are-we-there-yet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:npm/*. Source: are-we-there-yet package deprecation notice (https://www.npmjs.com/package/are-we-there-yet)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/are-we-there-yet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/are-we-there-yet."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

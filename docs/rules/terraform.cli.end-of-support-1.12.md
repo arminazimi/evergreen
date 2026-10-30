@@ -70,46 +70,81 @@ This page is generated from [`registry/terraform.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
-  "headline": "Terraform CLI 1.12 is no longer a supported release line — dates, impact, migration",
-  "description": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.12 (first released 2025-05-14) stopped being one of them when Terraform 1.14 was released on 2025-11-19.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-support",
-    "terraform",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Terraform CLI 1.12 is no longer a supported release line",
-    "identifier": "pkg:generic/terraform"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "endoflife.date: Terraform",
-      "url": "https://endoflife.date/terraform"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
+      "headline": "Terraform CLI 1.12 is no longer a supported release line — dates, impact, migration",
+      "description": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.12 (first released 2025-05-14) stopped being one of them when Terraform 1.14 was released on 2025-11-19.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-support",
+        "terraform",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Terraform CLI 1.12 is no longer a supported release line",
+        "identifier": "pkg:generic/terraform"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "endoflife.date: Terraform",
+          "url": "https://endoflife.date/terraform"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "hashicorp/terraform release v1.14.0",
+          "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "HashiCorp Terraform support policy",
+          "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "hashicorp/terraform release v1.14.0",
-      "url": "https://github.com/hashicorp/terraform/releases/tag/v1.14.0"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "HashiCorp Terraform support policy",
-      "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.cli.end-of-support-1.12.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/terraform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support as of 2025-11-19. Affected versions: vers:semver/>=1.12.0|\u003c1.13.0. Source: endoflife.date: Terraform (https://endoflife.date/terraform)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/terraform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Terraform 1.15 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/terraform?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/terraform."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

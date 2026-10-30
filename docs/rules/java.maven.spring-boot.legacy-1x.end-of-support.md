@@ -65,36 +65,71 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
-  "headline": "Spring Boot 1.x is out of open-source support — dates, impact, migration",
-  "description": "Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-25",
-  "keywords": [
-    "end-of-support",
-    "java",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Spring Boot 1.x is out of open-source support",
-    "identifier": "pkg:maven/org.springframework.boot/spring-boot"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Spring Boot support policy",
-      "url": "https://spring.io/projects/spring-boot#support"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
+      "headline": "Spring Boot 1.x is out of open-source support — dates, impact, migration",
+      "description": "Spring Boot 1.x has reached the end of its open-source support lifecycle. Upgrade to a supported Spring Boot 4.x line; assess the 1.x-to-4.x migration in stages because it crosses multiple major…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-25",
+      "keywords": [
+        "end-of-support",
+        "java",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Spring Boot 1.x is out of open-source support",
+        "identifier": "pkg:maven/org.springframework.boot/spring-boot"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Spring Boot support policy",
+          "url": "https://spring.io/projects/spring-boot#support"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.spring-boot.legacy-1x.end-of-support.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:maven/>=1.0.0|\u003c2.0.0. Source: Spring Boot support policy (https://spring.io/projects/spring-boot#support)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spring Boot 4.1.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:maven/org.springframework.boot/spring-boot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:maven/org.springframework.boot/spring-boot."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

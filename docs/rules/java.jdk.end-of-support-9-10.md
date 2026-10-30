@@ -66,36 +66,71 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
-  "headline": "Java 9 and 10 are no longer supported — dates, impact, migration",
-  "description": "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "end-of-support",
-    "java",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Java 9 and 10 are no longer supported",
-    "identifier": "pkg:generic/java"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Oracle Java SE Support Roadmap",
-      "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+      "headline": "Java 9 and 10 are no longer supported — dates, impact, migration",
+      "description": "The Oracle Java SE Support Roadmap lists Java 9 and 10 as non-LTS releases whose Premier Support ended between March 2018 and September 2018.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "end-of-support",
+        "java",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Java 9 and 10 are no longer supported",
+        "identifier": "pkg:generic/java"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Oracle Java SE Support Roadmap",
+          "url": "https://www.oracle.com/java/technologies/java-se-support-roadmap.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.jdk.end-of-support-9-10.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:semver/>=9.0.0|\u003c11.0.0. Source: Oracle Java SE Support Roadmap (https://www.oracle.com/java/technologies/java-se-support-roadmap.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Java 25 (LTS) or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/java?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/java."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

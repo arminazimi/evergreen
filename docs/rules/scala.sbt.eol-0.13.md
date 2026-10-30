@@ -67,41 +67,76 @@ This page is generated from [`registry/scala.json`](https://github.com/arminazim
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
-  "headline": "sbt 0.13 reached end of life — dates, impact, migration",
-  "description": "The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-27",
-  "keywords": [
-    "end-of-life",
-    "scala",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "sbt 0.13 reached end of life",
-    "identifier": "pkg:generic/sbt"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "sbt download — release timeline",
-      "url": "https://www.scala-sbt.org/download/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
+      "headline": "sbt 0.13 reached end of life — dates, impact, migration",
+      "description": "The sbt download page lists the 0.13.x series as end of life on 2018-11-30 after five years. The final release in that line is 0.13.18.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-27",
+      "keywords": [
+        "end-of-life",
+        "scala",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "sbt 0.13 reached end of life",
+        "identifier": "pkg:generic/sbt"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "sbt download — release timeline",
+          "url": "https://www.scala-sbt.org/download/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Migrating from sbt 0.13.x",
+          "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/scala.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Migrating from sbt 0.13.x",
-      "url": "https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/scala.sbt.eol-0.13.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/sbt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2018-11-30. Affected versions: vers:semver/>=0.13.0|\u003c1.0.0. Source: sbt download — release timeline (https://www.scala-sbt.org/download/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/sbt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "sbt 1.x or sbt 2.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/sbt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/sbt."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/scala.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

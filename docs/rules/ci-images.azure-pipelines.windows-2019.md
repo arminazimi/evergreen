@@ -65,41 +65,76 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
-  "headline": "Azure Pipelines Windows Server 2019 hosted image is retired — dates, impact, migration",
-  "description": "The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps blog sets that full removal date, and the Microsoft-hosted agents page records the same retirement.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "ci-images",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Azure Pipelines Windows Server 2019 hosted image is retired",
-    "identifier": "pkg:generic/azure-pipelines/windows-image"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Upcoming Updates for Azure Pipelines Agents Images",
-      "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
+      "headline": "Azure Pipelines Windows Server 2019 hosted image is retired — dates, impact, migration",
+      "description": "The Windows Server 2019 hosted image was retired on 2025-12-31. The Azure DevOps blog sets that full removal date, and the Microsoft-hosted agents page records the same retirement.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "ci-images",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Azure Pipelines Windows Server 2019 hosted image is retired",
+        "identifier": "pkg:generic/azure-pipelines/windows-image"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Upcoming Updates for Azure Pipelines Agents Images",
+          "url": "https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Microsoft-hosted agents for Azure Pipelines",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Microsoft-hosted agents for Azure Pipelines",
-      "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.windows-2019.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/azure-pipelines/windows-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed as of 2025-12-31. Affected versions: vers:intdot/2019. Source: Upcoming Updates for Azure Pipelines Agents Images (https://devblogs.microsoft.com/devops/upcoming-updates-for-azure-pipelines-agents-images/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/azure-pipelines/windows-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "windows-2022, windows-2025, or windows-latest"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/azure-pipelines/windows-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/azure-pipelines/windows-image."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

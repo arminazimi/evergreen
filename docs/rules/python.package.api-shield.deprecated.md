@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
-  "headline": "api-shield is deprecated — dates, impact, migration",
-  "description": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "api-shield is deprecated",
-    "identifier": "pkg:pypi/api-shield"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "api-shield deprecation notice",
-      "url": "https://pypi.org/project/api-shield/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+      "headline": "api-shield is deprecated — dates, impact, migration",
+      "description": "The maintainer renamed api-shield to waygate and states that no further releases will be published under the old name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "api-shield is deprecated",
+        "identifier": "pkg:pypi/api-shield"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "api-shield deprecation notice",
+          "url": "https://pypi.org/project/api-shield/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.api-shield.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/api-shield?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: api-shield deprecation notice (https://pypi.org/project/api-shield/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/api-shield?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "waygate"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/api-shield?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/api-shield."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

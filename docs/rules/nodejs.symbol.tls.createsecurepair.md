@@ -62,36 +62,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
-  "headline": "tls.createSecurePair has been removed — dates, impact, migration",
-  "description": "Node.js removed tls.createSecurePair() (DEP0064: documentation-only since v6.0.0, runtime since v8.0.0, end-of-life since v24.0.0).",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "removed",
-    "nodejs",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "tls.createSecurePair has been removed",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js deprecations: DEP0064 tls.createSecurePair",
-      "url": "https://nodejs.org/api/deprecations.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
+      "headline": "tls.createSecurePair has been removed — dates, impact, migration",
+      "description": "Node.js removed tls.createSecurePair() (DEP0064: documentation-only since v6.0.0, runtime since v8.0.0, end-of-life since v24.0.0).",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "removed",
+        "nodejs",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "tls.createSecurePair has been removed",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js deprecations: DEP0064 tls.createSecurePair",
+          "url": "https://nodejs.org/api/deprecations.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.symbol.tls.createsecurepair.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removed. The source gives no day. Affected versions: vers:semver/>=24.0.0. Source: Node.js deprecations: DEP0064 tls.createSecurePair (https://nodejs.org/api/deprecations.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tls.TLSSocket"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

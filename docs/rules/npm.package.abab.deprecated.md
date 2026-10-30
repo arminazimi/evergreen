@@ -63,41 +63,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
-  "headline": "abab is deprecated — dates, impact, migration",
-  "description": "npm directs users of abab to the platform-native atob and btoa functions.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "abab is deprecated",
-    "identifier": "pkg:npm/abab"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "abab package deprecation notice",
-      "url": "https://www.npmjs.com/package/abab"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
+      "headline": "abab is deprecated — dates, impact, migration",
+      "description": "npm directs users of abab to the platform-native atob and btoa functions.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "abab is deprecated",
+        "identifier": "pkg:npm/abab"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "abab package deprecation notice",
+          "url": "https://www.npmjs.com/package/abab"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "abab registry metadata",
+          "url": "https://registry.npmjs.org/abab/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "abab registry metadata",
-      "url": "https://registry.npmjs.org/abab/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.abab.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/abab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: abab package deprecation notice (https://www.npmjs.com/package/abab)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/abab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Native atob() and btoa()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/abab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/abab."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

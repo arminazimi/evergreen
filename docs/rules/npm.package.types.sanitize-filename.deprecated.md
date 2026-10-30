@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
-  "headline": "@types/sanitize-filename is deprecated — dates, impact, migration",
-  "description": "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/sanitize-filename is deprecated",
-    "identifier": "pkg:npm/%40types/sanitize-filename"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/sanitize-filename on npm",
-      "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
+      "headline": "@types/sanitize-filename is deprecated — dates, impact, migration",
+      "description": "npm marks @types/sanitize-filename as deprecated: \"This is a stub types definition. sanitize-filename provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/sanitize-filename is deprecated",
+        "identifier": "pkg:npm/%40types/sanitize-filename"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/sanitize-filename on npm",
+          "url": "https://www.npmjs.com/package/@types/sanitize-filename"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/sanitize-filename version metadata",
+          "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/sanitize-filename version metadata",
-      "url": "https://registry.npmjs.org/@types%2fsanitize-filename"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.sanitize-filename.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/sanitize-filename?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/1.6.3. Source: @types/sanitize-filename on npm (https://www.npmjs.com/package/@types/sanitize-filename)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/sanitize-filename?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "sanitize-filename"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/sanitize-filename?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/sanitize-filename."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

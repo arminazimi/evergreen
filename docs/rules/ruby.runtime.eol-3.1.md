@@ -66,36 +66,71 @@ This page is generated from [`registry/ruby.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
-  "headline": "Ruby 3.1 is end-of-life — dates, impact, migration",
-  "description": "The Ruby maintenance branches page marks Ruby 3.1 as eol: normal maintenance ended on 2024-04-01 and the branch reached end-of-life on 2025-03-26.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-18",
-  "keywords": [
-    "end-of-life",
-    "ruby",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Ruby 3.1 is end-of-life",
-    "identifier": "pkg:generic/ruby"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ruby maintenance branches",
-      "url": "https://www.ruby-lang.org/en/downloads/branches/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
+      "headline": "Ruby 3.1 is end-of-life — dates, impact, migration",
+      "description": "The Ruby maintenance branches page marks Ruby 3.1 as eol: normal maintenance ended on 2024-04-01 and the branch reached end-of-life on 2025-03-26.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-18",
+      "keywords": [
+        "end-of-life",
+        "ruby",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Ruby 3.1 is end-of-life",
+        "identifier": "pkg:generic/ruby"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ruby maintenance branches",
+          "url": "https://www.ruby-lang.org/en/downloads/branches/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.runtime.eol-3.1.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2025-03-26. Affected versions: vers:gem/>=3.1.0|\u003c3.2.0. Source: Ruby maintenance branches (https://www.ruby-lang.org/en/downloads/branches/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ruby 3.4 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/ruby?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/ruby."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
-  "headline": "locale.getdefaultlocale is deprecated — dates, impact, migration",
-  "description": "Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "locale.getdefaultlocale is deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "What's New in Python 3.11",
-      "url": "https://docs.python.org/3/whatsnew/3.11.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
+      "headline": "locale.getdefaultlocale is deprecated — dates, impact, migration",
+      "description": "Python 3.11 deprecates locale.getdefaultlocale(), to be removed in Python 3.15.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "locale.getdefaultlocale is deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "What's New in Python 3.11",
+          "url": "https://docs.python.org/3/whatsnew/3.11.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.locale.getdefaultlocale.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.11. Source: What's New in Python 3.11 (https://docs.python.org/3/whatsnew/3.11.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "locale.setlocale(), locale.getpreferredencoding(False), or locale.getlocale()"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

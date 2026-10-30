@@ -65,36 +65,71 @@ This page is generated from [`registry/java.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
-  "headline": "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager — dates, impact, migration",
-  "description": "The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocation to org.hibernate.orm:hibernate-entitymanager.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "java",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager",
-    "identifier": "pkg:maven/org.hibernate/hibernate-entitymanager"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central",
-      "url": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
+      "headline": "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager — dates, impact, migration",
+      "description": "The POM of org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 declares a relocation to org.hibernate.orm:hibernate-entitymanager.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "java",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "org.hibernate:hibernate-entitymanager has moved to org.hibernate.orm:hibernate-entitymanager",
+        "identifier": "pkg:maven/org.hibernate/hibernate-entitymanager"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central",
+          "url": "https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/java.maven.org.hibernate.hibernate-entitymanager.relocated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:maven/org.hibernate/hibernate-entitymanager?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:maven/>=6.0.0.Alpha3. Source: org.hibernate:hibernate-entitymanager 6.0.0.Alpha7 POM on Maven Central (https://repo1.maven.org/maven2/org/hibernate/hibernate-entitymanager/6.0.0.Alpha7/hibernate-entitymanager-6.0.0.Alpha7.pom)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:maven/org.hibernate/hibernate-entitymanager?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "org.hibernate.orm:hibernate-entitymanager"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:maven/org.hibernate/hibernate-entitymanager?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:maven/org.hibernate/hibernate-entitymanager."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/java.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

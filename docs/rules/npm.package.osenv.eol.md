@@ -62,41 +62,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
-  "headline": "osenv is no longer supported — dates, impact, migration",
-  "description": "npm states that the osenv package is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "osenv is no longer supported",
-    "identifier": "pkg:npm/osenv"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "osenv package deprecation notice",
-      "url": "https://www.npmjs.com/package/osenv"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
+      "headline": "osenv is no longer supported — dates, impact, migration",
+      "description": "npm states that the osenv package is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "osenv is no longer supported",
+        "identifier": "pkg:npm/osenv"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "osenv package deprecation notice",
+          "url": "https://www.npmjs.com/package/osenv"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "osenv registry metadata",
+          "url": "https://registry.npmjs.org/osenv/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "osenv registry metadata",
-      "url": "https://registry.npmjs.org/osenv/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.osenv.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/osenv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:npm/*. Source: osenv package deprecation notice (https://www.npmjs.com/package/osenv)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/osenv?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/osenv."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

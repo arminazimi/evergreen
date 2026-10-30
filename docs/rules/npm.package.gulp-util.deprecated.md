@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
-  "headline": "gulp-util is deprecated — dates, impact, migration",
-  "description": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "gulp-util is deprecated",
-    "identifier": "pkg:npm/gulp-util"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "gulp-util package deprecation notice",
-      "url": "https://www.npmjs.com/package/gulp-util"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+      "headline": "gulp-util is deprecated — dates, impact, migration",
+      "description": "npm marks gulp-util as deprecated and links to the Gulp migration guidance.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "gulp-util is deprecated",
+        "identifier": "pkg:npm/gulp-util"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "gulp-util package deprecation notice",
+          "url": "https://www.npmjs.com/package/gulp-util"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "gulp-util registry metadata",
+          "url": "https://registry.npmjs.org/gulp-util/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "gulp-util registry metadata",
-      "url": "https://registry.npmjs.org/gulp-util/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.gulp-util.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/gulp-util?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: gulp-util package deprecation notice (https://www.npmjs.com/package/gulp-util)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/gulp-util?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Maintained purpose-specific modules listed by Gulp"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/gulp-util?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/gulp-util."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

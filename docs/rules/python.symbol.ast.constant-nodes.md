@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
-  "headline": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated — dates, impact, migration",
-  "description": "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "deprecated",
-    "python",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated",
-    "identifier": "pkg:generic/python"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Python deprecations: pending removal in 3.14",
-      "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
+      "headline": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated — dates, impact, migration",
+      "description": "Python deprecates the ast.Num, ast.Str, ast.Bytes, ast.NameConstant and ast.Ellipsis node classes since 3.8; they emit a DeprecationWarning and are listed for removal in 3.14.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "deprecated",
+        "python",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "ast.Num, Str, Bytes, NameConstant and Ellipsis are deprecated",
+        "identifier": "pkg:generic/python"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Python deprecations: pending removal in 3.14",
+          "url": "https://docs.python.org/3/deprecations/pending-removal-in-3.14.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.symbol.ast.constant-nodes.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/>=3.8. Source: Python deprecations: pending removal in 3.14 (https://docs.python.org/3/deprecations/pending-removal-in-3.14.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ast.Constant"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/python?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/python."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

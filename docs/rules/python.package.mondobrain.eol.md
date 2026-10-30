@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
-  "headline": "mondobrain is no longer maintained — dates, impact, migration",
-  "description": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "mondobrain is no longer maintained",
-    "identifier": "pkg:pypi/mondobrain"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "mondobrain maintenance and replacement notice",
-      "url": "https://pypi.org/project/mondobrain/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
+      "headline": "mondobrain is no longer maintained — dates, impact, migration",
+      "description": "The maintainer yanked mondobrain releases because the project is no longer maintained and recommends datawhys.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "mondobrain is no longer maintained",
+        "identifier": "pkg:pypi/mondobrain"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "mondobrain maintenance and replacement notice",
+          "url": "https://pypi.org/project/mondobrain/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.mondobrain.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/mondobrain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:pypi/*. Source: mondobrain maintenance and replacement notice (https://pypi.org/project/mondobrain/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/mondobrain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "datawhys"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/mondobrain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/mondobrain."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -66,41 +66,76 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
-  "headline": "Debian image release lines 11 and older are end-of-life — dates, impact, migration",
-  "description": "These Debian releases no longer receive LTS security updates from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Debian image release lines 11 and older are end-of-life",
-    "identifier": "pkg:docker/library/debian"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Debian LTS",
-      "url": "https://wiki.debian.org/LTS"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
+      "headline": "Debian image release lines 11 and older are end-of-life — dates, impact, migration",
+      "description": "These Debian releases no longer receive LTS security updates from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Debian image release lines 11 and older are end-of-life",
+        "identifier": "pkg:docker/library/debian"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Debian LTS",
+          "url": "https://wiki.debian.org/LTS"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Debian Releases",
+          "url": "https://www.debian.org/releases/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Debian Releases",
-      "url": "https://www.debian.org/releases/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.debian.eol-11-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/debian?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-08-31. Affected versions: vers:semver/\u003c12.0.0. Source: Debian LTS (https://wiki.debian.org/LTS)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/debian?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A debian image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/debian?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/debian."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

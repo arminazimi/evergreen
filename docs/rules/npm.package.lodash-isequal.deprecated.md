@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
-  "headline": "lodash.isequal is deprecated — dates, impact, migration",
-  "description": "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "lodash.isequal is deprecated",
-    "identifier": "pkg:npm/lodash.isequal"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "lodash.isequal package deprecation notice",
-      "url": "https://www.npmjs.com/package/lodash.isequal"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
+      "headline": "lodash.isequal is deprecated — dates, impact, migration",
+      "description": "npm recommends replacing lodash.isequal with node:util.isDeepStrictEqual.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "lodash.isequal is deprecated",
+        "identifier": "pkg:npm/lodash.isequal"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "lodash.isequal package deprecation notice",
+          "url": "https://www.npmjs.com/package/lodash.isequal"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "lodash.isequal registry metadata",
+          "url": "https://registry.npmjs.org/lodash.isequal/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "lodash.isequal registry metadata",
-      "url": "https://registry.npmjs.org/lodash.isequal/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.lodash-isequal.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/lodash.isequal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: lodash.isequal package deprecation notice (https://www.npmjs.com/package/lodash.isequal)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/lodash.isequal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "node:util.isDeepStrictEqual"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/lodash.isequal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/lodash.isequal."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -72,51 +72,86 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
-  "headline": "React Native 0.77 through 0.84 are unsupported — dates, impact, migration",
-  "description": "The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-23",
-  "keywords": [
-    "end-of-support",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "React Native 0.77 through 0.84 are unsupported",
-    "identifier": "pkg:npm/react-native"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "React Native Releases Working Group support policy",
-      "url": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
+      "headline": "React Native 0.77 through 0.84 are unsupported — dates, impact, migration",
+      "description": "The React Native release schedule lists the 0.77.x through 0.84.x minor series as Unsupported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-23",
+      "keywords": [
+        "end-of-support",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "React Native 0.77 through 0.84 are unsupported",
+        "identifier": "pkg:npm/react-native"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "React Native Releases Working Group support policy",
+          "url": "https://github.com/reactwg/react-native-releases/blob/main/docs/support.md"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "React Native releases overview",
+          "url": "https://reactnative.dev/releases/overview"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "React Native upgrading guide",
+          "url": "https://reactnative.dev/docs/upgrading"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "React Native Upgrade Helper",
+          "url": "https://react-native-community.github.io/upgrade-helper/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "React Native releases overview",
-      "url": "https://reactnative.dev/releases/overview"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "React Native upgrading guide",
-      "url": "https://reactnative.dev/docs/upgrading"
-    },
-    {
-      "@type": "CreativeWork",
-      "name": "React Native Upgrade Helper",
-      "url": "https://react-native-community.github.io/upgrade-helper/"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.react-native.0.77-to-0.84.end-of-support.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/react-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:npm/>=0.77.0-0|\u003c0.85.0-0. Source: React Native Releases Working Group support policy (https://github.com/reactwg/react-native-releases/blob/main/docs/support.md)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/react-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "React Native 0.87 (Active)"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/react-native?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/react-native."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

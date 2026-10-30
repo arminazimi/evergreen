@@ -65,41 +65,76 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
-  "headline": "sensiolabs/security-checker is abandoned — dates, impact, migration",
-  "description": "Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "sensiolabs/security-checker is abandoned",
-    "identifier": "pkg:composer/sensiolabs/security-checker"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "sensiolabs/security-checker on Packagist",
-      "url": "https://packagist.org/packages/sensiolabs/security-checker"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
+      "headline": "sensiolabs/security-checker is abandoned — dates, impact, migration",
+      "description": "Packagist marks sensiolabs/security-checker as abandoned and no longer maintained, and the author points to https://github.com/fabpot/local-php-security-checker.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "sensiolabs/security-checker is abandoned",
+        "identifier": "pkg:composer/sensiolabs/security-checker"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "sensiolabs/security-checker on Packagist",
+          "url": "https://packagist.org/packages/sensiolabs/security-checker"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "sensiolabs/security-checker Composer metadata",
+          "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "sensiolabs/security-checker Composer metadata",
-      "url": "https://repo.packagist.org/p2/sensiolabs/security-checker.json"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.sensiolabs.security-checker.abandoned.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:composer/sensiolabs/security-checker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:composer/*. Source: sensiolabs/security-checker on Packagist (https://packagist.org/packages/sensiolabs/security-checker)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:composer/sensiolabs/security-checker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "https://github.com/fabpot/local-php-security-checker"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:composer/sensiolabs/security-checker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:composer/sensiolabs/security-checker."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

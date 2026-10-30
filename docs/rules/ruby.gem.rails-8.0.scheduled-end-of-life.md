@@ -68,41 +68,76 @@ This page is generated from [`registry/ruby.json`](https://github.com/arminazimi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
-  "headline": "Rails 8.0 security support is scheduled to end — dates, impact, migration",
-  "description": "The Rails maintenance policy says Rails 8.0.x receives security fixes until 2026-11-07. Rails 8.1.x is the newer supported release series.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-23",
-  "keywords": [
-    "scheduled-end-of-life",
-    "ruby",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Rails 8.0 security support is scheduled to end",
-    "identifier": "pkg:gem/rails"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Ruby on Rails maintenance policy",
-      "url": "https://rubyonrails.org/maintenance"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
+      "headline": "Rails 8.0 security support is scheduled to end — dates, impact, migration",
+      "description": "The Rails maintenance policy says Rails 8.0.x receives security fixes until 2026-11-07. Rails 8.1.x is the newer supported release series.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-23",
+      "keywords": [
+        "scheduled-end-of-life",
+        "ruby",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Rails 8.0 security support is scheduled to end",
+        "identifier": "pkg:gem/rails"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Ruby on Rails maintenance policy",
+          "url": "https://rubyonrails.org/maintenance"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Upgrading Ruby on Rails",
+          "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Upgrading Ruby on Rails",
-      "url": "https://guides.rubyonrails.org/upgrading_ruby_on_rails.html"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/ruby.gem.rails-8.0.scheduled-end-of-life.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2026-11-07. Affected versions: vers:gem/>=8.0.0|\u003c8.1.0. Source: Ruby on Rails maintenance policy (https://rubyonrails.org/maintenance)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rails 8.1.x"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:gem/rails?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:gem/rails."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ruby.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

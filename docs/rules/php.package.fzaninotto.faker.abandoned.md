@@ -64,41 +64,68 @@ This page is generated from [`registry/php.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
-  "headline": "fzaninotto/faker is abandoned — dates, impact, migration",
-  "description": "Packagist marks fzaninotto/faker as abandoned and no longer maintained.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "deprecated",
-    "php",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "fzaninotto/faker is abandoned",
-    "identifier": "pkg:composer/fzaninotto/faker"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "fzaninotto/faker on Packagist",
-      "url": "https://packagist.org/packages/fzaninotto/faker"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
+      "headline": "fzaninotto/faker is abandoned — dates, impact, migration",
+      "description": "Packagist marks fzaninotto/faker as abandoned and no longer maintained.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "deprecated",
+        "php",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "fzaninotto/faker is abandoned",
+        "identifier": "pkg:composer/fzaninotto/faker"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "fzaninotto/faker on Packagist",
+          "url": "https://packagist.org/packages/fzaninotto/faker"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "fzaninotto/faker Composer metadata",
+          "url": "https://repo.packagist.org/p2/fzaninotto/faker.json"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "fzaninotto/faker Composer metadata",
-      "url": "https://repo.packagist.org/p2/fzaninotto/faker.json"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/php.package.fzaninotto.faker.abandoned.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:composer/fzaninotto/faker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:composer/*. Source: fzaninotto/faker on Packagist (https://packagist.org/packages/fzaninotto/faker)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:composer/fzaninotto/faker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:composer/fzaninotto/faker."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/php.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

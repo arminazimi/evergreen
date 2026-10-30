@@ -67,36 +67,71 @@ This page is generated from [`registry/nodejs.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
-  "headline": "Legacy Node.js runtime is end-of-life — dates, impact, migration",
-  "description": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-14",
-  "keywords": [
-    "end-of-life",
-    "nodejs",
-    "critical"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Legacy Node.js runtime is end-of-life",
-    "identifier": "pkg:generic/nodejs"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Node.js end-of-life releases",
-      "url": "https://nodejs.org/en/about/eol"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
+      "headline": "Legacy Node.js runtime is end-of-life — dates, impact, migration",
+      "description": "This Node.js release line is end-of-life and no longer receives security or bug fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-14",
+      "keywords": [
+        "end-of-life",
+        "nodejs",
+        "critical"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Legacy Node.js runtime is end-of-life",
+        "identifier": "pkg:generic/nodejs"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Node.js end-of-life releases",
+          "url": "https://nodejs.org/en/about/eol"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/nodejs.runtime.legacy.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:semver/\u003c18.0.0. Source: Node.js end-of-life releases (https://nodejs.org/en/about/eol)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Node.js 22 LTS or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/nodejs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/nodejs."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/nodejs.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

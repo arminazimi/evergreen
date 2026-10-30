@@ -66,41 +66,76 @@ This page is generated from [`registry/kubernetes.json`](https://github.com/armi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
-  "headline": "Helm incubator chart repository is end of life — dates, impact, migration",
-  "description": "The Helm project retired the incubator chart repository with the same timeline as stable: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a…",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "kubernetes",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Helm incubator chart repository is end of life",
-    "identifier": "pkg:generic/helm-repository/incubator"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Helm Chart Repository Deprecation Update (2020-10-30)",
-      "url": "https://helm.sh/blog/charts-repo-deprecation/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
+      "headline": "Helm incubator chart repository is end of life — dates, impact, migration",
+      "description": "The Helm project retired the incubator chart repository with the same timeline as stable: on 2020-11-13 CI was disabled and no further pull requests were accepted, and downloads were redirected to a…",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "kubernetes",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Helm incubator chart repository is end of life",
+        "identifier": "pkg:generic/helm-repository/incubator"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Helm Chart Repository Deprecation Update (2020-10-30)",
+          "url": "https://helm.sh/blog/charts-repo-deprecation/"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Helm community: stable repository charts — new locations",
+          "url": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Helm community: stable repository charts — new locations",
-      "url": "https://github.com/helm/community/blob/main/stable-repo-charts-new-locations.md"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/kubernetes.helm.repository.incubator.end-of-life.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/helm-repository/incubator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2020-11-13. Affected versions: vers:semver/*. Source: Helm Chart Repository Deprecation Update (2020-10-30) (https://helm.sh/blog/charts-repo-deprecation/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/helm-repository/incubator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The chart's new maintained repository (see Helm's stable-repo-charts-new-locations list), or adopt the chart yourself"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/helm-repository/incubator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/helm-repository/incubator."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/kubernetes.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

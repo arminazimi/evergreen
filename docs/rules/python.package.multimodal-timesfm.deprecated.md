@@ -63,36 +63,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
-  "headline": "multimodal-timesfm is no longer maintained — dates, impact, migration",
-  "description": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "multimodal-timesfm is no longer maintained",
-    "identifier": "pkg:pypi/multimodal-timesfm"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "multimodal-timesfm rename notice",
-      "url": "https://pypi.org/project/multimodal-timesfm/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+      "headline": "multimodal-timesfm is no longer maintained — dates, impact, migration",
+      "description": "The maintainer states that multimodal-timesfm was renamed and is no longer maintained under that name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "multimodal-timesfm is no longer maintained",
+        "identifier": "pkg:pypi/multimodal-timesfm"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "multimodal-timesfm rename notice",
+          "url": "https://pypi.org/project/multimodal-timesfm/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.multimodal-timesfm.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/multimodal-timesfm?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: multimodal-timesfm rename notice (https://pypi.org/project/multimodal-timesfm/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/multimodal-timesfm?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tsfmx"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/multimodal-timesfm?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/multimodal-timesfm."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

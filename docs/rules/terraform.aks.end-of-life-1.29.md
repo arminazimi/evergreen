@@ -69,36 +69,71 @@ This page is generated from [`registry/terraform.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
-  "headline": "AKS 1.29 is past long-term support — dates, impact, migration",
-  "description": "AKS 1.29 reached the end of its 12-month support window on 2025-03-31 and the end of long-term support on 2026-04-30. AKS no longer provides patches for this version.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-26",
-  "keywords": [
-    "end-of-life",
-    "terraform",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "AKS 1.29 is past long-term support",
-    "identifier": "pkg:generic/azure-kubernetes-service"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
-      "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
+      "headline": "AKS 1.29 is past long-term support — dates, impact, migration",
+      "description": "AKS 1.29 reached the end of its 12-month support window on 2025-03-31 and the end of long-term support on 2026-04-30. AKS no longer provides patches for this version.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-26",
+      "keywords": [
+        "end-of-life",
+        "terraform",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "AKS 1.29 is past long-term support",
+        "identifier": "pkg:generic/azure-kubernetes-service"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Supported Kubernetes versions in Azure Kubernetes Service (AKS)",
+          "url": "https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/terraform.aks.end-of-life-1.29.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/azure-kubernetes-service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-04-30. Affected versions: vers:semver/>=1.29.0|\u003c1.30.0. Source: Supported Kubernetes versions in Azure Kubernetes Service (AKS) (https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/azure-kubernetes-service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Azure Kubernetes Service 1.35 or later"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/azure-kubernetes-service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/azure-kubernetes-service."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/terraform.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

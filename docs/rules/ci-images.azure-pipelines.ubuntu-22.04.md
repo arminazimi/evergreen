@@ -64,36 +64,71 @@ This page is generated from [`registry/ci-images.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
-  "headline": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal — dates, impact, migration",
-  "description": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-18",
-  "keywords": [
-    "scheduled-end-of-life",
-    "ci-images",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
-    "identifier": "pkg:generic/azure-pipelines/ubuntu-image"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Microsoft-hosted image deprecation schedule",
-      "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
+      "headline": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal — dates, impact, migration",
+      "description": "The Ubuntu 22.04 hosted image deprecation starts on 2026-09-17 and its scheduled removal is 2027-04-17, per Microsoft's hosted image deprecation schedule.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-18",
+      "keywords": [
+        "scheduled-end-of-life",
+        "ci-images",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Azure Pipelines Ubuntu 22.04 hosted image is scheduled for removal",
+        "identifier": "pkg:generic/azure-pipelines/ubuntu-image"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Microsoft-hosted image deprecation schedule",
+          "url": "https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/ci-images.azure-pipelines.ubuntu-22.04.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:generic/azure-pipelines/ubuntu-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scheduled end of life as of 2027-04-17. Affected versions: vers:intdot/22.04. Source: Microsoft-hosted image deprecation schedule (https://learn.microsoft.com/azure/devops/pipelines/agents/hosted-deprecation-schedule)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:generic/azure-pipelines/ubuntu-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ubuntu-latest, ubuntu-24.04, or ubuntu-26.04"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:generic/azure-pipelines/ubuntu-image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:generic/azure-pipelines/ubuntu-image."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/ci-images.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

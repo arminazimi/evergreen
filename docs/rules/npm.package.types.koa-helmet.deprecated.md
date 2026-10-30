@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
-  "headline": "@types/koa-helmet is deprecated — dates, impact, migration",
-  "description": "npm marks @types/koa-helmet as deprecated: \"This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/koa-helmet is deprecated",
-    "identifier": "pkg:npm/%40types/koa-helmet"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/koa-helmet on npm",
-      "url": "https://www.npmjs.com/package/@types/koa-helmet"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
+      "headline": "@types/koa-helmet is deprecated — dates, impact, migration",
+      "description": "npm marks @types/koa-helmet as deprecated: \"This is a stub types definition. koa-helmet provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/koa-helmet is deprecated",
+        "identifier": "pkg:npm/%40types/koa-helmet"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/koa-helmet on npm",
+          "url": "https://www.npmjs.com/package/@types/koa-helmet"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/koa-helmet version metadata",
+          "url": "https://registry.npmjs.org/@types%2fkoa-helmet"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/koa-helmet version metadata",
-      "url": "https://registry.npmjs.org/@types%2fkoa-helmet"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.koa-helmet.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/koa-helmet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/6.1.0. Source: @types/koa-helmet on npm (https://www.npmjs.com/package/@types/koa-helmet)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/koa-helmet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "koa-helmet"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/koa-helmet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/koa-helmet."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -62,41 +62,68 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
-  "headline": "figgy-pudding is no longer supported — dates, impact, migration",
-  "description": "npm states that the figgy-pudding module is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "end-of-life",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "figgy-pudding is no longer supported",
-    "identifier": "pkg:npm/figgy-pudding"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "figgy-pudding package deprecation notice",
-      "url": "https://www.npmjs.com/package/figgy-pudding"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
+      "headline": "figgy-pudding is no longer supported — dates, impact, migration",
+      "description": "npm states that the figgy-pudding module is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "end-of-life",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "figgy-pudding is no longer supported",
+        "identifier": "pkg:npm/figgy-pudding"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "figgy-pudding package deprecation notice",
+          "url": "https://www.npmjs.com/package/figgy-pudding"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "figgy-pudding registry metadata",
+          "url": "https://registry.npmjs.org/figgy-pudding/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "figgy-pudding registry metadata",
-      "url": "https://registry.npmjs.org/figgy-pudding/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.figgy-pudding.eol.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/figgy-pudding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:npm/*. Source: figgy-pudding package deprecation notice (https://www.npmjs.com/package/figgy-pudding)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/figgy-pudding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/figgy-pudding."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

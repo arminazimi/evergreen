@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
-  "headline": "apisec-code-bolt was renamed — dates, impact, migration",
-  "description": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "apisec-code-bolt was renamed",
-    "identifier": "pkg:pypi/apisec-code-bolt"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "apisec-surface rename notice",
-      "url": "https://pypi.org/project/apisec-surface/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
+      "headline": "apisec-code-bolt was renamed — dates, impact, migration",
+      "description": "The maintainer states that apisec-code-bolt was renamed to apisec-surface and receives no further releases under the old name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "apisec-code-bolt was renamed",
+        "identifier": "pkg:pypi/apisec-code-bolt"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "apisec-surface rename notice",
+          "url": "https://pypi.org/project/apisec-surface/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.apisec-code-bolt.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/apisec-code-bolt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: apisec-surface rename notice (https://pypi.org/project/apisec-surface/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/apisec-code-bolt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "apisec-surface"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/apisec-code-bolt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/apisec-code-bolt."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
-  "headline": "@types/refractor is deprecated — dates, impact, migration",
-  "description": "npm marks @types/refractor as deprecated: \"This is a stub types definition. refractor provides its own type definitions, so you do not need this installed.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "low"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@types/refractor is deprecated",
-    "identifier": "pkg:npm/%40types/refractor"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@types/refractor on npm",
-      "url": "https://www.npmjs.com/package/@types/refractor"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
+      "headline": "@types/refractor is deprecated — dates, impact, migration",
+      "description": "npm marks @types/refractor as deprecated: \"This is a stub types definition. refractor provides its own type definitions, so you do not need this installed.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "low"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@types/refractor is deprecated",
+        "identifier": "pkg:npm/%40types/refractor"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@types/refractor on npm",
+          "url": "https://www.npmjs.com/package/@types/refractor"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@types/refractor version metadata",
+          "url": "https://registry.npmjs.org/@types%2frefractor"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@types/refractor version metadata",
-      "url": "https://registry.npmjs.org/@types%2frefractor"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.types.refractor.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40types/refractor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/4.0.0. Source: @types/refractor on npm (https://www.npmjs.com/package/@types/refractor)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40types/refractor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "refractor"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40types/refractor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40types/refractor."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

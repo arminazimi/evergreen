@@ -62,36 +62,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
-  "headline": "saroku was renamed to trikesh — dates, impact, migration",
-  "description": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "saroku was renamed to trikesh",
-    "identifier": "pkg:pypi/saroku"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "saroku rename notice",
-      "url": "https://pypi.org/project/saroku/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
+      "headline": "saroku was renamed to trikesh — dates, impact, migration",
+      "description": "The maintainer states that saroku was renamed and is no longer maintained under that name.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "saroku was renamed to trikesh",
+        "identifier": "pkg:pypi/saroku"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "saroku rename notice",
+          "url": "https://pypi.org/project/saroku/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.saroku.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/saroku?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: saroku rename notice (https://pypi.org/project/saroku/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/saroku?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "trikesh"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/saroku?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/saroku."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

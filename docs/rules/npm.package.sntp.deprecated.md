@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
-  "headline": "sntp is deprecated — dates, impact, migration",
-  "description": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "sntp is deprecated",
-    "identifier": "pkg:npm/sntp"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "sntp package deprecation notice",
-      "url": "https://www.npmjs.com/package/sntp"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
+      "headline": "sntp is deprecated — dates, impact, migration",
+      "description": "npm states that sntp moved to @hapi/sntp and that the old distribution is no longer supported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "sntp is deprecated",
+        "identifier": "pkg:npm/sntp"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "sntp package deprecation notice",
+          "url": "https://www.npmjs.com/package/sntp"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "sntp registry metadata",
+          "url": "https://registry.npmjs.org/sntp/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "sntp registry metadata",
-      "url": "https://registry.npmjs.org/sntp/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.sntp.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/sntp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: sntp package deprecation notice (https://www.npmjs.com/package/sntp)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/sntp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@hapi/sntp"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/sntp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/sntp."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

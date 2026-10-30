@@ -65,41 +65,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
-  "headline": "@nuxt/types is deprecated — dates, impact, migration",
-  "description": "npm marks @nuxt/types as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-19",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@nuxt/types is deprecated",
-    "identifier": "pkg:npm/%40nuxt/types"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "@nuxt/types on npm",
-      "url": "https://www.npmjs.com/package/@nuxt/types"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
+      "headline": "@nuxt/types is deprecated — dates, impact, migration",
+      "description": "npm marks @nuxt/types as deprecated: \"Nuxt 2 has reached EOL and is no longer actively maintained. See https://nuxt.com/blog/nuxt2-eol for more details.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-19",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@nuxt/types is deprecated",
+        "identifier": "pkg:npm/%40nuxt/types"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "@nuxt/types on npm",
+          "url": "https://www.npmjs.com/package/@nuxt/types"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "@nuxt/types registry metadata",
+          "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "@nuxt/types registry metadata",
-      "url": "https://registry.npmjs.org/@nuxt%2ftypes/latest"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.nuxt.types.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40nuxt/types?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/*. Source: @nuxt/types on npm (https://www.npmjs.com/package/@nuxt/types)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40nuxt/types?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nuxt 3"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40nuxt/types?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40nuxt/types."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

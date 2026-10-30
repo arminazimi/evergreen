@@ -64,41 +64,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
-  "headline": "tslint is deprecated — dates, impact, migration",
-  "description": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
-  "inLanguage": "en",
-  "dateModified": "2026-10-17",
-  "keywords": [
-    "deprecated",
-    "npm",
-    "medium"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "tslint is deprecated",
-    "identifier": "pkg:npm/tslint"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "tslint on npm",
-      "url": "https://www.npmjs.com/package/tslint"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
+      "headline": "tslint is deprecated — dates, impact, migration",
+      "description": "npm marks tslint as deprecated: \"TSLint has been deprecated in favor of ESLint. Please see https://github.com/palantir/tslint/issues/4534 for more information.\"",
+      "inLanguage": "en",
+      "dateModified": "2026-10-17",
+      "keywords": [
+        "deprecated",
+        "npm",
+        "medium"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "tslint is deprecated",
+        "identifier": "pkg:npm/tslint"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "tslint on npm",
+          "url": "https://www.npmjs.com/package/tslint"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "tslint version metadata",
+          "url": "https://registry.npmjs.org/tslint"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "tslint version metadata",
-      "url": "https://registry.npmjs.org/tslint"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.tslint.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/tslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:npm/6.0.0|6.1.0|6.1.1|6.1.2|6.1.3. Source: tslint on npm (https://www.npmjs.com/package/tslint)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/tslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ESLint with typescript-eslint"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/tslint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/tslint."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

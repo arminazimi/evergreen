@@ -63,36 +63,71 @@ This page is generated from [`registry/python.json`](https://github.com/arminazi
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
-  "headline": "pytest-runner is deprecated — dates, impact, migration",
-  "description": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-16",
-  "keywords": [
-    "deprecated",
-    "python",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "pytest-runner is deprecated",
-    "identifier": "pkg:pypi/pytest-runner"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "pytest-runner deprecation notice",
-      "url": "https://pypi.org/project/pytest-runner/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+      "headline": "pytest-runner is deprecated — dates, impact, migration",
+      "description": "The maintainer warns that pytest-runner depends on deprecated Setuptools features and can bypass pip security mechanisms.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-16",
+      "keywords": [
+        "deprecated",
+        "python",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "pytest-runner is deprecated",
+        "identifier": "pkg:pypi/pytest-runner"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "pytest-runner deprecation notice",
+          "url": "https://pypi.org/project/pytest-runner/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/python.package.pytest-runner.deprecated.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:pypi/pytest-runner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Deprecated. The source gives no day. Affected versions: vers:pypi/*. Source: pytest-runner deprecation notice (https://pypi.org/project/pytest-runner/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:pypi/pytest-runner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "tox, nox, or direct pytest invocation"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:pypi/pytest-runner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:pypi/pytest-runner."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/python.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
-  "headline": "MariaDB image release lines 10.10 and older are end-of-life — dates, impact, migration",
-  "description": "These MariaDB release lines no longer receive fixes from the vendor.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "MariaDB image release lines 10.10 and older are end-of-life",
-    "identifier": "pkg:docker/library/mariadb"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "MariaDB release policy (vendor)",
-      "url": "https://mariadb.org/about/#maintenance-policy"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
+      "headline": "MariaDB image release lines 10.10 and older are end-of-life — dates, impact, migration",
+      "description": "These MariaDB release lines no longer receive fixes from the vendor.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "MariaDB image release lines 10.10 and older are end-of-life",
+        "identifier": "pkg:docker/library/mariadb"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "MariaDB release policy (vendor)",
+          "url": "https://mariadb.org/about/#maintenance-policy"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.mariadb.eol-10.10-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/mariadb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life as of 2026-07-06. Affected versions: vers:semver/\u003c10.11.0. Source: MariaDB release policy (vendor) (https://mariadb.org/about/#maintenance-policy)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/mariadb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A mariadb image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/mariadb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/mariadb."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

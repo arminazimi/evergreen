@@ -134,23 +134,79 @@ function detectorsFor(ecosystem: string): string[] {
   return getCapabilityManifest().ecosystems.find((entry) => entry.id === ecosystem)?.detectorIds.slice().sort() ?? [];
 }
 
+/** Plain-text FAQ answers that mirror the lead paragraph, without Markdown. */
+export function faqMainEntity(rule: RegistryV2Rule): Array<{
+  "@type": "Question";
+  name: string;
+  acceptedAnswer: { "@type": "Answer"; text: string };
+}> {
+  const status = EVENT_LABELS[rule.event];
+  const statusText = rule.deadline
+    ? `${status} as of ${rule.deadline}.`
+    : `${status}. The source gives no day.`;
+  const source = rule.sources[0];
+  const statusAnswer = [
+    statusText,
+    `Affected versions: ${rule.vers}.`,
+    ...(source ? [`Source: ${source.title} (${source.url}).`] : []),
+  ].join(" ");
+
+  const entities: Array<{
+    "@type": "Question";
+    name: string;
+    acceptedAnswer: { "@type": "Answer"; text: string };
+  }> = [
+    {
+      "@type": "Question",
+      name: `What is the lifecycle status of ${rule.purl}?`,
+      acceptedAnswer: { "@type": "Answer", text: statusAnswer },
+    },
+  ];
+
+  if (rule.replacement) {
+    entities.push({
+      "@type": "Question",
+      name: `What replaces ${rule.purl}?`,
+      acceptedAnswer: { "@type": "Answer", text: rule.replacement },
+    });
+  }
+
+  entities.push({
+    "@type": "Question",
+    name: `How do I check ${rule.purl}?`,
+    acceptedAnswer: { "@type": "Answer", text: `Run ${checkCommand(rule)}.` },
+  });
+
+  return entities;
+}
+
 /** schema.org metadata for a rule page, so search engines and agents can read it as data. */
 function jsonLd(rule: RegistryV2Rule, url: string): unknown {
   return {
     "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "@id": url,
-    url,
-    mainEntityOfPage: url,
-    headline: pageTitle(rule),
-    description: description(rule),
-    inLanguage: "en",
-    dateModified: rule.provenance.reviewedAt,
-    keywords: [rule.event, rule.ecosystem, rule.severity],
-    about: { "@type": "Thing", name: rule.title, identifier: rule.purl },
-    citation: rule.sources.map((source) => ({ "@type": "CreativeWork", name: source.title, url: source.url })),
-    isBasedOn: dataUrl(rule.ecosystem),
-    publisher: { "@type": "Organization", name: "Evergreen", url: SITE_URL },
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": url,
+        url,
+        mainEntityOfPage: url,
+        headline: pageTitle(rule),
+        description: description(rule),
+        inLanguage: "en",
+        dateModified: rule.provenance.reviewedAt,
+        keywords: [rule.event, rule.ecosystem, rule.severity],
+        about: { "@type": "Thing", name: rule.title, identifier: rule.purl },
+        citation: rule.sources.map((source) => ({ "@type": "CreativeWork", name: source.title, url: source.url })),
+        isBasedOn: dataUrl(rule.ecosystem),
+        publisher: { "@type": "Organization", name: "Evergreen", url: SITE_URL },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${url}#faq`,
+        url,
+        mainEntity: faqMainEntity(rule),
+      },
+    ],
   };
 }
 

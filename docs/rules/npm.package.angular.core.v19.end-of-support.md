@@ -68,41 +68,76 @@ This page is generated from [`registry/npm.json`](https://github.com/arminazimi/
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
-  "headline": "@angular/core v19 is no longer supported — dates, impact, migration",
-  "description": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-21",
-  "keywords": [
-    "end-of-support",
-    "npm",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "@angular/core v19 is no longer supported",
-    "identifier": "pkg:npm/%40angular/core"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Angular release and support schedule",
-      "url": "https://angular.dev/reference/releases"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
+      "headline": "@angular/core v19 is no longer supported — dates, impact, migration",
+      "description": "Angular's release schedule states that Angular versions v2 to v19 are no longer supported. v19 receives no fixes, including security fixes.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-21",
+      "keywords": [
+        "end-of-support",
+        "npm",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "@angular/core v19 is no longer supported",
+        "identifier": "pkg:npm/%40angular/core"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Angular release and support schedule",
+          "url": "https://angular.dev/reference/releases"
+        },
+        {
+          "@type": "CreativeWork",
+          "name": "Angular Update Guide",
+          "url": "https://angular.dev/update-guide"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
     },
     {
-      "@type": "CreativeWork",
-      "name": "Angular Update Guide",
-      "url": "https://angular.dev/update-guide"
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/npm.package.angular.core.v19.end-of-support.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of support. The source gives no day. Affected versions: vers:npm/>=19.0.0-0|\u003c20.0.0-0. Source: Angular release and support schedule (https://angular.dev/reference/releases)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "@angular/core@22"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:npm/%40angular/core?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:npm/%40angular/core."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/npm.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

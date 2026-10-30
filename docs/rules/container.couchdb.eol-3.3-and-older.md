@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
-  "headline": "Apache CouchDB image release lines 3.3 and older are end-of-life — dates, impact, migration",
-  "description": "The CouchDB project publishes CVE fixes only for the current release series and its immediate predecessor, so these older release lines receive no security fixes by policy.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "Apache CouchDB image release lines 3.3 and older are end-of-life",
-    "identifier": "pkg:docker/library/couchdb"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "Apache CouchDB security policy",
-      "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
+      "headline": "Apache CouchDB image release lines 3.3 and older are end-of-life — dates, impact, migration",
+      "description": "The CouchDB project publishes CVE fixes only for the current release series and its immediate predecessor, so these older release lines receive no security fixes by policy.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "Apache CouchDB image release lines 3.3 and older are end-of-life",
+        "identifier": "pkg:docker/library/couchdb"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "Apache CouchDB security policy",
+          "url": "https://docs.couchdb.org/en/stable/cve/index.html"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.couchdb.eol-3.3-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/couchdb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:semver/\u003c3.4.0. Source: Apache CouchDB security policy (https://docs.couchdb.org/en/stable/cve/index.html)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/couchdb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A couchdb image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/couchdb?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/couchdb."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>

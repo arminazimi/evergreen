@@ -65,36 +65,71 @@ This page is generated from [`registry/container.json`](https://github.com/armin
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "@id": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
-  "url": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
-  "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
-  "headline": "phpMyAdmin image release lines 4.8 and older are end-of-life — dates, impact, migration",
-  "description": "These phpMyAdmin release lines are unsupported: the vendor's downloads page supports only the current stable line and the 4.9 LTS line, and says older releases are unsupported.",
-  "inLanguage": "en",
-  "dateModified": "2026-10-20",
-  "keywords": [
-    "end-of-life",
-    "container",
-    "high"
-  ],
-  "about": {
-    "@type": "Thing",
-    "name": "phpMyAdmin image release lines 4.8 and older are end-of-life",
-    "identifier": "pkg:docker/library/phpmyadmin"
-  },
-  "citation": [
+  "@graph": [
     {
-      "@type": "CreativeWork",
-      "name": "phpMyAdmin downloads and version support policy",
-      "url": "https://www.phpmyadmin.net/downloads/"
+      "@type": "TechArticle",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
+      "mainEntityOfPage": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
+      "headline": "phpMyAdmin image release lines 4.8 and older are end-of-life — dates, impact, migration",
+      "description": "These phpMyAdmin release lines are unsupported: the vendor's downloads page supports only the current stable line and the 4.9 LTS line, and says older releases are unsupported.",
+      "inLanguage": "en",
+      "dateModified": "2026-10-20",
+      "keywords": [
+        "end-of-life",
+        "container",
+        "high"
+      ],
+      "about": {
+        "@type": "Thing",
+        "name": "phpMyAdmin image release lines 4.8 and older are end-of-life",
+        "identifier": "pkg:docker/library/phpmyadmin"
+      },
+      "citation": [
+        {
+          "@type": "CreativeWork",
+          "name": "phpMyAdmin downloads and version support policy",
+          "url": "https://www.phpmyadmin.net/downloads/"
+        }
+      ],
+      "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Evergreen",
+        "url": "https://arminazimi.github.io/evergreen"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html#faq",
+      "url": "https://arminazimi.github.io/evergreen/rules/container.phpmyadmin.eol-4.8-and-older.html",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the lifecycle status of pkg:docker/library/phpmyadmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "End of life. The source gives no day. Affected versions: vers:semver/\u003c4.9.0. Source: phpMyAdmin downloads and version support policy (https://www.phpmyadmin.net/downloads/)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What replaces pkg:docker/library/phpmyadmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A phpmyadmin image on a supported release line"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check pkg:docker/library/phpmyadmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Run evergreen check pkg:docker/library/phpmyadmin."
+          }
+        }
+      ]
     }
-  ],
-  "isBasedOn": "https://github.com/arminazimi/evergreen/blob/main/registry/container.json",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Evergreen",
-    "url": "https://arminazimi.github.io/evergreen"
-  }
+  ]
 }
 </script>
