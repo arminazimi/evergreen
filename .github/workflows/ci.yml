@@ -28,6 +28,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read
+      actions: read
       security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -52,7 +53,59 @@ jobs:
         run: node dist/tools/build-reference-pages.js --check
       - name: Enforce coverage thresholds (main only)
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
+        # Emits lcov.info beside the table so pull requests can diff per-file line coverage against main.
         run: npm run test:coverage | tee coverage.txt
+      - name: Upload coverage LCOV (main)
+        if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: coverage-lcov
+          path: lcov.info
+          retention-days: 30
+      - name: Coverage diff for changed src files
+        if: (github.event_name == 'pull_request' || github.event_name == 'merge_group') && runner.os == 'Linux' && matrix.node == 24
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${BASE_SHA:-}" ]; then
+            echo "No base SHA for this event; skipping coverage diff."
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git diff --name-only --diff-filter=ACMR "$BASE_SHA"...HEAD -- 'src/**/*.ts' 'src/**/*.mts' 'src/**/*.cts' 'src/**/*.js' 'src/**/*.jsx' 'src/**/*.tsx' > "$RUNNER_TEMP/changed-src.txt"
+          if [ ! -s "$RUNNER_TEMP/changed-src.txt" ]; then
+            echo "No src/ files changed; skipping coverage diff."
+            exit 0
+          fi
+          echo "Changed src files:"
+          cat "$RUNNER_TEMP/changed-src.txt"
+
+          RUN_ID="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=30" \
+            --jq '[.workflow_runs[] | select(.conclusion == "success")][0].id // empty')"
+          if [ -z "$RUN_ID" ]; then
+            echo "No successful main CI run yet; skipping coverage diff."
+            exit 0
+          fi
+          mkdir -p "$RUNNER_TEMP/base-coverage"
+          if ! gh run download "$RUN_ID" -n coverage-lcov -D "$RUNNER_TEMP/base-coverage"; then
+            echo "Main run $RUN_ID has no coverage-lcov artifact yet; skipping coverage diff."
+            exit 0
+          fi
+          if [ ! -f "$RUNNER_TEMP/base-coverage/lcov.info" ]; then
+            echo "Downloaded artifact did not contain lcov.info; skipping coverage diff."
+            exit 0
+          fi
+
+          npm run test:coverage:lcov
+          node dist/tools/coverage-diff.js \
+            --base "$RUNNER_TEMP/base-coverage/lcov.info" \
+            --head lcov.info \
+            --changed-files "$RUNNER_TEMP/changed-src.txt" \
+            --root "$GITHUB_WORKSPACE" \
+            --summary "$GITHUB_STEP_SUMMARY"
       - name: Render the coverage badge data
         if: github.event_name == 'push' && runner.os == 'Linux' && matrix.node == 24
         run: node dist/tools/coverage-badge.js < coverage.txt > "$RUNNER_TEMP/coverage.json"

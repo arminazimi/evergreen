@@ -5,6 +5,7 @@ dist/action/*
 !dist/action/index.js
 !dist/action/package.json
 coverage/
+lcov.info
 .DS_Store
 *.log
 .evergreen-cache/
