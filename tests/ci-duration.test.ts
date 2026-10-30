@@ -410,8 +410,11 @@ test("ci-health runs weekly, writes the summary and metrics, and opens at most o
 
   assert.deepEqual(Object.keys(workflow.on), ["schedule", "workflow_dispatch"]);
   const schedule = workflow.on.schedule as Array<{ cron: string }>;
-  assert.equal(schedule.length, 1);
-  assert.match(schedule[0]!.cron, /^\S+ \S+ \* \* [0-6]$/);
+  assert.equal(schedule.length, 2);
+  const weekly = schedule.find((entry) => /^\S+ \S+ \* \* [0-6]$/.test(entry.cron));
+  const nightly = schedule.find((entry) => /^\S+ \S+ \* \* \*$/.test(entry.cron));
+  assert.ok(weekly, "expected a weekly cron for duration and flaky listing");
+  assert.ok(nightly, "expected a nightly cron for quarantined tests");
   assert.deepEqual(workflow.permissions, { contents: "read" });
 
   const job = workflow.jobs.measure!;
@@ -425,11 +428,20 @@ test("ci-health runs weekly, writes the summary and metrics, and opens at most o
   assert.match(measure.run!, /--summary "\$GITHUB_STEP_SUMMARY"/);
   assert.match(measure.run!, /--open-issue/);
 
+  const flakyWeek = job.steps.find((step) => step.run?.includes("run-tests.mjs --list-weekly-flaky"))!;
+  assert.ok(flakyWeek);
+  assert.equal(flakyWeek.env?.GITHUB_TOKEN, "${{ secrets.GITHUB_TOKEN }}");
+
   const upload = job.steps.find((step) => step.uses?.startsWith("actions/upload-artifact@"))!;
   assert.ok(upload);
   assert.equal(upload.with?.path, "metrics/ci");
 
-  for (const step of job.steps.filter((item) => item.uses)) {
+  const quarantine = workflow.jobs.quarantine!;
+  assert.ok(quarantine);
+  const quarantineRun = quarantine.steps.find((step) => step.run?.includes("run-tests.mjs --quarantine-only"))!;
+  assert.ok(quarantineRun);
+
+  for (const step of [...job.steps, ...quarantine.steps].filter((item) => item.uses)) {
     assert.match(step.uses!, /@[0-9a-f]{40}$/, step.uses);
   }
 });
