@@ -14,6 +14,18 @@
       "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
     },
     {
+      "ecosystem": "npm",
+      "event": "deprecated",
+      "observedAt": "2026-10-30",
+      "path": "products/npm-node-sass.json",
+      "productId": "npm-node-sass",
+      "purl": "pkg:npm/node-sass",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "npm.package.node-sass.deprecated",
+      "severity": "medium",
+      "title": "node-sass is deprecated"
+    },
+    {
       "deadline": "2026-10-21",
       "ecosystem": "terraform",
       "event": "end-of-support",
@@ -1257,18 +1269,6 @@
       "ruleId": "nodejs.symbol.fs.exists",
       "severity": "low",
       "title": "fs.exists is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.fs.lchmod",
-      "severity": "low",
-      "title": "Fs.lchmod and fs.lchmodSync are deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

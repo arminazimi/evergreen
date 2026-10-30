@@ -304,6 +304,7 @@
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.14.support-end.html</loc><lastmod>2026-10-21</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.next.15.support-end.html</loc><lastmod>2026-10-25</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.node-pre-gyp.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
+  <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.deprecated.html</loc><lastmod>2026-10-30</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.node-sass.eol.html</loc><lastmod>2026-10-14</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.nomnom.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://arminazimi.github.io/evergreen/rules/npm.package.npmcli-move-file.deprecated.html</loc><lastmod>2026-10-16</lastmod></url>

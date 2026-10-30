@@ -353,6 +353,7 @@ Every lifecycle claim Evergreen makes comes from a reviewed rule with an authori
 - [Next.js 14 is out of support](npm.package.next.14.support-end.html) — end of support, `npm.package.next.14.support-end`
 - [Next.js 15 is out of support](npm.package.next.15.support-end.html) — end of support, `npm.package.next.15.support-end`
 - [node-pre-gyp is deprecated](npm.package.node-pre-gyp.deprecated.html) — deprecated, `npm.package.node-pre-gyp.deprecated`
+- [node-sass is deprecated](npm.package.node-sass.deprecated.html) — deprecated, `npm.package.node-sass.deprecated`
 - [Node Sass is end-of-life](npm.package.node-sass.eol.html) — end of life, `npm.package.node-sass.eol`
 - [nomnom is deprecated](npm.package.nomnom.deprecated.html) — deprecated, `npm.package.nomnom.deprecated`
 - [@npmcli/move-file is deprecated](npm.package.npmcli-move-file.deprecated.html) — deprecated, `npm.package.npmcli-move-file.deprecated`
