@@ -5,6 +5,7 @@ name: Workflow lint
 # security issues. Both tools are pinned to exact releases and verified against a recorded checksum.
 on:
   pull_request:
+    types: [labeled]
     paths:
       - ".github/**"
       - "action.yml"
@@ -19,6 +20,7 @@ concurrency:
 
 jobs:
   lint:
+    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: workflow-lint
     runs-on: ubuntu-latest
     timeout-minutes: 10

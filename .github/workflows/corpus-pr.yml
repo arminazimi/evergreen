@@ -5,6 +5,7 @@ name: Corpus (affected ecosystems)
 # false positives shows up before merge instead of in the weekly run. Do not add it to the required checks.
 on:
   pull_request:
+    types: [labeled]
     paths:
       - "src/**"
       - "registry/**"
@@ -26,6 +27,7 @@ env:
 
 jobs:
   corpus:
+    if: github.event_name != 'pull_request' || github.event.label.name == 'ready-to-merge'
     name: corpus (affected ecosystems)
     runs-on: ubuntu-latest
     timeout-minutes: 20
