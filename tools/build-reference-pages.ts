@@ -70,14 +70,22 @@ const inline = (value: string) =>
     .map((part, index) => (index % 2 === 1 ? part : part.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")))
     .join("");
 
+/** Escape the characters that would break Markdown, and the escape character itself, then collapse newlines. */
+function markdownEscape(value: string, characters: RegExp): string {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(characters, (character) => `\\${character}`)
+    .replace(/\s*\n\s*/g, " ");
+}
+
 /** A code span: no pipes or newlines, but keep `<` literal, because entities inside code do not decode. */
-const cell = (value: string) => value.replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ");
+const cell = (value: string) => markdownEscape(value, /\|/g);
 
 /** A prose table cell: escaped for both the table and Markdown. */
 const proseCell = (value: string) => inline(cell(value));
 
 /** A link label: no square brackets that would end the label early. */
-const linkLabel = (value: string) => proseCell(value).replace(/[[\]]/g, "\\$&");
+const linkLabel = (value: string) => inline(markdownEscape(value, /[[\]|]/g));
 
 /** JSON for a `<script>` element: `<` is escaped so the data can never close the element. */
 const scriptJson = (value: unknown) => JSON.stringify(value, null, 2).replace(/</g, "\\u003c");
