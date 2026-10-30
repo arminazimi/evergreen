@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "evergreen.agent-discovery.v1",
+  "date": "2026-10-30",
+  "prompts": {
+    "schemaVersion": "evergreen.agent-discovery-prompts.v1",
+    "count": 10,
+    "sha256": "3d157a752110cf2af14fdde30b4d9c0d6e76ff629752b59dfcded8590564b4ba"
+  },
+  "hosts": [
+    {
+      "host": "codex",
+      "status": "ok",
+      "version": "codex-cli 0.165.0-alpha.1.2",
+      "answers": [
+        {
+          "promptId": "find-eol-dependencies",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "deprecated-packages",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "retired-actions",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "runtime-support-window",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "multi-ecosystem-audit",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "agent-check-before-adding",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "migration-planning",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "offline-exact-locations",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "fail-pr-on-eol",
+          "mentioned": false,
+          "correct": false
+        },
+        {
+          "promptId": "agent-instructions-guardrail",
+          "mentioned": false,
+          "correct": false
+        }
+      ],
+      "summary": {
+        "prompts": 10,
+        "mentioned": 0,
+        "correct": 0
+      }
+    }
+  ],
+  "summary": {
+    "hosts": 1,
+    "prompts": 10,
+    "mentioned": 0,
+    "correct": 0
+  }
+}
