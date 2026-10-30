@@ -3,12 +3,13 @@ import { readFile } from "node:fs/promises";
 import { checkAgainst } from "../check-dependency.js";
 import { loadDataFile } from "../data-source.js";
 import { validateRegistryV2, type RegistryV2Rule } from "../registry.js";
+import { k8sWorkloadsImporter } from "./k8s-workloads.js";
 import type { InventoryImporter, InventoryReport, InventoryResult } from "./types.js";
 
 export type { InventoryImporter, InventoryItem, InventoryReport, InventoryResult } from "./types.js";
 
 /** Every built-in importer. Each task in the inventory epic appends its own entry. */
-export const inventoryImporters: InventoryImporter[] = [];
+export const inventoryImporters: InventoryImporter[] = [k8sWorkloadsImporter];
 
 /** Parses an export as JSON, or keeps it as text when it is not JSON (for example `/etc/os-release`). */
 export function parseExport(text: string): unknown {
