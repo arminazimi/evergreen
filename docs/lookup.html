@@ -154,7 +154,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 519 rules and makes no network requests after it loads.
+        This page embeds 520 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -170,7 +170,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 519 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 520 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -949,30 +949,6 @@ h1 {
     ]
   },
   {
-    "id": "dart.package.analysis-server-client.discontinued",
-    "title": "analysis_server_client is discontinued on pub.dev",
-    "summary": "pub.dev marks analysis_server_client as discontinued.",
-    "event": "deprecated",
-    "severity": "medium",
-    "ecosystem": "dart",
-    "purl": "pkg:pub/analysis_server_client",
-    "vers": "vers:semver/*",
-    "sources": [
-      {
-        "title": "analysis_server_client on pub.dev",
-        "url": "https://pub.dev/packages/analysis_server_client"
-      },
-      {
-        "title": "analysis_server_client package metadata",
-        "url": "https://pub.dev/api/packages/analysis_server_client"
-      },
-      {
-        "title": "Hosted Pub Repository Specification Version 2",
-        "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
-      }
-    ]
-  },
-  {
     "id": "dart.sdk.end-of-support-3.10",
     "title": "Dart 3.10 no longer receives security updates",
     "summary": "The Dart security policy commits security updates only for the most recent stable SDK release. Dart 3.10 stopped being that release when Dart 3.11 shipped on 2026-02-11.",
@@ -1343,6 +1319,28 @@ h1 {
       {
         "title": "PostgreSQL versioning policy",
         "url": "https://www.postgresql.org/support/versioning/"
+      }
+    ]
+  },
+  {
+    "id": "database.redis.end-of-life-7.0",
+    "title": "Redis 7.0 is end-of-life",
+    "summary": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the line.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "database",
+    "purl": "pkg:generic/redis",
+    "vers": "vers:semver/>=7.0.0|\u003c7.1.0",
+    "deadline": "2024-07-29",
+    "replacement": "Redis 7.4 or later",
+    "sources": [
+      {
+        "title": "Redis Open Source version management",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      },
+      {
+        "title": "endoflife.date: Redis",
+        "url": "https://endoflife.date/redis"
       }
     ]
   },
@@ -10405,6 +10403,32 @@ h1 {
       {
         "title": "hashicorp/terraform release v1.16.0",
         "url": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0"
+      },
+      {
+        "title": "HashiCorp Terraform support policy",
+        "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+      }
+    ]
+  },
+  {
+    "id": "terraform.cli.end-of-support-1.15",
+    "title": "Terraform CLI 1.15 is no longer a supported release line",
+    "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (first released 2026-04-29) stopped being one of them when Terraform 1.17 was released on 2026-10-21. The support window is taken from the dates of the hashicorp/terraform GitHub releases for 1.15.0 and 1.17.0.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "terraform",
+    "purl": "pkg:generic/terraform",
+    "vers": "vers:semver/>=1.15.0|\u003c1.16.0",
+    "deadline": "2026-10-21",
+    "replacement": "Terraform 1.16 or later",
+    "sources": [
+      {
+        "title": "hashicorp/terraform release v1.17.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0"
+      },
+      {
+        "title": "hashicorp/terraform release v1.15.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
       },
       {
         "title": "HashiCorp Terraform support policy",

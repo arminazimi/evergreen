@@ -14,16 +14,17 @@
       "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
     },
     {
-      "ecosystem": "dart",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/pub-analysis-server-client.json",
-      "productId": "pub-analysis-server-client",
-      "purl": "pkg:pub/analysis_server_client",
+      "deadline": "2026-10-21",
+      "ecosystem": "terraform",
+      "event": "end-of-support",
+      "observedAt": "2026-10-30",
+      "path": "products/generic-terraform.json",
+      "productId": "generic-terraform",
+      "purl": "pkg:generic/terraform",
       "reviewedAt": "2026-10-30",
-      "ruleId": "dart.package.analysis-server-client.discontinued",
+      "ruleId": "terraform.cli.end-of-support-1.15",
       "severity": "medium",
-      "title": "analysis_server_client is discontinued on pub.dev"
+      "title": "Terraform CLI 1.15 is no longer a supported release line"
     },
     {
       "deadline": "2022-11-10",
@@ -37,6 +38,19 @@
       "ruleId": "database.postgresql.end-of-life-10",
       "severity": "high",
       "title": "PostgreSQL 10 is no longer a supported major version"
+    },
+    {
+      "deadline": "2024-07-29",
+      "ecosystem": "database",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-redis.json",
+      "productId": "generic-redis",
+      "purl": "pkg:generic/redis",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "database.redis.end-of-life-7.0",
+      "severity": "high",
+      "title": "Redis 7.0 is end-of-life"
     },
     {
       "deadline": "2023-12-04",
@@ -1253,18 +1267,6 @@
       "ruleId": "nodejs.symbol.intl.v8breakiterator",
       "severity": "high",
       "title": "Intl.v8BreakIterator has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.createrequirefrompath",
-      "severity": "high",
-      "title": "Module.createRequireFromPath has been removed"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

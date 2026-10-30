@@ -496,6 +496,18 @@ test("unrelated package.json and tsconfig.json are never parsed or reported", as
   assert.deepEqual(findings, []);
 });
 
+test("the Terraform 1.15 rule flags that line in .terraform-version and required_version and not a later one", async () => {
+  const ruleId = "terraform.cli.end-of-support-1.15";
+  const fixtures = resolve("tests/fixtures/terraform.cli.end-of-support-1.15");
+  const match = await terraformDetector.scan({ root: resolve(fixtures, "match") });
+  assert.deepEqual(
+    match.filter((finding) => finding.ruleId === ruleId).map((finding) => [finding.location.path, finding.location.line]),
+    [[".terraform-version", 1], ["main.tf", 2]],
+  );
+  const clean = await terraformDetector.scan({ root: resolve(fixtures, "clean") });
+  assert.deepEqual(clean.filter((finding) => finding.ruleId === ruleId), []);
+});
+
 test("a migration packet for a Terraform CLI finding names the file, steps, and verification", async () => {
   const result = await scanRepository(await repository({ ".terraform-version": "1.12.3\n" }), [terraformDetector]);
   const finding = result.findings.find((item) => item.id === "terraform.cli.end-of-support-1.12:.terraform-version:1");
