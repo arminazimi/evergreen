@@ -154,7 +154,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 524 rules and makes no network requests after it loads.
+        This page embeds 525 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -170,7 +170,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 524 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 525 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -276,6 +276,24 @@ h1 {
       {
         "title": "Google Play Billing Library version deprecation — support timeline",
         "url": "https://developer.android.com/google/play/billing/deprecation-faq"
+      }
+    ]
+  },
+  {
+    "id": "android.target-sdk.existing.default-below-35",
+    "title": "Google Play requires targetSdk 35+ for existing phone and tablet apps",
+    "summary": "The Google Play target API level requirement page states, starting 2026-08-31: Existing apps must target Android 15 (API level 35) or higher to remain available to new users on devices running Android OS higher than your app's target API level. Apps that target Android 14 (API level 34) or lower, including Android 13 (API level 33) or lower for Wear OS, Android TV, and Android XR, and Android 12 (API level 31) or lower for Android Automotive OS, The same page says an extension to 2026-11-01 may be requested.",
+    "event": "end-of-support",
+    "severity": "high",
+    "ecosystem": "android",
+    "purl": "pkg:generic/android/targetSdk",
+    "vers": "vers:intdot/\u003c35",
+    "deadline": "2026-08-31",
+    "replacement": "targetSdk 35 or higher (existing apps (availability to new users on newer OS versions); default (phone and tablet) apps)",
+    "sources": [
+      {
+        "title": "Meet Google Play's target API level requirement",
+        "url": "https://developer.android.com/google/play/requirements/target-sdk"
       }
     ]
   },

@@ -75,8 +75,11 @@ function rule(overrides: Partial<RegistryV2Rule> = {}): RegistryV2Rule {
 }
 
 test("android passes detector conformance on every fixture", async () => {
-  const billing5 = (await committedRules()).find((item) => item.id === "android.play-billing.version-5")!;
-  const summary = (path: string) => `${path} declares com.android.billingclient:billing:5.2.1. ${billing5.summary}`;
+  const rules = await committedRules();
+  const billing5 = rules.find((item) => item.id === "android.play-billing.version-5")!;
+  const targetSdk = rules.find((item) => item.id === "android.target-sdk.existing.default-below-35")!;
+  const billingSummary = (path: string) => `${path} declares com.android.billingclient:billing:5.2.1. ${billing5.summary}`;
+  const targetSummary = (path: string) => `${path} declares targetSdk 34. ${targetSdk.summary}`;
   await runDetectorConformance({
     detector: androidDetector,
     fixtures: [
@@ -84,8 +87,10 @@ test("android passes detector conformance on every fixture", async () => {
         name: "android positive",
         root: resolve(fixtures, "positive"),
         expectedFindings: [
-          expected(billing5, "build.gradle", 19, summary("build.gradle")),
-          expected(billing5, "build.gradle.kts", 19, summary("build.gradle.kts")),
+          expected(targetSdk, "build.gradle", 12, targetSummary("build.gradle")),
+          expected(billing5, "build.gradle", 19, billingSummary("build.gradle")),
+          expected(targetSdk, "build.gradle.kts", 12, targetSummary("build.gradle.kts")),
+          expected(billing5, "build.gradle.kts", 19, billingSummary("build.gradle.kts")),
         ],
       },
     ],
@@ -132,7 +137,7 @@ test("a Play Billing major outside the bundled rules is not a finding", async ()
 
 test("SDK, plugin, and catalog declarations alone yield no findings when no rule names them", async () => {
   const root = await repository({
-    "app/build.gradle": "android {\n    compileSdk 34\n    defaultConfig {\n        minSdk 21\n        targetSdk 34\n        buildToolsVersion '34.0.0'\n    }\n}\n",
+    "app/build.gradle": "android {\n    compileSdk 34\n    defaultConfig {\n        minSdk 21\n        targetSdk 35\n        buildToolsVersion '34.0.0'\n    }\n}\n",
     "settings.gradle": "plugins {\n    id 'com.android.application' version '8.5.2' apply false\n    id 'org.jetbrains.kotlin.android' version '1.9.24' apply false\n}\n",
     "gradle/libs.versions.toml": '[versions]\nagp = "8.5.2"\nkotlin = "1.9.24"\n',
   });
@@ -226,6 +231,8 @@ test("the engine attributes an Android finding to the detector", async () => {
     [
       ["android", "android.play-billing.version-5", "build.gradle", 19],
       ["android", "android.play-billing.version-5", "build.gradle.kts", 19],
+      ["android", "android.target-sdk.existing.default-below-35", "build.gradle", 12],
+      ["android", "android.target-sdk.existing.default-below-35", "build.gradle.kts", 12],
     ],
   );
 });
