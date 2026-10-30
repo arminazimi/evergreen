@@ -126,7 +126,8 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # Diff mode archives base and head SHAs from git objects, so fetch their history.
-          fetch-depth: ${{ inputs.mode == 'diff' && 0 || 1 }}
+          fetch-depth: ${{ inputs.mode == 'diff' && '0' || '1' }}
+          persist-credentials: false
       - id: evergreen
         uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
         with:
