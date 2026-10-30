@@ -27,6 +27,19 @@
       "title": "PostgreSQL 10 is no longer a supported major version"
     },
     {
+      "deadline": "2024-07-29",
+      "ecosystem": "database",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-redis.json",
+      "productId": "generic-redis",
+      "purl": "pkg:generic/redis",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "database.redis.end-of-life-7.0",
+      "severity": "high",
+      "title": "Redis 7.0 is end-of-life"
+    },
+    {
       "deadline": "2023-12-04",
       "ecosystem": "serverless",
       "event": "end-of-life",
@@ -1253,30 +1266,6 @@
       "ruleId": "nodejs.symbol.module.createrequirefrompath",
       "severity": "high",
       "title": "Module.createRequireFromPath has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.parent",
-      "severity": "low",
-      "title": "Module.parent is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.register",
-      "severity": "medium",
-      "title": "Module.register is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

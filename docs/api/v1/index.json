@@ -4388,7 +4388,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 517,
+  "rules": 519,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4417,8 +4417,8 @@
     },
     {
       "path": "types/generic.json",
-      "products": 85,
-      "rules": 291,
+      "products": 86,
+      "rules": 292,
       "type": "generic"
     },
     {
