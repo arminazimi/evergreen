@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/arminazimi/evergreen/schemas/plan.v1.schema.json",
+  "title": "Evergreen migration plan v1",
+  "$comment": "Every item id belongs to exactly one wave. JSON Schema cannot compare members across arrays, so tests/plan-schema.test.ts rejects duplicates together with this schema.",
+  "type": "object",
+  "required": ["schema", "waves", "items", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "evergreen.plan.v1" },
+    "waves": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/wave" }
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    },
+    "summary": { "$ref": "#/$defs/summary" }
+  },
+  "$defs": {
+    "wave": {
+      "type": "object",
+      "required": ["index", "itemIds"],
+      "additionalProperties": false,
+      "properties": {
+        "index": { "type": "integer", "minimum": 0 },
+        "itemIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "findingId", "title", "severity", "touches", "branch", "wave"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "findingId": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
+        "touches": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/repoPath" }
+        },
+        "branch": { "type": "string", "minLength": 1 },
+        "wave": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["items", "waves", "bySeverity"],
+      "additionalProperties": false,
+      "properties": {
+        "items": { "type": "integer", "minimum": 0 },
+        "waves": { "type": "integer", "minimum": 0 },
+        "bySeverity": {
+          "type": "object",
+          "required": ["info", "low", "medium", "high", "critical"],
+          "additionalProperties": false,
+          "properties": {
+            "info": { "type": "integer", "minimum": 0 },
+            "low": { "type": "integer", "minimum": 0 },
+            "medium": { "type": "integer", "minimum": 0 },
+            "high": { "type": "integer", "minimum": 0 },
+            "critical": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "id": { "type": "string", "minLength": 1 },
+    "repoPath": {
+      "type": "string",
+      "pattern": "^(?!\\.$)(?!/)(?!\\./)(?!^[A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*//)(?!.*/$).+$"
+    }
+  }
+}
