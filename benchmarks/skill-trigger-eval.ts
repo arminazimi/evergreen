@@ -168,24 +168,47 @@ const notAnAddition = [
 ];
 
 /**
- * Deterministic proxy for "an agent should check a dependency before doing this": the task adds a new
+ * Deterministic proxy for the `evergreen-check-before-add` Skill description: the task adds a new
  * package, runtime, or action, or picks one. Removals, installs of what is already declared, routine
- * upgrades, and unrelated work do not trigger it. Like the lifecycle proxy above, it encodes the
- * concepts the skill states, not case IDs.
+ * upgrades, repository lifecycle scans, and unrelated work do not trigger it. Like the lifecycle
+ * proxy above, it encodes the concepts the skill states, not case IDs.
  */
 export function classifyDependencyAddition(prompt: string): boolean {
   const normalized = prompt.toLowerCase().replaceAll("’", "'");
   if (matchesAny(normalized, notAnAddition) && !packageManagerCommand.test(normalized) && !addToManifest.test(normalized)) {
     return choosePackage.test(normalized);
   }
-  return (
+  const strongAdd =
     packageManagerCommand.test(normalized) ||
     addToManifest.test(normalized) ||
     actionReference.test(normalized) ||
     choosePackage.test(normalized) ||
-    namedPackageAfterVerb.test(normalized) ||
-    (addVerb.test(normalized) && dependencyNoun.test(normalized.replace(/package\.json/g, "")))
-  );
+    namedPackageAfterVerb.test(normalized);
+  if (strongAdd) {
+    return true;
+  }
+  // Weak "use/add … action/package" phrasing must not steal repository lifecycle prompts
+  // ("may use an unsupported action") from evergreen-deprecation. Positive status words
+  // like "maintained" still appear when picking a package to add, so they stay allowed.
+  const lifecycleInvestigation = [
+    ...deprecationTerms,
+    /\bend[ -]of[ -](?:life|support)\b/,
+    /\beol\b/,
+    /\bout[ -]of[ -](?:support|maintenance)\b/,
+    /\bunsupported\b/,
+    /\bretired?\b/,
+    /\bsunset\b/,
+    /\bobsolete\b/,
+    /\bno longer (?:supported|maintained|updated)\b/,
+    /\bmaintenance (?:has )?ended\b/,
+    /\bend of maintenance\b/,
+    /\bpast (?:its )?(?:support|end[ -]of[ -]life)\b/,
+    /\blifecycle status\b/,
+  ];
+  if (matchesAny(normalized, lifecycleInvestigation)) {
+    return false;
+  }
+  return addVerb.test(normalized) && dependencyNoun.test(normalized.replace(/package\.json/g, ""));
 }
 
 export function calculateMetrics(
@@ -220,7 +243,7 @@ export async function loadSkillEvalCorpus(): Promise<SkillEvalCorpus> {
 
 export async function loadDependencyEvalCorpus(): Promise<DependencyEvalCorpus> {
   return JSON.parse(
-    await readFile(resolve("skills/evergreen-deprecation/evals/dependency-cases.json"), "utf8"),
+    await readFile(resolve("skills/evergreen-check-before-add/evals/cases.json"), "utf8"),
   ) as DependencyEvalCorpus;
 }
 
@@ -247,16 +270,26 @@ async function run(): Promise<void> {
   const guardrailFailures = guardrail.cases
     .filter((item) => classifyDependencyAddition(item.prompt) !== item.shouldTrigger)
     .map((item) => item.id);
+  const lifecycleOnAddPrompts = guardrail.cases.filter((item) => item.shouldTrigger);
+  const addOnLifecyclePrompts = corpus.cases.filter((item) => item.shouldTrigger);
+  const lifecycleFalseOnAdd = lifecycleOnAddPrompts.filter((item) => classifySkillTrigger(item.prompt));
+  const addFalseOnLifecycle = addOnLifecyclePrompts.filter((item) => classifyDependencyAddition(item.prompt));
   const result = {
     schemaVersion: corpus.schemaVersion,
+    skill: "evergreen-deprecation",
     overall,
     byHost,
     failures,
     dependencyGuard: {
       schemaVersion: guardrail.schemaVersion,
+      skill: "evergreen-check-before-add",
       overall: guardrailOverall,
       byHost: guardrailByHost,
       failures: guardrailFailures,
+    },
+    separation: {
+      lifecycleFalseTriggersOnAddPrompts: lifecycleFalseOnAdd.map((item) => item.id),
+      checkBeforeAddFalseTriggersOnLifecyclePrompts: addFalseOnLifecycle.map((item) => item.id),
     },
   };
 
@@ -273,7 +306,9 @@ async function run(): Promise<void> {
     guardrailOverall.falseTriggerRate >= 0.05 ||
     Object.values(guardrailByHost).some(
       (metrics) => metrics.recall < 0.9 || metrics.falseTriggerRate >= 0.05,
-    )
+    ) ||
+    lifecycleFalseOnAdd.length > 0 ||
+    addFalseOnLifecycle.length > 0
   ) {
     process.exitCode = 1;
   }

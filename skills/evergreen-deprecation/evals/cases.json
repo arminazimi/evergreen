@@ -110,6 +110,13 @@
     { "id": "claude2-rest-endpoint", "host": "claude", "kind": "ambiguous", "prompt": "Replace our deprecated REST endpoint with v2.", "shouldTrigger": false, "reason": "Application API migration is outside scope." },
     { "id": "claude2-snyk", "host": "claude", "kind": "negative", "prompt": "Run Snyk on the dependency tree.", "shouldTrigger": false, "reason": "Vulnerability tooling is a security workflow." },
     { "id": "claude2-perf", "host": "claude", "kind": "negative", "prompt": "Reduce the CLI startup time.", "shouldTrigger": false, "reason": "Performance work is unrelated." },
-    { "id": "claude2-node-apis", "host": "claude", "kind": "ambiguous", "prompt": "Replace deprecated Node APIs in our source code.", "shouldTrigger": false, "reason": "Deprecated source APIs are a non-goal even in a Node repository." }
+    { "id": "claude2-node-apis", "host": "claude", "kind": "ambiguous", "prompt": "Replace deprecated Node APIs in our source code.", "shouldTrigger": false, "reason": "Deprecated source APIs are a non-goal even in a Node repository." },
+
+    { "id": "as-add-dep-not-lifecycle", "host": "agent-skills", "kind": "negative", "prompt": "Add the request package to this service so it can call the billing API.", "shouldTrigger": false, "reason": "Adding a dependency belongs to evergreen-check-before-add, not the lifecycle Skill." },
+    { "id": "codex-add-dep-not-lifecycle", "host": "codex", "kind": "negative", "prompt": "npm install left-pad and use it for padding.", "shouldTrigger": false, "reason": "Adding a dependency belongs to evergreen-check-before-add, not the lifecycle Skill." },
+    { "id": "claude-add-dep-not-lifecycle", "host": "claude", "kind": "negative", "prompt": "Which package should I use for date handling?", "shouldTrigger": false, "reason": "Choosing a package belongs to evergreen-check-before-add, not the lifecycle Skill." },
+    { "id": "as-action-add-not-lifecycle", "host": "agent-skills", "kind": "negative", "prompt": "Add actions/checkout@v4 to the CI workflow.", "shouldTrigger": false, "reason": "Adding an action belongs to evergreen-check-before-add, not the lifecycle Skill." },
+    { "id": "codex-pip-add-not-lifecycle", "host": "codex", "kind": "negative", "prompt": "pip install nose and write the new test runner config.", "shouldTrigger": false, "reason": "Adding a dependency belongs to evergreen-check-before-add, not the lifecycle Skill." },
+    { "id": "claude-yarn-add-not-lifecycle", "host": "claude", "kind": "negative", "prompt": "yarn add popper.js and wire up the dropdown.", "shouldTrigger": false, "reason": "Adding a dependency belongs to evergreen-check-before-add, not the lifecycle Skill." }
   ]
 }

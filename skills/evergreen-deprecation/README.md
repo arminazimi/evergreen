@@ -10,7 +10,7 @@ Install the Skill from the Evergreen monorepo:
 npx skills add arminazimi/evergreen
 ```
 
-The repository currently exposes one Skill, `evergreen-deprecation`. To select it explicitly or automate installation:
+The repository exposes `evergreen-deprecation` and `evergreen-check-before-add`. To select this Skill explicitly or automate installation:
 
 ```bash
 npx skills add arminazimi/evergreen --skill evergreen-deprecation --yes
