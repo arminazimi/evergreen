@@ -3784,6 +3784,21 @@
     },
     {
       "ecosystems": [
+        "dart"
+      ],
+      "events": [
+        "deprecated"
+      ],
+      "id": "pub-analysis-server-client",
+      "latestReview": "2026-10-30",
+      "name": "analysis_server_client",
+      "path": "products/pub-analysis-server-client.json",
+      "purl": "pkg:pub/analysis_server_client",
+      "rules": 1,
+      "type": "pub"
+    },
+    {
+      "ecosystems": [
         "python"
       ],
       "events": [
@@ -4388,7 +4403,7 @@
     }
   ],
   "recent": "recent.json",
-  "rules": 520,
+  "rules": 521,
   "schemaVersion": "evergreen.api-index.v1",
   "types": [
     {
@@ -4456,6 +4471,12 @@
       "products": 4,
       "rules": 4,
       "type": "nuget"
+    },
+    {
+      "path": "types/pub.json",
+      "products": 1,
+      "rules": 1,
+      "type": "pub"
     },
     {
       "path": "types/pypi.json",
