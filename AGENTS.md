@@ -61,6 +61,7 @@ Trust rules that apply to every change:
 | `docs/llms-full.txt` | `npm run build:llms` (source: the pages linked from `docs/llms.txt`) |
 | `docs/rules/` | `npm run build:reference` (source: `registry/*.json`) |
 | `docs/assets/og/` | `npm run build:og-images` (source: `registry/*.json`, brand social-preview template) |
+| `docs/eol/` | `npm run build:answer-pages` (source: `registry/*.json`) |
 | `docs/ROADMAP.md` | `node planning/roadmap/roadmap-md.mjs` (source: `planning/roadmap/`) |
 
 CI fails when generated output drifts from its source. The exception is `dist/action/index.js`: it is one minified bundle that every merge rewrites, so parallel pull requests always conflict on it. Only the `chore: release` pull request regenerates and commits it (`EVERGREEN_VERIFY_ACTION_BUNDLE=1 npm run check` verifies it). If your branch conflicts on it, run `git checkout origin/main -- dist/action/index.js`.

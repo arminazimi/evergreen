@@ -121,6 +121,8 @@
     "build:reference": "npm run build --silent && node dist/tools/build-reference-pages.js",
     "check:og-images": "npm run build --silent && node dist/tools/build-og-images.js --check",
     "build:og-images": "npm run build --silent && node dist/tools/build-og-images.js",
+    "check:answer-pages": "npm run build --silent && node dist/tools/build-answer-pages.js --check",
+    "build:answer-pages": "npm run build --silent && node dist/tools/build-answer-pages.js",
     "check:llms": "npm run build --silent && node dist/tools/build-llms-full.js --check",
     "build:dashboard": "npm run build --silent && node dist/tools/build-dashboard-data.js --today run-date",
     "check:dashboard": "npm run build --silent && node dist/tools/build-dashboard-data.js --today run-date --check"

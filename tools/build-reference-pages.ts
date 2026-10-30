@@ -1,5 +1,5 @@
 // Generates one public reference page and a JSON twin per lifecycle rule, an index, a lookup page, and a
-// sitemap, from registry/*.json.
+// sitemap, from registry/*.json. The sitemap also lists the docs/eol/ answer pages.
 //
 //   node dist/tools/build-reference-pages.js [--check]
 //
@@ -17,6 +17,7 @@ import { getCapabilityManifest } from "../src/capabilities.js";
 import { DEFAULT_MAX_REVIEW_AGE_DAYS, REGISTRY_V2_SCHEMA_VERSION, validateRegistryV2 } from "../src/registry.js";
 import type { RegistryV2, RegistryV2Rule } from "../src/registry.js";
 import { toRuleDocument } from "../src/rule-resources.js";
+import { answerIndexUrl, answerPageEntries } from "./build-answer-pages.js";
 
 export const SITE_URL = "https://arminazimi.github.io/evergreen";
 const REPOSITORY_URL = "https://github.com/arminazimi/evergreen";
@@ -726,10 +727,12 @@ export function renderSitemap(registries: readonly RegistryV2[]): string {
     { loc: `${SITE_URL}/` },
     { loc: lookupUrl() },
     { loc: `${SITE_URL}/rules/` },
+    { loc: answerIndexUrl() },
   ];
   for (const registry of registries) {
     for (const rule of registry.rules) entries.push({ loc: ruleUrl(rule.id), lastmod: rule.provenance.reviewedAt });
   }
+  for (const page of answerPageEntries(registries)) entries.push({ loc: page.loc, lastmod: page.lastmod });
   entries.sort((left, right) => left.loc.localeCompare(right.loc));
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
