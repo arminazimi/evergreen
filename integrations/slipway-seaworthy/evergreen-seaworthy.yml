@@ -1,0 +1,41 @@
+# Combined Evergreen lifecycle scan and Seaworthy site verification for a Slipway site.
+#
+# Copy into .github/workflows/ in the site repository. Job `lifecycle` always runs.
+# Job `seaworthy` stays off until you set the repository variable SEAWORTHY_ENABLED
+# to the string true (see README.md). Seaworthy is pre-alpha and not on npm yet.
+
+name: Evergreen and Seaworthy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: arminazimi/evergreen@a0225978d6fae230468cf7efd47d4b1b3a4cbc33 # v0.7.1
+        with:
+          fail-on-severity: high
+
+  seaworthy:
+    if: ${{ vars.SEAWORTHY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Build the site
+        run: bundle exec jekyll build
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Verify the built site
+        run: npx seaworthy verify ./_site
