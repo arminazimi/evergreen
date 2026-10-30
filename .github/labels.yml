@@ -177,6 +177,3 @@
 - name: "wontfix"
   color: "ffffff"
   description: "This will not be worked on"
-- name: "ready-to-merge"
-  color: "0E8A16"
-  description: "Run the full CI on this pull request; add it once the pull request is ready to merge"
