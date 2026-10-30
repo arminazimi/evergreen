@@ -29,6 +29,6 @@ updates:
     commit-message:
       prefix: chore
     groups:
-      codeql-action:
+      github-actions:
         patterns:
-          - "github/codeql-action*"
+          - "*"
