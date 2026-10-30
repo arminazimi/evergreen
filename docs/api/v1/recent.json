@@ -14,6 +14,18 @@
       "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
     },
     {
+      "ecosystem": "dart",
+      "event": "deprecated",
+      "observedAt": "2026-10-21",
+      "path": "products/pub-analysis-server-client.json",
+      "productId": "pub-analysis-server-client",
+      "purl": "pkg:pub/analysis_server_client",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "dart.package.analysis-server-client.discontinued",
+      "severity": "medium",
+      "title": "analysis_server_client is discontinued on pub.dev"
+    },
+    {
       "deadline": "2022-11-10",
       "ecosystem": "database",
       "event": "end-of-life",
@@ -1253,30 +1265,6 @@
       "ruleId": "nodejs.symbol.module.createrequirefrompath",
       "severity": "high",
       "title": "Module.createRequireFromPath has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.parent",
-      "severity": "low",
-      "title": "Module.parent is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.register",
-      "severity": "medium",
-      "title": "Module.register is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"
