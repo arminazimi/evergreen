@@ -115,7 +115,7 @@ async function pushBranch(root: string, branch: string): Promise<void> {
   await git(root, ["push", "--force", "origin", `HEAD:refs/heads/${branch}`]);
 }
 
-const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
+const cell = (text: string): string => text.replace(/\r?\n/g, " ").replace(/\\/g, "\\\\").replace(/\|/g, "\\|").trim();
 
 const location = (finding: Finding): string => `${finding.location.path}${finding.location.line ? `:${finding.location.line}` : ""}`;
 
