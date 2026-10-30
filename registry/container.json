@@ -660,6 +660,60 @@
       }
     },
     {
+      "id": "container.redis.eol-6.2-and-older",
+      "ecosystem": "container",
+      "purl": "pkg:docker/library/redis",
+      "vers": "vers:semver/>=6.2.0|<6.3.0",
+      "event": "scheduled-end-of-life",
+      "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01",
+      "summary": "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01.",
+      "severity": "low",
+      "replacement": "A redis image on a later supported release line",
+      "deadline": "2027-04-01",
+      "sources": [
+        {
+          "title": "Redis release policy (vendor)",
+          "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+        }
+      ],
+      "provenance": {
+        "observedAt": "2026-10-30",
+        "reviewedAt": "2026-10-30",
+        "reviewer": "arminazimi",
+        "importer": "endoflife-date"
+      },
+      "migration": {
+        "constraints": [
+          "Keep the base image, Compose image, CI service containers, and deployment manifests that use redis on one supported Redis release line.",
+          "Confirm the application and its data or configuration work on the target Redis release; read the vendor's upgrade notes before moving across several release lines."
+        ],
+        "steps": [
+          {
+            "id": "update-image-declaration",
+            "title": "Update the base image",
+            "instructions": "Change the reported FROM line or Compose image to a tag on a supported release line, and pin it to a digest if your policy requires.",
+            "targets": "declaration"
+          },
+          {
+            "id": "align-image-surfaces",
+            "title": "Align other image references",
+            "instructions": "Update other Dockerfiles, Compose files, CI service containers, and deployment manifests that use the same image so they agree.",
+            "targets": "all"
+          }
+        ],
+        "verification": [
+          {
+            "command": "docker build .",
+            "purpose": "Build the image on the new base."
+          },
+          {
+            "command": "docker run --rm IMAGE sh -c 'echo ok'",
+            "purpose": "Confirm the container starts on the new base."
+          }
+        ]
+      }
+    },
+    {
       "id": "container.zookeeper.eol-3.7-and-older",
       "ecosystem": "container",
       "purl": "pkg:docker/library/zookeeper",

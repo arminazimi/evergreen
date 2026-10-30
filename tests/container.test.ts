@@ -74,6 +74,7 @@ test("container passes detector conformance on every fixture", async () => {
           expected("container.ubuntu.eol-22.04", "os-images.Dockerfile", 6, "ubuntu:22.04"),
           expected("container.debian.eol-11-and-older", "os-images.Dockerfile", 7, "debian:11"),
           expected("container.alpine.eol-3.21", "os-images.Dockerfile", 8, "alpine:3.21"),
+          expected("container.redis.eol-6.2-and-older", "redis.Dockerfile", 1, "redis:6.2"),
         ]),
       },
     ],

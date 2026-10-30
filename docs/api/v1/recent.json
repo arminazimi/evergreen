@@ -1,17 +1,42 @@
 {
   "changes": [
     {
-      "deadline": "2027-03-31",
+      "deadline": "2027-04-01",
       "ecosystem": "container",
       "event": "scheduled-end-of-life",
-      "observedAt": "2026-10-29",
-      "path": "products/docker-library-ruby.json",
-      "productId": "docker-library-ruby",
-      "purl": "pkg:docker/library/ruby",
-      "reviewedAt": "2026-10-29",
-      "ruleId": "container.ruby.eol-3.3-and-older",
+      "observedAt": "2026-10-30",
+      "path": "products/docker-library-redis.json",
+      "productId": "docker-library-redis",
+      "purl": "pkg:docker/library/redis",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "container.redis.eol-6.2-and-older",
       "severity": "low",
-      "title": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31"
+      "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01"
+    },
+    {
+      "deadline": "2026-10-21",
+      "ecosystem": "terraform",
+      "event": "end-of-support",
+      "observedAt": "2026-10-30",
+      "path": "products/generic-terraform.json",
+      "productId": "generic-terraform",
+      "purl": "pkg:generic/terraform",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "terraform.cli.end-of-support-1.15",
+      "severity": "medium",
+      "title": "Terraform CLI 1.15 is no longer a supported release line"
+    },
+    {
+      "ecosystem": "dart",
+      "event": "deprecated",
+      "observedAt": "2026-10-21",
+      "path": "products/pub-analysis-server-client.json",
+      "productId": "pub-analysis-server-client",
+      "purl": "pkg:pub/analysis_server_client",
+      "reviewedAt": "2026-10-30",
+      "ruleId": "dart.package.analysis-server-client.discontinued",
+      "severity": "medium",
+      "title": "analysis_server_client is discontinued on pub.dev"
     },
     {
       "deadline": "2022-11-10",
@@ -25,6 +50,32 @@
       "ruleId": "database.postgresql.end-of-life-10",
       "severity": "high",
       "title": "PostgreSQL 10 is no longer a supported major version"
+    },
+    {
+      "deadline": "2024-07-29",
+      "ecosystem": "database",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-redis.json",
+      "productId": "generic-redis",
+      "purl": "pkg:generic/redis",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "database.redis.end-of-life-7.0",
+      "severity": "high",
+      "title": "Redis 7.0 is end-of-life"
+    },
+    {
+      "deadline": "2023-12-04",
+      "ecosystem": "serverless",
+      "event": "end-of-life",
+      "observedAt": "2026-10-29",
+      "path": "products/generic-aws-lambda-runtime-python3-7.json",
+      "productId": "generic-aws-lambda-runtime-python3-7",
+      "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+      "reviewedAt": "2026-10-29",
+      "ruleId": "serverless.aws-lambda.python3.7",
+      "severity": "high",
+      "title": "AWS Lambda Python 3.7 runtime is end-of-life"
     },
     {
       "ecosystem": "osv",
@@ -1216,54 +1267,6 @@
       "ruleId": "nodejs.symbol.fs.stats",
       "severity": "medium",
       "title": "The fs.Stats constructor is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.intl.v8breakiterator",
-      "severity": "high",
-      "title": "Intl.v8BreakIterator has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "removed",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.createrequirefrompath",
-      "severity": "high",
-      "title": "Module.createRequireFromPath has been removed"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.parent",
-      "severity": "low",
-      "title": "Module.parent is deprecated"
-    },
-    {
-      "ecosystem": "nodejs",
-      "event": "deprecated",
-      "observedAt": "2026-10-21",
-      "path": "products/generic-nodejs.json",
-      "productId": "generic-nodejs",
-      "purl": "pkg:generic/nodejs",
-      "reviewedAt": "2026-10-21",
-      "ruleId": "nodejs.symbol.module.register",
-      "severity": "medium",
-      "title": "Module.register is deprecated"
     }
   ],
   "schemaVersion": "evergreen.api-recent.v1"

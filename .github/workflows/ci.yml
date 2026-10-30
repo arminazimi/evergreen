@@ -120,6 +120,29 @@ jobs:
       - name: Enforce the scan performance budget
         run: npm run build --silent && node dist/benchmarks/perf-budget.js --check
 
+  lighthouse:
+    name: lighthouse (performance and accessibility 90+)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the site
+        working-directory: docs
+        # Static hosting from the workspace root, so the local server in lighthouserc.json serves the pages.
+        run: bundle exec jekyll build --baseurl ""
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+      - name: Run Lighthouse on the home page and a rule page
+        run: npx --yes @lhci/cli@0.15.1 autorun --config=.github/lighthouse/lighthouserc.json
+
   coverage-badge:
     if: github.event_name == 'push'
     needs: check
@@ -157,7 +180,7 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [check, self-scan, perf-budget, coverage-badge]
+    needs: [check, self-scan, perf-budget, lighthouse, coverage-badge]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

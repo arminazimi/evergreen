@@ -1,0 +1,14 @@
+/* Brand colours for both color schemes. The theme's tokens use light-dark(), so a
+   single static override would mix a light background with dark headings under
+   prefers-color-scheme: dark and fail contrast. */
+:root {
+  --sl-color-canvas: light-dark(#f3ece8, #262425);
+  --sl-color-surface: light-dark(#efe8de, #2d2a2b);
+  --sl-color-text: light-dark(#0a0a0c, #b9b2b0);
+  --sl-color-heading: light-dark(#0a0a0c, #cac4c2);
+  --sl-color-muted: light-dark(#65574f, #9a9392);
+  --sl-color-line: light-dark(#c9b8ad, #443f40);
+  --sl-color-rose: light-dark(#8f3048, #b58d90);
+  --sl-color-rose-fill: light-dark(#8f3048, #7a5558);
+  --sl-color-on-rose-fill: light-dark(#f6efe8, #efe8e8);
+}

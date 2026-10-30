@@ -154,7 +154,7 @@ h1 {
       <p class="lede">
         Type a package or runtime name to find its reviewed lifecycle status.
         Results link to each rule's reference page and its authoritative sources.
-        This page embeds 517 rules and makes no network requests after it loads.
+        This page embeds 521 rules and makes no network requests after it loads.
       </p>
     </header>
     <main id="main">
@@ -170,7 +170,7 @@ h1 {
           aria-describedby="status"
         />
       </form>
-      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 517 lifecycle rules.</p>
+      <p id="status" class="status" role="status" aria-live="polite">Type a name to search 521 lifecycle rules.</p>
       <div id="results" class="results" aria-live="polite"></div>
       <noscript>
         <p class="status">
@@ -723,6 +723,24 @@ h1 {
     ]
   },
   {
+    "id": "container.redis.eol-6.2-and-older",
+    "title": "Redis image release line 6.2 reaches end-of-life on 2027-04-01",
+    "summary": "The Redis 6.2 release line is scheduled to stop receiving fixes from the vendor on 2027-04-01.",
+    "event": "scheduled-end-of-life",
+    "severity": "low",
+    "ecosystem": "container",
+    "purl": "pkg:docker/library/redis",
+    "vers": "vers:semver/>=6.2.0|\u003c6.3.0",
+    "deadline": "2027-04-01",
+    "replacement": "A redis image on a later supported release line",
+    "sources": [
+      {
+        "title": "Redis release policy (vendor)",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      }
+    ]
+  },
+  {
     "id": "container.ruby.eol-3.2-and-older",
     "title": "Ruby image release lines 3.2 and older are end-of-life",
     "summary": "These Ruby branches no longer receive security or bug fixes.",
@@ -733,24 +751,6 @@ h1 {
     "vers": "vers:semver/\u003c3.3.0",
     "deadline": "2026-04-01",
     "replacement": "A ruby image on a supported branch",
-    "sources": [
-      {
-        "title": "Ruby maintenance branches",
-        "url": "https://www.ruby-lang.org/en/downloads/branches/"
-      }
-    ]
-  },
-  {
-    "id": "container.ruby.eol-3.3-and-older",
-    "title": "Ruby image release line 3.3 reaches end-of-life on 2027-03-31",
-    "summary": "Ruby 3.3 is in security maintenance and is scheduled to stop receiving fixes from the Ruby core team on 2027-03-31.",
-    "event": "scheduled-end-of-life",
-    "severity": "low",
-    "ecosystem": "container",
-    "purl": "pkg:docker/library/ruby",
-    "vers": "vers:semver/>=3.3.0|\u003c3.4.0",
-    "deadline": "2027-03-31",
-    "replacement": "A ruby image on a later supported release line",
     "sources": [
       {
         "title": "Ruby maintenance branches",
@@ -945,6 +945,30 @@ h1 {
       {
         "title": "CMake 4.0.0 GitHub release",
         "url": "https://github.com/Kitware/CMake/releases/tag/v4.0.0"
+      }
+    ]
+  },
+  {
+    "id": "dart.package.analysis-server-client.discontinued",
+    "title": "analysis_server_client is discontinued on pub.dev",
+    "summary": "pub.dev marks analysis_server_client as discontinued.",
+    "event": "deprecated",
+    "severity": "medium",
+    "ecosystem": "dart",
+    "purl": "pkg:pub/analysis_server_client",
+    "vers": "vers:semver/*",
+    "sources": [
+      {
+        "title": "analysis_server_client on pub.dev",
+        "url": "https://pub.dev/packages/analysis_server_client"
+      },
+      {
+        "title": "analysis_server_client package metadata",
+        "url": "https://pub.dev/api/packages/analysis_server_client"
+      },
+      {
+        "title": "Hosted Pub Repository Specification Version 2",
+        "url": "https://github.com/dart-lang/pub/blob/master/doc/repository-spec-v2.md"
       }
     ]
   },
@@ -1319,6 +1343,28 @@ h1 {
       {
         "title": "PostgreSQL versioning policy",
         "url": "https://www.postgresql.org/support/versioning/"
+      }
+    ]
+  },
+  {
+    "id": "database.redis.end-of-life-7.0",
+    "title": "Redis 7.0 is end-of-life",
+    "summary": "Redis 7.0 reached end of life on 2024-07-29 and no longer receives fixes from the vendor: the Redis Open Source supported-versions table drops it, and 7.0.15 from 2024-01-09 is the last patch for the line.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "database",
+    "purl": "pkg:generic/redis",
+    "vers": "vers:semver/>=7.0.0|\u003c7.1.0",
+    "deadline": "2024-07-29",
+    "replacement": "Redis 7.4 or later",
+    "sources": [
+      {
+        "title": "Redis Open Source version management",
+        "url": "https://redis.io/docs/latest/operate/oss_and_stack/install/version-mgmt/"
+      },
+      {
+        "title": "endoflife.date: Redis",
+        "url": "https://endoflife.date/redis"
       }
     ]
   },
@@ -9936,6 +9982,24 @@ h1 {
     ]
   },
   {
+    "id": "serverless.aws-lambda.python3.7",
+    "title": "AWS Lambda Python 3.7 runtime is end-of-life",
+    "summary": "The AWS Lambda runtimes table lists python3.7 under Deprecated runtimes with deprecation date 2023-12-04. AWS no longer applies security or other updates to that managed runtime.",
+    "event": "end-of-life",
+    "severity": "high",
+    "ecosystem": "serverless",
+    "purl": "pkg:generic/aws-lambda-runtime/python3.7",
+    "vers": "vers:semver/*",
+    "deadline": "2023-12-04",
+    "replacement": "python3.14 or python3.13",
+    "sources": [
+      {
+        "title": "AWS Lambda runtimes",
+        "url": "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html"
+      }
+    ]
+  },
+  {
     "id": "serverless.aws-lambda.python3.8",
     "title": "AWS Lambda Python 3.8 runtime is end-of-life",
     "summary": "The AWS Lambda runtimes table lists python3.8 under Deprecated runtimes with deprecation date 2024-10-14. AWS no longer applies security or other updates to that managed runtime.",
@@ -10363,6 +10427,32 @@ h1 {
       {
         "title": "hashicorp/terraform release v1.16.0",
         "url": "https://github.com/hashicorp/terraform/releases/tag/v1.16.0"
+      },
+      {
+        "title": "HashiCorp Terraform support policy",
+        "url": "https://support.hashicorp.com/hc/en-us/articles/360021185113"
+      }
+    ]
+  },
+  {
+    "id": "terraform.cli.end-of-support-1.15",
+    "title": "Terraform CLI 1.15 is no longer a supported release line",
+    "summary": "HashiCorp supports the two most recent Terraform release lines. Terraform 1.15 (first released 2026-04-29) stopped being one of them when Terraform 1.17 was released on 2026-10-21. The support window is taken from the dates of the hashicorp/terraform GitHub releases for 1.15.0 and 1.17.0.",
+    "event": "end-of-support",
+    "severity": "medium",
+    "ecosystem": "terraform",
+    "purl": "pkg:generic/terraform",
+    "vers": "vers:semver/>=1.15.0|\u003c1.16.0",
+    "deadline": "2026-10-21",
+    "replacement": "Terraform 1.16 or later",
+    "sources": [
+      {
+        "title": "hashicorp/terraform release v1.17.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.17.0"
+      },
+      {
+        "title": "hashicorp/terraform release v1.15.0",
+        "url": "https://github.com/hashicorp/terraform/releases/tag/v1.15.0"
       },
       {
         "title": "HashiCorp Terraform support policy",
