@@ -1,0 +1,7 @@
+{
+    "name": "acme/upgrade-example",
+    "require": {
+        "php": "^8.1",
+        "acme/http-client": "^2.0"
+    }
+}

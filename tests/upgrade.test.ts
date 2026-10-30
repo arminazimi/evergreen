@@ -11,6 +11,7 @@ import { createEvergreenMcpServer } from "../src/mcp.js";
 import { checkUpgrade, parseUpgradeTarget } from "../src/upgrade/index.js";
 import type { UpgradeAnalyzer, UpgradeIssue, UpgradeReport, UpgradeTarget } from "../src/upgrade/types.js";
 
+const fixture = (name: string) => resolve("tests/fixtures/upgrade/composer-lock", name);
 const cli = resolve("dist/src/cli.js");
 const run = (...args: string[]) => spawnSync(process.execPath, [cli, "upgrade-check", ...args], { encoding: "utf8" });
 const target: UpgradeTarget = { runtime: "php", version: "8.4" };
@@ -81,38 +82,49 @@ test("checkUpgrade runs only analyzers that handle the runtime and apply, and so
   assert.deepEqual(report.analyzers, ["a", "z"]);
 });
 
+test("the text output starts with the verdict and prints evidence for every issue", () => {
+  const result = run("--to", "php@8.4", fixture("blocked"));
+  assert.equal(result.status, 1);
+  const lines = result.stdout.trimEnd().split("\n");
+  assert.equal(lines[0], "php@8.4: blocked (3 blockers, 1 warnings, 0 unknown)");
+  assert.equal(
+    lines[1],
+    "composer.lock:9  acme/http-client@2.1.0  acme/http-client@2.1.0 requires php ^7.4, which excludes PHP 8.4.  [lockfile: require.php: ^7.4]",
+  );
+  assert.equal(lines.length, 5);
+});
+
 test("the CLI and the check_upgrade MCP tool return the same report, and both validate against upgrade.v1", async () => {
-  const empty = await mkdtemp(join(tmpdir(), "evergreen-upgrade-"));
+  const blocked = fixture("blocked");
+  const cliResult = run("--to", "php@8.4", blocked, "--json");
+  assert.equal(cliResult.status, 1);
+  const fromCli = JSON.parse(cliResult.stdout) as UpgradeReport;
+
+  const client = await connect();
   try {
-    const cliResult = run("--to", "php@8.4", empty, "--json");
-    assert.equal(cliResult.status, 0);
-    const fromCli = JSON.parse(cliResult.stdout) as UpgradeReport;
+    const tools = (await client.request("tools/list")).tools as Array<{ name: string; description: string }>;
+    const tool = tools.find((candidate) => candidate.name === "check_upgrade");
+    assert.ok(tool, "check_upgrade is a tool");
+    assert.match(tool.description, /not a statement that the upgrade is safe/);
 
-    const client = await connect();
-    try {
-      const tools = (await client.request("tools/list")).tools as Array<{ name: string; description: string }>;
-      const tool = tools.find((candidate) => candidate.name === "check_upgrade");
-      assert.ok(tool, "check_upgrade is a tool");
-      assert.match(tool.description, /not a statement that the upgrade is safe/);
+    const result = await client.request("tools/call", { name: "check_upgrade", arguments: { path: blocked, target: "php@8.4" } });
+    assert.notEqual(result.isError, true);
+    assert.deepEqual(result.structuredContent, fromCli);
 
-      const result = await client.request("tools/call", { name: "check_upgrade", arguments: { path: empty, target: "php@8.4" } });
-      assert.notEqual(result.isError, true);
-      assert.deepEqual(result.structuredContent, fromCli);
-
-      const { Ajv2020 } = await import("ajv/dist/2020.js");
-      const schema = JSON.parse(await readFile(resolve("schemas/upgrade.v1.schema.json"), "utf8")) as object;
-      const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
-      assert.equal(validate(fromCli), true, JSON.stringify(validate.errors));
-      assert.equal(validate(result.structuredContent), true, JSON.stringify(validate.errors));
-    } finally {
-      await client.close();
-    }
+    const { Ajv2020 } = await import("ajv/dist/2020.js");
+    const schema = JSON.parse(await readFile(resolve("schemas/upgrade.v1.schema.json"), "utf8")) as object;
+    const validate = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
+    assert.equal(validate(fromCli), true, JSON.stringify(validate.errors));
+    assert.equal(validate(result.structuredContent), true, JSON.stringify(validate.errors));
   } finally {
-    await rm(empty, { recursive: true, force: true });
+    await client.close();
   }
 });
 
-test("exit codes are 0 for an unknown verdict and 2 for bad input", async () => {
+test("exit codes are 0 for ready and unknown, 1 for blocked, and 2 for bad input", async () => {
+  assert.equal(run("--to", "php@8.4", fixture("ready")).status, 0);
+  assert.equal(run("--to", "php@8.4", fixture("blocked")).status, 1);
+
   const empty = await mkdtemp(join(tmpdir(), "evergreen-upgrade-"));
   try {
     const unknown = run("--to", "php@8.4", empty);
@@ -123,8 +135,8 @@ test("exit codes are 0 for an unknown verdict and 2 for bad input", async () => 
     await rm(empty, { recursive: true, force: true });
   }
 
-  assert.equal(run("php@8.4").status, 2);
-  assert.equal(run("--to", "php@8.4", resolve("tests/fixtures/upgrade/missing")).status, 2);
+  assert.equal(run(fixture("ready")).status, 2);
+  assert.equal(run("--to", "php@8.4", fixture("missing")).status, 2);
 });
 
 interface RpcResponse {

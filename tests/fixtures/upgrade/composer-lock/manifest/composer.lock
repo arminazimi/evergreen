@@ -1,0 +1,6 @@
+{
+    "packages": [],
+    "platform": {
+        "php": ">=8.1"
+    }
+}
