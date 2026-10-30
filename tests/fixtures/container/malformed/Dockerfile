@@ -1,2 +1,1 @@
-FROM \
-RUN echo broken \
+RUN nvm install 16 \
