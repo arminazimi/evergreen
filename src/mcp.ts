@@ -309,7 +309,7 @@ export function createEvergreenMcpServer(
     {
       title: "Verify migration",
       description:
-        "Re-scan locally and check whether a finding observed earlier in this MCP session is gone. Suggested project commands are returned but never executed.",
+        "Re-scan locally and check whether a finding observed earlier in this MCP session is gone. Suggested project commands are returned but never executed. When the repository was scanned earlier in the session, the result also carries a receipt and receipt_markdown for the pull request body.",
       inputSchema: z.object(findingInput),
       outputSchema: outputSchema("verify_migration"),
       annotations: MCP_TOOL_ANNOTATIONS,

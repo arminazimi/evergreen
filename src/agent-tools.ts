@@ -7,6 +7,9 @@ import { builtInDetectors } from "./detectors/index.js";
 import type { DataInfo, Finding, ScanResult, Severity, SourceLocation, VerificationCommand } from "./domain.js";
 import { scanRepository } from "./engine.js";
 import { createMigrationPacket } from "./migration-packet.js";
+import type { Receipt } from "./receipt.js";
+import { buildReceipt } from "./receipt.js";
+import { renderReceiptMarkdown } from "./receipt-markdown.js";
 import { readPinnedRuntimes } from "./runtime-pin.js";
 import type { MigrationPacket } from "./migration-packet.js";
 
@@ -39,6 +42,10 @@ export interface MigrationVerification {
   summary: string;
   remainingFindings: Finding[];
   suggestedCommands: VerificationCommand[];
+  /** What the change since this session's last scan did to the findings; present when a scan was observed first. */
+  receipt?: Receipt;
+  /** `receipt` rendered for a pull request body. */
+  receipt_markdown?: string;
 }
 
 /** A finding observed in this session, with the repository it came from. */
@@ -67,6 +74,8 @@ export class FindingNotObservedError extends Error {
  */
 export class EvergreenAgentTools {
   private readonly observed = new Map<string, Map<string, Finding>>();
+  /** The most recent complete scan per repository, the "before" side of the next receipt. */
+  private readonly lastScan = new Map<string, ScanResult>();
 
   async scan(repositoryPath = ".", baselinePath?: string): Promise<ScanResult> {
     let result = await scanRepository(repositoryPath, builtInDetectors);
@@ -117,6 +126,7 @@ export class EvergreenAgentTools {
     const observed = this.observed.get(root)?.get(findingId);
     if (!observed) throw new FindingNotObservedError(findingId);
 
+    const before = this.lastScan.get(root);
     const result = await scanRepository(root, builtInDetectors);
     const remainingFindings = result.findings.filter(
       (finding) =>
@@ -124,6 +134,7 @@ export class EvergreenAgentTools {
     );
     this.remember(result);
     const verified = remainingFindings.length === 0;
+    const receipt = before ? buildReceipt(before, result) : undefined;
     const suggestedCommands = [
       ...(observed.migration?.verification ?? []),
       {
@@ -147,6 +158,7 @@ export class EvergreenAgentTools {
         : `A fresh local scan still reports ${remainingFindings.length} matching deprecation${remainingFindings.length === 1 ? "" : "s"}.`,
       remainingFindings,
       suggestedCommands,
+      ...(receipt ? { receipt, receipt_markdown: renderReceiptMarkdown(receipt) } : {}),
     };
   }
 
@@ -164,6 +176,7 @@ export class EvergreenAgentTools {
   }
 
   private remember(result: ScanResult): void {
+    this.lastScan.set(result.root, result);
     const findings = this.observed.get(result.root) ?? new Map<string, Finding>();
     for (const finding of result.findings) {
       const previous = findings.get(finding.id);

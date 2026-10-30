@@ -29,6 +29,15 @@
           "purpose": { "type": "string", "minLength": 1 }
         }
       }
+    },
+    "receipt": {
+      "description": "What the change since the session's last scan did to the repository's findings. Present when a scan was observed before verification.",
+      "$ref": "receipt.v1.schema.json"
+    },
+    "receipt_markdown": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The receipt rendered for a pull request body, with the evergreen-receipt marker."
     }
   }
 }

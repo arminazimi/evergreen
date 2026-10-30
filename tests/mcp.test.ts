@@ -197,10 +197,17 @@ test("local MCP server exposes the complete scan-to-verification workflow", asyn
 
     const verificationSchema = JSON.parse(
       await readFile(resolve("schemas/verification.v1.schema.json"), "utf8"),
-    ) as { required: string[] };
+    ) as { required: string[]; properties: Record<string, unknown> };
     assert.deepEqual(
       [...verificationSchema.required].sort(),
+      Object.keys(verificationContent)
+        .filter((key) => key !== "receipt" && key !== "receipt_markdown")
+        .sort(),
+    );
+    assert.deepEqual(
+      Object.keys(verificationSchema.properties).sort(),
       Object.keys(verificationContent).sort(),
+      "every field the tool returns is declared by the published schema",
     );
 
     const unknown = await client.request("tools/call", {
