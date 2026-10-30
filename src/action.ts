@@ -5,6 +5,7 @@ import process from "node:process";
 import { resolve } from "node:path";
 
 import type { DataInfo, Finding, SuppressionState } from "./domain.js";
+import { runCommentCommands } from "./action-commands.js";
 import { parsePathsInput, renderComment, renderFailure, renderSummary, resolveScanPaths, runGitHubAction } from "./github-action.js";
 import { upsertPullRequestComment } from "./pr-comment.js";
 import type { GitHubActionOutcome, GitHubAnnotation, SeverityGate, UnannotatedFindings } from "./github-action.js";
@@ -92,14 +93,26 @@ async function postComment(outcome: Awaited<ReturnType<typeof runGitHubAction>>,
 
 async function main(): Promise<void> {
   try {
+    const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
+    const root = process.env.INPUT_PATH || workspace;
+    // A comment command is answered instead of scanned: there is no pull request checkout to gate here.
+    if (process.env.INPUT_COMMANDS === "true" && process.env.GITHUB_EVENT_NAME === "issue_comment") {
+      await runCommentCommands({
+        root,
+        ...(process.env.GITHUB_EVENT_PATH ? { eventPath: process.env.GITHUB_EVENT_PATH } : {}),
+        ...(process.env.INPUT_BASELINE ? { baselinePath: process.env.INPUT_BASELINE } : {}),
+        ...(process.env["INPUT_GITHUB-TOKEN"] ? { token: process.env["INPUT_GITHUB-TOKEN"] } : {}),
+        ...(process.env.GITHUB_REPOSITORY ? { repository: process.env.GITHUB_REPOSITORY } : {}),
+        ...(process.env.GITHUB_API_URL ? { apiUrl: process.env.GITHUB_API_URL } : {}),
+      });
+      return;
+    }
     const inputMode = process.env.INPUT_MODE || "scan";
     if (inputMode !== "scan" && inputMode !== "diff") throw new Error(`Invalid mode: ${inputMode}. Use "scan" or "diff".`);
     const inputAnnotations = process.env.INPUT_ANNOTATIONS || undefined;
     if (inputAnnotations !== undefined && inputAnnotations !== "changed" && inputAnnotations !== "all" && inputAnnotations !== "none") {
       throw new Error(`Invalid annotations: ${inputAnnotations}. Use "changed", "all", or "none".`);
     }
-    const workspace = process.env.GITHUB_WORKSPACE ?? process.cwd();
-    const root = process.env.INPUT_PATH || workspace;
     const pathPatterns = parsePathsInput(process.env.INPUT_PATHS ?? "");
     if (pathPatterns.length > 0 && inputMode === "diff") {
       console.log("::notice title=Evergreen paths ignored in diff mode::mode: diff compares the whole pull request checkout; the paths input applies only to scan mode.");
