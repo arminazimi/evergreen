@@ -1,0 +1,39 @@
+name: docs doctor
+
+# Runs Slipway's doctor on the documentation site and annotates the pull request
+# with each finding. Report-only (`level: none`) until the site is clean; then set
+# `level` to the level the site reaches so a regression fails review.
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs-doctor.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-doctor-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  doctor:
+    name: slipway doctor (docs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+          working-directory: docs
+      - name: Build the documentation site
+        working-directory: docs
+        run: bundle exec jekyll build --baseurl "" --destination _site
+      - name: Check the docs against the agent-editable site spec
+        uses: arminazimi/slipway/action/doctor@559c4bb8cfc0ea8848d59e77dc85d8e77293d27c # v0.2.0
+        with:
+          path: docs
+          build: docs/_site
+          level: none

@@ -151,6 +151,7 @@ Evergreen's findings are only as trustworthy as their sources.
 - **New ecosystems:** use the ecosystem request form, or the detector proposal form if you already know the matching boundaries. New detectors are built as an epic of small tasks, each starting from the generated skeleton (see [Add a new detector](#add-a-new-detector)).
 - **Importer candidates:** to have a package, project, or action checked for deprecations automatically, add its name to the matching candidate list (see [docs/IMPORTERS.md](docs/IMPORTERS.md)).
 - **Docs and corpus improvements** are welcome without prior discussion.
+- **Check the docs site with Slipway's doctor:** pull requests that touch `docs/` run `slipway doctor` and annotate the changed lines (report-only for now). To run it locally, build the site (`cd docs && bundle exec jekyll build --baseurl ""`), then from a checkout of [arminazimi/slipway](https://github.com/arminazimi/slipway) at `v0.2.0` run `npm ci --omit=dev && node packages/doctor/bin/slipway.mjs doctor <path to evergreen>/docs --build <path to evergreen>/docs/_site`. The `slipway` package on npm is a different project, so `npx slipway` does not run the doctor yet.
 
 ## Review expectations
 
