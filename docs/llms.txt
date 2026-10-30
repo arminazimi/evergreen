@@ -6,19 +6,25 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 
 ## Use Evergreen
 
+- [Quickstart](https://arminazimi.github.io/evergreen/QUICKSTART.html): five copy-paste steps from the first local scan to a baseline gate in CI.
 - [90-second demo](https://arminazimi.github.io/evergreen/DEMO.html): scan, explain, build migration context, and verify on a small repository.
 - [Local MCP server](https://arminazimi.github.io/evergreen/MCP.html): the tools, resources, prompt, and output schemas an agent can use, including `check_dependency`.
 - [MCP discovery](https://arminazimi.github.io/evergreen/.well-known/mcp.json): stdio server metadata, npm package, and tool list for agents that probe `/.well-known/mcp.json`.
 - [Agent card](https://arminazimi.github.io/evergreen/.well-known/agent.json): A2A agent card describing Evergreen's local MCP skills for agents that probe `/.well-known/agent.json`.
+- [Playbook: agent-driven migrations](https://arminazimi.github.io/evergreen/playbooks/agent.html): let a coding agent migrate one finding while Evergreen supplies the facts and the proof.
+- [Playbook: manual CLI checks](https://arminazimi.github.io/evergreen/playbooks/cli.html): scan, read, decide, accept, and keep findings from returning, by hand with the CLI.
 - [GitHub Action](https://arminazimi.github.io/evergreen/GITHUB_ACTION.html): run Evergreen in pull requests, gate on severity, upload SARIF to code scanning.
+- [Playbook: GitHub Actions](https://arminazimi.github.io/evergreen/playbooks/github.html): add the Action, read what it reports, accept findings on purpose, and keep the gate honest.
 - [Organization rollout](https://arminazimi.github.io/evergreen/ORG_ROLLOUT.html): scan every repository in an organization with one reusable workflow, accept findings with a baseline, and post a weekly digest.
 - [GitLab](https://arminazimi.github.io/evergreen/GITLAB.html): the CI/CD component, the permissions it needs, its network behavior, and self-managed constraints.
+- [Playbook: GitLab pipelines](https://arminazimi.github.io/evergreen/playbooks/gitlab.html): add the component, gate merges on severity, accept known findings, and run it self-managed.
 - [Hooks](https://arminazimi.github.io/evergreen/HOOKS.html): a Git pre-push hook that scans before every push, a Claude Code PreToolUse hook that blocks deprecated package installs, a Cursor rule, and a Copilot instructions file that make the agent check a dependency with Evergreen before adding it.
 - [Capability manifest](https://arminazimi.github.io/evergreen/CAPABILITIES.html): how a tool or agent discovers what Evergreen can do, programmatically.
 - [Migration packets](https://arminazimi.github.io/evergreen/MIGRATION_PACKETS.html): the structured context Evergreen builds for one finding.
 - [Verification receipts](https://arminazimi.github.io/evergreen/RECEIPTS.html): how to read and reproduce a before/after receipt for a change.
 - [Share a lifecycle report](https://arminazimi.github.io/evergreen/SHARE_REPORT.html): produce the forecast timeline and the HTML report, what they contain, and what is safe to send.
 - [Environment doctor and compatibility](https://arminazimi.github.io/evergreen/COMPATIBILITY.html): supported ecosystems, hosts, and maturity.
+- [Evergreen compared with other tools](https://arminazimi.github.io/evergreen/compare/index.html): what Evergreen answers versus Renovate, Dependabot, and endoflife.date, and where each is stronger.
 - [Agent Skill](https://arminazimi.github.io/evergreen/AGENT_SKILLS.html): the portable skill for coding agents and how its triggering is evaluated.
 - [Evergreen, Slipway, and Seaworthy](https://arminazimi.github.io/evergreen/SITE_STACK.html): the agent loop for a Slipway-shaped site — check dependencies with Evergreen, verify `_site/` with Seaworthy when it ships.
 
@@ -33,6 +39,7 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 
 ## Extend Evergreen
 
+- [Start contributing](https://arminazimi.github.io/evergreen/CONTRIBUTE.html): how to pick a sized issue, follow its agent brief, and open one pull request.
 - [Detector authoring](https://arminazimi.github.io/evergreen/DETECTORS.html): the detector SDK and how to start a new detector from a generated skeleton.
 - [Lifecycle importers](https://arminazimi.github.io/evergreen/IMPORTERS.html): drafting rules from authoritative sources for review.
 
@@ -40,4 +47,5 @@ Before adding a dependency, check it: call the `check_dependency` MCP tool or ru
 
 - [Claude plugin](https://arminazimi.github.io/evergreen/CLAUDE_PLUGIN.html): install Evergreen, its Skill, and the dependency guard in Claude Code.
 - [Codex plugin](https://arminazimi.github.io/evergreen/CODEX_PLUGIN.html): install Evergreen and the dependency guard in Codex.
+- [Changelog](https://arminazimi.github.io/evergreen/CHANGELOG.html): every Evergreen release, with a stable link per version.
 - [Releasing](https://arminazimi.github.io/evergreen/RELEASING.html): how maintainers publish packages and signed data.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { access, readFile, readdir, writeFile, mkdtemp, rm, cp } from "node:fs/promises";
+import { access, readFile, writeFile, mkdtemp, rm, cp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { test } from "node:test";
@@ -29,10 +29,9 @@ test("every page it links exists, is named once, and is a page of this site", as
   const pages = indexedPages(index);
   assert.ok(pages.length >= 12);
   assert.equal(new Set(pages.map((page) => page.file)).size, pages.length, "no page is listed twice");
-  const available = new Set(await readdir(resolve("docs")));
   for (const page of pages) {
     assert.ok(page.url.startsWith(SITE) && page.url.endsWith(".html"), page.url);
-    assert.ok(available.has(page.file), `${page.url} points at docs/${page.file}, which does not exist`);
+    await access(resolve("docs", page.file));
   }
   assert.ok(index.includes(`${SITE}llms-full.txt`), "the index points at the full file");
 });
