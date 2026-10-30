@@ -94,7 +94,10 @@ test("a clean run writes the zero-findings summary, no annotations, and exits 0"
 
   assert.equal(run.code, 0);
   assert.deepEqual(run.annotations, []);
-  assert.equal(run.outputs, `report-path=${join(root, ".runner", "evergreen-report.json")}\nfinding-count=0\n`);
+  assert.equal(
+    run.outputs,
+    `report-path=${join(root, ".runner", "evergreen-report.json")}\nfinding-count=0\nhas-new-findings=false\nhighest-severity=\nnext-eol-date=\nfindings-json=[]\n`,
+  );
   assert.equal(
     normalizeDataLine(run.summary),
     `## Evergreen\n\nFound **0** new lifecycle findings; passed the severity gate.\n\nData: <data>\n`,
@@ -112,7 +115,10 @@ test("a run whose findings meet the severity gate fails with the finding and gat
     `::error file=.github/workflows/ci.yml,line=4,title=Evergreen%3A Unsupported actions/checkout runtime::actions/checkout@v4: This release predates the action's Node.js 24 runtime. GitHub no longer provides Node.js 20 on Actions runners.%0AReplacement: actions/checkout@v5 or later%0AFinding: github-actions.checkout.node20:.github/workflows/ci.yml:4`,
     `::error title=Evergreen policy gate failed::Evergreen failed: 1 finding met or exceeded the high severity gate. JSON report: ${reportPath}. Next steps: review the annotations and JSON report, then fix the findings or update the baseline and rerun Evergreen.`,
   ]);
-  assert.equal(run.outputs, `report-path=${reportPath}\nfinding-count=1\n`);
+  assert.equal(
+    run.outputs,
+    `report-path=${reportPath}\nfinding-count=1\nhas-new-findings=true\nhighest-severity=high\nnext-eol-date=2026-09-23\nfindings-json=[{"id":"github-actions.checkout.node20:.github/workflows/ci.yml:4","ruleId":"github-actions.checkout.node20","severity":"high","title":"Unsupported actions/checkout runtime","path":".github/workflows/ci.yml","line":4,"deadline":"2026-09-23"}]\n`,
+  );
   assert.equal(
     normalizeDataLine(run.summary),
     [
@@ -133,6 +139,69 @@ test("a run whose findings meet the severity gate fails with the finding and gat
     ].join("\n"),
   );
   assert.match(run.summary, /^Data: bundled .+, evidence reviewed through \d{4}-\d{2}-\d{2} \(.+\)$/m);
+});
+
+test("the outputs name the most severe finding and the earliest deadline", async () => {
+  const root = await mkdtemp(join(tmpdir(), "evergreen-outputs-severity-"));
+  temporaryRoots.push(root);
+  await writeFile(join(root, "Dockerfile"), "FROM node:22\n");
+  await mkdir(join(root, ".github", "workflows"), { recursive: true });
+  await writeFile(join(root, ".github", "workflows", "ci.yml"), "jobs:\n  test:\n    steps:\n      - uses: actions/checkout@v4\n");
+
+  const run = await runAction(root, { "INPUT_FAIL-ON-SEVERITY": "none" });
+
+  assert.equal(run.code, 0);
+  assert.match(run.outputs, /^has-new-findings=true$/m);
+  assert.match(run.outputs, /^highest-severity=high$/m);
+  assert.match(run.outputs, /^next-eol-date=2026-09-23$/m, "the checkout deadline is earlier than the Dockerfile one");
+  const line = run.outputs.split("\n").find((entry) => entry.startsWith("findings-json="))!;
+  const entries = JSON.parse(line.slice("findings-json=".length)) as Array<Record<string, unknown>>;
+  assert.deepEqual(entries.map((entry) => entry.severity).sort(), ["high", "low"]);
+  assert.deepEqual(Object.keys(entries[0]!).sort(), ["deadline", "id", "line", "path", "ruleId", "severity", "title"], "the JSON stays compact");
+});
+
+test("diff mode outputs cover only the findings the pull request introduces", async () => {
+  const { root, base, head } = await repositoryWithAddedFinding();
+  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: base }, head: { sha: head } } }));
+  const run = await runAction(root, {
+    INPUT_MODE: "diff",
+    GITHUB_EVENT_PATH: join(root, "event.json"),
+    "INPUT_FAIL-ON-SEVERITY": "none",
+  });
+
+  assert.equal(run.code, 0);
+  assert.match(run.outputs, /^has-new-findings=true$/m);
+  assert.match(run.outputs, /^highest-severity=high$/m);
+  assert.match(run.outputs, /^next-eol-date=2026-09-23$/m);
+  const line = run.outputs.split("\n").find((entry) => entry.startsWith("findings-json="))!;
+  assert.deepEqual(JSON.parse(line.slice("findings-json=".length)), [{
+    id: "github-actions.checkout.node20:.github/workflows/ci.yml:4",
+    ruleId: "github-actions.checkout.node20",
+    severity: "high",
+    title: "Unsupported actions/checkout runtime",
+    path: ".github/workflows/ci.yml",
+    line: 4,
+    deadline: "2026-09-23",
+  }]);
+
+  await writeFile(join(root, "event.json"), JSON.stringify({ pull_request: { base: { sha: head }, head: { sha: base } } }));
+  const reversed = await runAction(root, {
+    INPUT_MODE: "diff",
+    GITHUB_EVENT_PATH: join(root, "event.json"),
+    "INPUT_FAIL-ON-SEVERITY": "none",
+  });
+  assert.equal(reversed.code, 0);
+  assert.match(reversed.outputs, /^has-new-findings=false$/m);
+  assert.match(reversed.outputs, /^highest-severity=$/m);
+  assert.match(reversed.outputs, /^next-eol-date=$/m);
+  assert.match(reversed.outputs, /^findings-json=\[\]$/m);
+});
+
+test("action.yml declares the downstream outputs and wires them to the scan step", async () => {
+  const action = parseYaml(await readFile(resolve("action.yml"), "utf8")) as { outputs: Record<string, { value: string }> };
+  for (const name of ["has-new-findings", "highest-severity", "next-eol-date", "findings-json"]) {
+    assert.equal(action.outputs[name]?.value, "${{ steps.scan.outputs." + name + " }}");
+  }
 });
 
 function git(root: string, args: string[]): string {

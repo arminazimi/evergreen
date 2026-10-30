@@ -130,6 +130,26 @@ outputs:
   finding-count:
     description: Number of findings remaining after baseline comparison, as a decimal string.
     value: ${{ steps.scan.outputs.finding-count }}
+  has-new-findings:
+    description: >-
+      "true" when findings remain after baseline comparison, otherwise "false". In diff mode it covers
+      the findings the pull request introduces.
+    value: ${{ steps.scan.outputs.has-new-findings }}
+  highest-severity:
+    description: >-
+      The highest severity among the remaining findings (info, low, medium, high, or critical), or empty
+      when there are none.
+    value: ${{ steps.scan.outputs.highest-severity }}
+  next-eol-date:
+    description: >-
+      The earliest end-of-life date among the remaining findings (YYYY-MM-DD), or empty when no finding
+      carries a deadline.
+    value: ${{ steps.scan.outputs.next-eol-date }}
+  findings-json:
+    description: >-
+      The remaining findings as one compact JSON array. Each entry has id, ruleId, severity, title, path,
+      and line and deadline when known.
+    value: ${{ steps.scan.outputs.findings-json }}
   badge-path:
     description: Absolute runner path to the Shields.io endpoint JSON, or empty when upload-badge is false.
     value: ${{ steps.scan.outputs.badge-path }}

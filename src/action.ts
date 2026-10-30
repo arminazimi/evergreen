@@ -5,6 +5,7 @@ import process from "node:process";
 import { relative, resolve } from "node:path";
 
 import { publishFixPullRequest } from "./action-fix-pr.js";
+import { severityValues } from "./domain.js";
 import type { DataInfo, Finding, ScanResult, SuppressionState } from "./domain.js";
 import { runCommentCommands } from "./action-commands.js";
 import { parsePathsInput, renderComment, renderFailure, renderSummary, renderSuggestionReview, resolveScanPaths, runGitHubAction, suggestionComment } from "./github-action.js";
@@ -81,6 +82,42 @@ function annotationCommand(annotation: GitHubAnnotation): string {
 async function setOutput(name: string, value: string): Promise<void> {
   const output = process.env.GITHUB_OUTPUT;
   if (output) await appendFile(output, `${name}=${value}\n`, "utf8");
+}
+
+/** The most severe of the remaining findings, so a later step can branch without reading the report. */
+function highestSeverity(findings: readonly Finding[]): string {
+  let highest: Finding["severity"] | undefined;
+  for (const finding of findings) {
+    if (highest === undefined || severityValues.indexOf(finding.severity) > severityValues.indexOf(highest)) highest = finding.severity;
+  }
+  return highest ?? "";
+}
+
+/** The earliest deadline among the remaining findings, as YYYY-MM-DD; empty when none carries a date. */
+function nextEndOfLife(findings: readonly Finding[]): string {
+  let next: string | undefined;
+  for (const finding of findings) {
+    const deadline = finding.deadline;
+    if (deadline === undefined || !/^\d{4}-\d{2}-\d{2}$/.test(deadline)) continue;
+    if (next === undefined || deadline < next) next = deadline;
+  }
+  return next ?? "";
+}
+
+/**
+ * The remaining findings as one compact JSON line for later steps: the fields a workflow branches on,
+ * in the order the report lists them, and no summary or evidence to keep the value small.
+ */
+function renderFindingsJson(findings: readonly Finding[]): string {
+  return JSON.stringify(findings.map((finding) => ({
+    id: finding.id,
+    ruleId: finding.ruleId,
+    severity: finding.severity,
+    title: finding.title,
+    path: finding.location.path,
+    ...(finding.location.line === undefined ? {} : { line: finding.location.line }),
+    ...(finding.deadline === undefined ? {} : { deadline: finding.deadline }),
+  })));
 }
 
 async function writeSummary(findings: readonly Finding[], failed: boolean, gate: SeverityGate, data?: DataInfo, expiredFailure = false, suppressions?: SuppressionState, diff?: GitHubActionOutcome["diff"], packages?: GitHubActionOutcome["packages"], unannotated?: UnannotatedFindings, proposal?: { path: string; count: number }): Promise<void> {
@@ -357,6 +394,10 @@ async function main(): Promise<void> {
     if (outcome.badgePath) await setOutput("badge-path", outcome.badgePath);
     if (outcome.badgeSvgPath) await setOutput("badge-svg-path", outcome.badgeSvgPath);
     await setOutput("finding-count", String(outcome.result.findings.length));
+    await setOutput("has-new-findings", outcome.result.findings.length > 0 ? "true" : "false");
+    await setOutput("highest-severity", highestSeverity(outcome.result.findings));
+    await setOutput("next-eol-date", nextEndOfLife(outcome.result.findings));
+    await setOutput("findings-json", renderFindingsJson(outcome.result.findings));
     const reportLink = reportUrl();
     const unannotated = outcome.unannotated > 0
       ? { count: outcome.unannotated, ...(reportLink ? { reportUrl: reportLink } : {}) }
